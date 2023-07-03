@@ -51,7 +51,7 @@ informative:
 
 Utilizing information from a device or hardware security module about its posture can help to improve security of the overall system. Information about the manufacturer of the hardware, the version of the firmware running on this hardware and potentially about the layers of software above the firmware, the presence of hardware security functionality to protect keys and many more properties can be made available to remote parties in a cryptographically secured way. This functionality is accomplished with attestation technology.
 
-This document describes extensions to encode evidence produced by an attester for inclusion in PKCS10 certificate signing requests. More specifically, two new ASN.1 Attribute definitions, and an ASN.1 CLASS definition to convey attestation information to a Registration Authority or to a Certification Authority are described. 
+This document describes extensions to encode evidence produced by an attester for inclusion in PKCS10 certificate signing requests. More specifically, two new ASN.1 Attribute definitions, and an ASN.1 CLASS definition to convey attestation information to a Registration Authority or to a Certification Authority are described.
 
 --- middle
 
@@ -59,11 +59,11 @@ This document describes extensions to encode evidence produced by an attester fo
 
 Remote attestation allows a relying party, the Registration Authority or the Certification Authority, to learn about the security posture of a verifier, which in the context of this specification is a device transmitting a certificate signing request using the newly defined attestation extension.
 
-As outlined in RFC 9334 {{RFC9334}}, a verifier collects claims from its target environment and gets those claims signed by the attesting environment. The details of what claims are collected, how they are signed and what formats for serialization are used vary with a given attestation technology. At the time of writing several standardized and proprietary attestation technologies are in use. This specification thereby tries to be technology agnostic with regards to the transport of the produced signed claims. 
+As outlined in RFC 9334 {{RFC9334}}, a verifier collects claims from its target environment and gets those claims signed by the attesting environment. The details of what claims are collected, how they are signed and what formats for serialization are used vary with a given attestation technology. At the time of writing several standardized and proprietary attestation technologies are in use. This specification thereby tries to be technology agnostic with regards to the transport of the produced signed claims.
 
 RFC 9334 uses the term “evidence” for the information that is communicated by the verifier with remote parties. Since the information produced by the device can neither be trusted and often not even verified directly by the relying party an additional role with the verifier is introduced. The verifier has knowledge to verify the evidence, has information about what devices run what firmware and software, etc.
 
-This document creates two ATTRIBUTE/Attribute definitions.  The first Attribute may be used to carry a set of certificates or public keys that may be necessary to validate evidence.  The second Attribute carries a structure that may be used to carry key attestation statements, signatures and related data.  
+This document creates two ATTRIBUTE/Attribute definitions.  The first Attribute may be used to carry a set of certificates or public keys that may be necessary to validate evidence.  The second Attribute carries a structure that may be used to carry key attestation statements, signatures and related data.
 
 With these extensions a Certification Authority (CA) has additional information about whether to issuer a certificate and what information to populate into the certificate.
 
@@ -72,7 +72,7 @@ With these extensions a Certification Authority (CA) has additional information 
 
 {::boilerplate bcp14-tagged}
 
-This document re-uses the terms defined in RFC 9334 related to remote attestation. Readers of this document are assumed to be familiar with the following terms: evidence, claim, attestation result, attester, verifier, and relying party. 
+This document re-uses the terms defined in RFC 9334 related to remote attestation. Readers of this document are assumed to be familiar with the following terms: evidence, claim, attestation result, attester, verifier, and relying party.
 
 # Architecture
 
@@ -101,7 +101,7 @@ As discussed in RFC 9334 different security and privacy aspects need to be consi
 # ASN.1 Elements
 
 ##  Object Identifiers
-    
+
 ~~~
    -- Root of IETF's PKIX OID tree
    id-pkix OBJECT IDENTIFIER ::= { iso(1) identified-organization(3)

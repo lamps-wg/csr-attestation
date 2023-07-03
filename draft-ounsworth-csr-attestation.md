@@ -97,7 +97,6 @@ With these extensions a Certification Authority (CA) has additional
 information about whether to issuer a certificate and what information
 to populate into the certificate.
 
-
 # Conventions and Definitions
 
 {::boilerplate bcp14-tagged}
@@ -152,16 +151,16 @@ certification request messages.
 ##  Object Identifiers
 
 ~~~
-   -- Root of IETF's PKIX OID tree
-   id-pkix OBJECT IDENTIFIER ::= { iso(1) identified-organization(3)
-        dod(6) internet(1) security(5) mechanisms(5) pkix(7) }
+-- Root of IETF's PKIX OID tree
+id-pkix OBJECT IDENTIFIER ::= { iso(1) identified-organization(3)
+     dod(6) internet(1) security(5) mechanisms(5) pkix(7) }
 
-   -- S/Mime attributes - can be used here.
-   id-aa OBJECT IDENTIFIER ::= {iso(1) member-body(2) usa(840)
-        rsadsi(113549) pkcs(1) pkcs-9(9) smime(16) attributes(2)}
+-- S/Mime attributes - can be used here.
+id-aa OBJECT IDENTIFIER ::= {iso(1) member-body(2) usa(840)
+     rsadsi(113549) pkcs(1) pkcs-9(9) smime(16) attributes(2)}
 
-   -- Branch for attestation statement types
-   id-ata OBJECT IDENTIFIER ::= { id-pkix (TBD1) }
+-- Branch for attestation statement types
+id-ata OBJECT IDENTIFIER ::= { id-pkix (TBD1) }
 ~~~
 
 ##  CertificateChoice
@@ -172,32 +171,31 @@ broad variety of certificate types.
 ~~~
 CertificateChoice ::=
    CHOICE {
-      cert Certificate, -- typical X.509 cert
-      opaqueCert    [0] IMPLICIT OCTET STRING, -- Format implicitly agreed upon
-                                               -- by sender and receiver
+      cert Certificate,
+      opaqueCert    [0] IMPLICIT OCTET STRING,
       typedCert     [1] IMPLICIT TypedCert,
       typedFlatCert [2] IMPLICIT TypedFlatCert
    }
 ~~~
 
-   "Certificate" is a standard X.509 certificate that MUST be compliant
-   with RFC5280.  Enforcement of this constraint is left to the relying
-   parties.
+"Certificate" is a standard X.509 certificate that MUST be compliant
+with RFC5280.  Enforcement of this constraint is left to the relying
+parties.
 
-   "opaqueCert" should be used sparingly as it requires the receiving
-   party to implictly know its format.  It is encoded as an OCTET
-   STRING.
+"opaqueCert" should be used sparingly as it requires the receiving
+party to implictly know its format.  It is encoded as an OCTET
+STRING.
 
-   "TypedCert" is an ASN.1 construct that has the charateristics of a
-   certificate, but is not encoded as an X.509 certificate.  The
-   certTypeField indicates how to interpret the certBody field.  While
-   it is possible to carry any type of data in this structure, it's
-   intended the content field include data for at least one public key
-   formatted as a SubjectPublicKeyInfo (see {{RFC5912}}).
+"TypedCert" is an ASN.1 construct that has the charateristics of a
+certificate, but is not encoded as an X.509 certificate.  The
+certTypeField indicates how to interpret the certBody field.  While
+it is possible to carry any type of data in this structure, it's
+intended the content field include data for at least one public key
+formatted as a SubjectPublicKeyInfo (see {{RFC5912}}).
 
 ~~~
-TYPED-CERT ::= TYPE-IDENTIFIER -- basically an object id and a matching ASN1
-                               -- structure encoded as a sequence
+TYPED-CERT ::= TYPE-IDENTIFIER
+
 CertType ::= TYPED-CERT.&id
 
 TypedCert ::= SEQUENCE {
@@ -210,10 +208,10 @@ TypedCertSet TYPED-CERT ::= {
              }
 ~~~
 
-   "TypedFlatCert" is a certificate that does not have a valid ASN.1
-   encoding.  Think compact or implicit certificates as might be used
-   with smart cards.  certType indicates the format of the data in the
-   certBody field, and ideally refers to a published specification.
+"TypedFlatCert" is a certificate that does not have a valid ASN.1
+encoding.  Think compact or implicit certificates as might be used
+with smart cards.  certType indicates the format of the data in the
+certBody field, and ideally refers to a published specification.
 
 ~~~
 TypedFlatCert ::= SEQUENCE {
@@ -224,9 +222,9 @@ TypedFlatCert ::= SEQUENCE {
 
 ## AttestAttribute
 
-   By definition, Attributes within a Certification Signing Request are
-   typed as ATTRIBUTE.  This attribute definition contains one or more
-   attestation statements of a type "AttestStatement".
+By definition, Attributes within a Certification Signing Request are
+typed as ATTRIBUTE.  This attribute definition contains one or more
+attestation statements of a type "AttestStatement".
 
 ~~~
 id-aa-attestStatement OBJECT IDENTIFIER ::= { id-aa (TBDAA2) }
@@ -239,13 +237,13 @@ AttestAttribute ATTRIBUTE ::= {
 
 ##  AttestCertsAttribute
 
-   The "AttestCertsAttribute" contains a sequence of certificates that
-   may be needed to validate the contents of an attestation statement
-   contained in an attestAttribute.  By convention, the first element of
-   the SEQUENCE SHOULD contain the object that contains the public key
-   needed to directly validate the attestAttribute.  The remaining
-   elements should chain that data back to an agreed upon root of trust
-   for the attestation.
+The "AttestCertsAttribute" contains a sequence of certificates that
+may be needed to validate the contents of an attestation statement
+contained in an attestAttribute.  By convention, the first element of
+the SEQUENCE SHOULD contain the object that contains the public key
+needed to directly validate the attestAttribute.  The remaining
+elements should chain that data back to an agreed upon root of trust
+for the attestation.
 
 ~~~
 id-aa-attestChainCerts OBJECT IDENTIFIER ::= { id-aa (TBDAA1) }
@@ -259,10 +257,10 @@ attestCertsAttribute ATTRIBUTE ::= {
 
 ##  AttestStatement
 
-   An AttestStatement is an object of class ATTEST-STATEMENT encoded as
-   a sequence fields, of which the type of the "value" field is
-   controlled by the value of the "type" field, similar to an Attribute
-   definition.
+An AttestStatement is an object of class ATTEST-STATEMENT encoded as
+a sequence fields, of which the type of the "value" field is
+controlled by the value of the "type" field, similar to an Attribute
+definition.
 
 ~~~
 ATTEST-STATEMENT ::= CLASS {
@@ -292,28 +290,28 @@ AttestStatement { ATTEST-STATEMENT:IOSet}  ::= SEQUENCE
   }
 ~~~
 
-   Depending on whether the "value" field contains an entire signed
-   attestation, or only the toBeSigned portion, the algId field may or
-   may not be present.  If present it contains the AlgorithmIdentifier
-   of the signature algorithm used to sign the attestation statement.
-   If absent, either the value field contains an indication of the
-   signature algorithm, or the signature algorithm is fixed for that
-   specific type of AttestStatement.
+Depending on whether the "value" field contains an entire signed
+attestation, or only the toBeSigned portion, the algId field may or
+may not be present.  If present it contains the AlgorithmIdentifier
+of the signature algorithm used to sign the attestation statement.
+If absent, either the value field contains an indication of the
+signature algorithm, or the signature algorithm is fixed for that
+specific type of AttestStatement.
 
-   Similarly for the "signature" field, if the "value" field contains
-   only the toBeSigned portion of the attestation statement, this field
-   SHOULD be present.  The "signature" field may by typed as any valid
-   ASN.1 type.  Opaque signature types SHOULD specify the use of sub-
-   typed OCTET STRING.  For example:
+Similarly for the "signature" field, if the "value" field contains
+only the toBeSigned portion of the attestation statement, this field
+SHOULD be present.  The "signature" field may by typed as any valid
+ASN.1 type.  Opaque signature types SHOULD specify the use of sub-
+typed OCTET STRING.  For example:
 
 ~~~
 MyOpaqueSignature ::= OCTET STRING
 ~~~
 
-   If possible, the ATTEST-STATEMENT SHOULD specify an un-wrapped
-   representation of a signature, rather than an OCTET STRING or BIT
-   STRING wrapped ASN.1 structure.  I.e., by specifying ECDSA-Sig-Value
-   from PKIXAlgs-2009 (see {{RFC5912}}) to encode an ECDSA signature.
+If possible, the ATTEST-STATEMENT SHOULD specify an un-wrapped
+representation of a signature, rather than an OCTET STRING or BIT
+STRING wrapped ASN.1 structure.  I.e., by specifying ECDSA-Sig-Value
+from PKIXAlgs-2009 (see {{RFC5912}}) to encode an ECDSA signature.
 
 ~~~
 ECDSA-Sig-Value ::= SEQUENCE {
@@ -322,14 +320,14 @@ ECDSA-Sig-Value ::= SEQUENCE {
 }
 ~~~
 
-   The ancillaryData field contains data provided externally to the
-   attestation engine,and/or data that may be needed to relate the
-   attestation to other PKIX elements.  The format or content of the
-   externally provided data is not under the control of the attestation
-   engine.  For example, this field might contain a freshness nonce
-   generated by the relying party, a signed time stamp, or even a hash
-   of protocol data or nonce data.  See below for a few different
-   examples.
+The ancillaryData field contains data provided externally to the
+attestation engine,and/or data that may be needed to relate the
+attestation to other PKIX elements.  The format or content of the
+externally provided data is not under the control of the attestation
+engine.  For example, this field might contain a freshness nonce
+generated by the relying party, a signed time stamp, or even a hash
+of protocol data or nonce data.  See below for a few different
+examples.
 
 # IANA Considerations
 

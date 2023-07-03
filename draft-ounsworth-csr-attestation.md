@@ -40,7 +40,7 @@ normative:
     RFC5912:
 
 informative:
-TPM20:
+  TPM20:
      author:
         org: Trusted Computing Group
      title: Trusted Platform Module Library Specification, Family 2.0, Level 00, Revision 01.59
@@ -362,7 +362,8 @@ document.
 --- back
 
 # Acknowledgments
-{:numbered="false"}
+
+Add your name here.
 
 # Examples
 

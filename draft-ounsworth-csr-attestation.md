@@ -9,19 +9,19 @@ number:
 date:
 consensus: true
 v: 3
-area: AREA
-workgroup: WG Working Group
+# area: AREA
+# workgroup: WG Working Group
 keyword:
  - next generation
  - unicorn
  - sparkling distributed ledger
 venue:
-  group: LAMES
-  type: Working Group
-  mail: spasm@ietf.org
-  arch: https://datatracker.ietf.org/wg/lamps/about/
-  github: lamps-wg/csr-attestation
-  latest: https://example.com/LATEST
+#  group: LAMES
+#  type: Working Group
+#  mail: spasm@ietf.org
+#  arch: https://datatracker.ietf.org/wg/lamps/about/
+  github: "lamps-wg/csr-attestation"
+  latest: "https://lamps-wg.github.io/csr-attestation/draft-ounsworth-csr-attestation.html"
 
 author:
     -

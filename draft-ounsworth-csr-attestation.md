@@ -19,9 +19,9 @@
 # Change the file extension to match the format (.xml for XML, etc...)
 #
 ###
-title: "TODO - Your title"
-abbrev: "TODO - Abbreviation"
-category: info
+title: "Use of Attestation with Certification Signing Requests"
+abbrev: "CSR Attestation Attributes"
+category: std
 
 docname: draft-todo-yourname-protocol-latest
 submissiontype: IETF  # also: "independent", "IAB", or "IRTF"
@@ -36,18 +36,24 @@ keyword:
  - unicorn
  - sparkling distributed ledger
 venue:
-  group: WG
+  group: LAMES
   type: Working Group
-  mail: WG@example.com
-  arch: https://example.com/WG
-  github: USER/REPO
+  mail: spasm@ietf.org
+  arch: https://datatracker.ietf.org/wg/lamps/about/
+  github: lamps-wg/csr-attestation
   latest: https://example.com/LATEST
 
 author:
- -
-    fullname: Your Name Here
-    organization: Your Organization Here
-    email: your.email@example.com
+    -
+      ins: M. Ounsworth
+      name: Mike Ounsworth
+      org: Entrust Limited
+      abbrev: Entrust
+      street: 2500 Solandt Road – Suite 100
+      city: Ottawa, Ontario
+      country: Canada
+      code: K2K 3G5
+      email: mike.ounsworth@entrust.com
 
 normative:
 

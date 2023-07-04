@@ -12,9 +12,10 @@ v: 3
 # area: AREA
 # workgroup: WG Working Group
 keyword:
- - next generation
- - unicorn
- - sparkling distributed ledger
+ - PKI
+ - PKCS#10
+ - Attestation
+ - Certification Signing Requests
 venue:
 #  group: LAMPS
 #  type: Working Group
@@ -243,7 +244,7 @@ contained in an attestAttribute.  By convention, the first element of
 the SEQUENCE SHOULD contain the object that contains the public key
 needed to directly validate the attestAttribute.  The remaining
 elements should chain that data back to an agreed upon root of trust
-for the attestation.
+for attestations.
 
 ~~~
 id-aa-attestChainCerts OBJECT IDENTIFIER ::= { id-aa (TBDAA1) }

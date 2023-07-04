@@ -108,7 +108,7 @@ verifier, and relying party.
 
 # Architecture
 
-{{fig-arch}} shows the high-level communication pattern of the passport 
+{{fig-arch}} shows the high-level communication pattern of the passport
 model where the attester transmits the evidence in the CSR to the RA
 and the CA. The verifier processes the received evidence and computes
 an attestation result, which is the processed by the RA/CA prior to the

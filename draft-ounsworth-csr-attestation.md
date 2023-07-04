@@ -115,10 +115,10 @@ and the CA. The verifier processes the received evidence and computes
 an attestation result, which is then processed by the RA/CA prior to the
 certificate issuance.
 
-Note that the verifier is a logical role that may be included in the 
+Note that the verifier is a logical role that may be included in the
 RA/CA product. In this case the interaction between the relying party
 and the verifier are local. The verifier functionality can, however,
-also be kept separate from the RA/CA functionality. For example, 
+also be kept separate from the RA/CA functionality. For example,
 security concerns may require parsers of evidence formats to be separated
 from the core CA functionality.
 

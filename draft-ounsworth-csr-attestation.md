@@ -119,18 +119,19 @@ verifier, and relying party.
 
 # Architecture
 
-{{fig-arch}} shows the high-level communication pattern of the passport
+{{fig-arch}} shows the high-level communication pattern of the RATS passport
 model where the attester transmits the evidence in the CSR to the RA
 and the CA. The verifier processes the received evidence and computes
 an attestation result, which is then processed by the RA/CA prior to the
 certificate issuance.
 
 Note that the verifier is a logical role that may be included in the
-RA/CA product. In this case the interaction between the relying party
-and the verifier are local. The verifier functionality can, however,
-also be kept separate from the RA/CA functionality. For example,
-security concerns may require parsers of evidence formats to be separated
-from the core CA functionality.
+RA/CA product. In this case the Relying Party and Verifier collapse into a
+single entity. The verifier functionality can, however,
+also be kept separate from the RA/CA functionality, such as a utility or
+library provided by the device manufacturer. For example,
+security concerns may require parsers of evidence formats to be logically
+or physically separated from the core CA functionality.
 
 ~~~
                               .-------------.
@@ -143,19 +144,20 @@ from the core CA functionality.
                                    |   | Result
                                    |   v
  .------------.               .----|----------.
- |            +-------------->|---'           | Compare Attestation
+ |            +-------------->|----'           | Compare Attestation
  |  Attester  |   Evidence    | Relying       | Result against
  |            |   in CSR      | Party (RA/CA) | policy
  '------------'               '---------------'
 ~~~
 {: #fig-arch title="Architecture"}
 
-As discussed in RFC 9334 different security and privacy aspects need to be
+As discussed in RFC 9334, different security and privacy aspects need to be
 considered. For example, evidence may need to be protected against replay and
 Section 10 of RFC 9334 lists approach for offering freshness. There are also
 concerns about the exposure of persistent identifiers by utilizing attestation
 technology, which are discussed in Section 11 of RFC 9334. Finally, the keying
-material used by the attester need to be protected against unauthorized access.
+material used by the attester need to be protected against unauthorized access,
+and against signing arbitrary content that originated from outside the device.
 This aspect is described in Section 12 of RFC 9334. Most of these aspects are,
 however, outside the scope of this specification but relevant for use with a
 given attestation technology. The focus of this specification is on the

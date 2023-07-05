@@ -25,22 +25,27 @@ venue:
   latest: "https://lamps-wg.github.io/csr-attestation/draft-ounsworth-csr-attestation.html"
 
 author:
-    -
-      ins: M. Ounsworth
-      name: Mike Ounsworth
-      org: Entrust Limited
-      abbrev: Entrust
-      street: 2500 Solandt Road – Suite 100
-      city: Ottawa, Ontario
-      country: Canada
-      code: K2K 3G5
-      email: mike.ounsworth@entrust.com
+  -
+    ins: M. Ounsworth
+    name: Mike Ounsworth
+    org: Entrust Limited
+    abbrev: Entrust
+    street: 2500 Solandt Road – Suite 100
+    city: Ottawa, Ontario
+    country: Canada
+    code: K2K 3G5
+    email: mike.ounsworth@entrust.com
+  -
+    name: Hannes Tschofenig
+    organization: Arm Limited
+    email: Hannes.Tschofenig@gmx.net
 
 normative:
     RFC9334:
     RFC5912:
 
 informative:
+  RFC2986:
   TPM20:
      author:
         org: Trusted Computing Group
@@ -68,16 +73,18 @@ Authority are described.
 
 # Introduction
 
-Remote attestation allows a relying party, the Registration Authority or the
-Certification Authority, to learn about the security posture of a verifier,
-which in the context of this specification is a device transmitting a
-certification request using the newly defined attestation extension.
+At the time that it is requesting a certificate from a Certification
+Authority, a PKI end entity may wish to provide evidence of the security
+properties of the environment in which the private key is stored to be verified
+by a relying party such as the Registration Authority or the Certificate
+Authority. This specification provides a newly defined attestation attribute
+for carrying remote attestations in PKCS#10 Certification Requests {{RFC2986}}.
 
-As outlined in RFC 9334 {{RFC9334}}, a verifier collects claims from its target
+As outlined in the RATS Architecture {{RFC9334}}, a verifier collects claims from its target
 environment and gets those claims signed by the attesting environment. The
 details of what claims are collected, how they are signed and what formats
 for serialization are used vary with a given attestation technology. At the
-time of writing several standardized and proprietary attestation technologies
+time of writing, several standardized and proprietary attestation technologies
 are in use. This specification thereby tries to be technology agnostic with
 regards to the transport of the produced signed claims.
 

@@ -46,6 +46,7 @@ normative:
 
 informative:
   RFC2986:
+  RFC5280:
   TPM20:
      author:
         org: Trusted Computing Group
@@ -78,22 +79,42 @@ Authority, a PKI end entity may wish to provide evidence of the security
 properties of the environment in which the private key is stored to be verified
 by a relying party such as the Registration Authority or the Certificate
 Authority. This specification provides a newly defined attestation attribute
-for carrying remote attestations in PKCS#10 Certification Requests {{RFC2986}}.
+for carrying remote attestations in PKCS#10 Certification Requests (CSR) {{RFC2986}}.
 
-As outlined in the RATS Architecture {{RFC9334}}, a verifier collects claims from its target
-environment and gets those claims signed by the attesting environment. The
-details of what claims are collected, how they are signed and what formats
-for serialization are used vary with a given attestation technology. At the
+As outlined in the RATS Architecture {{RFC9334}}, an Attester (typically
+a device) produces a signed collection of Evidence about its running environment.
+A Relying Party that wishes to learn about the valididy of the Attester
+makes queries to a Verifier in order to assess the trustworthiness of the
+provided Evidence. At the
 time of writing, several standardized and proprietary attestation technologies
 are in use. This specification thereby tries to be technology agnostic with
 regards to the transport of the produced signed claims.
 
-RFC 9334 uses the term "evidence" for information that is communicated
-by the verifier with remote parties. Since the information produced by the
-device can not be trusted and often not even verified directly by the
-relying party an additional role is introduced: the verifier. The verifier
+This specification assumes that the PKI End Entity, as defined in {{RFC5280}},
+or more specifically the device holding its private key, acts as an Attester
+by providing Evidence inside a CSR about the running environment and security properties
+under which the private key is stored. The Registration Authority (RA) or
+Certification Authority (CA), as defined in {{RFC5280}}, act as Relying Parties
+which may make policy decisions based on the provided Evidence, such as whether to issue a certificate or
+which extensions to include it that certificate.
+
+Since the information produced by the
+device must be verified prior to being trusted and can often not even be
+verified directly by the relying party, an additional role is introduced:
+the Verifier. The verifier
 has knowledge about the expected firmware versions and hardware configuration.
 This information is called endorsements and reference values in RFC 9334.
+In the context of this specification, the
+Verifier may be an integral component to the RA / CA software or may be
+an external utility or library provided by the device manufacturer for the purposes
+of validating attestations.
+
+This document is concerned only about the transport of an attesttation
+inside a CSR and makes minimal assumptions about its content or format.
+We assume that an attestation can be broken into the following components:
+
+1. A set of certificates typically containing one or more certificate chains rooted in a device manufacture trust anchor and the leaf certificate being on the device in question.
+1. An attestation statement containing Evidence which can be encoded into an ASN.1 OCTET STRING.
 
 This document creates two ATTRIBUTE/Attribute definitions. The first
 Attribute may be used to carry a set of certificates or public keys that
@@ -101,7 +122,7 @@ may be necessary to validate evidence. The second Attribute carries a
 structure that may be used to carry key attestation statements, signatures
 and related data.
 
-With these extensions a Certification Authority (CA) has additional
+With these attributes, an RA or CA  has additional
 information about whether to issuer a certificate and what information
 to populate into the certificate. The scope of this document is, however,
 limited to the transport of evidence via a CSR. A supplementary document

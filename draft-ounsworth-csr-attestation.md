@@ -81,22 +81,25 @@ time of writing several standardized and proprietary attestation technologies
 are in use. This specification thereby tries to be technology agnostic with
 regards to the transport of the produced signed claims.
 
-RFC 9334 uses the term “evidence” for the information that is communicated
+RFC 9334 uses the term "evidence" for information that is communicated
 by the verifier with remote parties. Since the information produced by the
-device can neither be trusted and often not even verified directly by the
-relying party an additional role with the verifier is introduced. The verifier
-has knowledge to verify the evidence, has information about what devices run
-what firmware and software, etc.
+device can not be trusted and often not even verified directly by the
+relying party an additional role is introduced: the verifier. The verifier
+has knowledge about the expected firmware versions and hardware configuration.
+This information is called endorsements and reference values in RFC 9334.
 
 This document creates two ATTRIBUTE/Attribute definitions. The first
 Attribute may be used to carry a set of certificates or public keys that
-may be necessary to validate evidence.  The second Attribute carries a
+may be necessary to validate evidence. The second Attribute carries a
 structure that may be used to carry key attestation statements, signatures
 and related data.
 
 With these extensions a Certification Authority (CA) has additional
 information about whether to issuer a certificate and what information
-to populate into the certificate.
+to populate into the certificate. The scope of this document is, however,
+limited to the transport of evidence via a CSR. A supplementary document
+will describe how evidence is carried in an X.509 certificate for attesting
+hardware security modules (HSMs).
 
 # Conventions and Definitions
 
@@ -432,7 +435,7 @@ Jean-Pierre Fiset, Sander Temme, Jethro Beekman, Zsolt Rózsahegyi, Ferenc
 Pető, Mike Agrenius Kushner, Tomas Gustavsson, Dieter Bong, Christomer Meyer,
 Michael StJohns, Carl Wallace, Michael Ricardson, Tomofumi Okubo, Olivier
 Couillard, John Gray, Eric Amador, Johnson Darren, Herman Slatman, Tiru Reddy,
-Thomas Fossati, Corey Bonnel, Argenius Kushner, James Hagborg. 
+Thomas Fossati, Corey Bonnel, Argenius Kushner, James Hagborg.
 
 We would like to specifically thank Mike StJohns for his work on an earlier
 version of this draft.
@@ -441,10 +444,10 @@ version of this draft.
 
 ## Simple Attestation Example
 
-   This is a fragment of ASN.1 meant to demonstrate an absolute minimal
-   definition of an ATTEST-STATEMENT.  A similar fragment could be used
-   to define an ATTEST-STATEMENT for an opaque HSM vendor specific
-   atterstation model.
+This is a fragment of ASN.1 meant to demonstrate an absolute minimal
+definition of an ATTEST-STATEMENT.  A similar fragment could be used
+to define an ATTEST-STATEMENT for an opaque HSM vendor specific
+atterstation model.
 
 ~~~
 -- This OCTET STRING is not like any other OCTET STRING
@@ -466,7 +469,7 @@ MikesSimpleAttest ATTEST-STATEMENT ::= {
 }
 ~~~
 
-##  Example TPM V2.0 Attestation Attribute - Non Normative
+##  Example TPM V2.0 Attestation Attribute - Non-Normative
 
    What follows is a fragment of an ASN.1 module that might be used to
    define an attestation statment attribute to carry a TPM V2.0 key

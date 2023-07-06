@@ -448,133 +448,18 @@ version of this draft.
 
 # Examples
 
-## Simple Attestation Example
+This section provides two non-normative examples for embedding evidence
+in in CSRs. The first example embeds the Arm Platform Security Architecture
+tokens, which offers platform attestation, into the CSR. The second example
+conveys TPM v2.0 attestation information in the CSR.
+ 
+## PSA Attestation in CSR
 
-This is a fragment of ASN.1 meant to demonstrate an absolute minimal
-definition of an ATTEST-STATEMENT.  A similar fragment could be used
-to define an ATTEST-STATEMENT for an opaque HSM vendor specific
-atterstation model.
+TBD.
 
-~~~
--- This OCTET STRING is not like any other OCTET STRING
--- Please see https://example.com/simple-attest.txt,
--- Structure labled "Mike's simple attest" for the
--- structure of this field and how to verify the attestation
+##  TPM V2.0 Attestation in CSR
 
-MikesSimpleAttestData ::= OCTET STRING
-
-mikesSimpleAttestOid OBJECT IDENTIFIER ::= { id-mikes-root 1 }
-
-MikesSimpleAttest ATTEST-STATEMENT ::= {
-  TYPE MikesSimpleAttestData
-  IDENTIFIED BY mikesSimpleAttestOid
-  -- These are all implied
-  -- ALGID IS absent
-  -- SIGNATURE is absent
-  -- ANCILLARY is absent
-}
-~~~
-
-##  Example TPM V2.0 Attestation Attribute - Non-Normative
-
-   What follows is a fragment of an ASN.1 module that might be used to
-   define an attestation statment attribute to carry a TPM V2.0 key
-   attestation - i.e., the output of the TPM2_Certify command.  This is
-   an example and NOT a registered definition.  It's provided simply to
-   give an example of how to write an ATTEST-STATEMENT definition and
-   module.
-
-~~~
--- IMPORT these.
--- PKI normal form for an ECDSA signature
-ECDSA-Sig-Value ::= SEQUENCE {
-  r INTEGER,
-  s INTEGER
-  }
-
--- Octet string of size n/8 where n is the
--- bit size of the public modulus
-RSASignature ::= OCTET STRING
-
--- One or the other of these depending on the value in TPMT_SIGNATURE
-
-TpmSignature CHOICE ::= {
-  ecSig [0] IMPLICIT ECDSA-Sig-Value,
-  rsaSig [1] IMPLICIT RSASignature
-  }
-
--- The TPM form of the public key being attested.
--- Needed to verify the attestation - this is the TPMT_PUBLIC structure.
-TpmtPublic ::= OCTET STRING
-
--- The TPMS_ATTEST structure as defined in TPM2.0
--- Unwrapped from the TPM2B_ATTEST provided
--- by the TPM2_Certify command.
-TpmsAttest ::= OCTET STRING
-
--- The qualifying data provided to a TPM2_Certify call, may be absent
--- This is the contents of data field of the TPM2B_DATA structure.
-QualifyingData ::= OCTET STRING
-
-TpmAncillary ::= SEQUENCE {
-   toBeAttestedPublic TpmtPublic,
-   qualifyingData QualifyingData OPTIONAL
-   }
-
--- This represents a maximally unwrapped TPM V2.0 attestation.  The
--- output of TPM2_Certify is a TPM2B_ATTEST and a TPMT_SIGNATURE.
--- The former is unwrapped into a TPMS_ATTEST and the latter is
--- decomposed to provide the contents of the algId and signature fields.
-
---
--- This attestation statement can be verified by:
--- Signature siggy = Signature.getInstance (stmt.algId);
--- siggy.init (attestPublicKey, VERIFY);
--- siggy.update ((short)stmt.value.length) // todo: big or little endian
--- siggy.update (stmt.value.data)
--- bool verified = siggy.verify (getSigData(stmt.signature)); //
-unwrap the signature
---
-
-TpmV2AttestStatement ATTEST STATEMENT ::= {
-   TYPE TpmsAttest
-   IDENTIFIED BY id-ata-tpmv20-1
-   ALGID IS present
-   SIGNATURE TYPE TpmSignature IS present
-   ANCILLARY TYPE TpmAncillary IS present
-   }
-~~~
-
-   This attestation is the result of executing a TPM2_Certify command
-   over a TPM key.  See {{TPM20}} for more details.
-
-   The data portion of the value field encoded as OCTET STRING is the
-   attestationData from the TPM2B_ATTEST produced by the TPM.  In other
-   words, strip off the TPM2B_ATTEST "size" field and place the
-   TPMS_ATTEST encoded structure in the OCTET STRING data field.
-
-   The algId is derived from the "sigAlg" field of the TPMT_SIGNATURE
-   structure.
-
-   The signature field is a TpmSignature, created by transforming the
-   TPMU_SIGNATURE field to the appropriate structure given the signature
-   type.
-
-   The ancillary field contains a structure with the TPMT_PUBLIC
-   structure that contains the TPM's format of the key to be attested.
-   The attestation statement data contains a hash of this structure, and
-   not the key itself, so the hash of this structure needs to be
-   compared to the value in the attestation attestation statement.  If
-   that passes, the key needs to be transformed into a PKIX style key
-   and compared to the key in the certificate signing request to
-   complete the attestation verification.
-
-   The ancillary field also contains an optional OCTET STRING which is
-   used if the TPM2_Certify command is called with a non-zero length
-   "qualifyingData" argument to contain that data.
-
-   An AttestCertChain attribute MUST be present if this attribute is
-   used as part of a certificate signing request.
+TBD.
 
 # ASN.1 Module for Attestation
 

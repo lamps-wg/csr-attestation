@@ -82,32 +82,15 @@ Authority. This specification provides a newly defined attestation attribute
 for carrying remote attestations in PKCS#10 Certification Requests (CSR) {{RFC2986}}.
 
 As outlined in the RATS Architecture {{RFC9334}}, an Attester (typically
-a device) produces a signed collection of Evidence about its running environment.
-A Relying Party that wishes to learn about the valididy of the Attester
-makes queries to a Verifier in order to assess the trustworthiness of the
-provided Evidence. At the
-time of writing, several standardized and proprietary attestation technologies
+a device) produces a signed collection of Evidence about its running environment,
+often refered to as an "attestation". A Relying Party may consult that
+attestation in making policy decisions about the trustworthiness of the
+entity being attested. {{architecture}} overviews how the various roles
+in the RATS Archictecture map to a certificate requester and a CA/RA.
+
+At the time of writing, several standardized and proprietary attestation technologies
 are in use. This specification thereby tries to be technology agnostic with
 regards to the transport of the produced signed claims.
-
-This specification assumes that the PKI End Entity, as defined in {{RFC5280}},
-or more specifically the device holding its private key, acts as an Attester
-by providing Evidence inside a CSR about the running environment and security properties
-under which the private key is stored. The Registration Authority (RA) or
-Certification Authority (CA), as defined in {{RFC5280}}, act as Relying Parties
-which may make policy decisions based on the provided Evidence, such as whether to issue a certificate or
-which extensions to include it that certificate.
-
-Since the information produced by the
-device must be verified prior to being trusted and can often not even be
-verified directly by the relying party, an additional role is introduced:
-the Verifier. The verifier
-has knowledge about the expected firmware versions and hardware configuration.
-This information is called endorsements and reference values in RFC 9334.
-In the context of this specification, the
-Verifier may be an integral component to the RA / CA software or may be
-an external utility or library provided by the device manufacturer for the purposes
-of validating attestations.
 
 This document is concerned only about the transport of an attesttation
 inside a CSR and makes minimal assumptions about its content or format.
@@ -124,7 +107,13 @@ may be necessary to validate evidence. The second Attribute carries a
 structure that may be used to carry key attestation statements, signatures
 and related data.
 
-With these attributes, an RA or CA  has additional
+A CSR may contain one or more attestations, for example a key attestation
+asserting the storage properties of the private key as well as a platform
+attestation asserting the firmware version and other general properties
+of the device, or multiple key attestations signed by certificate chains
+on different cryptographic algorithms.
+
+With these attributes, an RA or CA has additional
 information about whether to issuer a certificate and what information
 to populate into the certificate. The scope of this document is, however,
 limited to the transport of evidence via a CSR. A supplementary document
@@ -140,7 +129,7 @@ attestation. Readers of this document are assumed to be familiar with
 the following terms: evidence, claim, attestation result, attester,
 verifier, and relying party.
 
-# Architecture
+# Architecture {#architecture}
 
 {{fig-arch}} shows the high-level communication pattern of the RATS passport
 model where the attester transmits the evidence in the CSR to the RA
@@ -276,25 +265,38 @@ AttestAttribute ATTRIBUTE ::= {
 }
 ~~~
 
+A CSR MAY contain one or more instance of `AttestAttribute` to allow,
+for example a key attestation
+asserting the storage properties of the private key as well as a platform
+attestation asserting the firmware version and other general properties
+of the device, or multiple key attestations signed by certificate chains
+on different cryptographic algorithms.
+
 ##  AttestCertsAttribute
 
 The "AttestCertsAttribute" contains a sequence of certificates that
 may be needed to validate the contents of an attestation statement
-contained in an attestAttribute.  By convention, the first element of
-the SEQUENCE SHOULD contain the object that contains the public key
-needed to directly validate the attestAttribute.  The remaining
-elements should chain that data back to an agreed upon root of trust
-for attestations.
+contained in an attestAttribute. The set of certificates should contain
+the object that contains the public key needed to directly validate the
+AttestAttribute.  The remaining elements should chain that data back to
+an agreed upon root of trust for attestations. No order is implied, it is
+the Verifier's responsibility to perform the appropriate certificate path building.
+
+A CSR MUST contain at most 1 `AttestCertsAttribute`. In the case where
+the CSR contains multiple instances of `AttestAttribute` representing
+multiple attestations, all necessary certificates MUST be contained in
+the same instance of `AttestCertsAttribute`.
 
 ~~~
 id-aa-attestChainCerts OBJECT IDENTIFIER ::= { id-aa (TBDAA1) }
 
-attestCertsAttribute ATTRIBUTE ::= {
-  TYPE SEQUENCE OF CertificateChoice
+AttestCertsAttribute ATTRIBUTE ::= {
+  TYPE SET OF CertificateChoice
   COUNTS MAX 1
   IDENTIFIED BY id-aa-attestChainCerts
 }
 ~~~
+
 
 ##  AttestStatement
 

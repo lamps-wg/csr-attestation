@@ -292,7 +292,7 @@ ATTEST-STATEMENT ::= CLASS {
 AttestStatement { ATTEST-STATEMENT:IOSet}  ::= SEQUENCE
   {
     type          ATTEST-STATEMENT.&id({IOSet}),
-    value         ATTEST-STATEMENT.&Type({IOSet}{@type}),
+    value         ATTEST-STATEMENT.&Type({IOSet}{@type})
   }
 ~~~
 

@@ -156,7 +156,7 @@ or physically separated from the core CA functionality.
                                    |   | Result
                                    |   v
  .------------.               .----|----------.
- |            +-------------->|----'           | Compare Attestation
+ |            +-------------->|----'          | Compare Attestation
  |  Attester  |   Evidence    | Relying       | Result against
  |            |   in CSR      | Party (RA/CA) | policy
  '------------'               '---------------'
@@ -306,35 +306,12 @@ controlled by the value of the "type" field, similar to an Attribute
 definition.
 
 ~~~
-ATTEST-STATEMENT ::= CLASS {
-  &id                 OBJECT IDENTIFIER UNIQUE,
-  &Type,                  -- NOT optional
-} WITH SYNTAX {
-  TYPE  &Type
-  IDENTIFIED BY &id
-}
-
-AttestStatement { ATTEST-STATEMENT:IOSet}  ::= SEQUENCE
-  {
-    type          ATTEST-STATEMENT.&id({IOSet}),
-    value         ATTEST-STATEMENT.&Type({IOSet}{@type})
-  }
-~~~
-
-
-~~~ BEGIN ENDOTE ~~~
-
-Any reason not to simplify this down? :
-
-~~~
 AttestStatement ::= SEQUENCE
   {
     type   OBJECT IDENTIFIER,
     value  OCTET STRING
   }
 ~~~
-
-~~~ END EDNOTE ~~~
 
 
 # ASN.1 Module

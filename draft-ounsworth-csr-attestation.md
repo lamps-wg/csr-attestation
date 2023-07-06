@@ -37,7 +37,7 @@ author:
     email: mike.ounsworth@entrust.com
   -
     name: Hannes Tschofenig
-    organization: Arm Limited
+    organization: Siemens
     email: Hannes.Tschofenig@gmx.net
 
 normative:
@@ -96,8 +96,10 @@ This document is concerned only about the transport of an attesttation
 inside a CSR and makes minimal assumptions about its content or format.
 We assume that an attestation can be broken into the following components:
 
-1. A set of certificates typically containing one or more certificate chains rooted in one or more device manufacture trust anchors, and the leaf certificate(s) which certify keys on device in question which are used for signing attestation statements.
-1. An attestation statement containing Evidence which can be encoded into an ASN.1 OCTET STRING.
+1. A set of certificates typically containing one or more certificate chains
+   rooted in a device manufacture trust anchor and the leaf certificate being
+   on the device in question.
+1. An attestation statement containing Evidence.
 
 This document creates two ATTRIBUTE/Attribute definitions. The first
 Attribute may be used to carry a set of certificates or public keys that
@@ -129,18 +131,19 @@ verifier, and relying party.
 
 # Architecture {#architecture}
 
-{{fig-arch}} shows the high-level communication pattern of the passport
+{{fig-arch}} shows the high-level communication pattern of the RATS passport
 model where the attester transmits the evidence in the CSR to the RA
 and the CA. The verifier processes the received evidence and computes
 an attestation result, which is then processed by the RA/CA prior to the
 certificate issuance.
 
 Note that the verifier is a logical role that may be included in the
-RA/CA product. In this case the interaction between the relying party
-and the verifier are local. The verifier functionality can, however,
-also be kept separate from the RA/CA functionality. For example,
-security concerns may require parsers of evidence formats to be separated
-from the core CA functionality.
+RA/CA product. In this case the Relying Party and Verifier collapse into a
+single entity. The verifier functionality can, however,
+also be kept separate from the RA/CA functionality, such as a utility or
+library provided by the device manufacturer. For example,
+security concerns may require parsers of evidence formats to be logically
+or physically separated from the core CA functionality.
 
 ~~~
                               .-------------.
@@ -153,19 +156,20 @@ from the core CA functionality.
                                    |   | Result
                                    |   v
  .------------.               .----|----------.
- |            +-------------->|---'           | Compare Attestation
+ |            +-------------->|----'           | Compare Attestation
  |  Attester  |   Evidence    | Relying       | Result against
  |            |   in CSR      | Party (RA/CA) | policy
  '------------'               '---------------'
 ~~~
 {: #fig-arch title="Architecture"}
 
-As discussed in RFC 9334 different security and privacy aspects need to be
+As discussed in RFC 9334, different security and privacy aspects need to be
 considered. For example, evidence may need to be protected against replay and
 Section 10 of RFC 9334 lists approach for offering freshness. There are also
 concerns about the exposure of persistent identifiers by utilizing attestation
 technology, which are discussed in Section 11 of RFC 9334. Finally, the keying
-material used by the attester need to be protected against unauthorized access.
+material used by the attester need to be protected against unauthorized access,
+and against signing arbitrary content that originated from outside the device.
 This aspect is described in Section 12 of RFC 9334. Most of these aspects are,
 however, outside the scope of this specification but relevant for use with a
 given attestation technology. The focus of this specification is on the
@@ -305,68 +309,40 @@ definition.
 ATTEST-STATEMENT ::= CLASS {
   &id                 OBJECT IDENTIFIER UNIQUE,
   &Type,                  -- NOT optional
-  &algidPresent       ParamOptions DEFAULT absent,
-  &sigPresent         ParamOptions DEFAULT absent,
-  &ancillaryPresent   ParamOptions DEFAULT absent,
-  &sigType            DEFAULT OCTET STRING
-  &ancillaryType      DEFAULT OCTET STRING
-
 } WITH SYNTAX {
   TYPE  &Type
   IDENTIFIED BY &id
-  [ALGID IS &algidPresent]
-  [SIGNATURE [TYPE &sigType] IS &sigPresent]
-  [ANCILLARY [TYPE &ancillaryType] IS &ancillaryPresent]
 }
 
 AttestStatement { ATTEST-STATEMENT:IOSet}  ::= SEQUENCE
   {
     type          ATTEST-STATEMENT.&id({IOSet}),
-    value         ATTEST-STATEMENT.&Type({IOSet}{@type}),
-    algId         [0] IMPLICIT  AlgorithmIdentifier OPTIONAL,
-    signature     [1] ATTEST-STATEMENT.&sigType OPTIONAL -- NOT implicit
-    ancillaryData [2] ATTEST-STATEMENT.&ancillaryType OPTIONAL
+    value         ATTEST-STATEMENT.&Type({IOSet}{@type})
   }
 ~~~
 
-Depending on whether the "value" field contains an entire signed
-attestation, or only the toBeSigned portion, the algId field may or
-may not be present.  If present it contains the AlgorithmIdentifier
-of the signature algorithm used to sign the attestation statement.
-If absent, either the value field contains an indication of the
-signature algorithm, or the signature algorithm is fixed for that
-specific type of AttestStatement.
 
-Similarly for the "signature" field, if the "value" field contains
-only the toBeSigned portion of the attestation statement, this field
-SHOULD be present.  The "signature" field may by typed as any valid
-ASN.1 type.  Opaque signature types SHOULD specify the use of sub-
-typed OCTET STRING.  For example:
+~~~ BEGIN ENDOTE ~~~
+
+Any reason not to simplify this down? :
 
 ~~~
-MyOpaqueSignature ::= OCTET STRING
+AttestStatement ::= SEQUENCE
+  {
+    type   OBJECT IDENTIFIER,
+    value  OCTET STRING
+  }
 ~~~
 
-If possible, the ATTEST-STATEMENT SHOULD specify an un-wrapped
-representation of a signature, rather than an OCTET STRING or BIT
-STRING wrapped ASN.1 structure.  I.e., by specifying ECDSA-Sig-Value
-from PKIXAlgs-2009 (see {{RFC5912}}) to encode an ECDSA signature.
+~~~ END EDNOTE ~~~
+
+
+# ASN.1 Module
 
 ~~~
-ECDSA-Sig-Value ::= SEQUENCE {
-  r  INTEGER,
-  s  INTEGER
-}
+{::include CSR-ATTESTATION-2023.asn}
 ~~~
 
-The ancillaryData field contains data provided externally to the
-attestation engine,and/or data that may be needed to relate the
-attestation to other PKIX elements.  The format or content of the
-externally provided data is not under the control of the attestation
-engine.  For example, this field might contain a freshness nonce
-generated by the relying party, a signed time stamp, or even a hash
-of protocol data or nonce data.  See below for a few different
-examples.
 
 # IANA Considerations
 
@@ -380,7 +356,7 @@ S/MIME Attributes" to identify two Attributes defined within.
 ###  Module Registration - SMI Security for PKIX Module Identifer
 
 -  Decimal: IANA Assigned - Replace TBDMOD
--  Description: Attest-2023 - id-mod-pkix-attest-01
+-  Description: CSR-ATTESTATION-2023 - id-mod-pkix-attest-01
 -  References: This Document
 
 ###  Object Identifier Registrations - SMI Security for S/MIME Attributes

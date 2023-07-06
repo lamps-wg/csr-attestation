@@ -1,0 +1,87 @@
+
+CSR-ATTESTATION-2023
+           {iso(1) identified-organization(3) dod(6) internet(1) security(5)
+       mechanisms(5) pkix(7) id-mod(0) id-mod-pkix-attest-01(TBDMOD)}
+
+DEFINITIONS IMPLICIT TAGS ::= BEGIN
+
+EXPORTS ALL;
+
+IMPORTS
+
+Certificate
+  FROM PKCS-9 
+    { iso(1) member-body(2) us(840) rsadsi(113549) pkcs(1) pkcs-9(9) 
+      modules(0) pkcs-9(1) };
+
+
+
+-- Root of IETF's PKIX OID tree
+id-pkix OBJECT IDENTIFIER ::= { iso(1) identified-organization(3)
+     dod(6) internet(1) security(5) mechanisms(5) pkix(7) }
+
+-- S/Mime attributes - can be used here.
+id-aa OBJECT IDENTIFIER ::= {iso(1) member-body(2) usa(840)
+     rsadsi(113549) pkcs(1) pkcs-9(9) smime(16) attributes(2)}
+
+-- Branch for attestation statement types
+id-ata OBJECT IDENTIFIER ::= { id-pkix (TBD1) }
+
+
+CertificateChoice ::=
+   CHOICE {
+      cert Certificate,
+      opaqueCert    [0] IMPLICIT OCTET STRING,
+      typedCert     [1] IMPLICIT TypedCert,
+      typedFlatCert [2] IMPLICIT TypedFlatCert
+   }
+
+TYPED-CERT ::= TYPE-IDENTIFIER
+
+CertType ::= TYPED-CERT.&id
+
+TypedCert ::= SEQUENCE {
+              certType     TYPED-CERT.&id({TypedCertSet}),
+              content     TYPED-CERT.&Type ({TypedCertSet}{@certType})
+          }
+
+TypedCertSet TYPED-CERT ::= {
+             ... -- Empty for now,
+             }
+
+TypedFlatCert ::= SEQUENCE {
+    certType OBJECT IDENTIFIER,
+    certBody OCTET STRING
+}
+
+
+id-aa-attestStatement OBJECT IDENTIFIER ::= { id-aa (TBDAA2) }
+
+AttestAttribute ATTRIBUTE ::= {
+  TYPE AttestStatement
+  IDENTIFIED BY id-aa-attestStatement
+}
+
+id-aa-attestChainCerts OBJECT IDENTIFIER ::= { id-aa (TBDAA1) }
+
+attestCertsAttribute ATTRIBUTE ::= {
+  TYPE SEQUENCE OF CertificateChoice
+  COUNTS MAX 1
+  IDENTIFIED BY id-aa-attestChainCerts
+}
+
+ATTEST-STATEMENT ::= CLASS {
+  &id                 OBJECT IDENTIFIER UNIQUE,
+  &Type,                  -- NOT optional
+} WITH SYNTAX {
+  TYPE  &Type
+  IDENTIFIED BY &id
+}
+
+AttestStatement { ATTEST-STATEMENT:IOSet}  ::= SEQUENCE
+  {
+    type          ATTEST-STATEMENT.&id({IOSet}),
+    value         ATTEST-STATEMENT.&Type({IOSet}{@type})
+  }
+
+END

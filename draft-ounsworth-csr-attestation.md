@@ -46,7 +46,7 @@ normative:
 
 informative:
   RFC2986:
-  RFC5280:
+  I-D.tschofenig-rats-psa-token:
   TPM20:
      author:
         org: Trusted Computing Group
@@ -452,14 +452,14 @@ This section provides two non-normative examples for embedding evidence
 in in CSRs. The first example embeds the Arm Platform Security Architecture
 tokens, which offers platform attestation, into the CSR. The second example
 conveys TPM v2.0 attestation information in the CSR.
- 
+
 ## PSA Attestation in CSR
 
-TBD.
+TBD. Example based on {{I-D.tschofenig-rats-psa-token}}.
 
 ##  TPM V2.0 Attestation in CSR
 
-TBD.
+TBD: Example based on {{TPM20}}.
 
 # ASN.1 Module for Attestation
 

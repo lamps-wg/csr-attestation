@@ -37,7 +37,7 @@ author:
     email: mike.ounsworth@entrust.com
   -
     name: Hannes Tschofenig
-    organization: Arm Limited
+    organization: Siemens
     email: Hannes.Tschofenig@gmx.net
 
 normative:
@@ -113,8 +113,10 @@ This document is concerned only about the transport of an attesttation
 inside a CSR and makes minimal assumptions about its content or format.
 We assume that an attestation can be broken into the following components:
 
-1. A set of certificates typically containing one or more certificate chains rooted in a device manufacture trust anchor and the leaf certificate being on the device in question.
-1. An attestation statement containing Evidence which can be encoded into an ASN.1 OCTET STRING.
+1. A set of certificates typically containing one or more certificate chains
+   rooted in a device manufacture trust anchor and the leaf certificate being
+   on the device in question.
+1. An attestation statement containing Evidence.
 
 This document creates two ATTRIBUTE/Attribute definitions. The first
 Attribute may be used to carry a set of certificates or public keys that

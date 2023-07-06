@@ -313,14 +313,6 @@ AttestStatement ::= SEQUENCE
   }
 ~~~
 
-
-# ASN.1 Module
-
-~~~
-{::include CSR-ATTESTATION-2023.asn}
-~~~
-
-
 # IANA Considerations
 
 The IANA is requested to open one new registry, allocate a value
@@ -438,6 +430,9 @@ TBD. Example based on {{I-D.tschofenig-rats-psa-token}}.
 
 TBD: Example based on {{TPM20}}.
 
-# ASN.1 Module for Attestation
 
-TBD.
+# ASN.1 Module
+
+~~~
+{::include CSR-ATTESTATION-2023.asn}
+~~~

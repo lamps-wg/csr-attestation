@@ -105,6 +105,12 @@ may be necessary to validate evidence. The second Attribute carries a
 structure that may be used to carry key attestation statements, signatures
 and related data.
 
+A CSR may contain one or more attestations, for example a key attestation
+asserting the storage properties of the private key as well as a platform
+attestation asserting the firmware version and other general properties
+of the device, or multiple key attestations signed by certificate chains
+on different cryptographic algorithms.
+
 With these attributes, an RA or CA has additional
 information about whether to issuer a certificate and what information
 to populate into the certificate. The scope of this document is, however,
@@ -255,25 +261,38 @@ AttestAttribute ATTRIBUTE ::= {
 }
 ~~~
 
+A CSR MAY contain one or more instance of `AttestAttribute` to allow,
+for example a key attestation
+asserting the storage properties of the private key as well as a platform
+attestation asserting the firmware version and other general properties
+of the device, or multiple key attestations signed by certificate chains
+on different cryptographic algorithms.
+
 ##  AttestCertsAttribute
 
 The "AttestCertsAttribute" contains a sequence of certificates that
 may be needed to validate the contents of an attestation statement
-contained in an attestAttribute.  By convention, the first element of
-the SEQUENCE SHOULD contain the object that contains the public key
-needed to directly validate the attestAttribute.  The remaining
-elements should chain that data back to an agreed upon root of trust
-for attestations.
+contained in an attestAttribute. The set of certificates should contain
+the object that contains the public key needed to directly validate the
+AttestAttribute.  The remaining elements should chain that data back to
+an agreed upon root of trust for attestations. No order is implied, it is
+the Verifier's responsibility to perform the appropriate certificate path building.
+
+A CSR MUST contain at most 1 `AttestCertsAttribute`. In the case where
+the CSR contains multiple instances of `AttestAttribute` representing
+multiple attestations, all necessary certificates MUST be contained in
+the same instance of `AttestCertsAttribute`.
 
 ~~~
 id-aa-attestChainCerts OBJECT IDENTIFIER ::= { id-aa (TBDAA1) }
 
-attestCertsAttribute ATTRIBUTE ::= {
-  TYPE SEQUENCE OF CertificateChoice
+AttestCertsAttribute ATTRIBUTE ::= {
+  TYPE SET OF CertificateChoice
   COUNTS MAX 1
   IDENTIFIED BY id-aa-attestChainCerts
 }
 ~~~
+
 
 ##  AttestStatement
 

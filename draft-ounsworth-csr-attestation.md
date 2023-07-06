@@ -428,7 +428,7 @@ version of this draft.
 This section provides two non-normative examples for embedding evidence
 in in CSRs. The first example conveys Arm Platform Security Architecture
 tokens, which offers platform attestation, into the CSR. The second example
-embeds the TPM v2.0 attestation information in the CSR. 
+embeds the TPM v2.0 attestation information in the CSR.
 
 ##  TPM V2.0 Attestation in CSR
 

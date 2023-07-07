@@ -114,11 +114,11 @@ of the device, or multiple key attestations signed by certificate chains
 on different cryptographic algorithms.
 
 With these attributes, an RA or CA has additional
-information about whether to issuer a certificate and what information
+information about whether to issue a certificate and what information
 to populate into the certificate. The scope of this document is, however,
-limited to the transport of evidence via a CSR. A supplementary document
-will describe how evidence is carried in an X.509 certificate for attesting
-hardware security modules (HSMs).
+limited to the transport of evidence via a CSR. The exact format of the
+attestation data being carried is defined in various standard and proprietary
+specifications.
 
 # Conventions and Definitions
 
@@ -272,9 +272,24 @@ attestation asserting the firmware version and other general properties
 of the device, or multiple key attestations signed by certificate chains
 on different cryptographic algorithms.
 
+
+##  AttestStatement
+
+An AttestStatement is a simple type-value pair encoded as
+a sequence, of which the type of the "value" field is
+controlled by the value of the "type" field, similar to an Attribute
+definition.
+
+~~~
+AttestStatement ::= SEQUENCE {
+  type   OBJECT IDENTIFIER,
+  value  OCTET STRING
+}
+~~~
+
 ##  AttestCertsAttribute
 
-The "AttestCertsAttribute" contains a sequence of certificates that
+The "AttestCertsAttribute" contains a set of certificates that
 may be needed to validate the contents of an attestation statement
 contained in an attestAttribute. The set of certificates should contain
 the object that contains the public key needed to directly validate the
@@ -297,21 +312,6 @@ AttestCertsAttribute ATTRIBUTE ::= {
 }
 ~~~
 
-
-##  AttestStatement
-
-An AttestStatement is an object of class ATTEST-STATEMENT encoded as
-a sequence fields, of which the type of the "value" field is
-controlled by the value of the "type" field, similar to an Attribute
-definition.
-
-~~~
-AttestStatement ::= SEQUENCE
-  {
-    type   OBJECT IDENTIFIER,
-    value  OCTET STRING
-  }
-~~~
 
 
 # ASN.1 Module

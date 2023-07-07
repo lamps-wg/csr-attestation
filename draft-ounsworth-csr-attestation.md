@@ -312,21 +312,6 @@ AttestCertsAttribute ATTRIBUTE ::= {
 }
 ~~~
 
-##  AttestStatement
-
-An AttestStatement is an object of class ATTEST-STATEMENT encoded as
-a sequence fields, of which the type of the "value" field is
-controlled by the value of the "type" field, similar to an Attribute
-definition.
-
-~~~
-AttestStatement ::= SEQUENCE
-  {
-    type   OBJECT IDENTIFIER,
-    value  OCTET STRING
-  }
-~~~
-
 # IANA Considerations
 
 The IANA is requested to open one new registry, allocate a value

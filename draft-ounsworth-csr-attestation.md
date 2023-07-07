@@ -193,63 +193,6 @@ id-aa OBJECT IDENTIFIER ::= {iso(1) member-body(2) usa(840)
 id-ata OBJECT IDENTIFIER ::= { id-pkix (TBD1) }
 ~~~
 
-##  CertificateChoice
-
-This is an ASN.1 CHOICE construct used to represent an encoding of a
-broad variety of certificate types.
-
-~~~
-CertificateChoice ::=
-   CHOICE {
-      cert Certificate,
-      opaqueCert    [0] IMPLICIT OCTET STRING,
-      typedCert     [1] IMPLICIT TypedCert,
-      typedFlatCert [2] IMPLICIT TypedFlatCert
-   }
-~~~
-
-"Certificate" is a standard X.509 certificate that MUST be compliant
-with RFC5280.  Enforcement of this constraint is left to the relying
-parties.
-
-"opaqueCert" should be used sparingly as it requires the receiving
-party to implictly know its format.  It is encoded as an OCTET
-STRING.
-
-"TypedCert" is an ASN.1 construct that has the charateristics of a
-certificate, but is not encoded as an X.509 certificate.  The
-certTypeField indicates how to interpret the certBody field.  While
-it is possible to carry any type of data in this structure, it's
-intended the content field include data for at least one public key
-formatted as a SubjectPublicKeyInfo (see {{RFC5912}}).
-
-~~~
-TYPED-CERT ::= TYPE-IDENTIFIER
-
-CertType ::= TYPED-CERT.&id
-
-TypedCert ::= SEQUENCE {
-              certType     TYPED-CERT.&id({TypedCertSet}),
-              content     TYPED-CERT.&Type ({TypedCertSet}{@certType})
-          }
-
-TypedCertSet TYPED-CERT ::= {
-             ... -- Empty for now,
-             }
-~~~
-
-"TypedFlatCert" is a certificate that does not have a valid ASN.1
-encoding.  Think compact or implicit certificates as might be used
-with smart cards.  certType indicates the format of the data in the
-certBody field, and ideally refers to a published specification.
-
-~~~
-TypedFlatCert ::= SEQUENCE {
-    certType OBJECT IDENTIFIER,
-    certBody OCTET STRING
-}
-~~~
-
 ## AttestAttribute
 
 By definition, Attributes within a Certification Signing Request are
@@ -309,6 +252,64 @@ AttestCertsAttribute ATTRIBUTE ::= {
   TYPE SET OF CertificateChoice
   COUNTS MAX 1
   IDENTIFIED BY id-aa-attestChainCerts
+}
+~~~
+
+
+##  CertificateChoice
+
+This is an ASN.1 CHOICE construct used to represent an encoding of a
+broad variety of certificate types.
+
+~~~
+CertificateChoice ::=
+   CHOICE {
+      cert Certificate,
+      opaqueCert    [0] IMPLICIT OCTET STRING,
+      typedCert     [1] IMPLICIT TypedCert,
+      typedFlatCert [2] IMPLICIT TypedFlatCert
+   }
+~~~
+
+"Certificate" is a standard X.509 certificate that MUST be compliant
+with RFC5280.  Enforcement of this constraint is left to the relying
+parties.
+
+"opaqueCert" should be used sparingly as it requires the receiving
+party to implictly know its format.  It is encoded as an OCTET
+STRING.
+
+"TypedCert" is an ASN.1 construct that has the charateristics of a
+certificate, but is not encoded as an X.509 certificate.  The
+certTypeField indicates how to interpret the certBody field.  While
+it is possible to carry any type of data in this structure, it's
+intended the content field include data for at least one public key
+formatted as a SubjectPublicKeyInfo (see {{RFC5912}}).
+
+~~~
+TYPED-CERT ::= TYPE-IDENTIFIER
+
+CertType ::= TYPED-CERT.&id
+
+TypedCert ::= SEQUENCE {
+              certType     TYPED-CERT.&id({TypedCertSet}),
+              content     TYPED-CERT.&Type ({TypedCertSet}{@certType})
+          }
+
+TypedCertSet TYPED-CERT ::= {
+             ... -- Empty for now,
+             }
+~~~
+
+"TypedFlatCert" is a certificate that does not have a valid ASN.1
+encoding.  Think compact or implicit certificates as might be used
+with smart cards.  certType indicates the format of the data in the
+certBody field, and ideally refers to a published specification.
+
+~~~
+TypedFlatCert ::= SEQUENCE {
+    certType OBJECT IDENTIFIER,
+    certBody OCTET STRING
 }
 ~~~
 

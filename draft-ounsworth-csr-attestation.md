@@ -312,14 +312,20 @@ AttestCertsAttribute ATTRIBUTE ::= {
 }
 ~~~
 
+##  AttestStatement
 
-
-# ASN.1 Module
+An AttestStatement is an object of class ATTEST-STATEMENT encoded as
+a sequence fields, of which the type of the "value" field is
+controlled by the value of the "type" field, similar to an Attribute
+definition.
 
 ~~~
-{::include CSR-ATTESTATION-2023.asn}
+AttestStatement ::= SEQUENCE
+  {
+    type   OBJECT IDENTIFIER,
+    value  OCTET STRING
+  }
 ~~~
-
 
 # IANA Considerations
 
@@ -408,20 +414,6 @@ The distribution of nonces via certificate management protocols, some of
 which embed CSRs, is possible but out-of-scope for this document.
 
 --- back
-
-# Acknowledgments
-
-This specification is the work of a design team created by the chairs of the
-LAMPS working group (). The following persons, in no specific order,
-contributed to the work: Richard Kettlewell, Chris Trufan, Bruno Couillard,
-Jean-Pierre Fiset, Sander Temme, Jethro Beekman, Zsolt Rózsahegyi, Ferenc
-Pető, Mike Agrenius Kushner, Tomas Gustavsson, Dieter Bong, Christomer Meyer,
-Michael StJohns, Carl Wallace, Michael Ricardson, Tomofumi Okubo, Olivier
-Couillard, John Gray, Eric Amador, Johnson Darren, Herman Slatman, Tiru Reddy,
-Thomas Fossati, Corey Bonnel, Argenius Kushner, James Hagborg.
-
-We would like to specifically thank Mike StJohns for his work on an earlier
-version of this draft.
 
 # Examples
 
@@ -576,6 +568,23 @@ information to an RA/CA:
 - Identification of the immutable root of trust implementation, and
 - Lifecycle state information.
 
-# ASN.1 Module for Attestation
 
-TBD.
+# ASN.1 Module
+
+~~~
+{::include CSR-ATTESTATION-2023.asn}
+~~~
+
+# Acknowledgments
+
+This specification is the work of a design team created by the chairs of the
+LAMPS working group (). The following persons, in no specific order,
+contributed to the work: Richard Kettlewell, Chris Trufan, Bruno Couillard,
+Jean-Pierre Fiset, Sander Temme, Jethro Beekman, Zsolt Rózsahegyi, Ferenc
+Pető, Mike Agrenius Kushner, Tomas Gustavsson, Dieter Bong, Christomer Meyer,
+Michael StJohns, Carl Wallace, Michael Ricardson, Tomofumi Okubo, Olivier
+Couillard, John Gray, Eric Amador, Johnson Darren, Herman Slatman, Tiru Reddy,
+Thomas Fossati, Corey Bonnel, Argenius Kushner, James Hagborg.
+
+We would like to specifically thank Mike StJohns for his work on an earlier
+version of this draft.

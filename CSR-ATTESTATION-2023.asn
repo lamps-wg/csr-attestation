@@ -73,7 +73,7 @@ attestCertsAttribute ATTRIBUTE ::= {
 AttestStatement ::= SEQUENCE
   {
     type   OBJECT IDENTIFIER,
-    value  OCTET STRING
+    value  ANY
   }
 
 END

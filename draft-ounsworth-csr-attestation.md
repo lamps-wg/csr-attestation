@@ -226,7 +226,7 @@ definition.
 ~~~
 AttestStatement ::= SEQUENCE {
   type   OBJECT IDENTIFIER,
-  value  OCTET STRING
+  value  ANY
 }
 ~~~
 

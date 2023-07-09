@@ -240,7 +240,7 @@ AttestAttribute.  The remaining elements should chain that data back to
 an agreed upon root of trust for attestations. No order is implied, it is
 the Verifier's responsibility to perform the appropriate certificate path building.
 
-A CSR MUST contain at most 1 `AttestCertsAttribute`. In the case where
+A CSR MUST only contain  exactly one `AttestCertsAttribute`. In the case where
 the CSR contains multiple instances of `AttestAttribute` representing
 multiple attestations, all necessary certificates MUST be contained in
 the same instance of `AttestCertsAttribute`.

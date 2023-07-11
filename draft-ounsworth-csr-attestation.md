@@ -206,12 +206,14 @@ AttestAttribute ATTRIBUTE ::= {
 }
 ~~~
 
-A CSR MAY contain one or more instance of `AttestAttribute` to allow,
-for example a key attestation
+A CSR MAY contain one or more instances of `AttestAttribute`.
+This allows for example a key attestation
 asserting the storage properties of the private key as well as a platform
-attestation asserting the firmware version and other general properties
-of the device, or multiple key attestations signed by certificate chains
-on different cryptographic algorithms.
+attestation.
+A platform attestation would assert the firmware version and other general properties
+of the device.
+Additionally, multiple key attestations could be present, signed by certificate chains
+on that use different cryptographic algorithms.
 
 
 ##  AttestStatement

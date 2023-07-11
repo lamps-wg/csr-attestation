@@ -96,8 +96,8 @@ We assume that an attestation can be broken into the following components:
 
 1. A set of certificates typically containing one or more certificate chains
    rooted in a device manufacture trust anchor and the leaf certificate being
-   on the device in question.
-1. An attestation statement containing Evidence.
+   on the device in question.  This is the Attestation Key.
+1. An attestation statement (claims) containing Evidence.
 
 This document creates two ATTRIBUTE/Attribute definitions. The first
 Attribute may be used to carry a set of certificates or public keys that

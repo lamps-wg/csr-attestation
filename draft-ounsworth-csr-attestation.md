@@ -56,7 +56,7 @@ informative:
 
 --- abstract
 
-Believable claims about a device or device components, such as hardware security modules, can help to improve the assessment of its security posture.
+Believable claims about a device or device's components, such as hardware security modules, can help to improve the assessment of its security posture.
 These claims can include information about the hardware components' manufacturer, the version of installed or running firmware, software installed or running in layers above the firmware, or the presence of hardware components providing specific protected capabilities or shielded locations (e.g., to protect keys).
 Producing, conveying, and appraising such believable claims is enabled via remote attestation procedures where the device takes on the role of an attester and produces evidence that is made available to remote parties in a cryptographically secured way.
 This document describes two new extensions to encode evidence produced by an attester

@@ -1,5 +1,5 @@
 ---
-title: "Use of Attestation with Certification Signing Requests"
+title: "Use of Remote Attestation with Certification Signing Requests"
 abbrev: "CSR Attestation Attributes"
 category: std
 
@@ -56,19 +56,11 @@ informative:
 
 --- abstract
 
-Utilizing information from a device or hardware security module about its posture
-can help to improve security of the overall system. Information about the manufacturer
-of the hardware, the version of the firmware running on this hardware and potentially
-about the layers of software above the firmware, the presence of hardware security
-functionality to protect keys and many more properties can be made available to remote
-parties in a cryptographically secured way. This functionality is accomplished with
-attestation technology.
-
-This document describes extensions to encode evidence produced by an attester
-for inclusion in PKCS10 certificate signing requests. More specifically, two
-new ASN.1 Attribute definitions, and an ASN.1 CLASS definition to convey
-attestation information to a Registration Authority or to a Certification
-Authority are described.
+Believable claims about a device or device components, such as hardware security modules, can help to improve the assessment of its security posture.
+These claims can include information about the hardware components' manufacturer, the version of installed or running firmware, software installed or running in layers above the firmware, or the presence of hardware components providing specific protected capabilities or shielded locations (e.g., to protect keys).
+Producing, conveying, and appraising such believable claims is enabled via remote attestation procedures where the device takes on the role of an attester and produces evidence that is made available to remote parties in a cryptographically secured way.
+This document describes two new extensions to encode evidence produced by an attester
+for inclusion in PKCS10 certificate signing requests: an ASN.1 Attribute definition and an ASN.1 CLASS definition to convey attestation evidence to a Registration Authority or to a Certification Authority.
 
 --- middle
 

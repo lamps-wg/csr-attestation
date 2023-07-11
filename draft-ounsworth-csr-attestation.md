@@ -374,11 +374,10 @@ in a CSR. Some of these attestation formats are based on standards
 while others are proprietary formats. A verifier will need to understand
 these formats for matching the received values against policies.
 
-Policies drive the processing of evidence at the verifier and other
-policies influence the decision making at the relying party when
-evaluating the attestation result. The relying party is ultimately
-responsible for making a decision of what attestation-related
-information in the CSR it will accept. The presence of the attributes
+Policies drive the processing of evidence at the verifier:
+the Verifier's Appraisal Policy for Evidence will often be specified by the manufacturer of a hardware security module.
+
+The relying party is ultimately responsible for making a decision of what attestation-related  information in the CSR it will accept. The presence of the attributes
 defined in this specification provide the relying party with additional
 assurance about attester. Policies used at the verifier and the relying
 party are implementation dependent and out of scope for this document.
@@ -391,8 +390,11 @@ over time. Section 10 of {{RFC9334}} discusses different approaches for
 providing freshness, including a nonce-based approach, the use of timestamps
 and an epoch-based technique.  The use of nonces requires an extra message
 exchange via the relying party and the use of timestamps requires
-synchronized clocks. Epochs also require communication. The definition of
-"fresh" is somewhat ambiguous in the context of CSRs, especially
+synchronized clocks.
+Epochs also require (unidirectional) communication.
+None of these things are practical when interacting with Hardware Security Modules (HSM).
+
+The definition of "fresh" is somewhat ambiguous in the context of CSRs, especially
 considering that non-automated certificate enrollments are often asyncronous,
 and considering the common practice of re-using the same CSR
 for multiple certificate renewals across the lifetime of a key.

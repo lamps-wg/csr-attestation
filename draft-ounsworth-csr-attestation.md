@@ -82,15 +82,13 @@ This specification provides a newly defined attestation attribute
 for carrying remote attestations in PKCS#10 Certification Requests (CSR) {{RFC2986}}.
 
 As outlined in the RATS Architecture {{RFC9334}}, an Attester (typically
-a device) produces a signed collection of Evidence about its running environment,
-often refered to as an "attestation". A Relying Party may consult that
-attestation in making policy decisions about the trustworthiness of the
-entity being attested. {{architecture}} overviews how the various roles
-in the RATS Archictecture map to a certificate requester and a CA/RA.
+a device) produces a signed collection of Evidence about its running environment.
+A Relying Party may consult the Attestation Results in making policy decisions about the trustworthiness of the entity being attested.
+{{architecture}} overviews how the various roles in the RATS Archictecture map to a certificate requester and a CA/RA.
 
-At the time of writing, several standardized and proprietary attestation technologies
-are in use. This specification thereby tries to be technology agnostic with
-regards to the transport of the produced signed claims.
+At the time of writing, several standard and severeal proprietary attestation technologies
+are in use.
+This specification thereby tries to be technology agnostic with regards to the transport of the produced signed claims.
 
 This document is concerned only about the transport of an attesttation
 inside a CSR and makes minimal assumptions about its content or format.

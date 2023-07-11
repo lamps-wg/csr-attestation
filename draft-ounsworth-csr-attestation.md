@@ -234,7 +234,8 @@ AttestStatement ::= SEQUENCE {
 
 The "AttestCertsAttribute" contains a set of certificates that
 may be needed to validate the contents of an attestation statement
-contained in an attestAttribute. The set of certificates should contain
+contained in an AttestAttribute.
+The set of certificates should contain
 the object that contains the public key needed to directly validate the
 AttestAttribute.  The remaining elements should chain that data back to
 an agreed upon root of trust for attestations. No order is implied, it is
@@ -272,16 +273,14 @@ CertificateChoice ::=
 ~~~
 
 "Certificate" is a standard X.509 certificate that MUST be compliant
-with RFC5280.  Enforcement of this constraint is left to the relying
-parties.
+with RFC5280.  Enforcement of this constraint is left to the verifier.
 
-"opaqueCert" should be used sparingly as it requires the receiving
-party to implictly know its format.  It is encoded as an OCTET
-STRING.
+"opaqueCert" should be used sparingly as it requires the verifier to implictly know its format.
+It is encoded as an OCTET STRING.
 
 "TypedCert" is an ASN.1 construct that has the charateristics of a
 certificate, but is not encoded as an X.509 certificate.  The
-certTypeField indicates how to interpret the certBody field.  While
+certType Field (below) indicates how to interpret the certBody field.  While
 it is possible to carry any type of data in this structure, it's
 intended the content field include data for at least one public key
 formatted as a SubjectPublicKeyInfo (see {{RFC5912}}).
@@ -302,8 +301,9 @@ TypedCertSet TYPED-CERT ::= {
 ~~~
 
 "TypedFlatCert" is a certificate that does not have a valid ASN.1
-encoding.  Think compact or implicit certificates as might be used
-with smart cards.  certType indicates the format of the data in the
+encoding.
+These are often compact or implicit certificates used by smart cards.
+certType indicates the format of the data in the
 certBody field, and ideally refers to a published specification.
 
 ~~~

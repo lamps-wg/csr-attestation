@@ -1,0 +1,185 @@
+-- To the extent possible, this uses the definitions from RFC5912
+ 
+
+Attest-2023
+    {iso(1) identified-organization(3) dod(6) internet(1) security(5)
+    mechanisms(5) pkix(7) id-mod(0) id-mod-pkix-attest-01(tbd) }
+
+DEFINITIONS EXPLICIT TAGS ::=
+BEGIN
+ 
+IMPORT
+ 
+Attribute, SingleAttribute, id-pkix, Certificate
+FROM PKIX1Explicit-2009
+      {iso(1) identified-organization(3) dod(6) internet(1)
+      security(5) mechanisms(5) pkix(7) id-mod(0)
+      id-mod-pkix1-explicit-02(51)}
+ 
+ATTRIBUTE,AttributeSet
+FROM PKIX-CommonTypes-2009
+      {iso(1) identified-organization(3) dod(6) internet(1) security(5)
+      mechanisms(5) pkix(7) id-mod(0) id-mod-pkixCommon-02(57)}
+ 
+ 
+-- A general comment is that a certificate is a signed binding between
+-- public key and some identifying info. Below "cert" is an
+-- X.509 certificate of some sort. "opaqueCert" is just string of
+-- bytes that the receiving CA must know how to parse given
+-- information not carried in this object.  "typedCert" and
+-- "typedFlatCert" both using an OID to identify their types, but
+-- differ in that the encoding for typedCert is always valid ASN1,
+-- whereas the typedFlatCert is just a string of bytes that must be
+-- interpreted according to the type.  Note that a typedFlatCert MAY
+-- contain an encapsulated ASN1 object, but this is not the best use
+-- of the type.
+--
+ 
+CertificateChoice ::=
+        CHOICE {
+               cert Certificate, -- typical X.509 cert
+       --        opaqueCert [0] IMPLICIT OCTET STRING, -- an opaque cert who's type  known implicitly to the responder
+               typedCert [1] IMPLICIT TypedCert, -- a typed  cert diff from X.509 but ASN1 parseable
+               typedFlatCert [2] IMPLICIT TypedFlatCert -- typed cert that does not follow ASN1
+        }
+ 
+-- Cribbed from definition of CONTENT-TYPE
+-- Alternately as CertType ::= SingleAttribute
+--
+TYPED-CERT ::= TYPE-IDENTIFIER -- basically an object id and a matching ASN1
+                               -- structure encoded as a sequence
+CertType ::= TYPED-CERT.&id   
+ 
+TypedCert ::= SEQUENCE {
+              certType     TYPED-CERT.&id({TypedCertSet}),
+              content      TYPED-CERT.&Type ({TypedCertSet}{@certType})
+          }
+ 
+TypedCertSet TYPED-CERT ::=
+             ... -- Empty for now, 
+             }
+ 
+
+-- The receiving entity is expected to be able to parse the certBody field
+-- given the value of the certType field.  This differs from TypedCert in that
+-- the contents of the certBody field are not necessarily well formed ASN1
+-- in this case the certType tells you how to parse the body of the OCTET STRING,
+TypedFlatCert ::= SEQUENCE {
+    certType OBJECT IDENTIFIER,
+    certBody OCTET STRING
+}    
+
+ 
+-- The attribute body
+-- only one per CSR?  May actally make sense to have multiple different attestation paths
+-- and have the CA pick the one(s) it wants.  If so, then delete COUNTS MAX below.
+-- Alternately simply: attestAttribute ::= Attribute
+ 
+attestAttribute ATTRIBUTE ::= {
+        TYPE AttestStatement
+        COUNTS MAX 1 
+        IDENTIFIED BY id-at-attestForCSR
+    }
+ 
+-- A sequence of certificates used to validate the attestation chain.  By
+-- convention, the first certificate in the chain is the one that contains
+-- the attestation public key.
+attestCertsAttribute ATTRIBUTE ::= {
+        TYPE SEQUENCE OF CertificateChoice
+        COUNTS MAX 1
+        IDENTIFIED BY id-at-attestChainCerts
+    }
+ 
+--  If the sig is provided seperately, the value field need not
+-- contain the signature.  Note that some attestation methods include
+-- a sig method in the part signed by the sig and some do not.
+ 
+ATTEST-STATEMENT ::= CLASS {
+&id                 OBJECT IDENTIFIER UNIQUE,
+&Type,                  -- NOT optional
+&algidPresent       ParamOptions DEFAULT present,
+&sigPresent         ParamOptions DEFAULT present,
+&ancillaryPresent   ParamOptions DEFAULT present,
+  -- &sigType            SignatureChoice DEFAULT OCTET STRING
+&sigType DEFAULT OCTET STRING -- 
+
+} WITH SYNTAX {
+  TYPE  &Type
+  IDENTIFIED BY &id
+  [ALGID IS &algidPresent]
+  [SIGNATURE [TYPE &sigType] IS &sigPresent]
+  [ANCILLARY IS %ancillaryPresent]
+}
+ 
+AttestStatement { ATTEST-STATEMENT:IOSet}  ::= SEQUENCE
+  {
+    type          ATTEST-STATEMENT.&id({IOSet}),
+    value         ATTEST-STATEMENT.&Type({IOSet}{@type}),
+    algId         [0] IMPLICIT  AlgorithmIdentifier OPTIONAL,
+    signature     [1] ATTEST-STATEMENT.&sigType OPTIONAL -- NOT implicit
+    ancillaryData [2] IMPLICIT  OCTET STRING OPTIONAL
+  }
+ 
+
+--SignatureChoice ::=
+--  CHOICE {
+--    bs BIT STRING,
+--    os OCTET STRING
+--  }
+ 
+
+-- Pick a tree the IETF owns for attributes for id-cra - cert request attributes
+id-cra-attestChainCerts OBJECT IDENTIFIER ::= { id-pkix-cra TBD}
+ 
+id-cra-attestForCSR OBJECT IDENTIFIER ::= { id-pkix-cra  TBD }
+ 
+
+-- A CSR contains at least an attestAttribute if necessary.  If
+-- additional certificates are needed beyond data in the attestation,
+-- they are carred in the attestCertAttributes.  This is specifically so
+-- that the attestation engine does not need to sign these in addition to
+-- the attestation body.
+ 
+
+-- And as a concrete type: (and I'm sure I got the coding wrong -
+-- basically instantiate attestAtribute as a concrete structure).
+ 
+-- value field of this object is the encoded value of the TPMS_ATTEST
+-- structure ( section 10.12.8 of TPM V2 part 2) returned from
+-- TPM2_Certify The signature field must also be provided and is an
+-- OCTET STRING whose body is the encoding of the TPMT_SIGNATURE
+-- 'signature' field.  The algId field is omitted as the signature
+-- field includes that data. The ancillary field contains the Nonce fed
+-- into the call to the TPM2_Certify call, but may be omitted if the
+-- Nonce provided was 20 octets of 0x00.  This encodes as an
+-- attestAttribute above - e.g. SEQUENCE { oid, octet string, [1]
+-- signature, [2] nonce }
+ 
+TPMSAttest ::= OCTET STRING
+ 
+TPMTSignature ::= OCTET STRING
+ 
+TPMAttestAttribute ATTEST-STATEMENT ::= {
+   TYPE TPMSAttest
+   IDENTIFIED BY id-att-tpmv2
+   ALGID IS absent
+   SIGNATURE TYPE TPMTSignature IS present
+   ANCILLARY IS preferredPresent
+   } 
+ 
+WebAuthnOpaqueAttestAttribute ATTEST-STATEMENT ::= {
+   TYPE OCTET STRING
+   IDENTIFIED BY id-att-webauth-opaque
+   }
+ 
+CaBrowserAttribute ATTRIBUTE ::= { TYPE SingleAttribute IDENTIFIED BY id-cabrowser-attribute };
+ 
+ 
+ 
+-- create a registry for attestation attribute type OIDs -- sample
+id-pkix-ata OBJECT IDENTIFIER ::=  { id-pkix tbd }
+id-att-tpmv2  OBJECT IDENTIFIER ::= { id-pkix-ata 1 }
+id-att-tpm-privacyca-enroll OBJECT IDENTIFIER ::=  { id-pkix-ata 2 }
+ 
+ 
+END

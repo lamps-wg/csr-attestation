@@ -1,5 +1,5 @@
 ---
-title: "Use of Remote Attestation with Certification Signing Requests"
+title: "Use of Remote Attestation with Certificate Signing Requests"
 abbrev: "Remote Attestation with CSRs"
 category: std
 
@@ -16,7 +16,7 @@ keyword:
  - PKCS#10
  - Attestation
  - Evidence
- - Certification Signing Requests
+ - Certificate Signing Requests
 venue:
 #  group: LAMPS
 #  type: Working Group
@@ -80,7 +80,7 @@ Authority, a PKI end entity may wish to provide evidence of the security
 properties of the environment in which the private key is stored to be verified
 by a relying party such as the Registration Authority or the Certificate
 Authority. This specification provides a newly defined evidence attribute
-for carrying evidence in PKCS#10 Certification Requests (CSR) {{RFC2986}}.
+for carrying evidence in PKCS#10 Certificate Requests (CSR) {{RFC2986}}.
 
 As outlined in the RATS Architecture {{RFC9334}}, an Attester (typically
 a device) produces evidence about a target environment. RFC 9334 does not
@@ -360,7 +360,7 @@ Columns:
 
 The evidence communicated in the attributes and
 structures defined in this document are meant to be used in
-a PKCS#10 Certification Signing Request (CSR). It is up to the
+a PKCS#10 Certificate Signing Request (CSR). It is up to the
 verifier and to the relying party (RA/CA) to place as much or
 as little trust in this information as dictated by policies.
 

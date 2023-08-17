@@ -84,7 +84,7 @@ for carrying evidence in PKCS#10 Certification Requests (CSR) {{RFC2986}}.
 
 As outlined in the RATS Architecture {{RFC9334}}, an Attester (typically
 a device) produces evidence about a target environment. RFC 9334 does not
-define the term "attestation" but it is often referred as the 
+define the term "attestation" but it is often referred as the
 process of producing evidence and verifying it. A Relying Party may consult that
 evidence in making policy decisions about the trustworthiness of the
 target environment being attested. {{architecture}} overviews how the various roles
@@ -186,7 +186,7 @@ id-pkix OBJECT IDENTIFIER ::= { iso(1) identified-organization(3)
 
 -- S/Mime attributes - can be used here.
 id-aa OBJECT IDENTIFIER ::= {iso(1) member-body(2) usa(840)
-     rsadsi(113549) pkcs(1) pkcs-9(9) smime(16) attributes(2)}
+    rsadsi(113549) pkcs(1) pkcs-9(9) smime(16) attributes(2)}
 
 -- Branch for evidence types
 id-ata OBJECT IDENTIFIER ::= { id-pkix (TBD1) }

@@ -363,6 +363,62 @@ Columns:
 
 # Security Considerations
 
+
+A certification request consists of a distinguished name, a public key,
+and optionally a set of attributes, collectively signed by the entity
+requesting certification. The private key used to sign the CSR MUST
+be different from the key used to sign evidence by the attester. To 
+demonstrate that the private key used to sign the CSR is generated,
+stored, and used in a secure environment that has controls to prevent
+theft or misuse (including being non-exportable / non-recoverable),
+the attesting environment has to collect claims about this secure
+environment (or target environment, as shown in {{fig-attester}}).
+
+{{fig-attester}} shows the interaction inside an attester. The
+attesting environment, which is provisioned with an attestation key,
+retrieves claims about the target environment. The target
+environment offers key generation, storage and usage, which it
+makes available to services. The attesting environment collects
+these claims about the target environment and signs them and
+exports evidence for use in remote attestation via a CSR.
+
+~~~
+                   ^
+                   |CSR with
+                   |Evidence
+     .-------------+-------------.
+     |                           |
+     |       CSR Library         |<-----+
+     |                           |      |
+     '---------------------------'      |
+            |  ^         ^              |
+ Private    |  | Public  | Signature    |
+ Key        |  | Key     | Operation    |
+ Generation |  | Export  |              |
+            |  |         |              |
+ .----------|--|---------|------------. |
+ |          |  |         |    Attester| |
+ |          v  |         v            | |
+ |    .-----------------------.       | |
+ |    | Target Environment    |       | |
+ |    | (with key generation, |       | |
+ |    | storage and usage)    |       | |
+ |    '--------------+--------'       | |
+ |                   |                | |
+ |           Collect |                | |
+ |            Claims |                | |
+ |                   |                | |
+ |                   v                | |
+ |             .-------------.        | |
+ |Attestation  | Attesting   |        | |
+ |   Key ----->| Environment +----------+
+ |             |             |Evidence|
+ |             '-------------'        |
+ |                                    |
+ '------------------------------------'
+~~~
+{: #fig-attester title="Interaction between Attesting and Target Environment"}
+
 The attestation evidence communicated in the attributes and
 structures defined in this document are meant to be used in
 a PKCS10 Certification Signing Request (CSR). It is up to the

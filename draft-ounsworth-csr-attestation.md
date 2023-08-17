@@ -363,7 +363,7 @@ Columns:
 
 # Security Considerations
 
-A certification request consists of a distinguished name, a public key,
+A PKCS#10 certification request message consists of a distinguished name, a public key,
 and optionally a set of attributes, collectively signed by the entity
 requesting certification. The private key used to sign the CSR MUST
 be different from the key used to sign evidence by the attester. To

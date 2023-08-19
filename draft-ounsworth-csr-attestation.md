@@ -53,6 +53,12 @@ informative:
      title: Trusted Platform Module Library Specification, Family 2.0, Level 00, Revision 01.59
      target: https://trustedcomputinggroup.org/resource/tpm-library-specification/
      date: November 2019
+ CSBRv3.3:
+     author:
+        org: CA/Browser Forum
+     title: Baseline Requirements for Code-Signing Certificates, v.3.3
+     target: https://cabforum.org/wp-content/uploads/Baseline-Requirements-for-the-Issuance-and-Management-of-Code-Signing.v3.3.pdf
+     date: June 29, 2023
 
 --- abstract
 
@@ -88,7 +94,7 @@ A Relying Party may consult the Attestation Results in making policy decisions a
 
 At the time of writing, several standard and several proprietary attestation technologies
 are in use.
-This specification thereby tries to be technology agnostic with regards to the transport of the produced signed claims.
+This specification thereby tries to be technology-agnostic with regards to the transport of the produced signed claims.
 
 This document is concerned only about the transport of an attesttation
 inside a CSR and makes minimal assumptions about its content or format.
@@ -213,7 +219,7 @@ attestation.
 A platform attestation would assert the firmware version and other general properties
 of the device.
 Additionally, multiple key attestations could be present, signed by certificate chains
-on that use different cryptographic algorithms.
+that use different cryptographic algorithms.
 
 
 ##  AttestStatement
@@ -375,7 +381,7 @@ while others are proprietary formats. A verifier will need to understand
 these formats for matching the received values against policies.
 
 Policies drive the processing of evidence at the verifier:
-the Verifier's Appraisal Policy for Evidence will often be specified by the manufacturer of a hardware security module.
+the Verifier's Appraisal Policy for Evidence will often be specified by the manufacturer of a hardware security module or specified by a regulatory body such as the CA Browser Forum Code-Signing Baseline Requirements {{CSBRv3.3}} which specifies certain properties, such as non-exportability, which must be enabled for storing publicly-trusted code-signing keys.
 
 The relying party is ultimately responsible for making a decision of what attestation-related  information in the CSR it will accept. The presence of the attributes
 defined in this specification provide the relying party with additional

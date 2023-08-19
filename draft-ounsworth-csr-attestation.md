@@ -75,7 +75,7 @@ Authority are described.
 # Introduction
 
 At the time that it is requesting a certificate from a Certification
-Authority, a PKI end entity may wish to provide evidence of the security
+Authority (CA), a PKI end entity may wish to provide evidence of the security
 properties of the environment in which the private key is stored.
 This evidence, once verified, may be used by a relying party such as a Registration Authority or the Certificate Authority as part of a signing policy.
 This specification provides a newly defined attestation attribute

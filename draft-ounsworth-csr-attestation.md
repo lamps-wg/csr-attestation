@@ -86,7 +86,7 @@ a device) produces a signed collection of Evidence about its running environment
 A Relying Party may consult the Attestation Results in making policy decisions about the trustworthiness of the entity being attested.
 {{architecture}} overviews how the various roles in the RATS Archictecture map to a certificate requester and a CA/RA.
 
-At the time of writing, several standard and severeal proprietary attestation technologies
+At the time of writing, several standard and several proprietary attestation technologies
 are in use.
 This specification thereby tries to be technology agnostic with regards to the transport of the produced signed claims.
 

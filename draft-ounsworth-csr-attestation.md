@@ -240,10 +240,11 @@ AttestAttribute.  The remaining elements should chain that data back to
 an agreed upon root of trust for attestations. No order is implied, it is
 the Verifier's responsibility to perform the appropriate certificate path building.
 
-A CSR MUST contain at most 1 `AttestCertsAttribute`. In the case where
+A CSR MUST contain  zero or  one `AttestCertsAttribute`. In the case where
 the CSR contains multiple instances of `AttestAttribute` representing
 multiple attestations, all necessary certificates MUST be contained in
-the same instance of `AttestCertsAttribute`.
+the same instance of `AttestCertsAttribute`. 
+`AttestCertsAttribute` MAY be omitted if there are no certificates to convey, for example if they are already known to the verifier, or if they are contained in the evidence statement.
 
 ~~~
 id-aa-attestChainCerts OBJECT IDENTIFIER ::= { id-aa (TBDAA1) }

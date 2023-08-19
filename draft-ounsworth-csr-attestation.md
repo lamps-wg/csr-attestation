@@ -53,6 +53,12 @@ informative:
      title: Trusted Platform Module Library Specification, Family 2.0, Level 00, Revision 01.59
      target: https://trustedcomputinggroup.org/resource/tpm-library-specification/
      date: November 2019
+ CSBRv3.3:
+     author:
+        org: CA/Browser Forum
+     title: Baseline Requirements for Code-Signing Certificates, v.3.3
+     target: https://cabforum.org/wp-content/uploads/Baseline-Requirements-for-the-Issuance-and-Management-of-Code-Signing.v3.3.pdf
+     date: June 29, 2023
 
 --- abstract
 
@@ -75,22 +81,20 @@ Authority are described.
 # Introduction
 
 At the time that it is requesting a certificate from a Certification
-Authority, a PKI end entity may wish to provide evidence of the security
-properties of the environment in which the private key is stored to be verified
-by a relying party such as the Registration Authority or the Certificate
-Authority. This specification provides a newly defined attestation attribute
+Authority (CA), a PKI end entity may wish to provide evidence of the security
+properties of the environment in which the private key is stored.
+This evidence, once verified, may be used by a relying party such as a Registration Authority or the Certificate Authority as part of a signing policy.
+This specification provides a newly defined attestation attribute
 for carrying remote attestations in PKCS#10 Certification Requests (CSR) {{RFC2986}}.
 
 As outlined in the RATS Architecture {{RFC9334}}, an Attester (typically
-a device) produces a signed collection of Evidence about its running environment,
-often refered to as an "attestation". A Relying Party may consult that
-attestation in making policy decisions about the trustworthiness of the
-entity being attested. {{architecture}} overviews how the various roles
-in the RATS Archictecture map to a certificate requester and a CA/RA.
+a device) produces a signed collection of Evidence about its running environment.
+A Relying Party may consult the Attestation Results in making policy decisions about the trustworthiness of the entity being attested.
+{{architecture}} overviews how the various roles in the RATS Archictecture map to a certificate requester and a CA/RA.
 
-At the time of writing, several standardized and proprietary attestation technologies
-are in use. This specification thereby tries to be technology agnostic with
-regards to the transport of the produced signed claims.
+At the time of writing, several standard and several proprietary attestation technologies
+are in use.
+This specification thereby tries to be technology-agnostic with regards to the transport of the produced signed claims.
 
 This document is concerned only about the transport of an attesttation
 inside a CSR and makes minimal assumptions about its content or format.
@@ -98,8 +102,8 @@ We assume that an attestation can be broken into the following components:
 
 1. A set of certificates typically containing one or more certificate chains
    rooted in a device manufacture trust anchor and the leaf certificate being
-   on the device in question.
-1. An attestation statement containing Evidence.
+   on the device in question.  This is the Attestation Key.
+1. An attestation statement (claims) containing Evidence.
 
 This document creates two ATTRIBUTE/Attribute definitions. The first
 Attribute may be used to carry a set of certificates or public keys that
@@ -208,12 +212,14 @@ AttestAttribute ATTRIBUTE ::= {
 }
 ~~~
 
-A CSR MAY contain one or more instance of `AttestAttribute` to allow,
-for example a key attestation
+A CSR MAY contain one or more instances of `AttestAttribute`.
+This allows for example a key attestation
 asserting the storage properties of the private key as well as a platform
-attestation asserting the firmware version and other general properties
-of the device, or multiple key attestations signed by certificate chains
-on different cryptographic algorithms.
+attestation.
+A platform attestation would assert the firmware version and other general properties
+of the device.
+Additionally, multiple key attestations could be present, signed by certificate chains
+that use different cryptographic algorithms.
 
 
 ##  AttestStatement
@@ -234,7 +240,8 @@ AttestStatement ::= SEQUENCE {
 
 The "AttestCertsAttribute" contains a set of certificates that
 may be needed to validate the contents of an attestation statement
-contained in an attestAttribute. The set of certificates should contain
+contained in an AttestAttribute.
+The set of certificates should contain
 the object that contains the public key needed to directly validate the
 AttestAttribute.  The remaining elements should chain that data back to
 an agreed upon root of trust for attestations. No order is implied, it is
@@ -273,16 +280,14 @@ CertificateChoice ::=
 ~~~
 
 "Certificate" is a standard X.509 certificate that MUST be compliant
-with RFC5280.  Enforcement of this constraint is left to the relying
-parties.
+with RFC5280.  Enforcement of this constraint is left to the verifier.
 
-"opaqueCert" should be used sparingly as it requires the receiving
-party to implictly know its format.  It is encoded as an OCTET
-STRING.
+"opaqueCert" should be used sparingly as it requires the verifier to implictly know its format.
+It is encoded as an OCTET STRING.
 
 "TypedCert" is an ASN.1 construct that has the charateristics of a
 certificate, but is not encoded as an X.509 certificate.  The
-certTypeField indicates how to interpret the certBody field.  While
+certType Field (below) indicates how to interpret the certBody field.  While
 it is possible to carry any type of data in this structure, it's
 intended the content field include data for at least one public key
 formatted as a SubjectPublicKeyInfo (see {{RFC5912}}).
@@ -303,8 +308,9 @@ TypedCertSet TYPED-CERT ::= {
 ~~~
 
 "TypedFlatCert" is a certificate that does not have a valid ASN.1
-encoding.  Think compact or implicit certificates as might be used
-with smart cards.  certType indicates the format of the data in the
+encoding.
+These are often compact or implicit certificates used by smart cards.
+certType indicates the format of the data in the
 certBody field, and ideally refers to a published specification.
 
 ~~~
@@ -375,11 +381,10 @@ in a CSR. Some of these attestation formats are based on standards
 while others are proprietary formats. A verifier will need to understand
 these formats for matching the received values against policies.
 
-Policies drive the processing of evidence at the verifier and other
-policies influence the decision making at the relying party when
-evaluating the attestation result. The relying party is ultimately
-responsible for making a decision of what attestation-related
-information in the CSR it will accept. The presence of the attributes
+Policies drive the processing of evidence at the verifier:
+the Verifier's Appraisal Policy for Evidence will often be specified by the manufacturer of a hardware security module or specified by a regulatory body such as the CA Browser Forum Code-Signing Baseline Requirements {{CSBRv3.3}} which specifies certain properties, such as non-exportability, which must be enabled for storing publicly-trusted code-signing keys.
+
+The relying party is ultimately responsible for making a decision of what attestation-related  information in the CSR it will accept. The presence of the attributes
 defined in this specification provide the relying party with additional
 assurance about attester. Policies used at the verifier and the relying
 party are implementation dependent and out of scope for this document.
@@ -392,8 +397,11 @@ over time. Section 10 of {{RFC9334}} discusses different approaches for
 providing freshness, including a nonce-based approach, the use of timestamps
 and an epoch-based technique.  The use of nonces requires an extra message
 exchange via the relying party and the use of timestamps requires
-synchronized clocks. Epochs also require communication. The definition of
-"fresh" is somewhat ambiguous in the context of CSRs, especially
+synchronized clocks.
+Epochs also require (unidirectional) communication.
+None of these things are practical when interacting with Hardware Security Modules (HSM).
+
+The definition of "fresh" is somewhat ambiguous in the context of CSRs, especially
 considering that non-automated certificate enrollments are often asyncronous,
 and considering the common practice of re-using the same CSR
 for multiple certificate renewals across the lifetime of a key.

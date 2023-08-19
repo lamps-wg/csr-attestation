@@ -1,5 +1,5 @@
 ---
-title: "Use of Attestation with Certification Signing Requests"
+title: "Use of Remote Attestation with Certification Signing Requests"
 abbrev: "CSR Attestation Attributes"
 category: std
 
@@ -62,19 +62,12 @@ informative:
 
 --- abstract
 
-Utilizing information from a device or hardware security module about its posture
-can help to improve security of the overall system. Information about the manufacturer
-of the hardware, the version of the firmware running on this hardware and potentially
-about the layers of software above the firmware, the presence of hardware security
-functionality to protect keys and many more properties can be made available to remote
-parties in a cryptographically secured way. This functionality is accomplished with
-attestation technology.
-
-This document describes extensions to encode evidence produced by an attester
-for inclusion in PKCS10 certificate signing requests. More specifically, two
-new ASN.1 Attribute definitions, and an ASN.1 CLASS definition to convey
-attestation information to a Registration Authority or to a Certification
-Authority are described.
+A client requesting a certificate from a Certification Authority (CA) may wish to offer believable claims about the protections afforded to the corresponding private key, such as whether the private key resides on a hardware securtiy model or trusted platform module, and the protection capabilities provided by the hardware module.
+Including this evidence along with the certificate request can help to improve the assessment of the security posture for the private key, and suitability of the submitted key to the requested certificate profile.
+These evidence claims can include information about the hardware component's manufacturer, the version of installed or running firmware, the version of software installed or running in layers above the firmware, or the presence of hardware components providing specific protection capabilities or shielded locations (e.g., to protect keys).
+Producing, conveying, and appraising such believable claims is enabled via remote attestation procedures where the device holding the private key takes on the role of an attester and produces evidence that is made available to remote parties in a cryptographically secured way.
+This document describes two new extensions to encode evidence produced by an attester
+for inclusion in PKCS#10 or CRMF certificate signing requests: an ASN.1 Attribute or Extension definition to convey a cryptographically-signed evidence statement to a Registration Authority or to a Certification Authority, and an ASN.1 Attribute or Extension to carry any certificates necessary for validating the cryptographically-signed evidence statement.
 
 --- middle
 

@@ -199,17 +199,25 @@ evidence statements of a type "EvidenceStatement".
 ~~~
 id-aa-evidenceStatement OBJECT IDENTIFIER ::= { id-aa (TBDAA2) }
 
-EvidenceAttribute ATTRIBUTE ::= {
-  TYPE EvidencetStatement
+-- For PKCS#10
+attr-evidence ATTRIBUTE ::= {
+  TYPE EvidenceStatement
+  IDENTIFIED BY id-aa-evidenceStatement
+}
+
+-- For CRMF
+ext-evidence EXTENSION ::= {
+  TYPE EvidenceStatement
   IDENTIFIED BY id-aa-evidenceStatement
 }
 ~~~
 
 A CSR MAY contain one or more instance of `EvidenceAttribute`.
 
+The Extension version is intended only for use within CRMF CSRs and is NOT RECOMMENDED for use within X.509 certificates due to the privacy implications of publishing evidence about the end entity's hardware environment. See {{security-considerations}} for more discussion.
 
 
-##  AttestStatement
+##  EvidenceStatement
 
 An AttestStatement is a simple type-value pair encoded as
 a sequence, of which the type of the "value" field is
@@ -217,13 +225,13 @@ controlled by the value of the "type" field, similar to an Attribute
 definition.
 
 ~~~
-AttestStatement ::= SEQUENCE {
+EvidenceStatement ::= SEQUENCE {
   type   OBJECT IDENTIFIER,
   value  ANY
 }
 ~~~
 
-##  EvidenceCertsAttribute
+##  EvidenceCerts
 
 The "EvidenceCertsAttribute" contains a set of certificates that
 may be needed to validate the contents of an evidence statement
@@ -244,13 +252,22 @@ the same instance of `EvidenceCertsAttribute`.
 ~~~
 id-aa-evidenceChainCerts OBJECT IDENTIFIER ::= { id-aa (TBDAA1) }
 
-EvidenceCertsAttribute ATTRIBUTE ::= {
-  TYPE SET OF CertificateChoice
+-- For PKCS#10
+attr-evidenceCerts ATTRIBUTE ::= {
+  TYPE SEQUENCE OF CertificateChoice
+  COUNTS MAX 1
+  IDENTIFIED BY id-aa-evidenceChainCerts
+}
+
+-- For CRMF
+ext-evidenceCerts EXTENSION ::= {
+  TYPE SEQUENCE OF CertificateChoice
   COUNTS MAX 1
   IDENTIFIED BY id-aa-evidenceChainCerts
 }
 ~~~
 
+The Extension version is intended only for use within CRMF CSRs and is NOT RECOMMENDED for use within X.509 certificates due to the privacy implications of publishing evidence about the end entity's hardware environment. See {{security-considerations}} for more discussion.
 
 ##  CertificateChoice
 
@@ -401,6 +418,13 @@ Developers, operators, and designers of protocols which embed
 evidence-carrying-CSRs need to consider what notion of freshness is
 appropriate and available in-context; thus the issue of freshness is
 out-of-scope for this document.
+
+## Publishing evidence in an X.509 extension
+
+This document specifies and Extension for carrying evidence in a CRMF Certificate Signing Request (CSR), but it is intentionally NOT RECOMMENDED for a CA to copy the ext-evidence or ext-evidenceCerts extensions into the published certificate.
+The reason for this is that certificates are considered public information and the evidence might contain detailed information about hardware and patch levels of the device on which the private key resides. 
+The certificate requester has consented to sharing this detailed device information with the CA but might not consent to having these details published.
+These privacy considerations are beyond the scope of this document and may require additional signaling mechanisms in the CSR to prevent unintended publication of sensitive information, so we leave it as "NOT RECOMMENDED".
 
 --- back
 

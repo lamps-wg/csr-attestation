@@ -67,7 +67,7 @@ id-aa-evidenceStatement OBJECT IDENTIFIER ::= { id-aa (TBDAA2) }
 TODO -- run this through a compiler.
 
 -- For PKCS#10
-ext-evidence ATTRIBUTE ::= {
+attr-evidence ATTRIBUTE ::= {
   TYPE EvidenceStatement
   IDENTIFIED BY id-aa-evidenceStatement
 }
@@ -89,14 +89,14 @@ id-aa-evidenceChainCerts OBJECT IDENTIFIER ::= { id-aa (TBDAA1) }
 
 
 -- For PKCS#10
-evidenceCertsAttribute ATTRIBUTE ::= {
+attr-evidenceCerts ATTRIBUTE ::= {
   TYPE SEQUENCE OF CertificateChoice
   COUNTS MAX 1
   IDENTIFIED BY id-aa-evidenceChainCerts
 }
 
 -- For CRMF
-evidenceCertsAttribute EXTENSION ::= {
+ext-evidenceCerts EXTENSION ::= {
   TYPE SEQUENCE OF CertificateChoice
   COUNTS MAX 1
   IDENTIFIED BY id-aa-evidenceChainCerts

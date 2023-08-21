@@ -65,21 +65,20 @@ id-aa-evidenceStatement OBJECT IDENTIFIER ::= { id-aa (TBDAA2) }
 
 
 TODO -- run this through a compiler.
-TODO -- look at Carl's draft to understand the "SYNTAX KeyAttestation IDENTIFIED BY.." syntax. Is that useful here?
 
 -- For PKCS#10
 ext-evidence ATTRIBUTE ::= {
-  TYPE AttestStatement
-  IDENTIFIED BY id-aa-attestStatement
+  TYPE EvidenceStatement
+  IDENTIFIED BY id-aa-evidenceStatement
 }
 
 -- For CRMF
 ext-evidence EXTENSION ::= {
-  TYPE AttestStatement
-  IDENTIFIED BY id-aa-attestStatement
+  TYPE EvidenceStatement
+  IDENTIFIED BY id-aa-evidenceStatement
 }
 
-AttestStatement ::= SEQUENCE
+EvidenceStatement ::= SEQUENCE
   {
     type   OBJECT IDENTIFIER,
     value  ANY
@@ -93,14 +92,14 @@ id-aa-evidenceChainCerts OBJECT IDENTIFIER ::= { id-aa (TBDAA1) }
 evidenceCertsAttribute ATTRIBUTE ::= {
   TYPE SEQUENCE OF CertificateChoice
   COUNTS MAX 1
-  IDENTIFIED BY id-aa-attestChainCerts
+  IDENTIFIED BY id-aa-evidenceChainCerts
 }
 
 -- For CRMF
 evidenceCertsAttribute EXTENSION ::= {
   TYPE SEQUENCE OF CertificateChoice
   COUNTS MAX 1
-  IDENTIFIED BY id-aa-attestChainCerts
+  IDENTIFIED BY id-aa-evidenceChainCerts
 }
 
 END

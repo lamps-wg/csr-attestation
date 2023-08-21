@@ -1,6 +1,6 @@
 ---
-title: "Use of Attestation with Certification Signing Requests"
-abbrev: "CSR Attestation Attributes"
+title: "Use of Remote Attestation with Certificate Signing Requests"
+abbrev: "CSR Remote Attestation"
 category: std
 
 docname: draft-ounsworth-csr-attestation-latest
@@ -65,7 +65,7 @@ parties in a cryptographically secured way. This functionality is accomplished w
 attestation technology.
 
 This document describes extensions to encode evidence produced by an attester
-for inclusion in PKCS10 certificate signing requests. More specifically, two
+for inclusion in PKCS#10 certificate signing requests. More specifically, two
 new ASN.1 Attribute definitions, and an ASN.1 CLASS definition to convey
 attestation information to a Registration Authority or to a Certification
 Authority are described.
@@ -79,7 +79,7 @@ Authority, a PKI end entity may wish to provide evidence of the security
 properties of the environment in which the private key is stored to be verified
 by a relying party such as the Registration Authority or the Certificate
 Authority. This specification provides a newly defined attestation attribute
-for carrying remote attestations in PKCS#10 Certification Requests (CSR) {{RFC2986}}.
+for carrying remote attestations in certificate signing requests (CSRs).
 
 As outlined in the RATS Architecture {{RFC9334}}, an Attester (typically
 a device) produces a signed collection of Evidence about its running environment,
@@ -363,7 +363,8 @@ Columns:
 
 # Security Considerations
 
-A PKCS#10 certification request message consists of a distinguished name, a public key,
+A PKCS#10 certification request message {{RFC2986}}consists of a
+distinguished name, a public key,
 and optionally a set of attributes, collectively signed by the entity
 requesting certification. The private key used to sign the CSR MUST
 be different from the key used to sign evidence by the attester. To

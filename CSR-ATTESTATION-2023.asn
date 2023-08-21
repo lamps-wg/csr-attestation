@@ -12,7 +12,13 @@ IMPORTS
 Certificate
   FROM PKCS-9 
     { iso(1) member-body(2) us(840) rsadsi(113549) pkcs(1) pkcs-9(9) 
-      modules(0) pkcs-9(1) };
+      modules(0) pkcs-9(1) }
+
+EXTENSION, ATTRIBUTE
+    FROM PKIX-CommonTypes-2009 -- from [RFC5912]
+    { iso(1) identified-organization(3) dod(6) internet(1) security(5)
+      mechanisms(5) pkix(7) id-mod(0) id-mod-pkixCommon-02(57) }
+  ;
 
 
 
@@ -55,25 +61,45 @@ TypedFlatCert ::= SEQUENCE {
 }
 
 
-id-aa-attestStatement OBJECT IDENTIFIER ::= { id-aa (TBDAA2) }
+id-aa-evidenceStatement OBJECT IDENTIFIER ::= { id-aa (TBDAA2) }
 
-AttestAttribute ATTRIBUTE ::= {
-  TYPE AttestStatement
-  IDENTIFIED BY id-aa-attestStatement
+
+TODO -- run this through a compiler.
+
+-- For PKCS#10
+ext-evidence ATTRIBUTE ::= {
+  TYPE EvidenceStatement
+  IDENTIFIED BY id-aa-evidenceStatement
 }
 
-id-aa-attestChainCerts OBJECT IDENTIFIER ::= { id-aa (TBDAA1) }
-
-attestCertsAttribute ATTRIBUTE ::= {
-  TYPE SEQUENCE OF CertificateChoice
-  COUNTS MAX 1
-  IDENTIFIED BY id-aa-attestChainCerts
+-- For CRMF
+ext-evidence EXTENSION ::= {
+  TYPE EvidenceStatement
+  IDENTIFIED BY id-aa-evidenceStatement
 }
 
-AttestStatement ::= SEQUENCE
+EvidenceStatement ::= SEQUENCE
   {
     type   OBJECT IDENTIFIER,
     value  ANY
   }
+
+
+id-aa-evidenceChainCerts OBJECT IDENTIFIER ::= { id-aa (TBDAA1) }
+
+
+-- For PKCS#10
+evidenceCertsAttribute ATTRIBUTE ::= {
+  TYPE SEQUENCE OF CertificateChoice
+  COUNTS MAX 1
+  IDENTIFIED BY id-aa-evidenceChainCerts
+}
+
+-- For CRMF
+evidenceCertsAttribute EXTENSION ::= {
+  TYPE SEQUENCE OF CertificateChoice
+  COUNTS MAX 1
+  IDENTIFIED BY id-aa-evidenceChainCerts
+}
 
 END

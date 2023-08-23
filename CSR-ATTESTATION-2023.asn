@@ -61,10 +61,25 @@ TypedFlatCert ::= SEQUENCE {
 }
 
 
-id-aa-evidenceStatement OBJECT IDENTIFIER ::= { id-aa (TBDAA2) }
+EVIDENCE-STATEMENT ::= CLASS {
+  &id     OBJECT IDENTIFIER UNIQUE,
+  &Type
+} WITH SYNTAX {
+  TYPE &Type
+  IDENTIFIED BY &id
+}
+
+EvidenceStatement {EVIDENCE-STATEMENT:IOSet} ::= SEQUENCE 
+{
+  type   EVIDENCE-STATEMENT.&Type({IOSet}{@type}),
+  id     EVIDENCE-STATEMENT.&id({IOSet})
+}
 
 
 TODO -- run this through a compiler.
+
+
+id-aa-evidenceStatement OBJECT IDENTIFIER ::= { id-aa (TBDAA2) }
 
 -- For PKCS#10
 attr-evidence ATTRIBUTE ::= {
@@ -77,12 +92,6 @@ ext-evidence EXTENSION ::= {
   TYPE EvidenceStatement
   IDENTIFIED BY id-aa-evidenceStatement
 }
-
-EvidenceStatement ::= SEQUENCE
-  {
-    type   OBJECT IDENTIFIER,
-    value  ANY
-  }
 
 
 id-aa-evidenceChainCerts OBJECT IDENTIFIER ::= { id-aa (TBDAA1) }

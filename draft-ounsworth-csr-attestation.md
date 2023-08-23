@@ -380,7 +380,7 @@ Columns:
 
 The evidence communicated in the attributes and
 structures defined in this document are meant to be used in
-a PKCS#10 Certificate Signing Request (CSR). It is up to the
+a PKCS#10 or CRMF Certificate Signing Request (CSR). It is up to the
 verifier and to the relying party (RA/CA) to place as much or
 as little trust in this information as dictated by policies.
 

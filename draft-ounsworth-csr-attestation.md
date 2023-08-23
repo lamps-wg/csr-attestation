@@ -45,22 +45,23 @@ author:
 normative:
     RFC9334:
     RFC5912:
+    RFC4211:
 
 informative:
   RFC2986:
   I-D.tschofenig-rats-psa-token:
   TPM20:
-     author:
-        org: Trusted Computing Group
-     title: Trusted Platform Module Library Specification, Family 2.0, Level 00, Revision 01.59
-     target: https://trustedcomputinggroup.org/resource/tpm-library-specification/
-     date: November 2019
- CSBRv3.3:
-     author:
-        org: CA/Browser Forum
-     title: Baseline Requirements for Code-Signing Certificates, v.3.3
-     target: https://cabforum.org/wp-content/uploads/Baseline-Requirements-for-the-Issuance-and-Management-of-Code-Signing.v3.3.pdf
-     date: June 29, 2023
+    author:
+      org: Trusted Computing Group
+    title: Trusted Platform Module Library Specification, Family 2.0, Level 00, Revision 01.59
+    date: November 2019
+    target: https://trustedcomputinggroup.org/resource/tpm-library-specification/
+  CSBR:
+    author:
+      org: CA/Browser Forum
+    title: Baseline Requirements for Code-Signing Certificates, v.3.3
+    date: June 2023
+    target: https://cabforum.org/wp-content/uploads/Baseline-Requirements-for-the-Issuance-and-Management-of-Code-Signing.v3.3.pdf
 
 --- abstract
 
@@ -75,7 +76,7 @@ for inclusion in PKCS#10 or CRMF certificate signing requests: an ASN.1 Attribut
 
 # Introduction
 
-At the time that it is requesting a certificate from a Certification Authority (CA), a PKI end entity may wish to provide evidence of the security properties of the environment in which the private key is stored. 
+At the time that it is requesting a certificate from a Certification Authority (CA), a PKI end entity may wish to provide evidence of the security properties of the environment in which the private key is stored.
 This evidence is to be verified by a relying party such as the Registration Authority or the Certificate Authority as part of validating an incoming certificate request against a given certificate policy.
 This specification provides a newly defined evidence attribute for carrying evidence in Certificate Requests (CSR) in either PKCS#10 {{RFC2986}} or Certificate Request Message Format (CRMF) {{RFC4211}}.
 
@@ -389,7 +390,7 @@ while others are proprietary formats. A verifier will need to understand
 these formats for matching the received values against policies.
 
 Policies drive the processing of evidence at the verifier:
-the Verifier's Appraisal Policy for Evidence will often be specified by the manufacturer of a hardware security module or specified by a regulatory body such as the CA Browser Forum Code-Signing Baseline Requirements {{CSBRv3.3}} which specifies certain properties, such as non-exportability, which must be enabled for storing publicly-trusted code-signing keys.
+the Verifier's Appraisal Policy for Evidence will often be specified by the manufacturer of a hardware security module or specified by a regulatory body such as the CA Browser Forum Code-Signing Baseline Requirements {{CSBR}} which specifies certain properties, such as non-exportability, which must be enabled for storing publicly-trusted code-signing keys.
 
 The relying party is ultimately responsible for making a decision of what attestation-related  information in the CSR it will accept. The presence of the attributes
 defined in this specification provide the relying party with additional

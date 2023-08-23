@@ -129,6 +129,17 @@ attestation. Readers of this document are assumed to be familiar with
 the following terms: evidence, claim, attestation result, attester,
 verifier, and relying party.
 
+The term "Certification Request" message is defined in {{RFC2986}}.
+Specifications later introduced the term "Certificate Signing Request
+(CSR)" to refer to Certification Request message. While the term
+"Certification Signing Request" would have been more appropriate,
+it is not what has been selected. While the term CSR is often used
+in context of PKCS#10 it is equally applicable to other protocols
+that use a different syntax and even a different encoding, in particular
+this document also considers Certificate Request Message Format (CRMF)
+{{?RFC4211}} to be "CSRs". We use the terms "CSR" and Certification Request
+message interchangeably.
+
 # Architecture {#architecture}
 
 {{fig-arch}} shows the high-level communication pattern of the RATS passport
@@ -174,7 +185,7 @@ This aspect is described in Section 12 of RFC 9334. Most of these aspects are,
 however, outside the scope of this specification but relevant for use with a
 given attestation technology. The focus of this specification is on the
 transport of evidence from the attester to the relying party via existing
-certification request messages.
+certificate signing request messages.
 
 # ASN.1 Elements
 
@@ -363,9 +374,10 @@ Columns:
 
 # Security Considerations
 
-A PKCS#10 certification request message consists of a distinguished name, a public key,
-and optionally a set of attributes, collectively signed by the entity
-requesting certification. The private key used to sign the CSR MUST
+A PKCS#10 or CRMF Certification Request message consists of a
+distinguished name, a public key, and optionally a set of attributes,
+collectively signed by the entity requesting certification.
+The private key used to sign the CSR MUST
 be different from the key used to sign evidence by the attester. To
 demonstrate that the private key used to sign the CSR is generated,
 stored, and used in a secure environment that has controls to prevent

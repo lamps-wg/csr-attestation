@@ -3,7 +3,7 @@ title: "Use of Remote Attestation with Certificate Signing Requests"
 abbrev: "Remote Attestation with CSRs"
 category: std
 
-docname: draft-ounsworth-csr-attestation-latest
+docname: draft-ietf-lamps-csr-attestation-latest
 submissiontype: IETF
 number:
 date:

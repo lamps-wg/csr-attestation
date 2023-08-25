@@ -382,7 +382,7 @@ be different from the Attesting Environment key used to sign Evidence about the 
 demonstrate that the private key used to sign the CSR is generated,
 stored, and used in a secure environment that has controls to prevent
 theft or misuse (including being non-exportable / non-recoverable),
-the attesting environment has to collect claims about this secure
+the Attesting Environment has to collect claims about this secure
 environment (or target environment, as shown in {{fig-attester}}).
 
 {{fig-attester}} shows the interaction inside an attester. The

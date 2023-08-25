@@ -127,7 +127,7 @@ specifications.
 This document re-uses the terms defined in RFC 9334 related to remote
 attestation. Readers of this document are assumed to be familiar with
 the following terms: Evidence, Claim, Attestation Results (AR), Attester,
-verifier, and relying party.
+Verifier, and Relying Party (RP).
 
 The term "Certification Request" message is defined in {{RFC2986}}.
 Specifications later introduced the term "Certificate Signing Request

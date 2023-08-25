@@ -421,7 +421,7 @@ Also, HSMs are typically designed to not allow downgrade of private key storage
 properties; for example if a given key was asserted at time T to have been
 generated inside the hardware boundary and to be non-exportable,
 then it can be assumed that those properties of that key will continue
-to hold into the future, thus making freshness largely moot.
+to hold into the future.
 Developers, operators, and designers of protocols which embed
 evidence-carrying-CSRs need to consider what notion of freshness is
 appropriate and available in-context; thus the issue of freshness is

@@ -411,7 +411,7 @@ exports evidence for use in remote attestation via a CSR.
  |          |  |         |    Attester| |
  |          v  |         v            | |
  |    .-----------------------.       | |
- |    | Target Environment    |       | |
+ |    | Target Environment(TE)|       | |
  |    | (with key generation, |       | |
  |    | storage and usage)    |       | |
  |    '--------------+--------'       | |

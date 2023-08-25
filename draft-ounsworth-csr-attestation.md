@@ -178,23 +178,21 @@ certification request messages.
 
 ##  Object Identifiers
 
+We reference `id-pkix` and `id-aa`, both defined in {{!RFC5912}}.
+
+We define:
+
 ~~~
--- Root of IETF's PKIX OID tree
-id-pkix OBJECT IDENTIFIER ::= { iso(1) identified-organization(3)
-     dod(6) internet(1) security(5) mechanisms(5) pkix(7) }
-
--- S/Mime attributes - can be used here.
-id-aa OBJECT IDENTIFIER ::= {iso(1) member-body(2) usa(840)
-    rsadsi(113549) pkcs(1) pkcs-9(9) smime(16) attributes(2)}
-
--- Branch for evidence types
+-- Arc for evidence types
 id-ata OBJECT IDENTIFIER ::= { id-pkix (TBD1) }
 ~~~
 
-## AttestAttribute
 
-By definition, Attributes within a Certification Signing Request are
-typed as ATTRIBUTE.  This attribute definition contains one or more
+## Evidence Attribute and Extension
+
+By definition, Attributes within a PKCS#10 CSR are
+typed as ATTRIBUTE and within a CRMF CSR are typed as EXTENSION.
+This attribute definition contains one or more
 evidence statements of a type "EvidenceStatement".
 
 ~~~
@@ -220,15 +218,38 @@ The Extension version is intended only for use within CRMF CSRs and is NOT RECOM
 
 ##  EvidenceStatement
 
-An AttestStatement is a simple type-value pair encoded as
+An EvidenceStatement is a simple type-value pair identified by an OID
+`type` and containing a value `stmt`.
+
+encoded as
 a sequence, of which the type of the "value" field is
 controlled by the value of the "type" field, similar to an Attribute
 definition.
 
 ~~~
-EvidenceStatement ::= SEQUENCE {
-  type   OBJECT IDENTIFIER,
-  value  ANY
+EVIDENCE-STATEMENT ::= TYPE-IDENTIFIER
+
+EvidenceStatementSet EVIDENCE-STATEMENT ::= {
+   ... -- Empty for now --
+}
+
+EvidenceStatement {EVIDENCE-STATEMENT:EvidenceStatementSet} ::= SEQUENCE {
+   type   EVIDENCE-STATEMENT.&id({EvidenceStatementSet}),
+   stmt   EVIDENCE-STATEMENT.&Type({EvidenceStatementSet}{@type})
+}
+
+id-aa-evidenceStatement OBJECT IDENTIFIER ::= { id-aa aa-evidenceStatement(TBDAA2) }
+
+-- For PKCS#10
+attr-evidence ATTRIBUTE ::= {
+  TYPE EvidenceStatement
+  IDENTIFIED BY id-aa-evidenceStatement
+}
+
+-- For CRMF
+ext-evidence EXTENSION ::= {
+  TYPE EvidenceStatement
+  IDENTIFIED BY id-aa-evidenceStatement
 }
 ~~~
 
@@ -247,7 +268,7 @@ A CSR MUST contain at zero or one `EvidenceCertsAttribute`. In the case where
 the CSR contains multiple instances of `EvidenceAttribute` representing
 multiple evidence statements, all necessary certificates MUST be contained in
 the same instance of `EvidenceCertsAttribute`.
-`AttestCertsAttribute` MAY be omitted if there are no certificates to convey, for example if they are already known to the verifier, or if they are contained in the evidence statement.
+`EvidenceCertsAttribute` MAY be omitted if there are no certificates to convey, for example if they are already known to the verifier, or if they are contained in the evidence statement.
 
 
 ~~~
@@ -340,7 +361,7 @@ S/MIME Attributes" to identify two Attributes defined within.
 ###  Module Registration - SMI Security for PKIX Module Identifer
 
 -  Decimal: IANA Assigned - Replace TBDMOD
--  Description: CSR-EVIDENCE-2023 - id-mod-pkix-evidence-01
+-  Description: CSR-ATTESTATION-2023 - id-mod-pkix-attest-01
 -  References: This Document
 
 ###  Object Identifier Registrations - SMI Security for S/MIME Attributes
@@ -380,7 +401,7 @@ Columns:
 
 The evidence communicated in the attributes and
 structures defined in this document are meant to be used in
-a PKCS#10 or CRMF Certificate Signing Request (CSR). It is up to the
+a PKCS#10 or Certificate Signing Request (CSR). It is up to the
 verifier and to the relying party (RA/CA) to place as much or
 as little trust in this information as dictated by policies.
 

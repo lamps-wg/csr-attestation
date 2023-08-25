@@ -417,7 +417,7 @@ and considering the common practice of re-using the same CSR
 for multiple certificate renewals across the lifetime of a key.
 "Freshness" typically implies both asserting that the data was generated
 at a certain point-in-time, as well as providing non-replayability.
-Also, HSMs are typically designed to not allow downgrade of private key storage
+Certain use cases may have special properties impacting the freshness requirements. For example, HSMs are typically designed to not allow downgrade of private key storage
 properties; for example if a given key was asserted at time T to have been
 generated inside the hardware boundary and to be non-exportable,
 then it can be assumed that those properties of that key will continue

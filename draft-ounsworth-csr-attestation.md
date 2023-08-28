@@ -124,7 +124,7 @@ specifications.
 
 {::boilerplate bcp14-tagged}
 
-This document re-uses the terms defined in RFC 9334 related to remote
+This document re-uses the terms defined in {{RFC9334}} related to remote
 attestation. Readers of this document are assumed to be familiar with
 the following terms: Evidence, Claim, Attestation Results (AR), Attester,
 Verifier, and Relying Party (RP).

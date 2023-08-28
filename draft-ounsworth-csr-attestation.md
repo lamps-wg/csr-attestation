@@ -46,6 +46,7 @@ normative:
 
 informative:
   RFC2986:
+  RFC7030:
   I-D.tschofenig-rats-psa-token:
   TPM20:
      author:
@@ -130,14 +131,15 @@ the following terms: Evidence, Claim, Attestation Results (AR), Attester,
 Verifier, and Relying Party (RP).
 
 The term "Certification Request" message is defined in {{RFC2986}}.
-Specifications later introduced the term "Certificate Signing Request
-(CSR)" to refer to Certification Request message. While the term
-"Certification Signing Request" would have been more appropriate,
-it is not what has been selected. While the term CSR is often used
-in context of PKCS#10 it is equally applicable to other protocols
-that use a different syntax and even a different encoding, in particular
-this document also considers Certificate Request Message Format (CRMF)
-{{?RFC4211}} to be "CSRs". We use the terms "CSR" and Certification Request
+Specifications, such as {{RFC7030}}, later introduced the term
+"Certificate Signing Request (CSR)" to refer to the Certification
+Request message. While the term "Certification Signing Request"
+would have been correct, the mistake was unnoticed. In the meanwhile
+CSR is an abbreviation used beyond PKCS#10. Hence, it is equally
+applicable to other protocols that use a different syntax and
+even a different encoding, in particular this document also
+considers Certificate Request Message Format (CRMF) {{?RFC4211}}
+to be "CSRs". We use the terms "CSR" and Certificate Request
 message interchangeably.
 
 # Architecture {#architecture}

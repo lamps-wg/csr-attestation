@@ -187,7 +187,7 @@ This aspect is described in Section 12 of RFC 9334. Most of these aspects are,
 however, outside the scope of this specification but relevant for use with a
 given attestation technology. The focus of this specification is on the
 transport of evidence from the attester to the relying party via existing
-certificate signing request messages.
+CSR messages.
 
 # ASN.1 Elements
 

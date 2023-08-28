@@ -415,7 +415,7 @@ exports Evidence for use in remote attestation via a CSR.
             |  |         |              |
  .----------|--|---------|------------. |
  |          |  |         |    Attester| |
- |          v  |         v            | |
+ |          v  |         v    (HSM)   | |
  |    .-----------------------.       | |
  |    | Target Environment(TE)|       | |
  |    | (with key generation, |       | |
@@ -429,7 +429,7 @@ exports Evidence for use in remote attestation via a CSR.
  |             .-------------.        | |
  |Attestation  | Attesting   |        | |
  |   Key ----->| Environment +----------+
- |             |             |Evidence|
+ |             | (Firmware)  |Evidence|
  |             '-------------'        |
  |                                    |
  '------------------------------------'

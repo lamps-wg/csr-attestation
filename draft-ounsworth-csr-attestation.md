@@ -379,21 +379,25 @@ Columns:
 A PKCS#10 or CRMF Certification Request message consists of a
 distinguished name, a public key, and optionally a set of attributes,
 collectively signed by the entity requesting certification.
-The private key used to sign the CSR MUST
-be different from the Attesting Environment key used to sign Evidence about the Target Environment, which controls the private key used to sign the CSR. To
-demonstrate that the private key used to sign the CSR is generated,
-stored, and used in a secure environment that has controls to prevent
-theft or misuse (including being non-exportable / non-recoverable),
-the Attesting Environment has to collect claims about this secure
-environment (or target environment, as shown in {{fig-attester}}).
+The private key used to sign the CSR MUST be different from the
+Attesting Key used to sign Evidence about the Target
+Environment, which controls the private key used to sign the CSR.
+Key separation is an important principle in cryptography and also
+applies to this specification with regards to the Attestation Key
+and the key used to sign the CSR. To demonstrate that the private
+key used to sign the CSR is generated, stored, and used in a secure
+environment that has controls to prevent theft or misuse (including
+being non-exportable / non-recoverable), the Attesting Environment
+has to collect claims about this secure environment (or Target
+Environment, as shown in {{fig-attester}}).
 
-{{fig-attester}} shows the interaction inside an attester. The
-attesting environment, which is provisioned with an attestation key,
-retrieves claims about the target environment. The target
-environment offers key generation, storage and usage, which it
-makes available to services. The attesting environment collects
-these claims about the target environment and signs them and
-exports evidence for use in remote attestation via a CSR.
+{{fig-attester}} shows the interaction inside an Attester. The
+Attesting Environment, which is provisioned with an Attestation Key,
+retrieves claims about the Target Environment. The Target
+Environment offers key generation, storage and usage, which it
+makes available to services. The Attesting Environment collects
+these claims about the Target Environment and signs them and
+exports Evidence for use in remote attestation via a CSR.
 
 ~~~
                    ^
@@ -432,34 +436,45 @@ exports evidence for use in remote attestation via a CSR.
 ~~~
 {: #fig-attester title="Interaction between Attesting and Target Environment"}
 
-The attestation evidence communicated in the attributes and
-structures defined in this document are meant to be used in
-a PKCS10 Certification Signing Request (CSR). It is up to the
-verifier and to the relying party (RA/CA) to place as much or
+{{fig-attester}} places the CSR library outside the Attester, which
+is an implementation choice. The CSR library may also be located
+inside the trusted computing base. Regardless of the placement
+of the CSR library an Attesting Environment MUST be able to collect
+claims about the Target Environment such that statements about
+the storage of the keying material can be made. For example, one
+implementation may perform a software measurement of the CSR library
+along with the crypto library implementation that has access to the
+keying material. For the Verifier the provided Evidence must allow
+an assessment to be made whether the key used to sign the CSR
+is stored in a secure location and cannot be exported.
+
+Evidence communicated in the attributes and structures defined
+in this document are meant to be used in a CSR. It is up to
+the Verifier and to the Relying Party (RA/CA) to place as much or
 as little trust in this information as dictated by policies.
 
-This document defines the transport of evidence of different formats
-in a CSR. Some of these attestation formats are based on standards
-while others are proprietary formats. A verifier will need to understand
-these formats for matching the received values against policies.
+This document defines the transport of Evidence of different formats
+in a CSR. Some of these encoding formats are based on standards
+while others are proprietary formats. A Verifier will need to understand
+these formats for matching the received claim values against policies.
 
-Policies drive the processing of evidence at the verifier and other
-policies influence the decision making at the relying party when
-evaluating the attestation result. The relying party is ultimately
-responsible for making a decision of what attestation-related
-information in the CSR it will accept. The presence of the attributes
-defined in this specification provide the relying party with additional
-assurance about attester. Policies used at the verifier and the relying
-party are implementation dependent and out of scope for this document.
-Whether to require the use of the attestation-related attributes in the
-CSR is out-of-scope for this document.
+Policies drive the processing of Evidence at the Verifier and other
+policies influence the decision making at the Relying Party when
+evaluating the Attestation Result. The Relying Party is ultimately
+responsible for making a decision of what information in the Attestation
+Result it will accept. The presence of the attributes
+defined in this specification provide the Relying Party with additional
+assurance about Attester. Policies used at the Verifier and the Relying
+Party are implementation dependent and out of scope for this document.
+Whether to require the use of Evidence in a CSR is out-of-scope for
+this document.
 
-Evidence generated by the attestation generally needs to be fresh to provide
-value to the verifier since the configuration on the device may change
+Evidence generated by the Attester generally needs to be fresh to provide
+value to the Verifier since the configuration on the device may change
 over time. Section 10 of {{RFC9334}} discusses different approaches for
 providing freshness, including a nonce-based approach, the use of timestamps
-and an epoch-based technique.  The use of nonces requires an extra message
-exchange via the relying party and the use of timestamps requires
+and an epoch-based technique. The use of nonces requires an extra message
+exchange via the Relying Party and the use of timestamps requires
 synchronized clocks. Epochs also require communication. The definition of
 "fresh" is somewhat ambiguous in the context of CSRs, especially
 considering that non-automated certificate enrollments are often asyncronous,
@@ -468,7 +483,7 @@ for multiple certificate renewals across the lifetime of a key.
 "Freshness" typically implies both asserting that the data was generated
 at a certain point-in-time, as well as providing non-replayability.
 Developers, operators, and designers of protocols which embed
-attestation-carrying-CSRs need to consider what notion of freshness is
+Evidence-carrying-CSRs need to consider what notion of freshness is
 appropriate and available in-context; thus the issue of freshness is
 out-of-scope for this document.
 

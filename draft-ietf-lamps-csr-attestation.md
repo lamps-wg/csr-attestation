@@ -143,7 +143,7 @@ library provided by the device manufacturer. For example,
 security concerns may require parsers of evidence formats to be logically
 or physically separated from the core CA functionality.
 
-~~~
+~~~ aasvg
                               .-------------.
                               |             | Compare Evidence
                               |   Verifier  | against

@@ -1,8 +1,8 @@
-*.html
+draft-*.html
 *.pdf
 *.redxml
 *.swp
-*.txt
+draft-*.txt
 *.upload
 *~
 .tags

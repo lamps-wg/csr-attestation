@@ -1,0 +1,29 @@
+PKIX Attestation -- Platform Evidence
+(mostly borrowed from RATS EAT)
+hwmodel
+hwversion
+swname
+swversion
+oemboot
+dbgstat
+uptime ?
+bootcount ?
+dloas ?
+manifests ?
+submods ?
+fips_boot
+
+
+
+PKIX Attestation -- Key Evidence
+identifier ?
+purpose ?
+non-exportable -- can only be exported in a non-usable form for the purposes of disaster recovery and bound by the same controls that are asserted in this attestation; ie the controls cannot be weakened via a backup & restore procedure.
+  Question: has FIPS defined the term "non-exportable"?
+dual-control
+  Question: has FIPS defined the term "dual-control"?
+fips_mode
+  Question: has FIPS defined the term "FIPS mode"?
+
+
+Paul: question: Is it better to have a single attestation that targets a single profile (as defined in an RFC) vs forcing the CA to figure out compliance with a given profile based on a large number of claims.

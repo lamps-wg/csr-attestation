@@ -98,7 +98,7 @@ in the RATS architecture map to a certificate requester and a CA/RA.
 
 At the time of writing, several standard and several proprietary attestation technologies
 are in use.
-This specification thereby tries to be technology-agnostic with regards to the transport of the produced signed claims.
+This specification thereby tries to be technology-agnostic with regards to the attestation technologies and instead focused on the transport of Evidence.
 
 This document is focused on the transport of evidence
 inside a CSR and makes minimal assumptions about content or format of the transported evidence.
@@ -106,7 +106,6 @@ We also enable conveyance of a set of certificates used for validation of
 evidence. These certificates typically contain one or more certificate chains
 rooted in a device manufacture trust anchor and the leaf certificate being
 on the device in question; the latter is the Attestation Key that signs the evidence statement.
-
 
 This document creates two ATTRIBUTE/Attribute definitions. The first
 Attribute may be used to carry a set of certificates or public keys that

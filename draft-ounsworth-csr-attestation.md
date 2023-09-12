@@ -444,7 +444,7 @@ claims about the Target Environment such that statements about
 the storage of the keying material can be made. For example, one
 implementation may perform a software measurement of the CSR library
 along with the crypto library implementation that has access to the
-keying material. For the Verifier the provided Evidence must allow
+keying material. For the Verifier, the provided Evidence must allow
 an assessment to be made whether the key used to sign the CSR
 is stored in a secure location and cannot be exported.
 

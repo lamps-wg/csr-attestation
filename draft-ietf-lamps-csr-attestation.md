@@ -57,6 +57,7 @@ normative:
 
 informative:
   RFC2986:
+  RFC7030:
   I-D.tschofenig-rats-psa-token:
   TPM20:
     author:
@@ -129,10 +130,22 @@ specifications.
 
 {::boilerplate bcp14-tagged}
 
-This document re-uses the terms defined in RFC 9334 related to remote
+This document re-uses the terms defined in {{RFC9334}} related to remote
 attestation. Readers of this document are assumed to be familiar with
-the following terms: evidence, claim, attestation result, attester,
-verifier, and relying party.
+the following terms: Evidence, Claim, Attestation Results (AR), Attester,
+Verifier, and Relying Party (RP).
+
+The term "Certification Request" message is defined in {{RFC2986}}.
+Specifications, such as {{RFC7030}}, later introduced the term
+"Certificate Signing Request (CSR)" to refer to the Certification
+Request message. While the term "Certification Signing Request"
+would have been correct, the mistake was unnoticed. In the meanwhile
+CSR is an abbreviation used beyond PKCS#10. Hence, it is equally
+applicable to other protocols that use a different syntax and
+even a different encoding, in particular this document also
+considers Certificate Request Message Format (CRMF) {{RFC4211}}
+to be "CSRs". We use the terms "CSR" and Certificate Request
+message interchangeably.
 
 # Architecture {#architecture}
 
@@ -179,7 +192,7 @@ This aspect is described in Section 12 of RFC 9334. Most of these aspects are,
 however, outside the scope of this specification but relevant for use with a
 given attestation technology. The focus of this specification is on the
 transport of evidence from the attester to the relying party via existing
-certification request messages.
+CSR messages.
 
 # ASN.1 Elements
 
@@ -396,7 +409,8 @@ Security for PKIX" Registry) for the purpose.
 -  References: This document
 -  Initial contents: None
 -  Registration Regime: Specification Required.
-   Document must specify an EVIDENCE-STATEMENT definition to which this Object Identifier shall be bound.
+   Document must specify an EVIDENCE-STATEMENT definition to which this
+   Object Identifier shall be bound.
 
 Columns:
 
@@ -406,26 +420,101 @@ Columns:
 
 # Security Considerations
 
-The evidence communicated in the attributes and
-structures defined in this document are meant to be used in
-a PKCS#10 or Certificate Signing Request (CSR). It is up to the
-verifier and to the relying party (RA/CA) to place as much or
+A PKCS#10 or CRMF Certification Request message consists of a
+distinguished name, a public key, and optionally a set of attributes,
+collectively signed by the entity requesting certification.
+The private key used to sign the CSR MUST be different from the
+Attesting Key utilized to sign Evidence about the Target
+Environment. Key separation is an important principle in cryptography
+and also applies to this specification with regards to the Attestation Key
+and the CSR signing key. To demonstrate that the private
+key applied to sign the CSR is generated, and stored in a secure
+environment that has controls to prevent theft or misuse (including
+being non-exportable / non-recoverable), the Attesting Environment
+has to collect claims about this secure environment (or Target
+Environment, as shown in {{fig-attester}}).
+
+{{fig-attester}} shows the interaction inside an Attester. The
+Attesting Environment, which is provisioned with an Attestation Key,
+retrieves claims about the Target Environment. The Target
+Environment offers key generation, storage and usage, which it
+makes available to services. The Attesting Environment collects
+these claims about the Target Environment and signs them and
+exports Evidence for use in remote attestation via a CSR.
+
+~~~
+                   ^
+                   |CSR with
+                   |Evidence
+     .-------------+-------------.
+     |                           |
+     |       CSR Library         |<-----+
+     |                           |      |
+     '---------------------------'      |
+            |  ^         ^              |
+ Private    |  | Public  | Signature    |
+ Key        |  | Key     | Operation    |
+ Generation |  | Export  |              |
+            |  |         |              |
+ .----------|--|---------|------------. |
+ |          |  |         |    Attester| |
+ |          v  |         v    (HSM)   | |
+ |    .-----------------------.       | |
+ |    | Target Environment(TE)|       | |
+ |    | (with key generation, |       | |
+ |    | storage and usage)    |       | |
+ |    '--------------+--------'       | |
+ |                   |                | |
+ |           Collect |                | |
+ |            Claims |                | |
+ |                   |                | |
+ |                   v                | |
+ |             .-------------.        | |
+ |Attestation  | Attesting   |        | |
+ |   Key ----->| Environment +----------+
+ |             | (Firmware)  |Evidence|
+ |             '-------------'        |
+ |                                    |
+ '------------------------------------'
+~~~
+{: #fig-attester title="Interaction between Attesting and Target Environment"}
+
+{{fig-attester}} places the CSR library outside the Attester, which
+is an implementation choice. The CSR library may also be located
+inside the trusted computing base. Regardless of the placement
+of the CSR library an Attesting Environment MUST be able to collect
+claims about the Target Environment such that statements about
+the storage of the keying material can be made. For example, one
+implementation may perform a software measurement of the CSR library
+along with the crypto library implementation that has access to the
+keying material. For the Verifier, the provided Evidence must allow
+an assessment to be made whether the key used to sign the CSR
+is stored in a secure location and cannot be exported.
+
+Evidence communicated in the attributes and structures defined
+in this document are meant to be used in a CSR. It is up to
+the Verifier and to the Relying Party (RA/CA) to place as much or
 as little trust in this information as dictated by policies.
 
-This document defines the transport of evidence of different formats
-in a CSR. Some of these evidence formats are based on standards
-while others are proprietary formats. A verifier will need to understand
-these formats for matching the received values against policies.
+This document defines the transport of Evidence of different formats
+in a CSR. Some of these encoding formats are based on standards
+while others are proprietary formats. A Verifier will need to understand
+these formats for matching the received claim values against policies.
 
-Policies drive the processing of evidence at the verifier:
-the Verifier's Appraisal Policy for Evidence will often be specified by the manufacturer of a hardware security module or specified by a regulatory body such as the CA Browser Forum Code-Signing Baseline Requirements {{CSBR}} which specifies certain properties, such as non-exportability, which must be enabled for storing publicly-trusted code-signing keys.
-
-The relying party is ultimately responsible for making a decision of what attestation-related  information in the CSR it will accept. The presence of the attributes
-defined in this specification provide the relying party with additional
-assurance about attester. Policies used at the verifier and the relying
-party are implementation dependent and out of scope for this document.
-Whether to require the use of evidence in the CSR is out-of-scope
-for this document.
+Policies drive the processing of Evidence at the Verifier: the Verifier's
+Appraisal Policy for Evidence will often be specified by the manufacturer
+of a hardware security module or specified by a regulatory body such as
+the CA Browser Forum Code-Signing Baseline Requirements {{CSBR}} which
+specifies certain properties, such as non-exportability, which must be
+enabled for storing publicly-trusted code-signing keys. Other
+policies influence the decision making at the Relying Party when
+evaluating the Attestation Result. The Relying Party is ultimately
+responsible for making a decision of what information in the Attestation
+Result it will accept. The presence of the attributes defined in this
+specification provide the Relying Party with additional assurance about
+an Attester. Policies used at the Verifier and the Relying Party are
+implementation dependent and out of scope for this document. Whether to
+require the use of Evidence in a CSR is out-of-scope for this document.
 
 ## Freshness
 
@@ -435,23 +524,25 @@ over time. Section 10 of {{RFC9334}} discusses different approaches for
 providing freshness, including a nonce-based approach, the use of timestamps
 and an epoch-based technique.  The use of nonces requires an extra message
 exchange via the relying party and the use of timestamps requires
-synchronized clocks.
-Epochs also require (unidirectional) communication.
-None of these things are practical when interacting with Hardware Security Modules (HSM).
+synchronized clocks. Epochs also require (unidirectional) communication.
+None of these things are practical when interacting with Hardware Security
+Modules (HSM).
 
-Additionally, the definition of "fresh" is somewhat ambiguous in the context of CSRs, especially
-considering that non-automated certificate enrollments are often asyncronous,
-and considering the common practice of re-using the same CSR
-for multiple certificate renewals across the lifetime of a key.
+Additionally, the definition of "fresh" is somewhat ambiguous in the context
+of CSRs, especially considering that non-automated certificate enrollments
+are often asyncronous, and considering the common practice of re-using the
+same CSR for multiple certificate renewals across the lifetime of a key.
 "Freshness" typically implies both asserting that the data was generated
 at a certain point-in-time, as well as providing non-replayability.
-Certain use cases may have special properties impacting the freshness requirements. For example, HSMs are typically designed to not allow downgrade of private key storage
-properties; for example if a given key was asserted at time T to have been
-generated inside the hardware boundary and to be non-exportable,
-then it can be assumed that those properties of that key will continue
-to hold into the future.
-Developers, operators, and designers of protocols which embed
-evidence-carrying-CSRs need to consider what notion of freshness is
+Certain use cases may have special properties impacting the freshness
+requirements. For example, HSMs are typically designed to not allow downgrade
+of private key storage properties; for example if a given key was asserted at
+time T to have been generated inside the hardware boundary and to be
+non-exportable, then it can be assumed that those properties of that key
+will continue to hold into the future.
+
+Developers, operators, and designers of protocols, which embed
+Evidence-carrying-CSRs, need to consider what notion of freshness is
 appropriate and available in-context; thus the issue of freshness is
 left up to the discretion of protocol designers and implementors.
 

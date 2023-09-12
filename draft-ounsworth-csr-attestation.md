@@ -464,7 +464,7 @@ evaluating the Attestation Result. The Relying Party is ultimately
 responsible for making a decision of what information in the Attestation
 Result it will accept. The presence of the attributes
 defined in this specification provide the Relying Party with additional
-assurance about Attester. Policies used at the Verifier and the Relying
+assurance about an Attester. Policies used at the Verifier and the Relying
 Party are implementation dependent and out of scope for this document.
 Whether to require the use of Evidence in a CSR is out-of-scope for
 this document.

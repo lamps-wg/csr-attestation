@@ -84,42 +84,42 @@ for inclusion in PKCS#10 or CRMF certificate signing requests: an ASN.1 Attribut
 
 # Introduction
 
-When requesting a certificate from a Certification Authority (CA), a PKI end entity may wish to include evidence of the security properties of its environments in which the private keys are stored in that request.
-This evidence can be appraised by authoritative entities, such as a Registration Authority (RA) or a CA as part of validating an incoming certificate request against given certificate policies.
+When requesting a certificate from a Certification Authority (CA), a PKI end entity may wish to include Evidence of the security properties of its environments in which the private keys are stored in that request.
+This Evidence can be appraised by authoritative entities, such as a Registration Authority (RA) or a CA as part of validating an incoming certificate request against given certificate policies.
 This specification provides two newly defined attributes that allow for conveyance of remote attestation payload in Certificate Requests (CSR) in either PKCS#10 {{RFC2986}} or Certificate Request Message Format (CRMF) {{RFC4211}}.
 
 As outlined in the RATS Architecture {{RFC9334}}, an Attester (typically
-a device) produces a signed collection of Claims that constitutes evidence about its running environment.
-The term "attestation" is intentionally not defined in RFC 9334, but it is often taken to mean the activity of producing and appraising remote attestation evidence.
-A Relying Party may consult that evidence -- or an attestation result produced by a verifier that has appraised the evidence -- in making policy decisions about the trustworthiness of the
-target environment being attested. {{architecture}} overviews how the various roles
+a device) produces a signed collection of Claims that constitutes Evidence about its running environment.
+The term "attestation" is intentionally not defined in RFC 9334, but it is often taken to mean the activity of producing and appraising remote attestation Evidence.
+A Relying Party may consult that Evidence -- or an Attestation Result produced by a Verifier that has appraised the Evidence -- in making policy decisions about the trustworthiness of the
+target environment being assessed via appraisal of Evidence. {{architecture}} provides the basis to illustrate in this document how the various roles
 in the RATS architecture map to a certificate requester and a CA/RA.
 
 
 At the time of writing, several standard and several proprietary attestation technologies
 are in use.
-This specification thereby is intended to as technology-agnostic as it is feasible with respect to implemented remote attestation technologies. This specification focuses on the transport of evidence via CSR while making minimal assumptions about content or format of the transported evidence.
+This specification thereby is intended to as technology-agnostic as it is feasible with respect to implemented remote attestation technologies. This specification focuses on the transport of Evidence via CSR while making minimal assumptions about content or format of the transported Evidence.
 
 Conveyance of sets of certificates used for validation of
-evidence. These certificates typically contain one or more certification paths
+Evidence. These certificates typically contain one or more certification paths
 rooted in a device manufacture trust anchor and the leaf certificate being
-on the device in question; the latter is the Attestation Key that signs the evidence statement.
+on the device in question; the latter is the Attestation Key that signs the Evidence statement.
 
 This document specifies two ATTRIBUTE/Attribute definitions. The first
 Attribute may be used to carry a set of certificates or public keys that
-may be required to validate signed evidence. The second Attribute carries a
-structure that may be used to convey evidence.
+may be required to validate signed Evidence. The second Attribute carries a
+structure that may be used to convey Evidence.
 
-A CSR may contain one or more evidence payloads, for example evidence
-asserting the storage properties of a private key as well evidence
+A CSR may contain one or more Evidence payloads, for example Evidence
+asserting the storage properties of a private key as well Evidence
 asserting firmware version and other general properties
-of the device, or evidence signed via certification paths.
+of the device, or Evidence signed via certification paths.
 
 With these attributes, additional
 information about whether to issue a certificate and what information
 to populate into the certificate is available to an RA or CA. The scope of this document is, however,
-limited to the conveyance of evidence within CSR. The exact format of the
-evidence being conveyed is defined in various standard and proprietary
+limited to the conveyance of Evidence within CSR. The exact format of the
+Evidence being conveyed is defined in various standard and proprietary
 specifications.
 
 # Conventions and Definitions

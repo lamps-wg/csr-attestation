@@ -35,7 +35,8 @@ CertificateChoice ::=
       cert Certificate,
       opaqueCert    [0] IMPLICIT OCTET STRING,
       typedCert     [1] IMPLICIT TypedCert,
-      typedFlatCert [2] IMPLICIT TypedFlatCert
+      typedFlatCert [2] IMPLICIT TypedFlatCert,
+      ...
    }
 
 TYPED-CERT ::= TYPE-IDENTIFIER
@@ -71,15 +72,22 @@ id-aa-evidenceStatement OBJECT IDENTIFIER ::= { id-aa aa-evidenceStatement(TBDAA
 
 -- For PKCS#10
 attr-evidence ATTRIBUTE ::= {
-  TYPE EvidenceStatement
+  TYPE SEQUENCE OF EvidenceBundle,
   IDENTIFIED BY id-aa-evidenceStatement
 }
 
+
 -- For CRMF
 ext-evidence EXTENSION ::= {
-  TYPE EvidenceStatement
+  TYPE SEQUENCE OF EvidenceBundle,
   IDENTIFIED BY id-aa-evidenceStatement
 }
+
+EvidenceBundle ::= SEQUENCE
+  {
+    evidence  SEQUENCE OF EvidenceStatement,
+    certs SEQUENCE OF CertificateChoice OPTIONAL
+  }
 
 id-aa-evidenceChainCerts OBJECT IDENTIFIER ::= { id-aa aa-evidenceChainCerts(TBDAA1) }
 

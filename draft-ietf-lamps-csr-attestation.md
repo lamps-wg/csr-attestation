@@ -41,6 +41,7 @@ author:
     name: Hannes Tschofenig
     organization: Siemens
     email: Hannes.Tschofenig@gmx.net
+
   - name: Henk Birkholz
     org: Fraunhofer SIT
     abbrev: Fraunhofer SIT
@@ -213,27 +214,46 @@ id-ata OBJECT IDENTIFIER ::= { id-pkix (TBD1) }
 By definition, Attributes within a PKCS#10 CSR are
 typed as ATTRIBUTE and within a CRMF CSR are typed as EXTENSION.
 This attribute definition contains one or more
-evidence statements of a type "EvidenceStatement".
+evidence bundles of type `EvidenceBundle` which each contain
+one or more evidence statements of a type `EvidenceStatement` along with
+an optional certificate chain.
+This structure allows for grouping evidence statements that share a
+certificate chain.
 
 ~~~
 id-aa-evidenceStatement OBJECT IDENTIFIER ::= { id-aa (TBDAA2) }
 
 -- For PKCS#10
 attr-evidence ATTRIBUTE ::= {
-  TYPE EvidenceStatement
+  TYPE SEQUENCE OF EvidenceBundle,
   IDENTIFIED BY id-aa-evidenceStatement
 }
+
 
 -- For CRMF
 ext-evidence EXTENSION ::= {
-  TYPE EvidenceStatement
+  TYPE SEQUENCE OF EvidenceBundle,
   IDENTIFIED BY id-aa-evidenceStatement
 }
+
+EvidenceBundle ::= SEQUENCE
+  {
+    evidence  SEQUENCE OF EvidenceStatement,
+    certs SEQUENCE OF CertificateChoice OPTIONAL
+  }
 ~~~
 
-A CSR MAY contain one or more instance of `EvidenceAttribute`.
-
 The Extension version is intended only for use within CRMF CSRs and is NOT RECOMMENDED for use within X.509 certificates due to the privacy implications of publishing evidence about the end entity's hardware environment. See {{security-considerations}} for more discussion.
+
+
+A CSR MAY contain one or more instance of `attr-evidence` or `ext-evidence`.
+This means that the `SEQUENCE OF EvidenceBundle` is redundant with the
+ability to carry multiple `attr-evidence` or `ext-evidence` at the CSR level;
+either mechanism MAY be used for carrying multiple evidence bundles.
+We are leaving the `SEQUENCE OF EvidenceBundle` since it is in general
+more flexible than relying on the containing structure to handle multiplicity
+and allows for this structure to be re-used in the future in other PKIX
+protocol contexts.
 
 
 ##  EvidenceStatement

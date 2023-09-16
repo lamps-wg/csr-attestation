@@ -231,7 +231,7 @@ ext-evidence EXTENSION ::= {
 }
 ~~~
 
-A CSR MAY contain one or more instance of `EvidenceAttribute`.
+A CSR MAY contain one or more instances of `EvidenceAttribute`.
 
 The Extension version is intended only for use within CRMF CSRs and is NOT RECOMMENDED for use within X.509 certificates due to the privacy implications of publishing evidence about the end entity's hardware environment. See {{security-considerations}} for more discussion.
 
@@ -378,9 +378,9 @@ S/MIME Attributes" to identify two Attributes defined within.
 
 ##  Object Identifier Allocations
 
-###  Module Registration - SMI Security for PKIX Module Identifer
+###  Module Registration - SMI Security for PKIX Module Identifier
 
--  Decimal: IANA Assigned - Replace TBDMOD
+-  Decimal: IANA Assigned - **Replace TBDMOD**
 -  Description: CSR-ATTESTATION-2023 - id-mod-pkix-attest-01
 -  References: This Document
 
@@ -388,13 +388,13 @@ S/MIME Attributes" to identify two Attributes defined within.
 
 - Attest Statement
 
-  - Decimal: IANA Assigned - Replace TBDAA2
+  - Decimal: IANA Assigned - **Replace TBDAA2**
   - Description: id-aa-evidenceStatement
   - References: This Document
 
 - Attest Certificate Chain
 
-  - Decimal: IANA Assigned - Replace TBDAA1
+  - Decimal: IANA Assigned - **Replace TBDAA1**
   - Description: id-aa-evidenceChainCerts
   - References: This Document
 
@@ -404,7 +404,7 @@ Please open up a registry for evidence Statement Formats within
 the SMI-numbers registry, allocating an assignment from id-pkix ("SMI
 Security for PKIX" Registry) for the purpose.
 
--  Decimal: IANA Assigned - replace TBD1
+-  Decimal: IANA Assigned - **replace TBD1**
 -  Description: id-ata
 -  References: This document
 -  Initial contents: None

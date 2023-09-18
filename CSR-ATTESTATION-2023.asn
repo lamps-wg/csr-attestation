@@ -70,7 +70,7 @@ EvidenceStatement ::= SEQUENCE {
    stmt   EVIDENCE-STATEMENT.&Type({EvidenceStatementSet}{@type})
 }
 
-id-aa-evidenceStatement OBJECT IDENTIFIER ::= { id-aa aa-evidenceStatement(TBDAA2) }
+id-aa-evidenceStatement OBJECT IDENTIFIER ::= { id-aa TBDAA2 }
 
 -- For PKCS#10
 attr-evidence ATTRIBUTE ::= {

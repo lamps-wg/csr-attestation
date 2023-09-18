@@ -697,10 +697,17 @@ information to an RA/CA:
 - Lifecycle state information.
 
 
+
 # ASN.1 Module
 
 ~~~
 {::include CSR-ATTESTATION-2023.asn}
+~~~
+
+## TCG DICE ConceptualMessageWrapper in CSR
+
+~~~
+{::include CSR-ATTESTATION-WITH-DICE-CMW.asn}
 ~~~
 
 # Acknowledgments

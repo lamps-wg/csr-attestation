@@ -236,17 +236,25 @@ ext-evidence EXTENSION ::= {
   IDENTIFIED BY id-aa-evidenceStatement
 }
 
-EvidenceBundle ::= SEQUENCE
-  {
+EvidenceBundle ::= SEQUENCE {
     evidence  SEQUENCE OF EvidenceStatement,
     certs SEQUENCE OF CertificateChoice OPTIONAL
   }
 ~~~
 
-The Extension version is intended only for use within CRMF CSRs and is NOT RECOMMENDED for use within X.509 certificates due to the privacy implications of publishing evidence about the end entity's hardware environment. See {{security-considerations}} for more discussion.
+The Extension version is intended only for use within CRMF CSRs and MUST NOT be used within X.509 certificates due to the privacy implications of publishing evidence about the end entity's hardware environment. See {{security-considerations}} for more discussion.
+
+The `certs` contains a set of certificates that
+may be needed to validate the contents of an evidence statement
+contained in `evidence`. The set of certificates should contain
+the object that contains the public key needed to directly validate the
+`evidence`.  The remaining elements should chain that data back to
+an agreed upon trust anchor used for attestation. No order is implied, it is
+up to the Attester and its Verifier to agree on both the order and format
+of certificates contained in `certs`.
 
 
-A CSR MAY contain one or more instance of `attr-evidence` or `ext-evidence`.
+A CSR MAY contain one or more instances of `attr-evidence` or `ext-evidence`.
 This means that the `SEQUENCE OF EvidenceBundle` is redundant with the
 ability to carry multiple `attr-evidence` or `ext-evidence` at the CSR level;
 either mechanism MAY be used for carrying multiple evidence bundles.
@@ -273,7 +281,7 @@ EvidenceStatementSet EVIDENCE-STATEMENT ::= {
    ... -- Empty for now --
 }
 
-EvidenceStatement {EVIDENCE-STATEMENT:EvidenceStatementSet} ::= SEQUENCE {
+EvidenceStatement ::= SEQUENCE {
    type   EVIDENCE-STATEMENT.&id({EvidenceStatementSet}),
    stmt   EVIDENCE-STATEMENT.&Type({EvidenceStatementSet}{@type})
 }
@@ -292,44 +300,6 @@ ext-evidence EXTENSION ::= {
   IDENTIFIED BY id-aa-evidenceStatement
 }
 ~~~
-
-##  EvidenceCerts
-
-The "EvidenceCertsAttribute" contains a set of certificates that
-may be needed to validate the contents of an evidence statement
-contained in an evidenceAttribute. The set of certificates should contain
-the object that contains the public key needed to directly validate the
-EvidenceAttribute.  The remaining elements should chain that data back to
-an agreed upon trust anchor used for attestation. No order is implied, it is
-the Verifier's responsibility to perform the appropriate certification path
-construction.
-
-A CSR MUST contain at zero or one `EvidenceCertsAttribute`. In the case where
-the CSR contains multiple instances of `EvidenceAttribute` representing
-multiple evidence statements, all necessary certificates MUST be contained in
-the same instance of `EvidenceCertsAttribute`.
-`EvidenceCertsAttribute` MAY be omitted if there are no certificates to convey, for example if they are already known to the verifier, or if they are contained in the evidence statement.
-
-
-~~~
-id-aa-evidenceChainCerts OBJECT IDENTIFIER ::= { id-aa (TBDAA1) }
-
--- For PKCS#10
-attr-evidenceCerts ATTRIBUTE ::= {
-  TYPE SEQUENCE OF CertificateChoice
-  COUNTS MAX 1
-  IDENTIFIED BY id-aa-evidenceChainCerts
-}
-
--- For CRMF
-ext-evidenceCerts EXTENSION ::= {
-  TYPE SEQUENCE OF CertificateChoice
-  COUNTS MAX 1
-  IDENTIFIED BY id-aa-evidenceChainCerts
-}
-~~~
-
-The Extension version is intended only for use within CRMF CSRs and is NOT RECOMMENDED for use within X.509 certificates due to the privacy implications of publishing evidence about the end entity's hardware environment. See {{security-considerations}} for more discussion.
 
 ##  CertificateChoice
 

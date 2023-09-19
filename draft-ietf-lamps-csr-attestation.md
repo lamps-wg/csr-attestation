@@ -221,25 +221,30 @@ This structure allows for grouping evidence statements that share a
 certificate chain.
 
 ~~~
+EVIDENCE-STATEMENT ::= TYPE-IDENTIFIER
+
+EvidenceStatementSet EVIDENCE-STATEMENT ::= {
+   ... -- Empty for now --
+}
+
+EvidenceStatement ::= SEQUENCE {
+   type   EVIDENCE-STATEMENT.&id({EvidenceStatementSet}),
+   stmt   EVIDENCE-STATEMENT.&Type({EvidenceStatementSet}{@type})
+}
+
 id-aa-evidenceStatement OBJECT IDENTIFIER ::= { id-aa TBDAA }
 
 -- For PKCS#10
 attr-evidence ATTRIBUTE ::= {
-  TYPE SEQUENCE OF EvidenceBundle,
+  TYPE EvidenceStatement
   IDENTIFIED BY id-aa-evidenceStatement
 }
-
 
 -- For CRMF
 ext-evidence EXTENSION ::= {
-  TYPE SEQUENCE OF EvidenceBundle,
+  SYNTAX SEQUENCE OF EvidenceBundle
   IDENTIFIED BY id-aa-evidenceStatement
 }
-
-EvidenceBundle ::= SEQUENCE {
-    evidence  SEQUENCE OF EvidenceStatement,
-    certs SEQUENCE OF CertificateChoice OPTIONAL
-  }
 ~~~
 
 The Extension version is intended only for use within CRMF CSRs and MUST NOT be used within X.509 certificates due to the privacy implications of publishing evidence about the end entity's hardware environment. See {{security-considerations}} for more discussion.
@@ -262,43 +267,6 @@ more flexible than relying on the containing structure to handle multiplicity
 and allows for this structure to be re-used in the future in other PKIX
 protocol contexts.
 
-
-##  EvidenceStatement
-
-An EvidenceStatement is a simple type-value pair identified by an OID
-`type` and containing a value `stmt`.
-
-encoded as
-a sequence, of which the type of the "value" field is
-controlled by the value of the "type" field, similar to an Attribute
-definition.
-
-~~~
-EVIDENCE-STATEMENT ::= TYPE-IDENTIFIER
-
-EvidenceStatementSet EVIDENCE-STATEMENT ::= {
-   ... -- Empty for now --
-}
-
-EvidenceStatement ::= SEQUENCE {
-   type   EVIDENCE-STATEMENT.&id({EvidenceStatementSet}),
-   stmt   EVIDENCE-STATEMENT.&Type({EvidenceStatementSet}{@type})
-}
-
-id-aa-evidenceStatement OBJECT IDENTIFIER ::= { id-aa aa-evidenceStatement(TBDAA2) }
-
--- For PKCS#10
-attr-evidence ATTRIBUTE ::= {
-  TYPE EvidenceStatement
-  IDENTIFIED BY id-aa-evidenceStatement
-}
-
--- For CRMF
-ext-evidence EXTENSION ::= {
-  TYPE EvidenceStatement
-  IDENTIFIED BY id-aa-evidenceStatement
-}
-~~~
 
 ##  CertificateChoice
 
@@ -379,6 +347,7 @@ S/MIME Attributes" to identify two Attributes defined within.
   - Decimal: IANA Assigned - Replace **TBDAA**
   - Description: id-aa-evidenceStatement
   - References: This Document
+
 
 ###  "SMI Security for PKIX Evidence Statement Formats" Registry
 
@@ -689,10 +658,17 @@ information to an RA/CA:
 - Lifecycle state information.
 
 
+
 # ASN.1 Module
 
 ~~~
 {::include CSR-ATTESTATION-2023.asn}
+~~~
+
+## TCG DICE ConceptualMessageWrapper in CSR
+
+~~~
+{::include CSR-ATTESTATION-WITH-DICE-CMW.asn}
 ~~~
 
 # Acknowledgments

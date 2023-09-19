@@ -86,7 +86,7 @@ for inclusion in PKCS#10 or CRMF certificate signing requests: an ASN.1 Attribut
 
 When requesting a certificate from a Certification Authority (CA), a PKI end entity may wish to include Evidence of the security properties of its environments in which the private keys are stored in that request.
 This Evidence can be appraised by authoritative entities, such as a Registration Authority (RA) or a CA, or associated trusted Verifiers as part of validating an incoming certificate request against given certificate policies.
-This specification provides two newly defined attributes that allow for conveyance of remote attestation payload in Certificate Requests (CSR) in either PKCS#10 {{RFC2986}} or Certificate Request Message Format (CRMF) {{RFC4211}}.
+This specification defines an attribute and an extension that allow for conveyance of Evidence in Certificate Signing Requests (CSRs) in either PKCS#10 {{RFC2986}} or Certificate Request Message Format (CRMF) {{RFC4211}} payloads.
 
 As outlined in the RATS Architecture {{RFC9334}}, an Attester (typically
 a device) produces a signed collection of Claims that constitutes Evidence about its running environment.

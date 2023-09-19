@@ -8,13 +8,13 @@ EXPORTS ALL;
 
 IMPORTS
 
-Certificate
+Certificate, id-pkix
  FROM PKIX1Explicit-2009
      {iso(1) identified-organization(3) dod(6) internet(1) security(5)
      mechanisms(5) pkix(7) id-mod(0) id-mod-pkix1-explicit-02(51)}
 
 
-EXTENSION, ATTRIBUTE, AttributeSet{}, SingleAttribute{}, id-pkix 
+EXTENSION, ATTRIBUTE, AttributeSet{}, SingleAttribute{}
     FROM PKIX-CommonTypes-2009 -- from [RFC5912]
     { iso(1) identified-organization(3) dod(6) internet(1) security(5)
       mechanisms(5) pkix(7) id-mod(0) id-mod-pkixCommon-02(57) }
@@ -24,10 +24,10 @@ FROM SecureMimeMessageV3dot1
     { iso(1) member-body(2) us(840) rsadsi(113549)
         pkcs(1) pkcs-9(9) smime(16) modules(0) msg-v3dot1(21) }
   ;
-
+  
 
 -- Branch for attestation statement types
-id-ata OBJECT IDENTIFIER ::= { id-pkix ata(TBD1) }
+id-ata OBJECT IDENTIFIER ::= { id-pkix (TBD1) }
 
 
 CertificateChoice ::=
@@ -35,7 +35,8 @@ CertificateChoice ::=
       cert Certificate,
       opaqueCert    [0] IMPLICIT OCTET STRING,
       typedCert     [1] IMPLICIT TypedCert,
-      typedFlatCert [2] IMPLICIT TypedFlatCert
+      typedFlatCert [2] IMPLICIT TypedFlatCert,
+      ...
    }
 
 TYPED-CERT ::= TYPE-IDENTIFIER
@@ -62,39 +63,31 @@ EvidenceStatementSet EVIDENCE-STATEMENT ::= {
    ... -- Empty for now --
 }
  
-EvidenceStatement {EVIDENCE-STATEMENT:EvidenceStatementSet} ::= SEQUENCE {
+EvidenceStatement ::= SEQUENCE {
    type   EVIDENCE-STATEMENT.&id({EvidenceStatementSet}),
    stmt   EVIDENCE-STATEMENT.&Type({EvidenceStatementSet}{@type})
 }
 
-id-aa-evidenceStatement OBJECT IDENTIFIER ::= { id-aa aa-evidenceStatement(TBDAA2) }
+id-aa-evidenceStatement OBJECT IDENTIFIER ::= { id-aa TBDAA }
 
 -- For PKCS#10
 attr-evidence ATTRIBUTE ::= {
-  TYPE EvidenceStatement
+  TYPE SEQUENCE OF EvidenceBundle
   IDENTIFIED BY id-aa-evidenceStatement
 }
+
 
 -- For CRMF
 ext-evidence EXTENSION ::= {
-  TYPE EvidenceStatement
+  SYNTAX SEQUENCE OF EvidenceBundle
   IDENTIFIED BY id-aa-evidenceStatement
 }
 
-id-aa-evidenceChainCerts OBJECT IDENTIFIER ::= { id-aa aa-evidenceChainCerts(TBDAA1) }
-
--- For PKCS#10
-attr-evidenceCerts ATTRIBUTE ::= {
-  TYPE SEQUENCE OF CertificateChoice
-  COUNTS MAX 1
-  IDENTIFIED BY id-aa-evidenceChainCerts
+EvidenceBundle ::= SEQUENCE
+{
+  evidence  SEQUENCE OF EvidenceStatement,
+  certs SEQUENCE OF CertificateChoice OPTIONAL
 }
 
--- For CRMF
-ext-evidenceCerts EXTENSION ::= {
-  TYPE SEQUENCE OF CertificateChoice
-  COUNTS MAX 1
-  IDENTIFIED BY id-aa-evidenceChainCerts
-}
 
 END

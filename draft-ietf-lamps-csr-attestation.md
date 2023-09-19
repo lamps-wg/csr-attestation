@@ -86,7 +86,7 @@ for inclusion in PKCS#10 or CRMF certificate signing requests: an ASN.1 Attribut
 # Introduction
 
 At the time that it is requesting a certificate from a Certification Authority (CA), a PKI end entity may wish to provide evidence of the security properties of the environment in which the private key is stored.
-This evidence is to be verified by a relying party such as the Registration Authority or the Certification Authority as part of validating an incoming certificate request against a given certificate policy.
+This evidence is to be verified by a Verifier and the outcome of this evaluation is then made available to the Registration Authority (RA) or the Certification Authority (CA) as part of validating an incoming certificate request against a given certificate policy.
 This specification provides a newly defined evidence attribute for carrying evidence in Certificate Requests (CSR) in either PKCS#10 {{RFC2986}} or Certificate Request Message Format (CRMF) {{RFC4211}}.
 
 As outlined in the RATS Architecture {{RFC9334}}, an Attester (typically

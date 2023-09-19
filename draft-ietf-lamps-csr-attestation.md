@@ -90,7 +90,7 @@ This specification defines an attribute and an extension that allow for conveyan
 
 As outlined in the RATS Architecture {{RFC9334}}, an Attester (typically
 a device) produces a signed collection of Claims that constitutes Evidence about its running environment.
-While the term "attestation" is not defined in RFC 9334, it was later defined in {{?I-D.[ietf-rats-tpm-based-network-device-attest}}, it refers to the activity of producing and appraising remote attestation Evidence.
+While the term "attestation" is not defined in RFC 9334, it was later defined in {{?I-D.ietf-rats-tpm-based-network-device-attest}}, it refers to the activity of producing and appraising remote attestation Evidence.
 A Relying Party may consult an Attestation Result produced by a Verifier that has appraised the Evidence in making policy decisions about the trustworthiness of the
 target environment being assessed via appraisal of Evidence. {{architecture}} provides the basis to illustrate in this document how the various roles
 in the RATS architecture map to a certificate requester and a CA/RA.

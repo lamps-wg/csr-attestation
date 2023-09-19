@@ -73,7 +73,7 @@ informative:
 
 --- abstract
 
-A client requesting a certificate from a Certification Authority (CA) may wish to offer believable claims about the protections afforded to the corresponding private key, such as whether the private key resides on a hardware securtiy model or trusted platform module, and the protection capabilities provided by the hardware module.
+A client requesting a certificate from a Certification Authority (CA) may wish to offer believable claims about the protections afforded to the corresponding private key, such as whether the private key resides on a hardware security model or trusted platform module, and the protection capabilities provided by the hardware module.
 Including this evidence along with the certificate request can help to improve the assessment of the security posture for the private key, and suitability of the submitted key to the requested certificate profile.
 These evidence claims can include information about the hardware component's manufacturer, the version of installed or running firmware, the version of software installed or running in layers above the firmware, or the presence of hardware components providing specific protection capabilities or shielded locations (e.g., to protect keys).
 Producing, conveying, and appraising such believable claims is enabled via remote attestation procedures where the device holding the private key takes on the role of an attester and produces evidence that is made available to remote parties in a cryptographically secured way.
@@ -84,8 +84,8 @@ for inclusion in PKCS#10 or CRMF certificate signing requests: an ASN.1 Attribut
 
 # Introduction
 
-When requesting a certificate from a Certification Authority (CA), a PKI end entity may wish to include Evidence of the security properties of its environments in which private keys are stored.
-This Evidence can be appraised by authoritative entities, such as a Registration Authority (RA) or a CA as part of validating an incoming certificate request against given certificate policy.
+When requesting a certificate from a Certification Authority (CA), a PKI end entity may wish to include Evidence of the security properties of its environments in which the private keys are stored in that request.
+This Evidence can be appraised by authoritative entities, such as a Registration Authority (RA) or a CA, or associated trusted Verifiers as part of validating an incoming certificate request against given certificate policies.
 This specification provides two newly defined attributes that allow for conveyance of remote attestation payload in Certificate Requests (CSR) in either PKCS#10 {{RFC2986}} or Certificate Request Message Format (CRMF) {{RFC4211}}.
 
 As outlined in the RATS Architecture {{RFC9334}}, an Attester (typically

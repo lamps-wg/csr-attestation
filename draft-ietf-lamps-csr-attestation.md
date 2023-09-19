@@ -116,8 +116,8 @@ structure that may be used to carry evidence.
 A CSR may contain one or more evidence, for example evidence
 asserting the storage properties of the private key as well evidence
 asserting the firmware version and other general properties
-of the device, or evidence signed by certificate chains
-on different cryptographic algorithms.
+of the device, or evidence signed using different cryptographic
+algorithms.
 
 With these attributes, an RA or CA has additional
 information about whether to issue a certificate and what information

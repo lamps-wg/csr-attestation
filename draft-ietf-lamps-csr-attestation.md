@@ -232,7 +232,7 @@ EvidenceStatement ::= SEQUENCE {
    stmt   EVIDENCE-STATEMENT.&Type({EvidenceStatementSet}{@type})
 }
 
-id-aa-evidenceStatement OBJECT IDENTIFIER ::= { id-aa aa-evidenceStatement(TBDAA2) }
+id-aa-evidenceStatement OBJECT IDENTIFIER ::= { id-aa TBDAA }
 
 -- For PKCS#10
 attr-evidence ATTRIBUTE ::= {
@@ -257,7 +257,6 @@ the object that contains the public key needed to directly validate the
 an agreed upon trust anchor used for attestation. No order is implied, it is
 up to the Attester and its Verifier to agree on both the order and format
 of certificates contained in `certs`.
-
 
 A CSR MAY contain one or more instances of `attr-evidence` or `ext-evidence`.
 This means that the `SEQUENCE OF EvidenceBundle` is redundant with the
@@ -336,17 +335,16 @@ S/MIME Attributes" to identify two Attributes defined within.
 
 ##  Object Identifier Allocations
 
-###  Module Registration - SMI Security for PKIX Module Identifer
+###  Module Registration - SMI Security for PKIX Module Identifier
 
--  Decimal: IANA Assigned - Replace TBDMOD
+-  Decimal: IANA Assigned - **Replace TBDMOD**
 -  Description: CSR-ATTESTATION-2023 - id-mod-pkix-attest-01
 -  References: This Document
 
 ###  Object Identifier Registrations - SMI Security for S/MIME Attributes
 
 - Attest Statement
-
-  - Decimal: IANA Assigned - Replace TBDAA
+  - Decimal: IANA Assigned - Replace **TBDAA**
   - Description: id-aa-evidenceStatement
   - References: This Document
 
@@ -357,7 +355,7 @@ Please open up a registry for evidence Statement Formats within
 the SMI-numbers registry, allocating an assignment from id-pkix ("SMI
 Security for PKIX" Registry) for the purpose.
 
--  Decimal: IANA Assigned - replace TBD1
+-  Decimal: IANA Assigned - **replace TBD1**
 -  Description: id-ata
 -  References: This document
 -  Initial contents: None

@@ -221,7 +221,7 @@ This structure allows for grouping evidence statements that share a
 certificate chain.
 
 ~~~
-id-aa-evidenceStatement OBJECT IDENTIFIER ::= { id-aa (TBDAA2) }
+id-aa-evidenceStatement OBJECT IDENTIFIER ::= { id-aa TBDAA }
 
 -- For PKCS#10
 attr-evidence ATTRIBUTE ::= {
@@ -378,15 +378,10 @@ S/MIME Attributes" to identify two Attributes defined within.
 
 - Attest Statement
 
-  - Decimal: IANA Assigned - Replace TBDAA2
+  - Decimal: IANA Assigned - Replace TBDAA
   - Description: id-aa-evidenceStatement
   - References: This Document
 
-- Attest Certificate Chain
-
-  - Decimal: IANA Assigned - Replace TBDAA1
-  - Description: id-aa-evidenceChainCerts
-  - References: This Document
 
 ###  "SMI Security for PKIX Evidence Statement Formats" Registry
 
@@ -432,7 +427,7 @@ makes available to services. The Attesting Environment collects
 these claims about the Target Environment and signs them and
 exports Evidence for use in remote attestation via a CSR.
 
-~~~
+~~~ aasvg
                    ^
                    |CSR with
                    |Evidence

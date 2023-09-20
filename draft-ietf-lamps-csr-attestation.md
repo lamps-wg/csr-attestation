@@ -449,7 +449,7 @@ while others are proprietary formats. A Verifier will need to understand
 these formats for matching the received claim values against policies.
 
 Policies drive the processing of Evidence at the Verifier: the Verifier's
-Appraisal Policy for Evidence will often be specified by the manufacturer
+Appraisal Policy for Evidence will often be based on specifications by the manufacturer
 of a hardware security module, a regulatory agency, or specified by an
 oversight body, such as the CA Browser Forum. The Code-Signing Baseline
 Requirements {{CSBR}} document is an example of such a policy that has

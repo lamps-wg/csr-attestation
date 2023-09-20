@@ -324,7 +324,7 @@ TypedFlatCert ::= SEQUENCE {
 
 # IANA Considerations
 
-The IANA is requested to open one new registry, allocate a value
+IANA is requested to open one new registry, allocate a value
 from the "SMI Security for PKIX Module Identifier" registry for the
 included ASN.1 module, and allocate values from "SMI Security for
 S/MIME Attributes" to identify two Attributes defined within.

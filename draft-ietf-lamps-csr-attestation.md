@@ -130,7 +130,7 @@ specifications.
 This document re-uses the terms defined in {{RFC9334}} related to remote
 attestation. Readers of this document are assumed to be familiar with
 the following terms: Evidence, Claim, Attestation Results (AR), Attester,
-Verifier, Target Environment, and Relying Party (RP).
+Verifier, Target Environment, Attesting Environment, and Relying Party (RP).
 
 The term "Certification Request" message is defined in {{RFC2986}}.
 Specifications, such as {{RFC7030}}, later introduced the term

@@ -100,7 +100,7 @@ in the RATS architecture map to a certificate requester and a CA/RA.
 
 At the time of writing, several standard and several proprietary attestation technologies
 are in use.
-This specification thereby is intended to as technology-agnostic as it is feasible with respect to implemented remote attestation technologies. This specification focuses on (1) the conveyance of Evidence via CSR while making minimal assumptions about content or format of the transported Evidence and (2) the conveyance of sets of certificates used for validation of Evidence.
+This specification thereby is intended to be as technology-agnostic as it is feasible with respect to implemented remote attestation technologies. Instead, it focuses on (1) the conveyance of Evidence via CSRs while making minimal assumptions about content or format of the transported Evidence and (2) the conveyance of sets of certificates used for validation of Evidence.
 The certificates typically contain one or more certification paths
 rooted in a device manufacture trust anchor and the leaf certificate being
 on the device in question; the latter is the Attestation Key that signs the Evidence statement.

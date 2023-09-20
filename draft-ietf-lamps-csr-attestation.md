@@ -55,9 +55,9 @@ normative:
     RFC9334:
     RFC5912:
     RFC4211:
+    RFC2986:
 
 informative:
-  RFC2986:
   RFC7030:
   I-D.tschofenig-rats-psa-token:
   TPM20:

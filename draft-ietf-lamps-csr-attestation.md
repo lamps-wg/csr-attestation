@@ -450,10 +450,12 @@ these formats for matching the received claim values against policies.
 
 Policies drive the processing of Evidence at the Verifier: the Verifier's
 Appraisal Policy for Evidence will often be specified by the manufacturer
-of a hardware security module or specified by a regulatory body such as
-the CA Browser Forum Code-Signing Baseline Requirements {{CSBR}} which
-specifies certain properties, such as non-exportability, which must be
-enabled for storing publicly-trusted code-signing keys. Other
+of a hardware security module, a regulatory agency, or specified by an
+oversight body, such as the CA Browser Forum. The Code-Signing Baseline
+Requirements {{CSBR}} document is an example of such a policy that has
+been published by the CA Browser Forum and specifies certain properties,
+such as non-exportability, which must be enabled for storing
+publicly-trusted code-signing keys. Other
 policies influence the decision making at the Relying Party when
 evaluating the Attestation Result. The Relying Party is ultimately
 responsible for making a decision of what information in the Attestation

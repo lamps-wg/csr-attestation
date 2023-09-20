@@ -79,7 +79,7 @@ A client requesting a certificate from a Certification Authority (CA) may wish t
 
 This document describes how to encode Evidence produced by an Attester for inclusion in Certificate Signing Requests (CSRs), and any certificates necessary for validating it.
 
-Including Evidence along with a CSR can help to improve the assessment of the security posture for the private key, and suitability of the submitted key to the requested certificate profile. These Evidence Claims can include information about the hardware component's manufacturer, the version of installed or running firmware, the version of software installed or running in layers above the firmware, or the presence of hardware components providing specific protection capabilities or shielded locations (e.g., to protect keys).
+Including Evidence along with a CSR can help to improve the assessment of the security posture for the private key, and the trustworthiness properties of the submitted key to the requested certificate profile. These Evidence Claims can include information about the hardware component's manufacturer, the version of installed or running firmware, the version of software installed or running in layers above the firmware, or the presence of hardware components providing specific protection capabilities or shielded locations (e.g., to protect keys).
 
 
 --- middle

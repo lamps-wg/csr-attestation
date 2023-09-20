@@ -505,9 +505,10 @@ These privacy considerations are beyond the scope of this document and may requi
 # Examples
 
 This section provides two non-normative examples for embedding Evidence
-in in CSRs. The first example conveys Arm Platform Security Architecture
-tokens, which provides claims about the used hardware and software platform,
-into the CSR. The second example embeds the TPM v2.0 Evidence in the CSR.
+in CSRs. The first example embeds Evidence produced by a TPM in the CSR.
+The second example conveys an Arm Platform Security Architecture token,
+which provides claims about the used hardware and software platform,
+into the CSR.
 
 ##  TPM V2.0 Evidence in CSR
 

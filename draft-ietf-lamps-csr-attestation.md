@@ -149,7 +149,7 @@ message interchangeably.
 {{fig-arch}} shows the high-level communication pattern of the RATS
 background check model where the Attester transmits the Evidence in the
 CSR to the RA and the CA, which is subsequently forwarded to the Verifier.
-The Verifier processes the received Evidence and computes an Attestation
+The Verifier appraises the received Evidence and computes an Attestation
 Result, which is then processed by the RA/CA prior to the certificate
 issuance.
 

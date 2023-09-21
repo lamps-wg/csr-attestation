@@ -160,7 +160,7 @@ requires the Attester to transmit Evidence to the Verifier directly in order
 to obtain the Attestation Result, which is then forwarded to the Relying
 Party. This specification utilizes the background model since CSRs are
 often used as one-shot messages where no direct real-time interaction
-between the Attester and the Verifier is possible. 
+between the Attester and the Verifier is possible.
 
 Note that the Verifier is a logical role that may be included in the
 RA/CA product. In this case the Relying Party and Verifier collapse into a

@@ -146,11 +146,21 @@ message interchangeably.
 
 # Architecture {#architecture}
 
-{{fig-arch}} shows the high-level communication pattern of the RATS passport
-model where the Attester transmits the Evidence in the CSR to the RA
-and the CA. The Verifier processes the received Evidence and computes
-an Attestation Result, which is then processed by the RA/CA prior to the
-certificate issuance.
+{{fig-arch}} shows the high-level communication pattern of the RATS
+background check model where the Attester transmits the Evidence in the
+CSR to the RA and the CA, which is subsequently forwarded to the Verifier.
+The Verifier appraises the received Evidence and computes an Attestation
+Result, which is then processed by the RA/CA prior to the certificate
+issuance.
+
+In addition to the background check model the RATS architecture also
+specifies the passport model and combinations. See Section 5.2 of
+{{RFC9334}} for a description of the passport model. The passport model
+requires the Attester to transmit Evidence to the Verifier directly in order
+to obtain the Attestation Result, which is then forwarded to the Relying
+Party. This specification utilizes the background model since CSRs are
+often used as one-shot messages where no direct real-time interaction
+between the Attester and the Verifier is possible.
 
 Note that the Verifier is a logical role that may be included in the
 RA/CA product. In this case the Relying Party and Verifier collapse into a
@@ -176,7 +186,7 @@ or physically separated from the core CA functionality.
  |            |   in CSR      | Party (RA/CA) | policy
  '------------'               '---------------'
 ~~~
-{: #fig-arch title="Architecture"}
+{: #fig-arch title="Architecture with Background Check Model."}
 
 As discussed in RFC 9334, different security and privacy aspects need to be
 considered. For example, Evidence may need to be protected against replay and

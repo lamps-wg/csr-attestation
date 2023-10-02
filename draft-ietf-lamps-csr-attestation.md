@@ -57,7 +57,6 @@ normative:
   RFC4211:
 
 informative:
-  RFC2986:
   RFC7030:
   I-D.tschofenig-rats-psa-token:
   TPM20:
@@ -81,56 +80,52 @@ informative:
 
 --- abstract
 
-A client requesting a certificate from a Certification Authority (CA) may wish to offer believable claims about the protections afforded to the corresponding private key, such as whether the private key resides on a hardware securtiy model or trusted platform module, and the protection capabilities provided by the hardware module.
-Including this evidence along with the certificate request can help to improve the assessment of the security posture for the private key, and suitability of the submitted key to the requested certificate profile.
-These evidence claims can include information about the hardware component's manufacturer, the version of installed or running firmware, the version of software installed or running in layers above the firmware, or the presence of hardware components providing specific protection capabilities or shielded locations (e.g., to protect keys).
-Producing, conveying, and appraising such believable claims is enabled via remote attestation procedures where the device holding the private key takes on the role of an attester and produces evidence that is made available to remote parties in a cryptographically secured way.
-This document describes two new extensions to encode evidence produced by an attester
-for inclusion in PKCS#10 or CRMF certificate signing requests: an ASN.1 Attribute or Extension definition to convey a cryptographically-signed evidence statement to a Registration Authority or to a Certification Authority, and an ASN.1 Attribute or Extension to carry any certificates necessary for validating the cryptographically-signed evidence statement.
+A client requesting a certificate from a Certification Authority (CA) may wish to offer believable claims about the protections afforded to the corresponding private key, such as whether the private key resides on a hardware security module or the protection capabilities provided by the hardware.
+
+This document describes how to encode Evidence produced by an Attester for inclusion in Certificate Signing Requests (CSRs), and any certificates necessary for validating it.
+
+Including Evidence along with a CSR can help to improve the assessment of the security posture for the private key, and the trustworthiness properties of the submitted key to the requested certificate profile. These Evidence Claims can include information about the hardware component's manufacturer, the version of installed or running firmware, the version of software installed or running in layers above the firmware, or the presence of hardware components providing specific protection capabilities or shielded locations (e.g., to protect keys).
+
 
 --- middle
 
 # Introduction
 
-At the time that it is requesting a certificate from a Certification Authority (CA), a PKI end entity may wish to provide evidence of the security properties of the environment in which the private key is stored.
-This evidence is to be verified by a relying party such as the Registration Authority or the Certification Authority as part of validating an incoming certificate request against a given certificate policy.
-This specification provides a newly defined evidence attribute for carrying evidence in Certificate Requests (CSR) in either PKCS#10 {{RFC2986}} or Certificate Request Message Format (CRMF) {{RFC4211}}.
+When requesting a certificate from a Certification Authority (CA), a PKI end entity may wish to include Evidence of the security properties of its environments in which the private keys are stored in that request.
+This Evidence can be appraised by authoritative entities, such as a Registration Authority (RA) or a CA, or associated trusted Verifiers as part of validating an incoming certificate request against given certificate policies.
+This specification defines an attribute and an extension that allow for conveyance of Evidence in Certificate Signing Requests (CSRs) in either PKCS#10 {{RFC2986}} or Certificate Request Message Format (CRMF) {{RFC4211}} payloads.
 
 As outlined in the RATS Architecture {{RFC9334}}, an Attester (typically
-a device) produces a signed collection of evidence about its running environment.
-The term "attestation" is intentionally not defined in RFC 9334, but it is often taken to mean the overall process of producing and verifying evidence.
-A Relying Party may consult that evidence, or an attestation result produced by a verifier who has checked the evidence, in making policy decisions about the trustworthiness of the
-target environment being attested. {{architecture}} overviews how the various roles
+a device) produces a signed collection of Claims that constitutes Evidence about its running environment.
+While the term "attestation" is not defined in RFC 9334, it was later defined in {{?I-D.ietf-rats-tpm-based-network-device-attest}}, it refers to the activity of producing and appraising remote attestation Evidence.
+A Relying Party may consult an Attestation Result produced by a Verifier that has appraised the Evidence in making policy decisions about the trustworthiness of the
+Target Environment being assessed via appraisal of Evidence. {{architecture}} provides the basis to illustrate in this document how the various roles
 in the RATS architecture map to a certificate requester and a CA/RA.
 
 
 At the time of writing, several standard and several proprietary attestation technologies
 are in use.
-This specification thereby tries to be technology-agnostic with regards to the attestation technologies and instead focused on the transport of Evidence.
-
-This document is focused on the transport of evidence
-inside a CSR and makes minimal assumptions about content or format of the transported evidence.
-We also enable conveyance of a set of certificates used for validation of
-evidence. These certificates typically contain one or more certificate chains
+This specification thereby is intended to be as technology-agnostic as it is feasible with respect to implemented remote attestation technologies. Instead, it focuses on (1) the conveyance of Evidence via CSRs while making minimal assumptions about content or format of the transported Evidence and (2) the conveyance of sets of certificates used for validation of Evidence.
+The certificates typically contain one or more certification paths
 rooted in a device manufacture trust anchor and the leaf certificate being
-on the device in question; the latter is the Attestation Key that signs the evidence statement.
+on the device in question; the latter is the Attestation Key that signs the Evidence statement.
 
-This document creates two ATTRIBUTE/Attribute definitions. The first
+This document specifies two ATTRIBUTE/Attribute definitions. The first
 Attribute may be used to carry a set of certificates or public keys that
-may be necessary to validate evidence. The second Attribute carries a
-structure that may be used to carry evidence.
+may be required to validate signed Evidence. The second Attribute carries a
+structure that may be used to convey Evidence.
 
-A CSR may contain one or more evidence, for example evidence
-asserting the storage properties of the private key as well evidence
-asserting the firmware version and other general properties
-of the device, or evidence signed by certificate chains
-on different cryptographic algorithms.
+A CSR may contain one or more Evidence payloads, for example Evidence
+asserting the storage properties of a private key as well Evidence
+asserting firmware version and other general properties
+of the device, or Evidence signed using different cryptographic
+algorithms.
 
-With these attributes, an RA or CA has additional
+With these attributes, additional
 information about whether to issue a certificate and what information
-to populate into the certificate. The scope of this document is, however,
-limited to the transport of evidence via a CSR. The exact format of the
-evidence being carried is defined in various standard and proprietary
+to populate into the certificate is available to an RA or CA. The scope of this document is, however,
+limited to the conveyance of Evidence within CSR. The exact format of the
+Evidence being conveyed is defined in various standard and proprietary
 specifications.
 
 # Conventions and Definitions
@@ -140,7 +135,7 @@ specifications.
 This document re-uses the terms defined in {{RFC9334}} related to remote
 attestation. Readers of this document are assumed to be familiar with
 the following terms: Evidence, Claim, Attestation Results (AR), Attester,
-Verifier, and Relying Party (RP).
+Verifier, Target Environment, Attesting Environment, and Relying Party (RP).
 
 The term "Certification Request" message is defined in {{RFC2986}}.
 Specifications, such as {{RFC7030}}, later introduced the term
@@ -156,18 +151,28 @@ message interchangeably.
 
 # Architecture {#architecture}
 
-{{fig-arch}} shows the high-level communication pattern of the RATS passport
-model where the attester transmits the evidence in the CSR to the RA
-and the CA. The verifier processes the received evidence and computes
-an attestation result, which is then processed by the RA/CA prior to the
-certificate issuance.
+{{fig-arch}} shows the high-level communication pattern of the RATS
+background check model where the Attester transmits the Evidence in the
+CSR to the RA and the CA, which is subsequently forwarded to the Verifier.
+The Verifier appraises the received Evidence and computes an Attestation
+Result, which is then processed by the RA/CA prior to the certificate
+issuance.
 
-Note that the verifier is a logical role that may be included in the
+In addition to the background check model the RATS architecture also
+specifies the passport model and combinations. See Section 5.2 of
+{{RFC9334}} for a description of the passport model. The passport model
+requires the Attester to transmit Evidence to the Verifier directly in order
+to obtain the Attestation Result, which is then forwarded to the Relying
+Party. This specification utilizes the background model since CSRs are
+often used as one-shot messages where no direct real-time interaction
+between the Attester and the Verifier is possible.
+
+Note that the Verifier is a logical role that may be included in the
 RA/CA product. In this case the Relying Party and Verifier collapse into a
-single entity. The verifier functionality can, however,
+single entity. The Verifier functionality can, however,
 also be kept separate from the RA/CA functionality, such as a utility or
 library provided by the device manufacturer. For example,
-security concerns may require parsers of evidence formats to be logically
+security concerns may require parsers of Evidence formats to be logically
 or physically separated from the core CA functionality.
 
 ~~~ aasvg
@@ -186,19 +191,19 @@ or physically separated from the core CA functionality.
  |            |   in CSR      | Party (RA/CA) | policy
  '------------'               '---------------'
 ~~~
-{: #fig-arch title="Architecture"}
+{: #fig-arch title="Architecture with Background Check Model."}
 
 As discussed in RFC 9334, different security and privacy aspects need to be
-considered. For example, evidence may need to be protected against replay and
+considered. For example, Evidence may need to be protected against replay and
 Section 10 of RFC 9334 lists approach for offering freshness. There are also
 concerns about the exposure of persistent identifiers by utilizing attestation
 technology, which are discussed in Section 11 of RFC 9334. Finally, the keying
-material used by the attester need to be protected against unauthorized access,
+material used by the Attester need to be protected against unauthorized access,
 and against signing arbitrary content that originated from outside the device.
 This aspect is described in Section 12 of RFC 9334. Most of these aspects are,
 however, outside the scope of this specification but relevant for use with a
 given attestation technology. The focus of this specification is on the
-transport of evidence from the attester to the relying party via existing
+transport of Evidence from the Attester to the Relying Party via existing
 CSR messages.
 
 # ASN.1 Elements
@@ -210,7 +215,7 @@ We reference `id-pkix` and `id-aa`, both defined in {{!RFC5912}}.
 We define:
 
 ~~~
--- Arc for evidence types
+-- Arc for Evidence types
 id-ata OBJECT IDENTIFIER ::= { id-pkix (TBD1) }
 ~~~
 
@@ -220,10 +225,10 @@ id-ata OBJECT IDENTIFIER ::= { id-pkix (TBD1) }
 By definition, Attributes within a PKCS#10 CSR are
 typed as ATTRIBUTE and within a CRMF CSR are typed as EXTENSION.
 This attribute definition contains one or more
-evidence bundles of type `EvidenceBundle` which each contain
-one or more evidence statements of a type `EvidenceStatement` along with
+Evidence bundles of type `EvidenceBundle` which each contain
+one or more Evidence statements of a type `EvidenceStatement` along with
 an optional certificate chain.
-This structure allows for grouping evidence statements that share a
+This structure allows for grouping Evidence statements that share a
 certificate chain.
 
 ~~~
@@ -238,7 +243,7 @@ EvidenceStatement ::= SEQUENCE {
    stmt   EVIDENCE-STATEMENT.&Type({EvidenceStatementSet}{@type})
 }
 
-id-aa-evidenceStatement OBJECT IDENTIFIER ::= { id-aa aa-evidenceStatement(TBDAA2) }
+id-aa-evidenceStatement OBJECT IDENTIFIER ::= { id-aa TBDAA }
 
 -- For PKCS#10
 attr-evidence ATTRIBUTE ::= {
@@ -253,10 +258,10 @@ ext-evidence EXTENSION ::= {
 }
 ~~~
 
-The Extension version is intended only for use within CRMF CSRs and MUST NOT be used within X.509 certificates due to the privacy implications of publishing evidence about the end entity's hardware environment. See {{security-considerations}} for more discussion.
+The Extension version is intended only for use within CRMF CSRs and MUST NOT be used within X.509 certificates due to the privacy implications of publishing Evidence about the end entity's hardware environment. See {{security-considerations}} for more discussion.
 
 The `certs` contains a set of certificates that
-may be needed to validate the contents of an evidence statement
+may be needed to validate the contents of an Evidence statement
 contained in `evidence`. The set of certificates should contain
 the object that contains the public key needed to directly validate the
 `evidence`.  The remaining elements should chain that data back to
@@ -264,11 +269,10 @@ an agreed upon trust anchor used for attestation. No order is implied, it is
 up to the Attester and its Verifier to agree on both the order and format
 of certificates contained in `certs`.
 
-
 A CSR MAY contain one or more instances of `attr-evidence` or `ext-evidence`.
 This means that the `SEQUENCE OF EvidenceBundle` is redundant with the
 ability to carry multiple `attr-evidence` or `ext-evidence` at the CSR level;
-either mechanism MAY be used for carrying multiple evidence bundles.
+either mechanism MAY be used for carrying multiple Evidence bundles.
 We are leaving the `SEQUENCE OF EvidenceBundle` since it is in general
 more flexible than relying on the containing structure to handle multiplicity
 and allows for this structure to be re-used in the future in other PKIX
@@ -295,7 +299,7 @@ CertificateChoice ::=
 with RFC 5280.  Enforcement of this constraint is left to the relying
 parties.
 
-"opaqueCert" should be used sparingly as it requires the verifier to implictly know its format.
+"opaqueCert" should be used sparingly as it requires the Verifier to implictly know its format.
 It is encoded as an OCTET STRING.
 
 "TypedCert" is an ASN.1 construct that has the charateristics of a
@@ -335,35 +339,34 @@ TypedFlatCert ::= SEQUENCE {
 
 # IANA Considerations
 
-The IANA is requested to open one new registry, allocate a value
+IANA is requested to open one new registry, allocate a value
 from the "SMI Security for PKIX Module Identifier" registry for the
 included ASN.1 module, and allocate values from "SMI Security for
 S/MIME Attributes" to identify two Attributes defined within.
 
 ##  Object Identifier Allocations
 
-###  Module Registration - SMI Security for PKIX Module Identifer
+###  Module Registration - SMI Security for PKIX Module Identifier
 
--  Decimal: IANA Assigned - Replace TBDMOD
+-  Decimal: IANA Assigned - **Replace TBDMOD**
 -  Description: CSR-ATTESTATION-2023 - id-mod-pkix-attest-01
 -  References: This Document
 
 ###  Object Identifier Registrations - SMI Security for S/MIME Attributes
 
 - Attest Statement
-
-  - Decimal: IANA Assigned - Replace TBDAA
+  - Decimal: IANA Assigned - Replace **TBDAA**
   - Description: id-aa-evidenceStatement
   - References: This Document
 
 
 ###  "SMI Security for PKIX Evidence Statement Formats" Registry
 
-Please open up a registry for evidence Statement Formats within
+Please open up a registry for Evidence Statement Formats within
 the SMI-numbers registry, allocating an assignment from id-pkix ("SMI
 Security for PKIX" Registry) for the purpose.
 
--  Decimal: IANA Assigned - replace TBD1
+-  Decimal: IANA Assigned - **replace TBD1**
 -  Description: id-ata
 -  References: This document
 -  Initial contents: None
@@ -419,7 +422,7 @@ exports Evidence for use in remote attestation via a CSR.
  |          |  |         |    Attester| |
  |          v  |         v    (HSM)   | |
  |    .-----------------------.       | |
- |    | Target Environment(TE)|       | |
+ |    | Target Environment    |       | |
  |    | (with key generation, |       | |
  |    | storage and usage)    |       | |
  |    '--------------+--------'       | |
@@ -461,11 +464,13 @@ while others are proprietary formats. A Verifier will need to understand
 these formats for matching the received claim values against policies.
 
 Policies drive the processing of Evidence at the Verifier: the Verifier's
-Appraisal Policy for Evidence will often be specified by the manufacturer
-of a hardware security module or specified by a regulatory body such as
-the CA Browser Forum Code-Signing Baseline Requirements {{CSBR}} which
-specifies certain properties, such as non-exportability, which must be
-enabled for storing publicly-trusted code-signing keys. Other
+Appraisal Policy for Evidence will often be based on specifications by the manufacturer
+of a hardware security module, a regulatory agency, or specified by an
+oversight body, such as the CA Browser Forum. The Code-Signing Baseline
+Requirements {{CSBR}} document is an example of such a policy that has
+been published by the CA Browser Forum and specifies certain properties,
+such as non-exportability, which must be enabled for storing
+publicly-trusted code-signing keys. Other
 policies influence the decision making at the Relying Party when
 evaluating the Attestation Result. The Relying Party is ultimately
 responsible for making a decision of what information in the Attestation
@@ -477,12 +482,12 @@ require the use of Evidence in a CSR is out-of-scope for this document.
 
 ## Freshness
 
-Evidence generated by an attester generally needs to be fresh to provide
-value to the verifier since the configuration on the device may change
+Evidence generated by an Attester generally needs to be fresh to provide
+value to the Verifier since the configuration on the device may change
 over time. Section 10 of {{RFC9334}} discusses different approaches for
 providing freshness, including a nonce-based approach, the use of timestamps
 and an epoch-based technique.  The use of nonces requires an extra message
-exchange via the relying party and the use of timestamps requires
+exchange via the Relying Party and the use of timestamps requires
 synchronized clocks. Epochs also require (unidirectional) communication.
 None of these things are practical when interacting with Hardware Security
 Modules (HSM).
@@ -507,8 +512,8 @@ left up to the discretion of protocol designers and implementors.
 
 ## Publishing evidence in an X.509 extension
 
-This document specifies and Extension for carrying evidence in a CRMF Certificate Signing Request (CSR), but it is intentionally NOT RECOMMENDED for a CA to copy the ext-evidence or ext-evidenceCerts extensions into the published certificate.
-The reason for this is that certificates are considered public information and the evidence might contain detailed information about hardware and patch levels of the device on which the private key resides.
+This document specifies and Extension for carrying Evidence in a CRMF Certificate Signing Request (CSR), but it is intentionally NOT RECOMMENDED for a CA to copy the ext-evidence or ext-evidenceCerts extensions into the published certificate.
+The reason for this is that certificates are considered public information and the Evidence might contain detailed information about hardware and patch levels of the device on which the private key resides.
 The certificate requester has consented to sharing this detailed device information with the CA but might not consent to having these details published.
 These privacy considerations are beyond the scope of this document and may require additional signaling mechanisms in the CSR to prevent unintended publication of sensitive information, so we leave it as "NOT RECOMMENDED".
 
@@ -516,10 +521,11 @@ These privacy considerations are beyond the scope of this document and may requi
 
 # Examples
 
-This section provides two non-normative examples for embedding evidence
-in in CSRs. The first example conveys Arm Platform Security Architecture
-tokens, which provides claims about the used hardware and software platform,
-into the CSR. The second example embeds the TPM v2.0 evidence in the CSR.
+This section provides two non-normative examples for embedding Evidence
+in CSRs. The first example embeds Evidence produced by a TPM in the CSR.
+The second example conveys an Arm Platform Security Architecture token,
+which provides claims about the used hardware and software platform,
+into the CSR.
 
 ##  TPM V2.0 Evidence in CSR
 
@@ -596,7 +602,7 @@ Certification Request:
 
 The example shown in {{fig-example-psa}} illustrates how the Arm
 Platform Security Architecture (PSA) Attestation Token
-is conveyed in a CSR. The content of the evidence in this example is re-used
+is conveyed in a CSR. The content of the Evidence in this example is re-used
 from {{I-D.tschofenig-rats-psa-token}} and contains an Entity Attestation
 Token (EAT) digitally signed with an attestation private key.
 
@@ -655,8 +661,8 @@ Certification Request:
 ~~~
 {: #fig-example-psa title="CSR with embedded PSA Attestation Token"}
 
-The decoded evidence is shown in Appendix A of
-{{I-D.tschofenig-rats-psa-token}}, the shown evidence, provides the following
+The decoded Evidence is shown in Appendix A of
+{{I-D.tschofenig-rats-psa-token}}, the shown Evidence, provides the following
 information to an RA/CA:
 
 - Boot seed,

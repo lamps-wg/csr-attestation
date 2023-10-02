@@ -52,9 +52,9 @@ author:
     country: Germany
 
 normative:
-    RFC9334:
-    RFC5912:
-    RFC4211:
+  RFC9334:
+  RFC5912:
+  RFC4211:
 
 informative:
   RFC2986:
@@ -72,6 +72,12 @@ informative:
     title: Baseline Requirements for Code-Signing Certificates, v.3.3
     date: June 2023
     target: https://cabforum.org/wp-content/uploads/Baseline-Requirements-for-the-Issuance-and-Management-of-Code-Signing.v3.3.pdf
+  TCGDICE1.1:
+    author:
+      org: Trusted Computing Group
+    title: DICE Attestation Architecture, v.1.1
+    date: May4, 2023
+    target: https://trustedcomputinggroup.org/wp-content/uploads/DICE-Attestation-Architecture-Version-1.1-Revision-17_1August2023.pdf
 
 --- abstract
 
@@ -668,6 +674,8 @@ information to an RA/CA:
 ~~~
 
 ## TCG DICE ConceptualMessageWrapper in CSR
+
+This section gives an example of extending the ASN.1 module above to carry an existing ASN.1-based evidence statement. The example used is the Trusted Computing Group DICE Attestation Conceptual Message Wrapper as defined in [TCGDICE1.1].
 
 ~~~
 {::include CSR-ATTESTATION-WITH-DICE-CMW.asn}

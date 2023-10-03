@@ -55,6 +55,7 @@ normative:
   RFC9334:
   RFC5912:
   RFC4211:
+  RFC2986:
 
 informative:
   RFC7030:

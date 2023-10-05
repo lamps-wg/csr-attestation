@@ -244,6 +244,12 @@ EvidenceStatement ::= SEQUENCE {
    stmt   EVIDENCE-STATEMENT.&Type({EvidenceStatementSet}{@type})
 }
 
+EvidenceBundle ::= SEQUENCE
+{
+  evidence  SEQUENCE OF EvidenceStatement,
+  certs SEQUENCE OF CertificateAlternatives OPTIONAL
+}
+
 id-aa-evidenceStatement OBJECT IDENTIFIER ::= { id-aa TBDAA }
 
 -- For PKCS#10
@@ -280,18 +286,17 @@ and allows for this structure to be re-used in the future in other PKIX
 protocol contexts.
 
 
-##  CertificateChoice
+##  CertificateAlternatives
 
 This is an ASN.1 CHOICE construct used to represent an encoding of a
 broad variety of certificate types.
 
 ~~~
-CertificateChoice ::=
+CertificateAlternatives ::=
    CHOICE {
       cert Certificate,
-      opaqueCert    [0] IMPLICIT OCTET STRING,
-      typedCert     [1] IMPLICIT TypedCert,
-      typedFlatCert [2] IMPLICIT TypedFlatCert
+      typedCert     [0] IMPLICIT TypedCert,
+      typedFlatCert [1] IMPLICIT TypedFlatCert
    }
 ~~~
 
@@ -299,9 +304,6 @@ CertificateChoice ::=
 
 with RFC 5280.  Enforcement of this constraint is left to the relying
 parties.
-
-"opaqueCert" should be used sparingly as it requires the Verifier to implictly know its format.
-It is encoded as an OCTET STRING.
 
 "TypedCert" is an ASN.1 construct that has the charateristics of a
 certificate, but is not encoded as an X.509 certificate.  The

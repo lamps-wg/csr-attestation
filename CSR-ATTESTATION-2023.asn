@@ -30,12 +30,11 @@ FROM SecureMimeMessageV3dot1
 id-ata OBJECT IDENTIFIER ::= { id-pkix (TBD1) }
 
 
-CertificateChoice ::=
+CertificateAlternatives ::=
    CHOICE {
       cert Certificate,
-      opaqueCert    [0] IMPLICIT OCTET STRING,
-      typedCert     [1] IMPLICIT TypedCert,
-      typedFlatCert [2] IMPLICIT TypedFlatCert,
+      typedCert     [0] IMPLICIT TypedCert,
+      typedFlatCert [1] IMPLICIT TypedFlatCert,
       ...
    }
 
@@ -86,7 +85,7 @@ ext-evidence EXTENSION ::= {
 EvidenceBundle ::= SEQUENCE
 {
   evidence  SEQUENCE OF EvidenceStatement,
-  certs SEQUENCE OF CertificateChoice OPTIONAL
+  certs SEQUENCE OF CertificateAlternatives OPTIONAL
 }
 
 

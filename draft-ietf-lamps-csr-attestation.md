@@ -530,6 +530,8 @@ The second example conveys an Arm Platform Security Architecture token,
 which provides claims about the used hardware and software platform,
 into the CSR.
 
+At the time of writing, the authors are not aware of registered OIDs for these evidence formats, and so we leave the OIDs as TBD1 / TBD2.
+
 ##  TPM V2.0 Evidence in CSR
 
 The following example illustrates a CSR with a signed TPM Quote based on

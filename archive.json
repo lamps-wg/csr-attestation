@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2023-11-07T00:45:45.355963+00:00",
+  "timestamp": "2023-11-09T00:44:58.773851+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -592,6 +592,37 @@
       "updatedAt": "2023-10-24T16:34:07Z",
       "closedAt": null,
       "comments": []
+    },
+    {
+      "number": 60,
+      "id": "I_kwDOJ3IIN852MDFz",
+      "title": "Review MSJ's feedback",
+      "url": "https://github.com/lamps-wg/csr-attestation/issues/60",
+      "state": "OPEN",
+      "author": "ounsworth",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "https://mailarchive.ietf.org/arch/msg/spasm/iiSZymLu19uVBXfdt25HxhuLglw/",
+      "createdAt": "2023-11-08T06:48:28Z",
+      "updatedAt": "2023-11-08T09:39:07Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "This was discussed over breakfast at 118.\r\n\r\nOut of that discussion we have two changes to make to the document:\r\n\r\n1)\r\nAdd a MUST statement in the EvidenceBundle definition section, something like:\r\n\r\n> All of the EvidenceStatements within a given EvidenceBundle MUST be verifiable with the certificates contained within that EvidenceBundle, or with certificates already known to the verifier. Specifically, verifiers MUST NOT be forced to search the certificates contained in a different EvidenceBundle; if multiple EvidenceBundles require the same certificate(s) in order to verify their EvidenceStatements, then those certificates MUST be duplicated into all EvidenceBundle that requires them.\r\n\r\n\r\n2)\r\nAdd an Implementation Consideration with a worked example of \"the slider\".\r\n\r\n> Section X\r\nProvide an example with:\r\n[EvidenceStatement1] signed by [ [SigningCert1], [DeviceRootCert], [ManufacturerRootCert] ]\r\n[EvidenceStatement2] signed by [ [SigningCert2], [DeviceRootCert], [ManufacturerRootCert] ]\r\nwhere the [DeviceRootCert] and [ManufacturerRootCert] are common to the two evidence statements. This specification provides multiple ways to encode this scenario with the goals of allowing implementers to choose whether they wish to optimize for bandwidth by including a minimal and de-duplicated certificate bundle), or to optimize for computation by providing one-to-one associations of EvidenceStatements and the certificate chains that validate them.\r\n\r\n> Section X.1: Bandwidth-optimized encoding\r\nIf the implementer wishes to optimize for bandwidth, then the CSR producer MAY merge these two certificate chains into a single EvidenceBundle:\r\n```\r\nattr-evidence ATTRIBUTE ::= {\r\n  IDENTIFIED BY id-aa-evidenceStatement\r\n  SEQUENCE OF EvidenceBundle {\r\n    EvidenceBundle ::= SEQUENCE\r\n    {\r\n      evidence  SEQUENCE OF EvidenceStatement {\r\n         [EvidenceStatement1], [EvidenceStatement2]\r\n      }\r\n      certs SEQUENCE OF CertificateAlternatives {\r\n         [SigningCert1], [SigningCert2], [DeviceRootCert], [ManufacturerRootCert]\r\n      }\r\n    }\r\n  }\r\n}\r\n```\r\nNote that bandwidth optimization in this way forces extra computation on the validator (certificate path building) since the certs is not a single ordered certificate chain.\r\n\r\n> Section X.2: Computation-optimized encoding\r\nThis example can equivalently be encoded as two independent EvidenceBundles:\r\n```\r\n\r\nattr-evidence ATTRIBUTE ::= {\r\n  IDENTIFIED BY id-aa-evidenceStatement\r\n  SEQUENCE OF EvidenceBundle {\r\n    EvidenceBundle ::= SEQUENCE\r\n    {\r\n      evidence  SEQUENCE OF EvidenceStatement {\r\n         [EvidenceStatement1]\r\n      }\r\n      certs SEQUENCE OF CertificateAlternatives {\r\n         [SigningCert1], [DeviceRootCert], [ManufacturerRootCert]\r\n      }\r\n    },\r\n    EvidenceBundle ::= SEQUENCE\r\n    {\r\n      evidence  SEQUENCE OF EvidenceStatement {\r\n         [EvidenceStatement2]\r\n      }\r\n      certs SEQUENCE OF CertificateAlternatives {\r\n         [SigningCert2], [DeviceRootCert], [ManufacturerRootCert]\r\n      }\r\n    }\r\n  }\r\n}\r\n```\r\nThis encoding optimizes for computation in a couple of different ways. First, the CSR producer does not need to merge and de-duplicate the two certificate chains, in fact this encoding could allow the CSR producer to opaquely copy the evidence statements and cert chains without needing to parse them. Second, the verifier does not need to do any complex certificate path building because each evidence statement is bundled one-to-one with the certificate chain against which it can be validated.",
+          "createdAt": "2023-11-08T08:55:00Z",
+          "updatedAt": "2023-11-08T08:55:00Z"
+        },
+        {
+          "author": "russhousley",
+          "authorAssociation": "NONE",
+          "body": "Nit: define \r\n\r\n~~~\r\nEvidenceBundles ::= SEQUENCE OF EvidenceBundle\r\n~~~",
+          "createdAt": "2023-11-08T09:39:07Z",
+          "updatedAt": "2023-11-08T09:39:07Z"
+        }
+      ]
     }
   ],
   "pulls": [

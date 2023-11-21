@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2023-11-19T00:51:25.297897+00:00",
+  "timestamp": "2023-11-21T00:48:39.499323+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -623,6 +623,54 @@
           "updatedAt": "2023-11-08T09:39:07Z"
         }
       ]
+    },
+    {
+      "number": 61,
+      "id": "I_kwDOJ3IIN853Xp7T",
+      "title": "EvidenceStatementSet definition",
+      "url": "https://github.com/lamps-wg/csr-attestation/issues/61",
+      "state": "OPEN",
+      "author": "ounsworth",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Ned pointed out that the \"Empty for now\" comment is a bit misleading. It should probably be \"None defined in this document\" or similar.\r\n\r\nShould that be a SET?\r\n\r\nWe should have some text explaining why this is empty here and how we envision new things (TGC / proprietary) things getting added.\r\n\r\n\r\n```\r\n   EvidenceStatementSet EVIDENCE-STATEMENT ::= {\r\n      ... -- Empty for now --\r\n   }\r\n\r\n   EvidenceStatement ::= SEQUENCE {\r\n      type   EVIDENCE-STATEMENT.&id({EvidenceStatementSet}),\r\n      stmt   EVIDENCE-STATEMENT.&Type({EvidenceStatementSet}{@type})\r\n   }\r\n```",
+      "createdAt": "2023-11-20T17:35:27Z",
+      "updatedAt": "2023-11-20T17:35:27Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 62,
+      "id": "I_kwDOJ3IIN853Xrov",
+      "title": "Adding the ability to convey Attestation Results in CSR",
+      "url": "https://github.com/lamps-wg/csr-attestation/issues/62",
+      "state": "OPEN",
+      "author": "hannestschofenig",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Ned mentioned that the trusted path routing work requires the use of an attestation result.",
+      "createdAt": "2023-11-20T17:40:20Z",
+      "updatedAt": "2023-11-20T17:40:20Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 63,
+      "id": "I_kwDOJ3IIN853XsiH",
+      "title": "Evidence vs Edorsements vs ReferenceValues",
+      "url": "https://github.com/lamps-wg/csr-attestation/issues/63",
+      "state": "OPEN",
+      "author": "ounsworth",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "This is just a naming issue; we use the term \"Evidence\" everywhere, but of course you can carry any type of Attestation conceptual message here. We should probably find a broader term to use.\r\n\r\nWhat's the right umbrella term? \"conceptual message content\"? (that sounds like it's implying a CMW-structured data, which we are not implying).\r\n\r\nMaybe \"AttestationData\" ? \"ConveyenceStatement\" ?",
+      "createdAt": "2023-11-20T17:42:54Z",
+      "updatedAt": "2023-11-20T17:42:54Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [

@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2023-11-21T00:48:39.499323+00:00",
+  "timestamp": "2023-11-23T00:47:08.848673+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -668,9 +668,17 @@
       "labels": [],
       "body": "This is just a naming issue; we use the term \"Evidence\" everywhere, but of course you can carry any type of Attestation conceptual message here. We should probably find a broader term to use.\r\n\r\nWhat's the right umbrella term? \"conceptual message content\"? (that sounds like it's implying a CMW-structured data, which we are not implying).\r\n\r\nMaybe \"AttestationData\" ? \"ConveyenceStatement\" ?",
       "createdAt": "2023-11-20T17:42:54Z",
-      "updatedAt": "2023-11-20T17:42:54Z",
+      "updatedAt": "2023-11-22T14:44:15Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "mcr",
+          "authorAssociation": "COLLABORATOR",
+          "body": "The container is for Evidence.  You can also carry kangaroos in it, but that doesn't mean you should.\r\nI don't think a broader term is helpful unless you really expect to carry something else.",
+          "createdAt": "2023-11-22T14:44:14Z",
+          "updatedAt": "2023-11-22T14:44:14Z"
+        }
+      ]
     }
   ],
   "pulls": [

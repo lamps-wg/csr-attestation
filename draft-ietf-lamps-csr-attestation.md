@@ -241,23 +241,25 @@ CertificateAlternatives.
                                   | Statement         |
                                   +-------------------+
 ~~~
+{: #fig-info-model title="Information Model for CSR Evidence Conveyance."}
 
 The following use cases are supported:
 
 - Single Attester, which only distributes Evidence without any certificate chains,
 i.e. the Verifier is assumed to be in possession of the certificate chain already
 or there is no certificate chain. As a result a single EvidenceBundle is included
-in a CSR that contains a single EvidenceStatement without the
-CertificateAlternatives structure.
+in a CSR that contains a single EvidenceStatement without the CertificateAlternatives
+structure.
 
 - A single attester, which shares Evidence together with a certificate chain.
-In this case, the CSR conveys a single EvidenceBundle with a single EvidenceStatement
+The CSR conveys a single EvidenceBundle with a single EvidenceStatement
 and a single CertificateAlternatives structure.
 
 - In a Composite Device, which contains multiple Attesters, a collection of Evidence
-is obtained. Imagine that each Attester returns its Evidence together with a
-certificate chain. As a result, a multiple EvidenceBundle structures, each
-carrying EvidenceStatement and CertificateAlternative structures. It may
+statements is obtained. Imagine that each Attester returns its Evidence together with a
+certificate chain. As a result, multiple EvidenceBundle structures, each carrying
+an EvidenceStatement and the corresponding CertificateAlternative structure with the
+certificate chain as provided by each Attester, are included in the CSR. It may
 be possible that there is an overlap in the certificate chains transmitted by
 the different Attesters. This approach does not require any processing capabilities
 by a lead Attester since the information is merely forwarded.
@@ -265,15 +267,17 @@ by a lead Attester since the information is merely forwarded.
 - In the last scenario, we also assume a Composite Device but in this case the
 lead Attester has additional processing capabilities to parse the certificate
 chains provided by all Attesters in the device and removes redundant certificate
-information. We assume that the certificate chains at least differ with respect
-to the end-entity certificates. Hence, it is necessary to convey certificate
-information that is unique to each EvidenceStatement structure while also
-conveying a certificate chain that is common accross all Attesters. As a result,
-multiple EvidenceBundle structures each carry an EvidenceStatement followed by
-a certificate chain in the CertificateAlternative structures (containing most
-likely only the end entity certificate). The shared certificate chain is
-carried in the first entry of the EvidenceBundle sequence to allow path
-validation to take place immediately after processing the first structure.
+information. The benefit of this approach is the reduced transmission overhead.
+Assuming that each Attester is provisioned with a unique end-entity certificate,
+the certificate chains will at least differ with respect to the end-entity
+certificates. It is therefore necessary to convey certificate information that
+is unique to each EvidenceStatement structure while also conveying a certificate
+chain that is common accross all Attesters. As a result, multiple EvidenceBundle
+structures each carry an EvidenceStatement followed by a certificate chain in
+the CertificateAlternative structures (containing most likely only the end-entity
+certificate). The shared certificate chain is carried in the first entry of the
+EvidenceBundle sequence to allow path validation to take place immediately after
+processing the first structure.
 
 Note that this specification does not mdandate optimizing certificate chains
 since there are trade-offs between Attester complexity and bandwidth consumption.

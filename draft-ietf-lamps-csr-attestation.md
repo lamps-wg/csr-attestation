@@ -285,7 +285,7 @@ since there are trade-offs between Attester complexity and bandwidth consumption
 Graphically, the four use cases can be shown as follows:
 
 ~~~
-Use Case 1: 
+Use Case 1:
   +--------------------+
   |  EvidenceBundle    |
   +--------------------+

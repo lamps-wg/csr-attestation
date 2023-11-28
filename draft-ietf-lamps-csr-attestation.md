@@ -245,17 +245,17 @@ CertificateAlternatives.
 
 The following use cases are supported:
 
-- Single Attester, which only distributes Evidence without any certificate chains,
+1 Single Attester, which only distributes Evidence without any certificate chains,
 i.e. the Verifier is assumed to be in possession of the certificate chain already
 or there is no certificate chain. As a result a single EvidenceBundle is included
 in a CSR that contains a single EvidenceStatement without the CertificateAlternatives
 structure.
 
-- A single attester, which shares Evidence together with a certificate chain.
+2 A single Attester, which shares Evidence together with a certificate chain.
 The CSR conveys a single EvidenceBundle with a single EvidenceStatement
 and a single CertificateAlternatives structure.
 
-- In a Composite Device, which contains multiple Attesters, a collection of Evidence
+3 In a Composite Device, which contains multiple Attesters, a collection of Evidence
 statements is obtained. Imagine that each Attester returns its Evidence together with a
 certificate chain. As a result, multiple EvidenceBundle structures, each carrying
 an EvidenceStatement and the corresponding CertificateAlternative structure with the
@@ -264,7 +264,7 @@ be possible that there is an overlap in the certificate chains transmitted by
 the different Attesters. This approach does not require any processing capabilities
 by a lead Attester since the information is merely forwarded.
 
-- In the last scenario, we also assume a Composite Device but in this case the
+4 In the last scenario, we also assume a Composite Device but in this case the
 lead Attester has additional processing capabilities to parse the certificate
 chains provided by all Attesters in the device and removes redundant certificate
 information. The benefit of this approach is the reduced transmission overhead.
@@ -281,6 +281,53 @@ processing the first structure.
 
 Note that this specification does not mdandate optimizing certificate chains
 since there are trade-offs between Attester complexity and bandwidth consumption.
+
+Graphically, the four use cases can be shown as follows:
+
+~~~
+Use Case 1: 
+  +--------------------+
+  |  EvidenceBundle    |
+  +--------------------+
+  | EvidenceStatement  |
+  +--------------------+
+
+Use Case 2:
+ +-------------------------+
+ |  EvidenceBundle         |
+ +-------------------------+
+ | EvidenceStatement       |
+ | CertificateAlternatives |
+ +-------------------------+
+
+Use Case 3:
+  +-------------------------+
+  |  EvidenceBundle (1)     |\
+  +-------------------------+ \ Provided by
+  | EvidenceStatement       | / Attester 1
+  | CertificateAlternatives |/
+  +-------------------------+
+  |  EvidenceBundle (2)     |\
+  +-------------------------+ \ Provided by
+  | EvidenceStatement       | / Attester 2
+  | CertificateAlternatives |/
+  +-------------------------+
+
+Use Case 4:
+                +-------------------------+
+                |  EvidenceBundle (1)     |\
+  Certificate   +-------------------------+ \ Provided by
+  Chain +       | EvidenceStatement       | / Attester 1
+  End-Entity -->| CertificateAlternatives |/
+  Certificate   +-------------------------+
+                         ....
+                +-------------------------+
+                |  EvidenceBundle (n)     |\
+                +-------------------------+ \ Provided by
+  End-Entity    | EvidenceStatement       | / Attester n
+  Certificate-->| CertificateAlternatives |/
+                +-------------------------+
+~~~
 
 # ASN.1 Elements
 

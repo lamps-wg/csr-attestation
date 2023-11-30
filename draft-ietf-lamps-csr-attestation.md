@@ -219,7 +219,7 @@ EvidenceBundle structures. Each EvidenceBundle contains one or
 multiple EvidenceStatement structures as well as one or many
 CertificateAlternatives.
 
-~~~
+~~~ aasvg
  +--------------------+
  |  PKCS#10 or CRMF   |
  |  Attribute or      |

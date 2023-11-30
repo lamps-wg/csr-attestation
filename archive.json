@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2023-11-28T00:48:26.119990+00:00",
+  "timestamp": "2023-11-30T00:47:39.450438+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -3093,6 +3093,32 @@
           "comments": []
         }
       ]
+    },
+    {
+      "number": 64,
+      "id": "PR_kwDOJ3IIN85ghKFg",
+      "title": "Information Model Description",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/64",
+      "state": "OPEN",
+      "author": "hannestschofenig",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "This PR addresses issues #59 and #60.",
+      "createdAt": "2023-11-28T06:36:09Z",
+      "updatedAt": "2023-11-28T08:25:24Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "f91c596732fa71620f433d0766efd685d695ec42",
+      "headRepository": "lamps-wg/csr-attestation",
+      "headRefName": "hannestschofenig-patch-2",
+      "headRefOid": "a24122be9091ce8d17def5153abfc5bf5f81f6d1",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }

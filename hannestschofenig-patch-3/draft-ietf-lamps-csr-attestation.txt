@@ -335,6 +335,7 @@ Table of Contents
          cert          [0] Certificate,
          typedCert     [1] TypedCert,
          typedFlatCert [2] TypedFlatCert
+         ...
       }
 
    "Certificate" is a standard X.509 certificate that MUST be compliant

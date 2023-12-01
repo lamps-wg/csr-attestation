@@ -297,6 +297,7 @@ CertificateAlternatives ::=
       cert          [0] Certificate,
       typedCert     [1] TypedCert,
       typedFlatCert [2] TypedFlatCert
+      ...
    }
 ~~~
 

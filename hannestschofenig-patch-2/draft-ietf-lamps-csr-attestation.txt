@@ -5,10 +5,10 @@
 Network Working Group                                       M. Ounsworth
 Internet-Draft                                                   Entrust
 Intended status: Standards Track                           H. Tschofenig
-Expires: 2 June 2024                                             Siemens
+Expires: 5 June 2024                                             Siemens
                                                              H. Birkholz
                                                           Fraunhofer SIT
-                                                        30 November 2023
+                                                         3 December 2023
 
 
       Use of Remote Attestation with Certificate Signing Requests
@@ -63,7 +63,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 2 June 2024.
+   This Internet-Draft will expire on 5 June 2024.
 
 Copyright Notice
 
@@ -328,7 +328,7 @@ Table of Contents
    validation to take place immediately after processing the first
    structure.
 
-   Note that this specification does not mdandate optimizing certificate
+   Note that this specification does not mandate optimizing certificate
    chains since there are trade-offs between Attester complexity and
    bandwidth consumption.
 
@@ -754,9 +754,9 @@ Table of Contents
               Tschofenig, H., Frost, S., Brossard, M., Shaw, A. L., and
               T. Fossati, "Arm's Platform Security Architecture (PSA)
               Attestation Token", Work in Progress, Internet-Draft,
-              draft-tschofenig-rats-psa-token-16, 6 November 2023,
+              draft-tschofenig-rats-psa-token-17, 1 December 2023,
               <https://datatracker.ietf.org/doc/html/draft-tschofenig-
-              rats-psa-token-16>.
+              rats-psa-token-17>.
 
    [RFC7030]  Pritikin, M., Ed., Yee, P., Ed., and D. Harkins, Ed.,
               "Enrollment over Secure Transport", RFC 7030,

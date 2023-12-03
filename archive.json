@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2023-11-30T00:47:39.450438+00:00",
+  "timestamp": "2023-12-03T00:51:06.979629+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -679,6 +679,54 @@
           "updatedAt": "2023-11-22T14:44:14Z"
         }
       ]
+    },
+    {
+      "number": 65,
+      "id": "I_kwDOJ3IIN854TA5c",
+      "title": "OIDs for Evidence Formats need to be defined / listed somewhere",
+      "url": "https://github.com/lamps-wg/csr-attestation/issues/65",
+      "state": "OPEN",
+      "author": "hannestschofenig",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-11-30T09:41:22Z",
+      "updatedAt": "2023-11-30T09:41:22Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 66,
+      "id": "I_kwDOJ3IIN854TItT",
+      "title": "Ability to carry Attestation Result in the CSR",
+      "url": "https://github.com/lamps-wg/csr-attestation/issues/66",
+      "state": "OPEN",
+      "author": "hannestschofenig",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Use case 1: https://github.com/lamps-wg/csr-attestation/issues/62\r\n\r\nUse case 2: RA interacts with the Verifier to obtain an Attestation Result and then includes the Attestation Result into the CSR to the CA\r\n",
+      "createdAt": "2023-11-30T09:59:29Z",
+      "updatedAt": "2023-11-30T09:59:29Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 67,
+      "id": "I_kwDOJ3IIN854TRiT",
+      "title": "Definition of the Interface between the CSR client software and the attester",
+      "url": "https://github.com/lamps-wg/csr-attestation/issues/67",
+      "state": "OPEN",
+      "author": "hannestschofenig",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Talk a bit about the split of roles between the CSR client software and the attester.\r\nWho is supposed to put the ASN.1 structure together?",
+      "createdAt": "2023-11-30T10:19:26Z",
+      "updatedAt": "2023-11-30T10:19:26Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
@@ -3106,13 +3154,101 @@
       "labels": [],
       "body": "This PR addresses issues #59 and #60.",
       "createdAt": "2023-11-28T06:36:09Z",
-      "updatedAt": "2023-11-28T08:25:24Z",
+      "updatedAt": "2023-12-02T21:20:36Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "f91c596732fa71620f433d0766efd685d695ec42",
       "headRepository": "lamps-wg/csr-attestation",
       "headRefName": "hannestschofenig-patch-2",
-      "headRefOid": "a24122be9091ce8d17def5153abfc5bf5f81f6d1",
+      "headRefOid": "1ea7513549806e507e4a7b1fccf35c2e51ee3823",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Comments:\r\n\r\n1.\r\nIn the aasvg, you have \"1..n EvidenceBundle\", \"0..n CertificateAlternatives\", and \"1..n EvidenceStatement\".\r\nI agree that's how I also imagine this being user,d but technically they are all declared as SEQUENCE, so are all 0..n. \r\nFor example, if your Evidence is already an X.509 certificate then you could conceivably put that in the SEQUENCE OF CertificateAlternatives and leave the SEQUENCE OF EvidenceStatement empty. I'm not sure that's a good idea, but it is allowed under the current definitions.\r\n\r\n\r\n2.\r\nI think we should add a usecase that deals with Endorsements. This is related to #63. \r\nPossibly just modify the wording of #3 to \"... multiple Attesters or Endorsers\", and \"... Evidence or Endorsement statements\".\r\n\r\n\r\n3.\r\nI think there are actually two valid ways of addressing #4: the one you describe where a Verifier has to look across EvidenceBundles in order to find the complete cert chains that it needs, or merging all of those into a single EvidenceBundle with a single de-duplicated SEQUENCE OF CertificateAlternatives; that would look like:\r\n\r\n```\r\n +-------------------------+\r\n |  EvidenceBundle         |\r\n +-------------------------+\r\n | EvidenceStatements {     |\r\n |   EvidenceStatement (1)  |\r\n |   ...                     |\r\n |  EvidenceStatement (n)  |\r\n | }                         |\r\n | CertificateAlternatives { |\r\n |  EndEntity (1)          |\r\n |  ...                     |\r\n |  EndEntity (n)            |\r\n | <remainder of           |\r\n |     certificate chain >     |\r\n | }                   |\r\n +-------------------------+\r\n```\r\n\r\nWe could call what you wrote 4a, and this 4b. 4a helps the verifier by providing 1-to-1 mapping between EvidenceStatements and the EndEntity certificate to verify it, but makes the Relying Party implementation more complicated, for example by needing to re-assemble complete certificate chains across EvidenceBundles if the Verifier needs to be invoked separately for each EvidenceStatement.\r\nWhereas 4b means that each EvidenceBundle is self-contained and any EvidenceStatement can be verified using only the SEQUENCE OF CertificateAlternatives in its bundle, but Verifiers will have to do proper certificate path building since the SEQUENCE OF CertificateAlternatives is now a cert bag and not a cert chain.\r\nPros and Cons to both.",
+          "createdAt": "2023-12-02T21:18:57Z",
+          "updatedAt": "2023-12-02T21:20:36Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJ3IIN85owQr5",
+          "commit": {
+            "abbreviatedOid": "a24122b"
+          },
+          "author": "mcr",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-11-30T13:34:15Z",
+          "updatedAt": "2023-11-30T13:34:16Z",
+          "comments": [
+            {
+              "originalPosition": 16,
+              "body": "```suggestion\r\n~~~ aasvg\r\n```",
+              "createdAt": "2023-11-30T13:34:16Z",
+              "updatedAt": "2023-11-30T13:34:16Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN85owTPH",
+          "commit": {
+            "abbreviatedOid": "1ea7513"
+          },
+          "author": "mcr",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "I would love an example of a composite device.",
+          "createdAt": "2023-11-30T13:39:31Z",
+          "updatedAt": "2023-11-30T13:39:31Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJ3IIN85o9htm",
+          "commit": {
+            "abbreviatedOid": "1ea7513"
+          },
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "CHANGES_REQUESTED",
+          "body": "",
+          "createdAt": "2023-12-02T21:07:46Z",
+          "updatedAt": "2023-12-02T21:19:18Z",
+          "comments": [
+            {
+              "originalPosition": 76,
+              "body": "Typo: \"mdandate\"",
+              "createdAt": "2023-12-02T21:07:47Z",
+              "updatedAt": "2023-12-02T21:19:18Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 68,
+      "id": "PR_kwDOJ3IIN85g4NWG",
+      "title": "Making all fields in the CertificateAlternatives Structure optional",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/68",
+      "state": "OPEN",
+      "author": "hannestschofenig",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-12-01T09:42:46Z",
+      "updatedAt": "2023-12-01T09:48:19Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "1ba543803d90eaa5624a79b24293d2280b58339b",
+      "headRepository": "lamps-wg/csr-attestation",
+      "headRefName": "hannestschofenig-patch-3",
+      "headRefOid": "d9260e23a946cbdfb359246160ec97f28a7efe2b",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,

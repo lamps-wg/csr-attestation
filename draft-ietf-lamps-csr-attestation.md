@@ -279,7 +279,7 @@ certificate). The shared certificate chain is carried in the first entry of the
 EvidenceBundle sequence to allow path validation to take place immediately after
 processing the first structure.
 
-Note that this specification does not mdandate optimizing certificate chains
+Note that this specification does not mandate optimizing certificate chains
 since there are trade-offs between Attester complexity and bandwidth consumption.
 
 Graphically, the four use cases can be shown as follows:

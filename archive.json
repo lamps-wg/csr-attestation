@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2023-12-03T00:51:06.979629+00:00",
+  "timestamp": "2023-12-05T00:48:34.405356+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -3154,13 +3154,13 @@
       "labels": [],
       "body": "This PR addresses issues #59 and #60.",
       "createdAt": "2023-11-28T06:36:09Z",
-      "updatedAt": "2023-12-02T21:20:36Z",
+      "updatedAt": "2023-12-03T09:43:51Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "f91c596732fa71620f433d0766efd685d695ec42",
       "headRepository": "lamps-wg/csr-attestation",
       "headRefName": "hannestschofenig-patch-2",
-      "headRefOid": "1ea7513549806e507e4a7b1fccf35c2e51ee3823",
+      "headRefOid": "d8bef791381fd0c95e27a874bcd400d2b5cc3891",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,

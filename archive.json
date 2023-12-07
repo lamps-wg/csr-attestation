@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2023-12-05T00:48:34.405356+00:00",
+  "timestamp": "2023-12-07T00:48:03.743182+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -724,9 +724,17 @@
       "labels": [],
       "body": "Talk a bit about the split of roles between the CSR client software and the attester.\r\nWho is supposed to put the ASN.1 structure together?",
       "createdAt": "2023-11-30T10:19:26Z",
-      "updatedAt": "2023-11-30T10:19:26Z",
+      "updatedAt": "2023-12-05T08:15:28Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "Akretsch",
+          "authorAssociation": "NONE",
+          "body": "And who is supposed to parse the ASN.1 structures?",
+          "createdAt": "2023-12-05T08:15:27Z",
+          "updatedAt": "2023-12-05T08:15:27Z"
+        }
+      ]
     }
   ],
   "pulls": [

@@ -24,16 +24,16 @@
 <!-- Generator version information:
   xml2rfc 3.18.2
     Python 3.11.6
-    ConfigArgParse 1.5.3
+    ConfigArgParse 1.7
     google-i18n-address 3.1.0
     intervaltree 3.1.0
     Jinja2 3.1.2
     lxml 4.9.3
-    platformdirs 4.0.0
+    platformdirs 4.1.0
     pycountry 22.3.5
-    PyYAML 6.0
+    PyYAML 6.0.1
     requests 2.31.0
-    setuptools 67.7.2
+    setuptools 68.2.2
     six 1.16.0
     wcwidth 0.2.12
 -->
@@ -1038,7 +1038,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Ounsworth, et al.</td>
-<td class="center">Expires 5 June 2024</td>
+<td class="center">Expires 20 June 2024</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1051,12 +1051,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-lamps-csr-attestation-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2023-12-03" class="published">3 December 2023</time>
+<time datetime="2023-12-18" class="published">18 December 2023</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2024-06-05">5 June 2024</time></dd>
+<dd class="expires"><time datetime="2024-06-20">20 June 2024</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1111,7 +1111,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 5 June 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 20 June 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1440,7 +1440,7 @@ CertificateAlternatives.<a href="#section-4-2" class="pilcrow">¶</a></p>
                 <text x="64" y="68">Attribute</text>
                 <text x="116" y="68">or</text>
                 <text x="64" y="84">Extension</text>
-                <text x="88" y="116">1</text>
+                <text x="88" y="116">0</text>
                 <text x="256" y="132">n</text>
                 <text x="376" y="148">CertificateAlternatives</text>
                 <text x="328" y="180">Certificate</text>
@@ -1450,7 +1450,7 @@ CertificateAlternatives.<a href="#section-4-2" class="pilcrow">¶</a></p>
                 <text x="336" y="212">TypedFlatCert</text>
                 <text x="88" y="244">n</text>
                 <text x="152" y="244">0</text>
-                <text x="192" y="260">1</text>
+                <text x="192" y="260">0</text>
                 <text x="256" y="260">n</text>
                 <text x="84" y="276">EvidenceBundle</text>
                 <text x="352" y="276">EvidenceStatement</text>
@@ -1465,57 +1465,59 @@ CertificateAlternatives.<a href="#section-4-2" class="pilcrow">¶</a></p>
         </figcaption></figure>
 </div>
 <p id="section-4-4">The following use cases are supported:<a href="#section-4-4" class="pilcrow">¶</a></p>
-<p id="section-4-5">1 Single Attester, which only distributes Evidence without any certificate chains,
+<p id="section-4-5">Single Attester, which only distributes Evidence without any certificate chains,
 i.e. the Verifier is assumed to be in possession of the certificate chain already
 or there is no certificate chain. As a result a single EvidenceBundle is included
 in a CSR that contains a single EvidenceStatement without the CertificateAlternatives
-structure.<a href="#section-4-5" class="pilcrow">¶</a></p>
-<p id="section-4-6">2 A single Attester, which shares Evidence together with a certificate chain.
-The CSR conveys a single EvidenceBundle with a single EvidenceStatement
-and a single CertificateAlternatives structure.<a href="#section-4-6" class="pilcrow">¶</a></p>
-<p id="section-4-7">3 In a Composite Device, which contains multiple Attesters, a collection of Evidence
-statements is obtained. Imagine that each Attester returns its Evidence together with a
-certificate chain. As a result, multiple EvidenceBundle structures, each carrying
-an EvidenceStatement and the corresponding CertificateAlternative structure with the
-certificate chain as provided by each Attester, are included in the CSR. It may
-be possible that there is an overlap in the certificate chains transmitted by
-the different Attesters. This approach does not require any processing capabilities
-by a lead Attester since the information is merely forwarded.<a href="#section-4-7" class="pilcrow">¶</a></p>
-<p id="section-4-8">4 In the last scenario, we also assume a Composite Device but in this case the
-lead Attester has additional processing capabilities to parse the certificate
-chains provided by all Attesters in the device and removes redundant certificate
-information. The benefit of this approach is the reduced transmission overhead.
-Assuming that each Attester is provisioned with a unique end-entity certificate,
-the certificate chains will at least differ with respect to the end-entity
-certificates. It is therefore necessary to convey certificate information that
-is unique to each EvidenceStatement structure while also conveying a certificate
-chain that is common accross all Attesters. As a result, multiple EvidenceBundle
-structures each carry an EvidenceStatement followed by a certificate chain in
-the CertificateAlternative structures (containing most likely only the end-entity
-certificate). The shared certificate chain is carried in the first entry of the
-EvidenceBundle sequence to allow path validation to take place immediately after
-processing the first structure.<a href="#section-4-8" class="pilcrow">¶</a></p>
-<p id="section-4-9">Note that this specification does not mandate optimizing certificate chains
-since there are trade-offs between Attester complexity and bandwidth consumption.<a href="#section-4-9" class="pilcrow">¶</a></p>
-<p id="section-4-10">Graphically, the four use cases can be shown as follows:<a href="#section-4-10" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="section-4-11">
+structure. <a href="#fig-single-attester" class="auto internal xref">Figure 3</a> shows this use case.<a href="#section-4-5" class="pilcrow">¶</a></p>
+<span id="name-use-case-1-single-attester-"></span><div id="fig-single-attester">
+<figure id="figure-3">
+        <div class="alignLeft art-text artwork" id="section-4-6.1">
 <pre>
-Use Case 1:
   +--------------------+
   |  EvidenceBundle    |
   +--------------------+
   | EvidenceStatement  |
   +--------------------+
-
-Use Case 2:
+</pre>
+</div>
+<figcaption><a href="#figure-3" class="selfRef">Figure 3</a>:
+<a href="#name-use-case-1-single-attester-" class="selfRef">Use Case 1: Single Attester without Certificate Chain.</a>
+        </figcaption></figure>
+</div>
+<p id="section-4-7">A single Attester, which shares Evidence together with a certificate chain.
+The CSR conveys a single EvidenceBundle with a single EvidenceStatement
+and a single CertificateAlternatives structure. <a href="#fig-single-attester-with-chain" class="auto internal xref">Figure 4</a> shows
+this use case.<a href="#section-4-7" class="pilcrow">¶</a></p>
+<span id="name-use-case-2-single-attester-"></span><div id="fig-single-attester-with-chain">
+<figure id="figure-4">
+        <div class="alignLeft art-text artwork" id="section-4-8.1">
+<pre>
  +-------------------------+
  |  EvidenceBundle         |
  +-------------------------+
  | EvidenceStatement       |
  | CertificateAlternatives |
  +-------------------------+
-
-Use Case 3:
+</pre>
+</div>
+<figcaption><a href="#figure-4" class="selfRef">Figure 4</a>:
+<a href="#name-use-case-2-single-attester-" class="selfRef">Use Case 2: Single Attester with Certificate Chain.</a>
+        </figcaption></figure>
+</div>
+<p id="section-4-9">In a Composite Device, which contains multiple Attesters, a collection of Evidence
+statements is obtained. Imagine that each Attester returns its Evidence together with a
+certificate chain. As a result, multiple EvidenceBundle structures, each carrying
+an EvidenceStatement and the corresponding CertificateAlternative structure with the
+certificate chain as provided by each Attester, are included in the CSR. It may
+be possible that there is an overlap in the certificate chains transmitted by
+the different Attesters. This approach does not require any processing capabilities
+by a lead Attester since the information is merely forwarded. <a href="#fig-multiple-attesters" class="auto internal xref">Figure 5</a>
+shows this use case.<a href="#section-4-9" class="pilcrow">¶</a></p>
+<span id="name-use-case-3-multiple-atteste"></span><div id="fig-multiple-attesters">
+<figure id="figure-5">
+        <div class="alignLeft art-text artwork" id="section-4-10.1">
+<pre>
   +-------------------------+
   |  EvidenceBundle (1)     |\
   +-------------------------+ \ Provided by
@@ -1527,8 +1529,23 @@ Use Case 3:
   | EvidenceStatement       | / Attester 2
   | CertificateAlternatives |/
   +-------------------------+
+</pre>
+</div>
+<figcaption><a href="#figure-5" class="selfRef">Figure 5</a>:
+<a href="#name-use-case-3-multiple-atteste" class="selfRef">Use Case 3: Multiple Attesters in Composite Device.</a>
+        </figcaption></figure>
+</div>
+<p id="section-4-11">In the last scenario, we also assume a Composite Device with additional processing
+capabilities of the Leader Attester, which parses the certificate chains provided by
+all Attesters in the device and removes redundant certificate information. The
+benefit of this approach is the reduced transmission overhead. There are several
+implementation strategies and we show two in <a href="#fig-multiple-attesters-optimized" class="auto internal xref">Figure 6</a>.<a href="#section-4-11" class="pilcrow">¶</a></p>
+<span id="name-use-case-4-multiple-atteste"></span><div id="fig-multiple-attesters-optimized">
+<figure id="figure-6">
+        <div class="alignLeft art-text artwork" id="section-4-12.1">
+<pre>
+Implementation strategy (4a)
 
-Use Case 4:
                 +-------------------------+
                 |  EvidenceBundle (1)     |\
   Certificate   +-------------------------+ \ Provided by
@@ -1542,8 +1559,44 @@ Use Case 4:
   End-Entity    | EvidenceStatement       | / Attester n
   Certificate--&gt;| CertificateAlternatives |/
                 +-------------------------+
-</pre><a href="#section-4-11" class="pilcrow">¶</a>
+
+Implementation strategy (4b)
+
+ +------------------------------+
+ |  EvidenceBundle              |
+ +------------------------------+
+ | EvidenceStatement (1)        |
+ |        ...                   |
+ | EvidenceStatement (n)        |
+ | CertificateAlternatives {    |
+ |   End Entity Certificate (1) |
+ |        ...                   |
+ |   End Entity Certificate (n) |
+ |   &lt;Remainder of the          |
+ |    Certificate Chain&gt;        |
+ | }                            |
+ +------------------------------+
+</pre>
 </div>
+<figcaption><a href="#figure-6" class="selfRef">Figure 6</a>:
+<a href="#name-use-case-4-multiple-atteste" class="selfRef">Use Case 4: Multiple Attesters in Composite Device (with Optimization).</a>
+        </figcaption></figure>
+</div>
+<p id="section-4-13">In implementation strategy (4a) we assume that each Attester is provisioned with
+a unique end-entity certificate. Hence, the certificate chains will at least differ
+with respect to the end-entity certificates.
+The Lead Attester will therefore create multiple EvidenceBundle structures, each
+will carry an EvidenceStatement followed by a certificate chain in
+the CertificateAlternative structures containing most likely only the end-entity
+certificate. The shared certificate chain is carried in the first entry of the
+EvidenceBundle sequence to allow path validation to take place immediately after
+processing the first structure.<a href="#section-4-13" class="pilcrow">¶</a></p>
+<p id="section-4-14">Implementation strategy (4b), as an alternative, requires the Lead Attester
+to merge all certificate chains into a single EvidenceBundle containing a single
+de-duplicated sequence of CertificateAlternatives structures.<a href="#section-4-14" class="pilcrow">¶</a></p>
+<p id="section-4-15">Note: This specification does not mandate optimizing certificate chains since
+there is a trade-off between the Attester implementation complexity and the
+transmission overhead.<a href="#section-4-15" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="asn1-elements">
@@ -1808,8 +1861,8 @@ key applied to sign the CSR is generated, and stored in a secure
 environment that has controls to prevent theft or misuse (including
 being non-exportable / non-recoverable), the Attesting Environment
 has to collect claims about this secure environment (or Target
-Environment, as shown in <a href="#fig-attester" class="auto internal xref">Figure 3</a>).<a href="#section-7-1" class="pilcrow">¶</a></p>
-<p id="section-7-2"><a href="#fig-attester" class="auto internal xref">Figure 3</a> shows the interaction inside an Attester. The
+Environment, as shown in <a href="#fig-attester" class="auto internal xref">Figure 7</a>).<a href="#section-7-1" class="pilcrow">¶</a></p>
+<p id="section-7-2"><a href="#fig-attester" class="auto internal xref">Figure 7</a> shows the interaction inside an Attester. The
 Attesting Environment, which is provisioned with an Attestation Key,
 retrieves claims about the Target Environment. The Target
 Environment offers key generation, storage and usage, which it
@@ -1817,7 +1870,7 @@ makes available to services. The Attesting Environment collects
 these claims about the Target Environment and signs them and
 exports Evidence for use in remote attestation via a CSR.<a href="#section-7-2" class="pilcrow">¶</a></p>
 <span id="name-interaction-between-attesti"></span><div id="fig-attester">
-<figure id="figure-3">
+<figure id="figure-7">
         <div id="section-7-3.1">
           <div class="alignLeft art-svg artwork" id="section-7-3.1.1">
 <svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="576" width="328" viewBox="0 0 328 576" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
@@ -1894,11 +1947,11 @@ exports Evidence for use in remote attestation via a CSR.<a href="#section-7-2" 
             </svg><a href="#section-7-3.1.1" class="pilcrow">¶</a>
 </div>
 </div>
-<figcaption><a href="#figure-3" class="selfRef">Figure 3</a>:
+<figcaption><a href="#figure-7" class="selfRef">Figure 7</a>:
 <a href="#name-interaction-between-attesti" class="selfRef">Interaction between Attesting and Target Environment</a>
         </figcaption></figure>
 </div>
-<p id="section-7-4"><a href="#fig-attester" class="auto internal xref">Figure 3</a> places the CSR library outside the Attester, which
+<p id="section-7-4"><a href="#fig-attester" class="auto internal xref">Figure 7</a> places the CSR library outside the Attester, which
 is an implementation choice. The CSR library may also be located
 inside the trusted computing base. Regardless of the placement
 of the CSR library an Attesting Environment <span class="bcp14">MUST</span> be able to collect
@@ -2031,7 +2084,7 @@ These privacy considerations are beyond the scope of this document and may requi
 <dd class="break"></dd>
 <dt id="I-D.tschofenig-rats-psa-token">[I-D.tschofenig-rats-psa-token]</dt>
         <dd>
-<span class="refAuthor">Tschofenig, H.</span>, <span class="refAuthor">Frost, S.</span>, <span class="refAuthor">Brossard, M.</span>, <span class="refAuthor">Shaw, A. L.</span>, and <span class="refAuthor">T. Fossati</span>, <span class="refTitle">"Arm's Platform Security Architecture (PSA) Attestation Token"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-tschofenig-rats-psa-token-17</span>, <time datetime="2023-12-01" class="refDate">1 December 2023</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-tschofenig-rats-psa-token-17">https://datatracker.ietf.org/doc/html/draft-tschofenig-rats-psa-token-17</a>&gt;</span>. </dd>
+<span class="refAuthor">Tschofenig, H.</span>, <span class="refAuthor">Frost, S.</span>, <span class="refAuthor">Brossard, M.</span>, <span class="refAuthor">Shaw, A. L.</span>, and <span class="refAuthor">T. Fossati</span>, <span class="refTitle">"Arm's Platform Security Architecture (PSA) Attestation Token"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-tschofenig-rats-psa-token-19</span>, <time datetime="2023-12-07" class="refDate">7 December 2023</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-tschofenig-rats-psa-token-19">https://datatracker.ietf.org/doc/html/draft-tschofenig-rats-psa-token-19</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC7030">[RFC7030]</dt>
         <dd>
@@ -2078,7 +2131,7 @@ the up-time, the event log, etc. The detailed structure of such
 payload is, however, not defined in this document and may be subject to
 future standardization work in supplementary documents.<a href="#appendix-A.1-2" class="pilcrow">¶</a></p>
 <span id="name-csr-with-tpm-v20"></span><div id="fig-example-tpm">
-<figure id="figure-4">
+<figure id="figure-8">
           <div class="alignLeft art-text artwork" id="appendix-A.1-3.1">
 <pre>
 Certification Request:
@@ -2134,7 +2187,7 @@ Certification Request:
         57:f9:23:ee:93:47:6d:d6:d3:4f:c2:b7:cc:0d:89:71:fe
 </pre>
 </div>
-<figcaption><a href="#figure-4" class="selfRef">Figure 4</a>:
+<figcaption><a href="#figure-8" class="selfRef">Figure 8</a>:
 <a href="#name-csr-with-tpm-v20" class="selfRef">CSR with TPM V2.0</a>
           </figcaption></figure>
 </div>
@@ -2145,13 +2198,13 @@ Certification Request:
         <h3 id="name-platform-security-architect">
 <a href="#appendix-A.2" class="section-number selfRef">A.2. </a><a href="#name-platform-security-architect" class="section-name selfRef">Platform Security Architecture Attestation Token in CSR</a>
         </h3>
-<p id="appendix-A.2-1">The example shown in <a href="#fig-example-psa" class="auto internal xref">Figure 5</a> illustrates how the Arm
+<p id="appendix-A.2-1">The example shown in <a href="#fig-example-psa" class="auto internal xref">Figure 9</a> illustrates how the Arm
 Platform Security Architecture (PSA) Attestation Token
 is conveyed in a CSR. The content of the Evidence in this example is re-used
 from <span>[<a href="#I-D.tschofenig-rats-psa-token" class="cite xref">I-D.tschofenig-rats-psa-token</a>]</span> and contains an Entity Attestation
 Token (EAT) digitally signed with an attestation private key.<a href="#appendix-A.2-1" class="pilcrow">¶</a></p>
 <span id="name-csr-with-embedded-psa-attes"></span><div id="fig-example-psa">
-<figure id="figure-5">
+<figure id="figure-9">
           <div class="alignLeft art-text artwork" id="appendix-A.2-2.1">
 <pre>
 Certification Request:
@@ -2207,7 +2260,7 @@ Certification Request:
         57:f9:23:ee:93:47:6d:d6:d3:4f:c2:b7:cc:0d:89:71:fe
 </pre>
 </div>
-<figcaption><a href="#figure-5" class="selfRef">Figure 5</a>:
+<figcaption><a href="#figure-9" class="selfRef">Figure 9</a>:
 <a href="#name-csr-with-embedded-psa-attes" class="selfRef">CSR with embedded PSA Attestation Token</a>
           </figcaption></figure>
 </div>

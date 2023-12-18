@@ -5,10 +5,10 @@
 Network Working Group                                       M. Ounsworth
 Internet-Draft                                                   Entrust
 Intended status: Standards Track                           H. Tschofenig
-Expires: 5 June 2024                                             Siemens
+Expires: 20 June 2024                                            Siemens
                                                              H. Birkholz
                                                           Fraunhofer SIT
-                                                         3 December 2023
+                                                        18 December 2023
 
 
       Use of Remote Attestation with Certificate Signing Requests
@@ -63,7 +63,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 5 June 2024.
+   This Internet-Draft will expire on 20 June 2024.
 
 Copyright Notice
 
@@ -267,7 +267,7 @@ Table of Contents
     |  Attribute or      |
     |  Extension         |
     +--------+-----------+
-             |1
+             |0
              |                     n +-------------------------+
              |         +-------------+ CertificateAlternatives |
              |         |             +-------------------------+
@@ -276,7 +276,7 @@ Table of Contents
              |         |             | TypedFlatCert           |
              |         |             +-------------------------+
              |n       0|
-    +--------+---------+-+ 1       n +-------------------+
+    +--------+---------+-+ 0       n +-------------------+
     |  EvidenceBundle    +-----------+ EvidenceStatement |
     +--------------------+           +-------------------+
                                      | Type              |
@@ -287,19 +287,36 @@ Table of Contents
 
    The following use cases are supported:
 
-   1 Single Attester, which only distributes Evidence without any
+   Single Attester, which only distributes Evidence without any
    certificate chains, i.e. the Verifier is assumed to be in possession
    of the certificate chain already or there is no certificate chain.
    As a result a single EvidenceBundle is included in a CSR that
    contains a single EvidenceStatement without the
-   CertificateAlternatives structure.
+   CertificateAlternatives structure.  Figure 3 shows this use case.
 
-   2 A single Attester, which shares Evidence together with a
-   certificate chain.  The CSR conveys a single EvidenceBundle with a
-   single EvidenceStatement and a single CertificateAlternatives
-   structure.
+     +--------------------+
+     |  EvidenceBundle    |
+     +--------------------+
+     | EvidenceStatement  |
+     +--------------------+
 
-   3 In a Composite Device, which contains multiple Attesters, a
+      Figure 3: Use Case 1: Single Attester without Certificate Chain.
+
+   A single Attester, which shares Evidence together with a certificate
+   chain.  The CSR conveys a single EvidenceBundle with a single
+   EvidenceStatement and a single CertificateAlternatives structure.
+   Figure 4 shows this use case.
+
+    +-------------------------+
+    |  EvidenceBundle         |
+    +-------------------------+
+    | EvidenceStatement       |
+    | CertificateAlternatives |
+    +-------------------------+
+
+       Figure 4: Use Case 2: Single Attester with Certificate Chain.
+
+   In a Composite Device, which contains multiple Attesters, a
    collection of Evidence statements is obtained.  Imagine that each
    Attester returns its Evidence together with a certificate chain.  As
    a result, multiple EvidenceBundle structures, each carrying an
@@ -308,48 +325,9 @@ Table of Contents
    are included in the CSR.  It may be possible that there is an overlap
    in the certificate chains transmitted by the different Attesters.
    This approach does not require any processing capabilities by a lead
-   Attester since the information is merely forwarded.
+   Attester since the information is merely forwarded.  Figure 5 shows
+   this use case.
 
-   4 In the last scenario, we also assume a Composite Device but in this
-   case the lead Attester has additional processing capabilities to
-   parse the certificate chains provided by all Attesters in the device
-   and removes redundant certificate information.  The benefit of this
-   approach is the reduced transmission overhead.  Assuming that each
-   Attester is provisioned with a unique end-entity certificate, the
-   certificate chains will at least differ with respect to the end-
-   entity certificates.  It is therefore necessary to convey certificate
-   information that is unique to each EvidenceStatement structure while
-   also conveying a certificate chain that is common accross all
-   Attesters.  As a result, multiple EvidenceBundle structures each
-   carry an EvidenceStatement followed by a certificate chain in the
-   CertificateAlternative structures (containing most likely only the
-   end-entity certificate).  The shared certificate chain is carried in
-   the first entry of the EvidenceBundle sequence to allow path
-   validation to take place immediately after processing the first
-   structure.
-
-   Note that this specification does not mandate optimizing certificate
-   chains since there are trade-offs between Attester complexity and
-   bandwidth consumption.
-
-   Graphically, the four use cases can be shown as follows:
-
-   Use Case 1:
-     +--------------------+
-     |  EvidenceBundle    |
-     +--------------------+
-     | EvidenceStatement  |
-     +--------------------+
-
-   Use Case 2:
-    +-------------------------+
-    |  EvidenceBundle         |
-    +-------------------------+
-    | EvidenceStatement       |
-    | CertificateAlternatives |
-    +-------------------------+
-
-   Use Case 3:
      +-------------------------+
      |  EvidenceBundle (1)     |\
      +-------------------------+ \ Provided by
@@ -362,7 +340,17 @@ Table of Contents
      | CertificateAlternatives |/
      +-------------------------+
 
-   Use Case 4:
+       Figure 5: Use Case 3: Multiple Attesters in Composite Device.
+
+   In the last scenario, we also assume a Composite Device with
+   additional processing capabilities of the Leader Attester, which
+   parses the certificate chains provided by all Attesters in the device
+   and removes redundant certificate information.  The benefit of this
+   approach is the reduced transmission overhead.  There are several
+   implementation strategies and we show two in Figure 6.
+
+   Implementation strategy (4a)
+
                    +-------------------------+
                    |  EvidenceBundle (1)     |\
      Certificate   +-------------------------+ \ Provided by
@@ -376,6 +364,47 @@ Table of Contents
      End-Entity    | EvidenceStatement       | / Attester n
      Certificate-->| CertificateAlternatives |/
                    +-------------------------+
+
+   Implementation strategy (4b)
+
+    +------------------------------+
+    |  EvidenceBundle              |
+    +------------------------------+
+    | EvidenceStatement (1)        |
+    |        ...                   |
+    | EvidenceStatement (n)        |
+    | CertificateAlternatives {    |
+    |   End Entity Certificate (1) |
+    |        ...                   |
+    |   End Entity Certificate (n) |
+    |   <Remainder of the          |
+    |    Certificate Chain>        |
+    | }                            |
+    +------------------------------+
+
+     Figure 6: Use Case 4: Multiple Attesters in Composite Device (with
+                               Optimization).
+
+   In implementation strategy (4a) we assume that each Attester is
+   provisioned with a unique end-entity certificate.  Hence, the
+   certificate chains will at least differ with respect to the end-
+   entity certificates.  The Lead Attester will therefore create
+   multiple EvidenceBundle structures, each will carry an
+   EvidenceStatement followed by a certificate chain in the
+   CertificateAlternative structures containing most likely only the
+   end-entity certificate.  The shared certificate chain is carried in
+   the first entry of the EvidenceBundle sequence to allow path
+   validation to take place immediately after processing the first
+   structure.
+
+   Implementation strategy (4b), as an alternative, requires the Lead
+   Attester to merge all certificate chains into a single EvidenceBundle
+   containing a single de-duplicated sequence of CertificateAlternatives
+   structures.
+
+   Note: This specification does not mandate optimizing certificate
+   chains since there is a trade-off between the Attester implementation
+   complexity and the transmission overhead.
 
 5.  ASN.1 Elements
 
@@ -568,9 +597,9 @@ Table of Contents
    controls to prevent theft or misuse (including being non-exportable /
    non-recoverable), the Attesting Environment has to collect claims
    about this secure environment (or Target Environment, as shown in
-   Figure 3).
+   Figure 7).
 
-   Figure 3 shows the interaction inside an Attester.  The Attesting
+   Figure 7 shows the interaction inside an Attester.  The Attesting
    Environment, which is provisioned with an Attestation Key, retrieves
    claims about the Target Environment.  The Target Environment offers
    key generation, storage and usage, which it makes available to
@@ -612,9 +641,9 @@ Table of Contents
     |                                    |
     '------------------------------------'
 
-       Figure 3: Interaction between Attesting and Target Environment
+       Figure 7: Interaction between Attesting and Target Environment
 
-   Figure 3 places the CSR library outside the Attester, which is an
+   Figure 7 places the CSR library outside the Attester, which is an
    implementation choice.  The CSR library may also be located inside
    the trusted computing base.  Regardless of the placement of the CSR
    library an Attesting Environment MUST be able to collect claims about
@@ -754,9 +783,9 @@ Table of Contents
               Tschofenig, H., Frost, S., Brossard, M., Shaw, A. L., and
               T. Fossati, "Arm's Platform Security Architecture (PSA)
               Attestation Token", Work in Progress, Internet-Draft,
-              draft-tschofenig-rats-psa-token-17, 1 December 2023,
+              draft-tschofenig-rats-psa-token-19, 7 December 2023,
               <https://datatracker.ietf.org/doc/html/draft-tschofenig-
-              rats-psa-token-17>.
+              rats-psa-token-19>.
 
    [RFC7030]  Pritikin, M., Ed., Yee, P., Ed., and D. Harkins, Ed.,
               "Enrollment over Secure Transport", RFC 7030,
@@ -855,11 +884,11 @@ A.1.  TPM V2.0 Evidence in CSR
            8a:02:20:36:be:3d:71:93:5d:05:c3:ac:fa:a8:f3:e5:46:db:
            57:f9:23:ee:93:47:6d:d6:d3:4f:c2:b7:cc:0d:89:71:fe
 
-                        Figure 4: CSR with TPM V2.0
+                        Figure 8: CSR with TPM V2.0
 
 A.2.  Platform Security Architecture Attestation Token in CSR
 
-   The example shown in Figure 5 illustrates how the Arm Platform
+   The example shown in Figure 9 illustrates how the Arm Platform
    Security Architecture (PSA) Attestation Token is conveyed in a CSR.
    The content of the Evidence in this example is re-used from
    [I-D.tschofenig-rats-psa-token] and contains an Entity Attestation
@@ -917,7 +946,7 @@ A.2.  Platform Security Architecture Attestation Token in CSR
            8a:02:20:36:be:3d:71:93:5d:05:c3:ac:fa:a8:f3:e5:46:db:
            57:f9:23:ee:93:47:6d:d6:d3:4f:c2:b7:cc:0d:89:71:fe
 
-             Figure 5: CSR with embedded PSA Attestation Token
+             Figure 9: CSR with embedded PSA Attestation Token
 
    The decoded Evidence is shown in Appendix A of
    [I-D.tschofenig-rats-psa-token], the shown Evidence, provides the

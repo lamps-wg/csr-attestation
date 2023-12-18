@@ -294,14 +294,14 @@ broad variety of certificate types.
 ~~~
 CertificateAlternatives ::=
    CHOICE {
-      cert Certificate,
-      typedCert     [0] IMPLICIT TypedCert,
-      typedFlatCert [1] IMPLICIT TypedFlatCert
+      cert          [0] Certificate,
+      typedCert     [1] TypedCert,
+      typedFlatCert [2] TypedFlatCert
+      ...
    }
 ~~~
 
 "Certificate" is a standard X.509 certificate that MUST be compliant
-
 with RFC 5280.  Enforcement of this constraint is left to the relying
 parties.
 

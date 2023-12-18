@@ -356,8 +356,12 @@ processing the first structure.
 
 Implementation strategy (4b), as an alternative, requires the Lead Attester
 to merge all certificate chains into a single EvidenceBundle containing a single
-de-duplicated sequence of CertificateAlternatives structures.
-
+de-duplicated sequence of CertificateAlternatives structures. This means that each
+EvidenceBundle is self-contained and any EvidenceStatement can be verified using
+only the sequence of CertificateAlternatives in its bundle, but Verifiers will have
+to do proper certification path building since the sequence of CertificateAlternatives
+is now a cert bag and not a cert chain.
+ 
 Note: This specification does not mandate optimizing certificate chains since
 there is a trade-off between the Attester implementation complexity and the
 transmission overhead.

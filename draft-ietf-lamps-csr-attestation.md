@@ -247,7 +247,7 @@ EvidenceStatement ::= SEQUENCE {
 EvidenceBundle ::= SEQUENCE
 {
   evidence  SEQUENCE OF EvidenceStatement,
-  certs SEQUENCE OF CertificateAlternatives OPTIONAL
+  certs SEQUENCE OF CertificateAlternatives
 }
 
 id-aa-evidenceStatement OBJECT IDENTIFIER ::= { id-aa TBDAA }

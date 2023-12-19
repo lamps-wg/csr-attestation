@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2023-12-17T00:52:00.289111+00:00",
+  "timestamp": "2023-12-19T00:47:56.081085+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -652,9 +652,17 @@
       "labels": [],
       "body": "Ned mentioned that the trusted path routing work requires the use of an attestation result.",
       "createdAt": "2023-11-20T17:40:20Z",
-      "updatedAt": "2023-11-20T17:40:20Z",
+      "updatedAt": "2023-12-18T14:19:29Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Use case 2: RA interacts with the Verifier to obtain an Attestation Result and then includes the Attestation Result into the CSR to the CA",
+          "createdAt": "2023-12-18T14:19:28Z",
+          "updatedAt": "2023-12-18T14:19:28Z"
+        }
+      ]
     },
     {
       "number": 63,
@@ -701,16 +709,24 @@
       "id": "I_kwDOJ3IIN854TItT",
       "title": "Ability to carry Attestation Result in the CSR",
       "url": "https://github.com/lamps-wg/csr-attestation/issues/66",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "hannestschofenig",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Use case 1: https://github.com/lamps-wg/csr-attestation/issues/62\r\n\r\nUse case 2: RA interacts with the Verifier to obtain an Attestation Result and then includes the Attestation Result into the CSR to the CA\r\n",
       "createdAt": "2023-11-30T09:59:29Z",
-      "updatedAt": "2023-11-30T09:59:29Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2023-12-18T14:19:17Z",
+      "closedAt": "2023-12-18T14:19:16Z",
+      "comments": [
+        {
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Merge use case 2 into #62 ",
+          "createdAt": "2023-12-18T14:19:16Z",
+          "updatedAt": "2023-12-18T14:19:16Z"
+        }
+      ]
     },
     {
       "number": 67,
@@ -735,6 +751,22 @@
           "updatedAt": "2023-12-05T08:15:27Z"
         }
       ]
+    },
+    {
+      "number": 70,
+      "id": "I_kwDOJ3IIN856BNCF",
+      "title": "Add a hint to the RP about which verifier to call",
+      "url": "https://github.com/lamps-wg/csr-attestation/issues/70",
+      "state": "OPEN",
+      "author": "ounsworth",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Idea: add an OPTIONAL FQDN to the EvidenceStatement as a hint from the Attester to the RP about which Verifier to pass the evidence to. Related to the concept of \"Audience\".\r\n\r\nThis came up in discussion because some people were imagining that the EvidenceStatement.type OID would serve this purpose, but other people pointed out that this will not be the case when EvidenceStatement.type is, for example, \"TCG_TPM\" or \"CMW\".\r\n\r\nThere is a security question here about whether the not-yet-verified data should be allowed to tell the RP which code to call.",
+      "createdAt": "2023-12-18T17:37:17Z",
+      "updatedAt": "2023-12-18T17:37:17Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
@@ -3162,13 +3194,13 @@
       "labels": [],
       "body": "This PR addresses issues #59 and #60.",
       "createdAt": "2023-11-28T06:36:09Z",
-      "updatedAt": "2023-12-03T09:43:51Z",
+      "updatedAt": "2023-12-18T14:21:01Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "f91c596732fa71620f433d0766efd685d695ec42",
       "headRepository": "lamps-wg/csr-attestation",
       "headRefName": "hannestschofenig-patch-2",
-      "headRefOid": "d8bef791381fd0c95e27a874bcd400d2b5cc3891",
+      "headRefOid": "a2be166fa1ff219f0715ab57376ed2749b088b61",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -3263,6 +3295,46 @@
       "mergeCommit": null,
       "comments": [],
       "reviews": []
+    },
+    {
+      "number": 69,
+      "id": "PR_kwDOJ3IIN85iROrk",
+      "title": "Removing \"OPTIONAL\" keyword",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/69",
+      "state": "OPEN",
+      "author": "hannestschofenig",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-12-18T14:17:40Z",
+      "updatedAt": "2023-12-18T17:09:24Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "855c2d0f9b1bd2171381da93f268a8506d516b50",
+      "headRepository": "lamps-wg/csr-attestation",
+      "headRefName": "hannestschofenig-patch-4",
+      "headRefOid": "874e4b92f5780dac97e53dd0df5c120c26a256e4",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJ3IIN85qiRP_",
+          "commit": {
+            "abbreviatedOid": "874e4b9"
+          },
+          "author": "mcr",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2023-12-18T17:09:24Z",
+          "updatedAt": "2023-12-18T17:09:24Z",
+          "comments": []
+        }
+      ]
     }
   ]
 }

@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2023-12-19T00:47:56.081085+00:00",
+  "timestamp": "2023-12-21T00:46:49.653827+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -764,9 +764,24 @@
       "labels": [],
       "body": "Idea: add an OPTIONAL FQDN to the EvidenceStatement as a hint from the Attester to the RP about which Verifier to pass the evidence to. Related to the concept of \"Audience\".\r\n\r\nThis came up in discussion because some people were imagining that the EvidenceStatement.type OID would serve this purpose, but other people pointed out that this will not be the case when EvidenceStatement.type is, for example, \"TCG_TPM\" or \"CMW\".\r\n\r\nThere is a security question here about whether the not-yet-verified data should be allowed to tell the RP which code to call.",
       "createdAt": "2023-12-18T17:37:17Z",
-      "updatedAt": "2023-12-18T17:37:17Z",
+      "updatedAt": "2023-12-19T16:47:14Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "Akretsch",
+          "authorAssociation": "NONE",
+          "body": "Maybe a GeneralName instead of a simple FQDN would be more ASN.1 style.",
+          "createdAt": "2023-12-19T07:49:01Z",
+          "updatedAt": "2023-12-19T07:49:01Z"
+        },
+        {
+          "author": "thomas-fossati",
+          "authorAssociation": "NONE",
+          "body": "> There is a security question here about whether the not-yet-verified data should be allowed to tell the RP which code to call.\r\n\r\n\u261d\ufe0f\r\n\r\nThe RP must have a pre-established trust relationship with the verifier(s), surely it can't blindly follow a potentially malicious routing hint.\r\n\r\n> This came up in discussion because some people were imagining that the EvidenceStatement.type OID would serve this purpose, but other people pointed out that this will not be the case when EvidenceStatement.type is, for example, \"TCG_TPM\" or \"CMW\".\r\n\r\nNoting that CMW is a typed object so, in that sense, it's equivalent to EvidenceStatement: instead of EvidenceStatement.type OID the RP could use CMW's media type.\r\n",
+          "createdAt": "2023-12-19T16:45:01Z",
+          "updatedAt": "2023-12-19T16:47:14Z"
+        }
+      ]
     }
   ],
   "pulls": [

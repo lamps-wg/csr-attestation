@@ -13,7 +13,7 @@
        This document describes how to encode Evidence produced by an Attester for inclusion in Certificate Signing Requests (CSRs), and any certificates necessary for validating it. 
        Including Evidence along with a CSR can help to improve the assessment of the security posture for the private key, and the trustworthiness properties of the submitted key to the requested certificate profile. These Evidence Claims can include information about the hardware component's manufacturer, the version of installed or running firmware, the version of software installed or running in layers above the firmware, or the presence of hardware components providing specific protection capabilities or shielded locations (e.g., to protect keys). 
     " name="description">
-<meta content="xml2rfc 3.18.2" name="generator">
+<meta content="xml2rfc 3.19.0" name="generator">
 <meta content="PKI" name="keyword">
 <meta content="PKCS#10" name="keyword">
 <meta content="CFMF" name="keyword">
@@ -22,18 +22,18 @@
 <meta content="Certificate Signing Requests" name="keyword">
 <meta content="draft-ietf-lamps-csr-attestation-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.18.2
+  xml2rfc 3.19.0
     Python 3.11.6
-    ConfigArgParse 1.5.3
+    ConfigArgParse 1.7
     google-i18n-address 3.1.0
     intervaltree 3.1.0
     Jinja2 3.1.2
     lxml 4.9.3
-    platformdirs 4.0.0
+    platformdirs 4.1.0
     pycountry 22.3.5
-    PyYAML 6.0
+    PyYAML 6.0.1
     requests 2.31.0
-    setuptools 67.7.2
+    setuptools 68.2.2
     six 1.16.0
     wcwidth 0.2.12
 -->
@@ -1034,11 +1034,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">Remote Attestation with CSRs</td>
-<td class="right">December 2023</td>
+<td class="right">January 2024</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Ounsworth, et al.</td>
-<td class="center">Expires 6 June 2024</td>
+<td class="center">Expires 12 July 2024</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1051,12 +1051,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-lamps-csr-attestation-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2023-12-04" class="published">4 December 2023</time>
+<time datetime="2024-01-09" class="published">9 January 2024</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2024-06-06">6 June 2024</time></dd>
+<dd class="expires"><time datetime="2024-07-12">12 July 2024</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1111,7 +1111,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 6 June 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 12 July 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1120,7 +1120,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <a href="#name-copyright-notice" class="section-name selfRef">Copyright Notice</a>
         </h2>
 <p id="section-boilerplate.2-1">
-            Copyright (c) 2023 IETF Trust and the persons identified as the
+            Copyright (c) 2024 IETF Trust and the persons identified as the
             document authors. All rights reserved.<a href="#section-boilerplate.2-1" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.2-2">
             This document is subject to BCP 78 and the IETF Trust's Legal
@@ -1487,22 +1487,23 @@ broad variety of certificate types.<a href="#section-4.3-1" class="pilcrow">¶</
 <pre>
 CertificateAlternatives ::=
    CHOICE {
-      cert Certificate,
-      typedCert     [0] IMPLICIT TypedCert,
-      typedFlatCert [1] IMPLICIT TypedFlatCert
+      cert          [0] Certificate,
+      typedCert     [1] TypedCert,
+      typedFlatCert [2] TypedFlatCert
+      ...
    }
 </pre><a href="#section-4.3-2" class="pilcrow">¶</a>
 </div>
-<p id="section-4.3-3">"Certificate" is a standard X.509 certificate that <span class="bcp14">MUST</span> be compliant<a href="#section-4.3-3" class="pilcrow">¶</a></p>
-<p id="section-4.3-4">with RFC 5280.  Enforcement of this constraint is left to the relying
-parties.<a href="#section-4.3-4" class="pilcrow">¶</a></p>
-<p id="section-4.3-5">"TypedCert" is an ASN.1 construct that has the charateristics of a
+<p id="section-4.3-3">"Certificate" is a standard X.509 certificate that <span class="bcp14">MUST</span> be compliant
+with RFC 5280.  Enforcement of this constraint is left to the relying
+parties.<a href="#section-4.3-3" class="pilcrow">¶</a></p>
+<p id="section-4.3-4">"TypedCert" is an ASN.1 construct that has the charateristics of a
 certificate, but is not encoded as an X.509 certificate.  The
 certType Field (below) indicates how to interpret the certBody field.  While
 it is possible to carry any type of data in this structure, it's
 intended the content field include data for at least one public key
-formatted as a SubjectPublicKeyInfo (see <span>[<a href="#RFC5912" class="cite xref">RFC5912</a>]</span>).<a href="#section-4.3-5" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="section-4.3-6">
+formatted as a SubjectPublicKeyInfo (see <span>[<a href="#RFC5912" class="cite xref">RFC5912</a>]</span>).<a href="#section-4.3-4" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-4.3-5">
 <pre>
 TYPED-CERT ::= TYPE-IDENTIFIER
 
@@ -1516,20 +1517,20 @@ TypedCert ::= SEQUENCE {
 TypedCertSet TYPED-CERT ::= {
              ... -- Empty for now,
              }
-</pre><a href="#section-4.3-6" class="pilcrow">¶</a>
+</pre><a href="#section-4.3-5" class="pilcrow">¶</a>
 </div>
-<p id="section-4.3-7">"TypedFlatCert" is a certificate that does not have a valid ASN.1
+<p id="section-4.3-6">"TypedFlatCert" is a certificate that does not have a valid ASN.1
 encoding.
 These are often compact or implicit certificates used by smart cards.
 certType indicates the format of the data in the
-certBody field, and ideally refers to a published specification.<a href="#section-4.3-7" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="section-4.3-8">
+certBody field, and ideally refers to a published specification.<a href="#section-4.3-6" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-4.3-7">
 <pre>
 TypedFlatCert ::= SEQUENCE {
     certType OBJECT IDENTIFIER,
     certBody OCTET STRING
 }
-</pre><a href="#section-4.3-8" class="pilcrow">¶</a>
+</pre><a href="#section-4.3-7" class="pilcrow">¶</a>
 </div>
 </section>
 </div>
@@ -1875,7 +1876,7 @@ These privacy considerations are beyond the scope of this document and may requi
 <dd class="break"></dd>
 <dt id="I-D.tschofenig-rats-psa-token">[I-D.tschofenig-rats-psa-token]</dt>
         <dd>
-<span class="refAuthor">Tschofenig, H.</span>, <span class="refAuthor">Frost, S.</span>, <span class="refAuthor">Brossard, M.</span>, <span class="refAuthor">Shaw, A. L.</span>, and <span class="refAuthor">T. Fossati</span>, <span class="refTitle">"Arm's Platform Security Architecture (PSA) Attestation Token"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-tschofenig-rats-psa-token-18</span>, <time datetime="2023-12-04" class="refDate">4 December 2023</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-tschofenig-rats-psa-token-18">https://datatracker.ietf.org/doc/html/draft-tschofenig-rats-psa-token-18</a>&gt;</span>. </dd>
+<span class="refAuthor">Tschofenig, H.</span>, <span class="refAuthor">Frost, S.</span>, <span class="refAuthor">Brossard, M.</span>, <span class="refAuthor">Shaw, A. L.</span>, and <span class="refAuthor">T. Fossati</span>, <span class="refTitle">"Arm's Platform Security Architecture (PSA) Attestation Token"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-tschofenig-rats-psa-token-20</span>, <time datetime="2023-12-18" class="refDate">18 December 2023</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-tschofenig-rats-psa-token-20">https://datatracker.ietf.org/doc/html/draft-tschofenig-rats-psa-token-20</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC7030">[RFC7030]</dt>
         <dd>
@@ -2120,9 +2121,9 @@ id-ata OBJECT IDENTIFIER ::= { id-pkix (TBD1) }
 
 CertificateAlternatives ::=
    CHOICE {
-      cert Certificate,
-      typedCert     [0] IMPLICIT TypedCert,
-      typedFlatCert [1] IMPLICIT TypedFlatCert,
+      cert          [0] Certificate,
+      typedCert     [1] TypedCert,
+      typedFlatCert [2] TypedFlatCert
       ...
    }
 

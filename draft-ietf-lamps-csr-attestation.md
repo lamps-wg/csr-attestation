@@ -255,8 +255,10 @@ which Verifier should be invoked to parse this statement. In many cases,
 the type OID will already uniquely indicate which Verifier to invoke, but
 in some cases it may still be ambiguous, or the type may indicate
 another layer of conceptual message wrapping in which case it is helpful
-to the RP to bring this hint outside of the statement. The contents of
-the hint are out of scope for this document.
+to the RP to bring this hint outside of the statement.
+It is assumed that the RP must be pre-configured with a list of trusted
+Verifiers and that the contents of this hint can be used to look up
+the correct Verifier. The contents of the hint are out of scope for this document.
 
 ~~~
 EvidenceBundles ::= SEQUENCE OF EvidenceBundle

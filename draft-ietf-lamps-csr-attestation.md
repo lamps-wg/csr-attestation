@@ -239,14 +239,18 @@ EvidenceStatementSet EVIDENCE-STATEMENT ::= {
    ... -- Empty for now --
 }
 
+EvidenceStatements ::= SEQUENCE OF EvidenceStatement
+
 EvidenceStatement ::= SEQUENCE {
    type   EVIDENCE-STATEMENT.&id({EvidenceStatementSet}),
    stmt   EVIDENCE-STATEMENT.&Type({EvidenceStatementSet}{@type})
 }
 
+EvidenceBundles ::= SEQUENCE OF EvidenceBundle
+
 EvidenceBundle ::= SEQUENCE
 {
-  evidence  SEQUENCE OF EvidenceStatement,
+  evidence EvidenceStatements,
   certs SEQUENCE OF CertificateAlternatives OPTIONAL
 }
 
@@ -254,13 +258,13 @@ id-aa-evidenceStatement OBJECT IDENTIFIER ::= { id-aa TBDAA }
 
 -- For PKCS#10
 attr-evidence ATTRIBUTE ::= {
-  TYPE SEQUENCE OF EvidenceBundle
+  TYPE EvidenceBundles
   IDENTIFIED BY id-aa-evidenceStatement
 }
 
 -- For CRMF
 ext-evidence EXTENSION ::= {
-  SYNTAX SEQUENCE OF EvidenceBundle
+  SYNTAX EvidenceBundles
   IDENTIFIED BY id-aa-evidenceStatement
 }
 ~~~

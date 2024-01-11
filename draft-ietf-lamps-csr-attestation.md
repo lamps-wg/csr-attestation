@@ -243,9 +243,22 @@ EvidenceStatements ::= SEQUENCE OF EvidenceStatement
 
 EvidenceStatement ::= SEQUENCE {
    type   EVIDENCE-STATEMENT.&id({EvidenceStatementSet}),
-   stmt   EVIDENCE-STATEMENT.&Type({EvidenceStatementSet}{@type})
+   stmt   EVIDENCE-STATEMENT.&Type({EvidenceStatementSet}{@type}),
+   hint   GeneralName OPTIONAL
 }
+~~~
 
+The type is on OID indicating the format of the data contained in stmt.
+
+The hint is intended for an Attester to indicate to the Relying Party
+which Verifier should be invoked to parse this statement. In many cases,
+the type OID will already uniquely indicate which Verifier to invoke, but
+in some cases it may still be ambiguous, or the type may indicate
+another layer of conceptual message wrapping in which case it is helpful
+to the RP to bring this hint outside of the statement. The contents of
+the hint are out of scope for this document.
+
+~~~
 EvidenceBundles ::= SEQUENCE OF EvidenceBundle
 
 EvidenceBundle ::= SEQUENCE
@@ -269,7 +282,7 @@ ext-evidence EXTENSION ::= {
 }
 ~~~
 
-The Extension version is intended only for use within CRMF CSRs and MUST NOT be used within X.509 certificates due to the privacy implications of publishing Evidence about the end entity's hardware environment. See {{security-considerations}} for more discussion.
+The Extension variant is intended only for use within CRMF CSRs and MUST NOT be used within X.509 certificates due to the privacy implications of publishing Evidence about the end entity's hardware environment. See {{security-considerations}} for more discussion.
 
 The `certs` contains a set of certificates that
 may be needed to validate the contents of an Evidence statement

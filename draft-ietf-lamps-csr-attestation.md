@@ -352,7 +352,10 @@ will carry an EvidenceStatement followed by a certificate chain in
 the CertificateAlternative structures containing most likely only the end-entity
 certificate. The shared certificate chain is carried in the first entry of the
 EvidenceBundle sequence to allow path validation to take place immediately after
-processing the first structure.
+processing the first structure. This implementation strategy may
+place extra burden on the Relying Party to parse EvidenceBundles and
+reconstruct certificate chains if the Verifier requires each
+EvidenceStatement to be accompanied with a complete certificate chain.
 
 Implementation strategy (4b), as an alternative, requires the Lead Attester
 to merge all certificate chains into a single EvidenceBundle containing a single
@@ -360,7 +363,12 @@ de-duplicated sequence of CertificateAlternatives structures. This means that ea
 EvidenceBundle is self-contained and any EvidenceStatement can be verified using
 only the sequence of CertificateAlternatives in its bundle, but Verifiers will have
 to do proper certification path building since the sequence of CertificateAlternatives
-is now a cert bag and not a cert chain.
+is now a cert bag and not a cert chain. This implementation strategy may
+place extra burden on the Attester in order to allow the Relying Party
+to treat the Evidence and Certificates as opaque content. It also may place
+extra burden on the Verifier since this implementation strategy requires it to be able to
+perform X.509 path building over a bag of certificates that may be out of
+order or contain extraneous certificates.
 
 Note: This specification does not mandate optimizing certificate chains since
 there is a trade-off between the Attester implementation complexity and the

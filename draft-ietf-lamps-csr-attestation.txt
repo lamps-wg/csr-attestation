@@ -5,10 +5,10 @@
 Network Working Group                                       M. Ounsworth
 Internet-Draft                                                   Entrust
 Intended status: Standards Track                           H. Tschofenig
-Expires: 12 July 2024                                            Siemens
+Expires: 14 July 2024                                            Siemens
                                                              H. Birkholz
                                                           Fraunhofer SIT
-                                                          9 January 2024
+                                                         11 January 2024
 
 
       Use of Remote Attestation with Certificate Signing Requests
@@ -63,7 +63,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 12 July 2024.
+   This Internet-Draft will expire on 14 July 2024.
 
 Copyright Notice
 
@@ -276,14 +276,18 @@ Table of Contents
       ... -- Empty for now --
    }
 
+   EvidenceStatements ::= SEQUENCE OF EvidenceStatement
+
    EvidenceStatement ::= SEQUENCE {
       type   EVIDENCE-STATEMENT.&id({EvidenceStatementSet}),
       stmt   EVIDENCE-STATEMENT.&Type({EvidenceStatementSet}{@type})
    }
 
+   EvidenceBundles ::= SEQUENCE OF EvidenceBundle
+
    EvidenceBundle ::= SEQUENCE
    {
-     evidence  SEQUENCE OF EvidenceStatement,
+     evidence EvidenceStatements,
      certs SEQUENCE OF CertificateAlternatives OPTIONAL
    }
 
@@ -291,13 +295,13 @@ Table of Contents
 
    -- For PKCS#10
    attr-evidence ATTRIBUTE ::= {
-     TYPE SEQUENCE OF EvidenceBundle
+     TYPE EvidenceBundles
      IDENTIFIED BY id-aa-evidenceStatement
    }
 
    -- For CRMF
    ext-evidence EXTENSION ::= {
-     SYNTAX SEQUENCE OF EvidenceBundle
+     SYNTAX EvidenceBundles
      IDENTIFIED BY id-aa-evidenceStatement
    }
 
@@ -871,6 +875,8 @@ EvidenceStatementSet EVIDENCE-STATEMENT ::= {
    ... -- Empty for now --
 }
 
+EvidenceStatements ::= SEQUENCE OF EvidenceStatement
+
 EvidenceStatement ::= SEQUENCE {
    type   EVIDENCE-STATEMENT.&id({EvidenceStatementSet}),
    stmt   EVIDENCE-STATEMENT.&Type({EvidenceStatementSet}{@type})
@@ -880,20 +886,22 @@ id-aa-evidenceStatement OBJECT IDENTIFIER ::= { id-aa TBDAA }
 
 -- For PKCS#10
 attr-evidence ATTRIBUTE ::= {
-  TYPE SEQUENCE OF EvidenceBundle
+  TYPE EvidenceBundles
   IDENTIFIED BY id-aa-evidenceStatement
 }
 
 
 -- For CRMF
 ext-evidence EXTENSION ::= {
-  SYNTAX SEQUENCE OF EvidenceBundle
+  SYNTAX EvidenceBundles
   IDENTIFIED BY id-aa-evidenceStatement
 }
 
+EvidenceBundles ::= SEQUENCE OF EvidenceBundle
+
 EvidenceBundle ::= SEQUENCE
 {
-  evidence  SEQUENCE OF EvidenceStatement,
+  evidence EvidenceStatements,
   certs SEQUENCE OF CertificateAlternatives OPTIONAL
 }
 

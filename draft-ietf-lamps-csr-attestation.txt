@@ -84,24 +84,25 @@ Table of Contents
    1.  Introduction
    2.  Conventions and Definitions
    3.  Architecture
-   4.  ASN.1 Elements
-     4.1.  Object Identifiers
-     4.2.  Evidence Attribute and Extension
-     4.3.  CertificateAlternatives
-   5.  IANA Considerations
-     5.1.  Object Identifier Allocations
-       5.1.1.  Module Registration - SMI Security for PKIX Module
+   4.  Information Model
+   5.  ASN.1 Elements
+     5.1.  Object Identifiers
+     5.2.  Evidence Attribute and Extension
+     5.3.  CertificateAlternatives
+   6.  IANA Considerations
+     6.1.  Object Identifier Allocations
+       6.1.1.  Module Registration - SMI Security for PKIX Module
                Identifier
-       5.1.2.  Object Identifier Registrations - SMI Security for S/
+       6.1.2.  Object Identifier Registrations - SMI Security for S/
                MIME Attributes
-       5.1.3.  "SMI Security for PKIX Evidence Statement Formats"
+       6.1.3.  "SMI Security for PKIX Evidence Statement Formats"
                Registry
-   6.  Security Considerations
-     6.1.  Freshness
-     6.2.  Publishing evidence in an X.509 extension
-   7.  References
-     7.1.  Normative References
-     7.2.  Informative References
+   7.  Security Considerations
+     7.1.  Freshness
+     7.2.  Publishing evidence in an X.509 extension
+   8.  References
+     8.1.  Normative References
+     8.2.  Informative References
    Appendix A.  Examples
      A.1.  TPM V2.0 Evidence in CSR
      A.2.  Platform Security Architecture Attestation Token in CSR
@@ -249,9 +250,169 @@ Table of Contents
    of this specification is on the transport of Evidence from the
    Attester to the Relying Party via existing CSR messages.
 
-4.  ASN.1 Elements
+4.  Information Model
 
-4.1.  Object Identifiers
+   To support a number of different use cases for the transmission of
+   Evidence in a CSR (together with certificate chains) the structure
+   shown in Figure 2 is used.
+
+   On a high-level, the structure can be explained as follows: A PKCS#10
+   attribute or a CRMF extension contains one or multiple EvidenceBundle
+   structures.  Each EvidenceBundle contains one or multiple
+   EvidenceStatement structures as well as one or many
+   CertificateAlternatives.
+
+    +--------------------+
+    |  PKCS#10 or CRMF   |
+    |  Attribute or      |
+    |  Extension         |
+    +--------+-----------+
+             |0
+             |                     n +-------------------------+
+             |         +-------------+ CertificateAlternatives |
+             |         |             +-------------------------+
+             |         |             | Certificate OR          |
+             |         |             | TypedCert   OR          |
+             |         |             | TypedFlatCert           |
+             |         |             +-------------------------+
+             |n       0|
+    +--------+---------+-+ 0       n +-------------------+
+    |  EvidenceBundle    +-----------+ EvidenceStatement |
+    +--------------------+           +-------------------+
+                                     | Type              |
+                                     | Statement         |
+                                     +-------------------+
+
+          Figure 2: Information Model for CSR Evidence Conveyance.
+
+   The following use cases are supported:
+
+   Single Attester, which only distributes Evidence without any
+   certificate chains, i.e. the Verifier is assumed to be in possession
+   of the certificate chain already or there is no certificate chain.
+   As a result a single EvidenceBundle is included in a CSR that
+   contains a single EvidenceStatement without the
+   CertificateAlternatives structure.  Figure 3 shows this use case.
+
+     +--------------------+
+     |  EvidenceBundle    |
+     +--------------------+
+     | EvidenceStatement  |
+     +--------------------+
+
+      Figure 3: Use Case 1: Single Attester without Certificate Chain.
+
+   A single Attester, which shares Evidence together with a certificate
+   chain.  The CSR conveys a single EvidenceBundle with a single
+   EvidenceStatement and a single CertificateAlternatives structure.
+   Figure 4 shows this use case.
+
+    +-------------------------+
+    |  EvidenceBundle         |
+    +-------------------------+
+    | EvidenceStatement       |
+    | CertificateAlternatives |
+    +-------------------------+
+
+       Figure 4: Use Case 2: Single Attester with Certificate Chain.
+
+   In a Composite Device, which contains multiple Attesters, a
+   collection of Evidence statements is obtained.  Imagine that each
+   Attester returns its Evidence together with a certificate chain.  As
+   a result, multiple EvidenceBundle structures, each carrying an
+   EvidenceStatement and the corresponding CertificateAlternative
+   structure with the certificate chain as provided by each Attester,
+   are included in the CSR.  It may be possible that there is an overlap
+   in the certificate chains transmitted by the different Attesters.
+   This approach does not require any processing capabilities by a lead
+   Attester since the information is merely forwarded.  Figure 5 shows
+   this use case.
+
+     +-------------------------+
+     |  EvidenceBundle (1)     |\
+     +-------------------------+ \ Provided by
+     | EvidenceStatement       | / Attester 1
+     | CertificateAlternatives |/
+     +-------------------------+
+     |  EvidenceBundle (2)     |\
+     +-------------------------+ \ Provided by
+     | EvidenceStatement       | / Attester 2
+     | CertificateAlternatives |/
+     +-------------------------+
+
+       Figure 5: Use Case 3: Multiple Attesters in Composite Device.
+
+   In the last scenario, we also assume a Composite Device with
+   additional processing capabilities of the Leader Attester, which
+   parses the certificate chains provided by all Attesters in the device
+   and removes redundant certificate information.  The benefit of this
+   approach is the reduced transmission overhead.  There are several
+   implementation strategies and we show two in Figure 6.
+
+   Implementation strategy (4a)
+
+                   +-------------------------+
+                   |  EvidenceBundle (1)     |\
+     Certificate   +-------------------------+ \ Provided by
+     Chain +       | EvidenceStatement       | / Attester 1
+     End-Entity -->| CertificateAlternatives |/
+     Certificate   +-------------------------+
+                            ....
+                   +-------------------------+
+                   |  EvidenceBundle (n)     |\
+                   +-------------------------+ \ Provided by
+     End-Entity    | EvidenceStatement       | / Attester n
+     Certificate-->| CertificateAlternatives |/
+                   +-------------------------+
+
+   Implementation strategy (4b)
+
+    +------------------------------+
+    |  EvidenceBundle              |
+    +------------------------------+
+    | EvidenceStatement (1)        |
+    |        ...                   |
+    | EvidenceStatement (n)        |
+    | CertificateAlternatives {    |
+    |   End Entity Certificate (1) |
+    |        ...                   |
+    |   End Entity Certificate (n) |
+    |   <Remainder of the          |
+    |    Certificate Chain>        |
+    | }                            |
+    +------------------------------+
+
+     Figure 6: Use Case 4: Multiple Attesters in Composite Device (with
+                               Optimization).
+
+   In implementation strategy (4a) we assume that each Attester is
+   provisioned with a unique end-entity certificate.  Hence, the
+   certificate chains will at least differ with respect to the end-
+   entity certificates.  The Lead Attester will therefore create
+   multiple EvidenceBundle structures, each will carry an
+   EvidenceStatement followed by a certificate chain in the
+   CertificateAlternative structures containing most likely only the
+   end-entity certificate.  The shared certificate chain is carried in
+   the first entry of the EvidenceBundle sequence to allow path
+   validation to take place immediately after processing the first
+   structure.
+
+   Implementation strategy (4b), as an alternative, requires the Lead
+   Attester to merge all certificate chains into a single EvidenceBundle
+   containing a single de-duplicated sequence of CertificateAlternatives
+   structures.  This means that each EvidenceBundle is self-contained
+   and any EvidenceStatement can be verified using only the sequence of
+   CertificateAlternatives in its bundle, but Verifiers will have to do
+   proper certification path building since the sequence of
+   CertificateAlternatives is now a cert bag and not a cert chain.
+
+   Note: This specification does not mandate optimizing certificate
+   chains since there is a trade-off between the Attester implementation
+   complexity and the transmission overhead.
+
+5.  ASN.1 Elements
+
+5.1.  Object Identifiers
 
    We reference id-pkix and id-aa, both defined in [RFC5912].
 
@@ -260,7 +421,7 @@ Table of Contents
    -- Arc for Evidence types
    id-ata OBJECT IDENTIFIER ::= { id-pkix (TBD1) }
 
-4.2.  Evidence Attribute and Extension
+5.2.  Evidence Attribute and Extension
 
    By definition, Attributes within a PKCS#10 CSR are typed as ATTRIBUTE
    and within a CRMF CSR are typed as EXTENSION.  This attribute
@@ -308,7 +469,7 @@ Table of Contents
    The Extension version is intended only for use within CRMF CSRs and
    MUST NOT be used within X.509 certificates due to the privacy
    implications of publishing Evidence about the end entity's hardware
-   environment.  See Section 6 for more discussion.
+   environment.  See Section 7 for more discussion.
 
    The certs contains a set of certificates that may be needed to
    validate the contents of an Evidence statement contained in evidence.
@@ -329,7 +490,7 @@ Table of Contents
    structure to be re-used in the future in other PKIX protocol
    contexts.
 
-4.3.  CertificateAlternatives
+5.3.  CertificateAlternatives
 
    This is an ASN.1 CHOICE construct used to represent an encoding of a
    broad variety of certificate types.
@@ -376,16 +537,16 @@ Table of Contents
        certBody OCTET STRING
    }
 
-5.  IANA Considerations
+6.  IANA Considerations
 
    IANA is requested to open one new registry, allocate a value from the
    "SMI Security for PKIX Module Identifier" registry for the included
    ASN.1 module, and allocate values from "SMI Security for S/MIME
    Attributes" to identify two Attributes defined within.
 
-5.1.  Object Identifier Allocations
+6.1.  Object Identifier Allocations
 
-5.1.1.  Module Registration - SMI Security for PKIX Module Identifier
+6.1.1.  Module Registration - SMI Security for PKIX Module Identifier
 
    *  Decimal: IANA Assigned - *Replace TBDMOD*
 
@@ -393,7 +554,7 @@ Table of Contents
 
    *  References: This Document
 
-5.1.2.  Object Identifier Registrations - SMI Security for S/MIME
+6.1.2.  Object Identifier Registrations - SMI Security for S/MIME
         Attributes
 
    *  Attest Statement
@@ -404,7 +565,7 @@ Table of Contents
 
       -  References: This Document
 
-5.1.3.  "SMI Security for PKIX Evidence Statement Formats" Registry
+6.1.3.  "SMI Security for PKIX Evidence Statement Formats" Registry
 
    Please open up a registry for Evidence Statement Formats within the
    SMI-numbers registry, allocating an assignment from id-pkix ("SMI
@@ -430,7 +591,7 @@ Table of Contents
 
    *  References: RFC or other document
 
-6.  Security Considerations
+7.  Security Considerations
 
    A PKCS#10 or CRMF Certification Request message consists of a
    distinguished name, a public key, and optionally a set of attributes,
@@ -444,9 +605,9 @@ Table of Contents
    controls to prevent theft or misuse (including being non-exportable /
    non-recoverable), the Attesting Environment has to collect claims
    about this secure environment (or Target Environment, as shown in
-   Figure 2).
+   Figure 7).
 
-   Figure 2 shows the interaction inside an Attester.  The Attesting
+   Figure 7 shows the interaction inside an Attester.  The Attesting
    Environment, which is provisioned with an Attestation Key, retrieves
    claims about the Target Environment.  The Target Environment offers
    key generation, storage and usage, which it makes available to
@@ -488,9 +649,9 @@ Table of Contents
     |                                    |
     '------------------------------------'
 
-       Figure 2: Interaction between Attesting and Target Environment
+       Figure 7: Interaction between Attesting and Target Environment
 
-   Figure 2 places the CSR library outside the Attester, which is an
+   Figure 7 places the CSR library outside the Attester, which is an
    implementation choice.  The CSR library may also be located inside
    the trusted computing base.  Regardless of the placement of the CSR
    library an Attesting Environment MUST be able to collect claims about
@@ -531,7 +692,7 @@ Table of Contents
    out of scope for this document.  Whether to require the use of
    Evidence in a CSR is out-of-scope for this document.
 
-6.1.  Freshness
+7.1.  Freshness
 
    Evidence generated by an Attester generally needs to be fresh to
    provide value to the Verifier since the configuration on the device
@@ -562,7 +723,7 @@ Table of Contents
    appropriate and available in-context; thus the issue of freshness is
    left up to the discretion of protocol designers and implementors.
 
-6.2.  Publishing evidence in an X.509 extension
+7.2.  Publishing evidence in an X.509 extension
 
    This document specifies and Extension for carrying Evidence in a CRMF
    Certificate Signing Request (CSR), but it is intentionally NOT
@@ -578,9 +739,9 @@ Table of Contents
    unintended publication of sensitive information, so we leave it as
    "NOT RECOMMENDED".
 
-7.  References
+8.  References
 
-7.1.  Normative References
+8.1.  Normative References
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -611,7 +772,7 @@ Table of Contents
               Architecture", RFC 9334, DOI 10.17487/RFC9334, January
               2023, <https://www.rfc-editor.org/rfc/rfc9334>.
 
-7.2.  Informative References
+8.2.  Informative References
 
    [CSBR]     CA/Browser Forum, "Baseline Requirements for Code-Signing
               Certificates, v.3.3", June 2023, <https://cabforum.org/wp-
@@ -731,11 +892,11 @@ A.1.  TPM V2.0 Evidence in CSR
            8a:02:20:36:be:3d:71:93:5d:05:c3:ac:fa:a8:f3:e5:46:db:
            57:f9:23:ee:93:47:6d:d6:d3:4f:c2:b7:cc:0d:89:71:fe
 
-                        Figure 3: CSR with TPM V2.0
+                        Figure 8: CSR with TPM V2.0
 
 A.2.  Platform Security Architecture Attestation Token in CSR
 
-   The example shown in Figure 4 illustrates how the Arm Platform
+   The example shown in Figure 9 illustrates how the Arm Platform
    Security Architecture (PSA) Attestation Token is conveyed in a CSR.
    The content of the Evidence in this example is re-used from
    [I-D.tschofenig-rats-psa-token] and contains an Entity Attestation
@@ -793,7 +954,7 @@ A.2.  Platform Security Architecture Attestation Token in CSR
            8a:02:20:36:be:3d:71:93:5d:05:c3:ac:fa:a8:f3:e5:46:db:
            57:f9:23:ee:93:47:6d:d6:d3:4f:c2:b7:cc:0d:89:71:fe
 
-             Figure 4: CSR with embedded PSA Attestation Token
+             Figure 9: CSR with embedded PSA Attestation Token
 
    The decoded Evidence is shown in Appendix A of
    [I-D.tschofenig-rats-psa-token], the shown Evidence, provides the

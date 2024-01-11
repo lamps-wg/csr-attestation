@@ -225,7 +225,7 @@ CertificateAlternatives.
  |  Attribute or      |
  |  Extension         |
  +--------+-----------+
-          |0
+          |1
           |                     n +-------------------------+
           |         +-------------+ CertificateAlternatives |
           |         |             +-------------------------+
@@ -233,8 +233,8 @@ CertificateAlternatives.
           |         |             | TypedCert   OR          |
           |         |             | TypedFlatCert           |
           |         |             +-------------------------+
-          |n       0|
- +--------+---------+-+ 0       n +-------------------+
+          |n       1|
+ +--------+---------+-+ 1       n +-------------------+
  |  EvidenceBundle    +-----------+ EvidenceStatement |
  +--------------------+           +-------------------+
                                   | Type              |
@@ -406,7 +406,7 @@ EvidenceStatementSet EVIDENCE-STATEMENT ::= {
    ... -- Empty for now --
 }
 
-EvidenceStatements ::= SEQUENCE OF EvidenceStatement
+EvidenceStatements ::= SEQUENCE SIZE (1..MAX) OF EvidenceStatement
 
 EvidenceStatement ::= SEQUENCE {
    type   EVIDENCE-STATEMENT.&id({EvidenceStatementSet}),

@@ -1648,10 +1648,20 @@ certificate chain.<a href="#section-5.2-1" class="pilcrow">¶</a></p>
 <pre>
 EVIDENCE-STATEMENT ::= TYPE-IDENTIFIER
 
-EvidenceStatementSet EVIDENCE-STATEMENT ::= {
+EvidenceStatementSet EVIDENCE-STATEMENT ::= SET {
    ... -- Empty for now --
 }
-
+</pre><a href="#section-5.2-2" class="pilcrow">¶</a>
+</div>
+<p id="section-5.2-3">This is a mapping and ASN.1 Types for Evidence Statements to the OIDs
+that identify them. These mappings are are used to construct
+or parse EvidenceStatements. These would typically be Evidence Statement
+formats defined in other IETF standards, defined by other standards bodies,
+or vendor proprietary formats along with the OIDs that identify them.<a href="#section-5.2-3" class="pilcrow">¶</a></p>
+<p id="section-5.2-4">This list is left empty in this document, however implementers will wish
+to populate it with the formats that they wish to support.<a href="#section-5.2-4" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-5.2-5">
+<pre>
 EvidenceStatements ::= SEQUENCE OF EvidenceStatement
 
 EvidenceStatement ::= SEQUENCE {
@@ -1680,25 +1690,25 @@ ext-evidence EXTENSION ::= {
   SYNTAX EvidenceBundles
   IDENTIFIED BY id-aa-evidenceStatement
 }
-</pre><a href="#section-5.2-2" class="pilcrow">¶</a>
+</pre><a href="#section-5.2-5" class="pilcrow">¶</a>
 </div>
-<p id="section-5.2-3">The Extension version is intended only for use within CRMF CSRs and <span class="bcp14">MUST NOT</span> be used within X.509 certificates due to the privacy implications of publishing Evidence about the end entity's hardware environment. See <a href="#security-considerations" class="auto internal xref">Section 7</a> for more discussion.<a href="#section-5.2-3" class="pilcrow">¶</a></p>
-<p id="section-5.2-4">The <code>certs</code> contains a set of certificates that
+<p id="section-5.2-6">The Extension version is intended only for use within CRMF CSRs and <span class="bcp14">MUST NOT</span> be used within X.509 certificates due to the privacy implications of publishing Evidence about the end entity's hardware environment. See <a href="#security-considerations" class="auto internal xref">Section 7</a> for more discussion.<a href="#section-5.2-6" class="pilcrow">¶</a></p>
+<p id="section-5.2-7">The <code>certs</code> contains a set of certificates that
 may be needed to validate the contents of an Evidence statement
 contained in <code>evidence</code>. The set of certificates should contain
 the object that contains the public key needed to directly validate the
 <code>evidence</code>.  The remaining elements should chain that data back to
 an agreed upon trust anchor used for attestation. No order is implied, it is
 up to the Attester and its Verifier to agree on both the order and format
-of certificates contained in <code>certs</code>.<a href="#section-5.2-4" class="pilcrow">¶</a></p>
-<p id="section-5.2-5">A CSR <span class="bcp14">MAY</span> contain one or more instances of <code>attr-evidence</code> or <code>ext-evidence</code>.
+of certificates contained in <code>certs</code>.<a href="#section-5.2-7" class="pilcrow">¶</a></p>
+<p id="section-5.2-8">A CSR <span class="bcp14">MAY</span> contain one or more instances of <code>attr-evidence</code> or <code>ext-evidence</code>.
 This means that the <code>SEQUENCE OF EvidenceBundle</code> is redundant with the
 ability to carry multiple <code>attr-evidence</code> or <code>ext-evidence</code> at the CSR level;
 either mechanism <span class="bcp14">MAY</span> be used for carrying multiple Evidence bundles.
 We are leaving the <code>SEQUENCE OF EvidenceBundle</code> since it is in general
 more flexible than relying on the containing structure to handle multiplicity
 and allows for this structure to be re-used in the future in other PKIX
-protocol contexts.<a href="#section-5.2-5" class="pilcrow">¶</a></p>
+protocol contexts.<a href="#section-5.2-8" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="certificatealternatives">
@@ -2372,7 +2382,7 @@ TypedFlatCert ::= SEQUENCE {
 
 EVIDENCE-STATEMENT ::= TYPE-IDENTIFIER
 
-EvidenceStatementSet EVIDENCE-STATEMENT ::= {
+EvidenceStatementSet EVIDENCE-STATEMENT ::= SET {
    ... -- Empty for now --
 }
 

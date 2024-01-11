@@ -58,7 +58,7 @@ TypedFlatCert ::= SEQUENCE {
 
 EVIDENCE-STATEMENT ::= TYPE-IDENTIFIER
 
-EvidenceStatementSet EVIDENCE-STATEMENT ::= {
+EvidenceStatementSet EVIDENCE-STATEMENT ::= SET {
    ... -- Empty for now --
 }
 

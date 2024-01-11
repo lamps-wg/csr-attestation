@@ -402,10 +402,21 @@ certificate chain.
 ~~~
 EVIDENCE-STATEMENT ::= TYPE-IDENTIFIER
 
-EvidenceStatementSet EVIDENCE-STATEMENT ::= {
+EvidenceStatementSet EVIDENCE-STATEMENT ::= SET {
    ... -- Empty for now --
 }
+~~~
 
+This is a mapping and ASN.1 Types for Evidence Statements to the OIDs
+that identify them. These mappings are are used to construct
+or parse EvidenceStatements. These would typically be Evidence Statement
+formats defined in other IETF standards, defined by other standards bodies,
+or vendor proprietary formats along with the OIDs that identify them.
+
+This list is left empty in this document, however implementers will wish
+to populate it with the formats that they wish to support.
+
+~~~
 EvidenceStatements ::= SEQUENCE OF EvidenceStatement
 
 EvidenceStatement ::= SEQUENCE {

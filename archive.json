@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-01-09T00:48:45.727416+00:00",
+  "timestamp": "2024-01-11T00:49:16.963183+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -589,24 +589,32 @@
       "labels": [],
       "body": "The current draft (version -02) defines the EvidenceBundle as follws:\r\n\r\n> \r\n>    EvidenceBundle ::= SEQUENCE\r\n>    {\r\n>      evidence  SEQUENCE OF EvidenceStatement,\r\n>      certs SEQUENCE OF CertificateAlternatives OPTIONAL\r\n>    }\r\n> \r\n\r\nThe idea is that Evidence can be sent with optionally with a certificate chain. In complex scenarios (such as Composite Devices) the sequence construct allows multiple Evidence payloads to be conveyed in a CSR. In such a situation it is possible to convey a certificate chain with each Evidence payload.\r\n\r\nThe payload construction would be something like:\r\n\r\n               Evidence1\r\n               cert1\r\n               Evidence2\r\n               cert2\r\n\r\nWe have also envisioned the case where the certificate chain is the same for all Evidence payloads. In such a case, it is possible to accomplish a performance optimization by only send one cert chain. Here is the payload construction:\r\n\r\n               Evidence1\r\n               Evidence2\r\n               cert\r\n\r\nIf the certificate chains differ, then this optimization is not possible.\r\n\r\nMike StJohns brought up a scenario where the current design of the EvidenceBundle is limiting. In his scenario multiple Evidence payloads are sent and their certificate chain only differents by the end entity certificate. In the current design an optimization would not be possible.\r\n\r\nQuestion: Should we allow this optimization? If so, how should we best design it?\r\n",
       "createdAt": "2023-10-24T16:34:07Z",
-      "updatedAt": "2023-10-24T16:34:07Z",
+      "updatedAt": "2024-01-09T19:05:57Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "> Mike StJohns brought up a scenario where the current design of the EvidenceBundle is limiting. In his scenario multiple Evidence payloads are sent and their certificate chain only differents by the end entity certificate. In the current design an optimization would not be possible.\r\n\r\nI disagree; in the current design you can do:\r\n\r\n~~~\r\n[Evidence1, Evidence2]\r\n[Cert1, Cert2, [rest of common cert chain] ]\r\n~~~\r\n\r\nWe have been clear that this is a bag of certs, not a chain, so this is perfectly allowed.\r\nWhere MSJ might have a point is if the Verifier cannot handle this and needs to be given\r\n\r\n~~~\r\nEvidence1\r\n[Cert1, [rest of common cert chain] ]\r\n~~~\r\n\r\nthen either the RP needs semantic knowledge of the payload so that it can reconstruct, or the Attester needs to use multiple EvidenceBundles and duplicate certs. This is not ideal for those usecases, but I don't think it's worth changing the design to accommodate it.\r\n\r\n@hannestschofenig if you agree, then please close this Issue.",
+          "createdAt": "2024-01-09T19:05:56Z",
+          "updatedAt": "2024-01-09T19:05:56Z"
+        }
+      ]
     },
     {
       "number": 60,
       "id": "I_kwDOJ3IIN852MDFz",
       "title": "Review MSJ's feedback",
       "url": "https://github.com/lamps-wg/csr-attestation/issues/60",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "ounsworth",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "https://mailarchive.ietf.org/arch/msg/spasm/iiSZymLu19uVBXfdt25HxhuLglw/",
       "createdAt": "2023-11-08T06:48:28Z",
-      "updatedAt": "2023-11-08T09:39:07Z",
-      "closedAt": null,
+      "updatedAt": "2024-01-09T19:24:59Z",
+      "closedAt": "2024-01-09T19:24:59Z",
       "comments": [
         {
           "author": "ounsworth",
@@ -621,6 +629,13 @@
           "body": "Nit: define \r\n\r\n~~~\r\nEvidenceBundles ::= SEQUENCE OF EvidenceBundle\r\n~~~",
           "createdAt": "2023-11-08T09:39:07Z",
           "updatedAt": "2023-11-08T09:39:07Z"
+        },
+        {
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "I created #71 to address Russ' nit. I am closing this Issue.",
+          "createdAt": "2024-01-09T19:24:59Z",
+          "updatedAt": "2024-01-09T19:24:59Z"
         }
       ]
     },
@@ -652,7 +667,7 @@
       "labels": [],
       "body": "Ned mentioned that the trusted path routing work requires the use of an attestation result.",
       "createdAt": "2023-11-20T17:40:20Z",
-      "updatedAt": "2023-12-18T14:19:29Z",
+      "updatedAt": "2024-01-10T19:37:46Z",
       "closedAt": null,
       "comments": [
         {
@@ -661,6 +676,27 @@
           "body": "Use case 2: RA interacts with the Verifier to obtain an Attestation Result and then includes the Attestation Result into the CSR to the CA",
           "createdAt": "2023-12-18T14:19:28Z",
           "updatedAt": "2023-12-18T14:19:28Z"
+        },
+        {
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Does this require structural changes to the EvidenceBundle?\r\nCan you not pretend that in AttestationResult is an Evidence, and put it inside an EvidenceStatement?\r\n\r\nAlso, Use Case 2 is weird; normally the RA does not have the End Entity's private key, so the RA can't modify the CSR and re-sign it; so it would have to carry the Attestation Result next to the CSR. Unless the RA can \"counter-sign\" the CSR such that the CSR is no longer self-signed, but instead signed with an RA key, but that's getting weird.",
+          "createdAt": "2024-01-09T20:46:30Z",
+          "updatedAt": "2024-01-09T20:46:30Z"
+        },
+        {
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "My first reaction is that this is getting a bit too scope-creepy; models where the Attester has interacted with the Verifier prior to creating the CSR is outside the scope of this diagram:\r\n\r\n~~~\r\n                              .-------------.\r\n                              |             | Compare Evidence\r\n                              |   Verifier  | against\r\n                              |             | policy\r\n                              '--------+----'\r\n                                   ^   |\r\n                          Evidence |   | Attestation\r\n                                   |   | Result\r\n                                   |   v\r\n .------------.               .----|----------.\r\n |            +-------------->|----'          | Compare Attestation\r\n |  Attester  |   Evidence    | Relying       | Result against\r\n |            |   in CSR      | Party (RA/CA) | policy\r\n '------------'               '---------------'\r\n~~~\r\n\r\nIn other words, we chose to only do Background Check Model, and now it seems like we're also asking for Passport Model?",
+          "createdAt": "2024-01-09T20:47:47Z",
+          "updatedAt": "2024-01-09T20:49:34Z"
+        },
+        {
+          "author": "mcr",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Mike Ounsworth ***@***.***> wrote:\n    > My first reaction is that this is getting a bit too scope-creepy;\n    > models where the Attester has interacted with the Verifier prior to\n    > creating the CSR is outside the scope of this diagram:\n\nI mostly agree.\nI think that there are perhaps needs for the passport model for some HSMs,\nbut it should be out of scope for revision one.\n\n\n",
+          "createdAt": "2024-01-10T19:37:44Z",
+          "updatedAt": "2024-01-10T19:37:44Z"
         }
       ]
     },
@@ -669,15 +705,15 @@
       "id": "I_kwDOJ3IIN853XsiH",
       "title": "Evidence vs Edorsements vs ReferenceValues",
       "url": "https://github.com/lamps-wg/csr-attestation/issues/63",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "ounsworth",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "This is just a naming issue; we use the term \"Evidence\" everywhere, but of course you can carry any type of Attestation conceptual message here. We should probably find a broader term to use.\r\n\r\nWhat's the right umbrella term? \"conceptual message content\"? (that sounds like it's implying a CMW-structured data, which we are not implying).\r\n\r\nMaybe \"AttestationData\" ? \"ConveyenceStatement\" ?",
       "createdAt": "2023-11-20T17:42:54Z",
-      "updatedAt": "2023-11-22T14:44:15Z",
-      "closedAt": null,
+      "updatedAt": "2024-01-09T19:26:39Z",
+      "closedAt": "2024-01-09T19:26:39Z",
       "comments": [
         {
           "author": "mcr",
@@ -685,6 +721,13 @@
           "body": "The container is for Evidence.  You can also carry kangaroos in it, but that doesn't mean you should.\r\nI don't think a broader term is helpful unless you really expect to carry something else.",
           "createdAt": "2023-11-22T14:44:14Z",
           "updatedAt": "2023-11-22T14:44:14Z"
+        },
+        {
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Awesome. Sounds like we're sticking with \"Evidence\". I am closing this issue.",
+          "createdAt": "2024-01-09T19:26:39Z",
+          "updatedAt": "2024-01-09T19:26:39Z"
         }
       ]
     },
@@ -3290,26 +3333,50 @@
       "id": "PR_kwDOJ3IIN85g4NWG",
       "title": "Making all fields in the CertificateAlternatives Structure optional",
       "url": "https://github.com/lamps-wg/csr-attestation/pull/68",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "hannestschofenig",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2023-12-01T09:42:46Z",
-      "updatedAt": "2023-12-01T09:48:19Z",
+      "updatedAt": "2024-01-09T18:57:55Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "1ba543803d90eaa5624a79b24293d2280b58339b",
       "headRepository": "lamps-wg/csr-attestation",
       "headRefName": "hannestschofenig-patch-3",
       "headRefOid": "d9260e23a946cbdfb359246160ec97f28a7efe2b",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
-      "comments": [],
-      "reviews": []
+      "closedAt": "2024-01-09T18:57:00Z",
+      "mergedAt": "2024-01-09T18:57:00Z",
+      "mergedBy": "ounsworth",
+      "mergeCommit": {
+        "oid": "98407579f0064ebfa069292e6f1fd78502105401"
+      },
+      "comments": [
+        {
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I am not an expert here, but is there a way to avoid a non-empty choice?",
+          "createdAt": "2024-01-09T18:57:28Z",
+          "updatedAt": "2024-01-09T18:57:55Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJ3IIN85r_dVj",
+          "commit": {
+            "abbreviatedOid": "d9260e2"
+          },
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-01-09T18:55:09Z",
+          "updatedAt": "2024-01-09T18:55:09Z",
+          "comments": []
+        }
+      ]
     },
     {
       "number": 69,
@@ -3323,7 +3390,7 @@
       "labels": [],
       "body": "",
       "createdAt": "2023-12-18T14:17:40Z",
-      "updatedAt": "2023-12-18T17:09:24Z",
+      "updatedAt": "2024-01-09T18:54:08Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "855c2d0f9b1bd2171381da93f268a8506d516b50",
@@ -3334,7 +3401,15 @@
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
+      "comments": [
+        {
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "@hannestschofenig I don't agree with this change. I thought there were some attestation statement formats where either the certs are buried inside the proprietary statement format, or where the certs can be omitted because they are already known to the verifier.\r\n\r\nAre you sure that the certs can be mandatory?",
+          "createdAt": "2024-01-09T18:54:07Z",
+          "updatedAt": "2024-01-09T18:54:07Z"
+        }
+      ],
       "reviews": [
         {
           "id": "PRR_kwDOJ3IIN85qiRP_",
@@ -3350,6 +3425,32 @@
           "comments": []
         }
       ]
+    },
+    {
+      "number": 71,
+      "id": "PR_kwDOJ3IIN85jnOey",
+      "title": "Defined EvidenceBundles to make Russ happy :)",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/71",
+      "state": "OPEN",
+      "author": "ounsworth",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "See Russ' comment in #60 ",
+      "createdAt": "2024-01-09T19:24:37Z",
+      "updatedAt": "2024-01-09T19:24:37Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "98407579f0064ebfa069292e6f1fd78502105401",
+      "headRepository": "lamps-wg/csr-attestation",
+      "headRefName": "mikeo_evidencebundles",
+      "headRefOid": "48e7f2350d7d982c321137d09e81ed281f492456",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }

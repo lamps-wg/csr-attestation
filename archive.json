@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-01-11T00:49:16.963183+00:00",
+  "timestamp": "2024-01-14T00:52:53.381104+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -582,15 +582,15 @@
       "id": "I_kwDOJ3IIN850ze7v",
       "title": "Optimizing the EvidenceBundle Structure",
       "url": "https://github.com/lamps-wg/csr-attestation/issues/59",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "hannestschofenig",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "The current draft (version -02) defines the EvidenceBundle as follws:\r\n\r\n> \r\n>    EvidenceBundle ::= SEQUENCE\r\n>    {\r\n>      evidence  SEQUENCE OF EvidenceStatement,\r\n>      certs SEQUENCE OF CertificateAlternatives OPTIONAL\r\n>    }\r\n> \r\n\r\nThe idea is that Evidence can be sent with optionally with a certificate chain. In complex scenarios (such as Composite Devices) the sequence construct allows multiple Evidence payloads to be conveyed in a CSR. In such a situation it is possible to convey a certificate chain with each Evidence payload.\r\n\r\nThe payload construction would be something like:\r\n\r\n               Evidence1\r\n               cert1\r\n               Evidence2\r\n               cert2\r\n\r\nWe have also envisioned the case where the certificate chain is the same for all Evidence payloads. In such a case, it is possible to accomplish a performance optimization by only send one cert chain. Here is the payload construction:\r\n\r\n               Evidence1\r\n               Evidence2\r\n               cert\r\n\r\nIf the certificate chains differ, then this optimization is not possible.\r\n\r\nMike StJohns brought up a scenario where the current design of the EvidenceBundle is limiting. In his scenario multiple Evidence payloads are sent and their certificate chain only differents by the end entity certificate. In the current design an optimization would not be possible.\r\n\r\nQuestion: Should we allow this optimization? If so, how should we best design it?\r\n",
       "createdAt": "2023-10-24T16:34:07Z",
-      "updatedAt": "2024-01-09T19:05:57Z",
-      "closedAt": null,
+      "updatedAt": "2024-01-11T16:25:00Z",
+      "closedAt": "2024-01-11T16:25:00Z",
       "comments": [
         {
           "author": "ounsworth",
@@ -660,15 +660,15 @@
       "id": "I_kwDOJ3IIN853Xrov",
       "title": "Adding the ability to convey Attestation Results in CSR",
       "url": "https://github.com/lamps-wg/csr-attestation/issues/62",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "hannestschofenig",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Ned mentioned that the trusted path routing work requires the use of an attestation result.",
       "createdAt": "2023-11-20T17:40:20Z",
-      "updatedAt": "2024-01-10T19:37:46Z",
-      "closedAt": null,
+      "updatedAt": "2024-01-11T16:36:29Z",
+      "closedAt": "2024-01-11T16:36:29Z",
       "comments": [
         {
           "author": "hannestschofenig",
@@ -697,6 +697,20 @@
           "body": "Mike Ounsworth ***@***.***> wrote:\n    > My first reaction is that this is getting a bit too scope-creepy;\n    > models where the Attester has interacted with the Verifier prior to\n    > creating the CSR is outside the scope of this diagram:\n\nI mostly agree.\nI think that there are perhaps needs for the passport model for some HSMs,\nbut it should be out of scope for revision one.\n\n\n",
           "createdAt": "2024-01-10T19:37:44Z",
           "updatedAt": "2024-01-10T19:37:44Z"
+        },
+        {
+          "author": "Akretsch",
+          "authorAssociation": "NONE",
+          "body": "> Also, Use Case 2 is weird; normally the RA does not have the End Entity's private key, so the RA can't modify the CSR and re-sign it; so it would have to carry the Attestation Result next to the CSR. Unless the RA can \"counter-sign\" the CSR such that the CSR is no longer self-signed, but instead signed with an RA key, but that's getting weird.\r\n\r\nIf you use CRMF-centric enrollment protocols like CMP there would be a standard way to do, see https://www.rfc-editor.org/rfc/rfc9483.html#section-5.2.3.2\r\n\r\n",
+          "createdAt": "2024-01-11T07:10:40Z",
+          "updatedAt": "2024-01-11T07:15:13Z"
+        },
+        {
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Meeting with Hannes and Henk.\r\nDecision: considering Passport Model, or the hybrid Passport-Background that Andreas proposes, are out-of-scope for this draft. We will probably need to add Attestation Results to CSR at some point, but that should be a new draft and new top-level CSR attribute / extension.",
+          "createdAt": "2024-01-11T16:36:00Z",
+          "updatedAt": "2024-01-11T16:36:00Z"
         }
       ]
     },
@@ -779,11 +793,13 @@
       "state": "OPEN",
       "author": "hannestschofenig",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
+      "assignees": [
+        "ounsworth"
+      ],
       "labels": [],
       "body": "Talk a bit about the split of roles between the CSR client software and the attester.\r\nWho is supposed to put the ASN.1 structure together?",
       "createdAt": "2023-11-30T10:19:26Z",
-      "updatedAt": "2023-12-05T08:15:28Z",
+      "updatedAt": "2024-01-11T16:46:49Z",
       "closedAt": null,
       "comments": [
         {
@@ -807,7 +823,7 @@
       "labels": [],
       "body": "Idea: add an OPTIONAL FQDN to the EvidenceStatement as a hint from the Attester to the RP about which Verifier to pass the evidence to. Related to the concept of \"Audience\".\r\n\r\nThis came up in discussion because some people were imagining that the EvidenceStatement.type OID would serve this purpose, but other people pointed out that this will not be the case when EvidenceStatement.type is, for example, \"TCG_TPM\" or \"CMW\".\r\n\r\nThere is a security question here about whether the not-yet-verified data should be allowed to tell the RP which code to call.",
       "createdAt": "2023-12-18T17:37:17Z",
-      "updatedAt": "2023-12-19T16:47:14Z",
+      "updatedAt": "2024-01-11T22:32:07Z",
       "closedAt": null,
       "comments": [
         {
@@ -823,6 +839,27 @@
           "body": "> There is a security question here about whether the not-yet-verified data should be allowed to tell the RP which code to call.\r\n\r\n\u261d\ufe0f\r\n\r\nThe RP must have a pre-established trust relationship with the verifier(s), surely it can't blindly follow a potentially malicious routing hint.\r\n\r\n> This came up in discussion because some people were imagining that the EvidenceStatement.type OID would serve this purpose, but other people pointed out that this will not be the case when EvidenceStatement.type is, for example, \"TCG_TPM\" or \"CMW\".\r\n\r\nNoting that CMW is a typed object so, in that sense, it's equivalent to EvidenceStatement: instead of EvidenceStatement.type OID the RP could use CMW's media type.\r\n",
           "createdAt": "2023-12-19T16:45:01Z",
           "updatedAt": "2023-12-19T16:47:14Z"
+        },
+        {
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Henk proposed to use the information related to the digital signature covering the Evidence to make a decision about where to route the Evidence to. I looked at one Evidence format, the PSA Attestation Token, and it does not carry information about the Verifier as part of the signature meta-data structure in its default form. (We only recently added the ability to carry certificate chains in the header as part of the x5chain header in a note).\r\n\r\nOf course, this information could be included mandatorily but I don't think it is common in other Evidence formats either.\r\n\r\nEven if we require this information to be included in every Evidence format, it means that the relying party needs to understands more about the encoding of the Evidence in order to make an assessment about where to route the Evidence.\r\n",
+          "createdAt": "2024-01-11T17:24:31Z",
+          "updatedAt": "2024-01-11T17:24:31Z"
+        },
+        {
+          "author": "thomas-fossati",
+          "authorAssociation": "NONE",
+          "body": "I think an assumption that can be safely made is that the RP must be pre-configured with a list of trusted verifiers, each with its own network endpoints, API details, and authentication credentials.\r\n\r\nA routing hint would then be a key that locates the verifier slot within such a list.\r\n\r\nAnd that means that we'd need to agree on the \"trusted verifiers configuration list\" format in the first place.\r\n",
+          "createdAt": "2024-01-11T17:37:50Z",
+          "updatedAt": "2024-01-11T17:39:11Z"
+        },
+        {
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "@hannestschofenig , @thomas-fossati please review PR #72 to see if it addresses this thread.",
+          "createdAt": "2024-01-11T22:32:07Z",
+          "updatedAt": "2024-01-11T22:32:07Z"
         }
       ]
     }
@@ -3245,24 +3282,26 @@
       "id": "PR_kwDOJ3IIN85ghKFg",
       "title": "Information Model Description",
       "url": "https://github.com/lamps-wg/csr-attestation/pull/64",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "hannestschofenig",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "This PR addresses issues #59 and #60.",
       "createdAt": "2023-11-28T06:36:09Z",
-      "updatedAt": "2023-12-18T14:21:01Z",
+      "updatedAt": "2024-01-11T22:44:45Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "f91c596732fa71620f433d0766efd685d695ec42",
       "headRepository": "lamps-wg/csr-attestation",
       "headRefName": "hannestschofenig-patch-2",
       "headRefOid": "a2be166fa1ff219f0715ab57376ed2749b088b61",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2024-01-11T22:44:22Z",
+      "mergedAt": "2024-01-11T22:44:22Z",
+      "mergedBy": "ounsworth",
+      "mergeCommit": {
+        "oid": "359aa234dda85d301f16faebb3730d83e07f29b3"
+      },
       "comments": [
         {
           "author": "ounsworth",
@@ -3325,6 +3364,19 @@
               "updatedAt": "2023-12-02T21:19:18Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN85sPXaI",
+          "commit": {
+            "abbreviatedOid": "a2be166"
+          },
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-01-11T16:14:47Z",
+          "updatedAt": "2024-01-11T16:14:47Z",
+          "comments": []
         }
       ]
     },
@@ -3383,21 +3435,21 @@
       "id": "PR_kwDOJ3IIN85iROrk",
       "title": "Removing \"OPTIONAL\" keyword",
       "url": "https://github.com/lamps-wg/csr-attestation/pull/69",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "hannestschofenig",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2023-12-18T14:17:40Z",
-      "updatedAt": "2024-01-09T18:54:08Z",
+      "updatedAt": "2024-01-11T23:40:30Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "855c2d0f9b1bd2171381da93f268a8506d516b50",
       "headRepository": "lamps-wg/csr-attestation",
       "headRefName": "hannestschofenig-patch-4",
       "headRefOid": "874e4b92f5780dac97e53dd0df5c120c26a256e4",
-      "closedAt": null,
+      "closedAt": "2024-01-11T23:40:29Z",
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
@@ -3408,6 +3460,20 @@
           "body": "@hannestschofenig I don't agree with this change. I thought there were some attestation statement formats where either the certs are buried inside the proprietary statement format, or where the certs can be omitted because they are already known to the verifier.\r\n\r\nAre you sure that the certs can be mandatory?",
           "createdAt": "2024-01-09T18:54:07Z",
           "updatedAt": "2024-01-09T18:54:07Z"
+        },
+        {
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Meeting with Hannes and Henk.\r\n\r\nDecision: put the OPTIONAL back and instead make the sequences SIZE (1..MAX). This follow X.509 conventions in RFC5280, for example:\r\n\r\n```\r\nExtensions  ::=  SEQUENCE SIZE (1..MAX) OF Extension\r\n```",
+          "createdAt": "2024-01-11T22:42:59Z",
+          "updatedAt": "2024-01-11T22:42:59Z"
+        },
+        {
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Because we made another change to the same lines (now on main), I could not easily continue this PR. I have started a new one, see #75 \r\nClosing this PR.",
+          "createdAt": "2024-01-11T23:40:30Z",
+          "updatedAt": "2024-01-11T23:40:30Z"
         }
       ],
       "reviews": [
@@ -3431,20 +3497,163 @@
       "id": "PR_kwDOJ3IIN85jnOey",
       "title": "Defined EvidenceBundles to make Russ happy :)",
       "url": "https://github.com/lamps-wg/csr-attestation/pull/71",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "ounsworth",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "See Russ' comment in #60 ",
       "createdAt": "2024-01-09T19:24:37Z",
-      "updatedAt": "2024-01-09T19:24:37Z",
+      "updatedAt": "2024-01-11T16:23:08Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "98407579f0064ebfa069292e6f1fd78502105401",
       "headRepository": "lamps-wg/csr-attestation",
       "headRefName": "mikeo_evidencebundles",
       "headRefOid": "48e7f2350d7d982c321137d09e81ed281f492456",
+      "closedAt": "2024-01-11T16:23:03Z",
+      "mergedAt": "2024-01-11T16:23:03Z",
+      "mergedBy": "ounsworth",
+      "mergeCommit": {
+        "oid": "b9ecfed7427d569b0bde876fac0c4620cac63131"
+      },
+      "comments": [
+        {
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Hannes and Henk reviewed.",
+          "createdAt": "2024-01-11T16:22:58Z",
+          "updatedAt": "2024-01-11T16:22:58Z"
+        }
+      ],
+      "reviews": []
+    },
+    {
+      "number": 72,
+      "id": "PR_kwDOJ3IIN85j3XBg",
+      "title": "Added a hint to the RP. Closes #70",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/72",
+      "state": "OPEN",
+      "author": "ounsworth",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "@hannestschofenig , @thomas-fossati please review.\r\nCloses #70 ",
+      "createdAt": "2024-01-11T22:31:36Z",
+      "updatedAt": "2024-01-12T10:39:21Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "b9ecfed7427d569b0bde876fac0c4620cac63131",
+      "headRepository": "lamps-wg/csr-attestation",
+      "headRefName": "mikeo_rp_hint",
+      "headRefOid": "22a66cc01f3ac85b6787baf7206f18a98a853c12",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJ3IIN85sWuUv",
+          "commit": {
+            "abbreviatedOid": "22a66cc"
+          },
+          "author": "thomas-fossati",
+          "authorAssociation": "NONE",
+          "state": "APPROVED",
+          "body": "LGTM.\r\n\r\nI've dropped a tiny editorial suggestion.",
+          "createdAt": "2024-01-12T10:38:44Z",
+          "updatedAt": "2024-01-12T10:39:21Z",
+          "comments": [
+            {
+              "originalPosition": 9,
+              "body": "```suggestion\r\nthe correct Verifier. The format and contents of the hint are out of scope of this document.\r\n```",
+              "createdAt": "2024-01-12T10:38:44Z",
+              "updatedAt": "2024-01-12T10:39:21Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 73,
+      "id": "PR_kwDOJ3IIN85j3f40",
+      "title": "Added a description of expected interaction betweeN CSR client softwa\u2026",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/73",
+      "state": "OPEN",
+      "author": "ounsworth",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "\u2026re and attester. Closes #67",
+      "createdAt": "2024-01-11T23:08:17Z",
+      "updatedAt": "2024-01-11T23:08:22Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "359aa234dda85d301f16faebb3730d83e07f29b3",
+      "headRepository": "lamps-wg/csr-attestation",
+      "headRefName": "mikeo_hsm_interaction",
+      "headRefOid": "06790824054bb70b7bf6939c67268bf6fc4116ab",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 74,
+      "id": "PR_kwDOJ3IIN85j3jui",
+      "title": "Added a description of EvidenceStatementSet and why it is empty",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/74",
+      "state": "OPEN",
+      "author": "ounsworth",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Closes #61 ",
+      "createdAt": "2024-01-11T23:29:33Z",
+      "updatedAt": "2024-01-11T23:32:02Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "a8fce04a7b0ff8ff5e7569be6ea050762c3a2121",
+      "headRepository": "lamps-wg/csr-attestation",
+      "headRefName": "mikeo_iss61",
+      "headRefOid": "7f06009514ba283fd2a820bb9c21f8a59cd1a499",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "This is addressing Ned Smith's comment, so he should review the change.",
+          "createdAt": "2024-01-11T23:30:19Z",
+          "updatedAt": "2024-01-11T23:30:19Z"
+        }
+      ],
+      "reviews": []
+    },
+    {
+      "number": 75,
+      "id": "PR_kwDOJ3IIN85j3lR0",
+      "title": "Set all the sequences to be non-empty",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/75",
+      "state": "OPEN",
+      "author": "ounsworth",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "This replaces PR #69 , which I have closed.",
+      "createdAt": "2024-01-11T23:39:25Z",
+      "updatedAt": "2024-01-11T23:39:44Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "a8fce04a7b0ff8ff5e7569be6ea050762c3a2121",
+      "headRepository": "lamps-wg/csr-attestation",
+      "headRefName": "mikeo_seq_size_1_max",
+      "headRefOid": "50529e2e8d5324d2ce388c1a7666d1d8902782a3",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,

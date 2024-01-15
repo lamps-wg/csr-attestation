@@ -450,7 +450,7 @@ certificate chain.
 ~~~
 EVIDENCE-STATEMENT ::= TYPE-IDENTIFIER
 
-EvidenceStatementSet EVIDENCE-STATEMENT ::= SET {
+EvidenceStatementSet EVIDENCE-STATEMENT ::= {
    ... -- None defined in this document --
 }
 ~~~
@@ -544,7 +544,7 @@ CertificateAlternatives ::=
    CHOICE {
       cert          [0] Certificate,
       typedCert     [1] TypedCert,
-      typedFlatCert [2] TypedFlatCert
+      typedFlatCert [2] TypedFlatCert,
       ...
    }
 ~~~
@@ -571,8 +571,8 @@ TypedCert ::= SEQUENCE {
           }
 
 TypedCertSet TYPED-CERT ::= {
-             ... -- Empty for now,
-             }
+   ... -- None defined in this document --
+      }
 ~~~
 
 "TypedFlatCert" is a certificate that does not have a valid ASN.1

@@ -63,8 +63,8 @@ TypedFlatCert ::= SEQUENCE {
 
 EVIDENCE-STATEMENT ::= TYPE-IDENTIFIER
 
-EvidenceStatementSet EVIDENCE-STATEMENT ::= {
-   ... -- Empty for now --
+EvidenceStatementSet EVIDENCE-STATEMENT ::= SET {
+   ... -- None defined in this document --
 }
 
 EvidenceStatements ::= SEQUENCE SIZE (1..MAX) OF EvidenceStatement

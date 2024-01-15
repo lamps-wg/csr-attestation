@@ -443,7 +443,7 @@ Table of Contents
    EVIDENCE-STATEMENT ::= TYPE-IDENTIFIER
 
    EvidenceStatementSet EVIDENCE-STATEMENT ::= SET {
-      ... -- Empty for now --
+      ... -- None defined in this document --
    }
 
    This is a mapping and ASN.1 Types for Evidence Statements to the OIDs

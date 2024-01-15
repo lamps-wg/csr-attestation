@@ -413,7 +413,7 @@ or parse EvidenceStatements. These would typically be Evidence Statement
 formats defined in other IETF standards, defined by other standards bodies,
 or vendor proprietary formats along with the OIDs that identify them.
 
-This list is left empty in this document, however implementers will wish
+This list is left empty in this document. However, implementers should
 to populate it with the formats that they wish to support.
 
 ~~~

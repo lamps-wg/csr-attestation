@@ -414,7 +414,7 @@ formats defined in other IETF standards, defined by other standards bodies,
 or vendor proprietary formats along with the OIDs that identify them.
 
 This list is left empty in this document. However, implementers should
-to populate it with the formats that they wish to support.
+populate it with the formats that they wish to support.
 
 ~~~
 EvidenceStatements ::= SEQUENCE OF EvidenceStatement

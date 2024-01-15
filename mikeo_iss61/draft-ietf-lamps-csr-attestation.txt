@@ -454,7 +454,7 @@ Table of Contents
    that identify them.
 
    This list is left empty in this document.  However, implementers
-   should to populate it with the formats that they wish to support.
+   should populate it with the formats that they wish to support.
 
    EvidenceStatements ::= SEQUENCE OF EvidenceStatement
 

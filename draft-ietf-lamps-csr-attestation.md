@@ -253,7 +253,7 @@ The interaction would conceptually be:
                         |<-----------------|
                         |                  |
 ~~~
-{: #fig-openssl-p11 title="Example interaction between CSR generator and HSM."}
+{: #fig-csr-client-p11 title="Example interaction between CSR generator and HSM."}
 
 ## Implementation Strategies
 

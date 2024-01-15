@@ -1515,7 +1515,7 @@ CertificateAlternatives.<a href="#section-4.2-2" class="pilcrow">¶</a></p>
                   <text x="64" y="68">Attribute</text>
                   <text x="116" y="68">or</text>
                   <text x="64" y="84">Extension</text>
-                  <text x="88" y="116">0</text>
+                  <text x="88" y="116">1</text>
                   <text x="256" y="132">n</text>
                   <text x="376" y="148">CertificateAlternatives</text>
                   <text x="328" y="180">Certificate</text>
@@ -1524,8 +1524,8 @@ CertificateAlternatives.<a href="#section-4.2-2" class="pilcrow">¶</a></p>
                   <text x="388" y="196">OR</text>
                   <text x="336" y="212">TypedFlatCert</text>
                   <text x="88" y="244">n</text>
-                  <text x="152" y="244">0</text>
-                  <text x="192" y="260">0</text>
+                  <text x="152" y="244">1</text>
+                  <text x="192" y="260">1</text>
                   <text x="256" y="260">n</text>
                   <text x="84" y="276">EvidenceBundle</text>
                   <text x="352" y="276">EvidenceStatement</text>
@@ -2489,7 +2489,7 @@ EvidenceStatementSet EVIDENCE-STATEMENT ::= SET {
    ... -- None defined in this document --
 }
 
-EvidenceStatements ::= SEQUENCE OF EvidenceStatement
+EvidenceStatements ::= SEQUENCE SIZE (1..MAX) OF EvidenceStatement
 
 EvidenceStatement ::= SEQUENCE {
    type   EVIDENCE-STATEMENT.&amp;id({EvidenceStatementSet}),
@@ -2512,12 +2512,12 @@ ext-evidence EXTENSION ::= {
   IDENTIFIED BY id-aa-evidenceStatement
 }
 
-EvidenceBundles ::= SEQUENCE OF EvidenceBundle
+EvidenceBundles ::= SEQUENCE SIZE (1..MAX) OF EvidenceBundle
 
 EvidenceBundle ::= SEQUENCE
 {
   evidence EvidenceStatements,
-  certs SEQUENCE OF CertificateAlternatives OPTIONAL
+  certs SEQUENCE SIZE (1..MAX) OF CertificateAlternatives OPTIONAL
 }
 
 

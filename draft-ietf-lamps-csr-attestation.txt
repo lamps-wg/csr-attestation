@@ -485,7 +485,7 @@ Table of Contents
 
    EVIDENCE-STATEMENT ::= TYPE-IDENTIFIER
 
-   EvidenceStatementSet EVIDENCE-STATEMENT ::= SET {
+   EvidenceStatementSet EVIDENCE-STATEMENT ::= {
       ... -- None defined in this document --
    }
 
@@ -578,7 +578,7 @@ Table of Contents
       CHOICE {
          cert          [0] Certificate,
          typedCert     [1] TypedCert,
-         typedFlatCert [2] TypedFlatCert
+         typedFlatCert [2] TypedFlatCert,
          ...
       }
 
@@ -603,8 +603,8 @@ Table of Contents
             }
 
   TypedCertSet TYPED-CERT ::= {
-               ... -- Empty for now,
-               }
+     ... -- None defined in this document --
+        }
 
    "TypedFlatCert" is a certificate that does not have a valid ASN.1
    encoding.  These are often compact or implicit certificates used by
@@ -1097,7 +1097,7 @@ CertificateAlternatives ::=
    CHOICE {
       cert          [0] Certificate,
       typedCert     [1] TypedCert,
-      typedFlatCert [2] TypedFlatCert
+      typedFlatCert [2] TypedFlatCert,
       ...
    }
 
@@ -1111,7 +1111,7 @@ TypedCert ::= SEQUENCE {
   }
 
 TypedCertSet TYPED-CERT ::= {
-  ... -- Empty for now,
+   ... -- None defined in this document --
   }
 
 TypedFlatCert ::= SEQUENCE {
@@ -1121,7 +1121,7 @@ TypedFlatCert ::= SEQUENCE {
 
 EVIDENCE-STATEMENT ::= TYPE-IDENTIFIER
 
-EvidenceStatementSet EVIDENCE-STATEMENT ::= SET {
+EvidenceStatementSet EVIDENCE-STATEMENT ::= {
    ... -- None defined in this document --
 }
 

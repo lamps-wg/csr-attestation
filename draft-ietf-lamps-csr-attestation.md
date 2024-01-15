@@ -258,7 +258,10 @@ another layer of conceptual message wrapping in which case it is helpful
 to the RP to bring this hint outside of the statement.
 It is assumed that the RP must be pre-configured with a list of trusted
 Verifiers and that the contents of this hint can be used to look up
-the correct Verifier. The format and contents of the hint are out of scope of this document.
+the correct Verifier. Under no circumstances must the RP be tricked into
+contacting an unknown and untrusted Verifier since the returned Attestation
+Result must not be relied on. The format and contents of the hint are out of
+scope of this document.
 
 ~~~
 EvidenceBundles ::= SEQUENCE OF EvidenceBundle

@@ -403,7 +403,7 @@ certificate chain.
 EVIDENCE-STATEMENT ::= TYPE-IDENTIFIER
 
 EvidenceStatementSet EVIDENCE-STATEMENT ::= SET {
-   ... -- Empty for now --
+   ... -- None defined in this document --
 }
 ~~~
 

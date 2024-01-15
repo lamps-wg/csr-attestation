@@ -271,7 +271,7 @@ CertificateAlternatives.
  |  Attribute or      |
  |  Extension         |
  +--------+-----------+
-          |0
+          |1
           |                     n +-------------------------+
           |         +-------------+ CertificateAlternatives |
           |         |             +-------------------------+
@@ -279,8 +279,8 @@ CertificateAlternatives.
           |         |             | TypedCert   OR          |
           |         |             | TypedFlatCert           |
           |         |             +-------------------------+
-          |n       0|
- +--------+---------+-+ 0       n +-------------------+
+          |n       1|
+ +--------+---------+-+ 1       n +-------------------+
  |  EvidenceBundle    +-----------+ EvidenceStatement |
  +--------------------+           +-------------------+
                                   | Type              |

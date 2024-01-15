@@ -67,7 +67,7 @@ EvidenceStatementSet EVIDENCE-STATEMENT ::= SET {
    ... -- None defined in this document --
 }
 
-EvidenceStatements ::= SEQUENCE OF EvidenceStatement
+EvidenceStatements ::= SEQUENCE SIZE (1..MAX) OF EvidenceStatement
 
 EvidenceStatement ::= SEQUENCE {
    type   EVIDENCE-STATEMENT.&id({EvidenceStatementSet}),
@@ -90,12 +90,12 @@ ext-evidence EXTENSION ::= {
   IDENTIFIED BY id-aa-evidenceStatement
 }
 
-EvidenceBundles ::= SEQUENCE OF EvidenceBundle
+EvidenceBundles ::= SEQUENCE SIZE (1..MAX) OF EvidenceBundle
 
 EvidenceBundle ::= SEQUENCE
 {
   evidence EvidenceStatements,
-  certs SEQUENCE OF CertificateAlternatives OPTIONAL
+  certs SEQUENCE SIZE (1..MAX) OF CertificateAlternatives OPTIONAL
 }
 
 

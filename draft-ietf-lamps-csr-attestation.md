@@ -227,7 +227,8 @@ conceptually be:
 
 ~~~ aasvg
                    +---------+          +-----+
-                   | OpenSSL |          | HSM |
+                   | Crypto  |          | HSM |
+                   | Library |          |     |
                    +---------+          +-----+
                         |                  |
                         | getEvidence()    |

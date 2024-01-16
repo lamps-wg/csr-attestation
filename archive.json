@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-01-14T00:52:53.381104+00:00",
+  "timestamp": "2024-01-16T00:48:40.345090+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -105,7 +105,7 @@
         },
         {
           "author": "thomas-fossati",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "body": "> The core question here is whether LAMPS / CSR should be specifying encodings other than ASN.1.\r\n\r\nLAMPS shouldn't specify core attestation formats, they already exist and are specified by other SDOs (e.g., FIDO, TCG, W3C) and IETF groups (e.g,. RATS).\r\n\r\nThe suggestion of using CMW (wrapped in a ASN.1 OCTET STRING) fully decouples attestation formats from the CSR format, making the latter scalable.",
           "createdAt": "2023-07-17T16:49:49Z",
           "updatedAt": "2023-07-17T16:49:49Z"
@@ -570,7 +570,7 @@
         },
         {
           "author": "thomas-fossati",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "body": "> My additional question is whether this example illustrates a pattern for re-using the CMW\r\n\r\nLikely so, and that's great.   To that respect I think the text proposed in https://github.com/lamps-wg/csr-attestation/commit/882aa7ea05e84e3d6b087bd980c554412b7a81c0 should be made more explicit.\r\n\r\n(Also, it'd be good to stick a ref to the \"RATS Conceptual Messages Wrapper\" document alongside DICE arch 1.1.)\r\n",
           "createdAt": "2023-10-04T06:09:32Z",
           "updatedAt": "2023-10-04T06:09:32Z"
@@ -644,16 +644,24 @@
       "id": "I_kwDOJ3IIN853Xp7T",
       "title": "EvidenceStatementSet definition",
       "url": "https://github.com/lamps-wg/csr-attestation/issues/61",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "ounsworth",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Ned pointed out that the \"Empty for now\" comment is a bit misleading. It should probably be \"None defined in this document\" or similar.\r\n\r\nShould that be a SET?\r\n\r\nWe should have some text explaining why this is empty here and how we envision new things (TGC / proprietary) things getting added.\r\n\r\n\r\n```\r\n   EvidenceStatementSet EVIDENCE-STATEMENT ::= {\r\n      ... -- Empty for now --\r\n   }\r\n\r\n   EvidenceStatement ::= SEQUENCE {\r\n      type   EVIDENCE-STATEMENT.&id({EvidenceStatementSet}),\r\n      stmt   EVIDENCE-STATEMENT.&Type({EvidenceStatementSet}{@type})\r\n   }\r\n```",
       "createdAt": "2023-11-20T17:35:27Z",
-      "updatedAt": "2023-11-20T17:35:27Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2024-01-15T17:45:54Z",
+      "closedAt": "2024-01-15T17:45:54Z",
+      "comments": [
+        {
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "TODO:\r\nOne more change: the ASN.1 comment should be \"None defined in this document\".\r\n\r\nThen this is ok to merge.",
+          "createdAt": "2024-01-15T17:20:18Z",
+          "updatedAt": "2024-01-15T17:20:18Z"
+        }
+      ]
     },
     {
       "number": 62,
@@ -753,13 +761,37 @@
       "state": "OPEN",
       "author": "hannestschofenig",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
+      "assignees": [
+        "hannestschofenig"
+      ],
       "labels": [],
-      "body": "",
+      "body": "# The Problem\r\n\r\nDevelopers implementing this specification will have a problem to find OIDs for the Evidence formats they are using. There is no repository that allows someone to just search for the values. Instead, developers need to search in the relevant specifications, which can be time consuming.\r\n\r\n# Proposed Solution\r\n\r\nThe suggestion is to have IANA maintain a list of OID values for Evidence formats, a short description (name), and a reference to the specification where more details can be found, and a change controller. The change controller refers to the party that can update, or otherwise change the entry in the table. It does not list the controller of the OID itself.\r\n\r\nHere is an example of how this table would look like.\r\n\r\n```\r\n +-----------------------------------------------------------------------+\r\n | OID              | Name               | Reference | Change Controller |\r\n +------------------+--------------------+-----------+-------------------+\r\n | 2 23 133 5 4 10  | DICE Evidence      |   [1]     |  IESG             |\r\n | 2 23 133 5 4 9   | CMW                |   [1]     |  IESG             |\r\n +------------------+--------------------+-----------+-------------------+\r\n```\r\n\r\nReferences:\r\n\r\n[1] \"DICE Attestation Architecture\", URL: https://trustedcomputinggroup.org/wp-content/uploads/DICE-Attestation-Architecture-Version-1.1-Revision-17_1August2023.pdf\r\n\r\n[2] \"RATS Conceptual Messages Wrapper\", URL: https://datatracker.ietf.org/doc/draft-ietf-rats-msg-wrap\r\n\r\n\r\n\r\n",
       "createdAt": "2023-11-30T09:41:22Z",
-      "updatedAt": "2023-11-30T09:41:22Z",
+      "updatedAt": "2024-01-15T17:36:04Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@henkbirkholz @ounsworth How does this look like?",
+          "createdAt": "2024-01-15T13:14:53Z",
+          "updatedAt": "2024-01-15T13:14:53Z"
+        },
+        {
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "For me, the important question is whether we need to block publication of the CSR ATTEST spec while we resolve this?",
+          "createdAt": "2024-01-15T17:17:18Z",
+          "updatedAt": "2024-01-15T17:17:18Z"
+        },
+        {
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@mwiseman-byid going to provide OIDs from TCG",
+          "createdAt": "2024-01-15T17:36:03Z",
+          "updatedAt": "2024-01-15T17:36:03Z"
+        }
+      ]
     },
     {
       "number": 66,
@@ -790,7 +822,7 @@
       "id": "I_kwDOJ3IIN854TRiT",
       "title": "Definition of the Interface between the CSR client software and the attester",
       "url": "https://github.com/lamps-wg/csr-attestation/issues/67",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "hannestschofenig",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -799,8 +831,8 @@
       "labels": [],
       "body": "Talk a bit about the split of roles between the CSR client software and the attester.\r\nWho is supposed to put the ASN.1 structure together?",
       "createdAt": "2023-11-30T10:19:26Z",
-      "updatedAt": "2024-01-11T16:46:49Z",
-      "closedAt": null,
+      "updatedAt": "2024-01-15T17:27:16Z",
+      "closedAt": "2024-01-15T17:27:16Z",
       "comments": [
         {
           "author": "Akretsch",
@@ -816,15 +848,15 @@
       "id": "I_kwDOJ3IIN856BNCF",
       "title": "Add a hint to the RP about which verifier to call",
       "url": "https://github.com/lamps-wg/csr-attestation/issues/70",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "ounsworth",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Idea: add an OPTIONAL FQDN to the EvidenceStatement as a hint from the Attester to the RP about which Verifier to pass the evidence to. Related to the concept of \"Audience\".\r\n\r\nThis came up in discussion because some people were imagining that the EvidenceStatement.type OID would serve this purpose, but other people pointed out that this will not be the case when EvidenceStatement.type is, for example, \"TCG_TPM\" or \"CMW\".\r\n\r\nThere is a security question here about whether the not-yet-verified data should be allowed to tell the RP which code to call.",
       "createdAt": "2023-12-18T17:37:17Z",
-      "updatedAt": "2024-01-11T22:32:07Z",
-      "closedAt": null,
+      "updatedAt": "2024-01-15T17:40:53Z",
+      "closedAt": "2024-01-15T17:40:53Z",
       "comments": [
         {
           "author": "Akretsch",
@@ -835,7 +867,7 @@
         },
         {
           "author": "thomas-fossati",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "body": "> There is a security question here about whether the not-yet-verified data should be allowed to tell the RP which code to call.\r\n\r\n\u261d\ufe0f\r\n\r\nThe RP must have a pre-established trust relationship with the verifier(s), surely it can't blindly follow a potentially malicious routing hint.\r\n\r\n> This came up in discussion because some people were imagining that the EvidenceStatement.type OID would serve this purpose, but other people pointed out that this will not be the case when EvidenceStatement.type is, for example, \"TCG_TPM\" or \"CMW\".\r\n\r\nNoting that CMW is a typed object so, in that sense, it's equivalent to EvidenceStatement: instead of EvidenceStatement.type OID the RP could use CMW's media type.\r\n",
           "createdAt": "2023-12-19T16:45:01Z",
           "updatedAt": "2023-12-19T16:47:14Z"
@@ -849,7 +881,7 @@
         },
         {
           "author": "thomas-fossati",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "body": "I think an assumption that can be safely made is that the RP must be pre-configured with a list of trusted verifiers, each with its own network endpoints, API details, and authentication credentials.\r\n\r\nA routing hint would then be a key that locates the verifier slot within such a list.\r\n\r\nAnd that means that we'd need to agree on the \"trusted verifiers configuration list\" format in the first place.\r\n",
           "createdAt": "2024-01-11T17:37:50Z",
           "updatedAt": "2024-01-11T17:39:11Z"
@@ -860,6 +892,46 @@
           "body": "@hannestschofenig , @thomas-fossati please review PR #72 to see if it addresses this thread.",
           "createdAt": "2024-01-11T22:32:07Z",
           "updatedAt": "2024-01-11T22:32:07Z"
+        }
+      ]
+    },
+    {
+      "number": 77,
+      "id": "I_kwDOJ3IIN858H6js",
+      "title": "Appendix A examples are out-dated.",
+      "url": "https://github.com/lamps-wg/csr-attestation/issues/77",
+      "state": "OPEN",
+      "author": "ounsworth",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Monty Wiseman @mwiseman-byid offered to provide updated TPM examples.",
+      "createdAt": "2024-01-15T17:34:30Z",
+      "updatedAt": "2024-01-15T17:34:30Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 78,
+      "id": "I_kwDOJ3IIN858H9q6",
+      "title": "Run the ASN.1 module through a compiler",
+      "url": "https://github.com/lamps-wg/csr-attestation/issues/78",
+      "state": "CLOSED",
+      "author": "ounsworth",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2024-01-15T17:44:55Z",
+      "updatedAt": "2024-01-15T21:06:22Z",
+      "closedAt": "2024-01-15T21:06:22Z",
+      "comments": [
+        {
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Done.",
+          "createdAt": "2024-01-15T21:06:22Z",
+          "updatedAt": "2024-01-15T21:06:22Z"
         }
       ]
     }
@@ -3533,24 +3605,26 @@
       "id": "PR_kwDOJ3IIN85j3XBg",
       "title": "Added a hint to the RP. Closes #70",
       "url": "https://github.com/lamps-wg/csr-attestation/pull/72",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "ounsworth",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "@hannestschofenig , @thomas-fossati please review.\r\nCloses #70 ",
       "createdAt": "2024-01-11T22:31:36Z",
-      "updatedAt": "2024-01-12T10:39:21Z",
+      "updatedAt": "2024-01-15T17:40:56Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "b9ecfed7427d569b0bde876fac0c4620cac63131",
       "headRepository": "lamps-wg/csr-attestation",
       "headRefName": "mikeo_rp_hint",
-      "headRefOid": "22a66cc01f3ac85b6787baf7206f18a98a853c12",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "85723602f7da4e53246a41f4da8206be94447b8c",
+      "closedAt": "2024-01-15T17:40:52Z",
+      "mergedAt": "2024-01-15T17:40:52Z",
+      "mergedBy": "ounsworth",
+      "mergeCommit": {
+        "oid": "ca693e9c15232659110b49b51337cfaf6aaa6d00"
+      },
       "comments": [],
       "reviews": [
         {
@@ -3559,7 +3633,7 @@
             "abbreviatedOid": "22a66cc"
           },
           "author": "thomas-fossati",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "APPROVED",
           "body": "LGTM.\r\n\r\nI've dropped a tiny editorial suggestion.",
           "createdAt": "2024-01-12T10:38:44Z",
@@ -3572,6 +3646,19 @@
               "updatedAt": "2024-01-12T10:39:21Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN85skR9j",
+          "commit": {
+            "abbreviatedOid": "8572360"
+          },
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "I added one short sentence but the text is good for me.",
+          "createdAt": "2024-01-15T10:56:46Z",
+          "updatedAt": "2024-01-15T10:56:46Z",
+          "comments": []
         }
       ]
     },
@@ -3580,50 +3667,115 @@
       "id": "PR_kwDOJ3IIN85j3f40",
       "title": "Added a description of expected interaction betweeN CSR client softwa\u2026",
       "url": "https://github.com/lamps-wg/csr-attestation/pull/73",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "ounsworth",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "\u2026re and attester. Closes #67",
       "createdAt": "2024-01-11T23:08:17Z",
-      "updatedAt": "2024-01-11T23:08:22Z",
+      "updatedAt": "2024-01-15T17:27:20Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "359aa234dda85d301f16faebb3730d83e07f29b3",
       "headRepository": "lamps-wg/csr-attestation",
       "headRefName": "mikeo_hsm_interaction",
-      "headRefOid": "06790824054bb70b7bf6939c67268bf6fc4116ab",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "309674b6da9b0b5172177797ceb4ce487ed2a2ec",
+      "closedAt": "2024-01-15T17:27:15Z",
+      "mergedAt": "2024-01-15T17:27:15Z",
+      "mergedBy": "ounsworth",
+      "mergeCommit": {
+        "oid": "b0602f1a92720ac651dd5ee4449c20f8794d83bd"
+      },
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOJ3IIN85skUvE",
+          "commit": {
+            "abbreviatedOid": "0679082"
+          },
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-01-15T11:03:25Z",
+          "updatedAt": "2024-01-15T11:03:25Z",
+          "comments": [
+            {
+              "originalPosition": 17,
+              "body": "```suggestion\r\na popular crypto library about a subject key stored on a PKCS#11 device. The interaction would\r\n```",
+              "createdAt": "2024-01-15T11:03:25Z",
+              "updatedAt": "2024-01-15T11:03:25Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN85skU6L",
+          "commit": {
+            "abbreviatedOid": "0679082"
+          },
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-01-15T11:03:47Z",
+          "updatedAt": "2024-01-15T11:03:47Z",
+          "comments": [
+            {
+              "originalPosition": 17,
+              "body": "What reference would you use for PKCS#11?\r\nThis one?\r\n\r\n   [PKCS11]   RSA Laboratories, \"PKCS #11 v2.20: Cryptographic Token\r\n              Interface Standard\", Public Key Cryptography Standards\r\n              PKCS#11-v2.20, June 2004.\r\n",
+              "createdAt": "2024-01-15T11:03:47Z",
+              "updatedAt": "2024-01-15T11:03:47Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN85sma3C",
+          "commit": {
+            "abbreviatedOid": "0679082"
+          },
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-01-15T16:36:28Z",
+          "updatedAt": "2024-01-15T16:36:29Z",
+          "comments": [
+            {
+              "originalPosition": 17,
+              "body": "Ugg, yeah, I guess I need to cite PKCS#11. How's this?\r\n\r\n  PKCS11:\r\n    author:\r\n      org: OASIS\r\n    title: \"PKCS #11 Cryptographic Token Interface Base Specification Version 2.40\"\r\n    date: 14 April 2015\r\n    target: http://docs.oasis-open.org/pkcs11/pkcs11-base/v2.40/os/pkcs11-base-v2.40-os.html",
+              "createdAt": "2024-01-15T16:36:29Z",
+              "updatedAt": "2024-01-15T16:36:29Z"
+            }
+          ]
+        }
+      ]
     },
     {
       "number": 74,
       "id": "PR_kwDOJ3IIN85j3jui",
       "title": "Added a description of EvidenceStatementSet and why it is empty",
       "url": "https://github.com/lamps-wg/csr-attestation/pull/74",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "ounsworth",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Closes #61 ",
       "createdAt": "2024-01-11T23:29:33Z",
-      "updatedAt": "2024-01-11T23:32:02Z",
+      "updatedAt": "2024-01-15T17:45:56Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
-      "baseRefOid": "a8fce04a7b0ff8ff5e7569be6ea050762c3a2121",
+      "baseRefOid": "ca693e9c15232659110b49b51337cfaf6aaa6d00",
       "headRepository": "lamps-wg/csr-attestation",
       "headRefName": "mikeo_iss61",
-      "headRefOid": "7f06009514ba283fd2a820bb9c21f8a59cd1a499",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "2794507cf79b8d1c2ddcfa448b1d8ca96560966d",
+      "closedAt": "2024-01-15T17:45:53Z",
+      "mergedAt": "2024-01-15T17:45:53Z",
+      "mergedBy": "ounsworth",
+      "mergeCommit": {
+        "oid": "9a90813fb39a0046b8bbe9337487c00ac3b653f0"
+      },
       "comments": [
         {
           "author": "ounsworth",
@@ -3633,32 +3785,159 @@
           "updatedAt": "2024-01-11T23:30:19Z"
         }
       ],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOJ3IIN85skWRR",
+          "commit": {
+            "abbreviatedOid": "7f06009"
+          },
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-01-15T11:07:10Z",
+          "updatedAt": "2024-01-15T11:07:11Z",
+          "comments": [
+            {
+              "originalPosition": 16,
+              "body": "```suggestion\r\nThis list is left empty in this document. However, implementers should\r\n```",
+              "createdAt": "2024-01-15T11:07:11Z",
+              "updatedAt": "2024-01-15T11:07:11Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN85skWVJ",
+          "commit": {
+            "abbreviatedOid": "7f06009"
+          },
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-01-15T11:07:20Z",
+          "updatedAt": "2024-01-15T11:07:20Z",
+          "comments": [
+            {
+              "originalPosition": 17,
+              "body": "```suggestion\r\npopulate it with the formats that they wish to support.\r\n```",
+              "createdAt": "2024-01-15T11:07:20Z",
+              "updatedAt": "2024-01-15T11:07:20Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN85smobK",
+          "commit": {
+            "abbreviatedOid": "850b211"
+          },
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-01-15T17:20:26Z",
+          "updatedAt": "2024-01-15T17:20:26Z",
+          "comments": [
+            {
+              "originalPosition": 6,
+              "body": "```suggestion\r\n   ... -- None defined in this document --\r\n```",
+              "createdAt": "2024-01-15T17:20:26Z",
+              "updatedAt": "2024-01-15T17:20:26Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN85smonw",
+          "commit": {
+            "abbreviatedOid": "850b211"
+          },
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-01-15T17:21:07Z",
+          "updatedAt": "2024-01-15T17:21:07Z",
+          "comments": [
+            {
+              "originalPosition": 6,
+              "body": "```suggestion\r\n   ... -- None defined in this document --\r\n```",
+              "createdAt": "2024-01-15T17:21:07Z",
+              "updatedAt": "2024-01-15T17:21:07Z"
+            }
+          ]
+        }
+      ]
     },
     {
       "number": 75,
       "id": "PR_kwDOJ3IIN85j3lR0",
       "title": "Set all the sequences to be non-empty",
       "url": "https://github.com/lamps-wg/csr-attestation/pull/75",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "ounsworth",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "This replaces PR #69 , which I have closed.",
       "createdAt": "2024-01-11T23:39:25Z",
-      "updatedAt": "2024-01-11T23:39:44Z",
+      "updatedAt": "2024-01-15T20:26:31Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
-      "baseRefOid": "a8fce04a7b0ff8ff5e7569be6ea050762c3a2121",
+      "baseRefOid": "e9aa96d95bdd0f93f548dff8a571f5c1f5816774",
       "headRepository": "lamps-wg/csr-attestation",
       "headRefName": "mikeo_seq_size_1_max",
-      "headRefOid": "50529e2e8d5324d2ce388c1a7666d1d8902782a3",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
-      "comments": [],
+      "headRefOid": "d0bb901f766c4810457c12e556863190f2f46d1e",
+      "closedAt": "2024-01-15T20:26:27Z",
+      "mergedAt": "2024-01-15T20:26:27Z",
+      "mergedBy": "ounsworth",
+      "mergeCommit": {
+        "oid": "fc0cf0bc5792317a530b6b0ae86f245e2d32051e"
+      },
+      "comments": [
+        {
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Thanks for addressing the issue. The change looks good to me",
+          "createdAt": "2024-01-15T10:48:08Z",
+          "updatedAt": "2024-01-15T10:48:08Z"
+        }
+      ],
+      "reviews": []
+    },
+    {
+      "number": 76,
+      "id": "PR_kwDOJ3IIN85kFEQK",
+      "title": "Replacing OpenSSL",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/76",
+      "state": "MERGED",
+      "author": "hannestschofenig",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2024-01-15T11:05:21Z",
+      "updatedAt": "2024-01-15T20:29:44Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "9a90813fb39a0046b8bbe9337487c00ac3b653f0",
+      "headRepository": "lamps-wg/csr-attestation",
+      "headRefName": "hannestschofenig-patch-2",
+      "headRefOid": "0e3b0e70e19f9e1995c79ac30fa3efbd45d65cc8",
+      "closedAt": "2024-01-15T20:29:40Z",
+      "mergedAt": "2024-01-15T20:29:40Z",
+      "mergedBy": "ounsworth",
+      "mergeCommit": {
+        "oid": "dfe7d31b254b49d531c91286b3cea174ac3b7f6f"
+      },
+      "comments": [
+        {
+          "author": "aj-stein-nist",
+          "authorAssociation": "NONE",
+          "body": "This looks good you may (but not a must) change the figure title to not mention OpenSSL anymore (if you look at the aasvg figure metadata), @hannestschofenig.",
+          "createdAt": "2024-01-15T17:49:40Z",
+          "updatedAt": "2024-01-15T17:49:40Z"
+        }
+      ],
       "reviews": []
     }
   ]

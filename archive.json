@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-01-16T00:48:40.345090+00:00",
+  "timestamp": "2024-01-18T00:48:26.804980+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -765,9 +765,9 @@
         "hannestschofenig"
       ],
       "labels": [],
-      "body": "# The Problem\r\n\r\nDevelopers implementing this specification will have a problem to find OIDs for the Evidence formats they are using. There is no repository that allows someone to just search for the values. Instead, developers need to search in the relevant specifications, which can be time consuming.\r\n\r\n# Proposed Solution\r\n\r\nThe suggestion is to have IANA maintain a list of OID values for Evidence formats, a short description (name), and a reference to the specification where more details can be found, and a change controller. The change controller refers to the party that can update, or otherwise change the entry in the table. It does not list the controller of the OID itself.\r\n\r\nHere is an example of how this table would look like.\r\n\r\n```\r\n +-----------------------------------------------------------------------+\r\n | OID              | Name               | Reference | Change Controller |\r\n +------------------+--------------------+-----------+-------------------+\r\n | 2 23 133 5 4 10  | DICE Evidence      |   [1]     |  IESG             |\r\n | 2 23 133 5 4 9   | CMW                |   [1]     |  IESG             |\r\n +------------------+--------------------+-----------+-------------------+\r\n```\r\n\r\nReferences:\r\n\r\n[1] \"DICE Attestation Architecture\", URL: https://trustedcomputinggroup.org/wp-content/uploads/DICE-Attestation-Architecture-Version-1.1-Revision-17_1August2023.pdf\r\n\r\n[2] \"RATS Conceptual Messages Wrapper\", URL: https://datatracker.ietf.org/doc/draft-ietf-rats-msg-wrap\r\n\r\n\r\n\r\n",
+      "body": "# The Problem\r\n\r\nDevelopers implementing this specification will have a problem to find OIDs for the Evidence formats they are using. There is no repository that allows someone to just search for the values. Instead, developers need to search in the relevant specifications, which can be time consuming.\r\n\r\n# Proposed Solution\r\n\r\nThe suggestion is to have IANA maintain a list of OID values for Evidence formats, a short description (name), and a reference to the specification where more details can be found, and a change controller. The change controller refers to the party that can update, or otherwise change the entry in the table. It does not list the controller of the OID itself.\r\n\r\nHere is an example of how this table would look like.\r\n\r\n```\r\n +-----------------------------------------------------------------------+\r\n | OID              | Name               | Reference | Change Controller |\r\n +------------------+--------------------+-----------+-------------------+\r\n | 2 23 133 5 4 10  | DICE Evidence      |   [1]     |  IESG             |\r\n | 2 23 133 5 4 9   | CMW                |   [1,2]   |  IESG             |\r\n +------------------+--------------------+-----------+-------------------+\r\n```\r\n\r\nReferences:\r\n\r\n[1] \"DICE Attestation Architecture\", URL: https://trustedcomputinggroup.org/wp-content/uploads/DICE-Attestation-Architecture-Version-1.1-Revision-17_1August2023.pdf\r\n\r\n[2] \"RATS Conceptual Messages Wrapper\", URL: https://datatracker.ietf.org/doc/draft-ietf-rats-msg-wrap\r\n\r\n\r\n\r\n",
       "createdAt": "2023-11-30T09:41:22Z",
-      "updatedAt": "2024-01-15T17:36:04Z",
+      "updatedAt": "2024-01-16T20:33:46Z",
       "closedAt": null,
       "comments": [
         {
@@ -934,6 +934,22 @@
           "updatedAt": "2024-01-15T21:06:22Z"
         }
       ]
+    },
+    {
+      "number": 79,
+      "id": "I_kwDOJ3IIN858Y3X2",
+      "title": "Add an Example that shows how to use EvidenceStatementSet",
+      "url": "https://github.com/lamps-wg/csr-attestation/issues/79",
+      "state": "OPEN",
+      "author": "ounsworth",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "The \r\n\r\n```\r\nEvidenceStatementSet EVIDENCE-STATEMENT ::= {\r\n   ... -- None defined in this document --\r\n}\r\n```\r\n\r\nis fine, but it would be illustrative to have an appendix with a worked example.",
+      "createdAt": "2024-01-17T20:05:39Z",
+      "updatedAt": "2024-01-17T20:05:39Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [

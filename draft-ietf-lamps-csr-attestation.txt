@@ -5,10 +5,10 @@
 Network Working Group                                       M. Ounsworth
 Internet-Draft                                                   Entrust
 Intended status: Standards Track                           H. Tschofenig
-Expires: 18 July 2024                                            Siemens
+Expires: 27 July 2024                                            Siemens
                                                              H. Birkholz
                                                           Fraunhofer SIT
-                                                         15 January 2024
+                                                         24 January 2024
 
 
       Use of Remote Attestation with Certificate Signing Requests
@@ -63,7 +63,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 18 July 2024.
+   This Internet-Draft will expire on 27 July 2024.
 
 Copyright Notice
 
@@ -499,7 +499,7 @@ Table of Contents
    This list is left empty in this document.  However, implementers
    should populate it with the formats that they wish to support.
 
-   EvidenceStatements ::= SEQUENCE OF EvidenceStatement
+   EvidenceStatements ::= SEQUENCE SIZE (1..MAX) OF EvidenceStatement
 
    EvidenceStatement ::= SEQUENCE {
       type   EVIDENCE-STATEMENT.&id({EvidenceStatementSet}),
@@ -523,12 +523,12 @@ Table of Contents
    returned Attestation Result must not be relied on.  The format and
    contents of the hint are out of scope of this document.
 
-   EvidenceBundles ::= SEQUENCE OF EvidenceBundle
+   EvidenceBundles ::= SEQUENCE SIZE (1..MAX) OF EvidenceBundle
 
    EvidenceBundle ::= SEQUENCE
    {
      evidence EvidenceStatements,
-     certs SEQUENCE OF CertificateAlternatives OPTIONAL
+     certs SEQUENCE SIZE (1..MAX) OF CertificateAlternatives OPTIONAL
    }
 
    id-aa-evidenceStatement OBJECT IDENTIFIER ::= { id-aa TBDAA }

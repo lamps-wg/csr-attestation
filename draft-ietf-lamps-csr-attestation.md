@@ -465,7 +465,7 @@ This list is left empty in this document. However, implementers should
 populate it with the formats that they wish to support.
 
 ~~~
-EvidenceStatements ::= SEQUENCE OF EvidenceStatement
+EvidenceStatements ::= SEQUENCE SIZE (1..MAX) OF EvidenceStatement
 
 EvidenceStatement ::= SEQUENCE {
    type   EVIDENCE-STATEMENT.&id({EvidenceStatementSet}),
@@ -490,12 +490,12 @@ Result must not be relied on. The format and contents of the hint are out of
 scope of this document.
 
 ~~~
-EvidenceBundles ::= SEQUENCE OF EvidenceBundle
+EvidenceBundles ::= SEQUENCE SIZE (1..MAX) OF EvidenceBundle
 
 EvidenceBundle ::= SEQUENCE
 {
   evidence EvidenceStatements,
-  certs SEQUENCE OF CertificateAlternatives OPTIONAL
+  certs SEQUENCE SIZE (1..MAX) OF CertificateAlternatives OPTIONAL
 }
 
 id-aa-evidenceStatement OBJECT IDENTIFIER ::= { id-aa TBDAA }

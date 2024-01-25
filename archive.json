@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-01-23T00:50:27.406358+00:00",
+  "timestamp": "2024-01-25T00:50:19.969676+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -950,6 +950,30 @@
       "updatedAt": "2024-01-17T20:05:39Z",
       "closedAt": null,
       "comments": []
+    },
+    {
+      "number": 80,
+      "id": "I_kwDOJ3IIN8588wB1",
+      "title": "Daniel Migault's editorial feedback",
+      "url": "https://github.com/lamps-wg/csr-attestation/issues/80",
+      "state": "OPEN",
+      "author": "ounsworth",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Hi, \r\n\r\nPlease find my review of the document. Mostly hints except for freshness that I think we need to require or recommend a bit stronger. \r\n\r\nYours, \r\nDaniel \r\n\r\n2 Intro:\r\n\r\n\"\"\"\r\nAt the time of writing, several standard and several proprietary attestation technologies are in use. This specification thereby is intended to be as technology-agnostic as it is feasible with respect to implemented remote attestation technologies. Instead, it focuses on (1) the conveyance of Evidence via CSRs while making minimal assumptions about content or format of the transported Evidence and (2) the conveyance of sets of certificates used for validation of Evidence. The certificates typically contain one or more certification paths rooted in a device manufacture trust anchor and the leaf certificate being on the device in question; the latter is the Attestation Key that signs the Evidence statement. \r\n\"\"\"\r\n\r\nI would probably add at the end of the paragraph: \r\nEvidences are carried in a Attribute designated as EvidenceStatements, certificates are carried in a CertificateAlternatives. EvidenceStatements and CertificateAlternatives are grouped into EvidenceBundles. \r\n\r\n\"\"\"\r\nThis document specifies two ATTRIBUTE/Attribute definitions. \r\n\"\"\r\n\r\nWe do not really know if one is designated ATTRIBUTE while the other Attribute or if some call these two attributes ATTRIBUTES while other call them Attributes.\r\nIn my opinion, it would be clearer to name directly the Attributes CertificateAlternatives EvidenceStatements.\r\nI would propose the following text:\r\n\r\nThis document specifies two Attributes. The first Attribute is CertificateAlternatives that may be used to carry a set of certificates or public keys that may be required to validate signed Evidence. The second Attribute is  EvidenceStatements that carries a structure that may be used to convey Evidence. These two Attributes combined into a \r\n\r\n\"\"\"\r\nWith these attributes, additional information about whether to issue a certificate and what information to populate into the certificate is available to an RA or CA.\r\n\"\"\"\r\n\r\nI am reading that the content of the evidence will determine the information of in the issued certificate. I THINK these Evidence will determine the issuance of the certificate if they are matching a policy and information provided is determined by policies. In my my opinion we should limit the scope to the policy.    \r\n \r\nThe scope of this document is, however, limited to the conveyance of Evidence within CSR. The exact format of the Evidence being conveyed is defined in various standard and proprietary specifications.\r\n\r\n3 Architecture\r\n\r\n<mglt> \r\nI tend to think we should indicate the CA/RA on the figure, potentially the HSM.\r\n</mglt>\r\n\r\n\r\n4.1 Intercation with an HSM\r\n\r\n\"\"\"\r\nAs discussed in RFC 9334, different security and privacy aspects need to be considered. \r\n\"\"\"\r\n\r\nI think we should say why. I would for example add:\r\nAs discussed in RFC 9334, different security and privacy aspects need to be considered to enforce trust in the Evidence.\r\n\r\n\r\nMIKE UP TO HERE IN PROCESSING FEEDBACK\r\n\r\n\r\n\"\"\"\r\nFinally, the keying material used by the Attester need to be protected against unauthorized access, and against signing arbitrary content that originated from outside the device.\r\n\"\"\"\r\nTo me that seems to be the primary thing to be listed ;-)\r\n\r\n\r\nFig 2 I like OpenSSL and I think it should remain but probably as an example. \r\n\r\n\"\"\"\r\n the generates and embeds Evidence and the corresponding certificate chains when constructing the CSR.\r\n\"\"\"\r\n\r\nI suspect \"HSM\" is missing I propose:\r\nThe HSM generates and embeds....\r\n\r\nFig 2: I think HSM here is composed of the attestation environment and the service. getEvidence is addressed to the platform sign to the service. I am wondering if we should split these two. Note that I see the service as \"Software\" so maybe I am biassed.  \r\n\r\n \r\n\"\"\"\r\nExternally-generated CSRs may require extra round-trips of communication between the CSR generator and the attesting environment, first to obtain the necessary evidence statements about the subject key, and then to use the subject key to sign the CSR. For example, consider a CSR generated by a popular crypto library about a subject key stored on a PKCS#11 [PKCS11] device. \r\n\"\"\"\r\nShould we replace \"evidence statements\" by Evidence ? I do not think that popular is necessary, mentioning \"(like OpenSSL): might be helpful. I know it used to be on the figure.    \r\n4.2. Implementation Strategies\r\n\r\n\r\nFig 3 :  the meaning of 0,n are  bit enigmatic to me. In particular I am wondering if inverting 0 and n would change the meaning. I interpret it as meaning between 0 - n. If that is the case, the text mentions one to many, so maybe that needs some clarifications.\r\n\r\nMaybe we could mention  that CertificateAlternatives represents various format of certificates I propose to complement the last sentence of the paragraph to:\r\nEach EvidenceBundle contains one or multiple EvidenceStatement structures as well as one or many CertificateAlternatives which enable to carry various format of certificates. \r\n\r\n \r\n\"\"\"\r\nSingle Attester, which only distributes Evidence without any certificate chains, i.e. the Verifier is assumed to be in possession of the certificate chain already or there is no certificate chain.  \r\n\"\"\"\r\nI think what the last sentence is saying is the say the statements are not signed. \r\nIf so, \"or there is no certificate chain.\" should be replaced by \"or statements ar enot signed.\"\r\n\r\n\"\"\"\r\nIt may be possible that there is an overlap in the certificate chains transmitted by the different Attesters. \r\n\"\"\"\r\nI think we can be more specific and say: \r\nThis may result in certificates being duplicated across multiple EvidenceBundles.\r\n\r\nImplementation strategies to order certificates are only useful if they can be used, so I suspect we should provide some requirements such as the strategies described here MUST be supported and Certificates MUST be ordered from leaf to top. We should also  specify whether the root CA needs to be placed probably a SHOULD NOT or MUST NOT. A verifier SHOULD NOT make any assumption.... \r\n\r\n5.2 Evidence Attribute and Extension\r\n\r\n\"\"\"\r\nThe hint is intended for an Attester to indicate to the Relying Party which Verifier should be invoked to parse this statement. \r\n\"\"\"\r\nWe need to specify that RP will designate later the Relaying party. I propose to change \"Relying Party\" to \"Relying Party (RP)\"\r\n\r\n\"\"\"\r\nIn many cases, the type OID will already uniquely indicate which Verifier to invoke, but in some cases it may still be ambiguous, or the type may indicate another layer of conceptual message wrapping in which case it is helpful to the RP to bring this hint outside of the statement. \r\n\"\"\"\r\nI think we need to explicitly mention why the OID will indicate the Verifier. I suspect the reasoning is that OID will be vendor specific and Verifier will be vendor specific as well. I expect that verifier will be also configured by the client and as such who will send the CSR but such authentication will be made outside the scope of the CSR.\r\nI understand that hint indicates the Verifier. Do we expect the hint to be something like a FQDN ? \r\nOne thing one need to consider is that I have the impression the hint cannot be trusted unless the CSR is generated by the attesting environment.  If that is correct, we probably need to be cautious regarding that hint and mention it in the security considerations. \r\n\r\nI do not clearly see what id-ata represents. I have the impression this is the arc under which all Evidence Statement will be registered. id-ata.1, id-ata.2, ... will represent evidence statements. This specific evidence statements are represented by the EvidenceStatementSet structure.\r\n\r\nI am reading that id-aa-evidenceStatement represents EvidenceBundles. If so I am wondering why do not we call it id-aa-evidenceBundles.\r\n\r\n \r\n \r\n\r\nThe following text is quite obscure to me:\r\n\"\"\"\r\nWe are leaving the SEQUENCE OF EvidenceBundle since it is in general more flexible than relying on the containing structure to handle multiplicity and allows for this structure to be re-used in the future in other PKIX protocol contexts.\r\n\"\"\"\r\n\r\n7: Security Consideration\r\n\r\n\"\"\"\r\nA PKCS#10 or CRMF Certification Request message consists of a distinguished name, a public key, and optionally a set of attributes, collectively signed by the entity requesting certification. \r\n\"\"\"\r\nWell with DN being the certificate Subject I think it can be empty. I woudl propose to replace distinguished name by an identity or identifier. \r\n\r\n\"\"\"\r\nThe private key used to sign the CSR MUST be different from the Attesting Key utilized to sign Evidence about the Target Environment. \r\n\"\"\"\r\n\r\nThis seems correct - at least in general -, but I am questioning we never never never have a case where a root CA requests a CSR... \r\n\r\n\"\"\"\r\nKey separation is an important principle in cryptography and also applies to this specification with regards to the Attestation Key and the CSR signing key.\r\n\"\"\"\r\n\r\nI do not really understand the sentence, CSR the key is signing the CSR prove the ownership of the key for which a certificate is issued. Evidences are signed to authenticate thetrust of the evidences. I guess I am missing something here.  \r\n\r\n\r\n\"\"\"\r\nFor example, one implementation may perform a software measurement of the CSR library along with the crypto library implementation that has access to the keying material.\r\n\"\"\"\r\nI am reading software measurement as the CSR being a target environment.  \r\nIf the CSR library is outside the attesting environment, it is unclear to me how it can be attested unless we are in a multi attester use case. \r\n\r\n\r\n\"\"\"\r\nNone of these things are practical when interacting with Hardware Security Modules (HSM).\r\n\"\"\"\r\nI think I disagree here and we need to have freshness or at least some lifetime for Evidences. TLS or ACME  are ways to provide a nonce that needs to be considered during the attestation. We should strongly recommend to implement freshness. It is correct that freshness can be implemented in various ways, including a simple serial number. The threat model seems simple, the key is generated on a HSM, the crypto becomes weak, I can generate the key on my raspberry pie, the CSR can be used for that key - while all certificate have expired. CSR are not necessarily encrypted.   \r\n",
+      "createdAt": "2024-01-23T15:09:52Z",
+      "updatedAt": "2024-01-24T23:24:39Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "This comment is better addressed by @hannestschofenig or @henkbirkholz who is more familiar with the security and privacy considerations of RATS.\r\n\r\n> \"\"\"\r\nAs discussed in RFC 9334, different security and privacy aspects need to be considered.\r\n\"\"\"\r\n\r\n>I think we should say why. I would for example add:\r\nAs discussed in RFC 9334, different security and privacy aspects need to be considered to enforce trust in the Evidence.",
+          "createdAt": "2024-01-24T23:21:25Z",
+          "updatedAt": "2024-01-24T23:21:25Z"
+        }
+      ]
     }
   ],
   "pulls": [
@@ -3952,6 +3976,40 @@
           "body": "This looks good you may (but not a must) change the figure title to not mention OpenSSL anymore (if you look at the aasvg figure metadata), @hannestschofenig.",
           "createdAt": "2024-01-15T17:49:40Z",
           "updatedAt": "2024-01-15T17:49:40Z"
+        }
+      ],
+      "reviews": []
+    },
+    {
+      "number": 81,
+      "id": "PR_kwDOJ3IIN85lAeis",
+      "title": "Daniel Migault's editorial feedback",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/81",
+      "state": "OPEN",
+      "author": "ounsworth",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2024-01-24T23:26:16Z",
+      "updatedAt": "2024-01-24T23:26:40Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "cadf2bc95ab38d210e67e525418268a7a23297d0",
+      "headRepository": "lamps-wg/csr-attestation",
+      "headRefName": "mikeo_80_DM_edits",
+      "headRefOid": "371fd6bdc425f9f82afca10a1d305e378ecd2433",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "NOT READY TO MERGE YET; I'm only halfway through processing Daniel's feedback.",
+          "createdAt": "2024-01-24T23:26:39Z",
+          "updatedAt": "2024-01-24T23:26:39Z"
         }
       ],
       "reviews": []

@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-01-25T00:50:19.969676+00:00",
+  "timestamp": "2024-01-28T00:47:59.009742+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -972,6 +972,37 @@
           "body": "This comment is better addressed by @hannestschofenig or @henkbirkholz who is more familiar with the security and privacy considerations of RATS.\r\n\r\n> \"\"\"\r\nAs discussed in RFC 9334, different security and privacy aspects need to be considered.\r\n\"\"\"\r\n\r\n>I think we should say why. I would for example add:\r\nAs discussed in RFC 9334, different security and privacy aspects need to be considered to enforce trust in the Evidence.",
           "createdAt": "2024-01-24T23:21:25Z",
           "updatedAt": "2024-01-24T23:21:25Z"
+        }
+      ]
+    },
+    {
+      "number": 82,
+      "id": "I_kwDOJ3IIN859PrMJ",
+      "title": "GeneralName is too broad for EvidenceHint",
+      "url": "https://github.com/lamps-wg/csr-attestation/issues/82",
+      "state": "OPEN",
+      "author": "ounsworth",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Russ suggested that GeneralName is too broad and complicated.\r\n\r\nFor reference, here is the definition of GeneralName:\r\n\r\n~~~\r\n   GeneralName ::= CHOICE {\r\n        otherName                   [0]  INSTANCE OF OTHER-NAME,\r\n        rfc822Name                  [1]  IA5String,\r\n        dNSName                     [2]  IA5String,\r\n        x400Address                 [3]  ORAddress,\r\n        directoryName               [4]  Name,\r\n        ediPartyName                [5]  EDIPartyName,\r\n        uniformResourceIdentifier   [6]  IA5String,\r\n        iPAddress                   [7]  OCTET STRING,\r\n        registeredID                [8]  OBJECT IDENTIFIER\r\n   }\r\n~~~\r\n\r\nWe could strip that down to something like:\r\n~~~\r\n   EvidenceHint ::= CHOICE {\r\n        rfc822Name [0] IA5String,\r\n        dNSName [1] IA5String,\r\n        uri [2] IA5String,\r\n        text [3] UTF8String }\r\n~~~",
+      "createdAt": "2024-01-25T22:22:11Z",
+      "updatedAt": "2024-01-26T13:53:20Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Your suggestion is good for me.",
+          "createdAt": "2024-01-26T13:45:01Z",
+          "updatedAt": "2024-01-26T13:45:01Z"
+        },
+        {
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Not entirely sure about completeness or appropriateness, but if that satisfies Russ' requirements, I am okay.",
+          "createdAt": "2024-01-26T13:53:19Z",
+          "updatedAt": "2024-01-26T13:53:19Z"
         }
       ]
     }
@@ -3992,7 +4023,7 @@
       "labels": [],
       "body": "",
       "createdAt": "2024-01-24T23:26:16Z",
-      "updatedAt": "2024-01-24T23:26:40Z",
+      "updatedAt": "2024-01-26T14:00:40Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "cadf2bc95ab38d210e67e525418268a7a23297d0",
@@ -4012,7 +4043,68 @@
           "updatedAt": "2024-01-24T23:26:39Z"
         }
       ],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOJ3IIN85uBF-i",
+          "commit": {
+            "abbreviatedOid": "371fd6b"
+          },
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-01-26T13:43:29Z",
+          "updatedAt": "2024-01-26T13:43:29Z",
+          "comments": [
+            {
+              "originalPosition": 8,
+              "body": "```suggestion\r\nThis document specifies a CSR Attribute (or Extension for Certificate Request Message Format (CRMF) CSRs) for carrying Evidence. Evidence can be placed into an EvidenceStatement along with an OID to identify its type and optionally a hint to the Relying Party about where to verify it. A set of EvidenceStatements may be grouped together along with the set of CertificateAlternatives needed to validate them to form a EvidenceBundle. One or more EvidenceBundles may be placed into the id-aa-evidenceStatement CSR Attribute (or CRFM Extension).\r\n```",
+              "createdAt": "2024-01-26T13:43:29Z",
+              "updatedAt": "2024-01-26T13:43:29Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN85uBL9H",
+          "commit": {
+            "abbreviatedOid": "371fd6b"
+          },
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-01-26T13:58:24Z",
+          "updatedAt": "2024-01-26T13:58:25Z",
+          "comments": [
+            {
+              "originalPosition": 29,
+              "body": "```suggestion\r\n |  (/w HSM)  |   in CSR      | Party (RA/CA) | policy\r\n```",
+              "createdAt": "2024-01-26T13:58:25Z",
+              "updatedAt": "2024-01-26T13:59:41Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN85uBNN3",
+          "commit": {
+            "abbreviatedOid": "371fd6b"
+          },
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-01-26T14:00:40Z",
+          "updatedAt": "2024-01-26T14:00:40Z",
+          "comments": [
+            {
+              "originalPosition": 29,
+              "body": "The HSM is not the Attstester, just a part of one of the Attester's Attesting Environments",
+              "createdAt": "2024-01-26T14:00:40Z",
+              "updatedAt": "2024-01-26T14:00:40Z"
+            }
+          ]
+        }
+      ]
     }
   ]
 }

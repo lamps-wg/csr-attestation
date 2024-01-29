@@ -985,7 +985,7 @@ information to an RA/CA:
 
 ## TCG DICE ConceptualMessageWrapper in CSR
 
-This section gives an example of extending the ASN.1 module above to carry an existing ASN.1-based evidence statement. The example used is the Trusted Computing Group DICE Attestation Conceptual Message Wrapper, as defined in [TCGDICE1.1].
+This section gives an example of extending the ASN.1 module above to carry an existing ASN.1-based evidence statement. The example used is the Trusted Computing Group DICE Attestation Conceptual Message Wrapper, as defined in {{TCGDICE1.1}}.
 
 ~~~
 {::include CSR-ATTESTATION-WITH-DICE-CMW.asn}

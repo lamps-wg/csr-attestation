@@ -58,6 +58,7 @@ normative:
   RFC2986:
 
 informative:
+  RFC8126:
   I-D.ietf-rats-msg-wrap:
   RFC7030:
   I-D.tschofenig-rats-psa-token:

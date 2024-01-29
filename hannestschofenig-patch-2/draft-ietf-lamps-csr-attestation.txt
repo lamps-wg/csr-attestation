@@ -635,7 +635,7 @@ Table of Contents
 6.2.  Object Identifier Registrations - SMI Security for S/MIME
       Attributes
 
-   *  Attest Statement
+   *  Evidence Statement
 
       -  Decimal: IANA Assigned - Replace *TBDAA*
 

@@ -630,7 +630,7 @@ Columns:
 
 ## Attestation Evidence OID Registry
 
-IANA is asked to create a registry that helps developers to find 
+IANA is asked to create a registry that helps developers to find
 OID/Evidence mappings.
 
 Registration requests are evaluated using the criteria described in

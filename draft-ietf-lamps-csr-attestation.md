@@ -604,7 +604,7 @@ S/MIME Attributes" to identify two Attributes defined within.
 
 ##  Object Identifier Registrations - SMI Security for S/MIME Attributes
 
-- Attest Statement
+- Evidence Statement
   - Decimal: IANA Assigned - Replace **TBDAA**
   - Description: id-aa-evidenceStatement
   - References: This Document

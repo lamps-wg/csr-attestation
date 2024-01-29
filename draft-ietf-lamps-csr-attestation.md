@@ -657,7 +657,6 @@ The registry has the following columns:
 
 - Description: Brief description of the use of the Evidence and the
 registration of the OID.
-  
 - Reference(s): Reference to the document or documents that register
 the OID for use with a specific attestation technology, preferably
 including URIs that can be used to retrieve copies of the documents.

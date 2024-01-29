@@ -299,7 +299,7 @@ or there is no certificate chain. As a result a single EvidenceBundle is include
 in a CSR that contains a single EvidenceStatement without the CertificateAlternatives
 structure. {{fig-single-attester}} shows this use case.
 
-~~~
+~~~ aasvg
   +--------------------+
   |  EvidenceBundle    |
   +--------------------+
@@ -314,7 +314,7 @@ The CSR conveys a single EvidenceBundle with a single EvidenceStatement
 and a single CertificateAlternatives structure. {{fig-single-attester-with-chain}} shows
 this use case.
 
-~~~
+~~~ aasvg
  +-------------------------+
  |  EvidenceBundle         |
  +-------------------------+
@@ -335,7 +335,7 @@ the different Attesters. This approach does not require any processing capabilit
 by a lead Attester since the information is merely forwarded. {{fig-multiple-attesters}}
 shows this use case.
 
-~~~
+~~~ aasvg
   +-------------------------+
   |  EvidenceBundle (1)     |\
   +-------------------------+ \ Provided by
@@ -356,7 +356,7 @@ all Attesters in the device and removes redundant certificate information. The
 benefit of this approach is the reduced transmission overhead. There are several
 implementation strategies and we show two in {{fig-multiple-attesters-optimized}}.
 
-~~~
+~~~ aasvg
 Implementation strategy (4a)
 
                 +-------------------------+

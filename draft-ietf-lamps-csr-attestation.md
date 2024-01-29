@@ -630,13 +630,19 @@ Columns:
 
 ## Attestation Evidence OID Registry
 
-IANA is asked to create a registry that helps developers to find OID / Evidence mappings.
+IANA is asked to create a registry that helps developers to find 
+OID/Evidence mappings.
 
 Registration requests are evaluated using the criteria described in
-the registration template below after a three-week review period on the [[TBD]] mailing list, on the advice of one or more Designated Experts {{RFC8126}}.  However, to allow for the allocation of values prior to publication, the Designated Experts may approve registration once they are satisfied that such a specification will be published.
+the registration template below after a three-week review period on
+the [[TBD]] mailing list, on the advice of one or more Designated
+Experts {{RFC8126}}.  However, to allow for the allocation of values
+prior to publication, the Designated Experts may approve registration
+once they are satisfied that such a specification will be published.
 
 Registration requests sent to the mailing list for review should use
-an appropriate subject (e.g., "Request to register attestation evidence: example").
+an appropriate subject (e.g., "Request to register attestation
+evidence: example").
 
 IANA must only accept registry updates from the Designated Experts
 and should direct all requests for registration to the review mailing
@@ -648,24 +654,32 @@ The registry has the following columns:
 
 - OID: The number of OID.
 
-- Description: Brief description of the use of the Evidence and the registration of the OID.
+- Description: Brief description of the use of the Evidence and the
+registration of the OID.
   
-- Reference(s): Reference to the document or documents that register the OID for use with a specific attestation technology, preferably including URIs that can be used to retrieve copies of the documents.  An indication of the relevant sections may also be included but is not required.
+- Reference(s): Reference to the document or documents that register
+the OID for use with a specific attestation technology, preferably
+including URIs that can be used to retrieve copies of the documents.
+An indication of the relevant sections may also be included but is not
+required.
 
-- Change Controller: For Standards Track RFCs, list the "IESG".  For others, give the name of the responsible party.
+- Change Controller: For Standards Track RFCs, list the "IESG".  For
+others, give the name of the responsible party.
 
 ### Initial Registry Contents
 
-The initial registry contents is shown in the table below. It lists two entries, one for DICE-based Evidence and the second for the Conceptual Message Wrapper (CMW) {{I-D.ietf-rats-msg-wrap}}.
+The initial registry contents is shown in the table below. It lists two
+entries, one for DICE-based Evidence and the second for the Conceptual
+Message Wrapper (CMW) {{I-D.ietf-rats-msg-wrap}}.
 
 ~~~
- +-----------------------------------------------------------------------+
- | OID              | Description     | Reference(s) | Change Controller |
- +------------------+-----------------+--------------+-------------------+
- | 2 23 133 5 4 10  | DICE Evidence   | [TCGDICE1.1] |  TCG              |
- | 2 23 133 5 4 9   | Conceptual      | [TCGDICE1.1] |  TCG              |
- |                  | Message Wrapper |              |                   |
- +------------------+-----------------+--------------+-------------------+
++-----------------------------------------------------------------------+
+| OID              | Description     | Reference(s) | Change Controller |
++------------------+-----------------+--------------+-------------------+
+| 2 23 133 5 4 10  | DICE Evidence   | [TCGDICE1.1] |  TCG              |
+| 2 23 133 5 4 9   | Conceptual      | [TCGDICE1.1] |  TCG              |
+|                  | Message Wrapper |              |                   |
++------------------+-----------------+--------------+-------------------+
 ~~~
 
 # Security Considerations

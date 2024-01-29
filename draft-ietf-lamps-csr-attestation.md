@@ -465,12 +465,19 @@ This list is left empty in this document. However, implementers should
 populate it with the formats that they wish to support.
 
 ~~~
+EvidenceHint ::= CHOICE {
+     rfc822Name [0] IA5String,
+     dNSName    [1] IA5String,
+     uri        [2] IA5String,
+     text       [3] UTF8String
+}
+
 EvidenceStatements ::= SEQUENCE SIZE (1..MAX) OF EvidenceStatement
 
 EvidenceStatement ::= SEQUENCE {
    type   EVIDENCE-STATEMENT.&id({EvidenceStatementSet}),
    stmt   EVIDENCE-STATEMENT.&Type({EvidenceStatementSet}{@type}),
-   hint   GeneralName OPTIONAL
+   hint   EvidenceHint OPTIONAL
 }
 ~~~
 

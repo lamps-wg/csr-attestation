@@ -1261,8 +1261,8 @@ Appendix C.  Acknowledgments
    earlier version of this draft.
 
    Finally, we would like to thank Andreas Kretschmer for his feedback
-   based on his implementation experience and Daniel Migault for his
-   review comments.
+   based on his implementation experience, and Daniel Migault and Russ
+   Housley for their review comments.
 
 Authors' Addresses
 

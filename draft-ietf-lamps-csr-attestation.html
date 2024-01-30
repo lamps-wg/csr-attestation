@@ -1038,7 +1038,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Ounsworth, et al.</td>
-<td class="center">Expires 1 August 2024</td>
+<td class="center">Expires 2 August 2024</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1051,12 +1051,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-lamps-csr-attestation-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2024-01-29" class="published">29 January 2024</time>
+<time datetime="2024-01-30" class="published">30 January 2024</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2024-08-01">1 August 2024</time></dd>
+<dd class="expires"><time datetime="2024-08-02">2 August 2024</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1111,7 +1111,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 1 August 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 2 August 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1548,14 +1548,20 @@ in a CSR that contains a single EvidenceStatement without the CertificateAlterna
 structure. <a href="#fig-single-attester" class="auto internal xref">Figure 4</a> shows this use case.<a href="#section-4.2-5" class="pilcrow">¶</a></p>
 <span id="name-use-case-1-single-attester-"></span><div id="fig-single-attester">
 <figure id="figure-4">
-          <div class="alignLeft art-text artwork" id="section-4.2-6.1">
-<pre>
-  +--------------------+
-  |  EvidenceBundle    |
-  +--------------------+
-  | EvidenceStatement  |
-  +--------------------+
-</pre>
+          <div id="section-4.2-6.1">
+            <div class="alignLeft art-svg artwork" id="section-4.2-6.1.1">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="128" width="184" viewBox="0 0 184 128" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
+                <path d="M 8,32 L 8,96" fill="none" stroke="black"></path>
+                <path d="M 176,32 L 176,96" fill="none" stroke="black"></path>
+                <path d="M 8,32 L 176,32" fill="none" stroke="black"></path>
+                <path d="M 8,64 L 176,64" fill="none" stroke="black"></path>
+                <path d="M 8,96 L 176,96" fill="none" stroke="black"></path>
+                <g class="text">
+                  <text x="84" y="52">EvidenceBundle</text>
+                  <text x="88" y="84">EvidenceStatement</text>
+                </g>
+              </svg><a href="#section-4.2-6.1.1" class="pilcrow">¶</a>
+</div>
 </div>
 <figcaption><a href="#figure-4" class="selfRef">Figure 4</a>:
 <a href="#name-use-case-1-single-attester-" class="selfRef">Use Case 1: Single Attester without Certificate Chain.</a>
@@ -1567,15 +1573,21 @@ and a single CertificateAlternatives structure. <a href="#fig-single-attester-wi
 this use case.<a href="#section-4.2-7" class="pilcrow">¶</a></p>
 <span id="name-use-case-2-single-attester-"></span><div id="fig-single-attester-with-chain">
 <figure id="figure-5">
-          <div class="alignLeft art-text artwork" id="section-4.2-8.1">
-<pre>
- +-------------------------+
- |  EvidenceBundle         |
- +-------------------------+
- | EvidenceStatement       |
- | CertificateAlternatives |
- +-------------------------+
-</pre>
+          <div id="section-4.2-8.1">
+            <div class="alignLeft art-svg artwork" id="section-4.2-8.1.1">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="144" width="224" viewBox="0 0 224 144" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
+                <path d="M 8,32 L 8,112" fill="none" stroke="black"></path>
+                <path d="M 216,32 L 216,112" fill="none" stroke="black"></path>
+                <path d="M 8,32 L 216,32" fill="none" stroke="black"></path>
+                <path d="M 8,64 L 216,64" fill="none" stroke="black"></path>
+                <path d="M 8,112 L 216,112" fill="none" stroke="black"></path>
+                <g class="text">
+                  <text x="84" y="52">EvidenceBundle</text>
+                  <text x="88" y="84">EvidenceStatement</text>
+                  <text x="112" y="100">CertificateAlternatives</text>
+                </g>
+              </svg><a href="#section-4.2-8.1.1" class="pilcrow">¶</a>
+</div>
 </div>
 <figcaption><a href="#figure-5" class="selfRef">Figure 5</a>:
 <a href="#name-use-case-2-single-attester-" class="selfRef">Use Case 2: Single Attester with Certificate Chain.</a>
@@ -1592,20 +1604,40 @@ by a lead Attester since the information is merely forwarded. <a href="#fig-mult
 shows this use case.<a href="#section-4.2-9" class="pilcrow">¶</a></p>
 <span id="name-use-case-3-multiple-atteste"></span><div id="fig-multiple-attesters">
 <figure id="figure-6">
-          <div class="alignLeft art-text artwork" id="section-4.2-10.1">
-<pre>
-  +-------------------------+
-  |  EvidenceBundle (1)     |\
-  +-------------------------+ \ Provided by
-  | EvidenceStatement       | / Attester 1
-  | CertificateAlternatives |/
-  +-------------------------+
-  |  EvidenceBundle (2)     |\
-  +-------------------------+ \ Provided by
-  | EvidenceStatement       | / Attester 2
-  | CertificateAlternatives |/
-  +-------------------------+
-</pre>
+          <div id="section-4.2-10.1">
+            <div class="alignLeft art-svg artwork" id="section-4.2-10.1.1">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="224" width="336" viewBox="0 0 336 224" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
+                <path d="M 8,32 L 8,192" fill="none" stroke="black"></path>
+                <path d="M 216,32 L 216,192" fill="none" stroke="black"></path>
+                <path d="M 8,32 L 216,32" fill="none" stroke="black"></path>
+                <path d="M 8,64 L 216,64" fill="none" stroke="black"></path>
+                <path d="M 8,112 L 216,112" fill="none" stroke="black"></path>
+                <path d="M 8,144 L 216,144" fill="none" stroke="black"></path>
+                <path d="M 8,192 L 216,192" fill="none" stroke="black"></path>
+                <path d="M 216,112 L 236,152" fill="none" stroke="black"></path>
+                <path d="M 216,32 L 236,72" fill="none" stroke="black"></path>
+                <path d="M 216,112 L 236,72" fill="none" stroke="black"></path>
+                <path d="M 216,192 L 236,152" fill="none" stroke="black"></path>
+                <g class="text">
+                  <text x="84" y="52">EvidenceBundle</text>
+                  <text x="160" y="52">(1)</text>
+                  <text x="276" y="68">Provided</text>
+                  <text x="324" y="68">by</text>
+                  <text x="88" y="84">EvidenceStatement</text>
+                  <text x="276" y="84">Attester</text>
+                  <text x="320" y="84">1</text>
+                  <text x="112" y="100">CertificateAlternatives</text>
+                  <text x="84" y="132">EvidenceBundle</text>
+                  <text x="160" y="132">(2)</text>
+                  <text x="276" y="148">Provided</text>
+                  <text x="324" y="148">by</text>
+                  <text x="88" y="164">EvidenceStatement</text>
+                  <text x="276" y="164">Attester</text>
+                  <text x="320" y="164">2</text>
+                  <text x="112" y="180">CertificateAlternatives</text>
+                </g>
+              </svg><a href="#section-4.2-10.1.1" class="pilcrow">¶</a>
+</div>
 </div>
 <figcaption><a href="#figure-6" class="selfRef">Figure 6</a>:
 <a href="#name-use-case-3-multiple-atteste" class="selfRef">Use Case 3: Multiple Attesters in Composite Device.</a>
@@ -1618,41 +1650,89 @@ benefit of this approach is the reduced transmission overhead. There are several
 implementation strategies and we show two in <a href="#fig-multiple-attesters-optimized" class="auto internal xref">Figure 7</a>.<a href="#section-4.2-11" class="pilcrow">¶</a></p>
 <span id="name-use-case-4-multiple-atteste"></span><div id="fig-multiple-attesters-optimized">
 <figure id="figure-7">
-          <div class="alignLeft art-text artwork" id="section-4.2-12.1">
-<pre>
-Implementation strategy (4a)
-
-                +-------------------------+
-                |  EvidenceBundle (1)     |\
-  Certificate   +-------------------------+ \ Provided by
-  Chain +       | EvidenceStatement       | / Attester 1
-  End-Entity --&gt;| CertificateAlternatives |/
-  Certificate   +-------------------------+
-                         ....
-                +-------------------------+
-                |  EvidenceBundle (n)     |\
-                +-------------------------+ \ Provided by
-  End-Entity    | EvidenceStatement       | / Attester n
-  Certificate--&gt;| CertificateAlternatives |/
-                +-------------------------+
-
-Implementation strategy (4b)
-
- +------------------------------+
- |  EvidenceBundle              |
- +------------------------------+
- | EvidenceStatement (1)        |
- |        ...                   |
- | EvidenceStatement (n)        |
- | CertificateAlternatives {    |
- |   End Entity Certificate (1) |
- |        ...                   |
- |   End Entity Certificate (n) |
- |   &lt;Remainder of the          |
- |    Certificate Chain&gt;        |
- | }                            |
- +------------------------------+
-</pre>
+          <div id="section-4.2-12.1">
+            <div class="alignLeft art-svg artwork" id="section-4.2-12.1.1">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="544" width="464" viewBox="0 0 464 544" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
+                <path d="M 16,320 L 16,528" fill="none" stroke="black"></path>
+                <path d="M 136,64 L 136,144" fill="none" stroke="black"></path>
+                <path d="M 136,176 L 136,256" fill="none" stroke="black"></path>
+                <path d="M 264,320 L 264,528" fill="none" stroke="black"></path>
+                <path d="M 344,64 L 344,144" fill="none" stroke="black"></path>
+                <path d="M 344,176 L 344,256" fill="none" stroke="black"></path>
+                <path d="M 136,64 L 344,64" fill="none" stroke="black"></path>
+                <path d="M 136,96 L 344,96" fill="none" stroke="black"></path>
+                <path d="M 112,128 L 128,128" fill="none" stroke="black"></path>
+                <path d="M 136,144 L 344,144" fill="none" stroke="black"></path>
+                <path d="M 136,176 L 344,176" fill="none" stroke="black"></path>
+                <path d="M 136,208 L 344,208" fill="none" stroke="black"></path>
+                <path d="M 112,240 L 128,240" fill="none" stroke="black"></path>
+                <path d="M 136,256 L 344,256" fill="none" stroke="black"></path>
+                <path d="M 16,320 L 264,320" fill="none" stroke="black"></path>
+                <path d="M 16,352 L 264,352" fill="none" stroke="black"></path>
+                <path d="M 16,528 L 264,528" fill="none" stroke="black"></path>
+                <path d="M 344,176 L 364,216" fill="none" stroke="black"></path>
+                <path d="M 344,64 L 364,104" fill="none" stroke="black"></path>
+                <path d="M 344,144 L 364,104" fill="none" stroke="black"></path>
+                <path d="M 344,256 L 364,216" fill="none" stroke="black"></path>
+                <polygon class="arrowhead" points="136,240 124,234.4 124,245.6" fill="black" transform="rotate(0,128,240)"></polygon>
+                <polygon class="arrowhead" points="136,128 124,122.4 124,133.6" fill="black" transform="rotate(0,128,128)"></polygon>
+                <g class="text">
+                  <text x="60" y="36">Implementation</text>
+                  <text x="156" y="36">strategy</text>
+                  <text x="212" y="36">(4a)</text>
+                  <text x="212" y="84">EvidenceBundle</text>
+                  <text x="288" y="84">(1)</text>
+                  <text x="64" y="100">Certificate</text>
+                  <text x="404" y="100">Provided</text>
+                  <text x="452" y="100">by</text>
+                  <text x="40" y="116">Chain</text>
+                  <text x="72" y="116">+</text>
+                  <text x="216" y="116">EvidenceStatement</text>
+                  <text x="404" y="116">Attester</text>
+                  <text x="448" y="116">1</text>
+                  <text x="60" y="132">End-Entity</text>
+                  <text x="240" y="132">CertificateAlternatives</text>
+                  <text x="64" y="148">Certificate</text>
+                  <text x="220" y="164">....</text>
+                  <text x="212" y="196">EvidenceBundle</text>
+                  <text x="288" y="196">(n)</text>
+                  <text x="404" y="212">Provided</text>
+                  <text x="452" y="212">by</text>
+                  <text x="60" y="228">End-Entity</text>
+                  <text x="216" y="228">EvidenceStatement</text>
+                  <text x="404" y="228">Attester</text>
+                  <text x="448" y="228">n</text>
+                  <text x="64" y="244">Certificate</text>
+                  <text x="240" y="244">CertificateAlternatives</text>
+                  <text x="60" y="292">Implementation</text>
+                  <text x="156" y="292">strategy</text>
+                  <text x="212" y="292">(4b)</text>
+                  <text x="92" y="340">EvidenceBundle</text>
+                  <text x="96" y="372">EvidenceStatement</text>
+                  <text x="184" y="372">(1)</text>
+                  <text x="96" y="388">...</text>
+                  <text x="96" y="404">EvidenceStatement</text>
+                  <text x="184" y="404">(n)</text>
+                  <text x="120" y="420">CertificateAlternatives</text>
+                  <text x="224" y="420">{</text>
+                  <text x="56" y="436">End</text>
+                  <text x="100" y="436">Entity</text>
+                  <text x="176" y="436">Certificate</text>
+                  <text x="240" y="436">(1)</text>
+                  <text x="96" y="452">...</text>
+                  <text x="56" y="468">End</text>
+                  <text x="100" y="468">Entity</text>
+                  <text x="176" y="468">Certificate</text>
+                  <text x="240" y="468">(n)</text>
+                  <text x="84" y="484">&lt;Remainder</text>
+                  <text x="140" y="484">of</text>
+                  <text x="168" y="484">the</text>
+                  <text x="96" y="500">Certificate</text>
+                  <text x="172" y="500">Chain&gt;</text>
+                  <text x="32" y="516">}</text>
+                </g>
+              </svg><a href="#section-4.2-12.1.1" class="pilcrow">¶</a>
+</div>
 </div>
 <figcaption><a href="#figure-7" class="selfRef">Figure 7</a>:
 <a href="#name-use-case-4-multiple-atteste" class="selfRef">Use Case 4: Multiple Attesters in Composite Device (with Optimization).</a>

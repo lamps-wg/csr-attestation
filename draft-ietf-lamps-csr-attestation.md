@@ -1011,4 +1011,5 @@ We would like to specifically thank Mike StJohns for his work on an earlier
 version of this draft.
 
 Finally, we would like to thank Andreas Kretschmer for his feedback based
-on his implementation experience and Daniel Migault for his review comments.
+on his implementation experience, and Daniel Migault and Russ Housley for
+their review comments.

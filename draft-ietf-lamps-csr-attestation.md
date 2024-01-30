@@ -1004,7 +1004,11 @@ Jean-Pierre Fiset, Sander Temme, Jethro Beekman, Zsolt Rózsahegyi, Ferenc
 Pető, Mike Agrenius Kushner, Tomas Gustavsson, Dieter Bong, Christopher Meyer,
 Michael StJohns, Carl Wallace, Michael Ricardson, Tomofumi Okubo, Olivier
 Couillard, John Gray, Eric Amador, Johnson Darren, Herman Slatman, Tiru Reddy,
-Thomas Fossati, Corey Bonnel, Argenius Kushner, James Hagborg.
+Thomas Fossati, Corey Bonnel, Argenius Kushner, James Hagborg, Monty Wiseman,
+Ned Smith.
 
 We would like to specifically thank Mike StJohns for his work on an earlier
 version of this draft.
+
+Finally, we would like to thank Andreas Kretschmer for his feedback based
+on his implementation experience and Daniel Migault for his review comments.

@@ -5,10 +5,10 @@
 Network Working Group                                       M. Ounsworth
 Internet-Draft                                                   Entrust
 Intended status: Standards Track                           H. Tschofenig
-Expires: 1 August 2024                                           Siemens
+Expires: 2 August 2024                                           Siemens
                                                              H. Birkholz
                                                           Fraunhofer SIT
-                                                         29 January 2024
+                                                         30 January 2024
 
 
       Use of Remote Attestation with Certificate Signing Requests
@@ -63,7 +63,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 1 August 2024.
+   This Internet-Draft will expire on 2 August 2024.
 
 Copyright Notice
 
@@ -693,7 +693,8 @@ Table of Contents
 
    The registry has the following columns:
 
-   *  OID: The number of OID.
+   *  OID: The OID number, which has already been allocated.  IANA does
+      not allocate OID numbers for use with this registry.
 
    *  Description: Brief description of the use of the Evidence and the
       registration of the OID.
@@ -705,7 +706,9 @@ Table of Contents
       included but is not required.
 
    *  Change Controller: For Standards Track RFCs, list the "IESG".  For
-      others, give the name of the responsible party.
+      others, give the name of the responsible party.  In most cases the
+      third party requesting registration in this registry will also be
+      the party that registered the OID.
 
 6.4.2.  Initial Registry Contents
 
@@ -719,6 +722,9 @@ Table of Contents
 | 2 23 133 5 4 9   | Conceptual Message Wrapper | {{TCGDICE1.1}} |  TCG              |
 
  Figure 8: Initial Contents of the Attestation Evidence OID Registry
+
+   The current registry values can be retrieved from the IANA online
+   website.
 
 7.  Security Considerations
 
@@ -910,10 +916,10 @@ Table of Contents
 
    [I-D.ietf-rats-msg-wrap]
               Birkholz, H., Smith, N., Fossati, T., and H. Tschofenig,
-              "RATS Conceptual Messages Wrapper", Work in Progress,
-              Internet-Draft, draft-ietf-rats-msg-wrap-02, 25 January
-              2024, <https://datatracker.ietf.org/doc/html/draft-ietf-
-              rats-msg-wrap-02>.
+              "RATS Conceptual Messages Wrapper (CMW)", Work in
+              Progress, Internet-Draft, draft-ietf-rats-msg-wrap-03, 29
+              January 2024, <https://datatracker.ietf.org/doc/html/
+              draft-ietf-rats-msg-wrap-03>.
 
    [I-D.ietf-rats-tpm-based-network-device-attest]
               Fedorkow, G., Voit, E., and J. Fitzgerald-McKay, "TPM-

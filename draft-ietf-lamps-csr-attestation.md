@@ -653,10 +653,12 @@ list.
 
 The registry has the following columns:
 
-- OID: The number of OID.
+- OID: The OID number, which has already been allocated. IANA does
+not allocate OID numbers for use with this registry.
 
 - Description: Brief description of the use of the Evidence and the
 registration of the OID.
+
 - Reference(s): Reference to the document or documents that register
 the OID for use with a specific attestation technology, preferably
 including URIs that can be used to retrieve copies of the documents.
@@ -664,7 +666,9 @@ An indication of the relevant sections may also be included but is not
 required.
 
 - Change Controller: For Standards Track RFCs, list the "IESG".  For
-others, give the name of the responsible party.
+others, give the name of the responsible party. In most cases the
+third party requesting registration in this registry will also be the
+party that registered the OID.
 
 ### Initial Registry Contents
 
@@ -679,6 +683,8 @@ Message Wrapper (CMW) {{I-D.ietf-rats-msg-wrap}}.
 | 2 23 133 5 4 9   | Conceptual Message Wrapper | {{TCGDICE1.1}} |  TCG              |
 ~~~
 {: #tab-ae-reg title="Initial Contents of the Attestation Evidence OID Registry"}
+
+The current registry values can be retrieved from the IANA online website.
 
 # Security Considerations
 

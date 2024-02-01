@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-01-30T00:44:38.044190+00:00",
+  "timestamp": "2024-02-01T00:47:23.632431+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -1057,6 +1057,22 @@
       "body": "Ned & Monty suggest to provide further text to explain what the assumptions for creating an interoperable implementation are. \r\n\r\nQuestions to be answered, for example, are: \r\n\r\n- What other specifications do need to be read/implemented when the Verifier is not co-located with the RA/CA?\r\n- How is the Attestation Result content?\r\n- What is conveyed in the Certificate about the attestation verification?",
       "createdAt": "2024-01-29T17:50:46Z",
       "updatedAt": "2024-01-29T17:53:16Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 88,
+      "id": "I_kwDOJ3IIN859pfj2",
+      "title": "Typo's and a minor question",
+      "url": "https://github.com/lamps-wg/csr-attestation/issues/88",
+      "state": "OPEN",
+      "author": "dieterbong",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "When reviewing draft-ietf-lamps-csr-attestation-02 I noticed the following typo's:\r\nsection 4.3: \"\"TypedCert\" is an ASN.1 construct that has the **charateristics** ...\" \r\nsection 6.1: \"... certificate enrollments are often **asyncronous**, ...\" \r\nsection 8.1: \"... **digitially** signed with ...\" \r\ntop of page 21: \"...the shown Evidence, provides...\" I would not put a comma here but I let a native speaker decide\r\n\r\nAnd a question:\r\n[I-D.tschofenig-rats-psa-token] refers to version 13 of this draft, but there is already a version 20. Should the csr-attestation draft point to version 20? Or to the latest version of rats-psa-token when finalizing the csr attestation draft?\r\n\r\nBest regards,\r\nDieter",
+      "createdAt": "2024-01-30T14:41:28Z",
+      "updatedAt": "2024-01-30T14:41:28Z",
       "closedAt": null,
       "comments": []
     }
@@ -4192,13 +4208,13 @@
       "labels": [],
       "body": "",
       "createdAt": "2024-01-29T11:59:32Z",
-      "updatedAt": "2024-01-29T17:35:03Z",
+      "updatedAt": "2024-01-30T19:21:39Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "cadf2bc95ab38d210e67e525418268a7a23297d0",
       "headRepository": "lamps-wg/csr-attestation",
       "headRefName": "hannestschofenig-patch-2",
-      "headRefOid": "d7a12e36293f6149b14dfab772fd0fe47b6e1b5c",
+      "headRefOid": "0c1121d40a3c88e8b2fd48ffdee8938bd1a6b170",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -4207,9 +4223,37 @@
         {
           "author": "ounsworth",
           "authorAssociation": "CONTRIBUTOR",
-          "body": "Meeting 2024-01-29\r\nThis PR is mergeable, pending sorting out the [[TBD]] mail list reference.",
+          "body": "Meeting 2024-01-29\r\n~~This PR is mergeable, pending sorting out the [[TBD]] mail list reference.~~",
           "createdAt": "2024-01-29T17:35:02Z",
-          "updatedAt": "2024-01-29T17:35:02Z"
+          "updatedAt": "2024-01-30T16:25:39Z"
+        },
+        {
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "As per discussion on the RATS mailing list, this is considered a very good idea, and is slipping into scope creep.\r\n\r\nAt this point, I suggest removing this from the CSR Attestation draft so that the CSR draft is not delayed due to this much larger initiative.\r\n\r\n(aka, the CA industry really needs this CSR draft ASAP. Can we please put a New Content Freeze on it?)\r\n\r\nhttps://mailarchive.ietf.org/arch/msg/rats/h98spAElEuQtpIEWStEuaCyRQrI/",
+          "createdAt": "2024-01-30T16:28:02Z",
+          "updatedAt": "2024-01-30T16:28:02Z"
+        },
+        {
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> I am wondering whether the new registry's scope could be extended to cover all typing information related to attestation evidence, including OID, media types, CoAP C-F, CBOR tags, etc., to make this a one-stop shop \"meta registry\" for everything attestation.\r\nNot sure if there is a precedence for this in IANA.\r\n\r\n@thomas-fossati, could you imagine for this endeavor to move into a separate document?",
+          "createdAt": "2024-01-30T16:34:06Z",
+          "updatedAt": "2024-01-30T16:34:06Z"
+        },
+        {
+          "author": "thomas-fossati",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Sorry, replied to Mike's email before reading this.\r\n\r\n> @thomas-fossati, could you imagine for this endeavor to move into a separate document?\r\n\r\nYes, absolutely.\r\n\r\n",
+          "createdAt": "2024-01-30T16:45:32Z",
+          "updatedAt": "2024-01-30T16:45:32Z"
+        },
+        {
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "body": "then we can :ship: this \u263a\ufe0f",
+          "createdAt": "2024-01-30T16:48:23Z",
+          "updatedAt": "2024-01-30T16:48:23Z"
         }
       ],
       "reviews": [
@@ -4331,6 +4375,39 @@
           "createdAt": "2024-01-29T17:25:32Z",
           "updatedAt": "2024-01-29T17:25:32Z",
           "comments": []
+        },
+        {
+          "id": "PRR_kwDOJ3IIN85uZbcu",
+          "commit": {
+            "abbreviatedOid": "0c1121d"
+          },
+          "author": "mcr",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-01-30T19:20:19Z",
+          "updatedAt": "2024-01-30T19:20:20Z",
+          "comments": [
+            {
+              "originalPosition": 81,
+              "body": "```suggestion\r\nthe registration template below after a three-week review period on\r\nthe [[TBD]] mailing list, with the advice of one or more Designated\r\nExperts {{RFC8126}}.  However, to allow for the allocation of values\r\n```\r\n\r\nI think that it's a three-week review,, *AND* advice of DEs.  With the previous wording, I could interpret \"or\"\r\n",
+              "createdAt": "2024-01-30T19:20:20Z",
+              "updatedAt": "2024-01-30T19:20:20Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN85uZcBG",
+          "commit": {
+            "abbreviatedOid": "0c1121d"
+          },
+          "author": "mcr",
+          "authorAssociation": "COLLABORATOR",
+          "state": "CHANGES_REQUESTED",
+          "body": "As I understand it, we are not asking for a new OID arc, but rather just collecting the OIDs that are used from other arcs?",
+          "createdAt": "2024-01-30T19:21:39Z",
+          "updatedAt": "2024-01-30T19:21:39Z",
+          "comments": []
         }
       ]
     },
@@ -4365,26 +4442,42 @@
       "id": "PR_kwDOJ3IIN85lXAjR",
       "title": "aasvg all the things",
       "url": "https://github.com/lamps-wg/csr-attestation/pull/87",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "thomas-fossati",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Not sure why those 4 were left untagged.",
       "createdAt": "2024-01-29T18:01:19Z",
-      "updatedAt": "2024-01-29T18:01:19Z",
+      "updatedAt": "2024-01-30T09:49:04Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "cadf2bc95ab38d210e67e525418268a7a23297d0",
       "headRepository": "thomas-fossati/csr-attestation",
       "headRefName": "main",
       "headRefOid": "ba81df096ea3217df4f7f668fc945969c205e5e2",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2024-01-30T09:49:04Z",
+      "mergedAt": "2024-01-30T09:49:04Z",
+      "mergedBy": "hannestschofenig",
+      "mergeCommit": {
+        "oid": "dc899daf81f10ef268aa0274f17f8e97d4f754c8"
+      },
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOJ3IIN85uT3JI",
+          "commit": {
+            "abbreviatedOid": "ba81df0"
+          },
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-01-30T09:48:59Z",
+          "updatedAt": "2024-01-30T09:48:59Z",
+          "comments": []
+        }
+      ]
     }
   ]
 }

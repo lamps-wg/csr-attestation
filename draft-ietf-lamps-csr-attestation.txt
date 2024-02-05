@@ -5,10 +5,10 @@
 Network Working Group                                       M. Ounsworth
 Internet-Draft                                                   Entrust
 Intended status: Standards Track                           H. Tschofenig
-Expires: 2 August 2024                                           Siemens
+Expires: 8 August 2024                                           Siemens
                                                              H. Birkholz
                                                           Fraunhofer SIT
-                                                         30 January 2024
+                                                         5 February 2024
 
 
       Use of Remote Attestation with Certificate Signing Requests
@@ -63,7 +63,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 2 August 2024.
+   This Internet-Draft will expire on 8 August 2024.
 
 Copyright Notice
 
@@ -499,12 +499,19 @@ Table of Contents
    This list is left empty in this document.  However, implementers
    should populate it with the formats that they wish to support.
 
+   EvidenceHint ::= CHOICE {
+        rfc822Name [0] IA5String,
+        dNSName    [1] IA5String,
+        uri        [2] IA5String,
+        text       [3] UTF8String
+   }
+
    EvidenceStatements ::= SEQUENCE SIZE (1..MAX) OF EvidenceStatement
 
    EvidenceStatement ::= SEQUENCE {
       type   EVIDENCE-STATEMENT.&id({EvidenceStatementSet}),
       stmt   EVIDENCE-STATEMENT.&Type({EvidenceStatementSet}{@type}),
-      hint   GeneralName OPTIONAL
+      hint   EvidenceHint OPTIONAL
    }
 
    The type is on OID indicating the format of the data contained in
@@ -1127,10 +1134,19 @@ EvidenceStatementSet EVIDENCE-STATEMENT ::= {
 
 EvidenceStatements ::= SEQUENCE SIZE (1..MAX) OF EvidenceStatement
 
+EvidenceHint ::= CHOICE {
+     rfc822Name [0] IA5String,
+     dNSName    [1] IA5String,
+     uri        [2] IA5String,
+     text       [3] UTF8String
+}
+
+EvidenceStatements ::= SEQUENCE SIZE (1..MAX) OF EvidenceStatement
+
 EvidenceStatement ::= SEQUENCE {
    type   EVIDENCE-STATEMENT.&id({EvidenceStatementSet}),
    stmt   EVIDENCE-STATEMENT.&Type({EvidenceStatementSet}{@type}),
-   hint   GeneralName OPTIONAL
+   hint   EvidenceHint OPTIONAL
 }
 
 id-aa-evidenceStatement OBJECT IDENTIFIER ::= { id-aa TBDAA }

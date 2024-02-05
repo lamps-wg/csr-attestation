@@ -13,7 +13,7 @@
        This document describes how to encode Evidence produced by an Attester for inclusion in Certificate Signing Requests (CSRs), and any certificates necessary for validating it. 
        Including Evidence along with a CSR can help to improve the assessment of the security posture for the private key, and the trustworthiness properties of the submitted key to the requested certificate profile. These Evidence Claims can include information about the hardware component's manufacturer, the version of installed or running firmware, the version of software installed or running in layers above the firmware, or the presence of hardware components providing specific protection capabilities or shielded locations (e.g., to protect keys). 
     " name="description">
-<meta content="xml2rfc 3.19.1" name="generator">
+<meta content="xml2rfc 3.19.2" name="generator">
 <meta content="PKI" name="keyword">
 <meta content="PKCS#10" name="keyword">
 <meta content="CFMF" name="keyword">
@@ -22,14 +22,14 @@
 <meta content="Certificate Signing Requests" name="keyword">
 <meta content="draft-ietf-lamps-csr-attestation-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.19.1
+  xml2rfc 3.19.2
     Python 3.11.6
     ConfigArgParse 1.7
     google-i18n-address 3.1.0
     intervaltree 3.1.0
     Jinja2 3.1.2
     lxml 4.9.3
-    platformdirs 4.1.0
+    platformdirs 4.2.0
     pycountry 22.3.5
     PyYAML 6.0.1
     requests 2.31.0
@@ -1034,11 +1034,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">Remote Attestation with CSRs</td>
-<td class="right">January 2024</td>
+<td class="right">February 2024</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Ounsworth, et al.</td>
-<td class="center">Expires 2 August 2024</td>
+<td class="center">Expires 8 August 2024</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1051,12 +1051,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-lamps-csr-attestation-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2024-01-30" class="published">30 January 2024</time>
+<time datetime="2024-02-05" class="published">5 February 2024</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2024-08-02">2 August 2024</time></dd>
+<dd class="expires"><time datetime="2024-08-08">8 August 2024</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1111,7 +1111,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 2 August 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 8 August 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1820,12 +1820,19 @@ or vendor proprietary formats along with the OIDs that identify them.<a href="#s
 populate it with the formats that they wish to support.<a href="#section-5.2-4" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="section-5.2-5">
 <pre>
+EvidenceHint ::= CHOICE {
+     rfc822Name [0] IA5String,
+     dNSName    [1] IA5String,
+     uri        [2] IA5String,
+     text       [3] UTF8String
+}
+
 EvidenceStatements ::= SEQUENCE SIZE (1..MAX) OF EvidenceStatement
 
 EvidenceStatement ::= SEQUENCE {
    type   EVIDENCE-STATEMENT.&amp;id({EvidenceStatementSet}),
    stmt   EVIDENCE-STATEMENT.&amp;Type({EvidenceStatementSet}{@type}),
-   hint   GeneralName OPTIONAL
+   hint   EvidenceHint OPTIONAL
 }
 </pre><a href="#section-5.2-5" class="pilcrow">¶</a>
 </div>
@@ -2572,10 +2579,19 @@ EvidenceStatementSet EVIDENCE-STATEMENT ::= {
 
 EvidenceStatements ::= SEQUENCE SIZE (1..MAX) OF EvidenceStatement
 
+EvidenceHint ::= CHOICE {
+     rfc822Name [0] IA5String,
+     dNSName    [1] IA5String,
+     uri        [2] IA5String,
+     text       [3] UTF8String
+}
+
+EvidenceStatements ::= SEQUENCE SIZE (1..MAX) OF EvidenceStatement
+
 EvidenceStatement ::= SEQUENCE {
    type   EVIDENCE-STATEMENT.&amp;id({EvidenceStatementSet}),
    stmt   EVIDENCE-STATEMENT.&amp;Type({EvidenceStatementSet}{@type}),
-   hint   GeneralName OPTIONAL
+   hint   EvidenceHint OPTIONAL
 }
 
 id-aa-evidenceStatement OBJECT IDENTIFIER ::= { id-aa TBDAA }

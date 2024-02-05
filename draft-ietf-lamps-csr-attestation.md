@@ -533,10 +533,6 @@ A CSR MAY contain one or more instances of `attr-evidence` or `ext-evidence`.
 This means that the `SEQUENCE OF EvidenceBundle` is redundant with the
 ability to carry multiple `attr-evidence` or `ext-evidence` at the CSR level;
 either mechanism MAY be used for carrying multiple Evidence bundles.
-We are leaving the `SEQUENCE OF EvidenceBundle` since it is in general
-more flexible than relying on the containing structure to handle multiplicity
-and allows for this structure to be re-used in the future in other PKIX
-protocol contexts.
 
 
 ##  CertificateAlternatives
@@ -638,14 +634,14 @@ Columns:
 
 # Security Considerations
 
-A PKCS#10 or CRMF Certification Request message consists of a
+A PKCS#10 or CRMF Certification Request message typically consists of a
 distinguished name, a public key, and optionally a set of attributes,
 collectively signed by the entity requesting certification.
-The private key used to sign the CSR MUST be different from the
+In general usage, the private key used to sign the CSR MUST be different from the
 Attesting Key utilized to sign Evidence about the Target
-Environment. Key separation is an important principle in cryptography
-and also applies to this specification with regards to the Attestation Key
-and the CSR signing key. To demonstrate that the private
+Environment, though exceptions MAY be made where CSRs and Evidence are involved in
+bootstrapping the Attesting Key.
+To demonstrate that the private
 key applied to sign the CSR is generated, and stored in a secure
 environment that has controls to prevent theft or misuse (including
 being non-exportable / non-recoverable), the Attesting Environment
@@ -698,14 +694,13 @@ exports Evidence for use in remote attestation via a CSR.
 {: #fig-attester title="Interaction between Attesting and Target Environment"}
 
 {{fig-attester}} places the CSR library outside the Attester, which
-is an implementation choice. The CSR library may also be located
+is a valid architecture for certificate enrollment.
+The CSR library may also be located
 inside the trusted computing base. Regardless of the placement
-of the CSR library an Attesting Environment MUST be able to collect
+of the CSR library, an Attesting Environment MUST be able to collect
 claims about the Target Environment such that statements about
-the storage of the keying material can be made. For example, one
-implementation may perform a software measurement of the CSR library
-along with the crypto library implementation that has access to the
-keying material. For the Verifier, the provided Evidence must allow
+the storage of the keying material can be made.
+For the Verifier, the provided Evidence must allow
 an assessment to be made whether the key used to sign the CSR
 is stored in a secure location and cannot be exported.
 

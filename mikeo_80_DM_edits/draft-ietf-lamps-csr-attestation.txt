@@ -238,7 +238,7 @@ Table of Contents
     .------------.               .----|----------.
     |            +-------------->|----'          | Compare Attestation
     |  Attester  |   Evidence    | Relying       | Result against
-    |   (HSM)    |   in CSR      | Party (RA/CA) | policy
+    |  (/w HSM)  |   in CSR      | Party (RA/CA) | policy
     '------------'               '---------------'
 
             Figure 1: Architecture with Background Check Model.

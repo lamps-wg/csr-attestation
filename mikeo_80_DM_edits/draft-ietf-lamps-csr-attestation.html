@@ -13,7 +13,7 @@
        This document describes how to encode Evidence produced by an Attester for inclusion in Certificate Signing Requests (CSRs), and any certificates necessary for validating it. 
        Including Evidence along with a CSR can help to improve the assessment of the security posture for the private key, and the trustworthiness properties of the submitted key to the requested certificate profile. These Evidence Claims can include information about the hardware component's manufacturer, the version of installed or running firmware, the version of software installed or running in layers above the firmware, or the presence of hardware components providing specific protection capabilities or shielded locations (e.g., to protect keys). 
     " name="description">
-<meta content="xml2rfc 3.19.1" name="generator">
+<meta content="xml2rfc 3.19.2" name="generator">
 <meta content="PKI" name="keyword">
 <meta content="PKCS#10" name="keyword">
 <meta content="CFMF" name="keyword">
@@ -22,14 +22,14 @@
 <meta content="Certificate Signing Requests" name="keyword">
 <meta content="draft-ietf-lamps-csr-attestation-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.19.1
+  xml2rfc 3.19.2
     Python 3.11.6
     ConfigArgParse 1.7
     google-i18n-address 3.1.0
     intervaltree 3.1.0
     Jinja2 3.1.2
     lxml 4.9.3
-    platformdirs 4.1.0
+    platformdirs 4.2.0
     pycountry 22.3.5
     PyYAML 6.0.1
     requests 2.31.0
@@ -1034,11 +1034,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">Remote Attestation with CSRs</td>
-<td class="right">January 2024</td>
+<td class="right">February 2024</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Ounsworth, et al.</td>
-<td class="center">Expires 27 July 2024</td>
+<td class="center">Expires 8 August 2024</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1051,12 +1051,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-lamps-csr-attestation-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2024-01-24" class="published">24 January 2024</time>
+<time datetime="2024-02-05" class="published">5 February 2024</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2024-07-27">27 July 2024</time></dd>
+<dd class="expires"><time datetime="2024-08-08">8 August 2024</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1111,7 +1111,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 27 July 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 8 August 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1202,6 +1202,9 @@ svg :is([fill="white"], [fill^="#fff"]) {
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.2">
                 <p id="section-toc.1-1.7.2.2.1"><a href="#section-7.2" class="auto internal xref">7.2</a>.  <a href="#name-publishing-evidence-in-an-x" class="internal xref">Publishing evidence in an X.509 extension</a></p>
 </li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.3">
+                <p id="section-toc.1-1.7.2.3.1"><a href="#section-7.3" class="auto internal xref">7.3</a>.  <a href="#name-type-oid-and-verifier-hint" class="internal xref">Type OID and verifier hint</a></p>
+</li>
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8">
@@ -1264,7 +1267,7 @@ This specification thereby is intended to be as technology-agnostic as it is fea
 The certificates typically contain one or more certification paths
 rooted in a device manufacture trust anchor and the leaf certificate being
 on the device in question; the latter is the Attestation Key that signs the Evidence statement.<a href="#section-1-3" class="pilcrow">¶</a></p>
-<p id="section-1-4">This document specifies a CSR Attribute (or Extension for CRMF CSRs) for carrying evidence. An evidence statement in an existing format can be placed into an EvidenceStatement along with an OID to identify its type and optionally a hint to the Relying Party about how to verify it. A set of EvidenceStatements may be grouped together along with the set of CertificateAlternatives needed to validate them to form a EvidenceBundle. One or more EvidenceBundles may be placed into the id-aa-evidenceStatement CSR Attribute (or CFRM Extension).<a href="#section-1-4" class="pilcrow">¶</a></p>
+<p id="section-1-4">This document specifies a CSR Attribute (or Extension for CRMF CSRs) for carrying evidence. An evidence statement in an existing format can be placed into an EvidenceStatement along with an OID to identify its type and optionally a hint to the Relying Party about how to verify it. A set of EvidenceStatements may be grouped together along with the set of CertificateAlternatives needed to validate them to form a EvidenceBundle. One or more EvidenceBundles may be placed into the id-aa-evidence CSR Attribute (or CFRM Extension).<a href="#section-1-4" class="pilcrow">¶</a></p>
 <p id="section-1-5">A CSR may contain one or more Evidence payloads, for example Evidence
 asserting the storage properties of a private key as well Evidence
 asserting firmware version and other general properties
@@ -1391,7 +1394,7 @@ considered. For example, Evidence may need to be protected against replay and
 Section 10 of RFC 9334 lists approach for offering freshness. There are also
 concerns about the exposure of persistent identifiers by utilizing attestation
 technology, which are discussed in Section 11 of RFC 9334. Finally, the keying
-material used by the Attester need to be protected against unauthorized access,
+material used by the Attester needs to be protected against unauthorized access,
 and against signing arbitrary content that originated from outside the device.
 This aspect is described in Section 12 of RFC 9334. Most of these aspects are,
 however, outside the scope of this specification but relevant for use with a
@@ -1410,17 +1413,20 @@ CSR messages.<a href="#section-3-5" class="pilcrow">¶</a></p>
         <h3 id="name-interaction-with-an-hsm">
 <a href="#section-4.1" class="section-number selfRef">4.1. </a><a href="#name-interaction-with-an-hsm" class="section-name selfRef">Interaction with an HSM</a>
         </h3>
-<p id="section-4.1-1">This specification is intended to be used both in cases where the CSR
-is constructed internally or externally to the attesting environment.<a href="#section-4.1-1" class="pilcrow">¶</a></p>
+<p id="section-4.1-1">This specification is intended to be applicable both in cases where the CSR
+is constructed internally or externally to the attesting environment, from the
+point of view of the calling application.<a href="#section-4.1-1" class="pilcrow">¶</a></p>
 <p id="section-4.1-2">Cases where the CSR is generated internally to the attesting environment
-are straightforward: the generates and embeds Evidence and the corresponding
+are straightforward: the HSM generates and embeds the Evidence and the corresponding
 certificate chains when constructing the CSR.<a href="#section-4.1-2" class="pilcrow">¶</a></p>
-<p id="section-4.1-3">Externally-generated CSRs may require extra round-trips of communication
+<p id="section-4.1-3">Cases where the CSR is generated externally may require extra round-trips of communication
 between the CSR generator and the attesting environment, first to obtain
-the necessary evidence statements about the subject key, and then to use
+the necessary Evidence about the subject key, and then to use
 the subject key to sign the CSR. For example, consider a CSR generated by
 a popular crypto library about a subject key stored on a PKCS#11 <span>[<a href="#PKCS11" class="cite xref">PKCS11</a>]</span> device.<a href="#section-4.1-3" class="pilcrow">¶</a></p>
-<p id="section-4.1-4">The interaction would conceptually be:<a href="#section-4.1-4" class="pilcrow">¶</a></p>
+<p id="section-4.1-4">As an example, assuming that the HSM is, or contains, the attesting environment, and
+some cryptographic library is assembling a CSR by interacting with the HSM over some
+network protocol, then the interaction would conceptually be:<a href="#section-4.1-4" class="pilcrow">¶</a></p>
 <span id="name-example-interaction-between"></span><div id="fig-csr-client-p11">
 <figure id="figure-2">
           <div id="section-4.1-5.1">
@@ -1477,10 +1483,11 @@ a popular crypto library about a subject key stored on a PKCS#11 <span>[<a href=
 Evidence in a CSR (together with certificate chains) the structure
 shown in <a href="#fig-info-model" class="auto internal xref">Figure 3</a> is used.<a href="#section-4.2-1" class="pilcrow">¶</a></p>
 <p id="section-4.2-2">On a high-level, the structure can be explained as follows:
-A PKCS#10 attribute or a CRMF extension contains one or multiple
-EvidenceBundle structures. Each EvidenceBundle contains one or
-multiple EvidenceStatement structures as well as one or many
-CertificateAlternatives.<a href="#section-4.2-2" class="pilcrow">¶</a></p>
+A PKCS#10 attribute or a CRMF extension contains one or more
+EvidenceBundle structures. Each EvidenceBundle contains one or more
+EvidenceStatement structures as well as one or more
+CertificateAlternatives which enable to carry various format of
+certificates.<a href="#section-4.2-2" class="pilcrow">¶</a></p>
 <span id="name-information-model-for-csr-e"></span><div id="fig-info-model">
 <figure id="figure-3">
           <div id="section-4.2-3.1">
@@ -1515,18 +1522,21 @@ CertificateAlternatives.<a href="#section-4.2-2" class="pilcrow">¶</a></p>
                   <text x="64" y="68">Attribute</text>
                   <text x="116" y="68">or</text>
                   <text x="64" y="84">Extension</text>
-                  <text x="88" y="116">1</text>
-                  <text x="256" y="132">n</text>
+                  <text x="180" y="132">(1</text>
+                  <text x="204" y="132">or</text>
+                  <text x="240" y="132">more)</text>
                   <text x="376" y="148">CertificateAlternatives</text>
                   <text x="328" y="180">Certificate</text>
                   <text x="388" y="180">OR</text>
                   <text x="320" y="196">TypedCert</text>
                   <text x="388" y="196">OR</text>
                   <text x="336" y="212">TypedFlatCert</text>
-                  <text x="88" y="244">n</text>
-                  <text x="152" y="244">1</text>
-                  <text x="192" y="260">1</text>
-                  <text x="256" y="260">n</text>
+                  <text x="28" y="228">(1</text>
+                  <text x="52" y="228">or</text>
+                  <text x="48" y="244">more)</text>
+                  <text x="220" y="244">(1</text>
+                  <text x="244" y="244">or</text>
+                  <text x="240" y="260">more)</text>
                   <text x="84" y="276">EvidenceBundle</text>
                   <text x="352" y="276">EvidenceStatement</text>
                   <text x="300" y="308">Type</text>
@@ -1542,7 +1552,8 @@ CertificateAlternatives.<a href="#section-4.2-2" class="pilcrow">¶</a></p>
 <p id="section-4.2-4">The following use cases are supported:<a href="#section-4.2-4" class="pilcrow">¶</a></p>
 <p id="section-4.2-5">Single Attester, which only distributes Evidence without any certificate chains,
 i.e. the Verifier is assumed to be in possession of the certificate chain already
-or there is no certificate chain. As a result a single EvidenceBundle is included
+or there is no certificate chain because the Verifier directly trusts the Attester key.
+As a result a single EvidenceBundle is included
 in a CSR that contains a single EvidenceStatement without the CertificateAlternatives
 structure. <a href="#fig-single-attester" class="auto internal xref">Figure 4</a> shows this use case.<a href="#section-4.2-5" class="pilcrow">¶</a></p>
 <span id="name-use-case-1-single-attester-"></span><div id="fig-single-attester">
@@ -1584,9 +1595,9 @@ this use case.<a href="#section-4.2-7" class="pilcrow">¶</a></p>
 statements is obtained. Imagine that each Attester returns its Evidence together with a
 certificate chain. As a result, multiple EvidenceBundle structures, each carrying
 an EvidenceStatement and the corresponding CertificateAlternative structure with the
-certificate chain as provided by each Attester, are included in the CSR. It may
-be possible that there is an overlap in the certificate chains transmitted by
-the different Attesters. This approach does not require any processing capabilities
+certificate chain as provided by each Attester, are included in the CSR.
+This may result in certificates being duplicated across multiple EvidenceBundles.
+This approach does not require any processing capabilities
 by a lead Attester since the information is merely forwarded. <a href="#fig-multiple-attesters" class="auto internal xref">Figure 6</a>
 shows this use case.<a href="#section-4.2-9" class="pilcrow">¶</a></p>
 <span id="name-use-case-3-multiple-atteste"></span><div id="fig-multiple-attesters">
@@ -1749,9 +1760,11 @@ EvidenceStatement ::= SEQUENCE {
 </pre><a href="#section-5.2-5" class="pilcrow">¶</a>
 </div>
 <p id="section-5.2-6">The type is on OID indicating the format of the data contained in stmt.<a href="#section-5.2-6" class="pilcrow">¶</a></p>
-<p id="section-5.2-7">The hint is intended for an Attester to indicate to the Relying Party
+<p id="section-5.2-7">The hint is intended for an Attester to indicate to the Relying Party (RP)
 which Verifier should be invoked to parse this statement. In many cases,
-the type OID will already uniquely indicate which Verifier to invoke, but
+the type OID will already uniquely indicate which Verifier to invoke;
+for example because the OID indicates a prorietary Evidence format for
+which the RP has corresponding proprietary Verifier. However,
 in some cases it may still be ambiguous, or the type may indicate
 another layer of conceptual message wrapping in which case it is helpful
 to the RP to bring this hint outside of the statement.
@@ -1771,18 +1784,18 @@ EvidenceBundle ::= SEQUENCE
   certs SEQUENCE OF CertificateAlternatives OPTIONAL
 }
 
-id-aa-evidenceStatement OBJECT IDENTIFIER ::= { id-aa TBDAA }
+id-aa-evidence OBJECT IDENTIFIER ::= { id-aa TBDAA }
 
 -- For PKCS#10
 attr-evidence ATTRIBUTE ::= {
   TYPE EvidenceBundles
-  IDENTIFIED BY id-aa-evidenceStatement
+  IDENTIFIED BY id-aa-evidence
 }
 
 -- For CRMF
 ext-evidence EXTENSION ::= {
   SYNTAX EvidenceBundles
-  IDENTIFIED BY id-aa-evidenceStatement
+  IDENTIFIED BY id-aa-evidence
 }
 </pre><a href="#section-5.2-8" class="pilcrow">¶</a>
 </div>
@@ -1910,7 +1923,7 @@ S/MIME Attributes" to identify two Attributes defined within.<a href="#section-6
                   <p id="section-6.1.2-1.1.2.1.1">Decimal: IANA Assigned - Replace <strong>TBDAA</strong><a href="#section-6.1.2-1.1.2.1.1" class="pilcrow">¶</a></p>
 </li>
                 <li class="normal" id="section-6.1.2-1.1.2.2">
-                  <p id="section-6.1.2-1.1.2.2.1">Description: id-aa-evidenceStatement<a href="#section-6.1.2-1.1.2.2.1" class="pilcrow">¶</a></p>
+                  <p id="section-6.1.2-1.1.2.2.1">Description: id-aa-evidence<a href="#section-6.1.2-1.1.2.2.1" class="pilcrow">¶</a></p>
 </li>
                 <li class="normal" id="section-6.1.2-1.1.2.3">
                   <p id="section-6.1.2-1.1.2.3.1">References: This Document<a href="#section-6.1.2-1.1.2.3.1" class="pilcrow">¶</a></p>
@@ -2148,6 +2161,18 @@ left up to the discretion of protocol designers and implementors.<a href="#secti
 The reason for this is that certificates are considered public information and the Evidence might contain detailed information about hardware and patch levels of the device on which the private key resides.
 The certificate requester has consented to sharing this detailed device information with the CA but might not consent to having these details published.
 These privacy considerations are beyond the scope of this document and may require additional signaling mechanisms in the CSR to prevent unintended publication of sensitive information, so we leave it as "<span class="bcp14">NOT RECOMMENDED</span>".<a href="#section-7.2-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="type-oid-and-verifier-hint">
+<section id="section-7.3">
+        <h3 id="name-type-oid-and-verifier-hint">
+<a href="#section-7.3" class="section-number selfRef">7.3. </a><a href="#name-type-oid-and-verifier-hint" class="section-name selfRef">Type OID and verifier hint</a>
+        </h3>
+<p id="section-7.3-1">The <code>EvidenceStatement</code> includes both a <code>type</code> OID and a freeform <code>hint</code> field with which the Attester can provide information to the Relying Party about which Verifier to invoke to parse a given piece of Evidence.
+Care should be taken when processing these data since at the time they are used, they are not yet verified. In fact, they are protected by the CSR signature but not by the signature from the Attester and so could be maliciously replaced in some cases.
+The authors' intent is that the <code>type</code> OID and <code>hint</code> will allow an RP to select between Verifier with which it has pre-established trust relationships, such as Verifier libraries that have been compiled in to the RP application.
+As an example, the <code>hint</code> may take the form of an FQDN to uniquely identify a Verifier implementation, but the RP <span class="bcp14">MUST NOT</span> blindly make network calls to unknown domain names and trust the results.
+Implementers should also be cautious around <code>type</code> OID or <code>hint</code> values that cause a short-cirtuit in the verification logic, such as <code>None</code>, <code>Null</code>, <code>Debug</code>, empty CMW contents, or similar values that could cause the Evidence to appear to be valid when in fact it was not properly checked.<a href="#section-7.3-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -2497,19 +2522,19 @@ EvidenceStatement ::= SEQUENCE {
    hint   GeneralName OPTIONAL
 }
 
-id-aa-evidenceStatement OBJECT IDENTIFIER ::= { id-aa TBDAA }
+id-aa-evidence OBJECT IDENTIFIER ::= { id-aa TBDAA }
 
 -- For PKCS#10
 attr-evidence ATTRIBUTE ::= {
   TYPE EvidenceBundles
-  IDENTIFIED BY id-aa-evidenceStatement
+  IDENTIFIED BY id-aa-evidence
 }
 
 
 -- For CRMF
 ext-evidence EXTENSION ::= {
   SYNTAX EvidenceBundles
-  IDENTIFIED BY id-aa-evidenceStatement
+  IDENTIFIED BY id-aa-evidence
 }
 
 EvidenceBundles ::= SEQUENCE SIZE (1..MAX) OF EvidenceBundle

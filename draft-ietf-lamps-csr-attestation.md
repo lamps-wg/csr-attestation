@@ -194,7 +194,7 @@ or physically separated from the core CA functionality.
  .------------.               .----|----------.
  |            +-------------->|----'          | Compare Attestation
  |  Attester  |   Evidence    | Relying       | Result against
- |   (HSM)    |   in CSR      | Party (RA/CA) | policy
+ |  (/w HSM)  |   in CSR      | Party (RA/CA) | policy
  '------------'               '---------------'
 ~~~
 {: #fig-arch title="Architecture with Background Check Model."}

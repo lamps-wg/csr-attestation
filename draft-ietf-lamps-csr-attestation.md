@@ -118,7 +118,7 @@ The certificates typically contain one or more certification paths
 rooted in a device manufacture trust anchor and the leaf certificate being
 on the device in question; the latter is the Attestation Key that signs the Evidence statement.
 
-This document specifies a CSR Attribute (or Extension for CRMF CSRs) for carrying evidence. An evidence statement in an existing format can be placed into an EvidenceStatement along with an OID to identify its type and optionally a hint to the Relying Party about how to verify it. A set of EvidenceStatements may be grouped together along with the set of CertificateAlternatives needed to validate them to form a EvidenceBundle. One or more EvidenceBundles may be placed into the id-aa-evidenceStatement CSR Attribute (or CFRM Extension).
+This document specifies a CSR Attribute (or Extension for CRMF CSRs) for carrying evidence. An evidence statement in an existing format can be placed into an EvidenceStatement along with an OID to identify its type and optionally a hint to the Relying Party about how to verify it. A set of EvidenceStatements may be grouped together along with the set of CertificateAlternatives needed to validate them to form a EvidenceBundle. One or more EvidenceBundles may be placed into the id-aa-evidence CSR Attribute (or CFRM Extension).
 
 A CSR may contain one or more Evidence payloads, for example Evidence
 asserting the storage properties of a private key as well Evidence
@@ -265,9 +265,9 @@ shown in {{fig-info-model}} is used.
 On a high-level, the structure can be explained as follows:
 A PKCS#10 attribute or a CRMF extension contains one or more
 EvidenceBundle structures. Each EvidenceBundle contains one or more
-EvidenceStatement structures as well as one or more 
-CertificateAlternatives which enable to carry various format of 
-certificates. 
+EvidenceStatement structures as well as one or more
+CertificateAlternatives which enable to carry various format of
+certificates.
 
 ~~~ aasvg
  +--------------------+
@@ -297,7 +297,7 @@ The following use cases are supported:
 
 Single Attester, which only distributes Evidence without any certificate chains,
 i.e. the Verifier is assumed to be in possession of the certificate chain already
-or there is no certificate chain because the Verifier directly trusts the Attester key. 
+or there is no certificate chain because the Verifier directly trusts the Attester key.
 As a result a single EvidenceBundle is included
 in a CSR that contains a single EvidenceStatement without the CertificateAlternatives
 structure. {{fig-single-attester}} shows this use case.
@@ -332,7 +332,7 @@ In a Composite Device, which contains multiple Attesters, a collection of Eviden
 statements is obtained. Imagine that each Attester returns its Evidence together with a
 certificate chain. As a result, multiple EvidenceBundle structures, each carrying
 an EvidenceStatement and the corresponding CertificateAlternative structure with the
-certificate chain as provided by each Attester, are included in the CSR. 
+certificate chain as provided by each Attester, are included in the CSR.
 This may result in certificates being duplicated across multiple EvidenceBundles.
 This approach does not require any processing capabilities
 by a lead Attester since the information is merely forwarded. {{fig-multiple-attesters}}
@@ -481,8 +481,8 @@ The type is on OID indicating the format of the data contained in stmt.
 
 The hint is intended for an Attester to indicate to the Relying Party (RP)
 which Verifier should be invoked to parse this statement. In many cases,
-the type OID will already uniquely indicate which Verifier to invoke; 
-for example because the OID indicates a prorietary Evidence format for 
+the type OID will already uniquely indicate which Verifier to invoke;
+for example because the OID indicates a prorietary Evidence format for
 which the RP has corresponding proprietary Verifier. However,
 in some cases it may still be ambiguous, or the type may indicate
 another layer of conceptual message wrapping in which case it is helpful
@@ -503,18 +503,18 @@ EvidenceBundle ::= SEQUENCE
   certs SEQUENCE OF CertificateAlternatives OPTIONAL
 }
 
-id-aa-evidenceStatement OBJECT IDENTIFIER ::= { id-aa TBDAA }
+id-aa-evidence OBJECT IDENTIFIER ::= { id-aa TBDAA }
 
 -- For PKCS#10
 attr-evidence ATTRIBUTE ::= {
   TYPE EvidenceBundles
-  IDENTIFIED BY id-aa-evidenceStatement
+  IDENTIFIED BY id-aa-evidence
 }
 
 -- For CRMF
 ext-evidence EXTENSION ::= {
   SYNTAX EvidenceBundles
-  IDENTIFIED BY id-aa-evidenceStatement
+  IDENTIFIED BY id-aa-evidence
 }
 ~~~
 
@@ -612,7 +612,7 @@ S/MIME Attributes" to identify two Attributes defined within.
 
 - Attest Statement
   - Decimal: IANA Assigned - Replace **TBDAA**
-  - Description: id-aa-evidenceStatement
+  - Description: id-aa-evidence
   - References: This Document
 
 
@@ -776,7 +776,7 @@ These privacy considerations are beyond the scope of this document and may requi
 ## Type OID and verifier hint
 
 The `EvidenceStatement` includes both a `type` OID and a freeform `hint` field with which the Attester can provide information to the Relying Party about which Verifier to invoke to parse a given piece of Evidence.
-Care should be taken when processing these data since at the time they are used, they are not yet verified. In fact, they are protected by the CSR signature but not by the signature from the Attester and so could be maliciously replaced in some cases. 
+Care should be taken when processing these data since at the time they are used, they are not yet verified. In fact, they are protected by the CSR signature but not by the signature from the Attester and so could be maliciously replaced in some cases.
 The authors' intent is that the `type` OID and `hint` will allow an RP to select between Verifier with which it has pre-established trust relationships, such as Verifier libraries that have been compiled in to the RP application.
 As an example, the `hint` may take the form of an FQDN to uniquely identify a Verifier implementation, but the RP MUST NOT blindly make network calls to unknown domain names and trust the results.
 Implementers should also be cautious around `type` OID or `hint` values that cause a short-cirtuit in the verification logic, such as `None`, `Null`, `Debug`, empty CMW contents, or similar values that could cause the Evidence to appear to be valid when in fact it was not properly checked.

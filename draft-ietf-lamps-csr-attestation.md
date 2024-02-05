@@ -747,8 +747,9 @@ providing freshness, including a nonce-based approach, the use of timestamps
 and an epoch-based technique.  The use of nonces requires an extra message
 exchange via the Relying Party and the use of timestamps requires
 synchronized clocks. Epochs also require (unidirectional) communication.
-None of these things are practical when interacting with Hardware Security
-Modules (HSM).
+How to acheive freshness for a given HSM and Evidence format, within the
+context of a given certificate enrollment protocol are out-of-scope for
+this document.
 
 Additionally, the definition of "fresh" is somewhat ambiguous in the context
 of CSRs, especially considering that non-automated certificate enrollments

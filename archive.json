@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-02-06T00:43:50.134420+00:00",
+  "timestamp": "2024-02-08T00:43:33.383691+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -1077,7 +1077,7 @@
       "labels": [],
       "body": "Ned & Monty suggest to provide further text to explain what the assumptions for creating an interoperable implementation are. \r\n\r\nQuestions to be answered, for example, are: \r\n\r\n- What other specifications do need to be read/implemented when the Verifier is not co-located with the RA/CA?\r\n- How is the Attestation Result content?\r\n- What is conveyed in the Certificate about the attestation verification?",
       "createdAt": "2024-01-29T17:50:46Z",
-      "updatedAt": "2024-02-05T21:18:11Z",
+      "updatedAt": "2024-02-06T15:33:26Z",
       "closedAt": null,
       "comments": [
         {
@@ -1086,6 +1086,13 @@
           "body": "I think my responses here are:\r\n\r\n> What other specifications do need to be read/implemented when the Verifier is not co-located with the RA/CA?\r\n> How is the Attestation Result content?\r\n\r\nWhat API the Verifier presents to the RA/CA is out of scope for this CSR wire-format document.\r\n\r\n> What is conveyed in the Certificate about the attestation verification?\r\n\r\nThe contents of issued certificates are out of scope for this CSR wire-format document.",
           "createdAt": "2024-02-05T21:18:09Z",
           "updatedAt": "2024-02-05T21:18:09Z"
+        },
+        {
+          "author": "mcr",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> I think my responses here are:\r\n> \r\n> > What other specifications do need to be read/implemented when the Verifier is not co-located with the RA/CA?\r\n> > How is the Attestation Result content?\r\n> \r\n> What API the Verifier presents to the RA/CA is out of scope for this CSR wire-format document.\r\n\r\nI agree.  It would however, be good if anyone who has a protocol that they intend to use confirms that they have all the bits they need.  That needn't be a blocker.\r\n\r\n> > What is conveyed in the Certificate about the attestation verification?\r\n> \r\n> The contents of issued certificates are out of scope for this CSR wire-format document.\r\n\r\nI agree that this is true.  Is there any CABFORUM view on this?  Is there a policy OID that they would telling CAs to include if they comply, and can that document be informatively cited as motivation for this work?\r\n\r\n",
+          "createdAt": "2024-02-06T15:33:26Z",
+          "updatedAt": "2024-02-06T15:33:26Z"
         }
       ]
     },

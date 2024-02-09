@@ -790,74 +790,258 @@ At the time of writing, the authors are not aware of registered OIDs for these e
 
 ##  TPM V2.0 Evidence in CSR
 
-The following example illustrates a CSR with a signed TPM Quote based on
-{{TPM20}}. The Platform Configuration Registers (PCRs) are fixed-size
-registers in a TPM that record measurements of software and configuration
-information and are therefore used to capture the system state. The digests
-stored in these registers are then digitially signed with an attestation
-key known to the hardware.
+ TPM2 Key Attestation in CSR Attestation Statement
 
-Note: The information conveyed in the value field of the EvidenceStatement
-structure may contain more information than the signed TPM Quote structure
-defined in the TPM v2.0 specification {{TPM20}}, such as plaintext PCR values,
-the up-time, the event log, etc. The detailed structure of such
-payload is, however, not defined in this document and may be subject to
-future standardization work in supplementary documents.
+### TCG Key Attestation Certify
+
+There are several ways in TPM2 to provide proof of a key's properties.
+(i.e., key attestation). This description uses the simplest and most generally
+expected to used which is the TPM2_Certify and the TPM2_ReadPublic commands.
+
+### TCG OIDs
+The OIDs in this section are defined by TCG
+TCG has a registered arc of 2.23.133
+
+tcg OBJECT IDENTIFIER ::= {2.23.133}
+
+tcg-kp-AIKCertificate OBJECT IDENTIFIER ::= {tcg 8.3}
+
+tcg-attest OBJECT IDENTIFIER ::= {tcg x}
+
+tcg-attest-certify OBJECT IDENTIFIER ::= {tcg-attest 1}
+
+### TPM2 AttestationStatement
+
+As TPM2B_ATTEST, TPMT_SIGNATURE, and TPM2B_PUBIC has self-describing sizes these
+can concatenated. The EvidenceStatement structure contains a sequence of two fields:
+a type and a stmt. The 'type' field contains the OID of the Evidence format and its
+set to tcg-attest-certify. The content of the structure shown below is placed into
+the stmt.
 
 ~~~
-Certification Request:
-    Data:
-        Version: 1 (0x0)
-        Subject: CN = server.example.com
-        Subject Public Key Info:
-            Public Key Algorithm: id-ecPublicKey
-                Public-Key: (256 bit)
-                pub:
-                    04:b9:7c:02:a1:1f:9c:f3:f4:c4:55:3a:d9:3e:26:
-                    e8:e5:11:63:84:36:5f:93:a6:99:7d:d7:43:23:0a:
-                    4f:c0:a8:40:46:7e:8d:b2:1a:38:19:ff:6a:a7:38:
-                    16:06:1e:12:9f:d1:d5:58:55:e6:be:6d:bb:e1:fb:
-                    f7:70:a7:5c:c9
-                ASN1 OID: prime256v1
-                NIST CURVE: P-256
-        Attributes:
-            EvidenceStatement
-               type: TBD2 (identifying use of TPM V2.0)
-               value:
-                    80:02:00:00:01:99:00:00:00:00:00:00:01:86:00:7e
-                    ff:54:43:47:80:18:00:22:00:0b:76:71:0f:61:80:95
-                    8d:89:32:38:a6:cc:40:43:02:4a:da:26:d5:ea:11:71
-                    99:d7:a5:59:a4:18:54:1e:7b:86:00:0d:30:2e:66:6e
-                    6a:37:66:63:39:31:76:62:74:00:00:00:00:00:00:36
-                    5b:bc:0b:71:4f:d8:84:90:09:01:42:82:48:a6:46:53
-                    98:96:00:00:00:01:00:0b:03:0f:00:00:00:20:49:ce
-                    66:9a:aa:7e:52:ff:93:0e:dd:9f:27:97:88:eb:75:cb
-                    ad:53:22:e5:ad:2c:9d:44:1e:dd:65:48:6b:88:00:14
-                    00:0b:01:00:15:a4:95:8a:0e:af:04:36:be:35:f7:27
-                    85:bd:7f:87:46:74:18:e3:67:2f:32:f2:bf:b2:e7:af
-                    a1:1b:f5:ca:1a:eb:83:8f:2f:36:71:cd:7c:18:ab:50
-                    3d:e6:6e:ab:2e:78:a7:e4:6d:cf:1f:03:e6:46:74:28
-                    a7:6c:d6:1e:44:3f:88:89:36:9a:a3:f0:9a:45:07:7e
-                    01:5e:4c:97:7d:3f:e2:f7:15:59:96:5f:0e:9a:1c:b3
-                    a0:6b:4a:77:a5:c0:e0:93:53:cb:b7:50:59:3d:23:ee
-                    5c:31:00:48:6c:0b:1a:b8:04:a4:14:05:a6:63:bc:36
-                    aa:7f:b9:aa:1f:19:9e:ee:49:48:08:e1:3a:d6:af:5f
-                    d5:eb:96:28:bf:41:3c:89:7a:05:4b:b7:32:a2:fc:e7
-                    f6:ad:c7:98:a6:98:99:f6:e9:a4:30:d4:7f:5e:b3:cb
-                    d7:cc:76:90:ef:2e:cc:4f:7d:94:ab:33:8c:9d:35:5d
-                    d7:57:0b:3c:87:9c:63:89:61:d9:5c:a0:b7:5c:c4:75
-                    21:ae:dc:c9:7c:e3:18:a2:b3:f8:15:27:ff:a9:28:2f
-                    cb:9b:17:fe:96:04:53:c4:19:0e:bf:51:0e:9d:1c:83
-                    49:7e:51:64:03:a1:40:f1:72:8b:74:e3:16:79:af:f1
-                    14:a8:5e:44:00:00:01:00:00
-    Signature Algorithm: ecdsa-with-SHA256
-    Signature Value:
-        30:45:02:21:00:93:fd:81:03:75:d1:7d:ab:53:6c:a5:19:a7:
-        68:3d:d6:e2:39:14:d6:9e:47:24:38:b5:76:db:18:a6:ca:c4:
-        8a:02:20:36:be:3d:71:93:5d:05:c3:ac:fa:a8:f3:e5:46:db:
-        57:f9:23:ee:93:47:6d:d6:d3:4f:c2:b7:cc:0d:89:71:fe
+tcg-attest-certify ::= SEQUENCE {
+  tcg-attest-certify-tpm2b_attest OCTECT STRING,
+   - contains TPM2B_ATTEST of the loaded Key
+  tcg-attest-certify-tpmt_signature OCTECT STRING,
+   - contains TPMT_SIGNATURE using an AK
+  tcg-attest-certify-tpm2b_public OCTECT STRING
+   - contains TPM2B_PUBLIC of the loaded Key
+  tcg-kp-AIKCertificate
+   - contains AIK Certificate in RFC5280 format
+  }
 ~~~
-{: #fig-example-tpm title="CSR with TPM V2.0"}
+> Consider a way to provide the above with only
+> tcg-attest-certify-tpm2b_attest and tcg-attest-certify-tpmt_signature
+> Rationale is the CA may already have the information out of band
+> and this may need to fram a constrained device so requiring this
+> is redundant,
+
+## Introduction
+
+All defininitions in this section are defined by the TPM2 and various TCG defined
+specification. Those familiar with TPM2 concepts may skip this section. For
+those unfamiliar with TPM2 concepts this section provides only the minimum
+information to understand TPM2 Attestation in CSR and is not a complete
+description of the technology in general.
+
+> TODO Verify actual names of these document from their title pages
+
+### TCG Objects and Key Attestation
+
+This provides a brief explanation of the relevant TPM2 commands and data
+structures needed to understand TPM2 Attestation used in this RFC.
+NOTE: The TPM2 specification used in this explanation is version 1.59,
+section number cited are based on that version. Note also that the TPM2
+specification comprises four documents: Part 1 Architecture; Part 2 Structures;
+Part 3 Commands; Part 4 Supporting routines.
+
+Note about convention:
+All structures starting with TPM2B_ are:
+
+* a structure that is a sized buffer where the size of the buffer is contained in a 16-bit, unsigned value.
+* The first parameter is the size in octets of the second parameter. The second parameter may be any type.
+
+A full explanation of the TPM structures is outside the scope of this document. As a
+simplification references to TPM2B_ structures will simply use the enclosed
+TPMT_ structure by the same name following the '_'.
+
+#### TPM2 Object Names
+
+All TPM2 Objects (e.g., keys are key objects which is the focus of this specification).
+A TPM2 object name is persistent across the object's life cycle whether the TPM2
+object is transient or persistent.
+
+A TPM2 Object name is a concatenation of a hash algorithm identifier and a hash of
+the TPM2 Object's TPMT_PUBLIC.
+
+~~~
+     Name ≔ nameAlg || HnameAlg (handle→publicArea)
+     nameAlg is a TCG defined 16 bit algorithm identifier
+~~~
+
+publicArea is the TPMT_PUBLIC structure for that TPM2 Object.
+
+The size of the Name field can be derived by examining the nameAlg value, which defines
+the hashing algorithm and the resulting size.
+
+The Name field is returned in the TPM2B_ATTEST data field.
+
+~~~
+     typedef struct {
+          TPM_GENERATED magic; 
+          TPMI_ST_ATTEST type; 
+          TPM2B_NAME qualifiedSigner; 
+          TPM2B_DATA extraData; 
+          TPMS_CLOCK_INFO clockInfo; 
+          UINT64 firmwareVersion; 
+          TPMU_ATTEST attested;
+     } TPMS_ATTEST;
+~~~
+where for a key object the attested field is
+
+~~~
+     typedef struct {
+          TPM2B_NAME name; 
+          TPM2B_NAME qualifiedName;
+     } TPMS_CERTIFY_INFO;
+~~~
+
+#### TPM2 Public Structure
+
+Any TPM2 Object has an associated TPM2 Public structure defined
+as TPMT_PUBLIC. This is defined below as a 'C' structure. While there
+are many types of TPM2 Objects each with its own specific TPMT_PUBLIC
+structure (handled by the use of 'unions') this document will specifically
+define TPMT_PUBLIC for a TPM2 key object.
+
+~~~
+     typedef struct {
+          TPMI_ALG_PUBLIC type; 
+          TPMI_ALG_HASH nameAlg; 
+          TPMA_OBJECT objectAttributes; 
+          TPM2B_DIGEST authPolicy; 
+          TPMU_PUBLIC_PARMS parameters; 
+          TPMU_PUBLIC_ID unique;
+     } TPMT_PUBLIC; 
+~~~
+
+Where:
+* type and nameAlg are 16 bit TCG defined algorithms.
+* objectAttributes is a 32 bit field defining properties of the object, as shown below
+
+~~~
+     typedef struct TPMA_OBJECT {
+          unsigned Reserved_bit_at_0 : 1; 
+          unsigned fixedTPM : 1; 
+          unsigned stClear : 1; 
+          unsigned Reserved_bit_at_3 : 1; 
+          unsigned fixedParent : 1; 
+          unsigned sensitiveDataOrigin : 1; 
+          unsigned userWithAuth : 1; 
+          unsigned adminWithPolicy : 1; 
+          unsigned Reserved_bits_at_8 : 2; 
+          unsigned noDA : 1; 
+          unsigned encryptedDuplication : 1; 
+          unsigned Reserved_bits_at_12 : 4; 
+          unsigned restricted : 1; 
+          unsigned decrypt : 1; 
+          unsigned sign : 1; 
+          unsigned x509sign : 1; 
+          unsigned Reserved_bits_at_20 : 12; 
+     } TPMA_OBJECT; 
+~~~
+
+* authPolicy is the Policy Digest needed to authorize use of the object.
+* Parameters are the object type specific public information about the key.
+     * For key objects, this would be the key's public parameters. 
+* unique is the identifier for parameters
+
+The size of the TPMT_PUBLIC is provided by the following structure:
+
+~~~
+     typedef struct {
+          UINT16     size;
+          TPMT_PUBLIC publicArea;
+     } TPM2B_PUBLIC;
+~~~
+
+#### TPM2 Signatures
+
+TPM2 signatures use a union where the first field (16 bits) identifies
+the signature scheme. The example below shows an RSA signature where
+TPMT_SIGNATURE->sigAlg will indicate to use TPMS_SIGNATURE_RSA
+as the signature.
+
+~~~
+     typedef struct {
+          TPMI_ALG_SIG_SCHEME sigAlg; 
+          TPMU_SIGNATURE signature; 
+     } TPMT_SIGNATURE;
+
+     typedef struct {
+          TPMI_ALG_HASH hash; 
+          TPM2B_PUBLIC_KEY_RSA sig; 
+     } TPMS_SIGNATURE_RSA;
+~~~
+
+#### Attestation Key {#attestation-key}
+
+The uniquely identifying TPM2 key is the Endorsement Key (the EK). As this is a privacy
+sensitive key, the EK is not directly used to attest to any TPM2 asset. Instead,
+the EK is used by an Attestation CA to create an Attestation Key (the AK). The AK is
+assumed trusted by the Verifier and is assume to be loaded in the TPM during the execution
+of the process described in the subsequent sections. The description of how to create the AK is outside
+the scope of this document.
+
+#### Attester Processing
+
+The only signed component is the TPM2B_ATTEST structure, which returns
+only the (key's) Name and the signature computed over the Name but no detailed information
+about the key. As the Name is comprised of public information, the Name can
+be calculated by the Verifier but only if the Verify knows all the public
+information about the Key.
+
+The Attester's processing steps are as follows:
+
+Using the TPM2 command TPM2_Certify obtain the TPM2B_ATTEST and TPMT_SIGNATURE structures
+from the TPM2. The signing key for TPMT_SIGNATURE is an Attention Key (or AK), which is
+assumed to be available to the TPM2 upfront. More details are provided in {{attestation-key}}
+
+The TPM2 command TPM2_Certify takes the following input:
+
+ * TPM2 handle for Key (the key to be attested to)
+ * TPM2 handle for the AK (see {{attestation-key}})
+
+It produces the following output:
+
+ * TPM2B_ATTEST in binary format
+ * TPMT_SIGNATURE in binary format
+
+Then, using the TPM2 command TPM2_ReadPublic obtain the Keys TPM2B_PUBLIC structure.
+While the Key's public information can be obtained by the Verifier in a number
+ways, such as storing it from when the Key was created, this may be impractical
+in many situations. As TPM2 provided a command to obtain this information, this
+specification will include it in the TPM2 Attestation CSR extension. 
+
+The TPM2 command TPM2_ReadPublic takes the following input:
+
+ * TPM2 handle for Key (the key to be attested to)
+
+It produces the following output:
+
+ * TPM2B_PUBLIC in binary format
+
+#### Verifier Processing
+
+The Verifier has to perform the following steps once it receives the Evidence:
+
+* Verify the TPM2B_ATTEST using the TPMT_SIGNATURE.
+* Use the Key's "expected" Name from the provided TPM2B_PUBLIC structure.
+If Key's "expected" Name equals TPM2B_ATTEST->attestationData then returned TPM2B_PUBLIC is the verified.
+
+## Example Structures
+
+>TODO
 
 ## Platform Security Architecture Attestation Token in CSR
 

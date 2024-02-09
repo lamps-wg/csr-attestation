@@ -636,7 +636,7 @@ OID/Evidence mappings.
 
 Registration requests are evaluated using the criteria described in
 the registration template below after a three-week review period on
-the [[TBD]] mailing list, on the advice of one or more Designated
+the [[TBD]] mailing list, with the advice of one or more Designated
 Experts {{RFC8126}}.  However, to allow for the allocation of values
 prior to publication, the Designated Experts may approve registration
 once they are satisfied that such a specification will be published.

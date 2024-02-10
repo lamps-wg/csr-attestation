@@ -5,10 +5,10 @@
 Network Working Group                                       M. Ounsworth
 Internet-Draft                                                   Entrust
 Intended status: Standards Track                           H. Tschofenig
-Expires: 8 August 2024                                           Siemens
+Expires: 13 August 2024                                          Siemens
                                                              H. Birkholz
                                                           Fraunhofer SIT
-                                                         5 February 2024
+                                                        10 February 2024
 
 
       Use of Remote Attestation with Certificate Signing Requests
@@ -63,7 +63,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 8 August 2024.
+   This Internet-Draft will expire on 13 August 2024.
 
 Copyright Notice
 
@@ -786,29 +786,33 @@ Table of Contents
    may change over time.  Section 10 of [RFC9334] discusses different
    approaches for providing freshness, including a nonce-based approach,
    the use of timestamps and an epoch-based technique.  The use of
-   nonces requires an extra message exchange via the Relying Party and
-   the use of timestamps requires synchronized clocks.  Epochs also
-   require (unidirectional) communication.  None of these things are
-   practical when interacting with Hardware Security Modules (HSM).
+   nonces requires that nonce to be provided by the Relying Party in
+   some protocol step prior to Evidence and CSR generation, and the use
+   of timestamps requires synchronized clocks which connot be guaranteed
+   in all operating environments.  Epochs also require (unidirectional)
+   communication prior to Evidence and CSR generation.  This document
+   only specifies how to carry existing Evidence formats inside a CSR,
+   and so issues of syncronizing freshness data is left to be handled,
+   for example, via certificate management protocols.  Developers,
+   operators, and designers of protocols, which embed Evidence-carrying-
+   CSRs, MUST consider what notion of freshness is appropriate and
+   available in-context; thus the issue of freshness is left up to the
+   discretion of protocol designers and implementors.
 
-   Additionally, the definition of "fresh" is somewhat ambiguous in the
-   context of CSRs, especially considering that non-automated
-   certificate enrollments are often asyncronous, and considering the
-   common practice of re-using the same CSR for multiple certificate
-   renewals across the lifetime of a key.  "Freshness" typically implies
-   both asserting that the data was generated at a certain point-in-
-   time, as well as providing non-replayability.  Certain use cases may
-   have special properties impacting the freshness requirements.  For
-   example, HSMs are typically designed to not allow downgrade of
-   private key storage properties; for example if a given key was
-   asserted at time T to have been generated inside the hardware
-   boundary and to be non-exportable, then it can be assumed that those
-   properties of that key will continue to hold into the future.
-
-   Developers, operators, and designers of protocols, which embed
-   Evidence-carrying-CSRs, need to consider what notion of freshness is
-   appropriate and available in-context; thus the issue of freshness is
-   left up to the discretion of protocol designers and implementors.
+   In the case of Hardware Security Modules (HSM), the definition of
+   "fresh" is somewhat ambiguous in the context of CSRs, especially
+   considering that non-automated certificate enrollments are often
+   asyncronous, and considering the common practice of re-using the same
+   CSR for multiple certificate renewals across the lifetime of a key.
+   "Freshness" typically implies both asserting that the data was
+   generated at a certain point-in-time, as well as providing non-
+   replayability.  Certain use cases may have special properties
+   impacting the freshness requirements.  For example, HSMs are
+   typically designed to not allow downgrade of private key storage
+   properties; for example if a given key was asserted at time T to have
+   been generated inside the hardware boundary and to be non-exportable,
+   then it can be assumed that those properties of that key will
+   continue to hold into the future.
 
 7.2.  Publishing evidence in an X.509 extension
 

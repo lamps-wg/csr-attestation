@@ -302,7 +302,7 @@ As a result a single EvidenceBundle is included
 in a CSR that contains a single EvidenceStatement without the CertificateAlternatives
 structure. {{fig-single-attester}} shows this use case.
 
-~~~
+~~~ aasvg
   +--------------------+
   |  EvidenceBundle    |
   +--------------------+
@@ -317,7 +317,7 @@ The CSR conveys a single EvidenceBundle with a single EvidenceStatement
 and a single CertificateAlternatives structure. {{fig-single-attester-with-chain}} shows
 this use case.
 
-~~~
+~~~ aasvg
  +-------------------------+
  |  EvidenceBundle         |
  +-------------------------+
@@ -338,7 +338,7 @@ This approach does not require any processing capabilities
 by a lead Attester since the information is merely forwarded. {{fig-multiple-attesters}}
 shows this use case.
 
-~~~
+~~~ aasvg
   +-------------------------+
   |  EvidenceBundle (1)     |\
   +-------------------------+ \ Provided by
@@ -359,7 +359,7 @@ all Attesters in the device and removes redundant certificate information. The
 benefit of this approach is the reduced transmission overhead. There are several
 implementation strategies and we show two in {{fig-multiple-attesters-optimized}}.
 
-~~~
+~~~ aasvg
 Implementation strategy (4a)
 
                 +-------------------------+
@@ -468,12 +468,19 @@ This list is left empty in this document. However, implementers should
 populate it with the formats that they wish to support.
 
 ~~~
-EvidenceStatements ::= SEQUENCE OF EvidenceStatement
+EvidenceHint ::= CHOICE {
+     rfc822Name [0] IA5String,
+     dNSName    [1] IA5String,
+     uri        [2] IA5String,
+     text       [3] UTF8String
+}
+
+EvidenceStatements ::= SEQUENCE SIZE (1..MAX) OF EvidenceStatement
 
 EvidenceStatement ::= SEQUENCE {
    type   EVIDENCE-STATEMENT.&id({EvidenceStatementSet}),
    stmt   EVIDENCE-STATEMENT.&Type({EvidenceStatementSet}{@type}),
-   hint   GeneralName OPTIONAL
+   hint   EvidenceHint OPTIONAL
 }
 ~~~
 
@@ -495,12 +502,12 @@ Result must not be relied on. The format and contents of the hint are out of
 scope of this document.
 
 ~~~
-EvidenceBundles ::= SEQUENCE OF EvidenceBundle
+EvidenceBundles ::= SEQUENCE SIZE (1..MAX) OF EvidenceBundle
 
 EvidenceBundle ::= SEQUENCE
 {
   evidence EvidenceStatements,
-  certs SEQUENCE OF CertificateAlternatives OPTIONAL
+  certs SEQUENCE SIZE (1..MAX) OF CertificateAlternatives OPTIONAL
 }
 
 id-aa-evidence OBJECT IDENTIFIER ::= { id-aa TBDAA }

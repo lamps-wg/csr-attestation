@@ -84,19 +84,19 @@ EvidenceStatement ::= SEQUENCE {
    hint   EvidenceHint OPTIONAL
 }
 
-id-aa-evidenceStatement OBJECT IDENTIFIER ::= { id-aa TBDAA }
+id-aa-evidence OBJECT IDENTIFIER ::= { id-aa TBDAA }
 
 -- For PKCS#10
 attr-evidence ATTRIBUTE ::= {
   TYPE EvidenceBundles
-  IDENTIFIED BY id-aa-evidenceStatement
+  IDENTIFIED BY id-aa-evidence
 }
 
 
 -- For CRMF
 ext-evidence EXTENSION ::= {
   SYNTAX EvidenceBundles
-  IDENTIFIED BY id-aa-evidenceStatement
+  IDENTIFIED BY id-aa-evidence
 }
 
 EvidenceBundles ::= SEQUENCE SIZE (1..MAX) OF EvidenceBundle

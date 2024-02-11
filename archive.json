@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-02-08T00:43:33.383691+00:00",
+  "timestamp": "2024-02-11T00:48:56.802247+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -4154,24 +4154,26 @@
       "id": "PR_kwDOJ3IIN85lAeis",
       "title": "Daniel Migault's editorial feedback",
       "url": "https://github.com/lamps-wg/csr-attestation/pull/81",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "ounsworth",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2024-01-24T23:26:16Z",
-      "updatedAt": "2024-02-05T20:18:35Z",
+      "updatedAt": "2024-02-10T16:36:04Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
-      "baseRefOid": "cadf2bc95ab38d210e67e525418268a7a23297d0",
+      "baseRefOid": "c5921f2c2b09ce9804c61a400fb06556a25e7d3a",
       "headRepository": "lamps-wg/csr-attestation",
       "headRefName": "mikeo_80_DM_edits",
-      "headRefOid": "637be6f9187a2fda9d9e8d523eb5df9d617e9050",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "2e7bd78121b9952f0541944da15daa66c1329de3",
+      "closedAt": "2024-02-10T16:36:04Z",
+      "mergedAt": "2024-02-10T16:36:04Z",
+      "mergedBy": "ounsworth",
+      "mergeCommit": {
+        "oid": "df32d6c2e94283da2a65a14668c32cf5726b81f3"
+      },
       "comments": [
         {
           "author": "ounsworth",
@@ -4296,13 +4298,13 @@
       "labels": [],
       "body": "",
       "createdAt": "2024-01-29T11:59:32Z",
-      "updatedAt": "2024-02-05T19:47:44Z",
+      "updatedAt": "2024-02-09T12:14:22Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "cadf2bc95ab38d210e67e525418268a7a23297d0",
       "headRepository": "lamps-wg/csr-attestation",
       "headRefName": "hannestschofenig-patch-2",
-      "headRefOid": "0c1121d40a3c88e8b2fd48ffdee8938bd1a6b170",
+      "headRefOid": "c004d663e4466951ab6a59238e1e12f51b1f360b",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -4575,6 +4577,32 @@
           "comments": []
         }
       ]
+    },
+    {
+      "number": 91,
+      "id": "PR_kwDOJ3IIN85mhjin",
+      "title": "Changed TPM2 attestation statement from TPM2_Quote to TPM2_Certify, etc.",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/91",
+      "state": "OPEN",
+      "author": "mwiseman-byid",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2024-02-09T22:48:05Z",
+      "updatedAt": "2024-02-09T22:48:05Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "c5921f2c2b09ce9804c61a400fb06556a25e7d3a",
+      "headRepository": "mwiseman-byid/csr-attestation",
+      "headRefName": "main",
+      "headRefOid": "99afbd0727fc27737d9f649e29cdc5186ebd01f2",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }

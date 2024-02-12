@@ -2667,8 +2667,6 @@ CertificateAlternatives ::=
 
 TYPED-CERT ::= TYPE-IDENTIFIER
 
-CertType ::= TYPED-CERT.&amp;id
-
 TypedCert ::= SEQUENCE {
       certType     TYPED-CERT.&amp;id({TypedCertSet}),
       content     TYPED-CERT.&amp;Type ({TypedCertSet}{@certType})
@@ -2688,8 +2686,6 @@ EVIDENCE-STATEMENT ::= TYPE-IDENTIFIER
 EvidenceStatementSet EVIDENCE-STATEMENT ::= {
    ... -- None defined in this document --
 }
-
-EvidenceStatements ::= SEQUENCE SIZE (1..MAX) OF EvidenceStatement
 
 EvidenceHint ::= CHOICE {
      rfc822Name [0] IA5String,

@@ -561,7 +561,7 @@ CertificateAlternatives ::=
 with RFC 5280.  Enforcement of this constraint is left to the relying
 parties.
 
-"TypedCert" is an ASN.1 construct that has the charateristics of a
+"TypedCert" is an ASN.1 construct that has the characteristics of a
 certificate, but is not encoded as an X.509 certificate.  The
 certType Field (below) indicates how to interpret the certBody field.  While
 it is possible to carry any type of data in this structure, it's
@@ -759,7 +759,7 @@ left up to the discretion of protocol designers and implementors.
 
 In the case of Hardware Security Modules (HSM), the definition of "fresh" is somewhat ambiguous in the context
 of CSRs, especially considering that non-automated certificate enrollments
-are often asyncronous, and considering the common practice of re-using the
+are often asynchronous, and considering the common practice of re-using the
 same CSR for multiple certificate renewals across the lifetime of a key.
 "Freshness" typically implies both asserting that the data was generated
 at a certain point-in-time, as well as providing non-replayability.
@@ -804,7 +804,7 @@ The following example illustrates a CSR with a signed TPM Quote based on
 {{TPM20}}. The Platform Configuration Registers (PCRs) are fixed-size
 registers in a TPM that record measurements of software and configuration
 information and are therefore used to capture the system state. The digests
-stored in these registers are then digitially signed with an attestation
+stored in these registers are then digitally signed with an attestation
 key known to the hardware.
 
 Note: The information conveyed in the value field of the EvidenceStatement
@@ -933,7 +933,7 @@ Certification Request:
 {: #fig-example-psa title="CSR with embedded PSA Attestation Token"}
 
 The decoded Evidence is shown in Appendix A of
-{{I-D.tschofenig-rats-psa-token}}, the shown Evidence, provides the following
+{{I-D.tschofenig-rats-psa-token}}, the shown Evidence provides the following
 information to an RA/CA:
 
 - Boot seed,

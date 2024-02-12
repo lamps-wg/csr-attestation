@@ -1259,33 +1259,34 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <a href="#section-1" class="section-number selfRef">1. </a><a href="#name-introduction" class="section-name selfRef">Introduction</a>
       </h2>
 <p id="section-1-1">When requesting a certificate from a Certification Authority (CA), a PKI end entity may wish to include Evidence of the security properties of its environments in which the private keys are stored in that request.
-This Evidence can be appraised by authoritative entities, such as a Registration Authority (RA) or a CA, or associated trusted Verifiers as part of validating an incoming certificate request against given certificate policies.
-This specification defines an attribute and an extension that allow for conveyance of Evidence in Certificate Signing Requests (CSRs) in either PKCS#10 <span>[<a href="#RFC2986" class="cite xref">RFC2986</a>]</span> or Certificate Request Message Format (CRMF) <span>[<a href="#RFC4211" class="cite xref">RFC4211</a>]</span> payloads.<a href="#section-1-1" class="pilcrow">¶</a></p>
-<p id="section-1-2">As outlined in the RATS Architecture <span>[<a href="#RFC9334" class="cite xref">RFC9334</a>]</span>, an Attester (typically
+This Evidence can be appraised by authoritative entities, such as a Registration Authority (RA) or a CA, or associated trusted Verifiers as part of validating an incoming certificate request against given certificate policies. Regulatory bodies are beginning to require proof-of-hardware residency for certain classifications of cryptographic keys. At the time of writing, the most notable example is the Code-Signing Baseline Requirements <span>[<a href="#CSBR" class="cite xref">CSBR</a>]</span> document maintained by the CA/Browser Forum, which requires compliant CAs to "ensure that a Subscriber’s Private Key is generated, stored,
+and used in a secure environment that has controls to prevent theft or misuse".<a href="#section-1-1" class="pilcrow">¶</a></p>
+<p id="section-1-2">This specification defines an attribute and an extension that allow for conveyance of Evidence in Certificate Signing Requests (CSRs) in either PKCS#10 <span>[<a href="#RFC2986" class="cite xref">RFC2986</a>]</span> or Certificate Request Message Format (CRMF) <span>[<a href="#RFC4211" class="cite xref">RFC4211</a>]</span> payloads which provides an elegant and automatable mechanism for meeting requirements such as those in the CA/B Forum's <span>[<a href="#CSBR" class="cite xref">CSBR</a>]</span>.<a href="#section-1-2" class="pilcrow">¶</a></p>
+<p id="section-1-3">As outlined in the RATS Architecture <span>[<a href="#RFC9334" class="cite xref">RFC9334</a>]</span>, an Attester (typically
 a device) produces a signed collection of Claims that constitutes Evidence about its running environment.
 While the term "attestation" is not defined in RFC 9334, it was later defined in <span>[<a href="#I-D.ietf-rats-tpm-based-network-device-attest" class="cite xref">I-D.ietf-rats-tpm-based-network-device-attest</a>]</span>, it refers to the activity of producing and appraising remote attestation Evidence.
 A Relying Party may consult an Attestation Result produced by a Verifier that has appraised the Evidence in making policy decisions about the trustworthiness of the
 Target Environment being assessed via appraisal of Evidence. <a href="#architecture" class="auto internal xref">Section 3</a> provides the basis to illustrate in this document how the various roles
-in the RATS architecture map to a certificate requester and a CA/RA.<a href="#section-1-2" class="pilcrow">¶</a></p>
-<p id="section-1-3">At the time of writing, several standard and several proprietary attestation technologies
+in the RATS architecture map to a certificate requester and a CA/RA.<a href="#section-1-3" class="pilcrow">¶</a></p>
+<p id="section-1-4">At the time of writing, several standard and several proprietary attestation technologies
 are in use.
 This specification thereby is intended to be as technology-agnostic as it is feasible with respect to implemented remote attestation technologies. Instead, it focuses on (1) the conveyance of Evidence via CSRs while making minimal assumptions about content or format of the transported Evidence and (2) the conveyance of sets of certificates used for validation of Evidence.
 The certificates typically contain one or more certification paths
 rooted in a device manufacture trust anchor and the leaf certificate being
-on the device in question; the latter is the Attestation Key that signs the Evidence statement.<a href="#section-1-3" class="pilcrow">¶</a></p>
-<p id="section-1-4">This document specifies a CSR Attribute (or Extension for Certificate Request Message Format (CRMF) CSRs) for carrying Evidence. Evidence can be placed into an EvidenceStatement along with an OID to identify its type and optionally a hint to the Relying Party about how to verify it. A set of EvidenceStatements may be grouped together along with the set of CertificateAlternatives needed to validate them to form a EvidenceBundle. One or more EvidenceBundles may be placed into the id-aa-evidence CSR Attribute (or CRFM Extension).<a href="#section-1-4" class="pilcrow">¶</a></p>
-<p id="section-1-5">A CSR may contain one or more Evidence payloads, for example Evidence
+on the device in question; the latter is the Attestation Key that signs the Evidence statement.<a href="#section-1-4" class="pilcrow">¶</a></p>
+<p id="section-1-5">This document specifies a CSR Attribute (or Extension for Certificate Request Message Format (CRMF) CSRs) for carrying Evidence. Evidence can be placed into an EvidenceStatement along with an OID to identify its type and optionally a hint to the Relying Party about how to verify it. A set of EvidenceStatements may be grouped together along with the set of CertificateAlternatives needed to validate them to form a EvidenceBundle. One or more EvidenceBundles may be placed into the id-aa-evidence CSR Attribute (or CRFM Extension).<a href="#section-1-5" class="pilcrow">¶</a></p>
+<p id="section-1-6">A CSR may contain one or more Evidence payloads, for example Evidence
 asserting the storage properties of a private key as well Evidence
 asserting firmware version and other general properties
 of the device, or Evidence signed using different cryptographic
-algorithms.<a href="#section-1-5" class="pilcrow">¶</a></p>
-<p id="section-1-6">With these attributes, additional
+algorithms.<a href="#section-1-6" class="pilcrow">¶</a></p>
+<p id="section-1-7">With these attributes, additional
 information information is available to an RA or CA which may be used
 to decide whether to issue a certificate and what certificate profile
 to apply. The scope of this document is, however,
 limited to the conveyance of Evidence within CSR. The exact format of the
 Evidence being conveyed is defined in various standard and proprietary
-specifications.<a href="#section-1-6" class="pilcrow">¶</a></p>
+specifications.<a href="#section-1-7" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="conventions-and-definitions">
@@ -1339,7 +1340,10 @@ single entity. The Verifier functionality can, however,
 also be kept separate from the RA/CA functionality, such as a utility or
 library provided by the device manufacturer. For example,
 security concerns may require parsers of Evidence formats to be logically
-or physically separated from the core CA functionality.<a href="#section-3-3" class="pilcrow">¶</a></p>
+or physically separated from the core CA functionality. The interface
+by which the Relying Party passes Evidence to the Verifier and receives back
+Attestation Results may be proprietary or standardized, but in any case is
+out-of-scope for this document.<a href="#section-3-3" class="pilcrow">¶</a></p>
 <span id="name-architecture-with-backgroun"></span><div id="fig-arch">
 <figure id="figure-1">
         <div id="section-3-4.1">
@@ -2267,7 +2271,8 @@ these formats for matching the received claim values against policies.<a href="#
 Appraisal Policy for Evidence will often be based on specifications by the manufacturer
 of a hardware security module, a regulatory agency, or specified by an
 oversight body, such as the CA Browser Forum. The Code-Signing Baseline
-Requirements <span>[<a href="#CSBR" class="cite xref">CSBR</a>]</span> document is an example of such a policy that has
+Requirements <span>[<a href="#CSBR" class="cite xref">CSBR</a>]</span> document
+is an example of such a policy that has
 been published by the CA Browser Forum and specifies certain properties,
 such as non-exportability, which must be enabled for storing
 publicly-trusted code-signing keys. Other

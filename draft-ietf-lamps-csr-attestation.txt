@@ -123,11 +123,21 @@ Table of Contents
    in that request.  This Evidence can be appraised by authoritative
    entities, such as a Registration Authority (RA) or a CA, or
    associated trusted Verifiers as part of validating an incoming
-   certificate request against given certificate policies.  This
-   specification defines an attribute and an extension that allow for
-   conveyance of Evidence in Certificate Signing Requests (CSRs) in
+   certificate request against given certificate policies.  Regulatory
+   bodies are beginning to require proof-of-hardware residency for
+   certain classifications of cryptographic keys.  At the time of
+   writing, the most notable example is the Code-Signing Baseline
+   Requirements [CSBR] document maintained by the CA/Browser Forum,
+   which requires compliant CAs to "ensure that a Subscriber’s Private
+   Key is generated, stored, and used in a secure environment that has
+   controls to prevent theft or misuse".
+
+   This specification defines an attribute and an extension that allow
+   for conveyance of Evidence in Certificate Signing Requests (CSRs) in
    either PKCS#10 [RFC2986] or Certificate Request Message Format (CRMF)
-   [RFC4211] payloads.
+   [RFC4211] payloads which provides an elegant and automatable
+   mechanism for meeting requirements such as those in the CA/B Forum's
+   [CSBR].
 
    As outlined in the RATS Architecture [RFC9334], an Attester
    (typically a device) produces a signed collection of Claims that
@@ -225,7 +235,10 @@ Table of Contents
    be kept separate from the RA/CA functionality, such as a utility or
    library provided by the device manufacturer.  For example, security
    concerns may require parsers of Evidence formats to be logically or
-   physically separated from the core CA functionality.
+   physically separated from the core CA functionality.  The interface
+   by which the Relying Party passes Evidence to the Verifier and
+   receives back Attestation Results may be proprietary or standardized,
+   but in any case is out-of-scope for this document.
 
                                  .-------------.
                                  |             | Compare Evidence

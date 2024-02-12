@@ -5,10 +5,10 @@
 Network Working Group                                       M. Ounsworth
 Internet-Draft                                                   Entrust
 Intended status: Standards Track                           H. Tschofenig
-Expires: 13 August 2024                                          Siemens
+Expires: 15 August 2024                                          Siemens
                                                              H. Birkholz
                                                           Fraunhofer SIT
-                                                        10 February 2024
+                                                        12 February 2024
 
 
       Use of Remote Attestation with Certificate Signing Requests
@@ -63,7 +63,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 13 August 2024.
+   This Internet-Draft will expire on 15 August 2024.
 
 Copyright Notice
 
@@ -603,7 +603,7 @@ Table of Contents
    with RFC 5280.  Enforcement of this constraint is left to the relying
    parties.
 
-   "TypedCert" is an ASN.1 construct that has the charateristics of a
+   "TypedCert" is an ASN.1 construct that has the characteristics of a
    certificate, but is not encoded as an X.509 certificate.  The
    certType Field (below) indicates how to interpret the certBody field.
    While it is possible to carry any type of data in this structure,
@@ -809,9 +809,9 @@ Table of Contents
    In the case of Hardware Security Modules (HSM), the definition of
    "fresh" is somewhat ambiguous in the context of CSRs, especially
    considering that non-automated certificate enrollments are often
-   asyncronous, and considering the common practice of re-using the same
-   CSR for multiple certificate renewals across the lifetime of a key.
-   "Freshness" typically implies both asserting that the data was
+   asynchronous, and considering the common practice of re-using the
+   same CSR for multiple certificate renewals across the lifetime of a
+   key.  "Freshness" typically implies both asserting that the data was
    generated at a certain point-in-time, as well as providing non-
    replayability.  Certain use cases may have special properties
    impacting the freshness requirements.  For example, HSMs are
@@ -954,7 +954,7 @@ A.1.  TPM V2.0 Evidence in CSR
    size registers in a TPM that record measurements of software and
    configuration information and are therefore used to capture the
    system state.  The digests stored in these registers are then
-   digitially signed with an attestation key known to the hardware.
+   digitally signed with an attestation key known to the hardware.
 
    Note: The information conveyed in the value field of the
    EvidenceStatement structure may contain more information than the
@@ -1081,7 +1081,7 @@ A.2.  Platform Security Architecture Attestation Token in CSR
              Figure 10: CSR with embedded PSA Attestation Token
 
    The decoded Evidence is shown in Appendix A of
-   [I-D.tschofenig-rats-psa-token], the shown Evidence, provides the
+   [I-D.tschofenig-rats-psa-token], the shown Evidence provides the
    following information to an RA/CA:
 
    *  Boot seed,

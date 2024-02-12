@@ -58,6 +58,8 @@ normative:
   RFC2986:
 
 informative:
+  RFC8126:
+  I-D.ietf-rats-msg-wrap:
   RFC7030:
   I-D.tschofenig-rats-psa-token:
   TPM20:
@@ -74,17 +76,16 @@ informative:
     target: https://cabforum.org/wp-content/uploads/Baseline-Requirements-for-the-Issuance-and-Management-of-Code-Signing.v3.3.pdf
   TCGDICE1.1:
     author:
-      org: Trusted Computing Group
-    title: DICE Attestation Architecture, v.1.1
-    date: May4, 2023
-    target: https://trustedcomputinggroup.org/wp-content/uploads/DICE-Attestation-Architecture-Version-1.1-Revision-17_1August2023.pdf
+      org: "Trusted Computing Group"
+    title: "DICE Attestation Architecture"
+    target: https://trustedcomputinggroup.org/wp-content/uploads/DICE-Attestation-Architecture-Version-1.1-Revision-18_pub.pdf
+    date: January, 2024
   PKCS11:
     author:
       org: OASIS
     title: "PKCS #11 Cryptographic Token Interface Base Specification Version 2.40"
     date: 14 April 2015
     target: http://docs.oasis-open.org/pkcs11/pkcs11-base/v2.40/os/pkcs11-base-v2.40-os.html
-
 
 --- abstract
 
@@ -598,30 +599,27 @@ TypedFlatCert ::= SEQUENCE {
 
 # IANA Considerations
 
-IANA is requested to open one new registry, allocate a value
+IANA is requested to open two new registries, allocate a value
 from the "SMI Security for PKIX Module Identifier" registry for the
 included ASN.1 module, and allocate values from "SMI Security for
 S/MIME Attributes" to identify two Attributes defined within.
 
-##  Object Identifier Allocations
-
-###  Module Registration - SMI Security for PKIX Module Identifier
+##  Module Registration - SMI Security for PKIX Module Identifier
 
 -  Decimal: IANA Assigned - **Replace TBDMOD**
 -  Description: CSR-ATTESTATION-2023 - id-mod-pkix-attest-01
 -  References: This Document
 
-###  Object Identifier Registrations - SMI Security for S/MIME Attributes
+##  Object Identifier Registrations - SMI Security for S/MIME Attributes
 
-- Attest Statement
+- Evidence Statement
   - Decimal: IANA Assigned - Replace **TBDAA**
   - Description: id-aa-evidence
   - References: This Document
 
+##  "SMI Security for PKIX Evidence Statement Formats" Registry
 
-###  "SMI Security for PKIX Evidence Statement Formats" Registry
-
-Please open up a registry for Evidence Statement Formats within
+IANA is asked to create a registry for Evidence Statement Formats within
 the SMI-numbers registry, allocating an assignment from id-pkix ("SMI
 Security for PKIX" Registry) for the purpose.
 
@@ -638,6 +636,63 @@ Columns:
 -  Decimal: The subcomponent under id-ata
 -  Description: Begins with id-ata
 -  References: RFC or other document
+
+## Attestation Evidence OID Registry
+
+IANA is asked to create a registry that helps developers to find
+OID/Evidence mappings.
+
+Registration requests are evaluated using the criteria described in
+the registration template below after a three-week review period on
+the [[TBD]] mailing list, with the advice of one or more Designated
+Experts {{RFC8126}}.  However, to allow for the allocation of values
+prior to publication, the Designated Experts may approve registration
+once they are satisfied that such a specification will be published.
+
+Registration requests sent to the mailing list for review should use
+an appropriate subject (e.g., "Request to register attestation
+evidence: example").
+
+IANA must only accept registry updates from the Designated Experts
+and should direct all requests for registration to the review mailing
+list.
+
+### Registration Template
+
+The registry has the following columns:
+
+- OID: The OID number, which has already been allocated. IANA does
+not allocate OID numbers for use with this registry.
+
+- Description: Brief description of the use of the Evidence and the
+registration of the OID.
+
+- Reference(s): Reference to the document or documents that register
+the OID for use with a specific attestation technology, preferably
+including URIs that can be used to retrieve copies of the documents.
+An indication of the relevant sections may also be included but is not
+required.
+
+- Change Controller: For Standards Track RFCs, list the "IESG".  For
+others, give the name of the responsible party. In most cases the
+third party requesting registration in this registry will also be the
+party that registered the OID.
+
+### Initial Registry Contents
+
+The initial registry contents is shown in the table below. It lists two
+entries, one for DICE-based Evidence and the second for the Conceptual
+Message Wrapper (CMW) {{I-D.ietf-rats-msg-wrap}}.
+
+~~~
+| OID              | Description                | Reference(s)   | Change Controller |
+|------------------|----------------------------|----------------|-------------------|
+| 2 23 133 5 4 10  | DICE Evidence              | {{TCGDICE1.1}} |  TCG              |
+| 2 23 133 5 4 9   | Conceptual Message Wrapper | {{TCGDICE1.1}} |  TCG              |
+~~~
+{: #tab-ae-reg title="Initial Contents of the Attestation Evidence OID Registry"}
+
+The current registry values can be retrieved from the IANA online website.
 
 # Security Considerations
 
@@ -952,7 +1007,7 @@ information to an RA/CA:
 
 ## TCG DICE ConceptualMessageWrapper in CSR
 
-This section gives an example of extending the ASN.1 module above to carry an existing ASN.1-based evidence statement. The example used is the Trusted Computing Group DICE Attestation Conceptual Message Wrapper as defined in [TCGDICE1.1].
+This section gives an example of extending the ASN.1 module above to carry an existing ASN.1-based evidence statement. The example used is the Trusted Computing Group DICE Attestation Conceptual Message Wrapper, as defined in {{TCGDICE1.1}}.
 
 ~~~
 {::include CSR-ATTESTATION-WITH-DICE-CMW.asn}
@@ -967,7 +1022,12 @@ Jean-Pierre Fiset, Sander Temme, Jethro Beekman, Zsolt Rózsahegyi, Ferenc
 Pető, Mike Agrenius Kushner, Tomas Gustavsson, Dieter Bong, Christopher Meyer,
 Michael StJohns, Carl Wallace, Michael Ricardson, Tomofumi Okubo, Olivier
 Couillard, John Gray, Eric Amador, Johnson Darren, Herman Slatman, Tiru Reddy,
-Thomas Fossati, Corey Bonnel, Argenius Kushner, James Hagborg.
+Thomas Fossati, Corey Bonnel, Argenius Kushner, James Hagborg, Monty Wiseman,
+Ned Smith.
 
 We would like to specifically thank Mike StJohns for his work on an earlier
 version of this draft.
+
+Finally, we would like to thank Andreas Kretschmer for his feedback based
+on his implementation experience, and Daniel Migault and Russ Housley for
+their review comments.

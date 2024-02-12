@@ -495,7 +495,7 @@ The type is on OID indicating the format of the data contained in stmt.
 The hint is intended for an Attester to indicate to the Relying Party (RP)
 which Verifier should be invoked to parse this statement. In many cases,
 the type OID will already uniquely indicate which Verifier to invoke;
-for example because the OID indicates a prorietary Evidence format for
+for example because the OID indicates a proprietary Evidence format for
 which the RP has corresponding proprietary Verifier. However,
 in some cases it may still be ambiguous, or the type may indicate
 another layer of conceptual message wrapping in which case it is helpful
@@ -807,16 +807,16 @@ over time. Section 10 of {{RFC9334}} discusses different approaches for
 providing freshness, including a nonce-based approach, the use of timestamps
 and an epoch-based technique.  The use of nonces requires that nonce to be provided by
 the Relying Party in some protocol step prior to Evidence and CSR generation,
-and the use of timestamps requires synchronized clocks which connot be
+and the use of timestamps requires synchronized clocks which cannot be
 guaranteed in all operating environments. Epochs also require (unidirectional)
 communication prior to Evidence and CSR generation.
 This document only specifies how to carry existing Evidence formats inside a CSR,
-and so issues of syncronizing freshness data is left to be handled, for example,
+and so issues of synchronizing freshness data is left to be handled, for example,
 via certificate management protocols.
 Developers, operators, and designers of protocols, which embed
 Evidence-carrying-CSRs, MUST consider what notion of freshness is
 appropriate and available in-context; thus the issue of freshness is
-left up to the discretion of protocol designers and implementors.
+left up to the discretion of protocol designers and implementers.
 
 In the case of Hardware Security Modules (HSM), the definition of "fresh" is somewhat ambiguous in the context
 of CSRs, especially considering that non-automated certificate enrollments
@@ -841,11 +841,11 @@ These privacy considerations are beyond the scope of this document and may requi
 
 ## Type OID and verifier hint
 
-The `EvidenceStatement` includes both a `type` OID and a freeform `hint` field with which the Attester can provide information to the Relying Party about which Verifier to invoke to parse a given piece of Evidence.
+The `EvidenceStatement` includes both a `type` OID and a free form `hint` field with which the Attester can provide information to the Relying Party about which Verifier to invoke to parse a given piece of Evidence.
 Care should be taken when processing these data since at the time they are used, they are not yet verified. In fact, they are protected by the CSR signature but not by the signature from the Attester and so could be maliciously replaced in some cases.
 The authors' intent is that the `type` OID and `hint` will allow an RP to select between Verifier with which it has pre-established trust relationships, such as Verifier libraries that have been compiled in to the RP application.
 As an example, the `hint` may take the form of an FQDN to uniquely identify a Verifier implementation, but the RP MUST NOT blindly make network calls to unknown domain names and trust the results.
-Implementers should also be cautious around `type` OID or `hint` values that cause a short-cirtuit in the verification logic, such as `None`, `Null`, `Debug`, empty CMW contents, or similar values that could cause the Evidence to appear to be valid when in fact it was not properly checked.
+Implementers should also be cautious around `type` OID or `hint` values that cause a short-circuit in the verification logic, such as `None`, `Null`, `Debug`, empty CMW contents, or similar values that could cause the Evidence to appear to be valid when in fact it was not properly checked.
 
 --- back
 
@@ -871,6 +871,8 @@ key known to the hardware.
 Note: The information conveyed in the value field of the EvidenceStatement
 structure may contain more information than the signed TPM Quote structure
 defined in the TPM v2.0 specification {{TPM20}}, such as plaintext PCR values,
+the up-time, the event log, etc. The detailed structure of such
+payload is, however, not defpecification {{TPM20}}, such as plaintext PCR values,
 the up-time, the event log, etc. The detailed structure of such
 payload is, however, not defined in this document and may be subject to
 future standardization work in supplementary documents.

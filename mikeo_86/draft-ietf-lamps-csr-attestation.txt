@@ -787,20 +787,18 @@ Table of Contents
    specifications by the manufacturer of a hardware security module, a
    regulatory agency, or specified by an oversight body, such as the CA
    Browser Forum.  The Code-Signing Baseline Requirements [CSBR]
-   document, specifically section 6.2.7.3 Private key storage for
-   Signing Services, is an example of such a policy that has been
-   published by the CA Browser Forum and specifies certain properties,
-   such as non-exportability, which must be enabled for storing
-   publicly-trusted code-signing keys.  Other policies influence the
-   decision making at the Relying Party when evaluating the Attestation
-   Result.  The Relying Party is ultimately responsible for making a
-   decision of what information in the Attestation Result it will
-   accept.  The presence of the attributes defined in this specification
-   provide the Relying Party with additional assurance about an
-   Attester.  Policies used at the Verifier and the Relying Party are
-   implementation dependent and out of scope for this document.  Whether
-   to require the use of Evidence in a CSR is out-of-scope for this
-   document.
+   document is an example of such a policy that has been published by
+   the CA Browser Forum and specifies certain properties, such as non-
+   exportability, which must be enabled for storing publicly-trusted
+   code-signing keys.  Other policies influence the decision making at
+   the Relying Party when evaluating the Attestation Result.  The
+   Relying Party is ultimately responsible for making a decision of what
+   information in the Attestation Result it will accept.  The presence
+   of the attributes defined in this specification provide the Relying
+   Party with additional assurance about an Attester.  Policies used at
+   the Verifier and the Relying Party are implementation dependent and
+   out of scope for this document.  Whether to require the use of
+   Evidence in a CSR is out-of-scope for this document.
 
 7.1.  Freshness
 

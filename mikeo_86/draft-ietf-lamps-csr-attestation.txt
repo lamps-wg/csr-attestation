@@ -126,11 +126,10 @@ Table of Contents
    bodies are beginning to require proof-of-hardware residency for
    certain classifications of cryptographic keys.  At the time of
    writing, the most notable example is the Code-Signing Baseline
-   Requirements [CSBR] document maintained by the CA/Browser Forum,
-   specifically section 6.2.7.3 Private key storage for Signing Services
-   which requires compliant CAs to "ensure that a Subscriber’s Private
-   Key is generated, stored, and used in a secure environment that has
-   controls to prevent theft or misuse".
+   Requirements [CSBR] document maintained by the CA/Browser Forum
+   requires compliant CAs to "ensure that a Subscriber’s Private Key is
+   generated, stored, and used in a secure environment that has controls
+   to prevent theft or misuse".
 
    This specification defines an attribute and an extension that allow
    for conveyance of Evidence in Certificate Signing Requests (CSRs) in

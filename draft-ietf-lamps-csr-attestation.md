@@ -730,7 +730,7 @@ Policies drive the processing of Evidence at the Verifier: the Verifier's
 Appraisal Policy for Evidence will often be based on specifications by the manufacturer
 of a hardware security module, a regulatory agency, or specified by an
 oversight body, such as the CA Browser Forum. The Code-Signing Baseline
-Requirements {{CSBR}} document, specifically section 6.2.7.3 Private key storage for Signing Services,
+Requirements {{CSBR}} document
 is an example of such a policy that has
 been published by the CA Browser Forum and specifies certain properties,
 such as non-exportability, which must be enabled for storing

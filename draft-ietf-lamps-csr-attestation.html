@@ -1861,7 +1861,7 @@ EvidenceStatement ::= SEQUENCE {
 <p id="section-5.2-7">The hint is intended for an Attester to indicate to the Relying Party (RP)
 which Verifier should be invoked to parse this statement. In many cases,
 the type OID will already uniquely indicate which Verifier to invoke;
-for example because the OID indicates a prorietary Evidence format for
+for example because the OID indicates a proprietary Evidence format for
 which the RP has corresponding proprietary Verifier. However,
 in some cases it may still be ambiguous, or the type may indicate
 another layer of conceptual message wrapping in which case it is helpful
@@ -2295,16 +2295,16 @@ over time. Section 10 of <span>[<a href="#RFC9334" class="cite xref">RFC9334</a>
 providing freshness, including a nonce-based approach, the use of timestamps
 and an epoch-based technique.  The use of nonces requires that nonce to be provided by
 the Relying Party in some protocol step prior to Evidence and CSR generation,
-and the use of timestamps requires synchronized clocks which connot be
+and the use of timestamps requires synchronized clocks which cannot be
 guaranteed in all operating environments. Epochs also require (unidirectional)
 communication prior to Evidence and CSR generation.
 This document only specifies how to carry existing Evidence formats inside a CSR,
-and so issues of syncronizing freshness data is left to be handled, for example,
+and so issues of synchronizing freshness data is left to be handled, for example,
 via certificate management protocols.
 Developers, operators, and designers of protocols, which embed
 Evidence-carrying-CSRs, <span class="bcp14">MUST</span> consider what notion of freshness is
 appropriate and available in-context; thus the issue of freshness is
-left up to the discretion of protocol designers and implementors.<a href="#section-7.1-1" class="pilcrow">¶</a></p>
+left up to the discretion of protocol designers and implementers.<a href="#section-7.1-1" class="pilcrow">¶</a></p>
 <p id="section-7.1-2">In the case of Hardware Security Modules (HSM), the definition of "fresh" is somewhat ambiguous in the context
 of CSRs, especially considering that non-automated certificate enrollments
 are often asynchronous, and considering the common practice of re-using the
@@ -2335,11 +2335,11 @@ These privacy considerations are beyond the scope of this document and may requi
         <h3 id="name-type-oid-and-verifier-hint">
 <a href="#section-7.3" class="section-number selfRef">7.3. </a><a href="#name-type-oid-and-verifier-hint" class="section-name selfRef">Type OID and verifier hint</a>
         </h3>
-<p id="section-7.3-1">The <code>EvidenceStatement</code> includes both a <code>type</code> OID and a freeform <code>hint</code> field with which the Attester can provide information to the Relying Party about which Verifier to invoke to parse a given piece of Evidence.
+<p id="section-7.3-1">The <code>EvidenceStatement</code> includes both a <code>type</code> OID and a free form <code>hint</code> field with which the Attester can provide information to the Relying Party about which Verifier to invoke to parse a given piece of Evidence.
 Care should be taken when processing these data since at the time they are used, they are not yet verified. In fact, they are protected by the CSR signature but not by the signature from the Attester and so could be maliciously replaced in some cases.
 The authors' intent is that the <code>type</code> OID and <code>hint</code> will allow an RP to select between Verifier with which it has pre-established trust relationships, such as Verifier libraries that have been compiled in to the RP application.
 As an example, the <code>hint</code> may take the form of an FQDN to uniquely identify a Verifier implementation, but the RP <span class="bcp14">MUST NOT</span> blindly make network calls to unknown domain names and trust the results.
-Implementers should also be cautious around <code>type</code> OID or <code>hint</code> values that cause a short-cirtuit in the verification logic, such as <code>None</code>, <code>Null</code>, <code>Debug</code>, empty CMW contents, or similar values that could cause the Evidence to appear to be valid when in fact it was not properly checked.<a href="#section-7.3-1" class="pilcrow">¶</a></p>
+Implementers should also be cautious around <code>type</code> OID or <code>hint</code> values that cause a short-circuit in the verification logic, such as <code>None</code>, <code>Null</code>, <code>Debug</code>, empty CMW contents, or similar values that could cause the Evidence to appear to be valid when in fact it was not properly checked.<a href="#section-7.3-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -2452,6 +2452,8 @@ key known to the hardware.<a href="#appendix-A.1-1" class="pilcrow">¶</a></p>
 <p id="appendix-A.1-2">Note: The information conveyed in the value field of the EvidenceStatement
 structure may contain more information than the signed TPM Quote structure
 defined in the TPM v2.0 specification <span>[<a href="#TPM20" class="cite xref">TPM20</a>]</span>, such as plaintext PCR values,
+the up-time, the event log, etc. The detailed structure of such
+payload is, however, not defpecification <span>[<a href="#TPM20" class="cite xref">TPM20</a>]</span>, such as plaintext PCR values,
 the up-time, the event log, etc. The detailed structure of such
 payload is, however, not defined in this document and may be subject to
 future standardization work in supplementary documents.<a href="#appendix-A.1-2" class="pilcrow">¶</a></p>

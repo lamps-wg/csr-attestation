@@ -100,8 +100,10 @@ Including Evidence along with a CSR can help to improve the assessment of the se
 # Introduction
 
 When requesting a certificate from a Certification Authority (CA), a PKI end entity may wish to include Evidence of the security properties of its environments in which the private keys are stored in that request.
-This Evidence can be appraised by authoritative entities, such as a Registration Authority (RA) or a CA, or associated trusted Verifiers as part of validating an incoming certificate request against given certificate policies.
-This specification defines an attribute and an extension that allow for conveyance of Evidence in Certificate Signing Requests (CSRs) in either PKCS#10 {{RFC2986}} or Certificate Request Message Format (CRMF) {{RFC4211}} payloads.
+This Evidence can be appraised by authoritative entities, such as a Registration Authority (RA) or a CA, or associated trusted Verifiers as part of validating an incoming certificate request against given certificate policies. Regulatory bodies are beginning to require proof-of-hardware residency for certain classifications of cryptographic keys. At the time of writing, the most notable example is the Code-Signing Baseline Requirements {{CSBR}} document maintained by the CA/Browser Forum, specifically section 6.2.7.3 Private key storage for Signing Services which requires compliant CAs to "ensure that a Subscriber’s Private Key is generated, stored,
+and used in a secure environment that has controls to prevent theft or misuse".
+
+This specification defines an attribute and an extension that allow for conveyance of Evidence in Certificate Signing Requests (CSRs) in either PKCS#10 {{RFC2986}} or Certificate Request Message Format (CRMF) {{RFC4211}} payloads which provides an elegant and automatable mechanism for meeting requirements such as those in the CA/B Forum's {{CSBR}}.
 
 As outlined in the RATS Architecture {{RFC9334}}, an Attester (typically
 a device) produces a signed collection of Claims that constitutes Evidence about its running environment.
@@ -179,7 +181,10 @@ single entity. The Verifier functionality can, however,
 also be kept separate from the RA/CA functionality, such as a utility or
 library provided by the device manufacturer. For example,
 security concerns may require parsers of Evidence formats to be logically
-or physically separated from the core CA functionality.
+or physically separated from the core CA functionality. The interface
+by which the Relying Party passes Evidence to the Verifier and receives back
+Attestation Results may be proprietary or standardized, but in any case is
+out-of-scope for this document.
 
 ~~~ aasvg
                               .-------------.
@@ -725,7 +730,8 @@ Policies drive the processing of Evidence at the Verifier: the Verifier's
 Appraisal Policy for Evidence will often be based on specifications by the manufacturer
 of a hardware security module, a regulatory agency, or specified by an
 oversight body, such as the CA Browser Forum. The Code-Signing Baseline
-Requirements {{CSBR}} document is an example of such a policy that has
+Requirements {{CSBR}} document, specifically section 6.2.7.3 Private key storage for Signing Services,
+is an example of such a policy that has
 been published by the CA Browser Forum and specifies certain properties,
 such as non-exportability, which must be enabled for storing
 publicly-trusted code-signing keys. Other

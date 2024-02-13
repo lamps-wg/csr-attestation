@@ -872,8 +872,6 @@ Note: The information conveyed in the value field of the EvidenceStatement
 structure may contain more information than the signed TPM Quote structure
 defined in the TPM v2.0 specification {{TPM20}}, such as plaintext PCR values,
 the up-time, the event log, etc. The detailed structure of such
-payload is, however, not defpecification {{TPM20}}, such as plaintext PCR values,
-the up-time, the event log, etc. The detailed structure of such
 payload is, however, not defined in this document and may be subject to
 future standardization work in supplementary documents.
 

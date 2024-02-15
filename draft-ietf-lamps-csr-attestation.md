@@ -786,11 +786,12 @@ The second example conveys an Arm Platform Security Architecture token,
 which provides claims about the used hardware and software platform,
 into the CSR.
 
-At the time of writing, the authors are not aware of registered OIDs for these evidence formats, and so we leave the OIDs as TBD1 / TBD2.
+At the time of writing, the authors are not aware of registered OIDs for
+these evidence formats, and so we leave the OIDs as TBD1 / TBD2.
 
 ##  TPM V2.0 Evidence in CSR
 
- TPM2 Key Attestation in CSR Attestation Statement
+This section describes TPM2 key attestation for use in a CSR.
 
 ### TCG Key Attestation Certify
 
@@ -799,6 +800,7 @@ There are several ways in TPM2 to provide proof of a key's properties.
 expected to used which is the TPM2_Certify and the TPM2_ReadPublic commands.
 
 ### TCG OIDs
+
 The OIDs in this section are defined by TCG
 TCG has a registered arc of 2.23.133
 
@@ -812,29 +814,22 @@ tcg-attest-certify OBJECT IDENTIFIER ::= {tcg-attest 1}
 
 ### TPM2 AttestationStatement
 
-As TPM2B_ATTEST, TPMT_SIGNATURE, and TPM2B_PUBIC has self-describing sizes these
-can concatenated. The EvidenceStatement structure contains a sequence of two fields:
-a type and a stmt. The 'type' field contains the OID of the Evidence format and its
+The EvidenceStatement structure contains a sequence of two fields:
+a type and a stmt. The 'type' field contains the OID of the Evidence format and it is
 set to tcg-attest-certify. The content of the structure shown below is placed into
-the stmt.
+the stmt, which is a concatenation of existing TPM2 structures. These structures
+will be explained in the rest of this section.
 
 ~~~
 tcg-attest-certify ::= SEQUENCE {
-  tcg-attest-certify-tpm2b_attest OCTECT STRING,
-   - contains TPM2B_ATTEST of the loaded Key
-  tcg-attest-certify-tpmt_signature OCTECT STRING,
-   - contains TPMT_SIGNATURE using an AK
-  tcg-attest-certify-tpm2b_public OCTECT STRING
-   - contains TPM2B_PUBLIC of the loaded Key
-  tcg-kp-AIKCertificate
-   - contains AIK Certificate in RFC5280 format
-  }
+  tcg-attest-certify-tpm2b_attest       TPM2B_ATTEST,
+  tcg-attest-certify-tpmt_signature     TPMT_SIGNATURE,
+  tcg-attest-certify-tpm2b_public   [0] TPM2B_PUBLIC OPTIONAL,
+  tcg-kp-AIKCertificate             [1] OCTET STRING OPTIONAL
+}
 ~~~
-> Consider a way to provide the above with only
-> tcg-attest-certify-tpm2b_attest and tcg-attest-certify-tpmt_signature
-> Rationale is the CA may already have the information out of band
-> and this may need to fram a constrained device so requiring this
-> is redundant,
+
+The tcg-kp-AIKCertificate field contains the AIK Certificate in RFC 5280 format.
 
 ## Introduction
 

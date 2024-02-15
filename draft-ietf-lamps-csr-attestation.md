@@ -1026,7 +1026,7 @@ LAMPS working group. The following persons, in no specific order,
 contributed to the work: Richard Kettlewell, Chris Trufan, Bruno Couillard,
 Jean-Pierre Fiset, Sander Temme, Jethro Beekman, Zsolt Rózsahegyi, Ferenc
 Pető, Mike Agrenius Kushner, Tomas Gustavsson, Dieter Bong, Christopher Meyer,
-Michael StJohns, Carl Wallace, Michael Ricardson, Tomofumi Okubo, Olivier
+Michael StJohns, Carl Wallace, Michael Richardson, Tomofumi Okubo, Olivier
 Couillard, John Gray, Eric Amador, Johnson Darren, Herman Slatman, Tiru Reddy,
 Thomas Fossati, Corey Bonnel, Argenius Kushner, James Hagborg, Monty Wiseman,
 Ned Smith.

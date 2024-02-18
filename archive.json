@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-02-15T00:44:40.853455+00:00",
+  "timestamp": "2024-02-18T00:48:07.331844+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -4635,13 +4635,13 @@
       "labels": [],
       "body": "",
       "createdAt": "2024-02-09T22:48:05Z",
-      "updatedAt": "2024-02-09T22:48:05Z",
+      "updatedAt": "2024-02-15T15:25:31Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "c5921f2c2b09ce9804c61a400fb06556a25e7d3a",
       "headRepository": "mwiseman-byid/csr-attestation",
       "headRefName": "main",
-      "headRefOid": "99afbd0727fc27737d9f649e29cdc5186ebd01f2",
+      "headRefOid": "01f19800eed941bf465d3b4c16935493dbe80083",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -4751,25 +4751,35 @@
       "id": "PR_kwDOJ3IIN85m48DY",
       "title": "typo on MCR name",
       "url": "https://github.com/lamps-wg/csr-attestation/pull/93",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "mcr",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "You typo'ed my name.\r\n",
       "createdAt": "2024-02-14T18:15:15Z",
-      "updatedAt": "2024-02-14T18:15:15Z",
+      "updatedAt": "2024-02-15T15:17:01Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "d463726d05bf609473787d35922c38ca4ff6532a",
       "headRepository": "lamps-wg/csr-attestation",
       "headRefName": "mcr-typo-02",
       "headRefOid": "b2e85278234e16245904c817bce5a429e91345c0",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
-      "comments": [],
+      "closedAt": "2024-02-15T15:16:59Z",
+      "mergedAt": "2024-02-15T15:16:59Z",
+      "mergedBy": "hannestschofenig",
+      "mergeCommit": {
+        "oid": "38f236e5deee44087d59c893353215557de0d917"
+      },
+      "comments": [
+        {
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Sorry for this mistake!",
+          "createdAt": "2024-02-15T15:16:56Z",
+          "updatedAt": "2024-02-15T15:16:56Z"
+        }
+      ],
       "reviews": []
     }
   ]

@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-02-20T00:43:26.396302+00:00",
+  "timestamp": "2024-02-22T00:43:50.783829+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -914,9 +914,17 @@
       "labels": [],
       "body": "Monty Wiseman @mwiseman-byid offered to provide updated TPM examples.",
       "createdAt": "2024-01-15T17:34:30Z",
-      "updatedAt": "2024-01-15T17:34:30Z",
+      "updatedAt": "2024-02-20T15:49:36Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Monty created an update for the TPM-based key attestation example in PR #91 ",
+          "createdAt": "2024-02-20T15:49:34Z",
+          "updatedAt": "2024-02-20T15:49:34Z"
+        }
+      ]
     },
     {
       "number": 78,

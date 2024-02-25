@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-02-22T00:43:50.783829+00:00",
+  "timestamp": "2024-02-25T00:48:26.700521+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -4643,7 +4643,7 @@
       "labels": [],
       "body": "",
       "createdAt": "2024-02-09T22:48:05Z",
-      "updatedAt": "2024-02-15T15:25:31Z",
+      "updatedAt": "2024-02-23T12:02:39Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "c5921f2c2b09ce9804c61a400fb06556a25e7d3a",
@@ -4655,7 +4655,28 @@
       "mergedBy": null,
       "mergeCommit": null,
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOJ3IIN85xIIq7",
+          "commit": {
+            "abbreviatedOid": "01f1980"
+          },
+          "author": "ionut-arm",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-02-23T12:02:39Z",
+          "updatedAt": "2024-02-23T12:02:39Z",
+          "comments": [
+            {
+              "originalPosition": 266,
+              "body": "Hello! \ud83d\udc4b\ud83c\udffb Great write-up! I was reading through and got a bit confused by this line, specifically by `the EK is used by an Attestation CA to create an Attestation Key`. My understanding was that the EK is used to assure a 3rd party (in this case the Privacy CA / Attestation CA) that the AK is in the same TPM as the EK, not for the CA to issue the AK. Am I getting this wrong?",
+              "createdAt": "2024-02-23T12:02:39Z",
+              "updatedAt": "2024-02-23T12:02:39Z"
+            }
+          ]
+        }
+      ]
     },
     {
       "number": 92,

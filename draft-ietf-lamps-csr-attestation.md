@@ -1039,7 +1039,7 @@ as the signature.
 ~~~
      typedef struct {
           TPMI_ALG_SIG_SCHEME sigAlg;
-          TPMU_SIGNATURE signature; 
+          TPMU_SIGNATURE signature;
      } TPMT_SIGNATURE;
 
      typedef struct {

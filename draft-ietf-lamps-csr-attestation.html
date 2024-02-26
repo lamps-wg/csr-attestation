@@ -9,7 +9,7 @@
 <meta content="Hannes Tschofenig" name="author">
 <meta content="Henk Birkholz" name="author">
 <meta content="
-       A client requesting a certificate from a Certification Authority (CA) may wish to offer believable claims about the protections afforded to the corresponding private key, such as whether the private key resides on a hardware security module or the protection capabilities provided by the hardware. 
+       A PKI end entity requesting a certificate from a Certification Authority (CA) may wish to offer believable claims about the protections afforded to the corresponding private key, such as whether the private key resides on a hardware security module or the protection capabilities provided by the hardware. 
        This document describes how to encode Evidence produced by an Attester for inclusion in Certificate Signing Requests (CSRs), and any certificates necessary for validating it. 
        Including Evidence along with a CSR can help to improve the assessment of the security posture for the private key, and the trustworthiness properties of the submitted key to the requested certificate profile. These Evidence Claims can include information about the hardware component's manufacturer, the version of installed or running firmware, the version of software installed or running in layers above the firmware, or the presence of hardware components providing specific protection capabilities or shielded locations (e.g., to protect keys). 
     " name="description">
@@ -1077,7 +1077,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <h1 id="title">Use of Remote Attestation with Certificate Signing Requests</h1>
 <section id="section-abstract">
       <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
-<p id="section-abstract-1">A client requesting a certificate from a Certification Authority (CA) may wish to offer believable claims about the protections afforded to the corresponding private key, such as whether the private key resides on a hardware security module or the protection capabilities provided by the hardware.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
+<p id="section-abstract-1">A PKI end entity requesting a certificate from a Certification Authority (CA) may wish to offer believable claims about the protections afforded to the corresponding private key, such as whether the private key resides on a hardware security module or the protection capabilities provided by the hardware.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
 <p id="section-abstract-2">This document describes how to encode Evidence produced by an Attester for inclusion in Certificate Signing Requests (CSRs), and any certificates necessary for validating it.<a href="#section-abstract-2" class="pilcrow">¶</a></p>
 <p id="section-abstract-3">Including Evidence along with a CSR can help to improve the assessment of the security posture for the private key, and the trustworthiness properties of the submitted key to the requested certificate profile. These Evidence Claims can include information about the hardware component's manufacturer, the version of installed or running firmware, the version of software installed or running in layers above the firmware, or the presence of hardware components providing specific protection capabilities or shielded locations (e.g., to protect keys).<a href="#section-abstract-3" class="pilcrow">¶</a></p>
 </section>

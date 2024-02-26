@@ -1085,7 +1085,7 @@ Then, using the TPM2 command TPM2_ReadPublic obtain the Keys TPM2B_PUBLIC struct
 While the Key's public information can be obtained by the Verifier in a number
 ways, such as storing it from when the Key was created, this may be impractical
 in many situations. As TPM2 provided a command to obtain this information, this
-specification will include it in the TPM2 Attestation CSR extension. 
+specification will include it in the TPM2 Attestation CSR extension.
 
 The TPM2 command TPM2_ReadPublic takes the following input:
 

@@ -5,10 +5,10 @@
 Network Working Group                                       M. Ounsworth
 Internet-Draft                                                   Entrust
 Intended status: Standards Track                           H. Tschofenig
-Expires: 18 August 2024                                          Siemens
+Expires: 29 August 2024                                          Siemens
                                                              H. Birkholz
                                                           Fraunhofer SIT
-                                                        15 February 2024
+                                                        26 February 2024
 
 
       Use of Remote Attestation with Certificate Signing Requests
@@ -63,7 +63,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 18 August 2024.
+   This Internet-Draft will expire on 29 August 2024.
 
 Copyright Notice
 
@@ -746,12 +746,18 @@ Table of Contents
    two entries, one for DICE-based Evidence and the second for the
    Conceptual Message Wrapper (CMW) [I-D.ietf-rats-msg-wrap].
 
-| OID              | Description                | Reference(s)   | Change Controller |
-|------------------|----------------------------|----------------|-------------------|
-| 2 23 133 5 4 10  | DICE Evidence              | {{TCGDICE1.1}} |  TCG              |
-| 2 23 133 5 4 9   | Conceptual Message Wrapper | {{TCGDICE1.1}} |  TCG              |
+     +==========+=================+==============+===================+
+     | OID      | Description     | Reference(s) | Change Controller |
+     +==========+=================+==============+===================+
+     | 2 23 133 | DICE Evidence   | [TCGDICE1.1] | TCG               |
+     | 5 4 10   |                 |              |                   |
+     +----------+-----------------+--------------+-------------------+
+     | 2 23 133 | Conceptual      | [TCGDICE1.1] | TCG               |
+     | 5 4 9    | Message Wrapper |              |                   |
+     +----------+-----------------+--------------+-------------------+
 
- Figure 8: Initial Contents of the Attestation Evidence OID Registry
+         Table 1: Initial Contents of the Attestation Evidence OID
+                                  Registry
 
    The current registry values can be retrieved from the IANA online
    website.
@@ -770,9 +776,9 @@ Table of Contents
    prevent theft or misuse (including being non-exportable / non-
    recoverable), the Attesting Environment has to collect claims about
    this secure environment (or Target Environment, as shown in
-   Figure 9).
+   Figure 8).
 
-   Figure 9 shows the interaction inside an Attester.  The Attesting
+   Figure 8 shows the interaction inside an Attester.  The Attesting
    Environment, which is provisioned with an Attestation Key, retrieves
    claims about the Target Environment.  The Target Environment offers
    key generation, storage and usage, which it makes available to
@@ -814,9 +820,9 @@ Table of Contents
     |                                    |
     '------------------------------------'
 
-       Figure 9: Interaction between Attesting and Target Environment
+       Figure 8: Interaction between Attesting and Target Environment
 
-   Figure 9 places the CSR library outside the Attester, which is a
+   Figure 8 places the CSR library outside the Attester, which is a
    valid architecture for certificate enrollment.  The CSR library may
    also be located inside the trusted computing base.  Regardless of the
    placement of the CSR library, an Attesting Environment MUST be able
@@ -986,9 +992,9 @@ Table of Contents
               Tschofenig, H., Frost, S., Brossard, M., Shaw, A. L., and
               T. Fossati, "Arm's Platform Security Architecture (PSA)
               Attestation Token", Work in Progress, Internet-Draft,
-              draft-tschofenig-rats-psa-token-20, 18 December 2023,
+              draft-tschofenig-rats-psa-token-22, 21 February 2024,
               <https://datatracker.ietf.org/doc/html/draft-tschofenig-
-              rats-psa-token-20>.
+              rats-psa-token-22>.
 
    [PKCS11]   OASIS, "PKCS #11 Cryptographic Token Interface Base
               Specification Version 2.40", April 2015,
@@ -1097,11 +1103,11 @@ A.1.  TPM V2.0 Evidence in CSR
            8a:02:20:36:be:3d:71:93:5d:05:c3:ac:fa:a8:f3:e5:46:db:
            57:f9:23:ee:93:47:6d:d6:d3:4f:c2:b7:cc:0d:89:71:fe
 
-                        Figure 10: CSR with TPM V2.0
+                        Figure 9: CSR with TPM V2.0
 
 A.2.  Platform Security Architecture Attestation Token in CSR
 
-   The example shown in Figure 11 illustrates how the Arm Platform
+   The example shown in Figure 10 illustrates how the Arm Platform
    Security Architecture (PSA) Attestation Token is conveyed in a CSR.
    The content of the Evidence in this example is re-used from
    [I-D.tschofenig-rats-psa-token] and contains an Entity Attestation
@@ -1159,7 +1165,7 @@ A.2.  Platform Security Architecture Attestation Token in CSR
            8a:02:20:36:be:3d:71:93:5d:05:c3:ac:fa:a8:f3:e5:46:db:
            57:f9:23:ee:93:47:6d:d6:d3:4f:c2:b7:cc:0d:89:71:fe
 
-             Figure 11: CSR with embedded PSA Attestation Token
+             Figure 10: CSR with embedded PSA Attestation Token
 
    The decoded Evidence is shown in Appendix A of
    [I-D.tschofenig-rats-psa-token], the shown Evidence provides the

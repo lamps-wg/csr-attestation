@@ -13,7 +13,7 @@
        This document describes how to encode Evidence produced by an Attester for inclusion in Certificate Signing Requests (CSRs), and any certificates necessary for validating it. 
        Including Evidence along with a CSR can help to improve the assessment of the security posture for the private key, and the trustworthiness properties of the submitted key to the requested certificate profile. These Evidence Claims can include information about the hardware component's manufacturer, the version of installed or running firmware, the version of software installed or running in layers above the firmware, or the presence of hardware components providing specific protection capabilities or shielded locations (e.g., to protect keys). 
     " name="description">
-<meta content="xml2rfc 3.19.2" name="generator">
+<meta content="xml2rfc 3.19.4" name="generator">
 <meta content="PKI" name="keyword">
 <meta content="PKCS#10" name="keyword">
 <meta content="CFMF" name="keyword">
@@ -22,7 +22,7 @@
 <meta content="Certificate Signing Requests" name="keyword">
 <meta content="draft-ietf-lamps-csr-attestation-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.19.2
+  xml2rfc 3.19.4
     Python 3.11.6
     ConfigArgParse 1.7
     google-i18n-address 3.1.0
@@ -1038,7 +1038,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Ounsworth, et al.</td>
-<td class="center">Expires 18 August 2024</td>
+<td class="center">Expires 29 August 2024</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1051,12 +1051,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-lamps-csr-attestation-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2024-02-15" class="published">15 February 2024</time>
+<time datetime="2024-02-26" class="published">26 February 2024</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2024-08-18">18 August 2024</time></dd>
+<dd class="expires"><time datetime="2024-08-29">29 August 2024</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1111,7 +1111,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 18 August 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 29 August 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -2122,18 +2122,38 @@ party that registered the OID.<a href="#section-6.4.1-2.4.1" class="pilcrow">¶<
 entries, one for DICE-based Evidence and the second for the Conceptual
 Message Wrapper (CMW) <span>[<a href="#I-D.ietf-rats-msg-wrap" class="cite xref">I-D.ietf-rats-msg-wrap</a>]</span>.<a href="#section-6.4.2-1" class="pilcrow">¶</a></p>
 <span id="name-initial-contents-of-the-att"></span><div id="tab-ae-reg">
-<figure id="figure-8">
-            <div class="alignLeft art-text artwork" id="section-6.4.2-2.1">
-<pre>
-| OID              | Description                | Reference(s)   | Change Controller |
-|------------------|----------------------------|----------------|-------------------|
-| 2 23 133 5 4 10  | DICE Evidence              | {{TCGDICE1.1}} |  TCG              |
-| 2 23 133 5 4 9   | Conceptual Message Wrapper | {{TCGDICE1.1}} |  TCG              |
-</pre>
-</div>
-<figcaption><a href="#figure-8" class="selfRef">Figure 8</a>:
+<table class="center" id="table-1">
+            <caption>
+<a href="#table-1" class="selfRef">Table 1</a>:
 <a href="#name-initial-contents-of-the-att" class="selfRef">Initial Contents of the Attestation Evidence OID Registry</a>
-            </figcaption></figure>
+            </caption>
+<thead>
+              <tr>
+                <th class="text-left" rowspan="1" colspan="1">OID</th>
+                <th class="text-left" rowspan="1" colspan="1">Description</th>
+                <th class="text-left" rowspan="1" colspan="1">Reference(s)</th>
+                <th class="text-left" rowspan="1" colspan="1">Change Controller</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">2 23 133 5 4 10</td>
+                <td class="text-left" rowspan="1" colspan="1">DICE Evidence</td>
+                <td class="text-left" rowspan="1" colspan="1">
+                  <span>[<a href="#TCGDICE1.1" class="cite xref">TCGDICE1.1</a>]</span>
+</td>
+                <td class="text-left" rowspan="1" colspan="1">TCG</td>
+              </tr>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">2 23 133 5 4 9</td>
+                <td class="text-left" rowspan="1" colspan="1">Conceptual Message Wrapper</td>
+                <td class="text-left" rowspan="1" colspan="1">
+                  <span>[<a href="#TCGDICE1.1" class="cite xref">TCGDICE1.1</a>]</span>
+</td>
+                <td class="text-left" rowspan="1" colspan="1">TCG</td>
+              </tr>
+            </tbody>
+          </table>
 </div>
 <p id="section-6.4.2-3">The current registry values can be retrieved from the IANA online website.<a href="#section-6.4.2-3" class="pilcrow">¶</a></p>
 </section>
@@ -2159,8 +2179,8 @@ key applied to sign the CSR is generated, and stored in a secure
 environment that has controls to prevent theft or misuse (including
 being non-exportable / non-recoverable), the Attesting Environment
 has to collect claims about this secure environment (or Target
-Environment, as shown in <a href="#fig-attester" class="auto internal xref">Figure 9</a>).<a href="#section-7-1" class="pilcrow">¶</a></p>
-<p id="section-7-2"><a href="#fig-attester" class="auto internal xref">Figure 9</a> shows the interaction inside an Attester. The
+Environment, as shown in <a href="#fig-attester" class="auto internal xref">Figure 8</a>).<a href="#section-7-1" class="pilcrow">¶</a></p>
+<p id="section-7-2"><a href="#fig-attester" class="auto internal xref">Figure 8</a> shows the interaction inside an Attester. The
 Attesting Environment, which is provisioned with an Attestation Key,
 retrieves claims about the Target Environment. The Target
 Environment offers key generation, storage and usage, which it
@@ -2168,7 +2188,7 @@ makes available to services. The Attesting Environment collects
 these claims about the Target Environment and signs them and
 exports Evidence for use in remote attestation via a CSR.<a href="#section-7-2" class="pilcrow">¶</a></p>
 <span id="name-interaction-between-attesti"></span><div id="fig-attester">
-<figure id="figure-9">
+<figure id="figure-8">
         <div id="section-7-3.1">
           <div class="alignLeft art-svg artwork" id="section-7-3.1.1">
 <svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="576" width="328" viewBox="0 0 328 576" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
@@ -2245,11 +2265,11 @@ exports Evidence for use in remote attestation via a CSR.<a href="#section-7-2" 
             </svg><a href="#section-7-3.1.1" class="pilcrow">¶</a>
 </div>
 </div>
-<figcaption><a href="#figure-9" class="selfRef">Figure 9</a>:
+<figcaption><a href="#figure-8" class="selfRef">Figure 8</a>:
 <a href="#name-interaction-between-attesti" class="selfRef">Interaction between Attesting and Target Environment</a>
         </figcaption></figure>
 </div>
-<p id="section-7-4"><a href="#fig-attester" class="auto internal xref">Figure 9</a> places the CSR library outside the Attester, which
+<p id="section-7-4"><a href="#fig-attester" class="auto internal xref">Figure 8</a> places the CSR library outside the Attester, which
 is a valid architecture for certificate enrollment.
 The CSR library may also be located
 inside the trusted computing base. Regardless of the placement
@@ -2401,7 +2421,7 @@ Implementers should also be cautious around <code>type</code> OID or <code>hint<
 <dd class="break"></dd>
 <dt id="I-D.tschofenig-rats-psa-token">[I-D.tschofenig-rats-psa-token]</dt>
         <dd>
-<span class="refAuthor">Tschofenig, H.</span>, <span class="refAuthor">Frost, S.</span>, <span class="refAuthor">Brossard, M.</span>, <span class="refAuthor">Shaw, A. L.</span>, and <span class="refAuthor">T. Fossati</span>, <span class="refTitle">"Arm's Platform Security Architecture (PSA) Attestation Token"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-tschofenig-rats-psa-token-20</span>, <time datetime="2023-12-18" class="refDate">18 December 2023</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-tschofenig-rats-psa-token-20">https://datatracker.ietf.org/doc/html/draft-tschofenig-rats-psa-token-20</a>&gt;</span>. </dd>
+<span class="refAuthor">Tschofenig, H.</span>, <span class="refAuthor">Frost, S.</span>, <span class="refAuthor">Brossard, M.</span>, <span class="refAuthor">Shaw, A. L.</span>, and <span class="refAuthor">T. Fossati</span>, <span class="refTitle">"Arm's Platform Security Architecture (PSA) Attestation Token"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-tschofenig-rats-psa-token-22</span>, <time datetime="2024-02-21" class="refDate">21 February 2024</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-tschofenig-rats-psa-token-22">https://datatracker.ietf.org/doc/html/draft-tschofenig-rats-psa-token-22</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="PKCS11">[PKCS11]</dt>
         <dd>
@@ -2456,7 +2476,7 @@ the up-time, the event log, etc. The detailed structure of such
 payload is, however, not defined in this document and may be subject to
 future standardization work in supplementary documents.<a href="#appendix-A.1-2" class="pilcrow">¶</a></p>
 <span id="name-csr-with-tpm-v20"></span><div id="fig-example-tpm">
-<figure id="figure-10">
+<figure id="figure-9">
           <div class="alignLeft art-text artwork" id="appendix-A.1-3.1">
 <pre>
 Certification Request:
@@ -2512,7 +2532,7 @@ Certification Request:
         57:f9:23:ee:93:47:6d:d6:d3:4f:c2:b7:cc:0d:89:71:fe
 </pre>
 </div>
-<figcaption><a href="#figure-10" class="selfRef">Figure 10</a>:
+<figcaption><a href="#figure-9" class="selfRef">Figure 9</a>:
 <a href="#name-csr-with-tpm-v20" class="selfRef">CSR with TPM V2.0</a>
           </figcaption></figure>
 </div>
@@ -2523,13 +2543,13 @@ Certification Request:
         <h3 id="name-platform-security-architect">
 <a href="#appendix-A.2" class="section-number selfRef">A.2. </a><a href="#name-platform-security-architect" class="section-name selfRef">Platform Security Architecture Attestation Token in CSR</a>
         </h3>
-<p id="appendix-A.2-1">The example shown in <a href="#fig-example-psa" class="auto internal xref">Figure 11</a> illustrates how the Arm
+<p id="appendix-A.2-1">The example shown in <a href="#fig-example-psa" class="auto internal xref">Figure 10</a> illustrates how the Arm
 Platform Security Architecture (PSA) Attestation Token
 is conveyed in a CSR. The content of the Evidence in this example is re-used
 from <span>[<a href="#I-D.tschofenig-rats-psa-token" class="cite xref">I-D.tschofenig-rats-psa-token</a>]</span> and contains an Entity Attestation
 Token (EAT) digitally signed with an attestation private key.<a href="#appendix-A.2-1" class="pilcrow">¶</a></p>
 <span id="name-csr-with-embedded-psa-attes"></span><div id="fig-example-psa">
-<figure id="figure-11">
+<figure id="figure-10">
           <div class="alignLeft art-text artwork" id="appendix-A.2-2.1">
 <pre>
 Certification Request:
@@ -2585,7 +2605,7 @@ Certification Request:
         57:f9:23:ee:93:47:6d:d6:d3:4f:c2:b7:cc:0d:89:71:fe
 </pre>
 </div>
-<figcaption><a href="#figure-11" class="selfRef">Figure 11</a>:
+<figcaption><a href="#figure-10" class="selfRef">Figure 10</a>:
 <a href="#name-csr-with-embedded-psa-attes" class="selfRef">CSR with embedded PSA Attestation Token</a>
           </figcaption></figure>
 </div>

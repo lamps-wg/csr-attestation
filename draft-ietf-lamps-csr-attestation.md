@@ -1017,7 +1017,7 @@ Where:
 
 * authPolicy is the Policy Digest needed to authorize use of the object.
 * Parameters are the object type specific public information about the key.
-     * For key objects, this would be the key's public parameters. 
+     * For key objects, this would be the key's public parameters.
 * unique is the identifier for parameters
 
 The size of the TPMT_PUBLIC is provided by the following structure:

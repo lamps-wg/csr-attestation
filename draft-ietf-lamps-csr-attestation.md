@@ -689,12 +689,10 @@ The initial registry contents is shown in the table below. It lists two
 entries, one for DICE-based Evidence and the second for the Conceptual
 Message Wrapper (CMW) {{I-D.ietf-rats-msg-wrap}}.
 
-~~~
 | OID              | Description                | Reference(s)   | Change Controller |
 |------------------|----------------------------|----------------|-------------------|
 | 2 23 133 5 4 10  | DICE Evidence              | {{TCGDICE1.1}} |  TCG              |
 | 2 23 133 5 4 9   | Conceptual Message Wrapper | {{TCGDICE1.1}} |  TCG              |
-~~~
 {: #tab-ae-reg title="Initial Contents of the Attestation Evidence OID Registry"}
 
 The current registry values can be retrieved from the IANA online website.

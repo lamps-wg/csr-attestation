@@ -60,6 +60,7 @@ normative:
 informative:
   RFC8126:
   I-D.ietf-rats-msg-wrap:
+  I-D.bft-rats-kat:
   RFC7030:
   I-D.tschofenig-rats-psa-token:
   TPM20:
@@ -958,7 +959,7 @@ EvidenceBundles
             +
             |
             +-> type: OID for CMW Collection
-            |         1 3 6 1 5 5 7 1 TBD 
+            |         1 3 6 1 5 5 7 1 TBD
             |
             +-> stmt: KAT/PAT CMW Collection
 ~~~

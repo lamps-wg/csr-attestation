@@ -23,11 +23,6 @@ id-aa
 FROM SecureMimeMessageV3dot1
     { iso(1) member-body(2) us(840) rsadsi(113549)
         pkcs(1) pkcs-9(9) smime(16) modules(0) msg-v3dot1(21) }
-
-GeneralName
-  FROM PKIX1Implicit-2009
-      {iso(1) identified-organization(3) dod(6) internet(1) security(5)
-      mechanisms(5) pkix(7) id-mod(0) id-mod-pkix1-implicit-02(59)}
   ;
   
 
@@ -44,8 +39,6 @@ CertificateAlternatives ::=
    }
 
 TYPED-CERT ::= TYPE-IDENTIFIER
-
-CertType ::= TYPED-CERT.&id
 
 TypedCert ::= SEQUENCE {
       certType     TYPED-CERT.&id({TypedCertSet}),
@@ -67,8 +60,6 @@ EvidenceStatementSet EVIDENCE-STATEMENT ::= {
    ... -- None defined in this document --
 }
 
-EvidenceStatements ::= SEQUENCE SIZE (1..MAX) OF EvidenceStatement
-
 EvidenceHint ::= CHOICE {
      rfc822Name [0] IA5String,
      dNSName    [1] IA5String,
@@ -84,19 +75,19 @@ EvidenceStatement ::= SEQUENCE {
    hint   EvidenceHint OPTIONAL
 }
 
-id-aa-evidenceStatement OBJECT IDENTIFIER ::= { id-aa TBDAA }
+id-aa-evidence OBJECT IDENTIFIER ::= { id-aa TBDAA }
 
 -- For PKCS#10
 attr-evidence ATTRIBUTE ::= {
   TYPE EvidenceBundles
-  IDENTIFIED BY id-aa-evidenceStatement
+  IDENTIFIED BY id-aa-evidence
 }
 
 
 -- For CRMF
 ext-evidence EXTENSION ::= {
   SYNTAX EvidenceBundles
-  IDENTIFIED BY id-aa-evidenceStatement
+  IDENTIFIED BY id-aa-evidence
 }
 
 EvidenceBundles ::= SEQUENCE SIZE (1..MAX) OF EvidenceBundle

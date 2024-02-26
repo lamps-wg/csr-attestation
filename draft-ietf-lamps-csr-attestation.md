@@ -58,6 +58,8 @@ normative:
   RFC2986:
 
 informative:
+  RFC8126:
+  I-D.ietf-rats-msg-wrap:
   RFC7030:
   I-D.tschofenig-rats-psa-token:
   TPM20:
@@ -74,17 +76,16 @@ informative:
     target: https://cabforum.org/wp-content/uploads/Baseline-Requirements-for-the-Issuance-and-Management-of-Code-Signing.v3.3.pdf
   TCGDICE1.1:
     author:
-      org: Trusted Computing Group
-    title: DICE Attestation Architecture, v.1.1
-    date: May4, 2023
-    target: https://trustedcomputinggroup.org/wp-content/uploads/DICE-Attestation-Architecture-Version-1.1-Revision-17_1August2023.pdf
+      org: "Trusted Computing Group"
+    title: "DICE Attestation Architecture"
+    target: https://trustedcomputinggroup.org/wp-content/uploads/DICE-Attestation-Architecture-Version-1.1-Revision-18_pub.pdf
+    date: January, 2024
   PKCS11:
     author:
       org: OASIS
     title: "PKCS #11 Cryptographic Token Interface Base Specification Version 2.40"
     date: 14 April 2015
     target: http://docs.oasis-open.org/pkcs11/pkcs11-base/v2.40/os/pkcs11-base-v2.40-os.html
-
 
 --- abstract
 
@@ -100,8 +101,10 @@ Including Evidence along with a CSR can help to improve the assessment of the se
 # Introduction
 
 When requesting a certificate from a Certification Authority (CA), a PKI end entity may wish to include Evidence of the security properties of its environments in which the private keys are stored in that request.
-This Evidence can be appraised by authoritative entities, such as a Registration Authority (RA) or a CA, or associated trusted Verifiers as part of validating an incoming certificate request against given certificate policies.
-This specification defines an attribute and an extension that allow for conveyance of Evidence in Certificate Signing Requests (CSRs) in either PKCS#10 {{RFC2986}} or Certificate Request Message Format (CRMF) {{RFC4211}} payloads.
+This Evidence can be appraised by authoritative entities, such as a Registration Authority (RA) or a CA, or associated trusted Verifiers as part of validating an incoming certificate request against given certificate policies. Regulatory bodies are beginning to require proof-of-hardware residency for certain classifications of cryptographic keys. At the time of writing, the most notable example is the Code-Signing Baseline Requirements {{CSBR}} document maintained by the CA/Browser Forum, which requires compliant CAs to "ensure that a Subscriber’s Private Key is generated, stored,
+and used in a secure environment that has controls to prevent theft or misuse".
+
+This specification defines an attribute and an extension that allow for conveyance of Evidence in Certificate Signing Requests (CSRs) in either PKCS#10 {{RFC2986}} or Certificate Request Message Format (CRMF) {{RFC4211}} payloads which provides an elegant and automatable mechanism for meeting requirements such as those in the CA/B Forum's {{CSBR}}.
 
 As outlined in the RATS Architecture {{RFC9334}}, an Attester (typically
 a device) produces a signed collection of Claims that constitutes Evidence about its running environment.
@@ -118,10 +121,7 @@ The certificates typically contain one or more certification paths
 rooted in a device manufacture trust anchor and the leaf certificate being
 on the device in question; the latter is the Attestation Key that signs the Evidence statement.
 
-This document specifies two ATTRIBUTE/Attribute definitions. The first
-Attribute may be used to carry a set of certificates or public keys that
-may be required to validate signed Evidence. The second Attribute carries a
-structure that may be used to convey Evidence.
+This document specifies a CSR Attribute (or Extension for Certificate Request Message Format (CRMF) CSRs) for carrying Evidence. Evidence can be placed into an EvidenceStatement along with an OID to identify its type and optionally a hint to the Relying Party about how to verify it. A set of EvidenceStatements may be grouped together along with the set of CertificateAlternatives needed to validate them to form a EvidenceBundle. One or more EvidenceBundles may be placed into the id-aa-evidence CSR Attribute (or CRFM Extension).
 
 A CSR may contain one or more Evidence payloads, for example Evidence
 asserting the storage properties of a private key as well Evidence
@@ -130,8 +130,9 @@ of the device, or Evidence signed using different cryptographic
 algorithms.
 
 With these attributes, additional
-information about whether to issue a certificate and what information
-to populate into the certificate is available to an RA or CA. The scope of this document is, however,
+information information is available to an RA or CA which may be used
+to decide whether to issue a certificate and what certificate profile
+to apply. The scope of this document is, however,
 limited to the conveyance of Evidence within CSR. The exact format of the
 Evidence being conveyed is defined in various standard and proprietary
 specifications.
@@ -181,7 +182,10 @@ single entity. The Verifier functionality can, however,
 also be kept separate from the RA/CA functionality, such as a utility or
 library provided by the device manufacturer. For example,
 security concerns may require parsers of Evidence formats to be logically
-or physically separated from the core CA functionality.
+or physically separated from the core CA functionality. The interface
+by which the Relying Party passes Evidence to the Verifier and receives back
+Attestation Results may be proprietary or standardized, but in any case is
+out-of-scope for this document.
 
 ~~~ aasvg
                               .-------------.
@@ -196,7 +200,7 @@ or physically separated from the core CA functionality.
  .------------.               .----|----------.
  |            +-------------->|----'          | Compare Attestation
  |  Attester  |   Evidence    | Relying       | Result against
- |            |   in CSR      | Party (RA/CA) | policy
+ |  (/w HSM)  |   in CSR      | Party (RA/CA) | policy
  '------------'               '---------------'
 ~~~
 {: #fig-arch title="Architecture with Background Check Model."}
@@ -206,7 +210,7 @@ considered. For example, Evidence may need to be protected against replay and
 Section 10 of RFC 9334 lists approach for offering freshness. There are also
 concerns about the exposure of persistent identifiers by utilizing attestation
 technology, which are discussed in Section 11 of RFC 9334. Finally, the keying
-material used by the Attester need to be protected against unauthorized access,
+material used by the Attester needs to be protected against unauthorized access,
 and against signing arbitrary content that originated from outside the device.
 This aspect is described in Section 12 of RFC 9334. Most of these aspects are,
 however, outside the scope of this specification but relevant for use with a
@@ -218,20 +222,23 @@ CSR messages.
 
 ## Interaction with an HSM
 
-This specification is intended to be used both in cases where the CSR
-is constructed internally or externally to the attesting environment.
+This specification is intended to be applicable both in cases where the CSR
+is constructed internally or externally to the attesting environment, from the
+point of view of the calling application.
 
 Cases where the CSR is generated internally to the attesting environment
-are straightforward: the generates and embeds Evidence and the corresponding
+are straightforward: the HSM generates and embeds the Evidence and the corresponding
 certificate chains when constructing the CSR.
 
-Externally-generated CSRs may require extra round-trips of communication
+Cases where the CSR is generated externally may require extra round-trips of communication
 between the CSR generator and the attesting environment, first to obtain
-the necessary evidence statements about the subject key, and then to use
+the necessary Evidence about the subject key, and then to use
 the subject key to sign the CSR. For example, consider a CSR generated by
 a popular crypto library about a subject key stored on a PKCS#11 {{PKCS11}} device.
 
-The interaction would conceptually be:
+As an example, assuming that the HSM is, or contains, the attesting environment, and
+some cryptographic library is assembling a CSR by interacting with the HSM over some
+network protocol, then the interaction would conceptually be:
 
 ~~~ aasvg
                    +---------+          +-----+
@@ -262,10 +269,11 @@ Evidence in a CSR (together with certificate chains) the structure
 shown in {{fig-info-model}} is used.
 
 On a high-level, the structure can be explained as follows:
-A PKCS#10 attribute or a CRMF extension contains one or multiple
-EvidenceBundle structures. Each EvidenceBundle contains one or
-multiple EvidenceStatement structures as well as one or many
-CertificateAlternatives.
+A PKCS#10 attribute or a CRMF extension contains one or more
+EvidenceBundle structures. Each EvidenceBundle contains one or more
+EvidenceStatement structures as well as one or more
+CertificateAlternatives which enable to carry various format of
+certificates.
 
 ~~~ aasvg
  +--------------------+
@@ -273,16 +281,16 @@ CertificateAlternatives.
  |  Attribute or      |
  |  Extension         |
  +--------+-----------+
-          |1
-          |                     n +-------------------------+
+          |
+          |           (1 or more) +-------------------------+
           |         +-------------+ CertificateAlternatives |
           |         |             +-------------------------+
           |         |             | Certificate OR          |
           |         |             | TypedCert   OR          |
           |         |             | TypedFlatCert           |
-          |         |             +-------------------------+
-          |n       1|
- +--------+---------+-+ 1       n +-------------------+
+   (1 or  |         |             +-------------------------+
+    more) |         |      (1 or
+ +--------+---------+-+     more) +-------------------+
  |  EvidenceBundle    +-----------+ EvidenceStatement |
  +--------------------+           +-------------------+
                                   | Type              |
@@ -295,7 +303,8 @@ The following use cases are supported:
 
 Single Attester, which only distributes Evidence without any certificate chains,
 i.e. the Verifier is assumed to be in possession of the certificate chain already
-or there is no certificate chain. As a result a single EvidenceBundle is included
+or there is no certificate chain because the Verifier directly trusts the Attester key.
+As a result a single EvidenceBundle is included
 in a CSR that contains a single EvidenceStatement without the CertificateAlternatives
 structure. {{fig-single-attester}} shows this use case.
 
@@ -329,9 +338,9 @@ In a Composite Device, which contains multiple Attesters, a collection of Eviden
 statements is obtained. Imagine that each Attester returns its Evidence together with a
 certificate chain. As a result, multiple EvidenceBundle structures, each carrying
 an EvidenceStatement and the corresponding CertificateAlternative structure with the
-certificate chain as provided by each Attester, are included in the CSR. It may
-be possible that there is an overlap in the certificate chains transmitted by
-the different Attesters. This approach does not require any processing capabilities
+certificate chain as provided by each Attester, are included in the CSR.
+This may result in certificates being duplicated across multiple EvidenceBundles.
+This approach does not require any processing capabilities
 by a lead Attester since the information is merely forwarded. {{fig-multiple-attesters}}
 shows this use case.
 
@@ -483,9 +492,11 @@ EvidenceStatement ::= SEQUENCE {
 
 The type is on OID indicating the format of the data contained in stmt.
 
-The hint is intended for an Attester to indicate to the Relying Party
+The hint is intended for an Attester to indicate to the Relying Party (RP)
 which Verifier should be invoked to parse this statement. In many cases,
-the type OID will already uniquely indicate which Verifier to invoke, but
+the type OID will already uniquely indicate which Verifier to invoke;
+for example because the OID indicates a proprietary Evidence format for
+which the RP has corresponding proprietary Verifier. However,
 in some cases it may still be ambiguous, or the type may indicate
 another layer of conceptual message wrapping in which case it is helpful
 to the RP to bring this hint outside of the statement.
@@ -505,18 +516,18 @@ EvidenceBundle ::= SEQUENCE
   certs SEQUENCE SIZE (1..MAX) OF CertificateAlternatives OPTIONAL
 }
 
-id-aa-evidenceStatement OBJECT IDENTIFIER ::= { id-aa TBDAA }
+id-aa-evidence OBJECT IDENTIFIER ::= { id-aa TBDAA }
 
 -- For PKCS#10
 attr-evidence ATTRIBUTE ::= {
   TYPE EvidenceBundles
-  IDENTIFIED BY id-aa-evidenceStatement
+  IDENTIFIED BY id-aa-evidence
 }
 
 -- For CRMF
 ext-evidence EXTENSION ::= {
   SYNTAX EvidenceBundles
-  IDENTIFIED BY id-aa-evidenceStatement
+  IDENTIFIED BY id-aa-evidence
 }
 ~~~
 
@@ -535,10 +546,6 @@ A CSR MAY contain one or more instances of `attr-evidence` or `ext-evidence`.
 This means that the `SEQUENCE OF EvidenceBundle` is redundant with the
 ability to carry multiple `attr-evidence` or `ext-evidence` at the CSR level;
 either mechanism MAY be used for carrying multiple Evidence bundles.
-We are leaving the `SEQUENCE OF EvidenceBundle` since it is in general
-more flexible than relying on the containing structure to handle multiplicity
-and allows for this structure to be re-used in the future in other PKIX
-protocol contexts.
 
 
 ##  CertificateAlternatives
@@ -560,7 +567,7 @@ CertificateAlternatives ::=
 with RFC 5280.  Enforcement of this constraint is left to the relying
 parties.
 
-"TypedCert" is an ASN.1 construct that has the charateristics of a
+"TypedCert" is an ASN.1 construct that has the characteristics of a
 certificate, but is not encoded as an X.509 certificate.  The
 certType Field (below) indicates how to interpret the certBody field.  While
 it is possible to carry any type of data in this structure, it's
@@ -597,30 +604,27 @@ TypedFlatCert ::= SEQUENCE {
 
 # IANA Considerations
 
-IANA is requested to open one new registry, allocate a value
+IANA is requested to open two new registries, allocate a value
 from the "SMI Security for PKIX Module Identifier" registry for the
 included ASN.1 module, and allocate values from "SMI Security for
 S/MIME Attributes" to identify two Attributes defined within.
 
-##  Object Identifier Allocations
-
-###  Module Registration - SMI Security for PKIX Module Identifier
+##  Module Registration - SMI Security for PKIX Module Identifier
 
 -  Decimal: IANA Assigned - **Replace TBDMOD**
 -  Description: CSR-ATTESTATION-2023 - id-mod-pkix-attest-01
 -  References: This Document
 
-###  Object Identifier Registrations - SMI Security for S/MIME Attributes
+##  Object Identifier Registrations - SMI Security for S/MIME Attributes
 
-- Attest Statement
+- Evidence Statement
   - Decimal: IANA Assigned - Replace **TBDAA**
-  - Description: id-aa-evidenceStatement
+  - Description: id-aa-evidence
   - References: This Document
 
+##  "SMI Security for PKIX Evidence Statement Formats" Registry
 
-###  "SMI Security for PKIX Evidence Statement Formats" Registry
-
-Please open up a registry for Evidence Statement Formats within
+IANA is asked to create a registry for Evidence Statement Formats within
 the SMI-numbers registry, allocating an assignment from id-pkix ("SMI
 Security for PKIX" Registry) for the purpose.
 
@@ -638,16 +642,71 @@ Columns:
 -  Description: Begins with id-ata
 -  References: RFC or other document
 
+## Attestation Evidence OID Registry
+
+IANA is asked to create a registry that helps developers to find
+OID/Evidence mappings.
+
+Registration requests are evaluated using the criteria described in
+the registration template below after a three-week review period on
+the [[TBD]] mailing list, with the advice of one or more Designated
+Experts {{RFC8126}}.  However, to allow for the allocation of values
+prior to publication, the Designated Experts may approve registration
+once they are satisfied that such a specification will be published.
+
+Registration requests sent to the mailing list for review should use
+an appropriate subject (e.g., "Request to register attestation
+evidence: example").
+
+IANA must only accept registry updates from the Designated Experts
+and should direct all requests for registration to the review mailing
+list.
+
+### Registration Template
+
+The registry has the following columns:
+
+- OID: The OID number, which has already been allocated. IANA does
+not allocate OID numbers for use with this registry.
+
+- Description: Brief description of the use of the Evidence and the
+registration of the OID.
+
+- Reference(s): Reference to the document or documents that register
+the OID for use with a specific attestation technology, preferably
+including URIs that can be used to retrieve copies of the documents.
+An indication of the relevant sections may also be included but is not
+required.
+
+- Change Controller: For Standards Track RFCs, list the "IESG".  For
+others, give the name of the responsible party. In most cases the
+third party requesting registration in this registry will also be the
+party that registered the OID.
+
+### Initial Registry Contents
+
+The initial registry contents is shown in the table below. It lists two
+entries, one for DICE-based Evidence and the second for the Conceptual
+Message Wrapper (CMW) {{I-D.ietf-rats-msg-wrap}}.
+
+| OID              | Description                | Reference(s)   | Change Controller |
+|------------------|----------------------------|----------------|-------------------|
+| 2 23 133 5 4 10  | DICE Evidence              | {{TCGDICE1.1}} |  TCG              |
+| 2 23 133 5 4 9   | Conceptual Message Wrapper | {{TCGDICE1.1}} |  TCG              |
+{: #tab-ae-reg title="Initial Contents of the Attestation Evidence OID Registry"}
+
+The current registry values can be retrieved from the IANA online website.
+
 # Security Considerations
 
-A PKCS#10 or CRMF Certification Request message consists of a
+A PKCS#10 or CRMF Certification Request message typically consists of a
 distinguished name, a public key, and optionally a set of attributes,
 collectively signed by the entity requesting certification.
-The private key used to sign the CSR MUST be different from the
+In general usage, the private key used to sign the CSR MUST be different from the
 Attesting Key utilized to sign Evidence about the Target
-Environment. Key separation is an important principle in cryptography
-and also applies to this specification with regards to the Attestation Key
-and the CSR signing key. To demonstrate that the private
+Environment, though exceptions MAY be made where CSRs and Evidence are involved in
+bootstrapping the Attesting Key.
+To demonstrate that the private
 key applied to sign the CSR is generated, and stored in a secure
 environment that has controls to prevent theft or misuse (including
 being non-exportable / non-recoverable), the Attesting Environment
@@ -700,14 +759,13 @@ exports Evidence for use in remote attestation via a CSR.
 {: #fig-attester title="Interaction between Attesting and Target Environment"}
 
 {{fig-attester}} places the CSR library outside the Attester, which
-is an implementation choice. The CSR library may also be located
+is a valid architecture for certificate enrollment.
+The CSR library may also be located
 inside the trusted computing base. Regardless of the placement
-of the CSR library an Attesting Environment MUST be able to collect
+of the CSR library, an Attesting Environment MUST be able to collect
 claims about the Target Environment such that statements about
-the storage of the keying material can be made. For example, one
-implementation may perform a software measurement of the CSR library
-along with the crypto library implementation that has access to the
-keying material. For the Verifier, the provided Evidence must allow
+the storage of the keying material can be made.
+For the Verifier, the provided Evidence must allow
 an assessment to be made whether the key used to sign the CSR
 is stored in a secure location and cannot be exported.
 
@@ -725,7 +783,8 @@ Policies drive the processing of Evidence at the Verifier: the Verifier's
 Appraisal Policy for Evidence will often be based on specifications by the manufacturer
 of a hardware security module, a regulatory agency, or specified by an
 oversight body, such as the CA Browser Forum. The Code-Signing Baseline
-Requirements {{CSBR}} document is an example of such a policy that has
+Requirements {{CSBR}} document
+is an example of such a policy that has
 been published by the CA Browser Forum and specifies certain properties,
 such as non-exportability, which must be enabled for storing
 publicly-trusted code-signing keys. Other
@@ -744,16 +803,22 @@ Evidence generated by an Attester generally needs to be fresh to provide
 value to the Verifier since the configuration on the device may change
 over time. Section 10 of {{RFC9334}} discusses different approaches for
 providing freshness, including a nonce-based approach, the use of timestamps
-and an epoch-based technique.  The use of nonces requires an extra message
-exchange via the Relying Party and the use of timestamps requires
-synchronized clocks. Epochs also require (unidirectional) communication.
-How to acheive freshness for a given HSM and Evidence format, within the
-context of a given certificate enrollment protocol are out-of-scope for
-this document.
+and an epoch-based technique.  The use of nonces requires that nonce to be provided by
+the Relying Party in some protocol step prior to Evidence and CSR generation,
+and the use of timestamps requires synchronized clocks which cannot be
+guaranteed in all operating environments. Epochs also require (unidirectional)
+communication prior to Evidence and CSR generation.
+This document only specifies how to carry existing Evidence formats inside a CSR,
+and so issues of synchronizing freshness data is left to be handled, for example,
+via certificate management protocols.
+Developers, operators, and designers of protocols, which embed
+Evidence-carrying-CSRs, MUST consider what notion of freshness is
+appropriate and available in-context; thus the issue of freshness is
+left up to the discretion of protocol designers and implementers.
 
-Additionally, the definition of "fresh" is somewhat ambiguous in the context
+In the case of Hardware Security Modules (HSM), the definition of "fresh" is somewhat ambiguous in the context
 of CSRs, especially considering that non-automated certificate enrollments
-are often asyncronous, and considering the common practice of re-using the
+are often asynchronous, and considering the common practice of re-using the
 same CSR for multiple certificate renewals across the lifetime of a key.
 "Freshness" typically implies both asserting that the data was generated
 at a certain point-in-time, as well as providing non-replayability.
@@ -764,10 +829,6 @@ time T to have been generated inside the hardware boundary and to be
 non-exportable, then it can be assumed that those properties of that key
 will continue to hold into the future.
 
-Developers, operators, and designers of protocols, which embed
-Evidence-carrying-CSRs, need to consider what notion of freshness is
-appropriate and available in-context; thus the issue of freshness is
-left up to the discretion of protocol designers and implementors.
 
 ## Publishing evidence in an X.509 extension
 
@@ -775,6 +836,14 @@ This document specifies and Extension for carrying Evidence in a CRMF Certificat
 The reason for this is that certificates are considered public information and the Evidence might contain detailed information about hardware and patch levels of the device on which the private key resides.
 The certificate requester has consented to sharing this detailed device information with the CA but might not consent to having these details published.
 These privacy considerations are beyond the scope of this document and may require additional signaling mechanisms in the CSR to prevent unintended publication of sensitive information, so we leave it as "NOT RECOMMENDED".
+
+## Type OID and verifier hint
+
+The `EvidenceStatement` includes both a `type` OID and a free form `hint` field with which the Attester can provide information to the Relying Party about which Verifier to invoke to parse a given piece of Evidence.
+Care should be taken when processing these data since at the time they are used, they are not yet verified. In fact, they are protected by the CSR signature but not by the signature from the Attester and so could be maliciously replaced in some cases.
+The authors' intent is that the `type` OID and `hint` will allow an RP to select between Verifier with which it has pre-established trust relationships, such as Verifier libraries that have been compiled in to the RP application.
+As an example, the `hint` may take the form of an FQDN to uniquely identify a Verifier implementation, but the RP MUST NOT blindly make network calls to unknown domain names and trust the results.
+Implementers should also be cautious around `type` OID or `hint` values that cause a short-circuit in the verification logic, such as `None`, `Null`, `Debug`, empty CMW contents, or similar values that could cause the Evidence to appear to be valid when in fact it was not properly checked.
 
 --- back
 
@@ -1100,7 +1169,7 @@ Certification Request:
 {: #fig-example-psa title="CSR with embedded PSA Attestation Token"}
 
 The decoded Evidence is shown in Appendix A of
-{{I-D.tschofenig-rats-psa-token}}, the shown Evidence, provides the following
+{{I-D.tschofenig-rats-psa-token}}, the shown Evidence provides the following
 information to an RA/CA:
 
 - Boot seed,
@@ -1119,7 +1188,7 @@ information to an RA/CA:
 
 ## TCG DICE ConceptualMessageWrapper in CSR
 
-This section gives an example of extending the ASN.1 module above to carry an existing ASN.1-based evidence statement. The example used is the Trusted Computing Group DICE Attestation Conceptual Message Wrapper as defined in [TCGDICE1.1].
+This section gives an example of extending the ASN.1 module above to carry an existing ASN.1-based evidence statement. The example used is the Trusted Computing Group DICE Attestation Conceptual Message Wrapper, as defined in {{TCGDICE1.1}}.
 
 ~~~
 {::include CSR-ATTESTATION-WITH-DICE-CMW.asn}
@@ -1132,9 +1201,14 @@ LAMPS working group. The following persons, in no specific order,
 contributed to the work: Richard Kettlewell, Chris Trufan, Bruno Couillard,
 Jean-Pierre Fiset, Sander Temme, Jethro Beekman, Zsolt Rózsahegyi, Ferenc
 Pető, Mike Agrenius Kushner, Tomas Gustavsson, Dieter Bong, Christopher Meyer,
-Michael StJohns, Carl Wallace, Michael Ricardson, Tomofumi Okubo, Olivier
+Michael StJohns, Carl Wallace, Michael Richardson, Tomofumi Okubo, Olivier
 Couillard, John Gray, Eric Amador, Johnson Darren, Herman Slatman, Tiru Reddy,
-Thomas Fossati, Corey Bonnel, Argenius Kushner, James Hagborg.
+Thomas Fossati, Corey Bonnel, Argenius Kushner, James Hagborg, Monty Wiseman,
+Ned Smith.
 
 We would like to specifically thank Mike StJohns for his work on an earlier
 version of this draft.
+
+Finally, we would like to thank Andreas Kretschmer for his feedback based
+on his implementation experience, and Daniel Migault and Russ Housley for
+their review comments.

@@ -834,12 +834,11 @@ The tcg-kp-AIKCertificate field contains the AIK Certificate in RFC 5280 format.
 ## Introduction
 
 All defininitions in this section are defined by the TPM2 and various TCG defined
-specification. Those familiar with TPM2 concepts may skip this section. For
-those unfamiliar with TPM2 concepts this section provides only the minimum
-information to understand TPM2 Attestation in CSR and is not a complete
-description of the technology in general.
-
-> TODO Verify actual names of these document from their title pages
+specification including the TPM2 set of specifications. Those familiar with
+TPM2 concepts may skip this section. For those unfamiliar with TPM2 concepts
+this section provides only the minimum information to understand TPM2
+Attestation in CSR and is not a complete description of the technology in
+general.
 
 ### TCG Objects and Key Attestation
 
@@ -847,8 +846,8 @@ This provides a brief explanation of the relevant TPM2 commands and data
 structures needed to understand TPM2 Attestation used in this RFC.
 NOTE: The TPM2 specification used in this explanation is version 1.59,
 section number cited are based on that version. Note also that the TPM2
-specification comprises four documents: Part 1 Architecture; Part 2 Structures;
-Part 3 Commands; Part 4 Supporting routines.
+specification comprises four documents: Part 1: Architecture; Part 2: Structures;
+Part 3: Commands; Part 4: Supporting Routines.
 
 Note about convention:
 All structures starting with TPM2B_ are:
@@ -1034,9 +1033,8 @@ The Verifier has to perform the following steps once it receives the Evidence:
 * Use the Key's "expected" Name from the provided TPM2B_PUBLIC structure.
 If Key's "expected" Name equals TPM2B_ATTEST->attestationData then returned TPM2B_PUBLIC is the verified.
 
-## Example Structures
+### Example Structures
 
->TODO
 
 ## Platform Security Architecture Attestation Token in CSR
 

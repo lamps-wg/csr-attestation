@@ -930,80 +930,92 @@ Certification Request:
 ~~~
 {: #fig-example-tpm title="CSR with TPM V2.0"}
 
-## Platform Security Architecture Attestation Token in CSR
+## PSA Attestation Token in CSR
 
-The example shown in {{fig-example-psa}} illustrates how the Arm
-Platform Security Architecture (PSA) Attestation Token
-is conveyed in a CSR. The content of the Evidence in this example is re-used
-from {{I-D.tschofenig-rats-psa-token}} and contains an Entity Attestation
-Token (EAT) digitally signed with an attestation private key.
+The Platform Security Architecture (PSA) Attestation Token is
+defined in {{I-D.tschofenig-rats-psa-token}} and specifies
+claims to be included in an Entity Attestation
+Token (EAT). {{I-D.bft-rats-kat}} defines key attestation
+based on the EAT format. In this section the platform
+attestation offered by {{I-D.tschofenig-rats-psa-token}}
+is combined with key attestation by binding the
+key attestation token (KAT) to the platform attestation token (PAT)
+with the help of the nonce. For details see {{I-D.bft-rats-kat}}.
+The resulting KAT-PAT bundle is, according to
+{{Section 5.1 of I-D.bft-rats-kat}}, combined in a CMW collection
+{{I-D.ietf-rats-msg-wrap}}.
+
+The encoding of this KAT-PAT bundle is shown in the example below.
 
 ~~~
-Certification Request:
-    Data:
-        Version: 1 (0x0)
-        Subject: CN = server.example.com
-        Subject Public Key Info:
-            Public Key Algorithm: id-ecPublicKey
-                Public-Key: (256 bit)
-                pub:
-                    04:b9:7c:02:a1:1f:9c:f3:f4:c4:55:3a:d9:3e:26:
-                    e8:e5:11:63:84:36:5f:93:a6:99:7d:d7:43:23:0a:
-                    4f:c0:a8:40:46:7e:8d:b2:1a:38:19:ff:6a:a7:38:
-                    16:06:1e:12:9f:d1:d5:58:55:e6:be:6d:bb:e1:fb:
-                    f7:70:a7:5c:c9
-                ASN1 OID: prime256v1
-                NIST CURVE: P-256
-        Attributes:
-            EvidenceStatement
-               type: TBD1 (referring to the PSA Attestation Token)
-               value: d2:84:43:a1:01:26:a0:59:01:3b:aa:19:01:09:78:
-                      18:68:74:74:70:3a:2f:2f:61:72:6d:2e:63:6f:6d:
-                      2f:70:73:61:2f:32:2e:30:2e:30:19:09:5a:1a:7f:
-                      ff:ff:ff:19:09:5b:19:30:00:19:09:5c:58:20:00:
-                      00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:
-                      00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:
-                      00:19:09:5d:48:00:00:00:00:00:00:00:00:19:09:
-                      5e:73:31:32:33:34:35:36:37:38:39:30:31:32:33:
-                      2d:31:32:33:34:35:19:09:5f:81:a2:02:58:20:03:
-                      03:03:03:03:03:03:03:03:03:03:03:03:03:03:03:
-                      03:03:03:03:03:03:03:03:03:03:03:03:03:03:03:
-                      03:05:58:20:04:04:04:04:04:04:04:04:04:04:04:
-                      04:04:04:04:04:04:04:04:04:04:04:04:04:04:04:
-                      04:04:04:04:04:04:0a:58:20:01:01:01:01:01:01:
-                      01:01:01:01:01:01:01:01:01:01:01:01:01:01:01:
-                      01:01:01:01:01:01:01:01:01:01:01:19:01:00:58:
-                      21:01:02:02:02:02:02:02:02:02:02:02:02:02:02:
-                      02:02:02:02:02:02:02:02:02:02:02:02:02:02:02:
-                      02:02:02:02:19:09:60:78:2e:68:74:74:70:73:3a:
-                      2f:2f:76:65:72:61:69:73:6f:6e:2e:65:78:61:6d:
-                      70:6c:65:2f:76:31:2f:63:68:61:6c:6c:65:6e:67:
-                      65:2d:72:65:73:70:6f:6e:73:65:58:40:56:f5:0d:
-                      13:1f:a8:39:79:ae:06:4e:76:e7:0d:c7:5c:07:0b:
-                      6d:99:1a:ec:08:ad:f9:f4:1c:ab:7f:1b:7e:2c:47:
-                      f6:7d:ac:a8:bb:49:e3:11:9b:7b:ae:77:ae:c6:c8:
-                      91:62:71:3e:0c:c6:d0:e7:32:78:31:e6:7f:32:84:
-                      1a
-    Signature Algorithm: ecdsa-with-SHA256
-    Signature Value:
-        30:45:02:21:00:93:fd:81:03:75:d1:7d:ab:53:6c:a5:19:a7:
-        68:3d:d6:e2:39:14:d6:9e:47:24:38:b5:76:db:18:a6:ca:c4:
-        8a:02:20:36:be:3d:71:93:5d:05:c3:ac:fa:a8:f3:e5:46:db:
-        57:f9:23:ee:93:47:6d:d6:d3:4f:c2:b7:cc:0d:89:71:fe
+EvidenceBundles
+ +
+ |
+ +-> EvidenceBundle
+      +
+      |
+      +->  EvidenceStatement
+            +
+            |
+            +-> type:
+
+OID - 1 3 6 1 5 5 7 1 TBD (CMW Collection)
+            |
+            +-> stmt:
+
+A2018278436170706C69636174696F6E2F6561742B6377743B6561745F
+70726F66696C653D227461673A7073616365727469666965642E6F7267
+2C323032333A7073612374666D22586E8443A10126A05824A10A58205C
+A3750DAF829C30C20797EDDB7949B1FD028C5408F2DD8650AD732327E3
+FB645840F9F41CAB7F1B7E2C47F67DACA8BB49E3119B7BAE77AEC6C891
+62713E0CC6D0E7327831E67F32841A56F50D131FA83979AE064E76E70D
+C75C070B6D991AEC08AD028278386170706C69636174696F6E2F656174
+2B6377743B6561745F70726F66696C653D227461673A64726166742D62
+66742D726174732D6B61742259010A8443A10126A058C0A30A5820B91B
+03129222973C214E42BF31D6872A3EF2DBDDA401FBD1F725D48D6BF9C8
+171909C4A401022001215820F0FFFA7BA35E76E44CA1F5446D327C8382
+A5A40E5F29745DF948346C7C88A5D32258207CB4C4873CBB6F097562F6
+1D5280768CD2CFE35FBA97E997280DBAAAE3AF92FE08A101A401022001
+215820D7CC072DE2205BDC1537A543D53C60A6ACB62ECCD890C7FA27C9
+E354089BBE13225820F95E1D4B851A2CC80FFF87D8E23F22AFB725D535
+E515D020731E79A3B4E47120584056F50D131FA83979AE064E76E70DC7
+5C070B6D991AEC08ADF9F41CAB7F1B7E2C47F67DACA8BB49E3119B7BAE
+77AEC6C89162713E0CC6D0E7327831E67F32841A
 ~~~
-{: #fig-example-psa title="CSR with embedded PSA Attestation Token"}
 
-The decoded Evidence is shown in Appendix A of
-{{I-D.tschofenig-rats-psa-token}}, the shown Evidence provides the following
-information to an RA/CA:
+The value in EvidenceStatement->stmt is based on the
+KAT/PAT example from {{Section 6 of I-D.bft-rats-kat}} and
+CBOR-encoded in a CMW collection, as shown below
+(with line-breaks added for readability purposes):
 
-- Boot seed,
-- Firmware measurements,
-- Hardware security certification reference,
-- Identification of the immutable root of trust implementation, and
-- Lifecycle state information.
-
-
+~~~
+{
+  1: [
+    "application/eat+cwt;
+     eat_profile=\"tag:psacertified.org,2023:psa#tfm\"",
+    h'8443A10126A05824A10A58205CA3750DAF829C30C20797EDDB794
+      9B1FD028C5408F2DD8650AD732327E3FB645840F9F41CAB7F1B7E
+      2C47F67DACA8BB49E3119B7BAE77AEC6C89162713E0CC6D0E7327
+      831E67F32841A56F50D131FA83979AE064E76E70DC75C070B6D99
+      1AEC08AD'
+  ],
+  2: [
+    "application/eat+cwt;
+     eat_profile=\"tag:draft-bft-rats-kat\"",
+    h'8443A10126A058C0A30A5820B91B03129222973C214E42BF31D68
+      72A3EF2DBDDA401FBD1F725D48D6BF9C8171909C4A40102200121
+      5820F0FFFA7BA35E76E44CA1F5446D327C8382A5A40E5F29745DF
+      948346C7C88A5D32258207CB4C4873CBB6F097562F61D5280768C
+      D2CFE35FBA97E997280DBAAAE3AF92FE08A101A40102200121582
+      0D7CC072DE2205BDC1537A543D53C60A6ACB62ECCD890C7FA27C9
+      E354089BBE13225820F95E1D4B851A2CC80FFF87D8E23F22AFB72
+      5D535E515D020731E79A3B4E47120584056F50D131FA83979AE06
+      4E76E70DC75C070B6D991AEC08ADF9F41CAB7F1B7E2C47F67DACA
+      8BB49E3119B7BAE77AEC6C89162713E0CC6D0E7327831E67F3284
+      1A'
+  ]
+}
+~~~
 
 # ASN.1 Module
 

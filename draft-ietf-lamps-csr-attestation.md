@@ -951,20 +951,21 @@ The Name field is returned in the TPM2B_ATTEST data field.
 
 ~~~
      typedef struct {
-          TPM_GENERATED magic; 
-          TPMI_ST_ATTEST type; 
-          TPM2B_NAME qualifiedSigner; 
-          TPM2B_DATA extraData; 
-          TPMS_CLOCK_INFO clockInfo; 
-          UINT64 firmwareVersion; 
+          TPM_GENERATED magic;
+          TPMI_ST_ATTEST type;
+          TPM2B_NAME qualifiedSigner;
+          TPM2B_DATA extraData;
+          TPMS_CLOCK_INFO clockInfo;
+          UINT64 firmwareVersion;
           TPMU_ATTEST attested;
      } TPMS_ATTEST;
 ~~~
+
 where for a key object the attested field is
 
 ~~~
      typedef struct {
-          TPM2B_NAME name; 
+          TPM2B_NAME name;
           TPM2B_NAME qualifiedName;
      } TPMS_CERTIFY_INFO;
 ~~~
@@ -979,13 +980,13 @@ define TPMT_PUBLIC for a TPM2 key object.
 
 ~~~
      typedef struct {
-          TPMI_ALG_PUBLIC type; 
-          TPMI_ALG_HASH nameAlg; 
-          TPMA_OBJECT objectAttributes; 
-          TPM2B_DIGEST authPolicy; 
-          TPMU_PUBLIC_PARMS parameters; 
+          TPMI_ALG_PUBLIC type;
+          TPMI_ALG_HASH nameAlg;
+          TPMA_OBJECT objectAttributes;
+          TPM2B_DIGEST authPolicy;
+          TPMU_PUBLIC_PARMS parameters;
           TPMU_PUBLIC_ID unique;
-     } TPMT_PUBLIC; 
+     } TPMT_PUBLIC;
 ~~~
 
 Where:
@@ -994,24 +995,24 @@ Where:
 
 ~~~
      typedef struct TPMA_OBJECT {
-          unsigned Reserved_bit_at_0 : 1; 
-          unsigned fixedTPM : 1; 
-          unsigned stClear : 1; 
-          unsigned Reserved_bit_at_3 : 1; 
-          unsigned fixedParent : 1; 
-          unsigned sensitiveDataOrigin : 1; 
-          unsigned userWithAuth : 1; 
-          unsigned adminWithPolicy : 1; 
-          unsigned Reserved_bits_at_8 : 2; 
-          unsigned noDA : 1; 
-          unsigned encryptedDuplication : 1; 
-          unsigned Reserved_bits_at_12 : 4; 
-          unsigned restricted : 1; 
-          unsigned decrypt : 1; 
-          unsigned sign : 1; 
-          unsigned x509sign : 1; 
-          unsigned Reserved_bits_at_20 : 12; 
-     } TPMA_OBJECT; 
+          unsigned Reserved_bit_at_0 : 1;
+          unsigned fixedTPM : 1;
+          unsigned stClear : 1;
+          unsigned Reserved_bit_at_3 : 1;
+          unsigned fixedParent : 1;
+          unsigned sensitiveDataOrigin : 1;
+          unsigned userWithAuth : 1;
+          unsigned adminWithPolicy : 1;
+          unsigned Reserved_bits_at_8 : 2;
+          unsigned noDA : 1;
+          unsigned encryptedDuplication : 1;
+          unsigned Reserved_bits_at_12 : 4;
+          unsigned restricted : 1;
+          unsigned decrypt : 1;
+          unsigned sign : 1;
+          unsigned x509sign : 1;
+          unsigned Reserved_bits_at_20 : 12;
+     } TPMA_OBJECT;
 ~~~
 
 * authPolicy is the Policy Digest needed to authorize use of the object.
@@ -1037,13 +1038,13 @@ as the signature.
 
 ~~~
      typedef struct {
-          TPMI_ALG_SIG_SCHEME sigAlg; 
+          TPMI_ALG_SIG_SCHEME sigAlg;
           TPMU_SIGNATURE signature; 
      } TPMT_SIGNATURE;
 
      typedef struct {
-          TPMI_ALG_HASH hash; 
-          TPM2B_PUBLIC_KEY_RSA sig; 
+          TPMI_ALG_HASH hash;
+          TPM2B_PUBLIC_KEY_RSA sig;
      } TPMS_SIGNATURE_RSA;
 ~~~
 

@@ -22,9 +22,10 @@ Abstract
    whether the private key resides on a hardware security module or the
    protection capabilities provided by the hardware.
 
-   This document describes how to encode Evidence produced by an
-   Attester for inclusion in Certificate Signing Requests (CSRs), and
-   any certificates necessary for validating it.
+   This document defines a new PKCS#10 attribute attr-evidence and CRMF
+   extension ext-evidence that allows placing any Evidence data, in any
+   pre-existing format, along with any certificates needed to validate
+   it, into a PKCS#10 or CRMF CSR.
 
    Including Evidence along with a CSR can help to improve the
    assessment of the security posture for the private key, and the

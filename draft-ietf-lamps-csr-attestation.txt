@@ -744,15 +744,12 @@ Table of Contents
 6.4.2.  Initial Registry Contents
 
    The initial registry contents is shown in the table below.  It lists
-   two entries, one for DICE-based Evidence and the second for the
-   Conceptual Message Wrapper (CMW) [I-D.ietf-rats-msg-wrap].
+   one entry for the Conceptual Message Wrapper (CMW)
+   [I-D.ietf-rats-msg-wrap].
 
      +==========+=================+==============+===================+
      | OID      | Description     | Reference(s) | Change Controller |
      +==========+=================+==============+===================+
-     | 2 23 133 | DICE Evidence   | [TCGDICE1.1] | TCG               |
-     | 5 4 10   |                 |              |                   |
-     +----------+-----------------+--------------+-------------------+
      | 2 23 133 | Conceptual      | [TCGDICE1.1] | TCG               |
      | 5 4 9    | Message Wrapper |              |                   |
      +----------+-----------------+--------------+-------------------+

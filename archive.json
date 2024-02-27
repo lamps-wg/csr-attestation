@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-02-25T00:48:26.700521+00:00",
+  "timestamp": "2024-02-27T00:43:27.179853+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -4643,13 +4643,13 @@
       "labels": [],
       "body": "",
       "createdAt": "2024-02-09T22:48:05Z",
-      "updatedAt": "2024-02-23T12:02:39Z",
+      "updatedAt": "2024-02-26T18:14:54Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
-      "baseRefOid": "c5921f2c2b09ce9804c61a400fb06556a25e7d3a",
+      "baseRefOid": "7ce414909d4ae34806608daa37f684ce9616c97b",
       "headRepository": "mwiseman-byid/csr-attestation",
       "headRefName": "main",
-      "headRefOid": "01f19800eed941bf465d3b4c16935493dbe80083",
+      "headRefOid": "984a1b25910115ad47bfe9b2ab555af37d685f27",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -4673,6 +4673,46 @@
               "body": "Hello! \ud83d\udc4b\ud83c\udffb Great write-up! I was reading through and got a bit confused by this line, specifically by `the EK is used by an Attestation CA to create an Attestation Key`. My understanding was that the EK is used to assure a 3rd party (in this case the Privacy CA / Attestation CA) that the AK is in the same TPM as the EK, not for the CA to issue the AK. Am I getting this wrong?",
               "createdAt": "2024-02-23T12:02:39Z",
               "updatedAt": "2024-02-23T12:02:39Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN85xP34z",
+          "commit": {
+            "abbreviatedOid": "01f1980"
+          },
+          "author": "mwiseman-byid",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-02-26T05:36:13Z",
+          "updatedAt": "2024-02-26T05:36:13Z",
+          "comments": [
+            {
+              "originalPosition": 266,
+              "body": "I think we are saying the same thing. The Attestation CA is just a special CA that uses the TPM protocols (including the EK) to prove the AK is in the same TPM (and has the expected attributes). The Attestation CA then issues a certificate for the AK. Since the AK is a signing key (the EK is a decryption key so the protocol is a bit awkward and non-standard - again, this is one of the reasons we use the term Attestation CA because it acts as a non-standard CA) it is easier to get a signed statement about the properties of a \"user key\". Defining that signed statement is the point of this effort.",
+              "createdAt": "2024-02-26T05:36:13Z",
+              "updatedAt": "2024-02-26T05:36:13Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN85xRl9s",
+          "commit": {
+            "abbreviatedOid": "01f1980"
+          },
+          "author": "ionut-arm",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-02-26T10:03:22Z",
+          "updatedAt": "2024-02-26T10:03:22Z",
+          "comments": [
+            {
+              "originalPosition": 266,
+              "body": "Agree, but I don't see how that maps to `used by an Attestation CA to create an Attestation Key` - perhaps `used by an Attestation CA to create an Attestation Key certificate` is clearer?",
+              "createdAt": "2024-02-26T10:03:22Z",
+              "updatedAt": "2024-02-26T10:03:22Z"
             }
           ]
         }
@@ -4809,6 +4849,81 @@
           "updatedAt": "2024-02-15T15:16:56Z"
         }
       ],
+      "reviews": []
+    },
+    {
+      "number": 94,
+      "id": "PR_kwDOJ3IIN85n7Wx1",
+      "title": "Updated PSA Example",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/94",
+      "state": "OPEN",
+      "author": "hannestschofenig",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "This example now uses the key attestation functionality, which better fits with the intent of the document.\r\n",
+      "createdAt": "2024-02-26T15:03:39Z",
+      "updatedAt": "2024-02-26T17:38:43Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "38f236e5deee44087d59c893353215557de0d917",
+      "headRepository": "lamps-wg/csr-attestation",
+      "headRefName": "hannestschofenig-patch-2",
+      "headRefOid": "430a77610dd6b6c46826f874d008093a9f257225",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJ3IIN85xUVEb",
+          "commit": {
+            "abbreviatedOid": "9b5eb21"
+          },
+          "author": "thomas-fossati",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-02-26T15:15:46Z",
+          "updatedAt": "2024-02-26T15:15:47Z",
+          "comments": [
+            {
+              "originalPosition": 136,
+              "body": "using CBOR tags (`18()` for COSE Sign1):\r\n```suggestion\r\n  \"kat\":\r\n    h'd28443A10126A058C0A30A5820B91B03129222973C214E42BF31D68\r\n      72A3EF2DBDDA401FBD1F725D48D6BF9C8171909C4A40102200121\r\n      5820F0FFFA7BA35E76E44CA1F5446D327C8382A5A40E5F29745DF\r\n      948346C7C88A5D32258207CB4C4873CBB6F097562F61D5280768C\r\n      D2CFE35FBA97E997280DBAAAE3AF92FE08A101A40102200121582\r\n      0D7CC072DE2205BDC1537A543D53C60A6ACB62ECCD890C7FA27C9\r\n      E354089BBE13225820F95E1D4B851A2CC80FFF87D8E23F22AFB72\r\n      5D535E515D020731E79A3B4E47120584056F50D131FA83979AE06\r\n      4E76E70DC75C070B6D991AEC08ADF9F41CAB7F1B7E2C47F67DACA\r\n      8BB49E3119B7BAE77AEC6C89162713E0CC6D0E7327831E67F3284\r\n      1A',\r\n  \"pat\":\r\n    h'd28443A10126A05824A10A58205CA3750DAF829C30C20797EDDB794\r\n      9B1FD028C5408F2DD8650AD732327E3FB645840F9F41CAB7F1B7E\r\n      2C47F67DACA8BB49E3119B7BAE77AEC6C89162713E0CC6D0E7327\r\n      831E67F32841A56F50D131FA83979AE064E76E70DC75C070B6D99\r\n      1AEC08AD'\r\n}\r\n```",
+              "createdAt": "2024-02-26T15:15:47Z",
+              "updatedAt": "2024-02-26T15:15:47Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 95,
+      "id": "PR_kwDOJ3IIN85n8IRR",
+      "title": "fix table rendering",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/95",
+      "state": "MERGED",
+      "author": "thomas-fossati",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Otherwise the ref to DICE is not resolved",
+      "createdAt": "2024-02-26T16:42:05Z",
+      "updatedAt": "2024-02-26T17:39:12Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "38f236e5deee44087d59c893353215557de0d917",
+      "headRepository": "thomas-fossati/csr-attestation",
+      "headRefName": "patch-1",
+      "headRefOid": "94ecc5ff5171f73542f2c839fbf2e333863038eb",
+      "closedAt": "2024-02-26T17:39:12Z",
+      "mergedAt": "2024-02-26T17:39:12Z",
+      "mergedBy": "hannestschofenig",
+      "mergeCommit": {
+        "oid": "7ce414909d4ae34806608daa37f684ce9616c97b"
+      },
+      "comments": [],
       "reviews": []
     }
   ]

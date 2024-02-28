@@ -862,6 +862,17 @@ these evidence formats, and so we leave the OIDs as TBD1 / TBD2.
 
 This section describes TPM2 key attestation for use in a CSR.
 
+### Introduction to TPM2 concepts
+
+The defininitions in the following sections are defined by the TPM2 and various TCG defined
+specification including the TPM2 set of specifications. Those familiar with
+TPM2 concepts may skip to {{appdx-tcg-attest-certify}} which defines an ASN.1 structure
+specific for bundling a TPM attestation into an EvidenceStatement, and {{appdx-tpm-example}}
+which provides the example. For those unfamiliar with TPM2 concepts
+this section provides only the minimum information to understand TPM2
+Attestation in CSR and is not a complete description of the technology in
+general.
+
 ### TCG Key Attestation Certify
 
 There are several ways in TPM2 to provide proof of a key's properties.
@@ -877,11 +888,11 @@ tcg OBJECT IDENTIFIER ::= {2.23.133}
 
 tcg-kp-AIKCertificate OBJECT IDENTIFIER ::= {tcg 8.3}
 
-tcg-attest OBJECT IDENTIFIER ::= {tcg x}
+tcg-attest OBJECT IDENTIFIER ::= {tcg TBD}
 
 tcg-attest-certify OBJECT IDENTIFIER ::= {tcg-attest 1}
 
-### TPM2 AttestationStatement
+### TPM2 AttestationStatement {#appdx-tcg-attest-certify}
 
 The EvidenceStatement structure contains a sequence of two fields:
 a type and a stmt. The 'type' field contains the OID of the Evidence format and it is
@@ -900,14 +911,6 @@ tcg-attest-certify ::= SEQUENCE {
 
 The tcg-kp-AIKCertificate field contains the AIK Certificate in RFC 5280 format.
 
-## Introduction
-
-All defininitions in this section are defined by the TPM2 and various TCG defined
-specification including the TPM2 set of specifications. Those familiar with
-TPM2 concepts may skip this section. For those unfamiliar with TPM2 concepts
-this section provides only the minimum information to understand TPM2
-Attestation in CSR and is not a complete description of the technology in
-general.
 
 ### TCG Objects and Key Attestation
 
@@ -1103,8 +1106,9 @@ The Verifier has to perform the following steps once it receives the Evidence:
 * Use the Key's "expected" Name from the provided TPM2B_PUBLIC structure.
 If Key's "expected" Name equals TPM2B_ATTEST->attestationData then returned TPM2B_PUBLIC is the verified.
 
-### Example Structures
+### Example Structures {#appdx-tpm-example}
 
+TODO
 
 ## Platform Security Architecture Attestation Token in CSR
 

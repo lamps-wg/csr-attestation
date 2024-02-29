@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-02-27T00:43:27.179853+00:00",
+  "timestamp": "2024-02-29T00:43:41.465954+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -1181,6 +1181,38 @@
           "updatedAt": "2024-02-11T23:53:35Z"
         }
       ]
+    },
+    {
+      "number": 96,
+      "id": "I_kwDOJ3IIN86Aeji-",
+      "title": "Drop 2.23.133.5.4.10 from the Attestation Evidence OID Registry",
+      "url": "https://github.com/lamps-wg/csr-attestation/issues/96",
+      "state": "CLOSED",
+      "author": "thomas-fossati",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "In a discussion with @nedmsmith (TCG DICE co-chair):\r\n\r\n> _\"[...] The WG was going down the path of defining Evidence, Attestation Results, etc... Then the idea of using a CMW appeared and they decided to collapse these into a single oid.\r\n> The appendix definition for evidence `{ tcg-oid 10}` is an artifact that should be removed in errata.\"_\r\n",
+      "createdAt": "2024-02-27T01:59:31Z",
+      "updatedAt": "2024-02-27T22:25:22Z",
+      "closedAt": "2024-02-27T22:25:22Z",
+      "comments": []
+    },
+    {
+      "number": 99,
+      "id": "I_kwDOJ3IIN86AneYp",
+      "title": "Consistent use of Certification Path",
+      "url": "https://github.com/lamps-wg/csr-attestation/issues/99",
+      "state": "OPEN",
+      "author": "henkbirkholz",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "There are still plenty mentions of Certificate Chain.",
+      "createdAt": "2024-02-28T00:10:26Z",
+      "updatedAt": "2024-02-28T00:10:26Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
@@ -4636,25 +4668,35 @@
       "id": "PR_kwDOJ3IIN85mhjin",
       "title": "Changed TPM2 attestation statement from TPM2_Quote to TPM2_Certify, etc.",
       "url": "https://github.com/lamps-wg/csr-attestation/pull/91",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "mwiseman-byid",
-      "authorAssociation": "NONE",
+      "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2024-02-09T22:48:05Z",
-      "updatedAt": "2024-02-26T18:14:54Z",
+      "updatedAt": "2024-02-27T22:27:45Z",
       "baseRepository": "lamps-wg/csr-attestation",
-      "baseRefName": "main",
-      "baseRefOid": "7ce414909d4ae34806608daa37f684ce9616c97b",
+      "baseRefName": "monty-tpm2-example",
+      "baseRefOid": "38f236e5deee44087d59c893353215557de0d917",
       "headRepository": "mwiseman-byid/csr-attestation",
       "headRefName": "main",
       "headRefOid": "984a1b25910115ad47bfe9b2ab555af37d685f27",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
-      "comments": [],
+      "closedAt": "2024-02-27T22:27:45Z",
+      "mergedAt": "2024-02-27T22:27:45Z",
+      "mergedBy": "ounsworth",
+      "mergeCommit": {
+        "oid": "40d30c6ceae19673361fae88862e69182d8f7638"
+      },
+      "comments": [
+        {
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "I don't have push permissions on Monty's fork, so I am merging into a side branch, I'll do a few fixes, then merge into main.",
+          "createdAt": "2024-02-27T22:27:33Z",
+          "updatedAt": "2024-02-27T22:27:33Z"
+        }
+      ],
       "reviews": [
         {
           "id": "PRR_kwDOJ3IIN85xIIq7",
@@ -4682,7 +4724,7 @@
             "abbreviatedOid": "01f1980"
           },
           "author": "mwiseman-byid",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-02-26T05:36:13Z",
@@ -4713,6 +4755,26 @@
               "body": "Agree, but I don't see how that maps to `used by an Attestation CA to create an Attestation Key` - perhaps `used by an Attestation CA to create an Attestation Key certificate` is clearer?",
               "createdAt": "2024-02-26T10:03:22Z",
               "updatedAt": "2024-02-26T10:03:22Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN85xgY_B",
+          "commit": {
+            "abbreviatedOid": "01f1980"
+          },
+          "author": "mwiseman-byid",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-02-27T17:36:29Z",
+          "updatedAt": "2024-02-27T17:36:30Z",
+          "comments": [
+            {
+              "originalPosition": 266,
+              "body": "Ha, you are correct. Authors sometimes miss the subtitle wording and when I read ...create and Attestation Key... I meant what you said. A subtle but very important difference. Thanks for pointing this out.",
+              "createdAt": "2024-02-27T17:36:30Z",
+              "updatedAt": "2024-02-27T17:36:30Z"
             }
           ]
         }
@@ -4856,24 +4918,26 @@
       "id": "PR_kwDOJ3IIN85n7Wx1",
       "title": "Updated PSA Example",
       "url": "https://github.com/lamps-wg/csr-attestation/pull/94",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "hannestschofenig",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "This example now uses the key attestation functionality, which better fits with the intent of the document.\r\n",
       "createdAt": "2024-02-26T15:03:39Z",
-      "updatedAt": "2024-02-26T17:38:43Z",
+      "updatedAt": "2024-02-27T22:24:26Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "38f236e5deee44087d59c893353215557de0d917",
       "headRepository": "lamps-wg/csr-attestation",
       "headRefName": "hannestschofenig-patch-2",
       "headRefOid": "430a77610dd6b6c46826f874d008093a9f257225",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2024-02-27T22:24:22Z",
+      "mergedAt": "2024-02-27T22:24:22Z",
+      "mergedBy": "ounsworth",
+      "mergeCommit": {
+        "oid": "a9a80e02af7d26ba599e064721334076ea2117cd"
+      },
       "comments": [],
       "reviews": [
         {
@@ -4923,6 +4987,129 @@
       "mergeCommit": {
         "oid": "7ce414909d4ae34806608daa37f684ce9616c97b"
       },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 97,
+      "id": "PR_kwDOJ3IIN85n_IwI",
+      "title": "Attestation Evidence OID Registry small surgery",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/97",
+      "state": "MERGED",
+      "author": "thomas-fossati",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Small surgery on the initial contents of the Attestation Evidence OID Registry\r\n\r\nFix #96",
+      "createdAt": "2024-02-27T02:04:17Z",
+      "updatedAt": "2024-02-28T00:42:07Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "2b1e69d8185aa3fe23fdaabebb5b0aab7457e1a7",
+      "headRepository": "thomas-fossati/csr-attestation",
+      "headRefName": "patch-2",
+      "headRefOid": "2cf8f54a0ada3e72f0bc60630b5176aad7a0d176",
+      "closedAt": "2024-02-27T22:25:21Z",
+      "mergedAt": "2024-02-27T22:25:21Z",
+      "mergedBy": "ounsworth",
+      "mergeCommit": {
+        "oid": "36809f700c67f0401e125096cc501244c0fca2e7"
+      },
+      "comments": [
+        {
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Fine for me.",
+          "createdAt": "2024-02-27T06:50:42Z",
+          "updatedAt": "2024-02-27T06:50:42Z"
+        },
+        {
+          "author": "nedmsmith",
+          "authorAssociation": "NONE",
+          "body": "It may be appropriate to list the other evidence oids tcg-dice-TcbInfo OBJECT IDENTIFIER ::= {tcg-dice 1}, tcg-dice-MultiTcbInfo OBJECT IDENTIFIER ::= {tcg-dice 5}, tcg-dice-UCCS-evidence OBJECT IDENTIFIER ::= {tcg-dice 6}, tcg-dice-manifest-evidence OBJECT IDENTIFIER ::= {tcg-dice 7}, and tcg-dice-MultiTcbInfoComp OBJECT IDENTIFIER ::= {tcg-dice 8}. \r\n\r\nThe thread that motivated removal of {tcg-dice 10} seemed to miss the point that the registry should list existing valid oids. {tcg-dice 10} doesn't fit this criteria, but these others do.",
+          "createdAt": "2024-02-28T00:32:28Z",
+          "updatedAt": "2024-02-28T00:42:07Z"
+        }
+      ],
+      "reviews": []
+    },
+    {
+      "number": 98,
+      "id": "PR_kwDOJ3IIN85oGzog",
+      "title": "Monty tpm2 example",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/98",
+      "state": "MERGED",
+      "author": "ounsworth",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Continuation of #91, but on a branch that I can edit.",
+      "createdAt": "2024-02-27T22:28:12Z",
+      "updatedAt": "2024-02-28T14:53:43Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "36809f700c67f0401e125096cc501244c0fca2e7",
+      "headRepository": "lamps-wg/csr-attestation",
+      "headRefName": "monty-tpm2-example",
+      "headRefOid": "f113cf8915bdaba009967e380135669c2c5eacec",
+      "closedAt": "2024-02-28T14:53:26Z",
+      "mergedAt": "2024-02-28T14:53:26Z",
+      "mergedBy": "ounsworth",
+      "mergeCommit": {
+        "oid": "594bb801786a73dc50bc8234bfa7efc085366ecc"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 100,
+      "id": "PR_kwDOJ3IIN85oHNA4",
+      "title": "Consitent use of certification path",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/100",
+      "state": "OPEN",
+      "author": "henkbirkholz",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "fixes #99",
+      "createdAt": "2024-02-28T00:20:36Z",
+      "updatedAt": "2024-02-28T00:20:36Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "36809f700c67f0401e125096cc501244c0fca2e7",
+      "headRepository": "lamps-wg/csr-attestation",
+      "headRefName": "path-chain",
+      "headRefOid": "c8783013d7deeb317735b4a290d93903a9992cb3",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 101,
+      "id": "PR_kwDOJ3IIN85oOuua",
+      "title": "Update draft-ietf-lamps-csr-attestation.md",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/101",
+      "state": "OPEN",
+      "author": "mwiseman-byid",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Move section \"Introduction to TPM2 concepts\" from top of example to be the introduction to the entire section describing the TPM2's structures.",
+      "createdAt": "2024-02-28T23:23:43Z",
+      "updatedAt": "2024-02-28T23:23:43Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "594bb801786a73dc50bc8234bfa7efc085366ecc",
+      "headRepository": "mwiseman-byid/csr-attestation",
+      "headRefName": "patch-1",
+      "headRefOid": "b0fa1441eaad2bb0677921e4cc42a86f7f26216f",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
       "comments": [],
       "reviews": []
     }

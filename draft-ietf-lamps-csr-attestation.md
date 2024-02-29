@@ -846,6 +846,7 @@ Implementers should also be cautious around `type` OID or `hint` values that cau
 
 --- back
 
+
 # Examples
 
 This section provides two non-normative examples for embedding Evidence
@@ -856,6 +857,34 @@ into the CSR.
 
 At the time of writing, the authors are not aware of registered OIDs for
 these evidence formats, and so we leave the OIDs as TBD1 / TBD2.
+
+
+## Extending EvidenceStatementSet
+
+As defined in {{sec-evidenceAttr}}, EvidenceStatementSet acts as a way to provide an ASN.1 compiler or
+runtime parser with a list of OBJECT IDINTIFIERs that are known to represent EvidenceStatements
+-- and are expected to appear in an EvidenceStatement.type field, along with
+the ASN.1 type that should be used to parse the data in the associated EvidenceStatement.stmt field.
+Essentially this is a mapping of OIDs to data structures. Implementers are expected to populate it
+with mappings for the Evidence types that their application will be handling.
+
+This specification aims to be agnostic about the type of data being carried, and therefore
+does not specify any mandatory-to-implement Evidence types.
+
+As an example of how to populate EvidenceStatementSet, implementing the TPM 2.0 and PSA Evidence types
+given below would result in the following EvidenceStatementSet definition:
+
+~~~
+EvidenceStatementSet EVIDENCE-STATEMENT ::= {
+  --- TPM 2.0
+  { Tcg-attest-certify IDENTIFIED BY tcg-attest-certify },
+  ...,
+
+  --- PSA
+  { OCTET STRING IDENTIFIED BY { 1 3 6 1 5 5 7 1 99 } }
+}
+~~~
+
 
 ##  TPM V2.0 Evidence in CSR
 

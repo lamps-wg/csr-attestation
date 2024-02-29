@@ -446,7 +446,7 @@ id-ata OBJECT IDENTIFIER ::= { id-pkix (TBD1) }
 ~~~
 
 
-## Evidence Attribute and Extension
+## Evidence Attribute and Extension {#sec-evidenceAttr}
 
 By definition, Attributes within a PKCS#10 CSR are
 typed as ATTRIBUTE and within a CRMF CSR are typed as EXTENSION.
@@ -872,13 +872,13 @@ expected to used which is the TPM2_Certify and the TPM2_ReadPublic commands.
 The OIDs in this section are defined by TCG
 TCG has a registered arc of 2.23.133
 
-tcg OBJECT IDENTIFIER ::= {2.23.133}
+id-tcg OBJECT IDENTIFIER ::= { 2 23 133 }
 
-tcg-kp-AIKCertificate OBJECT IDENTIFIER ::= {tcg 8.3}
+id-tcg-kp-AIKCertificate OBJECT IDENTIFIER ::= { id-tcg 8 3 }
 
-tcg-attest OBJECT IDENTIFIER ::= {tcg TBD}
+id-tcg-attest OBJECT IDENTIFIER ::= { id-tcg TBD }
 
-tcg-attest-certify OBJECT IDENTIFIER ::= {tcg-attest 1}
+id-tcg-attest-certify OBJECT IDENTIFIER ::= { id-tcg-attest 1 }
 
 ### TPM2 AttestationStatement {#appdx-tcg-attest-certify}
 
@@ -889,7 +889,7 @@ the stmt, which is a concatenation of existing TPM2 structures. These structures
 will be explained in the rest of this section.
 
 ~~~
-tcg-attest-certify ::= SEQUENCE {
+Tcg-attest-certify ::= SEQUENCE {
   tcg-attest-certify-tpm2b_attest       TPM2B_ATTEST,
   tcg-attest-certify-tpmt_signature     TPMT_SIGNATURE,
   tcg-attest-certify-tpm2b_public   [0] TPM2B_PUBLIC OPTIONAL,

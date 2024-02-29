@@ -1226,6 +1226,9 @@ Ned Smith.
 We would like to specifically thank Mike StJohns for his work on an earlier
 version of this draft.
 
+We would also like to specifically thank Monty Wiseman for providing the 
+appendix showing how to carry a TPM 2.0 Attestation.
+
 Finally, we would like to thank Andreas Kretschmer for his feedback based
 on his implementation experience, and Daniel Migault and Russ Housley for
 their review comments.

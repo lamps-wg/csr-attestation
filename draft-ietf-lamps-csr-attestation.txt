@@ -5,10 +5,10 @@
 Network Working Group                                       M. Ounsworth
 Internet-Draft                                                   Entrust
 Intended status: Standards Track                           H. Tschofenig
-Expires: 31 August 2024                                          Siemens
+Expires: 1 September 2024                                        Siemens
                                                              H. Birkholz
                                                           Fraunhofer SIT
-                                                        28 February 2024
+                                                        29 February 2024
 
 
       Use of Remote Attestation with Certificate Signing Requests
@@ -64,7 +64,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 31 August 2024.
+   This Internet-Draft will expire on 1 September 2024.
 
 Copyright Notice
 
@@ -110,12 +110,11 @@ Table of Contents
      8.2.  Informative References
    Appendix A.  Examples
      A.1.  TPM V2.0 Evidence in CSR
-       A.1.1.  Introduction to TPM2 concepts
-       A.1.2.  TCG Key Attestation Certify
-       A.1.3.  TCG OIDs
-       A.1.4.  TPM2 AttestationStatement
-       A.1.5.  TCG Objects and Key Attestation
-       A.1.6.  Example Structures
+       A.1.1.  TCG Key Attestation Certify
+       A.1.2.  TCG OIDs
+       A.1.3.  TPM2 AttestationStatement
+       A.1.4.  TCG Objects and Key Attestation
+       A.1.5.  Example Structures
      A.2.  PSA Attestation Token in CSR
    Appendix B.  ASN.1 Module
      B.1.  TCG DICE ConceptualMessageWrapper in CSR
@@ -1049,26 +1048,14 @@ A.1.  TPM V2.0 Evidence in CSR
 
    This section describes TPM2 key attestation for use in a CSR.
 
-A.1.1.  Introduction to TPM2 concepts
-
-   The defininitions in the following sections are defined by the TPM2
-   and various TCG defined specification including the TPM2 set of
-   specifications.  Those familiar with TPM2 concepts may skip to
-   Appendix A.1.4 which defines an ASN.1 structure specific for bundling
-   a TPM attestation into an EvidenceStatement, and Appendix A.1.6 which
-   provides the example.  For those unfamiliar with TPM2 concepts this
-   section provides only the minimum information to understand TPM2
-   Attestation in CSR and is not a complete description of the
-   technology in general.
-
-A.1.2.  TCG Key Attestation Certify
+A.1.1.  TCG Key Attestation Certify
 
    There are several ways in TPM2 to provide proof of a key's
    properties. (i.e., key attestation).  This description uses the
    simplest and most generally expected to used which is the
    TPM2_Certify and the TPM2_ReadPublic commands.
 
-A.1.3.  TCG OIDs
+A.1.2.  TCG OIDs
 
    The OIDs in this section are defined by TCG TCG has a registered arc
    of 2.23.133
@@ -1081,7 +1068,7 @@ A.1.3.  TCG OIDs
 
    tcg-attest-certify OBJECT IDENTIFIER ::= {tcg-attest 1}
 
-A.1.4.  TPM2 AttestationStatement
+A.1.3.  TPM2 AttestationStatement
 
    The EvidenceStatement structure contains a sequence of two fields: a
    type and a stmt.  The 'type' field contains the OID of the Evidence
@@ -1098,9 +1085,19 @@ A.1.4.  TPM2 AttestationStatement
    }
 
    The tcg-kp-AIKCertificate field contains the AIK Certificate in RFC
-   5280 format.
+   5280 format. ## Introduction to TPM2 concepts
 
-A.1.5.  TCG Objects and Key Attestation
+   The defininitions in the following sections are defined by the TPM2
+   and various TCG defined specification including the TPM2 set of
+   specifications.  Those familiar with TPM2 concepts may skip to
+   Appendix A.1.3 which defines an ASN.1 structure specific for bundling
+   a TPM attestation into an EvidenceStatement, and Appendix A.1.5 which
+   provides the example.  For those unfamiliar with TPM2 concepts this
+   section provides only the minimum information to understand TPM2
+   Attestation in CSR and is not a complete description of the
+   technology in general.
+
+A.1.4.  TCG Objects and Key Attestation
 
    This provides a brief explanation of the relevant TPM2 commands and
    data structures needed to understand TPM2 Attestation used in this
@@ -1123,7 +1120,7 @@ A.1.5.  TCG Objects and Key Attestation
    simply use the enclosed TPMT_ structure by the same name following
    the '_'.
 
-A.1.5.1.  TPM2 Object Names
+A.1.4.1.  TPM2 Object Names
 
    All TPM2 Objects (e.g., keys are key objects which is the focus of
    this specification).  A TPM2 object name is persistent across the
@@ -1160,7 +1157,7 @@ A.1.5.1.  TPM2 Object Names
              TPM2B_NAME qualifiedName;
         } TPMS_CERTIFY_INFO;
 
-A.1.5.2.  TPM2 Public Structure
+A.1.4.2.  TPM2 Public Structure
 
    Any TPM2 Object has an associated TPM2 Public structure defined as
    TPMT_PUBLIC.  This is defined below as a 'C' structure.  While there
@@ -1218,7 +1215,7 @@ A.1.5.2.  TPM2 Public Structure
              TPMT_PUBLIC publicArea;
         } TPM2B_PUBLIC;
 
-A.1.5.3.  TPM2 Signatures
+A.1.4.3.  TPM2 Signatures
 
    TPM2 signatures use a union where the first field (16 bits)
    identifies the signature scheme.  The example below shows an RSA
@@ -1235,7 +1232,7 @@ A.1.5.3.  TPM2 Signatures
              TPM2B_PUBLIC_KEY_RSA sig;
         } TPMS_SIGNATURE_RSA;
 
-A.1.5.4.  Attestation Key
+A.1.4.4.  Attestation Key
 
    The uniquely identifying TPM2 key is the Endorsement Key (the EK).
    As this is a privacy sensitive key, the EK is not directly used to
@@ -1246,7 +1243,7 @@ A.1.5.4.  Attestation Key
    description of how to create the AK is outside the scope of this
    document.
 
-A.1.5.5.  Attester Processing
+A.1.4.5.  Attester Processing
 
    The only signed component is the TPM2B_ATTEST structure, which
    returns only the (key's) Name and the signature computed over the
@@ -1261,13 +1258,13 @@ A.1.5.5.  Attester Processing
    TPMT_SIGNATURE structures from the TPM2.  The signing key for
    TPMT_SIGNATURE is an Attention Key (or AK), which is assumed to be
    available to the TPM2 upfront.  More details are provided in
-   Appendix A.1.5.4
+   Appendix A.1.4.4
 
    The TPM2 command TPM2_Certify takes the following input:
 
    *  TPM2 handle for Key (the key to be attested to)
 
-   *  TPM2 handle for the AK (see Appendix A.1.5.4)
+   *  TPM2 handle for the AK (see Appendix A.1.4.4)
 
    It produces the following output:
 
@@ -1290,7 +1287,7 @@ A.1.5.5.  Attester Processing
 
    *  TPM2B_PUBLIC in binary format
 
-A.1.5.6.  Verifier Processing
+A.1.4.6.  Verifier Processing
 
    The Verifier has to perform the following steps once it receives the
    Evidence:
@@ -1302,7 +1299,7 @@ A.1.5.6.  Verifier Processing
       TPM2B_ATTEST->attestationData then returned TPM2B_PUBLIC is the
       verified.
 
-A.1.6.  Example Structures
+A.1.5.  Example Structures
 
    TODO
 

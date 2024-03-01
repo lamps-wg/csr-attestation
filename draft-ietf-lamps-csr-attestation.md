@@ -14,7 +14,7 @@ v: 3
 keyword:
  - PKI
  - PKCS#10
- - CFMF
+ - CRMF
  - Attestation
  - Evidence
  - Certificate Signing Requests
@@ -857,6 +857,34 @@ into the CSR.
 At the time of writing, the authors are not aware of registered OIDs for
 these evidence formats, and so we leave the OIDs as TBD1 / TBD2.
 
+
+## Extending EvidenceStatementSet
+
+As defined in {{sec-evidenceAttr}}, EvidenceStatementSet acts as a way to provide an ASN.1 compiler or
+runtime parser with a list of OBJECT IDENTIFIERs that are known to represent EvidenceStatements
+-- and are expected to appear in an EvidenceStatement.type field, along with
+the ASN.1 type that should be used to parse the data in the associated EvidenceStatement.stmt field.
+Essentially this is a mapping of OIDs to data structures. Implementers are expected to populate it
+with mappings for the Evidence types that their application will be handling.
+
+This specification aims to be agnostic about the type of data being carried, and therefore
+does not specify any mandatory-to-implement Evidence types.
+
+As an example of how to populate EvidenceStatementSet, implementing the TPM 2.0 and PSA Evidence types
+given below would result in the following EvidenceStatementSet definition:
+
+~~~
+EvidenceStatementSet EVIDENCE-STATEMENT ::= {
+  --- TPM 2.0
+  { Tcg-attest-certify IDENTIFIED BY tcg-attest-certify },
+  ...,
+
+  --- PSA
+  { OCTET STRING IDENTIFIED BY { 1 3 6 1 5 5 7 1 99 } }
+}
+~~~
+
+
 ##  TPM V2.0 Evidence in CSR
 
 This section describes TPM2 key attestation for use in a CSR.
@@ -900,7 +928,7 @@ tcg-attest-certify ::= SEQUENCE {
 The tcg-kp-AIKCertificate field contains the AIK Certificate in RFC 5280 format.
 ## Introduction to TPM2 concepts
 
-The defininitions in the following sections are defined by the TPM2 and various TCG defined
+The definitions in the following sections are defined by the TPM2 and various TCG defined
 specification including the TPM2 set of specifications. Those familiar with
 TPM2 concepts may skip to {{appdx-tcg-attest-certify}} which defines an ASN.1 structure
 specific for bundling a TPM attestation into an EvidenceStatement, and {{appdx-tpm-example}}
@@ -1191,12 +1219,15 @@ Jean-Pierre Fiset, Sander Temme, Jethro Beekman, Zsolt Rózsahegyi, Ferenc
 Pető, Mike Agrenius Kushner, Tomas Gustavsson, Dieter Bong, Christopher Meyer,
 Michael StJohns, Carl Wallace, Michael Richardson, Tomofumi Okubo, Olivier
 Couillard, John Gray, Eric Amador, Johnson Darren, Herman Slatman, Tiru Reddy,
-Thomas Fossati, Corey Bonnel, Argenius Kushner, James Hagborg, Monty Wiseman,
+Corey Bonnel, Argenius Kushner, James Hagborg, Monty Wiseman,
 Ned Smith.
 
 We would like to specifically thank Mike StJohns for his work on an earlier
 version of this draft.
 
-Finally, we would like to thank Andreas Kretschmer for his feedback based
-on his implementation experience, and Daniel Migault and Russ Housley for
+We would also like to specifically thank Monty Wiseman for providing the
+appendix showing how to carry a TPM 2.0 Attestation.
+
+Finally, we would like to thank Andreas Kretschmer and Thomas Fossati for their feedback based
+on implementation experience, and Daniel Migault and Russ Housley for
 their review comments.

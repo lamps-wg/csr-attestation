@@ -694,6 +694,8 @@ entry for the Conceptual Message Wrapper (CMW) {{I-D.ietf-rats-msg-wrap}}.
 | 2 23 133 5 4 9   | Conceptual Message Wrapper | {{TCGDICE1.1}} |  TCG              |
 {: #tab-ae-reg title="Initial Contents of the Attestation Evidence OID Registry"}
 
+EDNOTE: This is currently under debate with our contacts at TCG about which OID they want used for the initial registry.
+
 The current registry values can be retrieved from the IANA online website.
 
 # Security Considerations
@@ -1226,7 +1228,7 @@ Ned Smith.
 We would like to specifically thank Mike StJohns for his work on an earlier
 version of this draft.
 
-We would also like to specifically thank Monty Wiseman for providing the 
+We would also like to specifically thank Monty Wiseman for providing the
 appendix showing how to carry a TPM 2.0 Attestation.
 
 Finally, we would like to thank Andreas Kretschmer for his feedback based

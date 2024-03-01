@@ -1054,7 +1054,7 @@ A.1.  Extending EvidenceStatementSet
 
    As defined in Section 5.2, EvidenceStatementSet acts as a way to
    provide an ASN.1 compiler or runtime parser with a list of OBJECT
-   IDINTIFIERs that are known to represent EvidenceStatements -- and are
+   IDENTIFIERs that are known to represent EvidenceStatements -- and are
    expected to appear in an EvidenceStatement.type field, along with the
    ASN.1 type that should be used to parse the data in the associated
    EvidenceStatement.stmt field.  Essentially this is a mapping of OIDs
@@ -1124,8 +1124,8 @@ A.2.3.  TPM2 AttestationStatement
 
 A.3.  Introduction to TPM2 concepts
 
-   The defininitions in the following sections are defined by the TPM2
-   and various TCG defined specification including the TPM2 set of
+   The definitions in the following sections are defined by the TPM2 and
+   various TCG defined specification including the TPM2 set of
    specifications.  Those familiar with TPM2 concepts may skip to
    Appendix A.2.3 which defines an ASN.1 structure specific for bundling
    a TPM attestation into an EvidenceStatement, and Appendix A.3.2 which
@@ -1526,9 +1526,8 @@ Appendix C.  Acknowledgments
    Zsolt Rózsahegyi, Ferenc Pető, Mike Agrenius Kushner, Tomas
    Gustavsson, Dieter Bong, Christopher Meyer, Michael StJohns, Carl
    Wallace, Michael Richardson, Tomofumi Okubo, Olivier Couillard, John
-   Gray, Eric Amador, Johnson Darren, Herman Slatman, Tiru Reddy, Thomas
-   Fossati, Corey Bonnel, Argenius Kushner, James Hagborg, Monty
-   Wiseman, Ned Smith.
+   Gray, Eric Amador, Johnson Darren, Herman Slatman, Tiru Reddy, Corey
+   Bonnel, Argenius Kushner, James Hagborg, Monty Wiseman, Ned Smith.
 
    We would like to specifically thank Mike StJohns for his work on an
    earlier version of this draft.
@@ -1536,9 +1535,9 @@ Appendix C.  Acknowledgments
    We would also like to specifically thank Monty Wiseman for providing
    the appendix showing how to carry a TPM 2.0 Attestation.
 
-   Finally, we would like to thank Andreas Kretschmer for his feedback
-   based on his implementation experience, and Daniel Migault and Russ
-   Housley for their review comments.
+   Finally, we would like to thank Andreas Kretschmer and Thomas Fossati
+   for their feedback based on implementation experience, and Daniel
+   Migault and Russ Housley for their review comments.
 
 Authors' Addresses
 

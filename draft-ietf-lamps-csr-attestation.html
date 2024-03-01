@@ -16,7 +16,7 @@
 <meta content="xml2rfc 3.19.4" name="generator">
 <meta content="PKI" name="keyword">
 <meta content="PKCS#10" name="keyword">
-<meta content="CFMF" name="keyword">
+<meta content="CRMF" name="keyword">
 <meta content="Attestation" name="keyword">
 <meta content="Evidence" name="keyword">
 <meta content="Certificate Signing Requests" name="keyword">
@@ -2486,7 +2486,7 @@ these evidence formats, and so we leave the OIDs as TBD1 / TBD2.<a href="#append
 <a href="#appendix-A.1" class="section-number selfRef">A.1. </a><a href="#name-extending-evidencestatement" class="section-name selfRef">Extending EvidenceStatementSet</a>
         </h3>
 <p id="appendix-A.1-1">As defined in <a href="#sec-evidenceAttr" class="auto internal xref">Section 5.2</a>, EvidenceStatementSet acts as a way to provide an ASN.1 compiler or
-runtime parser with a list of OBJECT IDINTIFIERs that are known to represent EvidenceStatements
+runtime parser with a list of OBJECT IDENTIFIERs that are known to represent EvidenceStatements
 -- and are expected to appear in an EvidenceStatement.type field, along with
 the ASN.1 type that should be used to parse the data in the associated EvidenceStatement.stmt field.
 Essentially this is a mapping of OIDs to data structures. Implementers are expected to populate it
@@ -2568,7 +2568,7 @@ Tcg-attest-certify ::= SEQUENCE {
         <h3 id="name-introduction-to-tpm2-concep">
 <a href="#appendix-A.3" class="section-number selfRef">A.3. </a><a href="#name-introduction-to-tpm2-concep" class="section-name selfRef">Introduction to TPM2 concepts</a>
         </h3>
-<p id="appendix-A.3-1">The defininitions in the following sections are defined by the TPM2 and various TCG defined
+<p id="appendix-A.3-1">The definitions in the following sections are defined by the TPM2 and various TCG defined
 specification including the TPM2 set of specifications. Those familiar with
 TPM2 concepts may skip to <a href="#appdx-tcg-attest-certify" class="auto internal xref">Appendix A.2.3</a> which defines an ASN.1 structure
 specific for bundling a TPM attestation into an EvidenceStatement, and <a href="#appdx-tpm-example" class="auto internal xref">Appendix A.3.2</a>
@@ -3050,14 +3050,14 @@ Jean-Pierre Fiset, Sander Temme, Jethro Beekman, Zsolt Rózsahegyi, Ferenc
 Pető, Mike Agrenius Kushner, Tomas Gustavsson, Dieter Bong, Christopher Meyer,
 Michael StJohns, Carl Wallace, Michael Richardson, Tomofumi Okubo, Olivier
 Couillard, John Gray, Eric Amador, Johnson Darren, Herman Slatman, Tiru Reddy,
-Thomas Fossati, Corey Bonnel, Argenius Kushner, James Hagborg, Monty Wiseman,
+Corey Bonnel, Argenius Kushner, James Hagborg, Monty Wiseman,
 Ned Smith.<a href="#appendix-C-1" class="pilcrow">¶</a></p>
 <p id="appendix-C-2">We would like to specifically thank Mike StJohns for his work on an earlier
 version of this draft.<a href="#appendix-C-2" class="pilcrow">¶</a></p>
 <p id="appendix-C-3">We would also like to specifically thank Monty Wiseman for providing the
 appendix showing how to carry a TPM 2.0 Attestation.<a href="#appendix-C-3" class="pilcrow">¶</a></p>
-<p id="appendix-C-4">Finally, we would like to thank Andreas Kretschmer for his feedback based
-on his implementation experience, and Daniel Migault and Russ Housley for
+<p id="appendix-C-4">Finally, we would like to thank Andreas Kretschmer and Thomas Fossati for their feedback based
+on implementation experience, and Daniel Migault and Russ Housley for
 their review comments.<a href="#appendix-C-4" class="pilcrow">¶</a></p>
 </section>
 </div>

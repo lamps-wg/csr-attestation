@@ -446,7 +446,7 @@ id-ata OBJECT IDENTIFIER ::= { id-pkix (TBD1) }
 ~~~
 
 
-## Evidence Attribute and Extension
+## Evidence Attribute and Extension {#sec-evidenceAttr}
 
 By definition, Attributes within a PKCS#10 CSR are
 typed as ATTRIBUTE and within a CRMF CSR are typed as EXTENSION.
@@ -694,6 +694,8 @@ entry for the Conceptual Message Wrapper (CMW) {{I-D.ietf-rats-msg-wrap}}.
 | 2 23 133 5 4 9   | Conceptual Message Wrapper | {{TCGDICE1.1}} |  TCG              |
 {: #tab-ae-reg title="Initial Contents of the Attestation Evidence OID Registry"}
 
+EDNOTE: This is currently under debate with our contacts at TCG about which OID they want used for the initial registry.
+
 The current registry values can be retrieved from the IANA online website.
 
 # Security Considerations
@@ -846,6 +848,7 @@ Implementers should also be cautious around `type` OID or `hint` values that cau
 
 --- back
 
+
 # Examples
 
 This section provides two non-normative examples for embedding Evidence
@@ -856,6 +859,34 @@ into the CSR.
 
 At the time of writing, the authors are not aware of registered OIDs for
 these evidence formats, and so we leave the OIDs as TBD1 / TBD2.
+
+
+## Extending EvidenceStatementSet
+
+As defined in {{sec-evidenceAttr}}, EvidenceStatementSet acts as a way to provide an ASN.1 compiler or
+runtime parser with a list of OBJECT IDINTIFIERs that are known to represent EvidenceStatements
+-- and are expected to appear in an EvidenceStatement.type field, along with
+the ASN.1 type that should be used to parse the data in the associated EvidenceStatement.stmt field.
+Essentially this is a mapping of OIDs to data structures. Implementers are expected to populate it
+with mappings for the Evidence types that their application will be handling.
+
+This specification aims to be agnostic about the type of data being carried, and therefore
+does not specify any mandatory-to-implement Evidence types.
+
+As an example of how to populate EvidenceStatementSet, implementing the TPM 2.0 and PSA Evidence types
+given below would result in the following EvidenceStatementSet definition:
+
+~~~
+EvidenceStatementSet EVIDENCE-STATEMENT ::= {
+  --- TPM 2.0
+  { Tcg-attest-certify IDENTIFIED BY tcg-attest-certify },
+  ...,
+
+  --- PSA
+  { OCTET STRING IDENTIFIED BY { 1 3 6 1 5 5 7 1 99 } }
+}
+~~~
+
 
 ##  TPM V2.0 Evidence in CSR
 
@@ -872,13 +903,13 @@ expected to used which is the TPM2_Certify and the TPM2_ReadPublic commands.
 The OIDs in this section are defined by TCG
 TCG has a registered arc of 2.23.133
 
-tcg OBJECT IDENTIFIER ::= {2.23.133}
+id-tcg OBJECT IDENTIFIER ::= { 2 23 133 }
 
-tcg-kp-AIKCertificate OBJECT IDENTIFIER ::= {tcg 8.3}
+id-tcg-kp-AIKCertificate OBJECT IDENTIFIER ::= { id-tcg 8 3 }
 
-tcg-attest OBJECT IDENTIFIER ::= {tcg TBD}
+id-tcg-attest OBJECT IDENTIFIER ::= { id-tcg TBD }
 
-tcg-attest-certify OBJECT IDENTIFIER ::= {tcg-attest 1}
+id-tcg-attest-certify OBJECT IDENTIFIER ::= { id-tcg-attest 1 }
 
 ### TPM2 AttestationStatement {#appdx-tcg-attest-certify}
 
@@ -889,7 +920,7 @@ the stmt, which is a concatenation of existing TPM2 structures. These structures
 will be explained in the rest of this section.
 
 ~~~
-tcg-attest-certify ::= SEQUENCE {
+Tcg-attest-certify ::= SEQUENCE {
   tcg-attest-certify-tpm2b_attest       TPM2B_ATTEST,
   tcg-attest-certify-tpmt_signature     TPMT_SIGNATURE,
   tcg-attest-certify-tpm2b_public   [0] TPM2B_PUBLIC OPTIONAL,
@@ -1197,6 +1228,9 @@ Ned Smith.
 
 We would like to specifically thank Mike StJohns for his work on an earlier
 version of this draft.
+
+We would also like to specifically thank Monty Wiseman for providing the
+appendix showing how to carry a TPM 2.0 Attestation.
 
 Finally, we would like to thank Andreas Kretschmer for his feedback based
 on his implementation experience, and Daniel Migault and Russ Housley for

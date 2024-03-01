@@ -930,7 +930,7 @@ Tcg-attest-certify ::= SEQUENCE {
 
 The tcg-kp-AIKCertificate field contains the AIK Certificate in RFC 5280 format.
 
-## Introduction to TPM2 concepts
+### Introduction to TPM2 concepts
 
 The definitions in the following sections are defined by the TPM2 and various TCG defined
 specification including the TPM2 set of specifications. Those familiar with

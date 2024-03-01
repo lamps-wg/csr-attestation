@@ -5,10 +5,10 @@
 Network Working Group                                       M. Ounsworth
 Internet-Draft                                                   Entrust
 Intended status: Standards Track                           H. Tschofenig
-Expires: 1 September 2024                                        Siemens
+Expires: 2 September 2024                                        Siemens
                                                              H. Birkholz
                                                           Fraunhofer SIT
-                                                        29 February 2024
+                                                            1 March 2024
 
 
       Use of Remote Attestation with Certificate Signing Requests
@@ -64,7 +64,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 1 September 2024.
+   This Internet-Draft will expire on 2 September 2024.
 
 Copyright Notice
 
@@ -763,6 +763,9 @@ Table of Contents
 
          Table 1: Initial Contents of the Attestation Evidence OID
                                   Registry
+
+   EDNOTE: This is currently under debate with our contacts at TCG about
+   which OID they want used for the initial registry.
 
    The current registry values can be retrieved from the IANA online
    website.
@@ -1526,6 +1529,9 @@ Appendix C.  Acknowledgments
 
    We would like to specifically thank Mike StJohns for his work on an
    earlier version of this draft.
+
+   We would also like to specifically thank Monty Wiseman for providing
+   the appendix showing how to carry a TPM 2.0 Attestation.
 
    Finally, we would like to thank Andreas Kretschmer for his feedback
    based on his implementation experience, and Daniel Migault and Russ

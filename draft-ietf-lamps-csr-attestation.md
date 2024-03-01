@@ -1137,7 +1137,7 @@ If Key's "expected" Name equals TPM2B_ATTEST->attestationData then returned TPM2
 
 ### Example Structures {#appdx-tpm-example}
 
-TODO
+TODO -- a full CSR would be great.
 
 ## PSA Attestation Token in CSR
 

@@ -446,7 +446,7 @@ id-ata OBJECT IDENTIFIER ::= { id-pkix (TBD1) }
 ~~~
 
 
-## Evidence Attribute and Extension
+## Evidence Attribute and Extension {#sec-evidenceAttr}
 
 By definition, Attributes within a PKCS#10 CSR are
 typed as ATTRIBUTE and within a CRMF CSR are typed as EXTENSION.
@@ -694,6 +694,8 @@ entry for the Conceptual Message Wrapper (CMW) {{I-D.ietf-rats-msg-wrap}}.
 | 2 23 133 5 4 9   | Conceptual Message Wrapper | {{TCGDICE1.1}} |  TCG              |
 {: #tab-ae-reg title="Initial Contents of the Attestation Evidence OID Registry"}
 
+EDNOTE: This is currently under debate with our contacts at TCG about which OID they want used for the initial registry.
+
 The current registry values can be retrieved from the IANA online website.
 
 # Security Considerations
@@ -846,6 +848,7 @@ Implementers should also be cautious around `type` OID or `hint` values that cau
 
 --- back
 
+
 # Examples
 
 This section provides two non-normative examples for embedding Evidence
@@ -900,13 +903,13 @@ expected to used which is the TPM2_Certify and the TPM2_ReadPublic commands.
 The OIDs in this section are defined by TCG
 TCG has a registered arc of 2.23.133
 
-tcg OBJECT IDENTIFIER ::= {2.23.133}
+id-tcg OBJECT IDENTIFIER ::= { 2 23 133 }
 
-tcg-kp-AIKCertificate OBJECT IDENTIFIER ::= {tcg 8.3}
+id-tcg-kp-AIKCertificate OBJECT IDENTIFIER ::= { id-tcg 8 3 }
 
-tcg-attest OBJECT IDENTIFIER ::= {tcg TBD}
+id-tcg-attest OBJECT IDENTIFIER ::= { id-tcg TBD }
 
-tcg-attest-certify OBJECT IDENTIFIER ::= {tcg-attest 1}
+id-tcg-attest-certify OBJECT IDENTIFIER ::= { id-tcg-attest 1 }
 
 ### TPM2 AttestationStatement {#appdx-tcg-attest-certify}
 
@@ -917,7 +920,7 @@ the stmt, which is a concatenation of existing TPM2 structures. These structures
 will be explained in the rest of this section.
 
 ~~~
-tcg-attest-certify ::= SEQUENCE {
+Tcg-attest-certify ::= SEQUENCE {
   tcg-attest-certify-tpm2b_attest       TPM2B_ATTEST,
   tcg-attest-certify-tpmt_signature     TPMT_SIGNATURE,
   tcg-attest-certify-tpm2b_public   [0] TPM2B_PUBLIC OPTIONAL,
@@ -926,6 +929,7 @@ tcg-attest-certify ::= SEQUENCE {
 ~~~
 
 The tcg-kp-AIKCertificate field contains the AIK Certificate in RFC 5280 format.
+
 ## Introduction to TPM2 concepts
 
 The definitions in the following sections are defined by the TPM2 and various TCG defined

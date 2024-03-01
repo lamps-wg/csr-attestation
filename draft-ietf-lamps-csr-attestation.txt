@@ -1338,7 +1338,7 @@ A.3.1.6.  Verifier Processing
 
 A.3.2.  Example Structures
 
-   TODO
+   TODO -- a full CSR would be great.
 
 A.4.  PSA Attestation Token in CSR
 

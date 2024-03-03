@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-02-29T00:43:41.465954+00:00",
+  "timestamp": "2024-03-03T00:47:19.371188+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -907,15 +907,15 @@
       "id": "I_kwDOJ3IIN858H6js",
       "title": "Appendix A examples are out-dated.",
       "url": "https://github.com/lamps-wg/csr-attestation/issues/77",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "ounsworth",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Monty Wiseman @mwiseman-byid offered to provide updated TPM examples.",
       "createdAt": "2024-01-15T17:34:30Z",
-      "updatedAt": "2024-02-20T15:49:36Z",
-      "closedAt": null,
+      "updatedAt": "2024-02-29T14:42:00Z",
+      "closedAt": "2024-02-29T14:42:00Z",
       "comments": [
         {
           "author": "hannestschofenig",
@@ -923,6 +923,13 @@
           "body": "Monty created an update for the TPM-based key attestation example in PR #91 ",
           "createdAt": "2024-02-20T15:49:34Z",
           "updatedAt": "2024-02-20T15:49:34Z"
+        },
+        {
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Merged.",
+          "createdAt": "2024-02-29T14:42:00Z",
+          "updatedAt": "2024-02-29T14:42:00Z"
         }
       ]
     },
@@ -955,15 +962,15 @@
       "id": "I_kwDOJ3IIN858Y3X2",
       "title": "Add an Example that shows how to use EvidenceStatementSet",
       "url": "https://github.com/lamps-wg/csr-attestation/issues/79",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "ounsworth",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "The \r\n\r\n```\r\nEvidenceStatementSet EVIDENCE-STATEMENT ::= {\r\n   ... -- None defined in this document --\r\n}\r\n```\r\n\r\nis fine, but it would be illustrative to have an appendix with a worked example.",
       "createdAt": "2024-01-17T20:05:39Z",
-      "updatedAt": "2024-01-17T20:05:39Z",
-      "closedAt": null,
+      "updatedAt": "2024-03-01T14:08:23Z",
+      "closedAt": "2024-03-01T14:08:23Z",
       "comments": []
     },
     {
@@ -1147,16 +1154,24 @@
       "id": "I_kwDOJ3IIN85-MdCs",
       "title": "Run it through a spell check (after merging everything)",
       "url": "https://github.com/lamps-wg/csr-attestation/issues/89",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "ounsworth",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2024-02-04T16:53:25Z",
-      "updatedAt": "2024-02-04T16:53:25Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2024-03-01T14:23:27Z",
+      "closedAt": "2024-03-01T14:23:27Z",
+      "comments": [
+        {
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Done.",
+          "createdAt": "2024-03-01T14:23:27Z",
+          "updatedAt": "2024-03-01T14:23:27Z"
+        }
+      ]
     },
     {
       "number": 90,
@@ -1203,14 +1218,49 @@
       "id": "I_kwDOJ3IIN86AneYp",
       "title": "Consistent use of Certification Path",
       "url": "https://github.com/lamps-wg/csr-attestation/issues/99",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "henkbirkholz",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
+      "assignees": [
+        "hannestschofenig",
+        "ounsworth"
+      ],
       "labels": [],
       "body": "There are still plenty mentions of Certificate Chain.",
       "createdAt": "2024-02-28T00:10:26Z",
-      "updatedAt": "2024-02-28T00:10:26Z",
+      "updatedAt": "2024-02-29T14:41:36Z",
+      "closedAt": "2024-02-29T14:41:36Z",
+      "comments": []
+    },
+    {
+      "number": 103,
+      "id": "I_kwDOJ3IIN86A4TiP",
+      "title": "Add an actual example to the TPM 2.0 appendix",
+      "url": "https://github.com/lamps-wg/csr-attestation/issues/103",
+      "state": "OPEN",
+      "author": "ounsworth",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2024-02-29T23:04:00Z",
+      "updatedAt": "2024-02-29T23:04:00Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 104,
+      "id": "I_kwDOJ3IIN86A9DmJ",
+      "title": "Finalize the Initial Registry Contents",
+      "url": "https://github.com/lamps-wg/csr-attestation/issues/104",
+      "state": "OPEN",
+      "author": "ounsworth",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Basically, deal with this EDNOTE in 6.4.2\r\n\r\n> EDNOTE: This is currently under debate with our contacts at TCG about which OID they want used for the initial registry.",
+      "createdAt": "2024-03-01T14:05:19Z",
+      "updatedAt": "2024-03-01T14:05:19Z",
       "closedAt": null,
       "comments": []
     }
@@ -5066,24 +5116,26 @@
       "id": "PR_kwDOJ3IIN85oHNA4",
       "title": "Consitent use of certification path",
       "url": "https://github.com/lamps-wg/csr-attestation/pull/100",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "henkbirkholz",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "fixes #99",
       "createdAt": "2024-02-28T00:20:36Z",
-      "updatedAt": "2024-02-28T00:20:36Z",
+      "updatedAt": "2024-02-29T14:41:38Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "36809f700c67f0401e125096cc501244c0fca2e7",
       "headRepository": "lamps-wg/csr-attestation",
       "headRefName": "path-chain",
       "headRefOid": "c8783013d7deeb317735b4a290d93903a9992cb3",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2024-02-29T14:41:35Z",
+      "mergedAt": "2024-02-29T14:41:35Z",
+      "mergedBy": "ounsworth",
+      "mergeCommit": {
+        "oid": "3a05000d96d38c95850e133edc56eb1270cf8372"
+      },
       "comments": [],
       "reviews": []
     },
@@ -5092,26 +5144,70 @@
       "id": "PR_kwDOJ3IIN85oOuua",
       "title": "Update draft-ietf-lamps-csr-attestation.md",
       "url": "https://github.com/lamps-wg/csr-attestation/pull/101",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "mwiseman-byid",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Move section \"Introduction to TPM2 concepts\" from top of example to be the introduction to the entire section describing the TPM2's structures.",
       "createdAt": "2024-02-28T23:23:43Z",
-      "updatedAt": "2024-02-28T23:23:43Z",
+      "updatedAt": "2024-02-29T14:39:49Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "594bb801786a73dc50bc8234bfa7efc085366ecc",
       "headRepository": "mwiseman-byid/csr-attestation",
       "headRefName": "patch-1",
       "headRefOid": "b0fa1441eaad2bb0677921e4cc42a86f7f26216f",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2024-02-29T14:39:48Z",
+      "mergedAt": "2024-02-29T14:39:48Z",
+      "mergedBy": "ounsworth",
+      "mergeCommit": {
+        "oid": "c58d5a72aaa757432eb9ff207994b76dab434281"
+      },
       "comments": [],
       "reviews": []
+    },
+    {
+      "number": 102,
+      "id": "PR_kwDOJ3IIN85oT6rL",
+      "title": "Added an appendix showing how to use EvidenceStatementSet",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/102",
+      "state": "MERGED",
+      "author": "ounsworth",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Also fixed Monty's ASN.1 in the TPM example section.",
+      "createdAt": "2024-02-29T15:52:54Z",
+      "updatedAt": "2024-03-01T14:09:42Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "36d6cde0706087617c9e1c45df4393a320551a59",
+      "headRepository": "lamps-wg/csr-attestation",
+      "headRefName": "mikeo_evidencestatementset",
+      "headRefOid": "24a254d90cf9a12f20a4cde62ce0129e55203aaf",
+      "closedAt": "2024-03-01T14:08:21Z",
+      "mergedAt": "2024-03-01T14:08:21Z",
+      "mergedBy": "ounsworth",
+      "mergeCommit": {
+        "oid": "8145530b44da8f4d9de6f28ed4d7a12792adb8bd"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJ3IIN85x2CE6",
+          "commit": {
+            "abbreviatedOid": "c47d00a"
+          },
+          "author": "mwiseman-byid",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "Thanks for the clarifications and acknowledgement. ",
+          "createdAt": "2024-02-29T22:30:06Z",
+          "updatedAt": "2024-02-29T22:30:06Z",
+          "comments": []
+        }
+      ]
     }
   ]
 }

@@ -5,10 +5,10 @@
 Network Working Group                                       M. Ounsworth
 Internet-Draft                                                   Entrust
 Intended status: Standards Track                           H. Tschofenig
-Expires: 2 September 2024                                        Siemens
+Expires: 12 September 2024                                       Siemens
                                                              H. Birkholz
                                                           Fraunhofer SIT
-                                                            1 March 2024
+                                                           11 March 2024
 
 
       Use of Remote Attestation with Certificate Signing Requests
@@ -64,7 +64,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 2 September 2024.
+   This Internet-Draft will expire on 12 September 2024.
 
 Copyright Notice
 
@@ -985,9 +985,9 @@ Table of Contents
    [I-D.bft-rats-kat]
               Brossard, M., Fossati, T., and H. Tschofenig, "An EAT-
               based Key Attestation Token", Work in Progress, Internet-
-              Draft, draft-bft-rats-kat-02, 10 February 2024,
+              Draft, draft-bft-rats-kat-03, 4 March 2024,
               <https://datatracker.ietf.org/doc/html/draft-bft-rats-kat-
-              02>.
+              03>.
 
    [I-D.ietf-rats-msg-wrap]
               Birkholz, H., Smith, N., Fossati, T., and H. Tschofenig,

@@ -8,6 +8,7 @@
 <meta content="Mike Ounsworth" name="author">
 <meta content="Hannes Tschofenig" name="author">
 <meta content="Henk Birkholz" name="author">
+<meta content="Monty Wiseman" name="author">
 <meta content="
        A PKI end entity requesting a certificate from a Certification Authority (CA) may wish to offer believable claims about the protections afforded to the corresponding private key, such as whether the private key resides on a hardware security module or the protection capabilities provided by the hardware. 
        This document defines a new PKCS#10 attribute attr-evidence and CRMF extension ext-evidence that allows placing any Evidence data, in any pre-existing format, along with any certificates needed to validate it, into a PKCS#10 or CRMF CSR. 
@@ -1038,7 +1039,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Ounsworth, et al.</td>
-<td class="center">Expires 12 September 2024</td>
+<td class="center">Expires 18 September 2024</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1051,12 +1052,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-lamps-csr-attestation-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2024-03-11" class="published">11 March 2024</time>
+<time datetime="2024-03-17" class="published">17 March 2024</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2024-09-12">12 September 2024</time></dd>
+<dd class="expires"><time datetime="2024-09-18">18 September 2024</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1070,6 +1071,10 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <div class="author">
       <div class="author-name">H. Birkholz</div>
 <div class="org">Fraunhofer SIT</div>
+</div>
+<div class="author">
+      <div class="author-name">M. Wiseman</div>
+<div class="org">Beyond Identity</div>
 </div>
 </dd>
 </dl>
@@ -1111,7 +1116,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 12 September 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 18 September 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1946,9 +1951,9 @@ broad variety of certificate types.<a href="#section-5.3-1" class="pilcrow">¶</
 <pre>
 CertificateAlternatives ::=
    CHOICE {
-      cert          [0] Certificate,
-      typedCert     [1] TypedCert,
-      typedFlatCert [2] TypedFlatCert,
+      cert              Certificate,
+      typedCert     [0] TypedCert,
+      typedFlatCert [1] TypedFlatCert,
       ...
    }
 </pre><a href="#section-5.3-2" class="pilcrow">¶</a>
@@ -2549,10 +2554,9 @@ will be explained in the rest of this section.<a href="#appendix-A.2.3-1" class=
 <div class="alignLeft art-text artwork" id="appendix-A.2.3-2">
 <pre>
 Tcg-attest-certify ::= SEQUENCE {
-  tcg-attest-certify-tpm2b_attest       TPM2B_ATTEST,
-  tcg-attest-certify-tpmt_signature     TPMT_SIGNATURE,
-  tcg-attest-certify-tpm2b_public   [0] TPM2B_PUBLIC OPTIONAL,
-  tcg-kp-AIKCertificate             [1] OCTET STRING OPTIONAL
+  tpmSAttest       OCTET STRING,
+  signature        OCTET STRING,
+  tpmTPublic       OCTET STRING OPTIONAL
 }
 </pre><a href="#appendix-A.2.3-2" class="pilcrow">¶</a>
 </div>
@@ -2942,9 +2946,9 @@ id-ata OBJECT IDENTIFIER ::= { id-pkix (TBD1) }
 
 CertificateAlternatives ::=
    CHOICE {
-      cert          [0] Certificate,
-      typedCert     [1] TypedCert,
-      typedFlatCert [2] TypedFlatCert,
+      cert              Certificate,
+      typedCert     [0] TypedCert,
+      typedFlatCert [1] TypedFlatCert,
       ...
    }
 
@@ -3096,6 +3100,15 @@ their review comments.<a href="#appendix-C-4" class="pilcrow">¶</a></p>
 <div class="email">
 <span>Email:</span>
 <a href="mailto:henk.birkholz@sit.fraunhofer.de" class="email">henk.birkholz@sit.fraunhofer.de</a>
+</div>
+</address>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Monty Wiseman</span></div>
+<div dir="auto" class="left"><span class="org">Beyond Identity</span></div>
+<div dir="auto" class="left"><span class="country-name">United States of America</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:monty.wiseman@beyondidentity.com" class="email">monty.wiseman@beyondidentity.com</a>
 </div>
 </address>
 </section>

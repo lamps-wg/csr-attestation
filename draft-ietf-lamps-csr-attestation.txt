@@ -5,10 +5,12 @@
 Network Working Group                                       M. Ounsworth
 Internet-Draft                                                   Entrust
 Intended status: Standards Track                           H. Tschofenig
-Expires: 12 September 2024                                       Siemens
+Expires: 18 September 2024                                       Siemens
                                                              H. Birkholz
                                                           Fraunhofer SIT
-                                                           11 March 2024
+                                                              M. Wiseman
+                                                         Beyond Identity
+                                                           17 March 2024
 
 
       Use of Remote Attestation with Certificate Signing Requests
@@ -64,7 +66,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 12 September 2024.
+   This Internet-Draft will expire on 18 September 2024.
 
 Copyright Notice
 
@@ -616,9 +618,9 @@ Table of Contents
 
    CertificateAlternatives ::=
       CHOICE {
-         cert          [0] Certificate,
-         typedCert     [1] TypedCert,
-         typedFlatCert [2] TypedFlatCert,
+         cert              Certificate,
+         typedCert     [0] TypedCert,
+         typedFlatCert [1] TypedFlatCert,
          ...
       }
 
@@ -1113,10 +1115,9 @@ A.2.3.  TPM2 AttestationStatement
    explained in the rest of this section.
 
    Tcg-attest-certify ::= SEQUENCE {
-     tcg-attest-certify-tpm2b_attest       TPM2B_ATTEST,
-     tcg-attest-certify-tpmt_signature     TPMT_SIGNATURE,
-     tcg-attest-certify-tpm2b_public   [0] TPM2B_PUBLIC OPTIONAL,
-     tcg-kp-AIKCertificate             [1] OCTET STRING OPTIONAL
+     tpmSAttest       OCTET STRING,
+     signature        OCTET STRING,
+     tpmTPublic       OCTET STRING OPTIONAL
    }
 
    The tcg-kp-AIKCertificate field contains the AIK Certificate in RFC
@@ -1431,9 +1432,9 @@ id-ata OBJECT IDENTIFIER ::= { id-pkix (TBD1) }
 
 CertificateAlternatives ::=
    CHOICE {
-      cert          [0] Certificate,
-      typedCert     [1] TypedCert,
-      typedFlatCert [2] TypedFlatCert,
+      cert              Certificate,
+      typedCert     [0] TypedCert,
+      typedFlatCert [1] TypedFlatCert,
       ...
    }
 
@@ -1560,3 +1561,9 @@ Authors' Addresses
    64295 Darmstadt
    Germany
    Email: henk.birkholz@sit.fraunhofer.de
+
+
+   Monty Wiseman
+   Beyond Identity
+   United States of America
+   Email: monty.wiseman@beyondidentity.com

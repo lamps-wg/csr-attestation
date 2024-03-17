@@ -1,5 +1,5 @@
 ---
-title: "Use of Remote Attestation with Certificate Signing Requests"
+title: "Use of Remote Attestation with Certification Signing Requests"
 abbrev: "Remote Attestation with CSRs"
 category: std
 

@@ -557,9 +557,9 @@ broad variety of certificate types.
 ~~~
 CertificateAlternatives ::=
    CHOICE {
-      cert          [0] Certificate,
-      typedCert     [1] TypedCert,
-      typedFlatCert [2] TypedFlatCert,
+      cert              Certificate,
+      typedCert     [0] TypedCert,
+      typedFlatCert [1] TypedFlatCert,
       ...
    }
 ~~~
@@ -921,10 +921,9 @@ will be explained in the rest of this section.
 
 ~~~
 Tcg-attest-certify ::= SEQUENCE {
-  tcg-attest-certify-tpm2b_attest       TPM2B_ATTEST,
-  tcg-attest-certify-tpmt_signature     TPMT_SIGNATURE,
-  tcg-attest-certify-tpm2b_public   [0] TPM2B_PUBLIC OPTIONAL,
-  tcg-kp-AIKCertificate             [1] OCTET STRING OPTIONAL
+  tpmSAttest       OCTET STRING,
+  signature        OCTET STRING,
+  tpmTPublic       OCTET STRING OPTIONAL
 }
 ~~~
 

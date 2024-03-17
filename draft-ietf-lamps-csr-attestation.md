@@ -51,6 +51,13 @@ author:
     city: Darmstadt
     country: Germany
 
+  -
+    ins: M. Wiseman
+    name: Monty Wiseman
+    org: Beyond Identity
+    country: USA
+    email: monty.wiseman@beyondidentity.com
+
 normative:
   RFC9334:
   RFC5912:

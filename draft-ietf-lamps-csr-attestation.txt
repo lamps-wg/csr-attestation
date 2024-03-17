@@ -13,7 +13,7 @@ Expires: 18 September 2024                                       Siemens
                                                            17 March 2024
 
 
-      Use of Remote Attestation with Certificate Signing Requests
+     Use of Remote Attestation with Certification Signing Requests
                 draft-ietf-lamps-csr-attestation-latest
 
 Abstract

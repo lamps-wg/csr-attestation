@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-03-17T00:48:15.644751+00:00",
+  "timestamp": "2024-03-19T00:44:03.752632+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -1244,9 +1244,17 @@
       "labels": [],
       "body": "",
       "createdAt": "2024-02-29T23:04:00Z",
-      "updatedAt": "2024-02-29T23:04:00Z",
+      "updatedAt": "2024-03-17T06:48:39Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Working code is here:\r\n\r\nhttps://github.com/mwiseman-byid/csr-attestation-tpm-example\r\n\r\nBUT FIRST, wait for Monty to get a real OID from TCG and replace that in the python script, and re-generate the sample.\r\n\r\nALSO add all the ata-evidence, EvidenceBundle, EvidenceStatement wrapping in the python script.",
+          "createdAt": "2024-03-17T06:46:55Z",
+          "updatedAt": "2024-03-17T06:48:39Z"
+        }
+      ]
     },
     {
       "number": 104,
@@ -1261,6 +1269,94 @@
       "body": "Basically, deal with this EDNOTE in 6.4.2\r\n\r\n> EDNOTE: This is currently under debate with our contacts at TCG about which OID they want used for the initial registry.",
       "createdAt": "2024-03-01T14:05:19Z",
       "updatedAt": "2024-03-01T14:05:19Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 105,
+      "id": "I_kwDOJ3IIN86Cj-hh",
+      "title": "Change the architecture picture to separate RA and CA",
+      "url": "https://github.com/lamps-wg/csr-attestation/issues/105",
+      "state": "OPEN",
+      "author": "ounsworth",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "```\r\n~~~ aasvg\r\n                              .-------------.\r\n                              |             | Compare Evidence\r\n                              |   Verifier  | against\r\n                              |             | policy\r\n                              '--------+----'\r\n                                   ^   |\r\n                          Evidence |   | Attestation\r\n                                   |   | Result\r\n                                   |   v\r\n .------------.               .----|----------.\r\n |            +-------------->|----'          | Attestation Result      .-----.\r\n |  Attester  |   Evidence    | Relying       | meets cert policy?      | CA  |\r\n |  (/w HSM)  |   in CSR      | Party (RA)    +------------------------>|     |\r\n '------------'               '---------------'                         '-----'\r\n~~~\r\n{: #fig-arch title=\"Architecture with Background Check Model.\"}\r\n```",
+      "createdAt": "2024-03-17T04:08:22Z",
+      "updatedAt": "2024-03-17T10:06:15Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "mcr",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Why is the Relying Party the \"RA\"?  Shouldn't it be an RP?  In rfc5280, RA is a Registration Authority. \r\nWho is the relying party?  I would have thought it was just a role.",
+          "createdAt": "2024-03-17T10:06:13Z",
+          "updatedAt": "2024-03-17T10:06:13Z"
+        }
+      ]
+    },
+    {
+      "number": 106,
+      "id": "I_kwDOJ3IIN86CkA4U",
+      "title": "Add Monty as an author",
+      "url": "https://github.com/lamps-wg/csr-attestation/issues/106",
+      "state": "CLOSED",
+      "author": "ounsworth",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "```\r\n  -\r\n    ins: M. Wiseman\r\n    name: Monty Wiseman\r\n    org: Beyond Identity\r\n    country: USA\r\n    email: monty.wiseman@beyondidentity.com\r\n```",
+      "createdAt": "2024-03-17T04:47:50Z",
+      "updatedAt": "2024-03-17T06:53:41Z",
+      "closedAt": "2024-03-17T06:53:41Z",
+      "comments": []
+    },
+    {
+      "number": 107,
+      "id": "I_kwDOJ3IIN86Ckg7a",
+      "title": "Add Corey to acknowledgements",
+      "url": "https://github.com/lamps-wg/csr-attestation/issues/107",
+      "state": "OPEN",
+      "author": "ounsworth",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2024-03-17T11:15:32Z",
+      "updatedAt": "2024-03-17T11:15:32Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 108,
+      "id": "I_kwDOJ3IIN86CnVpu",
+      "title": "Flatten the Hint structure to a single type into the EvidenceStatement",
+      "url": "https://github.com/lamps-wg/csr-attestation/issues/108",
+      "state": "OPEN",
+      "author": "ounsworth",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "one type for hint, look at the JSON in draft-tschofenig-lamps-nonce-cmp-est-01. it flattens it there already.",
+      "createdAt": "2024-03-18T06:36:23Z",
+      "updatedAt": "2024-03-18T06:36:23Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 109,
+      "id": "I_kwDOJ3IIN86Cwai-",
+      "title": "Include a CMW example in the appendix",
+      "url": "https://github.com/lamps-wg/csr-attestation/issues/109",
+      "state": "OPEN",
+      "author": "ounsworth",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "https://datatracker.ietf.org/doc/html/draft-ietf-rats-msg-wrap-04#name-transporting-cmw-in-x509-me\r\n\r\nComplication is that the OID for that is not yet allocated, so in order to not slow down the CSR Attest draft, CMW would need to ask for early allocation in order to produce a complete example containing the final OID.\r\n\r\nDiscussion is needed about whether the CMW OID should be allocated within the new registry created by the CSR Attest draft \"SMI Security for PKIX Evidence Statement Formats\" Registry. That would require requesting early allocation of both the registry and the CMW OID within it. Possibly we should also re-name it to be broader than just Evidence.\r\n\r\nFYI @thomas-fossati , @hannestschofenig ",
+      "createdAt": "2024-03-19T00:14:23Z",
+      "updatedAt": "2024-03-19T00:17:32Z",
       "closedAt": null,
       "comments": []
     }

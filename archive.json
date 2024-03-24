@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-03-21T00:46:28.721401+00:00",
+  "timestamp": "2024-03-24T00:50:50.411899+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -1282,9 +1282,9 @@
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
-      "body": "```\r\n~~~ aasvg\r\n                              .-------------.\r\n                              |             | Compare Evidence\r\n                              |   Verifier  | against\r\n                              |             | policy\r\n                              '--------+----'\r\n                                   ^   |\r\n                          Evidence |   | Attestation\r\n                                   |   | Result\r\n                                   |   v\r\n .------------.               .----|----------.\r\n |            +-------------->|----'          | Attestation Result      .-----.\r\n |  Attester  |   Evidence    | Relying       | meets cert policy?      | CA  |\r\n |  (/w HSM)  |   in CSR      | Party (RA)    +------------------------>|     |\r\n '------------'               '---------------'                         '-----'\r\n~~~\r\n{: #fig-arch title=\"Architecture with Background Check Model.\"}\r\n```",
+      "body": "```\r\n~~~ aasvg\r\n~~~ aasvg\r\n                              .-------------.\r\n                              |             | Compare Evidence\r\n                              |   Verifier  | against\r\n                              |             | policy\r\n                              '--------+----'\r\n                                   ^   |\r\n                          Evidence |   | Attestation\r\n                                   |   | Result\r\n                                   |   v\r\n .------------.               .----|------------.\r\n |            +-------------->|----'            | Attestation Result      .-----.\r\n |  Attester  |   Evidence    | Reg. Authority  | meets cert policy?      | CA  |\r\n |  (/w HSM)  |   in CSR      | (Relying Party) +------------------------>|     |\r\n '------------'               '-----------------'                         '-----'\r\n~~~\r\n{: #fig-arch title=\"Architecture with Background Check Model.\"}\r\n```\r\n\r\nWe also need some extra text to explain why we have an RA in this picture.",
       "createdAt": "2024-03-17T04:08:22Z",
-      "updatedAt": "2024-03-17T10:06:15Z",
+      "updatedAt": "2024-03-22T01:25:01Z",
       "closedAt": null,
       "comments": [
         {
@@ -1293,6 +1293,13 @@
           "body": "Why is the Relying Party the \"RA\"?  Shouldn't it be an RP?  In rfc5280, RA is a Registration Authority. \r\nWho is the relying party?  I would have thought it was just a role.",
           "createdAt": "2024-03-17T10:06:13Z",
           "updatedAt": "2024-03-17T10:06:13Z"
+        },
+        {
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "@mcr  I don't understand the question. We just took the existing diagram which had \"Relying Party (RA/CA)\" and splitting it out to make it visually clear that whether or not to issue the cert depends on the Attestation Results.",
+          "createdAt": "2024-03-22T00:15:38Z",
+          "updatedAt": "2024-03-22T00:15:38Z"
         }
       ]
     },
@@ -1338,9 +1345,9 @@
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
-      "body": "one type for hint, look at the JSON in draft-tschofenig-lamps-nonce-cmp-est-01. it flattens it there already.",
+      "body": "one type for hint, look at the JSON in draft-tschofenig-lamps-nonce-cmp-est-01. it flattens it there already.\r\n\r\nUPDATE: no it doesn't. That draft directly references `EvidenceHint` from this draft.\r\n\r\nI'm just gonna make it an IA5String.",
       "createdAt": "2024-03-18T06:36:23Z",
-      "updatedAt": "2024-03-18T06:36:23Z",
+      "updatedAt": "2024-03-22T03:26:34Z",
       "closedAt": null,
       "comments": []
     },
@@ -1357,6 +1364,22 @@
       "body": "https://datatracker.ietf.org/doc/html/draft-ietf-rats-msg-wrap-04#name-transporting-cmw-in-x509-me\r\n\r\nComplication is that the OID for that is not yet allocated, so in order to not slow down the CSR Attest draft, CMW would need to ask for early allocation in order to produce a complete example containing the final OID.\r\n\r\nDiscussion is needed about whether the CMW OID should be allocated within the new registry created by the CSR Attest draft \"SMI Security for PKIX Evidence Statement Formats\" Registry. That would require requesting early allocation of both the registry and the CMW OID within it. Possibly we should also re-name it to be broader than just Evidence.\r\n\r\nFYI @thomas-fossati , @hannestschofenig ",
       "createdAt": "2024-03-19T00:14:23Z",
       "updatedAt": "2024-03-19T00:17:32Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 110,
+      "id": "I_kwDOJ3IIN86DOjA8",
+      "title": "ASN.1 remove EVIDENCE-HINT",
+      "url": "https://github.com/lamps-wg/csr-attestation/issues/110",
+      "state": "OPEN",
+      "author": "ounsworth",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Seems redundant with the version that includes the Hint.",
+      "createdAt": "2024-03-22T03:36:06Z",
+      "updatedAt": "2024-03-22T03:36:06Z",
       "closedAt": null,
       "comments": []
     }
@@ -5304,6 +5327,32 @@
           "comments": []
         }
       ]
+    },
+    {
+      "number": 111,
+      "id": "PR_kwDOJ3IIN85qkrSn",
+      "title": "Included TcgAttestCertify example. Closes #103. Closes #107",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/111",
+      "state": "OPEN",
+      "author": "ounsworth",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Don't merge until:\r\n\r\n- [ ] We have the final OID for id-TcgAttestCertify from TCG.\r\n- [ ] The extra potentially spurious SEQUENCE layer has been investigated. See: https://github.com/mwiseman-byid/csr-attestation-tpm-example/wiki/Decoded-sample-%E2%80%90%E2%80%90-why-so-many-SEQUENCES-%3F",
+      "createdAt": "2024-03-24T00:45:21Z",
+      "updatedAt": "2024-03-24T00:45:28Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "d2b3bab9ec6c8fec44cd1e7254ab00a2c8d12bb1",
+      "headRepository": "lamps-wg/csr-attestation",
+      "headRefName": "mikeo_#103",
+      "headRefOid": "9c4da81489f13f735bb098733f7eb72fbd558af5",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }

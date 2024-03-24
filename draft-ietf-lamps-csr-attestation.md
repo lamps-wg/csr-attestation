@@ -205,11 +205,11 @@ out-of-scope for this document.
                           Evidence |   | Attestation
                                    |   | Result
                                    |   v
- .------------.               .----|----------.
- |            +-------------->|----'          | Compare Attestation
- |  Attester  |   Evidence    | Relying       | Result against
- |  (/w HSM)  |   in CSR      | Party (RA/CA) | policy
- '------------'               '---------------'
+ .------------.               .----|------------.
+ |            +-------------->|----'            | Attestation Result      .-----.
+ | HSM        |   Evidence    | Reg. Authority  | meets cert policy?      | CA  |
+ | (Attester) |   in CSR      | (Relying Party) +------------------------>|     |
+ '------------'               '-----------------'                         '-----'
 ~~~
 {: #fig-arch title="Architecture with Background Check Model."}
 

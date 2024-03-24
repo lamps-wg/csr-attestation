@@ -1141,9 +1141,37 @@ The Verifier has to perform the following steps once it receives the Evidence:
 * Use the Key's "expected" Name from the provided TPM2B_PUBLIC structure.
 If Key's "expected" Name equals TPM2B_ATTEST->attestationData then returned TPM2B_PUBLIC is the verified.
 
-### Example Structures {#appdx-tpm-example}
+### Sample CSR {#appdx-tpm-example}
 
-TODO -- a full CSR would be great.
+~~~
+{::include sampledata/tpmAttestCertify_csr.pem}
+~~~
+
+This CSR demonstrates a certification request for a key stored in a TPM using the following structure:
+
+~~~
+CSR {
+  attributes {
+    id-aa-evidence {
+      EvidenceBundles {
+        EvidenceBundle {
+          EvidenceStatements {
+            EvidenceStatement {
+              type: id-TcgAttestCertify,
+              stmt: <TcgAttestCertify_data>
+              hint: "TcgAttestCertify.trustedcomputinggroup.org"
+            }
+          },
+          certs {
+            akCertificate,
+            caCertificate
+          }
+        }
+      }
+    }
+  }
+}
+~~~
 
 ## PSA Attestation Token in CSR
 
@@ -1235,8 +1263,7 @@ Ned Smith.
 We would like to specifically thank Mike StJohns for his work on an earlier
 version of this draft.
 
-We would also like to specifically thank Monty Wiseman for providing the
-appendix showing how to carry a TPM 2.0 Attestation.
+We would also like to specifically thank Corey Bonnell for help during the hackathon with constructing sample code for generating the TcgAttestCertify sample.
 
 Finally, we would like to thank Andreas Kretschmer and Thomas Fossati for their feedback based
 on implementation experience, and Daniel Migault and Russ Housley for

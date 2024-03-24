@@ -60,19 +60,12 @@ EvidenceStatementSet EVIDENCE-STATEMENT ::= {
    ... -- None defined in this document --
 }
 
-EvidenceHint ::= CHOICE {
-     rfc822Name [0] IA5String,
-     dNSName    [1] IA5String,
-     uri        [2] IA5String,
-     text       [3] UTF8String
-}
-
 EvidenceStatements ::= SEQUENCE SIZE (1..MAX) OF EvidenceStatement
 
 EvidenceStatement ::= SEQUENCE {
    type   EVIDENCE-STATEMENT.&id({EvidenceStatementSet}),
    stmt   EVIDENCE-STATEMENT.&Type({EvidenceStatementSet}{@type}),
-   hint   EvidenceHint OPTIONAL
+   hint   UTF8String OPTIONAL
 }
 
 id-aa-evidence OBJECT IDENTIFIER ::= { id-aa TBDAA }

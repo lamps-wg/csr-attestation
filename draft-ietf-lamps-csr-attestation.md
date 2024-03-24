@@ -69,6 +69,7 @@ informative:
   I-D.ietf-rats-msg-wrap:
   I-D.bft-rats-kat:
   RFC7030:
+  RFC8141:
   I-D.tschofenig-rats-psa-token:
   TPM20:
     author:
@@ -482,19 +483,12 @@ This list is left empty in this document. However, implementers should
 populate it with the formats that they wish to support.
 
 ~~~
-EvidenceHint ::= CHOICE {
-     rfc822Name [0] IA5String,
-     dNSName    [1] IA5String,
-     uri        [2] IA5String,
-     text       [3] UTF8String
-}
-
 EvidenceStatements ::= SEQUENCE SIZE (1..MAX) OF EvidenceStatement
 
 EvidenceStatement ::= SEQUENCE {
    type   EVIDENCE-STATEMENT.&id({EvidenceStatementSet}),
    stmt   EVIDENCE-STATEMENT.&Type({EvidenceStatementSet}{@type}),
-   hint   EvidenceHint OPTIONAL
+   hint   UTF8String OPTIONAL
 }
 ~~~
 
@@ -513,7 +507,10 @@ Verifiers and that the contents of this hint can be used to look up
 the correct Verifier. Under no circumstances must the RP be tricked into
 contacting an unknown and untrusted Verifier since the returned Attestation
 Result must not be relied on. The format and contents of the hint are out of
-scope of this document.
+scope of this document, however the hint SHOULD contain a value which is unique
+to this Verifier, such as a fully qualified domain name (FQDN), a uniform
+resource name (URN) [RFC8141] or a regigistered value corresponding to this
+evidence format.
 
 ~~~
 EvidenceBundles ::= SEQUENCE SIZE (1..MAX) OF EvidenceBundle

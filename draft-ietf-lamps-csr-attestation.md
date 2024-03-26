@@ -196,20 +196,21 @@ Attestation Results may be proprietary or standardized, but in any case is
 out-of-scope for this document.
 
 ~~~ aasvg
-                              .-------------.
-                              |             | Compare Evidence
-                              |   Verifier  | against
-                              |             | policy
-                              '--------+----'
-                                   ^   |
-                          Evidence |   | Attestation
-                                   |   | Result
-                                   |   v
- .------------.               .----|------------.
- |            +-------------->|----'            | Attestation Result      .-----.
- | HSM        |   Evidence    | Reg. Authority  | meets cert policy?      | CA  |
- | (Attester) |   in CSR      | (Relying Party) +------------------------>|     |
- '------------'               '-----------------'                         '-----'
+                             .-------------.
+                             |             | Compare Evidence
+                             |   Verifier  | against Appraisal
+                             |             | Policy
+                             '--------+----'
+                                  ^   |
+                         Evidence |   | Attestation
+                                  |   | Result (AR)         
+                                  |   v
+.------------.               .----|------------.               .-----.
+|            +-------------->|----'            +-------------->|     |
+| HSM        |   Evidence    | Reg. Authority  | Attestation   | CA  |
+| (Attester) |   in CSR      | (Relying Party) | Result        |     |
+|            |               |                 | in CSR        |     |
+'------------'               '-----------------'               '-----'
 ~~~
 {: #fig-arch title="Architecture with Background Check Model."}
 

@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-03-26T00:44:35.172951+00:00",
+  "timestamp": "2024-03-28T00:45:20.611737+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -5392,7 +5392,7 @@
       "labels": [],
       "body": "",
       "createdAt": "2024-03-24T01:09:59Z",
-      "updatedAt": "2024-03-24T01:09:59Z",
+      "updatedAt": "2024-03-26T18:29:37Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "d2b3bab9ec6c8fec44cd1e7254ab00a2c8d12bb1",
@@ -5403,8 +5403,56 @@
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
+      "comments": [
+        {
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I proposed a new figure in another PR since this figure exceeds the maximum line limit",
+          "createdAt": "2024-03-26T18:29:35Z",
+          "updatedAt": "2024-03-26T18:29:35Z"
+        }
+      ],
       "reviews": []
+    },
+    {
+      "number": 114,
+      "id": "PR_kwDOJ3IIN85q1RoB",
+      "title": "Proposal for Figure",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/114",
+      "state": "OPEN",
+      "author": "hannestschofenig",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2024-03-26T18:28:59Z",
+      "updatedAt": "2024-03-27T05:01:43Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "mike_ra_pic",
+      "baseRefOid": "921d5b60e652637fc23268a47c34231ee62a2362",
+      "headRepository": "lamps-wg/csr-attestation",
+      "headRefName": "hannestschofenig-patch-2",
+      "headRefOid": "2cda2269d90ba0ce80b57cc5812643cc78ba4898",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJ3IIN8509kG3",
+          "commit": {
+            "abbreviatedOid": "2cda226"
+          },
+          "author": "mcr",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-03-27T05:01:43Z",
+          "updatedAt": "2024-03-27T05:01:43Z",
+          "comments": []
+        }
+      ]
     }
   ]
 }

@@ -5,26 +5,29 @@
 Network Working Group                                       M. Ounsworth
 Internet-Draft                                                   Entrust
 Intended status: Standards Track                           H. Tschofenig
-Expires: 29 August 2024                                          Siemens
+Expires: 29 September 2024                                       Siemens
                                                              H. Birkholz
                                                           Fraunhofer SIT
-                                                        26 February 2024
+                                                              M. Wiseman
+                                                         Beyond Identity
+                                                           28 March 2024
 
 
-      Use of Remote Attestation with Certificate Signing Requests
+     Use of Remote Attestation with Certification Signing Requests
                 draft-ietf-lamps-csr-attestation-latest
 
 Abstract
 
-   A client requesting a certificate from a Certification Authority (CA)
-   may wish to offer believable claims about the protections afforded to
-   the corresponding private key, such as whether the private key
-   resides on a hardware security module or the protection capabilities
-   provided by the hardware.
+   A PKI end entity requesting a certificate from a Certification
+   Authority (CA) may wish to offer believable claims about the
+   protections afforded to the corresponding private key, such as
+   whether the private key resides on a hardware security module or the
+   protection capabilities provided by the hardware.
 
-   This document describes how to encode Evidence produced by an
-   Attester for inclusion in Certificate Signing Requests (CSRs), and
-   any certificates necessary for validating it.
+   This document defines a new PKCS#10 attribute attr-evidence and CRMF
+   extension ext-evidence that allows placing any Evidence data, in any
+   pre-existing format, along with any certificates needed to validate
+   it, into a PKCS#10 or CRMF CSR.
 
    Including Evidence along with a CSR can help to improve the
    assessment of the security posture for the private key, and the
@@ -63,7 +66,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 29 August 2024.
+   This Internet-Draft will expire on 29 September 2024.
 
 Copyright Notice
 
@@ -108,8 +111,15 @@ Table of Contents
      8.1.  Normative References
      8.2.  Informative References
    Appendix A.  Examples
-     A.1.  TPM V2.0 Evidence in CSR
-     A.2.  PSA Attestation Token in CSR
+     A.1.  Extending EvidenceStatementSet
+     A.2.  TPM V2.0 Evidence in CSR
+       A.2.1.  TCG Key Attestation Certify
+       A.2.2.  TCG OIDs
+       A.2.3.  TPM2 AttestationStatement
+       A.2.4.  Introduction to TPM2 concepts
+       A.2.5.  TCG Objects and Key Attestation
+       A.2.6.  Example Structures
+     A.3.  PSA Attestation Token in CSR
    Appendix B.  ASN.1 Module
      B.1.  TCG DICE ConceptualMessageWrapper in CSR
    Appendix C.  Acknowledgments
@@ -240,22 +250,23 @@ Table of Contents
    receives back Attestation Results may be proprietary or standardized,
    but in any case is out-of-scope for this document.
 
-                                 .-------------.
-                                 |             | Compare Evidence
-                                 |   Verifier  | against
-                                 |             | policy
-                                 '--------+----'
-                                      ^   |
-                             Evidence |   | Attestation
-                                      |   | Result
-                                      |   v
-    .------------.               .----|----------.
-    |            +-------------->|----'          | Compare Attestation
-    |  Attester  |   Evidence    | Relying       | Result against
-    |  (/w HSM)  |   in CSR      | Party (RA/CA) | policy
-    '------------'               '---------------'
+                               .-------------.
+                               |             | Compare Evidence
+                               |   Verifier  | against Appraisal
+                               |             | Policy
+                               '--------+----'
+                                    ^   |
+                           Evidence |   | Attestation
+                                    |   | Result (AR)
+                                    |   v
+  .------------.               .----|------------.               .-----.
+  |            +-------------->|----'            +-------------->|     |
+  | HSM        |   Evidence    | Reg. Authority  | Attestation   | CA  |
+  | (Attester) |   in CSR      | (Relying Party) | Result        |     |
+  |            |               |                 | in CSR        |     |
+  '------------'               '-----------------'               '-----'
 
-            Figure 1: Architecture with Background Check Model.
+           Figure 1: Architecture with Background Check Model.
 
    As discussed in RFC 9334, different security and privacy aspects need
    to be considered.  For example, Evidence may need to be protected
@@ -281,7 +292,7 @@ Table of Contents
 
    Cases where the CSR is generated internally to the attesting
    environment are straightforward: the HSM generates and embeds the
-   Evidence and the corresponding certificate chains when constructing
+   Evidence and the corresponding certification paths when constructing
    the CSR.
 
    Cases where the CSR is generated externally may require extra round-
@@ -320,7 +331,7 @@ Table of Contents
 4.2.  Implementation Strategies
 
    To support a number of different use cases for the transmission of
-   Evidence in a CSR (together with certificate chains) the structure
+   Evidence in a CSR (together with certification paths) the structure
    shown in Figure 3 is used.
 
    On a high-level, the structure can be explained as follows: A PKCS#10
@@ -356,8 +367,8 @@ Table of Contents
    The following use cases are supported:
 
    Single Attester, which only distributes Evidence without any
-   certificate chains, i.e. the Verifier is assumed to be in possession
-   of the certificate chain already or there is no certificate chain
+   certification paths, i.e. the Verifier is assumed to be in possession
+   of the certification paths already or there is no certification paths
    because the Verifier directly trusts the Attester key.  As a result a
    single EvidenceBundle is included in a CSR that contains a single
    EvidenceStatement without the CertificateAlternatives structure.
@@ -369,12 +380,12 @@ Table of Contents
      | EvidenceStatement  |
      +--------------------+
 
-      Figure 4: Use Case 1: Single Attester without Certificate Chain.
+     Figure 4: Use Case 1: Single Attester without Certification Path.
 
-   A single Attester, which shares Evidence together with a certificate
-   chain.  The CSR conveys a single EvidenceBundle with a single
-   EvidenceStatement and a single CertificateAlternatives structure.
-   Figure 5 shows this use case.
+   A single Attester, which shares Evidence together with a
+   certification path.  The CSR conveys a single EvidenceBundle with a
+   single EvidenceStatement and a single CertificateAlternatives
+   structure.  Figure 5 shows this use case.
 
     +-------------------------+
     |  EvidenceBundle         |
@@ -383,14 +394,14 @@ Table of Contents
     | CertificateAlternatives |
     +-------------------------+
 
-       Figure 5: Use Case 2: Single Attester with Certificate Chain.
+       Figure 5: Use Case 2: Single Attester with Certification Path.
 
    In a Composite Device, which contains multiple Attesters, a
    collection of Evidence statements is obtained.  Imagine that each
-   Attester returns its Evidence together with a certificate chain.  As
+   Attester returns its Evidence together with a certification path.  As
    a result, multiple EvidenceBundle structures, each carrying an
    EvidenceStatement and the corresponding CertificateAlternative
-   structure with the certificate chain as provided by each Attester,
+   structure with the certification path as provided by each Attester,
    are included in the CSR.  This may result in certificates being
    duplicated across multiple EvidenceBundles.  This approach does not
    require any processing capabilities by a lead Attester since the
@@ -412,26 +423,26 @@ Table of Contents
 
    In the last scenario, we also assume a Composite Device with
    additional processing capabilities of the Leader Attester, which
-   parses the certificate chains provided by all Attesters in the device
+   parses the certification path provided by all Attesters in the device
    and removes redundant certificate information.  The benefit of this
    approach is the reduced transmission overhead.  There are several
    implementation strategies and we show two in Figure 7.
 
    Implementation strategy (4a)
 
-                   +-------------------------+
-                   |  EvidenceBundle (1)     |\
-     Certificate   +-------------------------+ \ Provided by
-     Chain +       | EvidenceStatement       | / Attester 1
-     End-Entity -->| CertificateAlternatives |/
-     Certificate   +-------------------------+
-                            ....
-                   +-------------------------+
-                   |  EvidenceBundle (n)     |\
-                   +-------------------------+ \ Provided by
-     End-Entity    | EvidenceStatement       | / Attester n
-     Certificate-->| CertificateAlternatives |/
-                   +-------------------------+
+                    +-------------------------+
+                    |  EvidenceBundle (1)     |\
+     Certification  +-------------------------+ \ Provided by
+     Path +         | EvidenceStatement       | / Attester 1
+     End-Entity --->| CertificateAlternatives |/
+     Certificate    +-------------------------+
+                             ....
+                    +-------------------------+
+                    |  EvidenceBundle (n)     |\
+                    +-------------------------+ \ Provided by
+     End-Entity     | EvidenceStatement       | / Attester n
+     Certificate--->| CertificateAlternatives |/
+                    +-------------------------+
 
    Implementation strategy (4b)
 
@@ -446,7 +457,7 @@ Table of Contents
     |        ...                   |
     |   End Entity Certificate (n) |
     |   <Remainder of the          |
-    |    Certificate Chain>        |
+    |    Certification Path>       |
     | }                            |
     +------------------------------+
 
@@ -455,36 +466,37 @@ Table of Contents
 
    In implementation strategy (4a) we assume that each Attester is
    provisioned with a unique end-entity certificate.  Hence, the
-   certificate chains will at least differ with respect to the end-
+   certification path will at least differ with respect to the end-
    entity certificates.  The Lead Attester will therefore create
    multiple EvidenceBundle structures, each will carry an
-   EvidenceStatement followed by a certificate chain in the
+   EvidenceStatement followed by a certification path in the
    CertificateAlternative structures containing most likely only the
-   end-entity certificate.  The shared certificate chain is carried in
+   end-entity certificate.  The shared certification path is carried in
    the first entry of the EvidenceBundle sequence to allow path
    validation to take place immediately after processing the first
    structure.  This implementation strategy may place extra burden on
    the Relying Party to parse EvidenceBundles and reconstruct
-   certificate chains if the Verifier requires each EvidenceStatement to
-   be accompanied with a complete certificate chain.
+   certification path if the Verifier requires each EvidenceStatement to
+   be accompanied with a complete certification path.
 
    Implementation strategy (4b), as an alternative, requires the Lead
-   Attester to merge all certificate chains into a single EvidenceBundle
-   containing a single de-duplicated sequence of CertificateAlternatives
-   structures.  This means that each EvidenceBundle is self-contained
-   and any EvidenceStatement can be verified using only the sequence of
-   CertificateAlternatives in its bundle, but Verifiers will have to do
-   proper certification path building since the sequence of
-   CertificateAlternatives is now a cert bag and not a cert chain.  This
-   implementation strategy may place extra burden on the Attester in
-   order to allow the Relying Party to treat the Evidence and
-   Certificates as opaque content.  It also may place extra burden on
-   the Verifier since this implementation strategy requires it to be
-   able to perform X.509 path building over a bag of certificates that
-   may be out of order or contain extraneous certificates.
+   Attester to merge all certification paths into a single
+   EvidenceBundle containing a single de-duplicated sequence of
+   CertificateAlternatives structures.  This means that each
+   EvidenceBundle is self-contained and any EvidenceStatement can be
+   verified using only the sequence of CertificateAlternatives in its
+   bundle, but Verifiers will have to do proper certification path
+   building since the sequence of CertificateAlternatives is now a cert
+   bag and not a certification path.  This implementation strategy may
+   place extra burden on the Attester in order to allow the Relying
+   Party to treat the Evidence and Certificates as opaque content.  It
+   also may place extra burden on the Verifier since this implementation
+   strategy requires it to be able to perform X.509 path building over a
+   bag of certificates that may be out of order or contain extraneous
+   certificates.
 
-   Note: This specification does not mandate optimizing certificate
-   chains since there is a trade-off between the Attester implementation
+   Note: This specification does not mandate optimizing certification
+   path since there is a trade-off between the Attester implementation
    complexity and the transmission overhead.
 
 5.  ASN.1 Elements
@@ -504,9 +516,9 @@ Table of Contents
    and within a CRMF CSR are typed as EXTENSION.  This attribute
    definition contains one or more Evidence bundles of type
    EvidenceBundle which each contain one or more Evidence statements of
-   a type EvidenceStatement along with an optional certificate chain.
+   a type EvidenceStatement along with an optional certification path.
    This structure allows for grouping Evidence statements that share a
-   certificate chain.
+   certification path.
 
    EVIDENCE-STATEMENT ::= TYPE-IDENTIFIER
 
@@ -607,9 +619,9 @@ Table of Contents
 
    CertificateAlternatives ::=
       CHOICE {
-         cert          [0] Certificate,
-         typedCert     [1] TypedCert,
-         typedFlatCert [2] TypedFlatCert,
+         cert              Certificate,
+         typedCert     [0] TypedCert,
+         typedFlatCert [1] TypedFlatCert,
          ...
       }
 
@@ -743,15 +755,21 @@ Table of Contents
 6.4.2.  Initial Registry Contents
 
    The initial registry contents is shown in the table below.  It lists
-   two entries, one for DICE-based Evidence and the second for the
-   Conceptual Message Wrapper (CMW) [I-D.ietf-rats-msg-wrap].
+   one entry for the Conceptual Message Wrapper (CMW)
+   [I-D.ietf-rats-msg-wrap].
 
-| OID              | Description                | Reference(s)   | Change Controller |
-|------------------|----------------------------|----------------|-------------------|
-| 2 23 133 5 4 10  | DICE Evidence              | {{TCGDICE1.1}} |  TCG              |
-| 2 23 133 5 4 9   | Conceptual Message Wrapper | {{TCGDICE1.1}} |  TCG              |
+     +==========+=================+==============+===================+
+     | OID      | Description     | Reference(s) | Change Controller |
+     +==========+=================+==============+===================+
+     | 2 23 133 | Conceptual      | [TCGDICE1.1] | TCG               |
+     | 5 4 9    | Message Wrapper |              |                   |
+     +----------+-----------------+--------------+-------------------+
 
- Figure 8: Initial Contents of the Attestation Evidence OID Registry
+         Table 1: Initial Contents of the Attestation Evidence OID
+                                  Registry
+
+   EDNOTE: This is currently under debate with our contacts at TCG about
+   which OID they want used for the initial registry.
 
    The current registry values can be retrieved from the IANA online
    website.
@@ -770,9 +788,9 @@ Table of Contents
    prevent theft or misuse (including being non-exportable / non-
    recoverable), the Attesting Environment has to collect claims about
    this secure environment (or Target Environment, as shown in
-   Figure 9).
+   Figure 8).
 
-   Figure 9 shows the interaction inside an Attester.  The Attesting
+   Figure 8 shows the interaction inside an Attester.  The Attesting
    Environment, which is provisioned with an Attestation Key, retrieves
    claims about the Target Environment.  The Target Environment offers
    key generation, storage and usage, which it makes available to
@@ -814,9 +832,9 @@ Table of Contents
     |                                    |
     '------------------------------------'
 
-       Figure 9: Interaction between Attesting and Target Environment
+       Figure 8: Interaction between Attesting and Target Environment
 
-   Figure 9 places the CSR library outside the Attester, which is a
+   Figure 8 places the CSR library outside the Attester, which is a
    valid architecture for certificate enrollment.  The CSR library may
    also be located inside the trusted computing base.  Regardless of the
    placement of the CSR library, an Attesting Environment MUST be able
@@ -970,16 +988,16 @@ Table of Contents
    [I-D.bft-rats-kat]
               Brossard, M., Fossati, T., and H. Tschofenig, "An EAT-
               based Key Attestation Token", Work in Progress, Internet-
-              Draft, draft-bft-rats-kat-02, 10 February 2024,
+              Draft, draft-bft-rats-kat-03, 4 March 2024,
               <https://datatracker.ietf.org/doc/html/draft-bft-rats-kat-
-              02>.
+              03>.
 
    [I-D.ietf-rats-msg-wrap]
               Birkholz, H., Smith, N., Fossati, T., and H. Tschofenig,
               "RATS Conceptual Messages Wrapper (CMW)", Work in
-              Progress, Internet-Draft, draft-ietf-rats-msg-wrap-03, 29
-              January 2024, <https://datatracker.ietf.org/doc/html/
-              draft-ietf-rats-msg-wrap-03>.
+              Progress, Internet-Draft, draft-ietf-rats-msg-wrap-04, 27
+              February 2024, <https://datatracker.ietf.org/doc/html/
+              draft-ietf-rats-msg-wrap-04>.
 
    [I-D.ietf-rats-tpm-based-network-device-attest]
               Fedorkow, G., Voit, E., and J. Fitzgerald-McKay, "TPM-
@@ -1035,78 +1053,296 @@ Appendix A.  Examples
    At the time of writing, the authors are not aware of registered OIDs
    for these evidence formats, and so we leave the OIDs as TBD1 / TBD2.
 
-A.1.  TPM V2.0 Evidence in CSR
+A.1.  Extending EvidenceStatementSet
 
-   The following example illustrates a CSR with a signed TPM Quote based
-   on [TPM20].  The Platform Configuration Registers (PCRs) are fixed-
-   size registers in a TPM that record measurements of software and
-   configuration information and are therefore used to capture the
-   system state.  The digests stored in these registers are then
-   digitally signed with an attestation key known to the hardware.
+   As defined in Section 5.2, EvidenceStatementSet acts as a way to
+   provide an ASN.1 compiler or runtime parser with a list of OBJECT
+   IDENTIFIERs that are known to represent EvidenceStatements -- and are
+   expected to appear in an EvidenceStatement.type field, along with the
+   ASN.1 type that should be used to parse the data in the associated
+   EvidenceStatement.stmt field.  Essentially this is a mapping of OIDs
+   to data structures.  Implementers are expected to populate it with
+   mappings for the Evidence types that their application will be
+   handling.
 
-   Note: The information conveyed in the value field of the
-   EvidenceStatement structure may contain more information than the
-   signed TPM Quote structure defined in the TPM v2.0 specification
-   [TPM20], such as plaintext PCR values, the up-time, the event log,
-   etc.  The detailed structure of such payload is, however, not defined
-   in this document and may be subject to future standardization work in
-   supplementary documents.
+   This specification aims to be agnostic about the type of data being
+   carried, and therefore does not specify any mandatory-to-implement
+   Evidence types.
 
-   Certification Request:
-       Data:
-           Version: 1 (0x0)
-           Subject: CN = server.example.com
-           Subject Public Key Info:
-               Public Key Algorithm: id-ecPublicKey
-                   Public-Key: (256 bit)
-                   pub:
-                       04:b9:7c:02:a1:1f:9c:f3:f4:c4:55:3a:d9:3e:26:
-                       e8:e5:11:63:84:36:5f:93:a6:99:7d:d7:43:23:0a:
-                       4f:c0:a8:40:46:7e:8d:b2:1a:38:19:ff:6a:a7:38:
-                       16:06:1e:12:9f:d1:d5:58:55:e6:be:6d:bb:e1:fb:
-                       f7:70:a7:5c:c9
-                   ASN1 OID: prime256v1
-                   NIST CURVE: P-256
-           Attributes:
-               EvidenceStatement
-                  type: TBD2 (identifying use of TPM V2.0)
-                  value:
-                       80:02:00:00:01:99:00:00:00:00:00:00:01:86:00:7e
-                       ff:54:43:47:80:18:00:22:00:0b:76:71:0f:61:80:95
-                       8d:89:32:38:a6:cc:40:43:02:4a:da:26:d5:ea:11:71
-                       99:d7:a5:59:a4:18:54:1e:7b:86:00:0d:30:2e:66:6e
-                       6a:37:66:63:39:31:76:62:74:00:00:00:00:00:00:36
-                       5b:bc:0b:71:4f:d8:84:90:09:01:42:82:48:a6:46:53
-                       98:96:00:00:00:01:00:0b:03:0f:00:00:00:20:49:ce
-                       66:9a:aa:7e:52:ff:93:0e:dd:9f:27:97:88:eb:75:cb
-                       ad:53:22:e5:ad:2c:9d:44:1e:dd:65:48:6b:88:00:14
-                       00:0b:01:00:15:a4:95:8a:0e:af:04:36:be:35:f7:27
-                       85:bd:7f:87:46:74:18:e3:67:2f:32:f2:bf:b2:e7:af
-                       a1:1b:f5:ca:1a:eb:83:8f:2f:36:71:cd:7c:18:ab:50
-                       3d:e6:6e:ab:2e:78:a7:e4:6d:cf:1f:03:e6:46:74:28
-                       a7:6c:d6:1e:44:3f:88:89:36:9a:a3:f0:9a:45:07:7e
-                       01:5e:4c:97:7d:3f:e2:f7:15:59:96:5f:0e:9a:1c:b3
-                       a0:6b:4a:77:a5:c0:e0:93:53:cb:b7:50:59:3d:23:ee
-                       5c:31:00:48:6c:0b:1a:b8:04:a4:14:05:a6:63:bc:36
-                       aa:7f:b9:aa:1f:19:9e:ee:49:48:08:e1:3a:d6:af:5f
-                       d5:eb:96:28:bf:41:3c:89:7a:05:4b:b7:32:a2:fc:e7
-                       f6:ad:c7:98:a6:98:99:f6:e9:a4:30:d4:7f:5e:b3:cb
-                       d7:cc:76:90:ef:2e:cc:4f:7d:94:ab:33:8c:9d:35:5d
-                       d7:57:0b:3c:87:9c:63:89:61:d9:5c:a0:b7:5c:c4:75
-                       21:ae:dc:c9:7c:e3:18:a2:b3:f8:15:27:ff:a9:28:2f
-                       cb:9b:17:fe:96:04:53:c4:19:0e:bf:51:0e:9d:1c:83
-                       49:7e:51:64:03:a1:40:f1:72:8b:74:e3:16:79:af:f1
-                       14:a8:5e:44:00:00:01:00:00
-       Signature Algorithm: ecdsa-with-SHA256
-       Signature Value:
-           30:45:02:21:00:93:fd:81:03:75:d1:7d:ab:53:6c:a5:19:a7:
-           68:3d:d6:e2:39:14:d6:9e:47:24:38:b5:76:db:18:a6:ca:c4:
-           8a:02:20:36:be:3d:71:93:5d:05:c3:ac:fa:a8:f3:e5:46:db:
-           57:f9:23:ee:93:47:6d:d6:d3:4f:c2:b7:cc:0d:89:71:fe
+   As an example of how to populate EvidenceStatementSet, implementing
+   the TPM 2.0 and PSA Evidence types given below would result in the
+   following EvidenceStatementSet definition:
 
-                        Figure 10: CSR with TPM V2.0
+   EvidenceStatementSet EVIDENCE-STATEMENT ::= {
+     --- TPM 2.0
+     { Tcg-attest-certify IDENTIFIED BY tcg-attest-certify },
+     ...,
 
-A.2.  PSA Attestation Token in CSR
+     --- PSA
+     { OCTET STRING IDENTIFIED BY { 1 3 6 1 5 5 7 1 99 } }
+   }
+
+A.2.  TPM V2.0 Evidence in CSR
+
+   This section describes TPM2 key attestation for use in a CSR.
+
+A.2.1.  TCG Key Attestation Certify
+
+   There are several ways in TPM2 to provide proof of a key's
+   properties. (i.e., key attestation).  This description uses the
+   simplest and most generally expected to used which is the
+   TPM2_Certify and the TPM2_ReadPublic commands.
+
+A.2.2.  TCG OIDs
+
+   The OIDs in this section are defined by TCG TCG has a registered arc
+   of 2.23.133
+
+   id-tcg OBJECT IDENTIFIER ::= { 2 23 133 }
+
+   id-tcg-kp-AIKCertificate OBJECT IDENTIFIER ::= { id-tcg 8 3 }
+
+   id-tcg-attest OBJECT IDENTIFIER ::= { id-tcg TBD }
+
+   id-tcg-attest-certify OBJECT IDENTIFIER ::= { id-tcg-attest 1 }
+
+A.2.3.  TPM2 AttestationStatement
+
+   The EvidenceStatement structure contains a sequence of two fields: a
+   type and a stmt.  The 'type' field contains the OID of the Evidence
+   format and it is set to tcg-attest-certify.  The content of the
+   structure shown below is placed into the stmt, which is a
+   concatenation of existing TPM2 structures.  These structures will be
+   explained in the rest of this section.
+
+   Tcg-attest-certify ::= SEQUENCE {
+     tpmSAttest       OCTET STRING,
+     signature        OCTET STRING,
+     tpmTPublic       OCTET STRING OPTIONAL
+   }
+
+   The tcg-kp-AIKCertificate field contains the AIK Certificate in RFC
+   5280 format.
+
+A.2.4.  Introduction to TPM2 concepts
+
+   The definitions in the following sections are defined by the TPM2 and
+   various TCG defined specification including the TPM2 set of
+   specifications.  Those familiar with TPM2 concepts may skip to
+   Appendix A.2.3 which defines an ASN.1 structure specific for bundling
+   a TPM attestation into an EvidenceStatement, and Appendix A.2.6 which
+   provides the example.  For those unfamiliar with TPM2 concepts this
+   section provides only the minimum information to understand TPM2
+   Attestation in CSR and is not a complete description of the
+   technology in general.
+
+A.2.5.  TCG Objects and Key Attestation
+
+   This provides a brief explanation of the relevant TPM2 commands and
+   data structures needed to understand TPM2 Attestation used in this
+   RFC.  NOTE: The TPM2 specification used in this explanation is
+   version 1.59, section number cited are based on that version.  Note
+   also that the TPM2 specification comprises four documents: Part 1:
+   Architecture; Part 2: Structures; Part 3: Commands; Part 4:
+   Supporting Routines.
+
+   Note about convention: All structures starting with TPM2B_ are:
+
+   *  a structure that is a sized buffer where the size of the buffer is
+      contained in a 16-bit, unsigned value.
+
+   *  The first parameter is the size in octets of the second parameter.
+      The second parameter may be any type.
+
+   A full explanation of the TPM structures is outside the scope of this
+   document.  As a simplification references to TPM2B_ structures will
+   simply use the enclosed TPMT_ structure by the same name following
+   the '_'.
+
+A.2.5.1.  TPM2 Object Names
+
+   All TPM2 Objects (e.g., keys are key objects which is the focus of
+   this specification).  A TPM2 object name is persistent across the
+   object's life cycle whether the TPM2 object is transient or
+   persistent.
+
+   A TPM2 Object name is a concatenation of a hash algorithm identifier
+   and a hash of the TPM2 Object's TPMT_PUBLIC.
+
+        Name ≔ nameAlg || HnameAlg (handle→publicArea)
+        nameAlg is a TCG defined 16 bit algorithm identifier
+
+   publicArea is the TPMT_PUBLIC structure for that TPM2 Object.
+
+   The size of the Name field can be derived by examining the nameAlg
+   value, which defines the hashing algorithm and the resulting size.
+
+   The Name field is returned in the TPM2B_ATTEST data field.
+
+        typedef struct {
+             TPM_GENERATED magic;
+             TPMI_ST_ATTEST type;
+             TPM2B_NAME qualifiedSigner;
+             TPM2B_DATA extraData;
+             TPMS_CLOCK_INFO clockInfo;
+             UINT64 firmwareVersion;
+             TPMU_ATTEST attested;
+        } TPMS_ATTEST;
+
+   where for a key object the attested field is
+
+        typedef struct {
+             TPM2B_NAME name;
+             TPM2B_NAME qualifiedName;
+        } TPMS_CERTIFY_INFO;
+
+A.2.5.2.  TPM2 Public Structure
+
+   Any TPM2 Object has an associated TPM2 Public structure defined as
+   TPMT_PUBLIC.  This is defined below as a 'C' structure.  While there
+   are many types of TPM2 Objects each with its own specific TPMT_PUBLIC
+   structure (handled by the use of 'unions') this document will
+   specifically define TPMT_PUBLIC for a TPM2 key object.
+
+        typedef struct {
+             TPMI_ALG_PUBLIC type;
+             TPMI_ALG_HASH nameAlg;
+             TPMA_OBJECT objectAttributes;
+             TPM2B_DIGEST authPolicy;
+             TPMU_PUBLIC_PARMS parameters;
+             TPMU_PUBLIC_ID unique;
+        } TPMT_PUBLIC;
+
+   Where: * type and nameAlg are 16 bit TCG defined algorithms. *
+   objectAttributes is a 32 bit field defining properties of the object,
+   as shown below
+
+        typedef struct TPMA_OBJECT {
+             unsigned Reserved_bit_at_0 : 1;
+             unsigned fixedTPM : 1;
+             unsigned stClear : 1;
+             unsigned Reserved_bit_at_3 : 1;
+             unsigned fixedParent : 1;
+             unsigned sensitiveDataOrigin : 1;
+             unsigned userWithAuth : 1;
+             unsigned adminWithPolicy : 1;
+             unsigned Reserved_bits_at_8 : 2;
+             unsigned noDA : 1;
+             unsigned encryptedDuplication : 1;
+             unsigned Reserved_bits_at_12 : 4;
+             unsigned restricted : 1;
+             unsigned decrypt : 1;
+             unsigned sign : 1;
+             unsigned x509sign : 1;
+             unsigned Reserved_bits_at_20 : 12;
+        } TPMA_OBJECT;
+
+   *  authPolicy is the Policy Digest needed to authorize use of the
+      object.
+
+   *  Parameters are the object type specific public information about
+      the key.
+
+      -  For key objects, this would be the key's public parameters.
+
+   *  unique is the identifier for parameters
+
+   The size of the TPMT_PUBLIC is provided by the following structure:
+
+        typedef struct {
+             UINT16     size;
+             TPMT_PUBLIC publicArea;
+        } TPM2B_PUBLIC;
+
+A.2.5.3.  TPM2 Signatures
+
+   TPM2 signatures use a union where the first field (16 bits)
+   identifies the signature scheme.  The example below shows an RSA
+   signature where TPMT_SIGNATURE->sigAlg will indicate to use
+   TPMS_SIGNATURE_RSA as the signature.
+
+        typedef struct {
+             TPMI_ALG_SIG_SCHEME sigAlg;
+             TPMU_SIGNATURE signature;
+        } TPMT_SIGNATURE;
+
+        typedef struct {
+             TPMI_ALG_HASH hash;
+             TPM2B_PUBLIC_KEY_RSA sig;
+        } TPMS_SIGNATURE_RSA;
+
+A.2.5.4.  Attestation Key
+
+   The uniquely identifying TPM2 key is the Endorsement Key (the EK).
+   As this is a privacy sensitive key, the EK is not directly used to
+   attest to any TPM2 asset.  Instead, the EK is used by an Attestation
+   CA to create an Attestation Key (the AK).  The AK is assumed trusted
+   by the Verifier and is assume to be loaded in the TPM during the
+   execution of the process described in the subsequent sections.  The
+   description of how to create the AK is outside the scope of this
+   document.
+
+A.2.5.5.  Attester Processing
+
+   The only signed component is the TPM2B_ATTEST structure, which
+   returns only the (key's) Name and the signature computed over the
+   Name but no detailed information about the key.  As the Name is
+   comprised of public information, the Name can be calculated by the
+   Verifier but only if the Verify knows all the public information
+   about the Key.
+
+   The Attester's processing steps are as follows:
+
+   Using the TPM2 command TPM2_Certify obtain the TPM2B_ATTEST and
+   TPMT_SIGNATURE structures from the TPM2.  The signing key for
+   TPMT_SIGNATURE is an Attention Key (or AK), which is assumed to be
+   available to the TPM2 upfront.  More details are provided in
+   Appendix A.2.5.4
+
+   The TPM2 command TPM2_Certify takes the following input:
+
+   *  TPM2 handle for Key (the key to be attested to)
+
+   *  TPM2 handle for the AK (see Appendix A.2.5.4)
+
+   It produces the following output:
+
+   *  TPM2B_ATTEST in binary format
+
+   *  TPMT_SIGNATURE in binary format
+
+   Then, using the TPM2 command TPM2_ReadPublic obtain the Keys
+   TPM2B_PUBLIC structure.  While the Key's public information can be
+   obtained by the Verifier in a number ways, such as storing it from
+   when the Key was created, this may be impractical in many situations.
+   As TPM2 provided a command to obtain this information, this
+   specification will include it in the TPM2 Attestation CSR extension.
+
+   The TPM2 command TPM2_ReadPublic takes the following input:
+
+   *  TPM2 handle for Key (the key to be attested to)
+
+   It produces the following output:
+
+   *  TPM2B_PUBLIC in binary format
+
+A.2.5.6.  Verifier Processing
+
+   The Verifier has to perform the following steps once it receives the
+   Evidence:
+
+   *  Verify the TPM2B_ATTEST using the TPMT_SIGNATURE.
+
+   *  Use the Key's "expected" Name from the provided TPM2B_PUBLIC
+      structure.  If Key's "expected" Name equals
+      TPM2B_ATTEST->attestationData then returned TPM2B_PUBLIC is the
+      verified.
+
+A.2.6.  Example Structures
+
+   TODO -- a full CSR would be great.
+
+A.3.  PSA Attestation Token in CSR
 
    The Platform Security Architecture (PSA) Attestation Token is defined
    in [I-D.tschofenig-rats-psa-token] and specifies claims to be
@@ -1197,9 +1433,9 @@ id-ata OBJECT IDENTIFIER ::= { id-pkix (TBD1) }
 
 CertificateAlternatives ::=
    CHOICE {
-      cert          [0] Certificate,
-      typedCert     [1] TypedCert,
-      typedFlatCert [2] TypedFlatCert,
+      cert              Certificate,
+      typedCert     [0] TypedCert,
+      typedFlatCert [1] TypedFlatCert,
       ...
    }
 
@@ -1292,16 +1528,18 @@ Appendix C.  Acknowledgments
    Zsolt Rózsahegyi, Ferenc Pető, Mike Agrenius Kushner, Tomas
    Gustavsson, Dieter Bong, Christopher Meyer, Michael StJohns, Carl
    Wallace, Michael Richardson, Tomofumi Okubo, Olivier Couillard, John
-   Gray, Eric Amador, Johnson Darren, Herman Slatman, Tiru Reddy, Thomas
-   Fossati, Corey Bonnel, Argenius Kushner, James Hagborg, Monty
-   Wiseman, Ned Smith.
+   Gray, Eric Amador, Johnson Darren, Herman Slatman, Tiru Reddy, Corey
+   Bonnell, Argenius Kushner, James Hagborg, Monty Wiseman, Ned Smith.
 
    We would like to specifically thank Mike StJohns for his work on an
    earlier version of this draft.
 
-   Finally, we would like to thank Andreas Kretschmer for his feedback
-   based on his implementation experience, and Daniel Migault and Russ
-   Housley for their review comments.
+   We would also like to specifically thank Monty Wiseman for providing
+   the appendix showing how to carry a TPM 2.0 Attestation.
+
+   Finally, we would like to thank Andreas Kretschmer and Thomas Fossati
+   for their feedback based on implementation experience, and Daniel
+   Migault and Russ Housley for their review comments.
 
 Authors' Addresses
 
@@ -1324,3 +1562,9 @@ Authors' Addresses
    64295 Darmstadt
    Germany
    Email: henk.birkholz@sit.fraunhofer.de
+
+
+   Monty Wiseman
+   Beyond Identity
+   United States of America
+   Email: monty.wiseman@beyondidentity.com

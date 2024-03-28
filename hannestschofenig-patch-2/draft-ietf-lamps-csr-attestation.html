@@ -4,26 +4,27 @@
 <meta charset="utf-8">
 <meta content="Common,Latin" name="scripts">
 <meta content="initial-scale=1.0" name="viewport">
-<title>Use of Remote Attestation with Certificate Signing Requests</title>
+<title>Use of Remote Attestation with Certification Signing Requests</title>
 <meta content="Mike Ounsworth" name="author">
 <meta content="Hannes Tschofenig" name="author">
 <meta content="Henk Birkholz" name="author">
+<meta content="Monty Wiseman" name="author">
 <meta content="
-       A client requesting a certificate from a Certification Authority (CA) may wish to offer believable claims about the protections afforded to the corresponding private key, such as whether the private key resides on a hardware security module or the protection capabilities provided by the hardware. 
-       This document describes how to encode Evidence produced by an Attester for inclusion in Certificate Signing Requests (CSRs), and any certificates necessary for validating it. 
+       A PKI end entity requesting a certificate from a Certification Authority (CA) may wish to offer believable claims about the protections afforded to the corresponding private key, such as whether the private key resides on a hardware security module or the protection capabilities provided by the hardware. 
+       This document defines a new PKCS#10 attribute attr-evidence and CRMF extension ext-evidence that allows placing any Evidence data, in any pre-existing format, along with any certificates needed to validate it, into a PKCS#10 or CRMF CSR. 
        Including Evidence along with a CSR can help to improve the assessment of the security posture for the private key, and the trustworthiness properties of the submitted key to the requested certificate profile. These Evidence Claims can include information about the hardware component's manufacturer, the version of installed or running firmware, the version of software installed or running in layers above the firmware, or the presence of hardware components providing specific protection capabilities or shielded locations (e.g., to protect keys). 
     " name="description">
-<meta content="xml2rfc 3.19.4" name="generator">
+<meta content="xml2rfc 3.20.1" name="generator">
 <meta content="PKI" name="keyword">
 <meta content="PKCS#10" name="keyword">
-<meta content="CFMF" name="keyword">
+<meta content="CRMF" name="keyword">
 <meta content="Attestation" name="keyword">
 <meta content="Evidence" name="keyword">
 <meta content="Certificate Signing Requests" name="keyword">
 <meta content="draft-ietf-lamps-csr-attestation-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.19.4
-    Python 3.11.6
+  xml2rfc 3.20.1
+    Python 3.11.8
     ConfigArgParse 1.7
     google-i18n-address 3.1.0
     intervaltree 3.1.0
@@ -1034,11 +1035,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">Remote Attestation with CSRs</td>
-<td class="right">February 2024</td>
+<td class="right">March 2024</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Ounsworth, et al.</td>
-<td class="center">Expires 29 August 2024</td>
+<td class="center">Expires 29 September 2024</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1051,12 +1052,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-lamps-csr-attestation-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2024-02-26" class="published">26 February 2024</time>
+<time datetime="2024-03-28" class="published">28 March 2024</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2024-08-29">29 August 2024</time></dd>
+<dd class="expires"><time datetime="2024-09-29">29 September 2024</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1071,14 +1072,18 @@ svg :is([fill="white"], [fill^="#fff"]) {
       <div class="author-name">H. Birkholz</div>
 <div class="org">Fraunhofer SIT</div>
 </div>
+<div class="author">
+      <div class="author-name">M. Wiseman</div>
+<div class="org">Beyond Identity</div>
+</div>
 </dd>
 </dl>
 </div>
-<h1 id="title">Use of Remote Attestation with Certificate Signing Requests</h1>
+<h1 id="title">Use of Remote Attestation with Certification Signing Requests</h1>
 <section id="section-abstract">
       <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
-<p id="section-abstract-1">A client requesting a certificate from a Certification Authority (CA) may wish to offer believable claims about the protections afforded to the corresponding private key, such as whether the private key resides on a hardware security module or the protection capabilities provided by the hardware.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
-<p id="section-abstract-2">This document describes how to encode Evidence produced by an Attester for inclusion in Certificate Signing Requests (CSRs), and any certificates necessary for validating it.<a href="#section-abstract-2" class="pilcrow">¶</a></p>
+<p id="section-abstract-1">A PKI end entity requesting a certificate from a Certification Authority (CA) may wish to offer believable claims about the protections afforded to the corresponding private key, such as whether the private key resides on a hardware security module or the protection capabilities provided by the hardware.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
+<p id="section-abstract-2">This document defines a new PKCS#10 attribute attr-evidence and CRMF extension ext-evidence that allows placing any Evidence data, in any pre-existing format, along with any certificates needed to validate it, into a PKCS#10 or CRMF CSR.<a href="#section-abstract-2" class="pilcrow">¶</a></p>
 <p id="section-abstract-3">Including Evidence along with a CSR can help to improve the assessment of the security posture for the private key, and the trustworthiness properties of the submitted key to the requested certificate profile. These Evidence Claims can include information about the hardware component's manufacturer, the version of installed or running firmware, the version of software installed or running in layers above the firmware, or the presence of hardware components providing specific protection capabilities or shielded locations (e.g., to protect keys).<a href="#section-abstract-3" class="pilcrow">¶</a></p>
 </section>
 <section class="note rfcEditorRemove" id="section-note.1">
@@ -1111,7 +1116,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 29 August 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 29 September 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1228,10 +1233,33 @@ svg :is([fill="white"], [fill^="#fff"]) {
             <p id="section-toc.1-1.9.1"><a href="#appendix-A" class="auto internal xref">Appendix A</a>.  <a href="#name-examples" class="internal xref">Examples</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.1">
-                <p id="section-toc.1-1.9.2.1.1"><a href="#appendix-A.1" class="auto internal xref">A.1</a>.  <a href="#name-tpm-v20-evidence-in-csr" class="internal xref">TPM V2.0 Evidence in CSR</a></p>
+                <p id="section-toc.1-1.9.2.1.1"><a href="#appendix-A.1" class="auto internal xref">A.1</a>.  <a href="#name-extending-evidencestatement" class="internal xref">Extending EvidenceStatementSet</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.2">
-                <p id="section-toc.1-1.9.2.2.1"><a href="#appendix-A.2" class="auto internal xref">A.2</a>.  <a href="#name-psa-attestation-token-in-cs" class="internal xref">PSA Attestation Token in CSR</a></p>
+                <p id="section-toc.1-1.9.2.2.1"><a href="#appendix-A.2" class="auto internal xref">A.2</a>.  <a href="#name-tpm-v20-evidence-in-csr" class="internal xref">TPM V2.0 Evidence in CSR</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.2.2.1">
+                    <p id="section-toc.1-1.9.2.2.2.1.1"><a href="#appendix-A.2.1" class="auto internal xref">A.2.1</a>.  <a href="#name-tcg-key-attestation-certify" class="internal xref">TCG Key Attestation Certify</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.2.2.2">
+                    <p id="section-toc.1-1.9.2.2.2.2.1"><a href="#appendix-A.2.2" class="auto internal xref">A.2.2</a>.  <a href="#name-tcg-oids" class="internal xref">TCG OIDs</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.2.2.3">
+                    <p id="section-toc.1-1.9.2.2.2.3.1"><a href="#appendix-A.2.3" class="auto internal xref">A.2.3</a>.  <a href="#name-tpm2-attestationstatement" class="internal xref">TPM2 AttestationStatement</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.2.2.4">
+                    <p id="section-toc.1-1.9.2.2.2.4.1"><a href="#appendix-A.2.4" class="auto internal xref">A.2.4</a>.  <a href="#name-introduction-to-tpm2-concep" class="internal xref">Introduction to TPM2 concepts</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.2.2.5">
+                    <p id="section-toc.1-1.9.2.2.2.5.1"><a href="#appendix-A.2.5" class="auto internal xref">A.2.5</a>.  <a href="#name-tcg-objects-and-key-attesta" class="internal xref">TCG Objects and Key Attestation</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.2.2.6">
+                    <p id="section-toc.1-1.9.2.2.2.6.1"><a href="#appendix-A.2.6" class="auto internal xref">A.2.6</a>.  <a href="#name-example-structures" class="internal xref">Example Structures</a></p>
+</li>
+                </ul>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.3">
+                <p id="section-toc.1-1.9.2.3.1"><a href="#appendix-A.3" class="auto internal xref">A.3</a>.  <a href="#name-psa-attestation-token-in-cs" class="internal xref">PSA Attestation Token in CSR</a></p>
 </li>
             </ul>
 </li>
@@ -1348,24 +1376,30 @@ out-of-scope for this document.<a href="#section-3-3" class="pilcrow">¶</a></p>
 <figure id="figure-1">
         <div id="section-3-4.1">
           <div class="alignLeft art-svg artwork" id="section-3-4.1.1">
-<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="272" width="536" viewBox="0 0 536 272" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
-              <path d="M 8,176 L 8,240" fill="none" stroke="black"></path>
-              <path d="M 112,176 L 112,240" fill="none" stroke="black"></path>
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="272" width="568" viewBox="0 0 568 272" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
+              <path d="M 8,176 L 8,256" fill="none" stroke="black"></path>
+              <path d="M 112,176 L 112,256" fill="none" stroke="black"></path>
               <path d="M 240,32 L 240,96" fill="none" stroke="black"></path>
-              <path d="M 240,176 L 240,240" fill="none" stroke="black"></path>
+              <path d="M 240,176 L 240,256" fill="none" stroke="black"></path>
               <path d="M 280,104 L 280,192" fill="none" stroke="black"></path>
               <path d="M 312,96 L 312,168" fill="none" stroke="black"></path>
               <path d="M 352,32 L 352,96" fill="none" stroke="black"></path>
-              <path d="M 368,176 L 368,240" fill="none" stroke="black"></path>
+              <path d="M 384,176 L 384,256" fill="none" stroke="black"></path>
+              <path d="M 512,176 L 512,256" fill="none" stroke="black"></path>
+              <path d="M 560,176 L 560,256" fill="none" stroke="black"></path>
               <path d="M 240,32 L 352,32" fill="none" stroke="black"></path>
               <path d="M 240,96 L 352,96" fill="none" stroke="black"></path>
               <path d="M 8,176 L 112,176" fill="none" stroke="black"></path>
               <path d="M 240,176 L 272,176" fill="none" stroke="black"></path>
-              <path d="M 288,176 L 368,176" fill="none" stroke="black"></path>
+              <path d="M 288,176 L 384,176" fill="none" stroke="black"></path>
+              <path d="M 512,176 L 560,176" fill="none" stroke="black"></path>
               <path d="M 112,192 L 232,192" fill="none" stroke="black"></path>
               <path d="M 248,192 L 280,192" fill="none" stroke="black"></path>
-              <path d="M 8,240 L 112,240" fill="none" stroke="black"></path>
-              <path d="M 240,240 L 368,240" fill="none" stroke="black"></path>
+              <path d="M 384,192 L 504,192" fill="none" stroke="black"></path>
+              <path d="M 8,256 L 112,256" fill="none" stroke="black"></path>
+              <path d="M 240,256 L 384,256" fill="none" stroke="black"></path>
+              <path d="M 512,256 L 560,256" fill="none" stroke="black"></path>
+              <polygon class="arrowhead" points="512,192 500,186.4 500,197.6" fill="black" transform="rotate(0,504,192)"></polygon>
               <polygon class="arrowhead" points="320,168 308,162.4 308,173.6" fill="black" transform="rotate(90,312,168)"></polygon>
               <polygon class="arrowhead" points="288,104 276,98.4 276,109.6" fill="black" transform="rotate(270,280,104)"></polygon>
               <polygon class="arrowhead" points="240,192 228,186.4 228,197.6" fill="black" transform="rotate(0,232,192)"></polygon>
@@ -1374,24 +1408,26 @@ out-of-scope for this document.<a href="#section-3-3" class="pilcrow">¶</a></p>
                 <text x="460" y="52">Evidence</text>
                 <text x="300" y="68">Verifier</text>
                 <text x="392" y="68">against</text>
-                <text x="388" y="84">policy</text>
+                <text x="464" y="68">Appraisal</text>
+                <text x="388" y="84">Policy</text>
                 <text x="236" y="132">Evidence</text>
                 <text x="368" y="132">Attestation</text>
                 <text x="348" y="148">Result</text>
-                <text x="408" y="196">Compare</text>
-                <text x="488" y="196">Attestation</text>
-                <text x="60" y="212">Attester</text>
+                <text x="396" y="148">(AR)</text>
+                <text x="32" y="212">HSM</text>
                 <text x="172" y="212">Evidence</text>
-                <text x="280" y="212">Relying</text>
-                <text x="404" y="212">Result</text>
-                <text x="464" y="212">against</text>
-                <text x="40" y="228">(/w</text>
-                <text x="76" y="228">HSM)</text>
+                <text x="268" y="212">Reg.</text>
+                <text x="328" y="212">Authority</text>
+                <text x="440" y="212">Attestation</text>
+                <text x="532" y="212">CA</text>
+                <text x="60" y="228">(Attester)</text>
                 <text x="148" y="228">in</text>
                 <text x="176" y="228">CSR</text>
-                <text x="272" y="228">Party</text>
-                <text x="328" y="228">(RA/CA)</text>
-                <text x="404" y="228">policy</text>
+                <text x="284" y="228">(Relying</text>
+                <text x="348" y="228">Party)</text>
+                <text x="420" y="228">Result</text>
+                <text x="404" y="244">in</text>
+                <text x="432" y="244">CSR</text>
               </g>
             </svg><a href="#section-3-4.1.1" class="pilcrow">¶</a>
 </div>
@@ -1429,7 +1465,7 @@ is constructed internally or externally to the attesting environment, from the
 point of view of the calling application.<a href="#section-4.1-1" class="pilcrow">¶</a></p>
 <p id="section-4.1-2">Cases where the CSR is generated internally to the attesting environment
 are straightforward: the HSM generates and embeds the Evidence and the corresponding
-certificate chains when constructing the CSR.<a href="#section-4.1-2" class="pilcrow">¶</a></p>
+certification paths when constructing the CSR.<a href="#section-4.1-2" class="pilcrow">¶</a></p>
 <p id="section-4.1-3">Cases where the CSR is generated externally may require extra round-trips of communication
 between the CSR generator and the attesting environment, first to obtain
 the necessary Evidence about the subject key, and then to use
@@ -1491,7 +1527,7 @@ network protocol, then the interaction would conceptually be:<a href="#section-4
 <a href="#section-4.2" class="section-number selfRef">4.2. </a><a href="#name-implementation-strategies" class="section-name selfRef">Implementation Strategies</a>
         </h3>
 <p id="section-4.2-1">To support a number of different use cases for the transmission of
-Evidence in a CSR (together with certificate chains) the structure
+Evidence in a CSR (together with certification paths) the structure
 shown in <a href="#fig-info-model" class="auto internal xref">Figure 3</a> is used.<a href="#section-4.2-1" class="pilcrow">¶</a></p>
 <p id="section-4.2-2">On a high-level, the structure can be explained as follows:
 A PKCS#10 attribute or a CRMF extension contains one or more
@@ -1561,9 +1597,9 @@ certificates.<a href="#section-4.2-2" class="pilcrow">¶</a></p>
           </figcaption></figure>
 </div>
 <p id="section-4.2-4">The following use cases are supported:<a href="#section-4.2-4" class="pilcrow">¶</a></p>
-<p id="section-4.2-5">Single Attester, which only distributes Evidence without any certificate chains,
-i.e. the Verifier is assumed to be in possession of the certificate chain already
-or there is no certificate chain because the Verifier directly trusts the Attester key.
+<p id="section-4.2-5">Single Attester, which only distributes Evidence without any certification paths,
+i.e. the Verifier is assumed to be in possession of the certification paths already
+or there is no certification paths because the Verifier directly trusts the Attester key.
 As a result a single EvidenceBundle is included
 in a CSR that contains a single EvidenceStatement without the CertificateAlternatives
 structure. <a href="#fig-single-attester" class="auto internal xref">Figure 4</a> shows this use case.<a href="#section-4.2-5" class="pilcrow">¶</a></p>
@@ -1585,14 +1621,14 @@ structure. <a href="#fig-single-attester" class="auto internal xref">Figure 4</a
 </div>
 </div>
 <figcaption><a href="#figure-4" class="selfRef">Figure 4</a>:
-<a href="#name-use-case-1-single-attester-" class="selfRef">Use Case 1: Single Attester without Certificate Chain.</a>
+<a href="#name-use-case-1-single-attester-" class="selfRef">Use Case 1: Single Attester without Certification Path.</a>
           </figcaption></figure>
 </div>
-<p id="section-4.2-7">A single Attester, which shares Evidence together with a certificate chain.
+<p id="section-4.2-7">A single Attester, which shares Evidence together with a certification path.
 The CSR conveys a single EvidenceBundle with a single EvidenceStatement
-and a single CertificateAlternatives structure. <a href="#fig-single-attester-with-chain" class="auto internal xref">Figure 5</a> shows
+and a single CertificateAlternatives structure. <a href="#fig-single-attester-with-path" class="auto internal xref">Figure 5</a> shows
 this use case.<a href="#section-4.2-7" class="pilcrow">¶</a></p>
-<span id="name-use-case-2-single-attester-"></span><div id="fig-single-attester-with-chain">
+<span id="name-use-case-2-single-attester-"></span><div id="fig-single-attester-with-path">
 <figure id="figure-5">
           <div id="section-4.2-8.1">
             <div class="alignLeft art-svg artwork" id="section-4.2-8.1.1">
@@ -1611,14 +1647,14 @@ this use case.<a href="#section-4.2-7" class="pilcrow">¶</a></p>
 </div>
 </div>
 <figcaption><a href="#figure-5" class="selfRef">Figure 5</a>:
-<a href="#name-use-case-2-single-attester-" class="selfRef">Use Case 2: Single Attester with Certificate Chain.</a>
+<a href="#name-use-case-2-single-attester-" class="selfRef">Use Case 2: Single Attester with Certification Path.</a>
           </figcaption></figure>
 </div>
 <p id="section-4.2-9">In a Composite Device, which contains multiple Attesters, a collection of Evidence
 statements is obtained. Imagine that each Attester returns its Evidence together with a
-certificate chain. As a result, multiple EvidenceBundle structures, each carrying
+certification path. As a result, multiple EvidenceBundle structures, each carrying
 an EvidenceStatement and the corresponding CertificateAlternative structure with the
-certificate chain as provided by each Attester, are included in the CSR.
+certification path as provided by each Attester, are included in the CSR.
 This may result in certificates being duplicated across multiple EvidenceBundles.
 This approach does not require any processing capabilities
 by a lead Attester since the information is merely forwarded. <a href="#fig-multiple-attesters" class="auto internal xref">Figure 6</a>
@@ -1665,7 +1701,7 @@ shows this use case.<a href="#section-4.2-9" class="pilcrow">¶</a></p>
           </figcaption></figure>
 </div>
 <p id="section-4.2-11">In the last scenario, we also assume a Composite Device with additional processing
-capabilities of the Leader Attester, which parses the certificate chains provided by
+capabilities of the Leader Attester, which parses the certification path provided by
 all Attesters in the device and removes redundant certificate information. The
 benefit of this approach is the reduced transmission overhead. There are several
 implementation strategies and we show two in <a href="#fig-multiple-attesters-optimized" class="auto internal xref">Figure 7</a>.<a href="#section-4.2-11" class="pilcrow">¶</a></p>
@@ -1673,58 +1709,58 @@ implementation strategies and we show two in <a href="#fig-multiple-attesters-op
 <figure id="figure-7">
           <div id="section-4.2-12.1">
             <div class="alignLeft art-svg artwork" id="section-4.2-12.1.1">
-<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="544" width="464" viewBox="0 0 464 544" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="544" width="472" viewBox="0 0 472 544" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
                 <path d="M 16,320 L 16,528" fill="none" stroke="black"></path>
-                <path d="M 136,64 L 136,144" fill="none" stroke="black"></path>
-                <path d="M 136,176 L 136,256" fill="none" stroke="black"></path>
+                <path d="M 144,64 L 144,144" fill="none" stroke="black"></path>
+                <path d="M 144,176 L 144,256" fill="none" stroke="black"></path>
                 <path d="M 264,320 L 264,528" fill="none" stroke="black"></path>
-                <path d="M 344,64 L 344,144" fill="none" stroke="black"></path>
-                <path d="M 344,176 L 344,256" fill="none" stroke="black"></path>
-                <path d="M 136,64 L 344,64" fill="none" stroke="black"></path>
-                <path d="M 136,96 L 344,96" fill="none" stroke="black"></path>
-                <path d="M 112,128 L 128,128" fill="none" stroke="black"></path>
-                <path d="M 136,144 L 344,144" fill="none" stroke="black"></path>
-                <path d="M 136,176 L 344,176" fill="none" stroke="black"></path>
-                <path d="M 136,208 L 344,208" fill="none" stroke="black"></path>
-                <path d="M 112,240 L 128,240" fill="none" stroke="black"></path>
-                <path d="M 136,256 L 344,256" fill="none" stroke="black"></path>
+                <path d="M 352,64 L 352,144" fill="none" stroke="black"></path>
+                <path d="M 352,176 L 352,256" fill="none" stroke="black"></path>
+                <path d="M 144,64 L 352,64" fill="none" stroke="black"></path>
+                <path d="M 144,96 L 352,96" fill="none" stroke="black"></path>
+                <path d="M 112,128 L 136,128" fill="none" stroke="black"></path>
+                <path d="M 144,144 L 352,144" fill="none" stroke="black"></path>
+                <path d="M 144,176 L 352,176" fill="none" stroke="black"></path>
+                <path d="M 144,208 L 352,208" fill="none" stroke="black"></path>
+                <path d="M 112,240 L 136,240" fill="none" stroke="black"></path>
+                <path d="M 144,256 L 352,256" fill="none" stroke="black"></path>
                 <path d="M 16,320 L 264,320" fill="none" stroke="black"></path>
                 <path d="M 16,352 L 264,352" fill="none" stroke="black"></path>
                 <path d="M 16,528 L 264,528" fill="none" stroke="black"></path>
-                <path d="M 344,176 L 364,216" fill="none" stroke="black"></path>
-                <path d="M 344,64 L 364,104" fill="none" stroke="black"></path>
-                <path d="M 344,144 L 364,104" fill="none" stroke="black"></path>
-                <path d="M 344,256 L 364,216" fill="none" stroke="black"></path>
-                <polygon class="arrowhead" points="136,240 124,234.4 124,245.6" fill="black" transform="rotate(0,128,240)"></polygon>
-                <polygon class="arrowhead" points="136,128 124,122.4 124,133.6" fill="black" transform="rotate(0,128,128)"></polygon>
+                <path d="M 352,176 L 372,216" fill="none" stroke="black"></path>
+                <path d="M 352,64 L 372,104" fill="none" stroke="black"></path>
+                <path d="M 352,144 L 372,104" fill="none" stroke="black"></path>
+                <path d="M 352,256 L 372,216" fill="none" stroke="black"></path>
+                <polygon class="arrowhead" points="144,240 132,234.4 132,245.6" fill="black" transform="rotate(0,136,240)"></polygon>
+                <polygon class="arrowhead" points="144,128 132,122.4 132,133.6" fill="black" transform="rotate(0,136,128)"></polygon>
                 <g class="text">
                   <text x="60" y="36">Implementation</text>
                   <text x="156" y="36">strategy</text>
                   <text x="212" y="36">(4a)</text>
-                  <text x="212" y="84">EvidenceBundle</text>
-                  <text x="288" y="84">(1)</text>
-                  <text x="64" y="100">Certificate</text>
-                  <text x="404" y="100">Provided</text>
-                  <text x="452" y="100">by</text>
-                  <text x="40" y="116">Chain</text>
-                  <text x="72" y="116">+</text>
-                  <text x="216" y="116">EvidenceStatement</text>
-                  <text x="404" y="116">Attester</text>
-                  <text x="448" y="116">1</text>
+                  <text x="220" y="84">EvidenceBundle</text>
+                  <text x="296" y="84">(1)</text>
+                  <text x="72" y="100">Certification</text>
+                  <text x="412" y="100">Provided</text>
+                  <text x="460" y="100">by</text>
+                  <text x="36" y="116">Path</text>
+                  <text x="64" y="116">+</text>
+                  <text x="224" y="116">EvidenceStatement</text>
+                  <text x="412" y="116">Attester</text>
+                  <text x="456" y="116">1</text>
                   <text x="60" y="132">End-Entity</text>
-                  <text x="240" y="132">CertificateAlternatives</text>
+                  <text x="248" y="132">CertificateAlternatives</text>
                   <text x="64" y="148">Certificate</text>
-                  <text x="220" y="164">....</text>
-                  <text x="212" y="196">EvidenceBundle</text>
-                  <text x="288" y="196">(n)</text>
-                  <text x="404" y="212">Provided</text>
-                  <text x="452" y="212">by</text>
+                  <text x="228" y="164">....</text>
+                  <text x="220" y="196">EvidenceBundle</text>
+                  <text x="296" y="196">(n)</text>
+                  <text x="412" y="212">Provided</text>
+                  <text x="460" y="212">by</text>
                   <text x="60" y="228">End-Entity</text>
-                  <text x="216" y="228">EvidenceStatement</text>
-                  <text x="404" y="228">Attester</text>
-                  <text x="448" y="228">n</text>
+                  <text x="224" y="228">EvidenceStatement</text>
+                  <text x="412" y="228">Attester</text>
+                  <text x="456" y="228">n</text>
                   <text x="64" y="244">Certificate</text>
-                  <text x="240" y="244">CertificateAlternatives</text>
+                  <text x="248" y="244">CertificateAlternatives</text>
                   <text x="60" y="292">Implementation</text>
                   <text x="156" y="292">strategy</text>
                   <text x="212" y="292">(4b)</text>
@@ -1748,8 +1784,8 @@ implementation strategies and we show two in <a href="#fig-multiple-attesters-op
                   <text x="84" y="484">&lt;Remainder</text>
                   <text x="140" y="484">of</text>
                   <text x="168" y="484">the</text>
-                  <text x="96" y="500">Certificate</text>
-                  <text x="172" y="500">Chain&gt;</text>
+                  <text x="104" y="500">Certification</text>
+                  <text x="184" y="500">Path&gt;</text>
                   <text x="32" y="516">}</text>
                 </g>
               </svg><a href="#section-4.2-12.1.1" class="pilcrow">¶</a>
@@ -1760,30 +1796,30 @@ implementation strategies and we show two in <a href="#fig-multiple-attesters-op
           </figcaption></figure>
 </div>
 <p id="section-4.2-13">In implementation strategy (4a) we assume that each Attester is provisioned with
-a unique end-entity certificate. Hence, the certificate chains will at least differ
+a unique end-entity certificate. Hence, the certification path will at least differ
 with respect to the end-entity certificates.
 The Lead Attester will therefore create multiple EvidenceBundle structures, each
-will carry an EvidenceStatement followed by a certificate chain in
+will carry an EvidenceStatement followed by a certification path in
 the CertificateAlternative structures containing most likely only the end-entity
-certificate. The shared certificate chain is carried in the first entry of the
+certificate. The shared certification path is carried in the first entry of the
 EvidenceBundle sequence to allow path validation to take place immediately after
 processing the first structure. This implementation strategy may
 place extra burden on the Relying Party to parse EvidenceBundles and
-reconstruct certificate chains if the Verifier requires each
-EvidenceStatement to be accompanied with a complete certificate chain.<a href="#section-4.2-13" class="pilcrow">¶</a></p>
+reconstruct certification path if the Verifier requires each
+EvidenceStatement to be accompanied with a complete certification path.<a href="#section-4.2-13" class="pilcrow">¶</a></p>
 <p id="section-4.2-14">Implementation strategy (4b), as an alternative, requires the Lead Attester
-to merge all certificate chains into a single EvidenceBundle containing a single
+to merge all certification paths into a single EvidenceBundle containing a single
 de-duplicated sequence of CertificateAlternatives structures. This means that each
 EvidenceBundle is self-contained and any EvidenceStatement can be verified using
 only the sequence of CertificateAlternatives in its bundle, but Verifiers will have
 to do proper certification path building since the sequence of CertificateAlternatives
-is now a cert bag and not a cert chain. This implementation strategy may
+is now a cert bag and not a certification path. This implementation strategy may
 place extra burden on the Attester in order to allow the Relying Party
 to treat the Evidence and Certificates as opaque content. It also may place
 extra burden on the Verifier since this implementation strategy requires it to be able to
 perform X.509 path building over a bag of certificates that may be out of
 order or contain extraneous certificates.<a href="#section-4.2-14" class="pilcrow">¶</a></p>
-<p id="section-4.2-15">Note: This specification does not mandate optimizing certificate chains since
+<p id="section-4.2-15">Note: This specification does not mandate optimizing certification path since
 there is a trade-off between the Attester implementation complexity and the
 transmission overhead.<a href="#section-4.2-15" class="pilcrow">¶</a></p>
 </section>
@@ -1810,7 +1846,7 @@ id-ata OBJECT IDENTIFIER ::= { id-pkix (TBD1) }
 </div>
 </section>
 </div>
-<div id="evidence-attribute-and-extension">
+<div id="sec-evidenceAttr">
 <section id="section-5.2">
         <h3 id="name-evidence-attribute-and-exte">
 <a href="#section-5.2" class="section-number selfRef">5.2. </a><a href="#name-evidence-attribute-and-exte" class="section-name selfRef">Evidence Attribute and Extension</a>
@@ -1820,9 +1856,9 @@ typed as ATTRIBUTE and within a CRMF CSR are typed as EXTENSION.
 This attribute definition contains one or more
 Evidence bundles of type <code>EvidenceBundle</code> which each contain
 one or more Evidence statements of a type <code>EvidenceStatement</code> along with
-an optional certificate chain.
+an optional certification path.
 This structure allows for grouping Evidence statements that share a
-certificate chain.<a href="#section-5.2-1" class="pilcrow">¶</a></p>
+certification path.<a href="#section-5.2-1" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="section-5.2-2">
 <pre>
 EVIDENCE-STATEMENT ::= TYPE-IDENTIFIER
@@ -1902,7 +1938,7 @@ ext-evidence EXTENSION ::= {
 may be needed to validate the contents of an Evidence statement
 contained in <code>evidence</code>. The set of certificates should contain
 the object that contains the public key needed to directly validate the
-<code>evidence</code>.  The remaining elements should chain that data back to
+<code>evidence</code>. The remaining elements should chain that data back to
 an agreed upon trust anchor used for attestation. No order is implied, it is
 up to the Attester and its Verifier to agree on both the order and format
 of certificates contained in <code>certs</code>.<a href="#section-5.2-10" class="pilcrow">¶</a></p>
@@ -1923,9 +1959,9 @@ broad variety of certificate types.<a href="#section-5.3-1" class="pilcrow">¶</
 <pre>
 CertificateAlternatives ::=
    CHOICE {
-      cert          [0] Certificate,
-      typedCert     [1] TypedCert,
-      typedFlatCert [2] TypedFlatCert,
+      cert              Certificate,
+      typedCert     [0] TypedCert,
+      typedFlatCert [1] TypedFlatCert,
       ...
    }
 </pre><a href="#section-5.3-2" class="pilcrow">¶</a>
@@ -2118,24 +2154,36 @@ party that registered the OID.<a href="#section-6.4.1-2.4.1" class="pilcrow">¶<
           <h4 id="name-initial-registry-contents">
 <a href="#section-6.4.2" class="section-number selfRef">6.4.2. </a><a href="#name-initial-registry-contents" class="section-name selfRef">Initial Registry Contents</a>
           </h4>
-<p id="section-6.4.2-1">The initial registry contents is shown in the table below. It lists two
-entries, one for DICE-based Evidence and the second for the Conceptual
-Message Wrapper (CMW) <span>[<a href="#I-D.ietf-rats-msg-wrap" class="cite xref">I-D.ietf-rats-msg-wrap</a>]</span>.<a href="#section-6.4.2-1" class="pilcrow">¶</a></p>
+<p id="section-6.4.2-1">The initial registry contents is shown in the table below. It lists one
+entry for the Conceptual Message Wrapper (CMW) <span>[<a href="#I-D.ietf-rats-msg-wrap" class="cite xref">I-D.ietf-rats-msg-wrap</a>]</span>.<a href="#section-6.4.2-1" class="pilcrow">¶</a></p>
 <span id="name-initial-contents-of-the-att"></span><div id="tab-ae-reg">
-<figure id="figure-8">
-            <div class="alignLeft art-text artwork" id="section-6.4.2-2.1">
-<pre>
-| OID              | Description                | Reference(s)   | Change Controller |
-|------------------|----------------------------|----------------|-------------------|
-| 2 23 133 5 4 10  | DICE Evidence              | {{TCGDICE1.1}} |  TCG              |
-| 2 23 133 5 4 9   | Conceptual Message Wrapper | {{TCGDICE1.1}} |  TCG              |
-</pre>
-</div>
-<figcaption><a href="#figure-8" class="selfRef">Figure 8</a>:
+<table class="center" id="table-1">
+            <caption>
+<a href="#table-1" class="selfRef">Table 1</a>:
 <a href="#name-initial-contents-of-the-att" class="selfRef">Initial Contents of the Attestation Evidence OID Registry</a>
-            </figcaption></figure>
+            </caption>
+<thead>
+              <tr>
+                <th class="text-left" rowspan="1" colspan="1">OID</th>
+                <th class="text-left" rowspan="1" colspan="1">Description</th>
+                <th class="text-left" rowspan="1" colspan="1">Reference(s)</th>
+                <th class="text-left" rowspan="1" colspan="1">Change Controller</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">2 23 133 5 4 9</td>
+                <td class="text-left" rowspan="1" colspan="1">Conceptual Message Wrapper</td>
+                <td class="text-left" rowspan="1" colspan="1">
+                  <span>[<a href="#TCGDICE1.1" class="cite xref">TCGDICE1.1</a>]</span>
+</td>
+                <td class="text-left" rowspan="1" colspan="1">TCG</td>
+              </tr>
+            </tbody>
+          </table>
 </div>
-<p id="section-6.4.2-3">The current registry values can be retrieved from the IANA online website.<a href="#section-6.4.2-3" class="pilcrow">¶</a></p>
+<p id="section-6.4.2-3">EDNOTE: This is currently under debate with our contacts at TCG about which OID they want used for the initial registry.<a href="#section-6.4.2-3" class="pilcrow">¶</a></p>
+<p id="section-6.4.2-4">The current registry values can be retrieved from the IANA online website.<a href="#section-6.4.2-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -2159,8 +2207,8 @@ key applied to sign the CSR is generated, and stored in a secure
 environment that has controls to prevent theft or misuse (including
 being non-exportable / non-recoverable), the Attesting Environment
 has to collect claims about this secure environment (or Target
-Environment, as shown in <a href="#fig-attester" class="auto internal xref">Figure 9</a>).<a href="#section-7-1" class="pilcrow">¶</a></p>
-<p id="section-7-2"><a href="#fig-attester" class="auto internal xref">Figure 9</a> shows the interaction inside an Attester. The
+Environment, as shown in <a href="#fig-attester" class="auto internal xref">Figure 8</a>).<a href="#section-7-1" class="pilcrow">¶</a></p>
+<p id="section-7-2"><a href="#fig-attester" class="auto internal xref">Figure 8</a> shows the interaction inside an Attester. The
 Attesting Environment, which is provisioned with an Attestation Key,
 retrieves claims about the Target Environment. The Target
 Environment offers key generation, storage and usage, which it
@@ -2168,7 +2216,7 @@ makes available to services. The Attesting Environment collects
 these claims about the Target Environment and signs them and
 exports Evidence for use in remote attestation via a CSR.<a href="#section-7-2" class="pilcrow">¶</a></p>
 <span id="name-interaction-between-attesti"></span><div id="fig-attester">
-<figure id="figure-9">
+<figure id="figure-8">
         <div id="section-7-3.1">
           <div class="alignLeft art-svg artwork" id="section-7-3.1.1">
 <svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="576" width="328" viewBox="0 0 328 576" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
@@ -2245,11 +2293,11 @@ exports Evidence for use in remote attestation via a CSR.<a href="#section-7-2" 
             </svg><a href="#section-7-3.1.1" class="pilcrow">¶</a>
 </div>
 </div>
-<figcaption><a href="#figure-9" class="selfRef">Figure 9</a>:
+<figcaption><a href="#figure-8" class="selfRef">Figure 8</a>:
 <a href="#name-interaction-between-attesti" class="selfRef">Interaction between Attesting and Target Environment</a>
         </figcaption></figure>
 </div>
-<p id="section-7-4"><a href="#fig-attester" class="auto internal xref">Figure 9</a> places the CSR library outside the Attester, which
+<p id="section-7-4"><a href="#fig-attester" class="auto internal xref">Figure 8</a> places the CSR library outside the Attester, which
 is a valid architecture for certificate enrollment.
 The CSR library may also be located
 inside the trusted computing base. Regardless of the placement
@@ -2393,11 +2441,11 @@ Implementers should also be cautious around <code>type</code> OID or <code>hint<
 <dd class="break"></dd>
 <dt id="I-D.bft-rats-kat">[I-D.bft-rats-kat]</dt>
         <dd>
-<span class="refAuthor">Brossard, M.</span>, <span class="refAuthor">Fossati, T.</span>, and <span class="refAuthor">H. Tschofenig</span>, <span class="refTitle">"An EAT-based Key Attestation Token"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-bft-rats-kat-02</span>, <time datetime="2024-02-10" class="refDate">10 February 2024</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-bft-rats-kat-02">https://datatracker.ietf.org/doc/html/draft-bft-rats-kat-02</a>&gt;</span>. </dd>
+<span class="refAuthor">Brossard, M.</span>, <span class="refAuthor">Fossati, T.</span>, and <span class="refAuthor">H. Tschofenig</span>, <span class="refTitle">"An EAT-based Key Attestation Token"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-bft-rats-kat-03</span>, <time datetime="2024-03-04" class="refDate">4 March 2024</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-bft-rats-kat-03">https://datatracker.ietf.org/doc/html/draft-bft-rats-kat-03</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.ietf-rats-msg-wrap">[I-D.ietf-rats-msg-wrap]</dt>
         <dd>
-<span class="refAuthor">Birkholz, H.</span>, <span class="refAuthor">Smith, N.</span>, <span class="refAuthor">Fossati, T.</span>, and <span class="refAuthor">H. Tschofenig</span>, <span class="refTitle">"RATS Conceptual Messages Wrapper (CMW)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-rats-msg-wrap-03</span>, <time datetime="2024-01-29" class="refDate">29 January 2024</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-rats-msg-wrap-03">https://datatracker.ietf.org/doc/html/draft-ietf-rats-msg-wrap-03</a>&gt;</span>. </dd>
+<span class="refAuthor">Birkholz, H.</span>, <span class="refAuthor">Smith, N.</span>, <span class="refAuthor">Fossati, T.</span>, and <span class="refAuthor">H. Tschofenig</span>, <span class="refTitle">"RATS Conceptual Messages Wrapper (CMW)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-rats-msg-wrap-04</span>, <time datetime="2024-02-27" class="refDate">27 February 2024</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-rats-msg-wrap-04">https://datatracker.ietf.org/doc/html/draft-ietf-rats-msg-wrap-04</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.ietf-rats-tpm-based-network-device-attest">[I-D.ietf-rats-tpm-based-network-device-attest]</dt>
         <dd>
@@ -2441,93 +2489,369 @@ in CSRs. The first example embeds Evidence produced by a TPM in the CSR.
 The second example conveys an Arm Platform Security Architecture token,
 which provides claims about the used hardware and software platform,
 into the CSR.<a href="#appendix-A-1" class="pilcrow">¶</a></p>
-<p id="appendix-A-2">At the time of writing, the authors are not aware of registered OIDs for these evidence formats, and so we leave the OIDs as TBD1 / TBD2.<a href="#appendix-A-2" class="pilcrow">¶</a></p>
-<div id="tpm-v20-evidence-in-csr">
+<p id="appendix-A-2">At the time of writing, the authors are not aware of registered OIDs for
+these evidence formats, and so we leave the OIDs as TBD1 / TBD2.<a href="#appendix-A-2" class="pilcrow">¶</a></p>
+<div id="extending-evidencestatementset">
 <section id="appendix-A.1">
-        <h3 id="name-tpm-v20-evidence-in-csr">
-<a href="#appendix-A.1" class="section-number selfRef">A.1. </a><a href="#name-tpm-v20-evidence-in-csr" class="section-name selfRef">TPM V2.0 Evidence in CSR</a>
+        <h3 id="name-extending-evidencestatement">
+<a href="#appendix-A.1" class="section-number selfRef">A.1. </a><a href="#name-extending-evidencestatement" class="section-name selfRef">Extending EvidenceStatementSet</a>
         </h3>
-<p id="appendix-A.1-1">The following example illustrates a CSR with a signed TPM Quote based on
-<span>[<a href="#TPM20" class="cite xref">TPM20</a>]</span>. The Platform Configuration Registers (PCRs) are fixed-size
-registers in a TPM that record measurements of software and configuration
-information and are therefore used to capture the system state. The digests
-stored in these registers are then digitally signed with an attestation
-key known to the hardware.<a href="#appendix-A.1-1" class="pilcrow">¶</a></p>
-<p id="appendix-A.1-2">Note: The information conveyed in the value field of the EvidenceStatement
-structure may contain more information than the signed TPM Quote structure
-defined in the TPM v2.0 specification <span>[<a href="#TPM20" class="cite xref">TPM20</a>]</span>, such as plaintext PCR values,
-the up-time, the event log, etc. The detailed structure of such
-payload is, however, not defined in this document and may be subject to
-future standardization work in supplementary documents.<a href="#appendix-A.1-2" class="pilcrow">¶</a></p>
-<span id="name-csr-with-tpm-v20"></span><div id="fig-example-tpm">
-<figure id="figure-10">
-          <div class="alignLeft art-text artwork" id="appendix-A.1-3.1">
+<p id="appendix-A.1-1">As defined in <a href="#sec-evidenceAttr" class="auto internal xref">Section 5.2</a>, EvidenceStatementSet acts as a way to provide an ASN.1 compiler or
+runtime parser with a list of OBJECT IDENTIFIERs that are known to represent EvidenceStatements
+-- and are expected to appear in an EvidenceStatement.type field, along with
+the ASN.1 type that should be used to parse the data in the associated EvidenceStatement.stmt field.
+Essentially this is a mapping of OIDs to data structures. Implementers are expected to populate it
+with mappings for the Evidence types that their application will be handling.<a href="#appendix-A.1-1" class="pilcrow">¶</a></p>
+<p id="appendix-A.1-2">This specification aims to be agnostic about the type of data being carried, and therefore
+does not specify any mandatory-to-implement Evidence types.<a href="#appendix-A.1-2" class="pilcrow">¶</a></p>
+<p id="appendix-A.1-3">As an example of how to populate EvidenceStatementSet, implementing the TPM 2.0 and PSA Evidence types
+given below would result in the following EvidenceStatementSet definition:<a href="#appendix-A.1-3" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="appendix-A.1-4">
 <pre>
-Certification Request:
-    Data:
-        Version: 1 (0x0)
-        Subject: CN = server.example.com
-        Subject Public Key Info:
-            Public Key Algorithm: id-ecPublicKey
-                Public-Key: (256 bit)
-                pub:
-                    04:b9:7c:02:a1:1f:9c:f3:f4:c4:55:3a:d9:3e:26:
-                    e8:e5:11:63:84:36:5f:93:a6:99:7d:d7:43:23:0a:
-                    4f:c0:a8:40:46:7e:8d:b2:1a:38:19:ff:6a:a7:38:
-                    16:06:1e:12:9f:d1:d5:58:55:e6:be:6d:bb:e1:fb:
-                    f7:70:a7:5c:c9
-                ASN1 OID: prime256v1
-                NIST CURVE: P-256
-        Attributes:
-            EvidenceStatement
-               type: TBD2 (identifying use of TPM V2.0)
-               value:
-                    80:02:00:00:01:99:00:00:00:00:00:00:01:86:00:7e
-                    ff:54:43:47:80:18:00:22:00:0b:76:71:0f:61:80:95
-                    8d:89:32:38:a6:cc:40:43:02:4a:da:26:d5:ea:11:71
-                    99:d7:a5:59:a4:18:54:1e:7b:86:00:0d:30:2e:66:6e
-                    6a:37:66:63:39:31:76:62:74:00:00:00:00:00:00:36
-                    5b:bc:0b:71:4f:d8:84:90:09:01:42:82:48:a6:46:53
-                    98:96:00:00:00:01:00:0b:03:0f:00:00:00:20:49:ce
-                    66:9a:aa:7e:52:ff:93:0e:dd:9f:27:97:88:eb:75:cb
-                    ad:53:22:e5:ad:2c:9d:44:1e:dd:65:48:6b:88:00:14
-                    00:0b:01:00:15:a4:95:8a:0e:af:04:36:be:35:f7:27
-                    85:bd:7f:87:46:74:18:e3:67:2f:32:f2:bf:b2:e7:af
-                    a1:1b:f5:ca:1a:eb:83:8f:2f:36:71:cd:7c:18:ab:50
-                    3d:e6:6e:ab:2e:78:a7:e4:6d:cf:1f:03:e6:46:74:28
-                    a7:6c:d6:1e:44:3f:88:89:36:9a:a3:f0:9a:45:07:7e
-                    01:5e:4c:97:7d:3f:e2:f7:15:59:96:5f:0e:9a:1c:b3
-                    a0:6b:4a:77:a5:c0:e0:93:53:cb:b7:50:59:3d:23:ee
-                    5c:31:00:48:6c:0b:1a:b8:04:a4:14:05:a6:63:bc:36
-                    aa:7f:b9:aa:1f:19:9e:ee:49:48:08:e1:3a:d6:af:5f
-                    d5:eb:96:28:bf:41:3c:89:7a:05:4b:b7:32:a2:fc:e7
-                    f6:ad:c7:98:a6:98:99:f6:e9:a4:30:d4:7f:5e:b3:cb
-                    d7:cc:76:90:ef:2e:cc:4f:7d:94:ab:33:8c:9d:35:5d
-                    d7:57:0b:3c:87:9c:63:89:61:d9:5c:a0:b7:5c:c4:75
-                    21:ae:dc:c9:7c:e3:18:a2:b3:f8:15:27:ff:a9:28:2f
-                    cb:9b:17:fe:96:04:53:c4:19:0e:bf:51:0e:9d:1c:83
-                    49:7e:51:64:03:a1:40:f1:72:8b:74:e3:16:79:af:f1
-                    14:a8:5e:44:00:00:01:00:00
-    Signature Algorithm: ecdsa-with-SHA256
-    Signature Value:
-        30:45:02:21:00:93:fd:81:03:75:d1:7d:ab:53:6c:a5:19:a7:
-        68:3d:d6:e2:39:14:d6:9e:47:24:38:b5:76:db:18:a6:ca:c4:
-        8a:02:20:36:be:3d:71:93:5d:05:c3:ac:fa:a8:f3:e5:46:db:
-        57:f9:23:ee:93:47:6d:d6:d3:4f:c2:b7:cc:0d:89:71:fe
-</pre>
+EvidenceStatementSet EVIDENCE-STATEMENT ::= {
+  --- TPM 2.0
+  { Tcg-attest-certify IDENTIFIED BY tcg-attest-certify },
+  ...,
+
+  --- PSA
+  { OCTET STRING IDENTIFIED BY { 1 3 6 1 5 5 7 1 99 } }
+}
+</pre><a href="#appendix-A.1-4" class="pilcrow">¶</a>
 </div>
-<figcaption><a href="#figure-10" class="selfRef">Figure 10</a>:
-<a href="#name-csr-with-tpm-v20" class="selfRef">CSR with TPM V2.0</a>
-          </figcaption></figure>
+</section>
+</div>
+<div id="tpm-v20-evidence-in-csr">
+<section id="appendix-A.2">
+        <h3 id="name-tpm-v20-evidence-in-csr">
+<a href="#appendix-A.2" class="section-number selfRef">A.2. </a><a href="#name-tpm-v20-evidence-in-csr" class="section-name selfRef">TPM V2.0 Evidence in CSR</a>
+        </h3>
+<p id="appendix-A.2-1">This section describes TPM2 key attestation for use in a CSR.<a href="#appendix-A.2-1" class="pilcrow">¶</a></p>
+<div id="tcg-key-attestation-certify">
+<section id="appendix-A.2.1">
+          <h4 id="name-tcg-key-attestation-certify">
+<a href="#appendix-A.2.1" class="section-number selfRef">A.2.1. </a><a href="#name-tcg-key-attestation-certify" class="section-name selfRef">TCG Key Attestation Certify</a>
+          </h4>
+<p id="appendix-A.2.1-1">There are several ways in TPM2 to provide proof of a key's properties.
+(i.e., key attestation). This description uses the simplest and most generally
+expected to used which is the TPM2_Certify and the TPM2_ReadPublic commands.<a href="#appendix-A.2.1-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="tcg-oids">
+<section id="appendix-A.2.2">
+          <h4 id="name-tcg-oids">
+<a href="#appendix-A.2.2" class="section-number selfRef">A.2.2. </a><a href="#name-tcg-oids" class="section-name selfRef">TCG OIDs</a>
+          </h4>
+<p id="appendix-A.2.2-1">The OIDs in this section are defined by TCG
+TCG has a registered arc of 2.23.133<a href="#appendix-A.2.2-1" class="pilcrow">¶</a></p>
+<p id="appendix-A.2.2-2">id-tcg OBJECT IDENTIFIER ::= { 2 23 133 }<a href="#appendix-A.2.2-2" class="pilcrow">¶</a></p>
+<p id="appendix-A.2.2-3">id-tcg-kp-AIKCertificate OBJECT IDENTIFIER ::= { id-tcg 8 3 }<a href="#appendix-A.2.2-3" class="pilcrow">¶</a></p>
+<p id="appendix-A.2.2-4">id-tcg-attest OBJECT IDENTIFIER ::= { id-tcg TBD }<a href="#appendix-A.2.2-4" class="pilcrow">¶</a></p>
+<p id="appendix-A.2.2-5">id-tcg-attest-certify OBJECT IDENTIFIER ::= { id-tcg-attest 1 }<a href="#appendix-A.2.2-5" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="appdx-tcg-attest-certify">
+<section id="appendix-A.2.3">
+          <h4 id="name-tpm2-attestationstatement">
+<a href="#appendix-A.2.3" class="section-number selfRef">A.2.3. </a><a href="#name-tpm2-attestationstatement" class="section-name selfRef">TPM2 AttestationStatement</a>
+          </h4>
+<p id="appendix-A.2.3-1">The EvidenceStatement structure contains a sequence of two fields:
+a type and a stmt. The 'type' field contains the OID of the Evidence format and it is
+set to tcg-attest-certify. The content of the structure shown below is placed into
+the stmt, which is a concatenation of existing TPM2 structures. These structures
+will be explained in the rest of this section.<a href="#appendix-A.2.3-1" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="appendix-A.2.3-2">
+<pre>
+Tcg-attest-certify ::= SEQUENCE {
+  tpmSAttest       OCTET STRING,
+  signature        OCTET STRING,
+  tpmTPublic       OCTET STRING OPTIONAL
+}
+</pre><a href="#appendix-A.2.3-2" class="pilcrow">¶</a>
+</div>
+<p id="appendix-A.2.3-3">The tcg-kp-AIKCertificate field contains the AIK Certificate in RFC 5280 format.<a href="#appendix-A.2.3-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="introduction-to-tpm2-concepts">
+<section id="appendix-A.2.4">
+          <h4 id="name-introduction-to-tpm2-concep">
+<a href="#appendix-A.2.4" class="section-number selfRef">A.2.4. </a><a href="#name-introduction-to-tpm2-concep" class="section-name selfRef">Introduction to TPM2 concepts</a>
+          </h4>
+<p id="appendix-A.2.4-1">The definitions in the following sections are defined by the TPM2 and various TCG defined
+specification including the TPM2 set of specifications. Those familiar with
+TPM2 concepts may skip to <a href="#appdx-tcg-attest-certify" class="auto internal xref">Appendix A.2.3</a> which defines an ASN.1 structure
+specific for bundling a TPM attestation into an EvidenceStatement, and <a href="#appdx-tpm-example" class="auto internal xref">Appendix A.2.6</a>
+which provides the example. For those unfamiliar with TPM2 concepts
+this section provides only the minimum information to understand TPM2
+Attestation in CSR and is not a complete description of the technology in
+general.<a href="#appendix-A.2.4-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="tcg-objects-and-key-attestation">
+<section id="appendix-A.2.5">
+          <h4 id="name-tcg-objects-and-key-attesta">
+<a href="#appendix-A.2.5" class="section-number selfRef">A.2.5. </a><a href="#name-tcg-objects-and-key-attesta" class="section-name selfRef">TCG Objects and Key Attestation</a>
+          </h4>
+<p id="appendix-A.2.5-1">This provides a brief explanation of the relevant TPM2 commands and data
+structures needed to understand TPM2 Attestation used in this RFC.
+NOTE: The TPM2 specification used in this explanation is version 1.59,
+section number cited are based on that version. Note also that the TPM2
+specification comprises four documents: Part 1: Architecture; Part 2: Structures;
+Part 3: Commands; Part 4: Supporting Routines.<a href="#appendix-A.2.5-1" class="pilcrow">¶</a></p>
+<p id="appendix-A.2.5-2">Note about convention:
+All structures starting with TPM2B_ are:<a href="#appendix-A.2.5-2" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="appendix-A.2.5-3.1">
+              <p id="appendix-A.2.5-3.1.1">a structure that is a sized buffer where the size of the buffer is contained in a 16-bit, unsigned value.<a href="#appendix-A.2.5-3.1.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="appendix-A.2.5-3.2">
+              <p id="appendix-A.2.5-3.2.1">The first parameter is the size in octets of the second parameter. The second parameter may be any type.<a href="#appendix-A.2.5-3.2.1" class="pilcrow">¶</a></p>
+</li>
+          </ul>
+<p id="appendix-A.2.5-4">A full explanation of the TPM structures is outside the scope of this document. As a
+simplification references to TPM2B_ structures will simply use the enclosed
+TPMT_ structure by the same name following the '_'.<a href="#appendix-A.2.5-4" class="pilcrow">¶</a></p>
+<div id="tpm2-object-names">
+<section id="appendix-A.2.5.1">
+            <h5 id="name-tpm2-object-names">
+<a href="#appendix-A.2.5.1" class="section-number selfRef">A.2.5.1. </a><a href="#name-tpm2-object-names" class="section-name selfRef">TPM2 Object Names</a>
+            </h5>
+<p id="appendix-A.2.5.1-1">All TPM2 Objects (e.g., keys are key objects which is the focus of this specification).
+A TPM2 object name is persistent across the object's life cycle whether the TPM2
+object is transient or persistent.<a href="#appendix-A.2.5.1-1" class="pilcrow">¶</a></p>
+<p id="appendix-A.2.5.1-2">A TPM2 Object name is a concatenation of a hash algorithm identifier and a hash of
+the TPM2 Object's TPMT_PUBLIC.<a href="#appendix-A.2.5.1-2" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="appendix-A.2.5.1-3">
+<pre>
+     Name ≔ nameAlg || HnameAlg (handle→publicArea)
+     nameAlg is a TCG defined 16 bit algorithm identifier
+</pre><a href="#appendix-A.2.5.1-3" class="pilcrow">¶</a>
+</div>
+<p id="appendix-A.2.5.1-4">publicArea is the TPMT_PUBLIC structure for that TPM2 Object.<a href="#appendix-A.2.5.1-4" class="pilcrow">¶</a></p>
+<p id="appendix-A.2.5.1-5">The size of the Name field can be derived by examining the nameAlg value, which defines
+the hashing algorithm and the resulting size.<a href="#appendix-A.2.5.1-5" class="pilcrow">¶</a></p>
+<p id="appendix-A.2.5.1-6">The Name field is returned in the TPM2B_ATTEST data field.<a href="#appendix-A.2.5.1-6" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="appendix-A.2.5.1-7">
+<pre>
+     typedef struct {
+          TPM_GENERATED magic;
+          TPMI_ST_ATTEST type;
+          TPM2B_NAME qualifiedSigner;
+          TPM2B_DATA extraData;
+          TPMS_CLOCK_INFO clockInfo;
+          UINT64 firmwareVersion;
+          TPMU_ATTEST attested;
+     } TPMS_ATTEST;
+</pre><a href="#appendix-A.2.5.1-7" class="pilcrow">¶</a>
+</div>
+<p id="appendix-A.2.5.1-8">where for a key object the attested field is<a href="#appendix-A.2.5.1-8" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="appendix-A.2.5.1-9">
+<pre>
+     typedef struct {
+          TPM2B_NAME name;
+          TPM2B_NAME qualifiedName;
+     } TPMS_CERTIFY_INFO;
+</pre><a href="#appendix-A.2.5.1-9" class="pilcrow">¶</a>
+</div>
+</section>
+</div>
+<div id="tpm2-public-structure">
+<section id="appendix-A.2.5.2">
+            <h5 id="name-tpm2-public-structure">
+<a href="#appendix-A.2.5.2" class="section-number selfRef">A.2.5.2. </a><a href="#name-tpm2-public-structure" class="section-name selfRef">TPM2 Public Structure</a>
+            </h5>
+<p id="appendix-A.2.5.2-1">Any TPM2 Object has an associated TPM2 Public structure defined
+as TPMT_PUBLIC. This is defined below as a 'C' structure. While there
+are many types of TPM2 Objects each with its own specific TPMT_PUBLIC
+structure (handled by the use of 'unions') this document will specifically
+define TPMT_PUBLIC for a TPM2 key object.<a href="#appendix-A.2.5.2-1" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="appendix-A.2.5.2-2">
+<pre>
+     typedef struct {
+          TPMI_ALG_PUBLIC type;
+          TPMI_ALG_HASH nameAlg;
+          TPMA_OBJECT objectAttributes;
+          TPM2B_DIGEST authPolicy;
+          TPMU_PUBLIC_PARMS parameters;
+          TPMU_PUBLIC_ID unique;
+     } TPMT_PUBLIC;
+</pre><a href="#appendix-A.2.5.2-2" class="pilcrow">¶</a>
+</div>
+<p id="appendix-A.2.5.2-3">Where:
+* type and nameAlg are 16 bit TCG defined algorithms.
+* objectAttributes is a 32 bit field defining properties of the object, as shown below<a href="#appendix-A.2.5.2-3" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="appendix-A.2.5.2-4">
+<pre>
+     typedef struct TPMA_OBJECT {
+          unsigned Reserved_bit_at_0 : 1;
+          unsigned fixedTPM : 1;
+          unsigned stClear : 1;
+          unsigned Reserved_bit_at_3 : 1;
+          unsigned fixedParent : 1;
+          unsigned sensitiveDataOrigin : 1;
+          unsigned userWithAuth : 1;
+          unsigned adminWithPolicy : 1;
+          unsigned Reserved_bits_at_8 : 2;
+          unsigned noDA : 1;
+          unsigned encryptedDuplication : 1;
+          unsigned Reserved_bits_at_12 : 4;
+          unsigned restricted : 1;
+          unsigned decrypt : 1;
+          unsigned sign : 1;
+          unsigned x509sign : 1;
+          unsigned Reserved_bits_at_20 : 12;
+     } TPMA_OBJECT;
+</pre><a href="#appendix-A.2.5.2-4" class="pilcrow">¶</a>
+</div>
+<ul class="normal">
+<li class="normal" id="appendix-A.2.5.2-5.1">
+                <p id="appendix-A.2.5.2-5.1.1">authPolicy is the Policy Digest needed to authorize use of the object.<a href="#appendix-A.2.5.2-5.1.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="appendix-A.2.5.2-5.2">
+                <p id="appendix-A.2.5.2-5.2.1">Parameters are the object type specific public information about the key.<a href="#appendix-A.2.5.2-5.2.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="appendix-A.2.5.2-5.2.2.1">
+                    <p id="appendix-A.2.5.2-5.2.2.1.1">For key objects, this would be the key's public parameters.<a href="#appendix-A.2.5.2-5.2.2.1.1" class="pilcrow">¶</a></p>
+</li>
+                </ul>
+</li>
+              <li class="normal" id="appendix-A.2.5.2-5.3">
+                <p id="appendix-A.2.5.2-5.3.1">unique is the identifier for parameters<a href="#appendix-A.2.5.2-5.3.1" class="pilcrow">¶</a></p>
+</li>
+            </ul>
+<p id="appendix-A.2.5.2-6">The size of the TPMT_PUBLIC is provided by the following structure:<a href="#appendix-A.2.5.2-6" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="appendix-A.2.5.2-7">
+<pre>
+     typedef struct {
+          UINT16     size;
+          TPMT_PUBLIC publicArea;
+     } TPM2B_PUBLIC;
+</pre><a href="#appendix-A.2.5.2-7" class="pilcrow">¶</a>
+</div>
+</section>
+</div>
+<div id="tpm2-signatures">
+<section id="appendix-A.2.5.3">
+            <h5 id="name-tpm2-signatures">
+<a href="#appendix-A.2.5.3" class="section-number selfRef">A.2.5.3. </a><a href="#name-tpm2-signatures" class="section-name selfRef">TPM2 Signatures</a>
+            </h5>
+<p id="appendix-A.2.5.3-1">TPM2 signatures use a union where the first field (16 bits) identifies
+the signature scheme. The example below shows an RSA signature where
+TPMT_SIGNATURE-&gt;sigAlg will indicate to use TPMS_SIGNATURE_RSA
+as the signature.<a href="#appendix-A.2.5.3-1" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="appendix-A.2.5.3-2">
+<pre>
+     typedef struct {
+          TPMI_ALG_SIG_SCHEME sigAlg;
+          TPMU_SIGNATURE signature;
+     } TPMT_SIGNATURE;
+
+     typedef struct {
+          TPMI_ALG_HASH hash;
+          TPM2B_PUBLIC_KEY_RSA sig;
+     } TPMS_SIGNATURE_RSA;
+</pre><a href="#appendix-A.2.5.3-2" class="pilcrow">¶</a>
+</div>
+</section>
+</div>
+<div id="attestation-key">
+<section id="appendix-A.2.5.4">
+            <h5 id="name-attestation-key">
+<a href="#appendix-A.2.5.4" class="section-number selfRef">A.2.5.4. </a><a href="#name-attestation-key" class="section-name selfRef">Attestation Key</a>
+            </h5>
+<p id="appendix-A.2.5.4-1">The uniquely identifying TPM2 key is the Endorsement Key (the EK). As this is a privacy
+sensitive key, the EK is not directly used to attest to any TPM2 asset. Instead,
+the EK is used by an Attestation CA to create an Attestation Key (the AK). The AK is
+assumed trusted by the Verifier and is assume to be loaded in the TPM during the execution
+of the process described in the subsequent sections. The description of how to create the AK is outside
+the scope of this document.<a href="#appendix-A.2.5.4-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="attester-processing">
+<section id="appendix-A.2.5.5">
+            <h5 id="name-attester-processing">
+<a href="#appendix-A.2.5.5" class="section-number selfRef">A.2.5.5. </a><a href="#name-attester-processing" class="section-name selfRef">Attester Processing</a>
+            </h5>
+<p id="appendix-A.2.5.5-1">The only signed component is the TPM2B_ATTEST structure, which returns
+only the (key's) Name and the signature computed over the Name but no detailed information
+about the key. As the Name is comprised of public information, the Name can
+be calculated by the Verifier but only if the Verify knows all the public
+information about the Key.<a href="#appendix-A.2.5.5-1" class="pilcrow">¶</a></p>
+<p id="appendix-A.2.5.5-2">The Attester's processing steps are as follows:<a href="#appendix-A.2.5.5-2" class="pilcrow">¶</a></p>
+<p id="appendix-A.2.5.5-3">Using the TPM2 command TPM2_Certify obtain the TPM2B_ATTEST and TPMT_SIGNATURE structures
+from the TPM2. The signing key for TPMT_SIGNATURE is an Attention Key (or AK), which is
+assumed to be available to the TPM2 upfront. More details are provided in <a href="#attestation-key" class="auto internal xref">Appendix A.2.5.4</a><a href="#appendix-A.2.5.5-3" class="pilcrow">¶</a></p>
+<p id="appendix-A.2.5.5-4">The TPM2 command TPM2_Certify takes the following input:<a href="#appendix-A.2.5.5-4" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="appendix-A.2.5.5-5.1">
+                <p id="appendix-A.2.5.5-5.1.1">TPM2 handle for Key (the key to be attested to)<a href="#appendix-A.2.5.5-5.1.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="appendix-A.2.5.5-5.2">
+                <p id="appendix-A.2.5.5-5.2.1">TPM2 handle for the AK (see <a href="#attestation-key" class="auto internal xref">Appendix A.2.5.4</a>)<a href="#appendix-A.2.5.5-5.2.1" class="pilcrow">¶</a></p>
+</li>
+            </ul>
+<p id="appendix-A.2.5.5-6">It produces the following output:<a href="#appendix-A.2.5.5-6" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="appendix-A.2.5.5-7.1">
+                <p id="appendix-A.2.5.5-7.1.1">TPM2B_ATTEST in binary format<a href="#appendix-A.2.5.5-7.1.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="appendix-A.2.5.5-7.2">
+                <p id="appendix-A.2.5.5-7.2.1">TPMT_SIGNATURE in binary format<a href="#appendix-A.2.5.5-7.2.1" class="pilcrow">¶</a></p>
+</li>
+            </ul>
+<p id="appendix-A.2.5.5-8">Then, using the TPM2 command TPM2_ReadPublic obtain the Keys TPM2B_PUBLIC structure.
+While the Key's public information can be obtained by the Verifier in a number
+ways, such as storing it from when the Key was created, this may be impractical
+in many situations. As TPM2 provided a command to obtain this information, this
+specification will include it in the TPM2 Attestation CSR extension.<a href="#appendix-A.2.5.5-8" class="pilcrow">¶</a></p>
+<p id="appendix-A.2.5.5-9">The TPM2 command TPM2_ReadPublic takes the following input:<a href="#appendix-A.2.5.5-9" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="appendix-A.2.5.5-10.1">
+                <p id="appendix-A.2.5.5-10.1.1">TPM2 handle for Key (the key to be attested to)<a href="#appendix-A.2.5.5-10.1.1" class="pilcrow">¶</a></p>
+</li>
+            </ul>
+<p id="appendix-A.2.5.5-11">It produces the following output:<a href="#appendix-A.2.5.5-11" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="appendix-A.2.5.5-12.1">
+                <p id="appendix-A.2.5.5-12.1.1">TPM2B_PUBLIC in binary format<a href="#appendix-A.2.5.5-12.1.1" class="pilcrow">¶</a></p>
+</li>
+            </ul>
+</section>
+</div>
+<div id="verifier-processing">
+<section id="appendix-A.2.5.6">
+            <h5 id="name-verifier-processing">
+<a href="#appendix-A.2.5.6" class="section-number selfRef">A.2.5.6. </a><a href="#name-verifier-processing" class="section-name selfRef">Verifier Processing</a>
+            </h5>
+<p id="appendix-A.2.5.6-1">The Verifier has to perform the following steps once it receives the Evidence:<a href="#appendix-A.2.5.6-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="appendix-A.2.5.6-2.1">
+                <p id="appendix-A.2.5.6-2.1.1">Verify the TPM2B_ATTEST using the TPMT_SIGNATURE.<a href="#appendix-A.2.5.6-2.1.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="appendix-A.2.5.6-2.2">
+                <p id="appendix-A.2.5.6-2.2.1">Use the Key's "expected" Name from the provided TPM2B_PUBLIC structure.
+If Key's "expected" Name equals TPM2B_ATTEST-&gt;attestationData then returned TPM2B_PUBLIC is the verified.<a href="#appendix-A.2.5.6-2.2.1" class="pilcrow">¶</a></p>
+</li>
+            </ul>
+</section>
+</div>
+</section>
+</div>
+<div id="appdx-tpm-example">
+<section id="appendix-A.2.6">
+          <h4 id="name-example-structures">
+<a href="#appendix-A.2.6" class="section-number selfRef">A.2.6. </a><a href="#name-example-structures" class="section-name selfRef">Example Structures</a>
+          </h4>
+<p id="appendix-A.2.6-1">TODO -- a full CSR would be great.<a href="#appendix-A.2.6-1" class="pilcrow">¶</a></p>
+</section>
 </div>
 </section>
 </div>
 <div id="psa-attestation-token-in-csr">
-<section id="appendix-A.2">
+<section id="appendix-A.3">
         <h3 id="name-psa-attestation-token-in-cs">
-<a href="#appendix-A.2" class="section-number selfRef">A.2. </a><a href="#name-psa-attestation-token-in-cs" class="section-name selfRef">PSA Attestation Token in CSR</a>
+<a href="#appendix-A.3" class="section-number selfRef">A.3. </a><a href="#name-psa-attestation-token-in-cs" class="section-name selfRef">PSA Attestation Token in CSR</a>
         </h3>
-<p id="appendix-A.2-1">The Platform Security Architecture (PSA) Attestation Token is
+<p id="appendix-A.3-1">The Platform Security Architecture (PSA) Attestation Token is
 defined in <span>[<a href="#I-D.tschofenig-rats-psa-token" class="cite xref">I-D.tschofenig-rats-psa-token</a>]</span> and specifies
 claims to be included in an Entity Attestation
 Token (EAT). <span>[<a href="#I-D.bft-rats-kat" class="cite xref">I-D.bft-rats-kat</a>]</span> defines key attestation
@@ -2537,10 +2861,10 @@ is combined with key attestation by binding the
 key attestation token (KAT) to the platform attestation token (PAT)
 with the help of the nonce. For details see <span>[<a href="#I-D.bft-rats-kat" class="cite xref">I-D.bft-rats-kat</a>]</span>.
 The resulting KAT-PAT bundle is, according to
-<span><a href="https://datatracker.ietf.org/doc/html/draft-bft-rats-kat-02#section-5.1" class="relref">Section 5.1</a> of [<a href="#I-D.bft-rats-kat" class="cite xref">I-D.bft-rats-kat</a>]</span>, combined in a CMW collection
-<span>[<a href="#I-D.ietf-rats-msg-wrap" class="cite xref">I-D.ietf-rats-msg-wrap</a>]</span>.<a href="#appendix-A.2-1" class="pilcrow">¶</a></p>
-<p id="appendix-A.2-2">The encoding of this KAT-PAT bundle is shown in the example below.<a href="#appendix-A.2-2" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="appendix-A.2-3">
+<span><a href="https://datatracker.ietf.org/doc/html/draft-bft-rats-kat-03#section-5.1" class="relref">Section 5.1</a> of [<a href="#I-D.bft-rats-kat" class="cite xref">I-D.bft-rats-kat</a>]</span>, combined in a CMW collection
+<span>[<a href="#I-D.ietf-rats-msg-wrap" class="cite xref">I-D.ietf-rats-msg-wrap</a>]</span>.<a href="#appendix-A.3-1" class="pilcrow">¶</a></p>
+<p id="appendix-A.3-2">The encoding of this KAT-PAT bundle is shown in the example below.<a href="#appendix-A.3-2" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="appendix-A.3-3">
 <pre>
 EvidenceBundles
  +
@@ -2555,13 +2879,13 @@ EvidenceBundles
             |         1 3 6 1 5 5 7 1 TBD
             |
             +-&gt; stmt: KAT/PAT CMW Collection
-</pre><a href="#appendix-A.2-3" class="pilcrow">¶</a>
+</pre><a href="#appendix-A.3-3" class="pilcrow">¶</a>
 </div>
-<p id="appendix-A.2-4">The value in EvidenceStatement-&gt;stmt is based on the
-KAT/PAT example from <span><a href="https://datatracker.ietf.org/doc/html/draft-bft-rats-kat-02#section-6" class="relref">Section 6</a> of [<a href="#I-D.bft-rats-kat" class="cite xref">I-D.bft-rats-kat</a>]</span> and
+<p id="appendix-A.3-4">The value in EvidenceStatement-&gt;stmt is based on the
+KAT/PAT example from <span><a href="https://datatracker.ietf.org/doc/html/draft-bft-rats-kat-03#section-6" class="relref">Section 6</a> of [<a href="#I-D.bft-rats-kat" class="cite xref">I-D.bft-rats-kat</a>]</span> and
 the result of CBOR encoding the CMW collection shown below
-(with line-breaks added for readability purposes):<a href="#appendix-A.2-4" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="appendix-A.2-5">
+(with line-breaks added for readability purposes):<a href="#appendix-A.3-4" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="appendix-A.3-5">
 <pre>
 {
   "kat":
@@ -2583,7 +2907,7 @@ the result of CBOR encoding the CMW collection shown below
       831E67F32841A56F50D131FA83979AE064E76E70DC75C070B6D99
       1AEC08AD'
 }
-</pre><a href="#appendix-A.2-5" class="pilcrow">¶</a>
+</pre><a href="#appendix-A.3-5" class="pilcrow">¶</a>
 </div>
 </section>
 </div>
@@ -2630,9 +2954,9 @@ id-ata OBJECT IDENTIFIER ::= { id-pkix (TBD1) }
 
 CertificateAlternatives ::=
    CHOICE {
-      cert          [0] Certificate,
-      typedCert     [1] TypedCert,
-      typedFlatCert [2] TypedFlatCert,
+      cert              Certificate,
+      typedCert     [0] TypedCert,
+      typedFlatCert [1] TypedFlatCert,
       ...
    }
 
@@ -2736,13 +3060,15 @@ Jean-Pierre Fiset, Sander Temme, Jethro Beekman, Zsolt Rózsahegyi, Ferenc
 Pető, Mike Agrenius Kushner, Tomas Gustavsson, Dieter Bong, Christopher Meyer,
 Michael StJohns, Carl Wallace, Michael Richardson, Tomofumi Okubo, Olivier
 Couillard, John Gray, Eric Amador, Johnson Darren, Herman Slatman, Tiru Reddy,
-Thomas Fossati, Corey Bonnel, Argenius Kushner, James Hagborg, Monty Wiseman,
+Corey Bonnell, Argenius Kushner, James Hagborg, Monty Wiseman,
 Ned Smith.<a href="#appendix-C-1" class="pilcrow">¶</a></p>
 <p id="appendix-C-2">We would like to specifically thank Mike StJohns for his work on an earlier
 version of this draft.<a href="#appendix-C-2" class="pilcrow">¶</a></p>
-<p id="appendix-C-3">Finally, we would like to thank Andreas Kretschmer for his feedback based
-on his implementation experience, and Daniel Migault and Russ Housley for
-their review comments.<a href="#appendix-C-3" class="pilcrow">¶</a></p>
+<p id="appendix-C-3">We would also like to specifically thank Monty Wiseman for providing the
+appendix showing how to carry a TPM 2.0 Attestation.<a href="#appendix-C-3" class="pilcrow">¶</a></p>
+<p id="appendix-C-4">Finally, we would like to thank Andreas Kretschmer and Thomas Fossati for their feedback based
+on implementation experience, and Daniel Migault and Russ Housley for
+their review comments.<a href="#appendix-C-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="authors-addresses">
@@ -2782,6 +3108,15 @@ their review comments.<a href="#appendix-C-3" class="pilcrow">¶</a></p>
 <div class="email">
 <span>Email:</span>
 <a href="mailto:henk.birkholz@sit.fraunhofer.de" class="email">henk.birkholz@sit.fraunhofer.de</a>
+</div>
+</address>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Monty Wiseman</span></div>
+<div dir="auto" class="left"><span class="org">Beyond Identity</span></div>
+<div dir="auto" class="left"><span class="country-name">United States of America</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:monty.wiseman@beyondidentity.com" class="email">monty.wiseman@beyondidentity.com</a>
 </div>
 </address>
 </section>

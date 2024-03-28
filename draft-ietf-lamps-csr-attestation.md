@@ -203,7 +203,7 @@ out-of-scope for this document.
                              '--------+----'
                                   ^   |
                          Evidence |   | Attestation
-                                  |   | Result (AR)         
+                                  |   | Result (AR)
                                   |   v
 .------------.               .----|------------.               .-----.
 |            +-------------->|----'            +-------------->|     |

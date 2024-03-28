@@ -205,8 +205,8 @@ out-of-scope for this document.
                          Evidence |   | Attestation
                                   |   | Result (AR)
                                   |   v
-.------------.               .----|------------.               .-----.
-|            +-------------->|----'            +-------------->|     |
+.------------.               .----|---|--------.               .-----.
+|            +-------------->|----'   '------->|-------------->|     |
 | HSM        |   Evidence    | Reg. Authority  | Attestation   | CA  |
 | (Attester) |   in CSR      | (Relying Party) | Result        |     |
 |            |               |                 | in CSR        |     |

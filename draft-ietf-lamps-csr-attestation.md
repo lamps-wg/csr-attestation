@@ -1229,15 +1229,13 @@ Jean-Pierre Fiset, Sander Temme, Jethro Beekman, Zsolt Rózsahegyi, Ferenc
 Pető, Mike Agrenius Kushner, Tomas Gustavsson, Dieter Bong, Christopher Meyer,
 Michael StJohns, Carl Wallace, Michael Richardson, Tomofumi Okubo, Olivier
 Couillard, John Gray, Eric Amador, Johnson Darren, Herman Slatman, Tiru Reddy,
-Corey Bonnell, Argenius Kushner, James Hagborg, Monty Wiseman,
+Corey Bonnell, Argenius Kushner, James Hagborg, Monty Wiseman, John Kemp,
 Ned Smith.
 
 We would like to specifically thank Mike StJohns for his work on an earlier
-version of this draft.
+version of this draft. Monty Wiseman contributed TPM 2.0 Attestation in the
+specification and wrote the necessary scripts with the help from Corey Bonnell.
 
-We would also like to specifically thank Monty Wiseman for providing the
-appendix showing how to carry a TPM 2.0 Attestation.
-
-Finally, we would like to thank Andreas Kretschmer and Thomas Fossati for their feedback based
-on implementation experience, and Daniel Migault and Russ Housley for
-their review comments.
+Finally, we would like to thank Andreas Kretschmer and Thomas Fossati for their
+feedback based on implementation experience, and Daniel Migault and Russ Housley
+for their review comments.

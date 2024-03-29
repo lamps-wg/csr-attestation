@@ -509,7 +509,7 @@ contacting an unknown and untrusted Verifier since the returned Attestation
 Result must not be relied on. The format and contents of the hint are out of
 scope of this document, however the hint SHOULD contain a value which is unique
 to this Verifier, such as a fully qualified domain name (FQDN), a uniform
-resource name (URN) [RFC8141] or a regigistered value corresponding to this
+resource name (URN) [RFC8141] or a registered value corresponding to this
 evidence format.
 
 ~~~

@@ -196,15 +196,15 @@ Attestation Results may be proprietary or standardized, but in any case is
 out-of-scope for this document.
 
 ~~~ aasvg
-                             .-----------------.
-                             |                 | Compare Evidence
-                             |     Verifier    | against Appraisal
-                             |                 | Policy
-                             '------------+----'
-                                  ^       |
-                         Evidence |       | Attestation
-                                  |       | Result (AR)
-                                  |       v
+                          .-----------------.
+                          |                 | Compare Evidence
+                          |     Verifier    | against Appraisal
+                          |                 | Policy
+                          '------------+----'
+                               ^       |
+                      Evidence |       | Attestation
+                               |       | Result (AR)
+                               |       v
 .------------.            .----|-------|----.                .-----.
 |            +----------->|----'       '--->|--------------->|     |
 | HSM        | Evidence   | Reg. Authority  | Attestation    | CA  |

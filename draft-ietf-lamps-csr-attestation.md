@@ -197,7 +197,7 @@ out-of-scope for this document.
 
 The diagram below shows an example data flow where Evidence is included in a
 CSR. The CSR is parsed by the Registration Authority (RA) component of a
-Certification Authority which extracts the Evidence and forwards it to a 
+Certification Authority which extracts the Evidence and forwards it to a
 trusted Verifier. The RA receives back an Attestation Result which it uses
 to decide whether this Evidence meets its policy for certificate issuance
 and if it does then the certificate request is forwarded to the Certification

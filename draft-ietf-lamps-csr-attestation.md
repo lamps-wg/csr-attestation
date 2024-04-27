@@ -494,22 +494,35 @@ EvidenceStatement ::= SEQUENCE {
 
 The type is on OID indicating the format of the data contained in stmt.
 
-The hint is intended for an Attester to indicate to the Relying Party (RP)
-which Verifier should be invoked to parse this statement. In many cases,
-the type OID will already uniquely indicate which Verifier to invoke;
-for example because the OID indicates a proprietary Evidence format for
-which the RP has corresponding proprietary Verifier. However,
-in some cases it may still be ambiguous, or the type may indicate
-another layer of conceptual message wrapping in which case it is helpful
-to the RP to bring this hint outside of the statement.
+The Attester MAY populate the hint with the name of a Verifier software package
+which will be capable of parsing the data contained in `EvidenceStatement.stmt`;
+this is to help the Relying Party select the correct Verifier without requiring
+the Relying Party to perform any parsing of the data in `EvidenceStatement.stmt`.
+The type OID, which identifies the format of the data found in the evidence statement,
+will sometimes be sufficient for a Relying Party to select the correct
+Verifier (software) to invoke, however in some cases the Relying Party
+may have more than one Verifier capable of parsing a given type OID -- for
+example if the OID indicates a wrapper format such as DICE
+ConceptualMessageWrapper which will contain further proprietary data.
+A design goal of this specification is that Relying Parties be able to
+select the correct Verifier (software) without needing to perform any
+parsing of the `EvidenceStatement.stmt` data.
+To help with this, the Attester MAY populate the hint with the name of a
+software package that will be capable of parsing this data.
+The hint SHOULD contain a value which is unique
+to this Verifier, such as a fully qualified domain name (FQDN), a uniform
+resource name (URN) [RFC8141] or a registered value corresponding to this
+evidence format.
 It is assumed that the RP must be pre-configured with a list of trusted
 Verifiers and that the contents of this hint can be used to look up
 the correct Verifier. Under no circumstances must the RP be tricked into
 contacting an unknown and untrusted Verifier since the returned Attestation
-Result must not be relied on. The hint SHOULD contain a value which is unique
-to this Verifier, such as a fully qualified domain name (FQDN), a uniform
-resource name (URN) [RFC8141] or a registered value corresponding to this
-evidence format.
+Result must not be relied on.
+
+Usage of the hint field can be seen in the TPM2_attest example in
+{{appdx-tpm2}} where the type OID indicates the OID
+id-TcgAttestCertify, while the hint indicates the the Verifier software
+"tpmverifier.example.com" should be invoked for parsing it.
 
 ~~~
 EvidenceBundles ::= SEQUENCE SIZE (1..MAX) OF EvidenceBundle
@@ -891,7 +904,7 @@ EvidenceStatementSet EVIDENCE-STATEMENT ::= {
 ~~~
 
 
-##  TPM V2.0 Evidence in CSR
+##  TPM V2.0 Evidence in CSR {#appdx-tpm2}
 
 This section describes TPM2 key attestation for use in a CSR.
 

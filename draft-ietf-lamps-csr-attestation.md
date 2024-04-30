@@ -565,6 +565,8 @@ broad variety of certificate types.
 CertificateAlternatives ::=
    CHOICE {
       cert              Certificate,
+                           -- Using the Certificate ASN.1
+                           -- structure as defined in RFC 5280.
       typedCert     [0] TypedCert,
       typedFlatCert [1] TypedFlatCert,
       ...
@@ -572,7 +574,8 @@ CertificateAlternatives ::=
 ~~~
 
 "Certificate" is a standard X.509 certificate that MUST be compliant
-with RFC 5280.  Enforcement of this constraint is left to the relying
+with RFC 5280. 
+Enforcement of this constraint is left to the relying
 parties.
 
 "TypedCert" is an ASN.1 construct that has the characteristics of a

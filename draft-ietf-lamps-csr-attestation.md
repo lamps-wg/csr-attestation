@@ -1176,7 +1176,7 @@ Note that this example demonstrates most of the features of this specification:
 - The data type is identified by the OID id-TcgAttestCertify contained in the `EvidenceStatement.type` field.
 - The signed evidence is carried in the `EvidenceStatement.stmt` field.
 - The `EvidenceStatement.hint` provides information to the Relying Party about which Verifier (software) will be able to correctly parse this data. Note that the `type` OID indicates the format of the data, but that may itself be a wrapper format that contains further data in a proprietary format. In this example, the hint says that software from the package `"tpmverifier.example.com"` will be able to parse this data.
-- The evidence statement is accompanied by a certificate chain in the `EvidenceBundle.certs` field which can be used to verify the signature on the evidence statement.
+- The evidence statement is accompanied by a certificate chain in the `EvidenceBundle.certs` field which can be used to verify the signature on the evidence statement. How the Verifier establishes trust in the provided certificates is outside the scope of this specification.
 
 Features of this specification that are not demonstrated by this example are:
 

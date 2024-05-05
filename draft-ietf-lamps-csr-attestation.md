@@ -919,9 +919,9 @@ id-tcg OBJECT IDENTIFIER ::= { 2 23 133 }
 
 id-tcg-kp-AIKCertificate OBJECT IDENTIFIER ::= { id-tcg 8 3 }
 
-id-tcg-attest OBJECT IDENTIFIER ::= { id-tcg TBD }
+id-tcg-attest OBJECT IDENTIFIER ::= { id-tcg 20 }
 
-id-tcg-attest-certify OBJECT IDENTIFIER ::= { id-tcg-attest 1 }
+id-TcgAttestCertify OBJECT IDENTIFIER ::= { id-tcg-attest 1 }
 
 ### TPM2 AttestationStatement {#appdx-tcg-attest-certify}
 
@@ -932,7 +932,7 @@ the stmt, which is a concatenation of existing TPM2 structures. These structures
 will be explained in the rest of this section.
 
 ~~~
-Tcg-attest-certify ::= SEQUENCE {
+Tcg-csr-certify ::= SEQUENCE {
   tpmSAttest       OCTET STRING,
   signature        OCTET STRING,
   tpmTPublic       OCTET STRING OPTIONAL
@@ -1158,7 +1158,7 @@ CSR {
         EvidenceBundle {
           EvidenceStatements {
             EvidenceStatement {
-              type: id-TcgAttestCertify,
+              type: id-TcgCsrCertify,
               stmt: <TcgAttestCertify_data>
               hint: "tpmverifier.example.com"
             }
@@ -1176,7 +1176,7 @@ CSR {
 
 Note that this example demonstrates most of the features of this specification:
 
-- The data type is identified by the OID id-TcgAttestCertify contained in the `EvidenceStatement.type` field.
+- The data type is identified by the OID id-TcgCsrCertify contained in the `EvidenceStatement.type` field.
 - The signed evidence is carried in the `EvidenceStatement.stmt` field.
 - The `EvidenceStatement.hint` provides information to the Relying Party about which Verifier (software) will be able to correctly parse this data. Note that the `type` OID indicates the format of the data, but that may itself be a wrapper format that contains further data in a proprietary format. In this example, the hint says that software from the package `"tpmverifier.example.com"` will be able to parse this data.
 - The evidence statement is accompanied by a certificate chain in the `EvidenceBundle.certs` field which can be used to verify the signature on the evidence statement. How the Verifier establishes trust in the provided certificates is outside the scope of this specification.
@@ -1187,7 +1187,7 @@ Features of this specification that are not demonstrated by this example are:
 - Multiple EvidenceBundles that each have their own certificate chain.
 
 ~~~
-{::include sampledata/tpmAttestCertify_csr.pem}
+{::include sampledata/tcgCsrCertify_csr.pem}
 ~~~
 
 ## PSA Attestation Token in CSR

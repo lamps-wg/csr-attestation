@@ -574,7 +574,7 @@ CertificateAlternatives ::=
 ~~~
 
 "Certificate" is a standard X.509 certificate that MUST be compliant
-with RFC 5280. 
+with RFC 5280.
 Enforcement of this constraint is left to the relying
 parties.
 

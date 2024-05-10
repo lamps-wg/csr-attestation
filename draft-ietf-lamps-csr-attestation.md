@@ -536,7 +536,7 @@ EvidenceBundle ::= SEQUENCE
   certs SEQUENCE SIZE (1..MAX) OF CertificateAlternatives OPTIONAL
 }
 
-id-aa-evidence OBJECT IDENTIFIER ::= { id-aa TBDAA }
+id-aa-evidence OBJECT IDENTIFIER ::= { id-aa 59 }
 
 -- For PKCS#10
 attr-evidence ATTRIBUTE ::= {
@@ -641,9 +641,10 @@ S/MIME Attributes" to identify two Attributes defined within.
 ##  Object Identifier Registrations - SMI Security for S/MIME Attributes
 
 - Evidence Statement
-  - Decimal: IANA Assigned - Replace **TBDAA**
+  - Decimal: IANA Assigned - This was early-allocated as `59` so that we could generate the sample data.
   - Description: id-aa-evidence
   - References: This Document
+
 
 ##  "SMI Security for PKIX Evidence Statement Formats" Registry
 

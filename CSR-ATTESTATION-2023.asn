@@ -70,7 +70,7 @@ EvidenceStatement ::= SEQUENCE {
    hint   UTF8String OPTIONAL
 }
 
-id-aa-evidence OBJECT IDENTIFIER ::= { id-aa TBDAA }
+id-aa-evidence OBJECT IDENTIFIER ::= { id-aa 59 }
 
 -- For PKCS#10
 attr-evidence ATTRIBUTE ::= {

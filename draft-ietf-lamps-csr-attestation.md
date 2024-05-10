@@ -915,13 +915,15 @@ expected to used which is the TPM2_Certify and the TPM2_ReadPublic commands.
 The OIDs in this section are defined by TCG
 TCG has a registered arc of 2.23.133
 
-id-tcg OBJECT IDENTIFIER ::= { 2 23 133 }
+~~~
+tcg OBJECT IDENTIFIER ::= { 2 23 133 }
 
-id-tcg-kp-AIKCertificate OBJECT IDENTIFIER ::= { id-tcg 8 3 }
+tcg-kp-AIKCertificate OBJECT IDENTIFIER ::= { id-tcg 8 3 }
 
-id-tcg-attest OBJECT IDENTIFIER ::= { id-tcg 20 }
+tcg-attest OBJECT IDENTIFIER ::= { id-tcg 20 }
 
-id-TcgAttestCertify OBJECT IDENTIFIER ::= { id-tcg-attest 1 }
+tcg-attest-tpm-certify OBJECT IDENTIFIER ::= { id-tcg-attest 1 }
+~~~
 
 ### TPM2 AttestationStatement {#appdx-tcg-attest-certify}
 
@@ -1158,8 +1160,8 @@ CSR {
         EvidenceBundle {
           EvidenceStatements {
             EvidenceStatement {
-              type: id-TcgCsrCertify,
-              stmt: <TcgAttestCertify_data>
+              type: tcg-attest-tpm-certify,
+              stmt: <TcgAttestTpmCertify_data>
               hint: "tpmverifier.example.com"
             }
           },

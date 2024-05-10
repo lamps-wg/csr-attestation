@@ -723,8 +723,6 @@ It lists entries for several evidence encodings including an entry for the Conce
 | 2 23 133 20 1    | tcg-attest-tpm-certify       | Private Registry |  TCG              |
 {: #tab-ae-reg title="Initial Contents of the Attestation Evidence OID Registry"}
 
-EDNOTE: This is currently under debate with our contacts at TCG about which OID they want used for the initial registry.
-
 The current registry values can be retrieved from the IANA online website.
 
 # Security Considerations
@@ -910,7 +908,7 @@ given below would result in the following EvidenceStatementSet definition:
 ~~~
 EvidenceStatementSet EVIDENCE-STATEMENT ::= {
   --- TPM 2.0
-  { Tcg-attest-certify IDENTIFIED BY tcg-attest-certify },
+  { Tcg-attest-tpm-certify IDENTIFIED BY tcg-attest-tpm-certify },
   ...,
 
   --- PSA
@@ -941,21 +939,21 @@ tcg OBJECT IDENTIFIER ::= { 2 23 133 }
 
 tcg-kp-AIKCertificate OBJECT IDENTIFIER ::= { id-tcg 8 3 }
 
-tcg-attest OBJECT IDENTIFIER ::= { id-tcg 20 }
+tcg-attest OBJECT IDENTIFIER ::= { tcg 20 }
 
-tcg-attest-tpm-certify OBJECT IDENTIFIER ::= { id-tcg-attest 1 }
+tcg-attest-tpm-certify OBJECT IDENTIFIER ::= { tcg-attest 1 }
 ~~~
 
-### TPM2 AttestationStatement {#appdx-tcg-attest-certify}
+### TPM2 AttestationStatement {#appdx-tcg-attest-tpm-certify}
 
 The EvidenceStatement structure contains a sequence of two fields:
 a type and a stmt. The 'type' field contains the OID of the Evidence format and it is
-set to tcg-attest-certify. The content of the structure shown below is placed into
+set to tcg-attest-tpm-certify. The content of the structure shown below is placed into
 the stmt, which is a concatenation of existing TPM2 structures. These structures
 will be explained in the rest of this section.
 
 ~~~
-Tcg-csr-certify ::= SEQUENCE {
+Tcg-csr-tpm-certify ::= SEQUENCE {
   tpmSAttest       OCTET STRING,
   signature        OCTET STRING,
   tpmTPublic       OCTET STRING OPTIONAL
@@ -968,7 +966,7 @@ The tcg-kp-AIKCertificate field contains the AIK Certificate in RFC 5280 format.
 
 The definitions in the following sections are defined by the TPM2 and various TCG defined
 specification including the TPM2 set of specifications. Those familiar with
-TPM2 concepts may skip to {{appdx-tcg-attest-certify}} which defines an ASN.1 structure
+TPM2 concepts may skip to {{appdx-tcg-attest-tpm-certify}} which defines an ASN.1 structure
 specific for bundling a TPM attestation into an EvidenceStatement, and {{appdx-tpm-example}}
 which provides the example. For those unfamiliar with TPM2 concepts
 this section provides only the minimum information to understand TPM2

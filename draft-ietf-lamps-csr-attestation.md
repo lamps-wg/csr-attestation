@@ -574,6 +574,8 @@ broad variety of certificate types.
 CertificateAlternatives ::=
    CHOICE {
       cert              Certificate,
+                           -- Using the Certificate ASN.1
+                           -- structure as defined in RFC 5280.
       typedCert     [0] TypedCert,
       typedFlatCert [1] TypedFlatCert,
       ...
@@ -581,7 +583,8 @@ CertificateAlternatives ::=
 ~~~
 
 "Certificate" is a standard X.509 certificate that MUST be compliant
-with RFC 5280.  Enforcement of this constraint is left to the relying
+with RFC 5280.
+Enforcement of this constraint is left to the relying
 parties.
 
 "TypedCert" is an ASN.1 construct that has the characteristics of a
@@ -913,6 +916,8 @@ EvidenceStatementSet EVIDENCE-STATEMENT ::= {
 
 This section describes TPM2 key attestation for use in a CSR.
 
+This is a complete and canonical example that can be used to test parsers implemented against this specification. Readers who wish the sample data may skip to {{appdx-tpm-example}}; the following sections explain the TPM-specific data structures needed to fully parse the contents of the evidence statement.
+
 ### TCG Key Attestation Certify
 
 There are several ways in TPM2 to provide proof of a key's properties.
@@ -924,13 +929,15 @@ expected to used which is the TPM2_Certify and the TPM2_ReadPublic commands.
 The OIDs in this section are defined by TCG
 TCG has a registered arc of 2.23.133
 
-id-tcg OBJECT IDENTIFIER ::= { 2 23 133 }
+~~~
+tcg OBJECT IDENTIFIER ::= { 2 23 133 }
 
-id-tcg-kp-AIKCertificate OBJECT IDENTIFIER ::= { id-tcg 8 3 }
+tcg-kp-AIKCertificate OBJECT IDENTIFIER ::= { id-tcg 8 3 }
 
-id-tcg-attest OBJECT IDENTIFIER ::= { id-tcg TBD }
+tcg-attest OBJECT IDENTIFIER ::= { id-tcg 20 }
 
-id-tcg-attest-certify OBJECT IDENTIFIER ::= { id-tcg-attest 1 }
+tcg-attest-tpm-certify OBJECT IDENTIFIER ::= { id-tcg-attest 1 }
+~~~
 
 ### TPM2 AttestationStatement {#appdx-tcg-attest-certify}
 
@@ -941,7 +948,7 @@ the stmt, which is a concatenation of existing TPM2 structures. These structures
 will be explained in the rest of this section.
 
 ~~~
-Tcg-attest-certify ::= SEQUENCE {
+Tcg-csr-certify ::= SEQUENCE {
   tpmSAttest       OCTET STRING,
   signature        OCTET STRING,
   tpmTPublic       OCTET STRING OPTIONAL
@@ -1155,9 +1162,49 @@ The Verifier has to perform the following steps once it receives the Evidence:
 * Use the Key's "expected" Name from the provided TPM2B_PUBLIC structure.
 If Key's "expected" Name equals TPM2B_ATTEST->attestationData then returned TPM2B_PUBLIC is the verified.
 
-### Example Structures {#appdx-tpm-example}
+### Sample CSR {#appdx-tpm-example}
 
-TODO -- a full CSR would be great.
+This CSR demonstrates a certification request for a key stored in a TPM using the following structure:
+
+~~~
+CSR {
+  attributes {
+    id-aa-evidence {
+      EvidenceBundles {
+        EvidenceBundle {
+          EvidenceStatements {
+            EvidenceStatement {
+              type: tcg-attest-tpm-certify,
+              stmt: <TcgAttestTpmCertify_data>
+              hint: "tpmverifier.example.com"
+            }
+          },
+          certs {
+            akCertificate,
+            caCertificate
+          }
+        }
+      }
+    }
+  }
+}
+~~~
+
+Note that this example demonstrates most of the features of this specification:
+
+- The data type is identified by the OID id-TcgCsrCertify contained in the `EvidenceStatement.type` field.
+- The signed evidence is carried in the `EvidenceStatement.stmt` field.
+- The `EvidenceStatement.hint` provides information to the Relying Party about which Verifier (software) will be able to correctly parse this data. Note that the `type` OID indicates the format of the data, but that may itself be a wrapper format that contains further data in a proprietary format. In this example, the hint says that software from the package `"tpmverifier.example.com"` will be able to parse this data.
+- The evidence statement is accompanied by a certificate chain in the `EvidenceBundle.certs` field which can be used to verify the signature on the evidence statement. How the Verifier establishes trust in the provided certificates is outside the scope of this specification.
+
+Features of this specification that are not demonstrated by this example are:
+
+- An EvidenceBundle containing multiple EvidenceStatements that share a certificate chain.
+- Multiple EvidenceBundles that each have their own certificate chain.
+
+~~~
+{::include sampledata/tcgCsrCertify_csr.pem}
+~~~
 
 ## PSA Attestation Token in CSR
 
@@ -1247,8 +1294,10 @@ Corey Bonnell, Argenius Kushner, James Hagborg, Monty Wiseman, John Kemp,
 Ned Smith.
 
 We would like to specifically thank Mike StJohns for his work on an earlier
-version of this draft. Monty Wiseman contributed TPM 2.0 Attestation in the
-specification and wrote the necessary scripts with the help from Corey Bonnell.
+version of this draft.
+
+We would also like to specifically thank Monty Wiseman for providing the
+appendix showing how to carry a TPM 2.0 Attestation, and to Corey Bonell for helping with the hackathon scripts to bundle it into a CSR.
 
 Finally, we would like to thank Andreas Kretschmer and Thomas Fossati for their
 feedback based on implementation experience, and Daniel Migault and Russ Housley

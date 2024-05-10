@@ -708,14 +708,15 @@ party that registered the OID.
 The initial registry contents is shown in the table below.
 It lists entries for several evidence encodings including an entry for the Conceptual Message Wrapper (CMW) {{I-D.ietf-rats-msg-wrap}}.
 
-| OID              | Description                  | Reference(s)   | Change Controller |
-|------------------|------------------------------|----------------|-------------------|
-| 2 23 133 5 4 1   | DiceTcbInfo                  | {{TCGDICE1.1}} |  TCG              |
-| 2 23 133 5 4 5   | DiceMultiTcbInfo             | {{TCGDICE1.1}} |  TCG              |
-| 2 23 133 5 4 6   | DiceUccsEvidence             | {{TCGDICE1.1}} |  TCG              |
-| 2 23 133 5 4 7   | DiceManifestEvidence         | {{TCGDICE1.1}} |  TCG              |
-| 2 23 133 5 4 8   | DiceTcbInfoComp              | {{TCGDICE1.1}} |  TCG              |
-| 2 23 133 5 4 9   | DiceConceptualMessageWrapper | {{TCGDICE1.1}} |  TCG              |
+| OID              | Description                  | Reference(s)     | Change Controller |
+|------------------|------------------------------|----------------  |-------------------|
+| 2 23 133 5 4 1   | DiceTcbInfo                  | {{TCGDICE1.1}}   |  TCG              |
+| 2 23 133 5 4 5   | DiceMultiTcbInfo             | {{TCGDICE1.1}}   |  TCG              |
+| 2 23 133 5 4 6   | DiceUccsEvidence             | {{TCGDICE1.1}}   |  TCG              |
+| 2 23 133 5 4 7   | DiceManifestEvidence         | {{TCGDICE1.1}}   |  TCG              |
+| 2 23 133 5 4 8   | DiceTcbInfoComp              | {{TCGDICE1.1}}   |  TCG              |
+| 2 23 133 5 4 9   | DiceConceptualMessageWrapper | {{TCGDICE1.1}}   |  TCG              |
+| 2 23 133 20 1    | tcg-attest-tpm-certify       | Private Registry |  TCG              |
 {: #tab-ae-reg title="Initial Contents of the Attestation Evidence OID Registry"}
 
 EDNOTE: This is currently under debate with our contacts at TCG about which OID they want used for the initial registry.

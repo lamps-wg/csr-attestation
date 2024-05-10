@@ -69,6 +69,7 @@ informative:
   I-D.ietf-rats-msg-wrap:
   I-D.bft-rats-kat:
   RFC7030:
+  RFC8141:
   I-D.tschofenig-rats-psa-token:
   TPM20:
     author:
@@ -129,7 +130,7 @@ The certificates typically contain one or more certification paths
 rooted in a device manufacture trust anchor and the leaf certificate being
 on the device in question; the latter is the Attestation Key that signs the Evidence statement.
 
-This document specifies a CSR Attribute (or Extension for Certificate Request Message Format (CRMF) CSRs) for carrying Evidence. Evidence can be placed into an EvidenceStatement along with an OID to identify its type and optionally a hint to the Relying Party about how to verify it. A set of EvidenceStatements may be grouped together along with the set of CertificateAlternatives needed to validate them to form a EvidenceBundle. One or more EvidenceBundles may be placed into the id-aa-evidence CSR Attribute (or CRFM Extension).
+This document specifies a CSR Attribute (or Extension for Certificate Request Message Format (CRMF) CSRs) for carrying Evidence. Evidence can be placed into an EvidenceStatement along with an OID to identify its type and optionally a hint to the Relying Party about which Verifier (software package) will be capable of parsing it. A set of EvidenceStatements may be grouped together along with the set of CertificateAlternatives needed to validate them to form a EvidenceBundle. One or more EvidenceBundles may be placed into the id-aa-evidence CSR Attribute (or CRFM Extension).
 
 A CSR may contain one or more Evidence payloads, for example Evidence
 asserting the storage properties of a private key as well Evidence
@@ -482,38 +483,46 @@ This list is left empty in this document. However, implementers should
 populate it with the formats that they wish to support.
 
 ~~~
-EvidenceHint ::= CHOICE {
-     rfc822Name [0] IA5String,
-     dNSName    [1] IA5String,
-     uri        [2] IA5String,
-     text       [3] UTF8String
-}
-
 EvidenceStatements ::= SEQUENCE SIZE (1..MAX) OF EvidenceStatement
 
 EvidenceStatement ::= SEQUENCE {
    type   EVIDENCE-STATEMENT.&id({EvidenceStatementSet}),
    stmt   EVIDENCE-STATEMENT.&Type({EvidenceStatementSet}{@type}),
-   hint   EvidenceHint OPTIONAL
+   hint   UTF8String OPTIONAL
 }
 ~~~
 
 The type is on OID indicating the format of the data contained in stmt.
 
-The hint is intended for an Attester to indicate to the Relying Party (RP)
-which Verifier should be invoked to parse this statement. In many cases,
-the type OID will already uniquely indicate which Verifier to invoke;
-for example because the OID indicates a proprietary Evidence format for
-which the RP has corresponding proprietary Verifier. However,
-in some cases it may still be ambiguous, or the type may indicate
-another layer of conceptual message wrapping in which case it is helpful
-to the RP to bring this hint outside of the statement.
+The Attester MAY populate the hint with the name of a Verifier software package
+which will be capable of parsing the data contained in `EvidenceStatement.stmt`;
+this is to help the Relying Party select the correct Verifier without requiring
+the Relying Party to perform any parsing of the data in `EvidenceStatement.stmt`.
+The type OID, which identifies the format of the data found in the evidence statement,
+will sometimes be sufficient for a Relying Party to select the correct
+Verifier (software) to invoke, however in some cases the Relying Party
+may have more than one Verifier capable of parsing a given type OID -- for
+example if the OID indicates a wrapper format such as DICE
+ConceptualMessageWrapper which will contain further proprietary data.
+A design goal of this specification is that Relying Parties be able to
+select the correct Verifier (software) without needing to perform any
+parsing of the `EvidenceStatement.stmt` data.
+To help with this, the Attester MAY populate the hint with the name of a
+software package that will be capable of parsing this data.
+The hint SHOULD contain a value which is unique
+to this Verifier, such as a fully qualified domain name (FQDN), a uniform
+resource name (URN) [RFC8141] or a registered value corresponding to this
+evidence format.
 It is assumed that the RP must be pre-configured with a list of trusted
 Verifiers and that the contents of this hint can be used to look up
 the correct Verifier. Under no circumstances must the RP be tricked into
 contacting an unknown and untrusted Verifier since the returned Attestation
-Result must not be relied on. The format and contents of the hint are out of
-scope of this document.
+Result must not be relied on.
+
+Usage of the hint field can be seen in the TPM2_attest example in
+{{appdx-tpm2}} where the type OID indicates the OID
+id-TcgAttestCertify, while the hint indicates the the Verifier software
+"tpmverifier.example.com" should be invoked for parsing it.
 
 ~~~
 EvidenceBundles ::= SEQUENCE SIZE (1..MAX) OF EvidenceBundle
@@ -696,12 +705,17 @@ party that registered the OID.
 
 ### Initial Registry Contents
 
-The initial registry contents is shown in the table below. It lists one
-entry for the Conceptual Message Wrapper (CMW) {{I-D.ietf-rats-msg-wrap}}.
+The initial registry contents is shown in the table below.
+It lists entries for several evidence encodings including an entry for the Conceptual Message Wrapper (CMW) {{I-D.ietf-rats-msg-wrap}}.
 
-| OID              | Description                | Reference(s)   | Change Controller |
-|------------------|----------------------------|----------------|-------------------|
-| 2 23 133 5 4 9   | Conceptual Message Wrapper | {{TCGDICE1.1}} |  TCG              |
+| OID              | Description                  | Reference(s)   | Change Controller |
+|------------------|------------------------------|----------------|-------------------|
+| 2 23 133 5 4 1   | DiceTcbInfo                  | {{TCGDICE1.1}} |  TCG              |
+| 2 23 133 5 4 5   | DiceMultiTcbInfo             | {{TCGDICE1.1}} |  TCG              |
+| 2 23 133 5 4 6   | DiceUccsEvidence             | {{TCGDICE1.1}} |  TCG              |
+| 2 23 133 5 4 7   | DiceManifestEvidence         | {{TCGDICE1.1}} |  TCG              |
+| 2 23 133 5 4 8   | DiceTcbInfoComp              | {{TCGDICE1.1}} |  TCG              |
+| 2 23 133 5 4 9   | DiceConceptualMessageWrapper | {{TCGDICE1.1}} |  TCG              |
 {: #tab-ae-reg title="Initial Contents of the Attestation Evidence OID Registry"}
 
 EDNOTE: This is currently under debate with our contacts at TCG about which OID they want used for the initial registry.
@@ -898,7 +912,7 @@ EvidenceStatementSet EVIDENCE-STATEMENT ::= {
 ~~~
 
 
-##  TPM V2.0 Evidence in CSR
+##  TPM V2.0 Evidence in CSR {#appdx-tpm2}
 
 This section describes TPM2 key attestation for use in a CSR.
 
@@ -1276,14 +1290,15 @@ Jean-Pierre Fiset, Sander Temme, Jethro Beekman, Zsolt Rózsahegyi, Ferenc
 Pető, Mike Agrenius Kushner, Tomas Gustavsson, Dieter Bong, Christopher Meyer,
 Michael StJohns, Carl Wallace, Michael Richardson, Tomofumi Okubo, Olivier
 Couillard, John Gray, Eric Amador, Johnson Darren, Herman Slatman, Tiru Reddy,
-Corey Bonnell, Argenius Kushner, James Hagborg, Monty Wiseman,
+Corey Bonnell, Argenius Kushner, James Hagborg, Monty Wiseman, John Kemp,
 Ned Smith.
 
 We would like to specifically thank Mike StJohns for his work on an earlier
 version of this draft.
 
-We would also like to specifically thank Corey Bonnell for help during the hackathon with constructing sample code for generating the TcgAttestCertify sample.
+We would also like to specifically thank Monty Wiseman for providing the
+appendix showing how to carry a TPM 2.0 Attestation, and to Corey Bonell for helping with the hackathon scripts to bundle it into a CSR.
 
-Finally, we would like to thank Andreas Kretschmer and Thomas Fossati for their feedback based
-on implementation experience, and Daniel Migault and Russ Housley for
-their review comments.
+Finally, we would like to thank Andreas Kretschmer and Thomas Fossati for their
+feedback based on implementation experience, and Daniel Migault and Russ Housley
+for their review comments.

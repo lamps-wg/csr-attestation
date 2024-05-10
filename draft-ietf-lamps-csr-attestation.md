@@ -95,6 +95,9 @@ informative:
     title: "PKCS #11 Cryptographic Token Interface Base Specification Version 2.40"
     date: 14 April 2015
     target: http://docs.oasis-open.org/pkcs11/pkcs11-base/v2.40/os/pkcs11-base-v2.40-os.html
+  SampleData:
+    title: "CSR Attestation Sample Data"
+    target: https://github.com/lamps-wg/csr-attestation-examples
 
 --- abstract
 
@@ -876,14 +879,16 @@ Implementers should also be cautious around `type` OID or `hint` values that cau
 
 # Examples
 
-This section provides two non-normative examples for embedding Evidence
+This section provides several examples and sample data for embedding Evidence
 in CSRs. The first example embeds Evidence produced by a TPM in the CSR.
 The second example conveys an Arm Platform Security Architecture token,
 which provides claims about the used hardware and software platform,
 into the CSR.
 
-At the time of writing, the authors are not aware of registered OIDs for
-these evidence formats, and so we leave the OIDs as TBD1 / TBD2.
+After publicatian of this document, additional examples and sample data will
+be collected at the following GitHub repository {{SampleData}}:
+
+https://github.com/lamps-wg/csr-attestation-examples
 
 
 ## Extending EvidenceStatementSet

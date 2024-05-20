@@ -1,29 +1,22 @@
-﻿// SET of CSR Attributes {
+﻿// SET of CSR Attributes
 A0 82 00 8E
-  // CSR attributes {
+  // CSR attributes
   30 82 00 8A
-    // id-aa-evidence {
     // OBJECT IDENTIFIER id-aa-evidence (1 2 840 113549 1 9 16 2 59)
     06 0B 2A 86 48 86 F7 0D 01 09 10 02 3B
       // SET -- This attribute
       31 79
-        // EvidenceBundles {
         // EvidenceBundles ::= SEQUENCE SIZE (1..MAX) OF EvidenceBundle
         30 77
-          // EvidenceBundle {
           // EvidenceBundle ::= SEQUENCE
           30 75
-            // EvidenceStatements {
             // EvidenceStatements ::= SEQUENCE SIZE (1..MAX) OF EvidenceStatement
             30 73
-              // EvidenceStatement {
               // EvidenceStatement ::= SEQUENCE
               30 71
-                // type: 
-                // OBJECT IDENTIFIER tcg-dice-TcbInfo (2.23.133.5.4.1)
+                // type: OBJECT IDENTIFIER tcg-dice-TcbInfo (2.23.133.5.4.1)
                 06 06 67 81 05 05 04 01
-                // stmt:
-                // SEQUENCE
+                // stmt: SEQUENCE
                 30 4E
                   // CONTEXT_SPECIFIC | version (02)
                   // version = ABCDEF123456
@@ -49,8 +42,7 @@ A0 82 00 8E
                   // CONTEXT_SPECIFIC | type (09)
                   // type = 0x00000000
                   89 04 00 00 00 00
-                // hint:
-                // UTF8STRING "DiceTcbInfo.example.com"
+                // hint: UTF8STRING "DiceTcbInfo.example.com"
                 0C 17 44 69 63 65 54 63 62 49 6e 66 6f
                 2e 65 78 61 6d 70 6c 65 2e 63 6f 6d
 

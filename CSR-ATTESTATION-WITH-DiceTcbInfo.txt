@@ -1,0 +1,55 @@
+﻿// CSR {
+2557
+  // CSR attributes {
+  2553
+    // id-aa-evidence {
+    // OBJECT IDENTIFIER id-aa-evidence (1 2 840 113549 1 9 16 2 59)
+    11
+      // SET -- This attribute
+      2536
+        // EvidenceBundles {
+        // EvidenceBundles ::= SEQUENCE SIZE (1..MAX) OF EvidenceBundle
+        2532
+          // EvidenceBundle {
+          // EvidenceBundle ::= SEQUENCE
+          2528
+            // EvidenceStatements {
+            // EvidenceStatements ::= SEQUENCE SIZE (1..MAX) OF EvidenceStatement
+            754
+              // EvidenceStatement {
+              // EvidenceStatement ::= SEQUENCE
+              750
+                // type: 
+                // OBJECT IDENTIFIER tcg-dice-TcbInfo (2.23.133.5.4.1)
+                06 06 67 81 05 05 04 01
+                // stmt:
+                // SEQUENCE
+                30 4E
+                  // CONTEXT_SPECIFIC | version (02)
+                  // version = ABCDEF123456
+                  82 0C 41 42 43 44 45 46 31 32 33 34 35 36
+                  // CONTEXT_SPECIFIC | svn (03)
+                  // svn = 4
+                  83 01 04
+                  // CONTEXT_SPECIFIC | CONSTRUCTED | fwids (06)
+                  A6 2F
+                  // SEQUENCE
+                  30 2D
+                    // OBJECT IDENTIFIER SHA256
+                    06 09 60 86 48 01 65 03 04 02 01
+                    // OCTET STRING
+                    // fwid = 0x0000....00
+                    04 20 00 00 00 00 00 00 00 00
+                    00 00 00 00 00 00 00 00
+                    00 00 00 00 00 00 00 00
+                    00 00 00 00 00 00 00 00
+                  // CONTEXT_SPECIFIC | vendorInfo (08)
+                  // vendor info = 0x00000000
+                  88 04 00 00 00 00
+                  // CONTEXT_SPECIFIC | type (09)
+                  // type = 0x00000000
+                  89 04 00 00 00 00
+                // hint:
+                // UTF8STRING "DiceTcbInfo.example.com"
+                0C 17 44 69 63 65 54 63 62 49 6e 66 6f
+                2e 65 78 61 6d 70 6c 65 2e 63 6f 6d

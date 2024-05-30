@@ -619,7 +619,7 @@ TypedCertSet TYPED-CERT ::= {
 Figure {{type-fixme}} illustrates "TypedFlatCert" representing a certificate that does not have a valid ASN.1
 encoding.
 Certificates that are not ASN.1 compliant are often compact or implicit certificates used by smart cards.
-certType as shown in Figure {{flat-fixme}} indicates the format of the data in the
+certType as shown in {{flat-fixme}} indicates the format of the data in the
 certBody field and ideally refers to an appropriate published specification.
 
 ~~~

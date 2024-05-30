@@ -572,7 +572,7 @@ either mechanism MAY be used for carrying multiple Evidence bundles.
 
 ##  CertificateAlternatives
 
-Figure {{choice-fixme}} shows an ASN.1 CHOICE construct used to represent an encoding of a
+{{choice-fixme}} shows an ASN.1 CHOICE construct used to represent an encoding of a
 broad variety of certificate types.
 
 ~~~

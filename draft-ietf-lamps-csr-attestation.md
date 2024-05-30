@@ -130,8 +130,8 @@ At the time of writing, several standard and several proprietary remote attestat
 are in use.
 This specification thereby is intended to be as technology-agnostic as it is feasible with respect to implemented remote attestation technologies. Hence, this specification focuses on (1) the conveyance of Evidence via CSRs while making minimal assumptions about content or format of the transported Evidence and (2) the conveyance of sets of certificates used for validation of Evidence.
 The certificates typically contain one or more certification paths
-rooted in a device manufacture trust anchor and the leaf certificate being
-on the device in question. The leaf certificate is associated with key material that takes on the role of an Attestation Key and is used to Evidence originating from the Attester.
+rooted in a device manufacture trust anchor and the end-entity certificate being
+on the device in question. The end-entity certificate is associated with key material that takes on the role of an Attestation Key and is used to Evidence originating from the Attester.
 
 This document specifies a CSR Attribute (or Extension for Certificate Request Message Format (CRMF) CSRs) for carrying Evidence. Evidence can be placed into an EvidenceStatement along with an OID to identify its type and optionally a hint to the Relying Party about which Verifier (software package) will be capable of parsing it. A set of EvidenceStatements may be grouped together along with the set of CertificateAlternatives needed to validate them to form a EvidenceBundle. One or more EvidenceBundles may be placed into the id-aa-evidence CSR Attribute (or CRFM Extension).
 

@@ -483,7 +483,7 @@ or parse EvidenceStatements. Evidence Statement formats are typically
 defined in other IETF standards, other standards bodies,
 or vendor proprietary formats along with corresponding OIDs that identify them.
 
-This list is left undfined in this document. However, implementers can
+This list is left undefined in this document. However, implementers can
 populate it with the formats that they wish to support.
 
 ~~~

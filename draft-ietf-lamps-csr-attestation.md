@@ -347,7 +347,7 @@ this use case.
 
 
 In a Composite Device, which contains multiple Attesters, a collection of Evidence
-statements is obtained. In this scenario, each Attester returns its Evidence together with a
+statements is obtained. In this use case, each Attester returns its Evidence together with a
 certification path. As a result, multiple EvidenceBundle structures, each carrying
 an EvidenceStatement and the corresponding CertificateAlternative structure with the
 certification path as provided by each Attester, are included in the CSR.

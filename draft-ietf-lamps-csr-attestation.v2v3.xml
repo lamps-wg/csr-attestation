@@ -2016,7 +2016,7 @@ FROM SecureMimeMessageV3dot1
     { iso(1) member-body(2) us(840) rsadsi(113549)
         pkcs(1) pkcs-9(9) smime(16) modules(0) msg-v3dot1(21) }
   ;
-  
+
 
 -- Branch for attestation statement types
 id-ata OBJECT IDENTIFIER ::= { id-pkix (TBD1) }
@@ -2095,7 +2095,7 @@ END
 tcgDiceEvidenceStatementES EVIDENCE-STATEMENT ::=
   { ConceptualMessageWrapper IDENTIFIED BY tcg-dice-conceptual-message-wrapper }
 
--- where ConceptualMessageWrapper and tcg-dice-conceptual-message-wrapper 
+-- where ConceptualMessageWrapper and tcg-dice-conceptual-message-wrapper
 -- are defined in DICE-Attestation-Architecture-Version-1.1-Revision-17_1August2023.pdf
 
 EvidenceStatementSet EVIDENCE-STATEMENT ::= {

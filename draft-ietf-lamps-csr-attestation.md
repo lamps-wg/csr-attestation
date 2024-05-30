@@ -497,7 +497,7 @@ EvidenceStatement ::= SEQUENCE {
 ~~~
 {: #sequence-fixme title="Figure Name FixMe3"}
 
-In Figure {{sequence-fixme}}, type is an OID that indicates the format of the value of stmt.
+In {{sequence-fixme}}, type is an OID that indicates the format of the value of stmt.
 
 The Attester MAY populate the hint with the name of a Verifier software package
 which will be capable of parsing the data contained in `EvidenceStatement.stmt`;

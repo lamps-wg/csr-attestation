@@ -1210,7 +1210,7 @@ Features of this specification that are not demonstrated by this example are:
 - Multiple EvidenceBundles that each have their own certificate chain.
 
 ~~~
-{::include sampledata/tcgCsrCertify_csr.pem}
+{::include sampledata/tcgAttestTpmCertify.pem}
 ~~~
 
 ## PSA Attestation Token in CSR

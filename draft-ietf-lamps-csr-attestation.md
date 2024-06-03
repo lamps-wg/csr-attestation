@@ -191,31 +191,41 @@ between the Attester and the Verifier is possible.
 Note that the Verifier is a logical role that may be included in the
 RA/CA product. In this case the Relying Party and Verifier collapse into a
 single entity. The Verifier functionality can, however,
-also be kept separate from the RA/CA functionality, such as a utility or
+also be kept separate from the RA functionality, such as a utility or
 library provided by the device manufacturer. For example,
 security concerns may require parsers of Evidence formats to be logically
-or physically separated from the core CA functionality. The interface
+or physically separated from the core RA and CA functionality. The interface
 by which the Relying Party passes Evidence to the Verifier and receives back
 Attestation Results may be proprietary or standardized, but in any case is
 out-of-scope for this document.
 
+The diagram below shows an example data flow where Evidence is included in a
+CSR. The CSR is parsed by the Registration Authority (RA) component of a
+Certification Authority which extracts the Evidence and forwards it to a
+trusted Verifier. The RA receives back an Attestation Result which it uses
+to decide whether this Evidence meets its policy for certificate issuance
+and if it does then the certificate request is forwarded to the Certification
+Authority for issuance. This diagram overlays PKI entities with RATS roles in
+parentheses.
+
 ~~~ aasvg
-                              .-------------.
-                              |             | Compare Evidence
-                              |   Verifier  | against
-                              |             | policy
-                              '--------+----'
-                                   ^   |
-                          Evidence |   | Attestation
-                                   |   | Result
-                                   |   v
- .------------.               .----|----------.
- |            +-------------->|----'          | Compare Attestation
- |  Attester  |   Evidence    | Relying       | Result against
- |  (/w HSM)  |   in CSR      | Party (RA/CA) | policy
- '------------'               '---------------'
+                          .-----------------.
+                          |                 | Compare Evidence
+                          |    (Verifier)   | against Appraisal
+                          |                 | Policy
+                          '------------+----'
+                               ^       |
+                      Evidence |       | Attestation
+                               |       | Result (AR)
+                               |       v
+.------------.            .----|-------|----.                .-----.
+|            +----------->|----'       '--->|--------------->|     |
+| HSM        | Evidence   | Reg. Authority  | Attestation    | CA  |
+| (Attester) | in CSR     | (Relying Party) | Result Meets   |     |
+|            |            |                 | Cert policy?   |     |
+'------------'            '-----------------'                '-----'
 ~~~
-{: #fig-arch title="Architecture with Background Check Model."}
+{: #fig-arch title="Example data flow demonstrating the architecture with Background Check Model."}
 
 As discussed in RFC 9334, different security and privacy aspects need to be
 considered. For example, Evidence may need to be protected against replay and

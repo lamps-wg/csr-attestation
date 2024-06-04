@@ -133,7 +133,7 @@ The certificates typically contain one or more certification paths
 rooted in a device manufacture trust anchor and the leaf certificate being
 on the device in question; the latter is the Attestation Key that signs the Evidence statement.
 
-This document specifies a CSR Attribute (or Extension for Certificate Request Message Format (CRMF) CSRs) for carrying Evidence. Evidence can be placed into an EvidenceStatement along with an OID to identify its type and optionally a hint to the Relying Party about which Verifier (software package) will be capable of parsing it. A set of EvidenceStatements may be grouped together along with the set of CertificateAlternatives needed to validate them to form a EvidenceBundle. One or more EvidenceBundles may be placed into the id-aa-evidence CSR Attribute (or CRFM Extension).
+This document specifies a CSR Attribute (or Extension for Certificate Request Message Format (CRMF) CSRs) for carrying Evidence. Evidence can be placed into an EvidenceStatement along with an OID to identify its type. A set of EvidenceStatements may be grouped together along with the set of CertificateAlternatives needed to validate them to form a EvidenceBundle. One or more EvidenceBundles may be placed into the id-aa-evidence CSR Attribute (or CRFM Extension).
 
 A CSR may contain one or more Evidence payloads, for example Evidence
 asserting the storage properties of a private key as well Evidence
@@ -491,41 +491,11 @@ EvidenceStatements ::= SEQUENCE SIZE (1..MAX) OF EvidenceStatement
 EvidenceStatement ::= SEQUENCE {
    type   EVIDENCE-STATEMENT.&id({EvidenceStatementSet}),
    stmt   EVIDENCE-STATEMENT.&Type({EvidenceStatementSet}{@type}),
-   hint   UTF8String OPTIONAL
+   ...
 }
 ~~~
 
-The type is on OID indicating the format of the data contained in stmt.
-
-The Attester MAY populate the hint with the name of a Verifier software package
-which will be capable of parsing the data contained in `EvidenceStatement.stmt`;
-this is to help the Relying Party select the correct Verifier without requiring
-the Relying Party to perform any parsing of the data in `EvidenceStatement.stmt`.
-The type OID, which identifies the format of the data found in the evidence statement,
-will sometimes be sufficient for a Relying Party to select the correct
-Verifier (software) to invoke, however in some cases the Relying Party
-may have more than one Verifier capable of parsing a given type OID -- for
-example if the OID indicates a wrapper format such as DICE
-ConceptualMessageWrapper which will contain further proprietary data.
-A design goal of this specification is that Relying Parties be able to
-select the correct Verifier (software) without needing to perform any
-parsing of the `EvidenceStatement.stmt` data.
-To help with this, the Attester MAY populate the hint with the name of a
-software package that will be capable of parsing this data.
-The hint SHOULD contain a value which is unique
-to this Verifier, such as a fully qualified domain name (FQDN), a uniform
-resource name (URN) [RFC8141] or a registered value corresponding to this
-evidence format.
-It is assumed that the RP must be pre-configured with a list of trusted
-Verifiers and that the contents of this hint can be used to look up
-the correct Verifier. Under no circumstances must the RP be tricked into
-contacting an unknown and untrusted Verifier since the returned Attestation
-Result must not be relied on.
-
-Usage of the hint field can be seen in the TPM2_attest example in
-{{appdx-tpm2}} where the type OID indicates the OID
-id-TcgAttestCertify, while the hint indicates the the Verifier software
-"tpmverifier.example.com" should be invoked for parsing it.
+The `type` is on OID indicating the format of the data contained in stmt. Note that the `type` OID MAY indicate that `stmt` contains another abstraction layer or wrapper format such as DiceConceptualMessageWrapper or tcg-attest-tpm-certify. In these cases, the RA (Relying Party) MAY need to parse inside the `stmt` in order to determine the contained data format. Such parsing is beyond the scope of this document.
 
 ~~~
 EvidenceBundles ::= SEQUENCE SIZE (1..MAX) OF EvidenceBundle
@@ -867,13 +837,12 @@ The reason for this is that certificates are considered public information and t
 The certificate requester has consented to sharing this detailed device information with the CA but might not consent to having these details published.
 These privacy considerations are beyond the scope of this document and may require additional signaling mechanisms in the CSR to prevent unintended publication of sensitive information, so we leave it as "NOT RECOMMENDED".
 
-## Type OID and verifier hint
+## Type OID
 
-The `EvidenceStatement` includes both a `type` OID and a free form `hint` field with which the Attester can provide information to the Relying Party about which Verifier to invoke to parse a given piece of Evidence.
-Care should be taken when processing these data since at the time they are used, they are not yet verified. In fact, they are protected by the CSR signature but not by the signature from the Attester and so could be maliciously replaced in some cases.
-The authors' intent is that the `type` OID and `hint` will allow an RP to select between Verifier with which it has pre-established trust relationships, such as Verifier libraries that have been compiled in to the RP application.
-As an example, the `hint` may take the form of an FQDN to uniquely identify a Verifier implementation, but the RP MUST NOT blindly make network calls to unknown domain names and trust the results.
-Implementers should also be cautious around `type` OID or `hint` values that cause a short-circuit in the verification logic, such as `None`, `Null`, `Debug`, empty CMW contents, or similar values that could cause the Evidence to appear to be valid when in fact it was not properly checked.
+The `EvidenceStatement` includes a `type` OID with which the Attester can indicate the type of the contained data.
+Care should be taken when processing this data since at the time they are used, they are not yet verified. In fact, they are protected by the CSR signature but not by the signature from the Attester and so could be maliciously replaced in some cases.
+The authors' intent is that the `type` OID will allow an RP to select between Verifiers with which it has pre-established trust relationships, such as Verifier libraries that have been compiled in to the RP application.
+Implementers should also be cautious around `type` OID values that cause a short-circuit in the verification logic, such as `Null`, unrecognized types, empty CMW contents, or similar values that could cause the Evidence to appear to be valid when in fact it was not properly checked. In all cases, the RP SHOULD require a complete attestation result from the verifier that indicates valid evidence that conforms to the given appraisal policy or profile.
 
 --- back
 

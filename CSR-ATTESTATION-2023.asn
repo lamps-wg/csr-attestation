@@ -67,7 +67,7 @@ EvidenceStatements ::= SEQUENCE SIZE (1..MAX) OF EvidenceStatement
 EvidenceStatement ::= SEQUENCE {
    type   EVIDENCE-STATEMENT.&id({EvidenceStatementSet}),
    stmt   EVIDENCE-STATEMENT.&Type({EvidenceStatementSet}{@type}),
-   hint   UTF8String OPTIONAL
+   ...
 }
 
 id-aa-evidence OBJECT IDENTIFIER ::= { id-aa 59 }

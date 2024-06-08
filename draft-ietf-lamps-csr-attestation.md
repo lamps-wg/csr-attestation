@@ -58,6 +58,15 @@ author:
     country: USA
     email: monty.wiseman@beyondidentity.com
 
+contributor:
+  - ins: N. Smith
+    name: Ned Smith
+    org: Intel Corporation
+    country: United States
+    email: ned.smith@intel.com
+    contribution: >
+      Ned Smith contributed DICE examples and review feedback.
+
 normative:
   RFC9334:
   RFC5912:
@@ -1290,10 +1299,20 @@ the result of CBOR encoding the CMW collection shown below
 
 ## TCG DICE ConceptualMessageWrapper in CSR
 
-This section gives an example of extending the ASN.1 module above to carry an existing ASN.1-based evidence statement. The example used is the Trusted Computing Group DICE Attestation Conceptual Message Wrapper, as defined in {{TCGDICE1.1}}.
+This section gives an example of extending the ASN.1 module above to carry an existing ASN.1-based evidence statement.
+The example used is the Trusted Computing Group DICE Attestation Conceptual Message Wrapper, as defined in {{TCGDICE1.1}}.
 
 ~~~
 {::include CSR-ATTESTATION-WITH-DICE-CMW.asn}
+~~~
+
+## TCG DICE ConceptualMessageWrapper in CSR
+
+This section gives an example of extending the ASN.1 module above to carry an existing ASN.1-based evidence statement.
+The example used is the Trusted Computing Group DiceTcbInfo, as defined in {{TCGDICE1.1}}.
+
+~~~
+{::include CSR-ATTESTATION-WITH-DiceTcbInfo.txt}
 ~~~
 
 # Acknowledgments

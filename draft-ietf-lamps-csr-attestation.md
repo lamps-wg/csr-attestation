@@ -449,13 +449,13 @@ transmission overhead.
 
 This document references `id-pkix` and `id-aa`, both defined in {{!RFC5912}}.
 
-This document defines the arc depicted in {{arc-fixme}}
+This document defines the arc depicted in {{code-ata-arc}}
 
 ~~~
 -- Arc for Evidence types
 id-ata OBJECT IDENTIFIER ::= { id-pkix (TBD1) }
 ~~~
-{: #arc-fixme title="Figure Name FixMe1"}
+{: #code-ata-arc title="New OID Arc for PKIX Evidence Statement Formats"}
 
 ## Evidence Attribute and Extension {#sec-evidenceAttr}
 
@@ -475,9 +475,9 @@ EvidenceStatementSet EVIDENCE-STATEMENT ::= {
    ... -- None defined in this document --
 }
 ~~~
-{: #set-fixme title="Figure Name FixMe2"}
+{: #code-EvidenceStatementSet title="Definition of EvidenceStatementSet"}
 
-The expression illustrated in {{set-fixme}} maps ASN.1 Types for Evidence Statements to the OIDs
+The expression illustrated in {{code-EvidenceStatementSet}} maps ASN.1 Types for Evidence Statements to the OIDs
 that identify them. These mappings are are used to construct
 or parse EvidenceStatements. Evidence Statement formats are typically
 defined in other IETF standards, other standards bodies,
@@ -495,9 +495,9 @@ EvidenceStatement ::= SEQUENCE {
    hint   UTF8String OPTIONAL
 }
 ~~~
-{: #sequence-fixme title="Figure Name FixMe3"}
+{: #code-EvidenceStatement title="Definition of EvidenceStatement"}
 
-In {{sequence-fixme}}, type is an OID that indicates the format of the value of stmt.
+In {{code-EvidenceStatement}}, type is an OID that indicates the format of the value of stmt.
 
 The Attester MAY populate the hint with the name of a Verifier software package
 which will be capable of parsing the data contained in `EvidenceStatement.stmt`;
@@ -551,9 +551,9 @@ ext-evidence EXTENSION ::= {
   IDENTIFIED BY id-aa-evidence
 }
 ~~~
-{: #variant-fixme title="Figure Name FixMe4"}
+{: #code-extensions title="Definitions of CSR attribute and extension"}
 
-The Extension variant illustrated in {{variant-fixme}} is intended only for use within CRMF CSRs and MUST NOT be used within X.509 certificates due to the privacy implications of publishing Evidence about the end entity's hardware environment. See {{security-considerations}} for more discussion.
+The Extension variant illustrated in {{code-extensions}} is intended only for use within CRMF CSRs and MUST NOT be used within X.509 certificates due to the privacy implications of publishing Evidence about the end entity's hardware environment. See {{security-considerations}} for more discussion.
 
 The `certs` contains a set of certificates that
 is intended to validate the contents of an Evidence statement
@@ -571,6 +571,8 @@ either mechanism MAY be used for carrying multiple Evidence bundles.
 
 
 ##  CertificateAlternatives
+
+fixme: I am not fixing this because another PR fully removed this section, so in the merge, this should go away.
 
 {{choice-fixme}} shows an ASN.1 CHOICE construct used to represent an encoding of a
 broad variety of certificate types.
@@ -615,6 +617,8 @@ TypedCertSet TYPED-CERT ::= {
       }
 ~~~
 {: #type-fixme title="Figure Name FixMe6"}
+
+fixme: I am not fixing this because another PR fully removed this section, so in the merge, this should go away.
 
 Figure {{type-fixme}} illustrates "TypedFlatCert" representing a certificate that does not have a valid ASN.1
 encoding.

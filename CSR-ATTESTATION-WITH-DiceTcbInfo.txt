@@ -1,0 +1,59 @@
+﻿// SET of CSR Attributes
+A0 82 00 8E
+  // CSR attributes
+  30 82 00 8A
+    // OBJECT IDENTIFIER id-aa-evidence (1 2 840 113549 1 9 16 2 59)
+    06 0B 2A 86 48 86 F7 0D 01 09 10 02 3B
+      // SET -- This attribute
+      31 79
+        // EvidenceBundles ::= SEQUENCE SIZE (1..MAX) OF EvidenceBundle
+        30 77
+          // EvidenceBundle ::= SEQUENCE
+          30 75
+            // EvidenceStatements ::= SEQUENCE SIZE (1..MAX) OF EvidenceStatement
+            30 73
+              // EvidenceStatement ::= SEQUENCE
+              30 71
+                // type: OBJECT IDENTIFIER tcg-dice-TcbInfo (2.23.133.5.4.1)
+                06 06 67 81 05 05 04 01
+                // stmt: SEQUENCE
+                30 4E
+                  // CONTEXT_SPECIFIC | version (02)
+                  // version = ABCDEF123456
+                  82 0C 41 42 43 44 45 46 31 32 33 34 35 36
+                  // CONTEXT_SPECIFIC | svn (03)
+                  // svn = 4
+                  83 01 04
+                  // CONTEXT_SPECIFIC | CONSTRUCTED | fwids (06)
+                  A6 2F
+                  // SEQUENCE
+                  30 2D
+                    // OBJECT IDENTIFIER SHA256
+                    06 09 60 86 48 01 65 03 04 02 01
+                    // OCTET STRING
+                    // fwid = 0x0000....00
+                    04 20 00 00 00 00 00 00 00 00
+                    00 00 00 00 00 00 00 00
+                    00 00 00 00 00 00 00 00
+                    00 00 00 00 00 00 00 00
+                  // CONTEXT_SPECIFIC | vendorInfo (08)
+                  // vendor info = 0x00000000
+                  88 04 00 00 00 00
+                  // CONTEXT_SPECIFIC | type (09)
+                  // type = 0x00000000
+                  89 04 00 00 00 00
+                // hint: UTF8STRING "DiceTcbInfo.example.com"
+                0C 17 44 69 63 65 54 63 62 49 6e 66 6f
+                2e 65 78 61 6d 70 6c 65 2e 63 6f 6d
+
+// BER only
+A0 82 00 8E 30 82 00 8A 06 0B 2A 86 48 86 F7 0D 
+01 09 10 02 3B 30 7B 31 79 30 77 30 75 30 73 30 
+71 06 06 67 81 05 05 04 01 30 4E 82 0C 41 42 43 
+44 45 46 31 32 33 34 35 36 83 01 04 A6 2F 30 2D 
+06 09 60 86 48 01 65 03 04 02 01 04 20 00 00 00 
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+00 00 00 00 00 00 00 00 00 00 00 00 00 88 04 00 
+00 00 00 89 04 00 00 00 00 0C 17 44 69 63 65 54 
+63 62 49 6e 66 6f 2e 65 78 61 6d 70 6c 65 2e 63 
+6f 6d

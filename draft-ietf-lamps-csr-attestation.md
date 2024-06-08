@@ -122,6 +122,7 @@ Including Evidence along with a CSR can help to improve the assessment of the se
 # Changes in version -10
 Addressing comments from WGLC.
 
+* Editorial and grammar.
 * Updated name and value of OID tcg-attest-tpm-certify, as per TCG request.
 * Added appendix "B.2. TCG DICE ConceptualMessageWrapper in CSR".
 * Updated main architecture diagram to separate RA and CA roles.

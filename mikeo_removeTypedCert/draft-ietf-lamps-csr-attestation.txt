@@ -5,12 +5,12 @@
 Network Working Group                                       M. Ounsworth
 Internet-Draft                                                   Entrust
 Intended status: Standards Track                           H. Tschofenig
-Expires: 10 December 2024                                        Siemens
+Expires: 19 December 2024                                        Siemens
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                               M. Wiseman
                                                          Beyond Identity
-                                                             8 June 2024
+                                                            17 June 2024
 
 
      Use of Remote Attestation with Certification Signing Requests
@@ -66,7 +66,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 10 December 2024.
+   This Internet-Draft will expire on 19 December 2024.
 
 Copyright Notice
 
@@ -377,11 +377,10 @@ Table of Contents
     +--------+-----------+
              |
              |           (1 or more) +-------------------------+
-             |         +-------------+ CertificateAlternatives |
+             |         +-------------+ CertificateChoices      |
              |         |             +-------------------------+
              |         |             | Certificate OR          |
-             |         |             | TypedCert   OR          |
-             |         |             | TypedFlatCert           |
+             |         |             | OtherCertificateFormat  |
       (1 or  |         |             +-------------------------+
        more) |         |      (1 or
     +--------+---------+-+     more) +-------------------+
@@ -1030,9 +1029,9 @@ Table of Contents
    [I-D.ietf-rats-msg-wrap]
               Birkholz, H., Smith, N., Fossati, T., and H. Tschofenig,
               "RATS Conceptual Messages Wrapper (CMW)", Work in
-              Progress, Internet-Draft, draft-ietf-rats-msg-wrap-04, 27
-              February 2024, <https://datatracker.ietf.org/doc/html/
-              draft-ietf-rats-msg-wrap-04>.
+              Progress, Internet-Draft, draft-ietf-rats-msg-wrap-05, 13
+              June 2024, <https://datatracker.ietf.org/doc/html/draft-
+              ietf-rats-msg-wrap-05>.
 
    [I-D.ietf-rats-tpm-based-network-device-attest]
               Fedorkow, G., Voit, E., and J. Fitzgerald-McKay, "TPM-

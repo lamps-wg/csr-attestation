@@ -5,12 +5,12 @@
 Network Working Group                                       M. Ounsworth
 Internet-Draft                                                   Entrust
 Intended status: Standards Track                           H. Tschofenig
-Expires: 11 December 2024                                        Siemens
+Expires: 19 December 2024                                        Siemens
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                               M. Wiseman
                                                          Beyond Identity
-                                                             9 June 2024
+                                                            17 June 2024
 
 
      Use of Remote Attestation with Certification Signing Requests
@@ -67,7 +67,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 11 December 2024.
+   This Internet-Draft will expire on 19 December 2024.
 
 Copyright Notice
 
@@ -109,6 +109,7 @@ Table of Contents
      8.1.  Freshness
      8.2.  Publishing evidence in an X.509 extension
      8.3.  Type OID and verifier hint
+     8.4.  Addtional security considerations
    9.  References
      9.1.  Normative References
      9.2.  Informative References
@@ -645,7 +646,7 @@ Table of Contents
    The Extension variant illustrated in Figure 11 is intended only for
    use within CRMF CSRs and MUST NOT be used within X.509 certificates
    due to the privacy implications of publishing Evidence about the end
-   entity's hardware environment.  See Section 8 for more discussion.
+   entity's hardware environment.  See Section 8.2 for more discussion.
 
    The certs field contains a set of certificates that is intended to
    validate the contents of an Evidence statement contained in evidence,
@@ -986,15 +987,15 @@ Table of Contents
    nonces requires that nonce to be provided by the Relying Party in
    some protocol step prior to Evidence and CSR generation, and the use
    of timestamps requires synchronized clocks which cannot be guaranteed
-   in all operating environments.  Epochs also require (unidirectional)
-   communication prior to Evidence and CSR generation.  This document
-   only specifies how to carry existing Evidence formats inside a CSR,
-   and so issues of synchronizing freshness data is left to be handled,
-   for example, via certificate management protocols.  Developers,
-   operators, and designers of protocols, which embed Evidence-carrying-
-   CSRs, MUST consider what notion of freshness is appropriate and
-   available in-context; thus the issue of freshness is left up to the
-   discretion of protocol designers and implementers.
+   in all operating environments.  Epochs also require an out-of-band
+   communication channel.  This document only specifies how to carry
+   existing Evidence formats inside a CSR, and so issues of
+   synchronizing freshness data is left to be handled, for example, via
+   certificate management protocols.  Developers, operators, and
+   designers of protocols, which embed Evidence-carrying-CSRs, MUST
+   consider what notion of freshness is appropriate and available in-
+   context; thus the issue of freshness is left up to the discretion of
+   protocol designers and implementers.
 
    In the case of Hardware Security Modules (HSM), the definition of
    "fresh" is somewhat ambiguous in the context of CSRs, especially
@@ -1013,19 +1014,19 @@ Table of Contents
 
 8.2.  Publishing evidence in an X.509 extension
 
-   This document specifies and Extension for carrying Evidence in a CRMF
+   This document specifies an Extension for carrying Evidence in a CRMF
    Certificate Signing Request (CSR), but it is intentionally NOT
-   RECOMMENDED for a CA to copy the ext-evidence or ext-evidenceCerts
-   extensions into the published certificate.  The reason for this is
-   that certificates are considered public information and the Evidence
-   might contain detailed information about hardware and patch levels of
-   the device on which the private key resides.  The certificate
-   requester has consented to sharing this detailed device information
-   with the CA but might not consent to having these details published.
-   These privacy considerations are beyond the scope of this document
-   and may require additional signaling mechanisms in the CSR to prevent
-   unintended publication of sensitive information, so we leave it as
-   "NOT RECOMMENDED".
+   RECOMMENDED for a CA to copy the ext-evidence extension into the
+   published certificate.  The reason for this is that certificates are
+   considered public information and the Evidence might contain detailed
+   information about hardware and patch levels of the device on which
+   the private key resides.  The certificate requester has consented to
+   sharing this detailed device information with the CA but might not
+   consent to having these details published.  These privacy
+   considerations are beyond the scope of this document and may require
+   additional signaling mechanisms in the CSR to prevent unintended
+   publication of sensitive information, so we leave it as "NOT
+   RECOMMENDED".
 
 8.3.  Type OID and verifier hint
 
@@ -1048,9 +1049,26 @@ Table of Contents
    could cause the Evidence to appear to be valid when in fact it was
    not properly checked.
 
+8.4.  Addtional security considerations
+
+   In addition to the securtiy considerations listed here, implementers
+   should be familiar with the security considerations of the
+   specifications on this this depends: PKCS#10 [RFC2986], CRMF [4211],
+   as well as general security concepts relating to evidence and remote
+   attestation; many of these concepts are discussed in the Remote
+   ATtestation prodedureS (RATS) Architecture [RFC9334] sections 6 Roles
+   and Entities, 7 Trust Model, 9 Freshness, 11 Privacy Considerations,
+   and 12 Security Considerations.  Implementers should also be aware of
+   any security considerations relating to the specific evidence format
+   being carried withinin the CSR.
+
 9.  References
 
 9.1.  Normative References
+
+   [ASN1-2002]
+              ITU-T, "ITU-T Recommendation X.680, X.681, X.682, and
+              X.683", 2002.
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -1103,9 +1121,9 @@ Table of Contents
    [I-D.ietf-rats-msg-wrap]
               Birkholz, H., Smith, N., Fossati, T., and H. Tschofenig,
               "RATS Conceptual Messages Wrapper (CMW)", Work in
-              Progress, Internet-Draft, draft-ietf-rats-msg-wrap-04, 27
-              February 2024, <https://datatracker.ietf.org/doc/html/
-              draft-ietf-rats-msg-wrap-04>.
+              Progress, Internet-Draft, draft-ietf-rats-msg-wrap-05, 13
+              June 2024, <https://datatracker.ietf.org/doc/html/draft-
+              ietf-rats-msg-wrap-05>.
 
    [I-D.ietf-rats-tpm-based-network-device-attest]
               Fedorkow, G., Voit, E., and J. Fitzgerald-McKay, "TPM-
@@ -1166,7 +1184,7 @@ Appendix A.  Examples
    Architecture token, which provides claims about the used hardware and
    software platform, into the CSR.
 
-   After publicatian of this document, additional examples and sample
+   After publication of this document, additional examples and sample
    data will be collected at the following GitHub repository
    [SampleData]:
 

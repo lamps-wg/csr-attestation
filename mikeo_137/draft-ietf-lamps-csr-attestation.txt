@@ -1009,10 +1009,10 @@ Table of Contents
    considerations are beyond the scope of this document and may require
    additional signaling mechanisms in the CSR to prevent unintended
    publication of sensitive information, so we leave it as "NOT
-   RECOMMENDED".  The authors suggest that the correct layer at which to
-   address this is either in certificate profiles, or in the protocol or
-   application that carries the CSR to the RA/CA where a flag can be
-   added indicating whether the RA/CA should consider the evidence to be
+   RECOMMENDED".  Often, the correct layer at which to address this is
+   either in certificate profiles, or in the protocol or application
+   that carries the CSR to the RA/CA where a flag can be added
+   indicating whether the RA/CA should consider the evidence to be
    public or private.
 
 8.3.  Type OID and verifier hint

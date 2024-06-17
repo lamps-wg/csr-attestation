@@ -72,6 +72,11 @@ normative:
   RFC5912:
   RFC4211:
   RFC2986:
+  ASN1-2002:
+    author:
+      org: ITU-T
+    title: "ITU-T Recommendation X.680, X.681, X.682, and X.683"
+    date: 2002
 
 informative:
   RFC8126:
@@ -582,7 +587,7 @@ ext-evidence EXTENSION ::= {
 ~~~
 {: #code-extensions title="Definitions of CSR attribute and extension"}
 
-The Extension variant illustrated in {{code-extensions}} is intended only for use within CRMF CSRs and MUST NOT be used within X.509 certificates due to the privacy implications of publishing Evidence about the end entity's hardware environment. See {{security-considerations}} for more discussion.
+The Extension variant illustrated in {{code-extensions}} is intended only for use within CRMF CSRs and MUST NOT be used within X.509 certificates due to the privacy implications of publishing Evidence about the end entity's hardware environment. See {{sec-con-publishing-x509}} for more discussion.
 
 The `certs` field contains a set of certificates that
 is intended to validate the contents of an Evidence statement
@@ -872,8 +877,8 @@ providing freshness, including a nonce-based approach, the use of timestamps
 and an epoch-based technique.  The use of nonces requires that nonce to be provided by
 the Relying Party in some protocol step prior to Evidence and CSR generation,
 and the use of timestamps requires synchronized clocks which cannot be
-guaranteed in all operating environments. Epochs also require (unidirectional)
-communication prior to Evidence and CSR generation.
+guaranteed in all operating environments. Epochs also require an out-of-band
+communication channel.
 This document only specifies how to carry existing Evidence formats inside a CSR,
 and so issues of synchronizing freshness data is left to be handled, for example,
 via certificate management protocols.
@@ -896,9 +901,9 @@ non-exportable, then it can be assumed that those properties of that key
 will continue to hold into the future.
 
 
-## Publishing evidence in an X.509 extension
+## Publishing evidence in an X.509 extension {#sec-con-publishing-x509}
 
-This document specifies and Extension for carrying Evidence in a CRMF Certificate Signing Request (CSR), but it is intentionally NOT RECOMMENDED for a CA to copy the ext-evidence or ext-evidenceCerts extensions into the published certificate.
+This document specifies an Extension for carrying Evidence in a CRMF Certificate Signing Request (CSR), but it is intentionally NOT RECOMMENDED for a CA to copy the ext-evidence extension into the published certificate.
 The reason for this is that certificates are considered public information and the Evidence might contain detailed information about hardware and patch levels of the device on which the private key resides.
 The certificate requester has consented to sharing this detailed device information with the CA but might not consent to having these details published.
 These privacy considerations are beyond the scope of this document and may require additional signaling mechanisms in the CSR to prevent unintended publication of sensitive information, so we leave it as "NOT RECOMMENDED".
@@ -911,6 +916,10 @@ The authors' intent is that the `type` OID and `hint` will allow an RP to select
 As an example, the `hint` may take the form of an FQDN to uniquely identify a Verifier implementation, but the RP MUST NOT blindly make network calls to unknown domain names and trust the results.
 Implementers should also be cautious around `type` OID or `hint` values that cause a short-circuit in the verification logic, such as `None`, `Null`, `Debug`, empty CMW contents, or similar values that could cause the Evidence to appear to be valid when in fact it was not properly checked.
 
+## Addtional security considerations
+
+In addition to the securtiy considerations listed here, implementers should be familiar with the security considerations of the specifications on this this depends: PKCS#10 [RFC2986], CRMF [4211], as well as general security concepts relating to evidence and remote attestation; many of these concepts are discussed in the Remote ATtestation prodedureS (RATS) Architecture [RFC9334] sections 6 Roles and Entities, 7 Trust Model, 9 Freshness, 11 Privacy Considerations, and 12 Security Considerations. Implementers should also be aware of any security considerations relating to the specific evidence format being carried withinin the CSR.
+
 --- back
 
 
@@ -922,7 +931,7 @@ The second example conveys an Arm Platform Security Architecture token,
 which provides claims about the used hardware and software platform,
 into the CSR.
 
-After publicatian of this document, additional examples and sample data will
+After publication of this document, additional examples and sample data will
 be collected at the following GitHub repository {{SampleData}}:
 
 https://github.com/lamps-wg/csr-attestation-examples

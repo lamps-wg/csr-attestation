@@ -323,11 +323,10 @@ certificates.
  +--------+-----------+
           |
           |           (1 or more) +-------------------------+
-          |         +-------------+ CertificateAlternatives |
+          |         +-------------+ CertificateChoices      |
           |         |             +-------------------------+
           |         |             | Certificate OR          |
-          |         |             | TypedCert   OR          |
-          |         |             | TypedFlatCert           |
+          |         |             | OtherCertificateFormat  |
    (1 or  |         |             +-------------------------+
     more) |         |      (1 or
  +--------+---------+-+     more) +-------------------+

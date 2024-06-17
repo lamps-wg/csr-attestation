@@ -1,0 +1,3499 @@
+<!DOCTYPE html>
+<html lang="en" class="Internet-Draft">
+<head>
+<meta charset="utf-8">
+<meta content="Common,Latin" name="scripts">
+<meta content="initial-scale=1.0" name="viewport">
+<title>Use of Remote Attestation with Certification Signing Requests</title>
+<meta content="Mike Ounsworth" name="author">
+<meta content="Hannes Tschofenig" name="author">
+<meta content="Henk Birkholz" name="author">
+<meta content="Monty Wiseman" name="author">
+<meta content="
+       A PKI end entity requesting a certificate from a Certification Authority (CA) may wish to offer believable claims about the protections afforded to the corresponding private key, such as whether the private key resides on a hardware security module or the protection capabilities provided by the hardware. 
+       This document defines a new PKCS#10 attribute attr-evidence and CRMF extension ext-evidence that allows placing any Evidence data, in any pre-existing format, along with any certificates needed to validate it, into a PKCS#10 or CRMF CSR. 
+       Including Evidence along with a CSR can help to improve the assessment of the security posture for the private key, and the trustworthiness properties of the submitted key to the requested certificate profile. These Evidence Claims can include information about the hardware component's manufacturer, the version of installed or running firmware, the version of software installed or running in layers above the firmware, or the presence of hardware components providing specific protection capabilities or shielded locations (e.g., to protect keys). 
+    " name="description">
+<meta content="xml2rfc 3.21.0" name="generator">
+<meta content="PKI" name="keyword">
+<meta content="PKCS#10" name="keyword">
+<meta content="CRMF" name="keyword">
+<meta content="Attestation" name="keyword">
+<meta content="Evidence" name="keyword">
+<meta content="Certificate Signing Requests" name="keyword">
+<meta content="draft-ietf-lamps-csr-attestation-latest" name="ietf.draft">
+<!-- Generator version information:
+  xml2rfc 3.21.0
+    Python 3.12.3
+    ConfigArgParse 1.7
+    google-i18n-address 3.1.0
+    intervaltree 3.1.0
+    Jinja2 3.1.4
+    lxml 4.9.4
+    platformdirs 4.2.2
+    pycountry 22.3.5
+    PyYAML 6.0.1
+    requests 2.31.0
+    setuptools 69.5.1
+    six 1.16.0
+    wcwidth 0.2.13
+-->
+<link href="draft-ietf-lamps-csr-attestation.xml" rel="alternate" type="application/rfc+xml">
+<link href="#copyright" rel="license">
+<style type="text/css">@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-vietnamese.woff2') format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-cyrillic.woff2') format('woff2');
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-vietnamese.woff2') format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-cyrillic.woff2') format('woff2');
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-vietnamese.woff2') format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: local('Lora SemiBold'), local('Lora-SemiBold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-semibold-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Cabin Condensed';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: local('Cabin Condensed SemiBold'), local('CabinCondensed-SemiBold'), url('https://martinthomson.github.io/rfc-css/fonts/cabincondensed-semibold-vietnamese.woff2') format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
+}
+@font-face {
+  font-family: 'Cabin Condensed';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: local('Cabin Condensed SemiBold'), local('CabinCondensed-SemiBold'), url('https://martinthomson.github.io/rfc-css/fonts/cabincondensed-semibold-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Cabin Condensed';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: local('Cabin Condensed SemiBold'), local('CabinCondensed-SemiBold'), url('https://martinthomson.github.io/rfc-css/fonts/cabincondensed-semibold-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Oxygen Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Oxygen Mono'), local('OxygenMono-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/oxygenmono-regular-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Oxygen Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Oxygen Mono'), local('OxygenMono-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/oxygenmono-regular-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+:root {
+  color-scheme: light dark;
+  --background-color: #fff;
+  --text-color: #222;
+  --title-color: #191919;
+  --link-color: #2a6496;
+  --highlight-color: #f9f9f9;
+  --line-color: #eee;
+  --pilcrow-weak: #ddd;
+  --pilcrow-strong: #bbb;
+  --small-font-size: 14.5px;
+  --font-mono: 'Oxygen Mono', monospace;
+  scrollbar-color: #bbb #eee;
+}
+body {
+  max-width: 600px;
+  margin: 75px auto;
+  padding: 0 5px;
+  color: var(--text-color);
+  background-color: var(--background-color);
+  font: 16px/22px "Lora", serif;
+  scroll-behavior: smooth;
+}
+
+.ears {
+  display: none;
+}
+
+/* headings */
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Cabin Condensed", sans-serif;
+  font-weight: 600;
+  margin: 0.8em 0 0.3em;
+  font-size-adjust: 0.5;
+  color: var(--title-color);
+}
+h1#title {
+  font-size: 32px;
+  line-height: 40px;
+  clear: both;
+}
+h1#title, h1#rfcnum {
+  margin: 1.5em 0 0.2em;
+}
+h1#rfcnum + h1#title {
+  margin: 0.2em 0;
+}
+
+h1, h2, h3 {
+  font-size: 22px;
+  line-height: 27px;
+}
+h4, h5, h6 {
+  font-size: 20px;
+  line-height: 24px;
+}
+
+/* general structure */
+.author {
+  padding-bottom: 0.3em;
+}
+#abstract+p {
+  font-size: 18px;
+  line-height: 24px;
+}
+#abstract+p code, #abstract+p samp, #abstract+p tt {
+  font-size: 16px;
+  line-height: 0;
+}
+
+p {
+  padding: 0;
+  margin: 0.5em 0;
+  text-align: left;
+}
+div {
+  margin: 0;
+}
+.alignRight.art-text {
+  background-color: var(--highlight-color);
+  border: 1px solid var(--line-color);
+  border-radius: 3px;
+  padding: 0.5em 1em 0;
+  margin-bottom: 0.5em;
+}
+.alignRight.art-text pre {
+  padding: 0;
+  width: auto;
+}
+.alignRight {
+  margin: 1em 0;
+}
+.alignRight > *:first-child {
+  border: none;
+  margin: 0;
+  float: right;
+  clear: both;
+}
+.alignRight > *:nth-child(2) {
+  clear: both;
+  display: block;
+  border: none;
+}
+svg {
+  display: block;
+}
+/* font-family isn't space-separated, but =~ will have to do */
+svg[font-family~="monospace" i], svg [font-family~="monospace" i] {
+  font-family: var(--font-mono);
+}
+.alignCenter.art-text {
+  background-color: var(--highlight-color);
+  border: 1px solid var(--line-color);
+  border-radius: 3px;
+  padding: 0.5em 1em 0;
+  margin-bottom: 0.5em;
+}
+.alignCenter.art-text pre {
+  padding: 0;
+  width: auto;
+}
+.alignCenter {
+  margin: 1em 0;
+}
+.alignCenter > *:first-child {
+  border: none;
+  /* this isn't optimal, but it's an existence proof.  PrinceXML doesn't
+     support flexbox yet.
+  */
+  display: table;
+  margin: 0 auto;
+}
+
+/* lists */
+ol, ul {
+  padding: 0;
+  margin: 0 0 0.5em 2em;
+}
+:is(ol, ul) :is(ol, ul) {
+  margin-left: 1em;
+}
+li {
+  margin: 0 0 0.25em 0;
+}
+.ulCompact li {
+  margin: 0;
+}
+ul.empty, .ulEmpty {
+  list-style-type: none;
+}
+ul.empty li, .ulEmpty li {
+  margin-top: 0.5em;
+}
+:is(ul, ol).compact, .ulCompact, .olCompact {
+  line-height: 1;
+  margin: 0 0 0 2em;
+}
+
+/* definition lists */
+dl {
+  clear: left;
+  --indent: 3ch;
+  /* --indent: attr(indent ch); not supported in any browser, but we can dream */
+}
+dl.olPercent {
+  --indent: 5ch;
+}
+dl > dt {
+  float: left;
+  margin-right: 2ch;
+  min-width: 8ch;
+}
+dl.dlNewline > dt {
+  float: none;
+}
+dl > dd {
+  margin-bottom: .8em;
+  margin-left: var(--indent) !important; /* stupid element overrides */
+  min-height: 2ex;
+}
+dl.olPercent > dt {
+  min-width: calc(var(--indent) - 2ch);
+}
+:is(dl.compact, .dlCompact) > dd {
+  margin-bottom: 0;
+}
+:is(dl.compact, .dlCompact) > dd > :is(:first-child, .break:first-child + *) {
+  margin-top: 0;
+}
+:is(dl.compact, .dlCompact) > dd > :is(:last-child) {
+  margin-bottom: 0;
+}
+dl > dd > dl {
+  margin-top: 0.5em;
+  margin-bottom: 0;
+}
+:is(dd, span).break {
+  display: none;
+}
+
+/* links */
+a, a[href].selfRef:hover {
+  text-decoration: none;
+}
+a[href] {
+  color: var(--link-color);
+}
+a[href].selfRef, .iref + a[href].internal {
+  color: var(--text-color);
+}
+a[href]:hover {
+  text-decoration: underline;
+}
+a[href].selfRef:hover {
+  background-color: var(--highlight-color);
+}
+a.xref:is(.cite, .auto), :is(#status-of-memo, #copyright) a {
+  white-space: nowrap;
+}
+
+/* Figures */
+tt, code, pre {
+  background-color: var(--highlight-color);
+  font: 14px/22px var(--font-mono);
+}
+tt, code {
+  /* changing the font for inline elements leads to different ascender
+     and descender heights; as we want to retain baseline alignment,
+     remove leading to avoid altering the final height of lines
+     note: this fails if these blocks take an entire line,
+     a different solution would be great */
+  line-height: 0;
+}
+:is(h1, h2, h3, h4, h5, h6) :is(tt, code) {
+  font-size: 84%;
+}
+pre {
+  border: 1px solid var(--line-color);
+  font-size: 13.5px;
+  line-height: 16px;
+  letter-spacing: -0.2px;
+  margin: 5px;
+  padding: 5px;
+}
+img {
+  max-width: 100%;
+}
+figure {
+  margin: 0.5em 0;
+  padding: 0;
+}
+figure blockquote {
+  margin: 0.8em 0.4em 0.4em;
+}
+figcaption, caption {
+  font-style: italic;
+  margin: 0.5em 1.5em;
+  text-align: left;
+}
+@media screen {
+  /* Auto-collapse boilerplate. */
+  :is(#status-of-memo, #copyright) p {
+    margin: -2px 0;
+    max-height: 0;
+    transition: max-height 2s ease, margin 0.5s ease 0.5s;
+    overflow: hidden;
+  }
+  :is(#status-of-memo, #copyright):hover p,
+  :is(#status-of-memo, #copyright) h2:target ~ p {
+    margin: 0.5em 0;
+    max-height: 500px;
+    overflow: auto;
+  }
+  pre, svg {
+    display: inline-block;
+    overflow-x: auto;
+  }
+  pre {
+    max-width: 100%;
+    width: calc(100% - 22px - 1em);
+  }
+  svg {
+    max-width: calc(100% - 22px - 1em);
+  }
+  figure pre {
+    display: block;
+    width: calc(100% - 25px);
+  }
+  :is(pre, svg) + .pilcrow {
+    display: inline-block;
+    vertical-align: text-bottom;
+    padding-bottom: 8px;
+  }
+}
+
+/* aside, blockquote */
+aside, blockquote {
+  margin-left: 0;
+  padding: 0 2em;
+  font-style: italic;
+}
+blockquote {
+  margin: 1em 0;
+}
+cite {
+  display: block;
+  text-align: right;
+  font-style: italic;
+}
+
+/* tables */
+table {
+  max-width: 100%;
+  margin: 0 0 1em;
+  border-collapse: collapse;
+}
+table.right {
+  margin-left: auto;
+}
+table.center {
+  margin-left: auto;
+  margin-right: auto;
+}
+table.left {
+  margin-right: auto;
+}
+thead, tbody {
+  border: 1px solid var(--line-color);
+}
+th, td {
+  text-align: left;
+  vertical-align: top;
+  padding: 5px 10px;
+}
+th {
+  background-color: var(--line-color);
+}
+:is(tr:nth-child(2n), thead+tbody > tr:nth-child(2n+1)) > td {
+  background-color: var(--background-color);
+}
+:is(tr:nth-child(2n+1), thead+tbody > tr:nth-child(2n)) > td {
+  background-color: var(--highlight-color);
+}
+table caption {
+  margin: 0;
+  padding: 3px 0 3px 1em;
+}
+table p {
+  margin: 0;
+}
+
+/* pilcrow */
+a.pilcrow {
+  margin-left: 3px;
+  opacity: 0.2;
+  user-select: none;
+}
+a.pilcrow[href] { color: var(--pilcrow-weak); }
+a.pilcrow[href]:hover { text-decoration: none; }
+@media not print {
+  :hover > a.pilcrow {
+    opacity: 1;
+  }
+  a.pilcrow[href]:hover {
+    color: var(--pilcrow-strong);
+    background-color: transparent;
+  }
+}
+@media print {
+  a.pilcrow {
+    display: none;
+  }
+}
+
+/* misc */
+hr {
+  border: 0;
+  border-top: 1px solid var(--line-color);
+}
+.bcp14 {
+  font-variant: small-caps;
+  font-weight: 600;
+  font-size: var(--small-font-size);
+}
+.role {
+  font-variant: all-small-caps;
+}
+sub, sup {
+  line-height: 1;
+  font-size: 80%;
+}
+
+/* info block */
+#identifiers {
+  margin: 0;
+  font-size: var(--small-font-size);
+  line-height: 18px;
+  --identifier-width: 15ch;
+}
+#identifiers dt {
+  width: var(--identifier-width);
+  min-width: var(--identifier-width);
+  clear: left;
+  float: left;
+  text-align: right;
+  margin-right: 1ch;
+}
+#identifiers dd {
+  margin: 0;
+  margin-left: calc(1em + var(--identifier-width)) !important;
+  min-width: 5em;
+}
+#identifiers .authors .author {
+  display: inline-block;
+  margin-right: 1.5em;
+}
+#identifiers .authors .org {
+  font-style: italic;
+}
+
+/* The prepared/rendered info at the very bottom of the page */
+.docInfo {
+  color: #999;
+  font-size: 0.9em;
+  font-style: italic;
+  margin-top: 2em;
+}
+.docInfo .prepared {
+  float: left;
+}
+.docInfo .prepared {
+  float: right;
+}
+
+/* table of contents */
+#toc {
+  padding: 0.75em 0 2em 0;
+  margin-bottom: 1em;
+}
+#toc nav ul {
+  margin: 0 0.5em 0 0;
+  padding: 0;
+  list-style: none;
+}
+#toc nav li {
+  line-height: 1.3em;
+  margin: 2px 0;
+  padding-left: 1.2em;
+  text-indent: -1.2em;
+}
+#toc a.xref {
+  white-space: normal;
+}
+/* references */
+.references dt {
+  text-align: right;
+  font-weight: bold;
+  min-width: 10ch;
+  margin-right: 1.5ch;
+}
+.references dt:target::before {
+  content: "⇒";
+  width: 15px;
+  margin: 0 10px 0 -25px;
+}
+.references dd {
+  margin-left: 12ch !important;
+  overflow: auto;
+}
+
+.refInstance {
+  margin-bottom: 1.25em;
+}
+
+.references .ascii {
+  margin-bottom: 0.25em;
+}
+
+/* index */
+#rfc\.index\.index + ul {
+  margin-left: 0;
+}
+
+/* authors */
+address.vcard {
+  font-style: normal;
+  margin: 1em 0;
+}
+address.vcard .nameRole {
+  font-weight: 700;
+  margin-left: 0;
+}
+address.vcard .label {
+  margin: 0.5em 0;
+}
+address.vcard .type {
+  display: none;
+}
+.alternative-contact {
+  margin: 1.5em 0 1em;
+}
+hr.addr {
+  border-top: 1px dashed;
+  margin: 0;
+  color: #ddd;
+  max-width: calc(100% - 16px);
+}
+@media (min-width: 500px) {
+  #authors-addresses > section {
+    column-count: 2;
+    column-gap: 20px;
+  }
+  #authors-addresses > section > h2 {
+    column-span: all;
+  }
+  /* hack for break-inside: avoid-column */
+  #authors-addresses address {
+    display: inline-block;
+    break-inside: avoid-column;
+  }
+}
+
+.rfcEditorRemove p:first-of-type {
+  font-style: italic;
+}
+.cref {
+  background-color: rgba(249, 232, 105, 0.3);
+  padding: 2px 4px;
+}
+.crefSource {
+  font-style: italic;
+}
+/* alternative layout for smaller screens */
+@media screen and (max-width: 929px) {
+  #toc {
+    position: fixed;
+    z-index: 2;
+    top: 0;
+    right: 0;
+    padding: 1px 0 0 0;
+    margin: 0;
+    border-bottom: 1px solid #ccc;
+    opacity: 0.6;
+  }
+  #toc.active {
+      opacity: 1;
+  }
+  #toc h2 {
+    margin: 0;
+    padding: 2px 0 2px 6px;
+    padding-right: 1em;
+    font-size: 18px;
+    line-height: 24px;
+    min-width: 190px;
+    text-align: right;
+    background-color: #444;
+    color: white;
+    cursor: pointer;
+  }
+  #toc h2::before { /* css hamburger */
+    float: right;
+    position: relative;
+    width: 1em;
+    height: 1px;
+    left: -164px;
+    margin: 8px 0 0 0;
+    background: white none repeat scroll 0 0;
+    box-shadow: 0 4px 0 0 white, 0 8px 0 0 white;
+    content: "";
+  }
+  #toc nav {
+    display: none;
+    background-color: var(--background-color);
+    padding: 0.5em 1em 1em;
+    overflow: auto;
+    overscroll-behavior: contain;
+    height: calc(100vh - 48px);
+    border-left: 1px solid #ddd;
+  }
+  #toc.active nav {
+    display: block;
+  }
+  /* Make the collapsed ToC header render white on gray also when it's a link */
+  #toc h2 a,
+  #toc h2 a:link,
+  #toc h2 a:focus,
+  #toc h2 a:hover,
+  #toc a.toplink,
+  #toc a.toplink:hover {
+    color: white;
+    background-color: #444;
+    text-decoration: none;
+  }
+  #toc a.toplink {
+    margin-top: 2px;
+  }
+}
+
+/* alternative layout for wide screens */
+@media screen and (min-width: 930px) {
+  body {
+    padding-right: 360px;
+    padding-right: calc(min(180px + 20%, 500px));
+  }
+  #toc {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    right: calc(50vw - 480px);
+    width: 312px;
+    margin: 0;
+    padding: 0;
+    z-index: 1;
+  }
+  #toc h2 {
+    margin: 0;
+    padding: 0.25em 1em 1em 0;
+  }
+  #toc nav {
+    display: block;
+    height: calc(90vh - 84px);
+    bottom: 0;
+    padding: 0.5em 0 2em;
+    overflow: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+  }
+  #toc nav > ul  {
+    margin-bottom: 2em;
+  }
+  #toc ul {
+    margin: 0 0 0 4px;
+    font-size: var(--small-font-size);
+  }
+  #toc ul :is(p, li) {
+    margin: 2px 0;
+    line-height: 22px;
+  }
+  img { /* future proofing */
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+/* pagination */
+@media print {
+  body {
+    width: 100%;
+  }
+  p {
+    orphans: 3;
+    widows: 3;
+  }
+  #n-copyright-notice {
+    border-bottom: none;
+  }
+  #toc, #n-introduction {
+    page-break-before: always;
+  }
+  #toc {
+    border-top: none;
+    padding-top: 0;
+  }
+  figure, pre, .vcard {
+    page-break-inside: avoid;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    page-break-after: avoid;
+  }
+  :is(h2, h3, h4, h5, h6)+*, dd {
+    page-break-before: avoid;
+  }
+  pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    font-size: 10pt;
+  }
+  table {
+    border: 1px solid #ddd;
+  }
+  td {
+    border-top: 1px solid #ddd;
+  }
+  .toplink {
+    display: none;
+  }
+}
+
+@page :first {
+  padding-top: 0;
+  @top-left {
+    content: normal;
+    border: none;
+  }
+  @top-center {
+    content: normal;
+    border: none;
+  }
+  @top-right {
+    content: normal;
+    border: none;
+  }
+}
+
+@page {
+  size: A4;
+  margin-bottom: 45mm;
+  padding-top: 20px;
+}
+
+/* Changes introduced to fix issues found during implementation */
+
+/* Separate body from document info even without intervening H1 */
+section {
+  clear: both;
+}
+
+/* Top align author divs, to avoid names without organization dropping level with org names */
+.author {
+  vertical-align: top;
+}
+
+/* Style section numbers with more space between number and title */
+.section-number {
+  padding-right: 0.5em;
+}
+
+/* Add styling for a link in the ToC that points to the top of the document */
+a.toplink {
+  float: right;
+  margin: 8px 0.5em 0;
+}
+
+/* Provide styling for table cell text alignment */
+table .text-left {
+  text-align: left;
+}
+table .text-center {
+  text-align: center;
+}
+table .text-right {
+  text-align: right;
+}
+
+/* Make the alternative author contact information look less like just another
+   author, and group it closer with the primary author contact information */
+.alternative-contact {
+  margin: 0.5em 0 0.25em 0;
+}
+address .non-ascii {
+  margin: 0 0 0 2em;
+}
+
+/* With it being possible to set tables with alignment
+  left, center, and right, { width: 100%; } does not make sense */
+table {
+  width: auto;
+}
+
+/* Avoid reference text that sits in a block with very wide left margin,
+   because of a long floating dt label.*/
+.references dd {
+  overflow: visible;
+}
+
+/* Control caption placement */
+caption {
+  caption-side: bottom;
+}
+
+/* Limit the width of the author address vcard, so names in right-to-left
+   script don't end up on the other side of the page. */
+
+address.vcard {
+  max-width: 20em;
+  margin-right: auto;
+}
+
+/* For address alignment dependent on LTR or RTL scripts */
+address div.left {
+  text-align: left;
+}
+address div.right {
+  text-align: right;
+}
+
+/* Dark mode. */
+@media (prefers-color-scheme: dark) {
+:root {
+  --background-color: #121212;
+  --text-color: #f0f0f0;
+  --title-color: #fff;
+  --link-color: #4da4f0;
+  --highlight-color: #282828;
+  --line-color: #444;
+  --pilcrow-weak: #444;
+  --pilcrow-strong: #666;
+  scrollbar-color: #777 #333;
+}
+}
+
+/* SVG Trick: a prefix match works because only black and white are allowed */
+svg :is([stroke="black"], [stroke^="#000"]) {
+  stroke: var(--text-color);
+}
+svg :is([stroke="white"], [stroke^="#fff"]) {
+  stroke: var(--background-color);
+}
+svg :is([fill="black"], [fill^="#000"], :not([fill])) {
+  fill: var(--text-color);
+}
+svg :is([fill="white"], [fill^="#fff"]) {
+  fill: var(--background-color);
+}
+</style>
+
+</head>
+<body class="xml2rfc">
+<table class="ears">
+<thead><tr>
+<td class="left">Internet-Draft</td>
+<td class="center">Remote Attestation with CSRs</td>
+<td class="right">June 2024</td>
+</tr></thead>
+<tfoot><tr>
+<td class="left">Ounsworth, et al.</td>
+<td class="center">Expires 19 December 2024</td>
+<td class="right">[Page]</td>
+</tr></tfoot>
+</table>
+<div id="external-metadata" class="document-information"></div>
+<div id="internal-metadata" class="document-information">
+<dl id="identifiers">
+<dt class="label-workgroup">Workgroup:</dt>
+<dd class="workgroup">Network Working Group</dd>
+<dt class="label-internet-draft">Internet-Draft:</dt>
+<dd class="internet-draft">draft-ietf-lamps-csr-attestation-latest</dd>
+<dt class="label-published">Published:</dt>
+<dd class="published">
+<time datetime="2024-06-17" class="published">17 June 2024</time>
+    </dd>
+<dt class="label-intended-status">Intended Status:</dt>
+<dd class="intended-status">Standards Track</dd>
+<dt class="label-expires">Expires:</dt>
+<dd class="expires"><time datetime="2024-12-19">19 December 2024</time></dd>
+<dt class="label-authors">Authors:</dt>
+<dd class="authors">
+<div class="author">
+      <div class="author-name">M. Ounsworth</div>
+<div class="org">Entrust</div>
+</div>
+<div class="author">
+      <div class="author-name">H. Tschofenig</div>
+<div class="org">Siemens</div>
+</div>
+<div class="author">
+      <div class="author-name">H. Birkholz</div>
+<div class="org">Fraunhofer SIT</div>
+</div>
+<div class="author">
+      <div class="author-name">M. Wiseman</div>
+<div class="org">Beyond Identity</div>
+</div>
+</dd>
+</dl>
+</div>
+<h1 id="title">Use of Remote Attestation with Certification Signing Requests</h1>
+<section id="section-abstract">
+      <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
+<p id="section-abstract-1">A PKI end entity requesting a certificate from a Certification Authority (CA) may wish to offer believable claims about the protections afforded to the corresponding private key, such as whether the private key resides on a hardware security module or the protection capabilities provided by the hardware.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
+<p id="section-abstract-2">This document defines a new PKCS#10 attribute attr-evidence and CRMF extension ext-evidence that allows placing any Evidence data, in any pre-existing format, along with any certificates needed to validate it, into a PKCS#10 or CRMF CSR.<a href="#section-abstract-2" class="pilcrow">¶</a></p>
+<p id="section-abstract-3">Including Evidence along with a CSR can help to improve the assessment of the security posture for the private key, and the trustworthiness properties of the submitted key to the requested certificate profile. These Evidence Claims can include information about the hardware component's manufacturer, the version of installed or running firmware, the version of software installed or running in layers above the firmware, or the presence of hardware components providing specific protection capabilities or shielded locations (e.g., to protect keys).<a href="#section-abstract-3" class="pilcrow">¶</a></p>
+</section>
+<section class="note rfcEditorRemove" id="section-note.1">
+      <h2 id="name-about-this-document">
+<a href="#name-about-this-document" class="section-name selfRef">About This Document</a>
+      </h2>
+<p id="section-note.1-1">This note is to be removed before publishing as an RFC.<a href="#section-note.1-1" class="pilcrow">¶</a></p>
+<p id="section-note.1-2">
+        The latest revision of this draft can be found at <span><a href="https://lamps-wg.github.io/csr-attestation/draft-ounsworth-csr-attestation.html">https://lamps-wg.github.io/csr-attestation/draft-ounsworth-csr-attestation.html</a></span>.
+        Status information for this document may be found at <span><a href="https://datatracker.ietf.org/doc/draft-ietf-lamps-csr-attestation/">https://datatracker.ietf.org/doc/draft-ietf-lamps-csr-attestation/</a></span>.<a href="#section-note.1-2" class="pilcrow">¶</a></p>
+<p id="section-note.1-3">Source for this draft and an issue tracker can be found at
+        <span><a href="https://github.com/lamps-wg/csr-attestation">https://github.com/lamps-wg/csr-attestation</a></span>.<a href="#section-note.1-3" class="pilcrow">¶</a></p>
+</section>
+<div id="status-of-memo">
+<section id="section-boilerplate.1">
+        <h2 id="name-status-of-this-memo">
+<a href="#name-status-of-this-memo" class="section-name selfRef">Status of This Memo</a>
+        </h2>
+<p id="section-boilerplate.1-1">
+        This Internet-Draft is submitted in full conformance with the
+        provisions of BCP 78 and BCP 79.<a href="#section-boilerplate.1-1" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.1-2">
+        Internet-Drafts are working documents of the Internet Engineering Task
+        Force (IETF). Note that other groups may also distribute working
+        documents as Internet-Drafts. The list of current Internet-Drafts is
+        at <span><a href="https://datatracker.ietf.org/drafts/current/">https://datatracker.ietf.org/drafts/current/</a></span>.<a href="#section-boilerplate.1-2" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.1-3">
+        Internet-Drafts are draft documents valid for a maximum of six months
+        and may be updated, replaced, or obsoleted by other documents at any
+        time. It is inappropriate to use Internet-Drafts as reference
+        material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.1-4">
+        This Internet-Draft will expire on 19 December 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="copyright">
+<section id="section-boilerplate.2">
+        <h2 id="name-copyright-notice">
+<a href="#name-copyright-notice" class="section-name selfRef">Copyright Notice</a>
+        </h2>
+<p id="section-boilerplate.2-1">
+            Copyright (c) 2024 IETF Trust and the persons identified as the
+            document authors. All rights reserved.<a href="#section-boilerplate.2-1" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.2-2">
+            This document is subject to BCP 78 and the IETF Trust's Legal
+            Provisions Relating to IETF Documents
+            (<span><a href="https://trustee.ietf.org/license-info">https://trustee.ietf.org/license-info</a></span>) in effect on the date of
+            publication of this document. Please review these documents
+            carefully, as they describe your rights and restrictions with
+            respect to this document. Code Components extracted from this
+            document must include Revised BSD License text as described in
+            Section 4.e of the Trust Legal Provisions and are provided without
+            warranty as described in the Revised BSD License.<a href="#section-boilerplate.2-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="toc">
+<section id="section-toc.1">
+        <a href="#" onclick="scroll(0,0)" class="toplink">▲</a><h2 id="name-table-of-contents">
+<a href="#name-table-of-contents" class="section-name selfRef">Table of Contents</a>
+        </h2>
+<nav class="toc"><ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1">
+            <p id="section-toc.1-1.1.1" class="keepWithNext"><a href="#section-1" class="auto internal xref">1</a>.  <a href="#name-changes-in-version-10" class="internal xref">Changes in version -10</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2">
+            <p id="section-toc.1-1.2.1" class="keepWithNext"><a href="#section-2" class="auto internal xref">2</a>.  <a href="#name-introduction" class="internal xref">Introduction</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3">
+            <p id="section-toc.1-1.3.1" class="keepWithNext"><a href="#section-3" class="auto internal xref">3</a>.  <a href="#name-conventions-and-definitions" class="internal xref">Conventions and Definitions</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4">
+            <p id="section-toc.1-1.4.1"><a href="#section-4" class="auto internal xref">4</a>.  <a href="#name-architecture" class="internal xref">Architecture</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5">
+            <p id="section-toc.1-1.5.1"><a href="#section-5" class="auto internal xref">5</a>.  <a href="#name-information-model" class="internal xref">Information Model</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.1">
+                <p id="section-toc.1-1.5.2.1.1"><a href="#section-5.1" class="auto internal xref">5.1</a>.  <a href="#name-interaction-with-an-hsm" class="internal xref">Interaction with an HSM</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.2">
+                <p id="section-toc.1-1.5.2.2.1"><a href="#section-5.2" class="auto internal xref">5.2</a>.  <a href="#name-implementation-strategies" class="internal xref">Implementation Strategies</a></p>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6">
+            <p id="section-toc.1-1.6.1"><a href="#section-6" class="auto internal xref">6</a>.  <a href="#name-asn1-elements" class="internal xref">ASN.1 Elements</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.1">
+                <p id="section-toc.1-1.6.2.1.1"><a href="#section-6.1" class="auto internal xref">6.1</a>.  <a href="#name-object-identifiers" class="internal xref">Object Identifiers</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.2">
+                <p id="section-toc.1-1.6.2.2.1"><a href="#section-6.2" class="auto internal xref">6.2</a>.  <a href="#name-evidence-attribute-and-exte" class="internal xref">Evidence Attribute and Extension</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.3">
+                <p id="section-toc.1-1.6.2.3.1"><a href="#section-6.3" class="auto internal xref">6.3</a>.  <a href="#name-certificatealternatives" class="internal xref">CertificateAlternatives</a></p>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7">
+            <p id="section-toc.1-1.7.1"><a href="#section-7" class="auto internal xref">7</a>.  <a href="#name-iana-considerations" class="internal xref">IANA Considerations</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.1">
+                <p id="section-toc.1-1.7.2.1.1"><a href="#section-7.1" class="auto internal xref">7.1</a>.  <a href="#name-module-registration-smi-sec" class="internal xref">Module Registration - SMI Security for PKIX Module Identifier</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.2">
+                <p id="section-toc.1-1.7.2.2.1"><a href="#section-7.2" class="auto internal xref">7.2</a>.  <a href="#name-object-identifier-registrat" class="internal xref">Object Identifier Registrations - SMI Security for S/MIME Attributes</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.3">
+                <p id="section-toc.1-1.7.2.3.1"><a href="#section-7.3" class="auto internal xref">7.3</a>.  <a href="#name-smi-security-for-pkix-evide" class="internal xref">"SMI Security for PKIX Evidence Statement Formats" Registry</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.4">
+                <p id="section-toc.1-1.7.2.4.1"><a href="#section-7.4" class="auto internal xref">7.4</a>.  <a href="#name-attestation-evidence-oid-re" class="internal xref">Attestation Evidence OID Registry</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.4.2.1">
+                    <p id="section-toc.1-1.7.2.4.2.1.1"><a href="#section-7.4.1" class="auto internal xref">7.4.1</a>.  <a href="#name-registration-template" class="internal xref">Registration Template</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.4.2.2">
+                    <p id="section-toc.1-1.7.2.4.2.2.1"><a href="#section-7.4.2" class="auto internal xref">7.4.2</a>.  <a href="#name-initial-registry-contents" class="internal xref">Initial Registry Contents</a></p>
+</li>
+                </ul>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8">
+            <p id="section-toc.1-1.8.1"><a href="#section-8" class="auto internal xref">8</a>.  <a href="#name-security-considerations" class="internal xref">Security Considerations</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.1">
+                <p id="section-toc.1-1.8.2.1.1"><a href="#section-8.1" class="auto internal xref">8.1</a>.  <a href="#name-freshness" class="internal xref">Freshness</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.2">
+                <p id="section-toc.1-1.8.2.2.1"><a href="#section-8.2" class="auto internal xref">8.2</a>.  <a href="#name-publishing-evidence-in-an-x" class="internal xref">Publishing evidence in an X.509 extension</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.3">
+                <p id="section-toc.1-1.8.2.3.1"><a href="#section-8.3" class="auto internal xref">8.3</a>.  <a href="#name-type-oid-and-verifier-hint" class="internal xref">Type OID and verifier hint</a></p>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9">
+            <p id="section-toc.1-1.9.1"><a href="#section-9" class="auto internal xref">9</a>.  <a href="#name-references" class="internal xref">References</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.1">
+                <p id="section-toc.1-1.9.2.1.1"><a href="#section-9.1" class="auto internal xref">9.1</a>.  <a href="#name-normative-references" class="internal xref">Normative References</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.2">
+                <p id="section-toc.1-1.9.2.2.1"><a href="#section-9.2" class="auto internal xref">9.2</a>.  <a href="#name-informative-references" class="internal xref">Informative References</a></p>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10">
+            <p id="section-toc.1-1.10.1"><a href="#appendix-A" class="auto internal xref">Appendix A</a>.  <a href="#name-examples" class="internal xref">Examples</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10.2.1">
+                <p id="section-toc.1-1.10.2.1.1"><a href="#appendix-A.1" class="auto internal xref">A.1</a>.  <a href="#name-extending-evidencestatement" class="internal xref">Extending EvidenceStatementSet</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10.2.2">
+                <p id="section-toc.1-1.10.2.2.1"><a href="#appendix-A.2" class="auto internal xref">A.2</a>.  <a href="#name-tpm-v20-evidence-in-csr" class="internal xref">TPM V2.0 Evidence in CSR</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10.2.2.2.1">
+                    <p id="section-toc.1-1.10.2.2.2.1.1"><a href="#appendix-A.2.1" class="auto internal xref">A.2.1</a>.  <a href="#name-tcg-key-attestation-certify" class="internal xref">TCG Key Attestation Certify</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10.2.2.2.2">
+                    <p id="section-toc.1-1.10.2.2.2.2.1"><a href="#appendix-A.2.2" class="auto internal xref">A.2.2</a>.  <a href="#name-tcg-oids" class="internal xref">TCG OIDs</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10.2.2.2.3">
+                    <p id="section-toc.1-1.10.2.2.2.3.1"><a href="#appendix-A.2.3" class="auto internal xref">A.2.3</a>.  <a href="#name-tpm2-attestationstatement" class="internal xref">TPM2 AttestationStatement</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10.2.2.2.4">
+                    <p id="section-toc.1-1.10.2.2.2.4.1"><a href="#appendix-A.2.4" class="auto internal xref">A.2.4</a>.  <a href="#name-introduction-to-tpm2-concep" class="internal xref">Introduction to TPM2 concepts</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10.2.2.2.5">
+                    <p id="section-toc.1-1.10.2.2.2.5.1"><a href="#appendix-A.2.5" class="auto internal xref">A.2.5</a>.  <a href="#name-tcg-objects-and-key-attesta" class="internal xref">TCG Objects and Key Attestation</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10.2.2.2.6">
+                    <p id="section-toc.1-1.10.2.2.2.6.1"><a href="#appendix-A.2.6" class="auto internal xref">A.2.6</a>.  <a href="#name-sample-csr" class="internal xref">Sample CSR</a></p>
+</li>
+                </ul>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10.2.3">
+                <p id="section-toc.1-1.10.2.3.1"><a href="#appendix-A.3" class="auto internal xref">A.3</a>.  <a href="#name-psa-attestation-token-in-cs" class="internal xref">PSA Attestation Token in CSR</a></p>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11">
+            <p id="section-toc.1-1.11.1"><a href="#appendix-B" class="auto internal xref">Appendix B</a>.  <a href="#name-asn1-module" class="internal xref">ASN.1 Module</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11.2.1">
+                <p id="section-toc.1-1.11.2.1.1"><a href="#appendix-B.1" class="auto internal xref">B.1</a>.  <a href="#name-tcg-dice-conceptualmessagew" class="internal xref">TCG DICE ConceptualMessageWrapper in CSR</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11.2.2">
+                <p id="section-toc.1-1.11.2.2.1"><a href="#appendix-B.2" class="auto internal xref">B.2</a>.  <a href="#name-tcg-dice-conceptualmessagewr" class="internal xref">TCG DICE ConceptualMessageWrapper in CSR</a></p>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.12">
+            <p id="section-toc.1-1.12.1"><a href="#appendix-C" class="auto internal xref">Appendix C</a>.  <a href="#name-acknowledgments" class="internal xref">Acknowledgments</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.13">
+            <p id="section-toc.1-1.13.1"><a href="#appendix-D" class="auto internal xref"></a><a href="#name-contributors" class="internal xref">Contributors</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.14">
+            <p id="section-toc.1-1.14.1"><a href="#appendix-E" class="auto internal xref"></a><a href="#name-authors-addresses" class="internal xref">Authors' Addresses</a></p>
+</li>
+        </ul>
+</nav>
+</section>
+</div>
+<div id="changes-in-version-10">
+<section id="section-1">
+      <h2 id="name-changes-in-version-10">
+<a href="#section-1" class="section-number selfRef">1. </a><a href="#name-changes-in-version-10" class="section-name selfRef">Changes in version -10</a>
+      </h2>
+<p id="section-1-1">Addressing comments from WGLC.<a href="#section-1-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-1-2.1">
+          <p id="section-1-2.1.1">Editorial and grammar.<a href="#section-1-2.1.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-1-2.2">
+          <p id="section-1-2.2.1">Updated name and value of OID tcg-attest-tpm-certify, as per TCG request.<a href="#section-1-2.2.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-1-2.3">
+          <p id="section-1-2.3.1">Added appendix "B.2. TCG DICE ConceptualMessageWrapper in CSR".<a href="#section-1-2.3.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-1-2.4">
+          <p id="section-1-2.4.1">Updated main architecture diagram to separate RA and CA roles.<a href="#section-1-2.4.1" class="pilcrow">¶</a></p>
+</li>
+      </ul>
+</section>
+</div>
+<div id="introduction">
+<section id="section-2">
+      <h2 id="name-introduction">
+<a href="#section-2" class="section-number selfRef">2. </a><a href="#name-introduction" class="section-name selfRef">Introduction</a>
+      </h2>
+<p id="section-2-1">When requesting a certificate from a Certification Authority (CA), a PKI end entity may wish to include Evidence of the security properties of its environments in which the private keys are stored in that request.
+This Evidence can be appraised by authoritative entities, such as a Registration Authority (RA) or a CA, or associated trusted Verifiers as part of validating an incoming certificate request against given certificate policies. Regulatory bodies are beginning to require proof-of-hardware residency for certain classifications of cryptographic keys. At the time of writing, the most notable example is the Code-Signing Baseline Requirements <span>[<a href="#CSBR" class="cite xref">CSBR</a>]</span> document maintained by the CA/Browser Forum, which requires compliant CAs to "ensure that a Subscriber’s Private Key is generated, stored,
+and used in a secure environment that has controls to prevent theft or misuse".<a href="#section-2-1" class="pilcrow">¶</a></p>
+<p id="section-2-2">This specification defines an attribute and an extension that allow for conveyance of Evidence in Certificate Signing Requests (CSRs) in either PKCS#10 <span>[<a href="#RFC2986" class="cite xref">RFC2986</a>]</span> or Certificate Request Message Format (CRMF) <span>[<a href="#RFC4211" class="cite xref">RFC4211</a>]</span> payloads which provides an elegant and automatable mechanism for meeting requirements such as those in the CA/B Forum's <span>[<a href="#CSBR" class="cite xref">CSBR</a>]</span>.<a href="#section-2-2" class="pilcrow">¶</a></p>
+<p id="section-2-3">As outlined in the RATS Architecture <span>[<a href="#RFC9334" class="cite xref">RFC9334</a>]</span>, an Attester (typically
+a device) produces a signed collection of Claims that constitutes Evidence about its running environment(s).
+While the term "attestation" is not defined in RFC 9334, it was later defined in <span>[<a href="#I-D.ietf-rats-tpm-based-network-device-attest" class="cite xref">I-D.ietf-rats-tpm-based-network-device-attest</a>]</span>, it refers to the activity of producing and appraising remote attestation Evidence.
+A Relying Party may consult an Attestation Result produced by a Verifier that has appraised the Evidence in making policy decisions about the trustworthiness of the
+Target Environment being assessed via appraisal of Evidence. <a href="#architecture" class="auto internal xref">Section 4</a> provides the basis to illustrate in this document how the various roles
+in the RATS architecture map to a certificate requester and a CA/RA.<a href="#section-2-3" class="pilcrow">¶</a></p>
+<p id="section-2-4">At the time of writing, several standard and several proprietary remote attestation technologies
+are in use.
+This specification thereby is intended to be as technology-agnostic as it is feasible with respect to implemented remote attestation technologies. Hence, this specification focuses on (1) the conveyance of Evidence via CSRs while making minimal assumptions about content or format of the transported Evidence and (2) the conveyance of sets of certificates used for validation of Evidence.
+The certificates typically contain one or more certification paths
+rooted in a device manufacture trust anchor and the end-entity certificate being
+on the device in question. The end-entity certificate is associated with key material that takes on the role of an Attestation Key and is used as Evidence originating from the Attester.<a href="#section-2-4" class="pilcrow">¶</a></p>
+<p id="section-2-5">This document specifies a CSR Attribute (or Extension for Certificate Request Message Format (CRMF) CSRs) for carrying Evidence. Evidence can be placed into an EvidenceStatement along with an OID to identify its type and optionally a hint to the Relying Party about which Verifier (software package) will be capable of parsing it. A set of EvidenceStatements may be grouped together along with the set of CertificateAlternatives needed to validate them to form a EvidenceBundle. One or more EvidenceBundles may be placed into the id-aa-evidence CSR Attribute (or CRFM Extension).<a href="#section-2-5" class="pilcrow">¶</a></p>
+<p id="section-2-6">A CSR may contain one or more Evidence payloads, for example Evidence
+asserting the storage properties of a private key, Evidence
+asserting firmware version and other general properties
+of the device, or Evidence signed using different cryptographic
+algorithms.<a href="#section-2-6" class="pilcrow">¶</a></p>
+<p id="section-2-7">With these attributes, additional
+information information is available to an RA or CA, which may be used
+to decide whether to issue a certificate and what certificate profile
+to apply. The scope of this document is, however,
+limited to the conveyance of Evidence within CSR. The exact format of the
+Evidence being conveyed is defined in various standard and proprietary
+specifications.<a href="#section-2-7" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="conventions-and-definitions">
+<section id="section-3">
+      <h2 id="name-conventions-and-definitions">
+<a href="#section-3" class="section-number selfRef">3. </a><a href="#name-conventions-and-definitions" class="section-name selfRef">Conventions and Definitions</a>
+      </h2>
+<p id="section-3-1">The key words "<span class="bcp14">MUST</span>", "<span class="bcp14">MUST NOT</span>", "<span class="bcp14">REQUIRED</span>", "<span class="bcp14">SHALL</span>", "<span class="bcp14">SHALL NOT</span>", "<span class="bcp14">SHOULD</span>", "<span class="bcp14">SHOULD NOT</span>", "<span class="bcp14">RECOMMENDED</span>", "<span class="bcp14">NOT RECOMMENDED</span>",
+"<span class="bcp14">MAY</span>", and "<span class="bcp14">OPTIONAL</span>" in this document are to be interpreted as
+described in BCP 14 <span>[<a href="#RFC2119" class="cite xref">RFC2119</a>]</span> <span>[<a href="#RFC8174" class="cite xref">RFC8174</a>]</span> when, and only when, they
+appear in all capitals, as shown here.<a href="#section-3-1" class="pilcrow">¶</a></p>
+<p id="section-3-2">This document re-uses the terms defined in <span>[<a href="#RFC9334" class="cite xref">RFC9334</a>]</span> related to remote
+attestation. Readers of this document are assumed to be familiar with
+the following terms: Evidence, Claim, Attestation Results (AR), Attester,
+Verifier, Target Environment, Attesting Environment, and Relying Party (RP).<a href="#section-3-2" class="pilcrow">¶</a></p>
+<p id="section-3-3">The term "Certification Request" message is defined in <span>[<a href="#RFC2986" class="cite xref">RFC2986</a>]</span>.
+Specifications, such as <span>[<a href="#RFC7030" class="cite xref">RFC7030</a>]</span>, later introduced the term
+"Certificate Signing Request (CSR)" to refer to the Certification
+Request message. While the term "Certification Signing Request"
+would have been correct, the mistake was unnoticed. In the meanwhile
+CSR is an abbreviation used beyond PKCS#10. Hence, it is equally
+applicable to other protocols that use a different syntax and
+even a different encoding, in particular this document also
+considers messages in the Certificate Request Message Format (CRMF) <span>[<a href="#RFC4211" class="cite xref">RFC4211</a>]</span>
+to be "CSRs". In this document, the terms "CSR" and Certificate Request
+message are used interchangeably.<a href="#section-3-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="architecture">
+<section id="section-4">
+      <h2 id="name-architecture">
+<a href="#section-4" class="section-number selfRef">4. </a><a href="#name-architecture" class="section-name selfRef">Architecture</a>
+      </h2>
+<p id="section-4-1"><a href="#fig-arch" class="auto internal xref">Figure 1</a> shows the high-level communication pattern of the RATS
+background check model where the Attester transmits the Evidence in the
+CSR to the RA and the CA, which is subsequently forwarded to the Verifier.
+The Verifier appraises the received Evidence and computes an Attestation
+Result, which is then processed by the RA/CA prior to the certificate
+issuance.<a href="#section-4-1" class="pilcrow">¶</a></p>
+<p id="section-4-2">In addition to the background check model, the RATS architecture also
+specifies the passport model and combinations. See Section 5.2 of
+<span>[<a href="#RFC9334" class="cite xref">RFC9334</a>]</span> for a description of the passport model. The passport model
+requires the Attester to transmit Evidence to the Verifier directly in order
+to obtain the Attestation Result, which is then forwarded to the Relying
+Party. This specification utilizes the background model since CSRs are
+often used as one-shot messages where no direct real-time interaction
+between the Attester and the Verifier is possible.<a href="#section-4-2" class="pilcrow">¶</a></p>
+<p id="section-4-3">Note that the Verifier is a logical role that may be included in the
+RA/CA product. In this case, the Relying Party role and Verifier role collapse into a
+single entity. The Verifier functionality can, however,
+also be kept separate from the RA functionality, such as a utility or
+library provided by the device manufacturer. For example,
+security concerns may require parsers of Evidence formats to be logically
+or physically separated from the core RA and CA functionality. The interface
+by which the Relying Party passes Evidence to the Verifier and receives back
+Attestation Results may be proprietary or standardized, but in any case is
+out-of-scope for this document.<a href="#section-4-3" class="pilcrow">¶</a></p>
+<p id="section-4-4">The diagram below shows an example data flow where Evidence is included in a
+CSR. The CSR is parsed by the Registration Authority (RA) component of a
+Certification Authority which extracts the Evidence and forwards it to a
+trusted Verifier. The RA receives back an Attestation Result which it uses
+to decide whether this Evidence meets its policy for certificate issuance
+and if it does then the certificate request is forwarded to the Certification
+Authority for issuance. This diagram overlays PKI entities with RATS roles in
+parentheses.<a href="#section-4-4" class="pilcrow">¶</a></p>
+<span id="name-example-data-flow-demonstra"></span><div id="fig-arch">
+<figure id="figure-1">
+        <div id="section-4-5.1">
+          <div class="alignLeft art-svg artwork" id="section-4-5.1.1">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="272" width="552" viewBox="0 0 552 272" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
+              <path d="M 8,176 L 8,256" fill="none" stroke="black"></path>
+              <path d="M 112,176 L 112,256" fill="none" stroke="black"></path>
+              <path d="M 216,32 L 216,96" fill="none" stroke="black"></path>
+              <path d="M 216,176 L 216,256" fill="none" stroke="black"></path>
+              <path d="M 256,104 L 256,192" fill="none" stroke="black"></path>
+              <path d="M 320,96 L 320,192" fill="none" stroke="black"></path>
+              <path d="M 360,32 L 360,96" fill="none" stroke="black"></path>
+              <path d="M 360,176 L 360,256" fill="none" stroke="black"></path>
+              <path d="M 496,176 L 496,256" fill="none" stroke="black"></path>
+              <path d="M 544,176 L 544,256" fill="none" stroke="black"></path>
+              <path d="M 216,32 L 360,32" fill="none" stroke="black"></path>
+              <path d="M 216,96 L 360,96" fill="none" stroke="black"></path>
+              <path d="M 8,176 L 112,176" fill="none" stroke="black"></path>
+              <path d="M 216,176 L 248,176" fill="none" stroke="black"></path>
+              <path d="M 264,176 L 312,176" fill="none" stroke="black"></path>
+              <path d="M 328,176 L 360,176" fill="none" stroke="black"></path>
+              <path d="M 496,176 L 544,176" fill="none" stroke="black"></path>
+              <path d="M 112,192 L 208,192" fill="none" stroke="black"></path>
+              <path d="M 224,192 L 256,192" fill="none" stroke="black"></path>
+              <path d="M 320,192 L 352,192" fill="none" stroke="black"></path>
+              <path d="M 368,192 L 488,192" fill="none" stroke="black"></path>
+              <path d="M 8,256 L 112,256" fill="none" stroke="black"></path>
+              <path d="M 216,256 L 360,256" fill="none" stroke="black"></path>
+              <path d="M 496,256 L 544,256" fill="none" stroke="black"></path>
+              <polygon class="arrowhead" points="496,192 484,186.4 484,197.6" fill="black" transform="rotate(0,488,192)"></polygon>
+              <polygon class="arrowhead" points="360,192 348,186.4 348,197.6" fill="black" transform="rotate(0,352,192)"></polygon>
+              <polygon class="arrowhead" points="328,168 316,162.4 316,173.6" fill="black" transform="rotate(90,320,168)"></polygon>
+              <polygon class="arrowhead" points="264,104 252,98.4 252,109.6" fill="black" transform="rotate(270,256,104)"></polygon>
+              <polygon class="arrowhead" points="216,192 204,186.4 204,197.6" fill="black" transform="rotate(0,208,192)"></polygon>
+              <g class="text">
+                <text x="400" y="52">Compare</text>
+                <text x="468" y="52">Evidence</text>
+                <text x="292" y="68">(Verifier)</text>
+                <text x="400" y="68">against</text>
+                <text x="472" y="68">Appraisal</text>
+                <text x="396" y="84">Policy</text>
+                <text x="212" y="132">Evidence</text>
+                <text x="376" y="132">Attestation</text>
+                <text x="356" y="148">Result</text>
+                <text x="404" y="148">(AR)</text>
+                <text x="32" y="212">HSM</text>
+                <text x="156" y="212">Evidence</text>
+                <text x="244" y="212">Reg.</text>
+                <text x="304" y="212">Authority</text>
+                <text x="416" y="212">Attestation</text>
+                <text x="516" y="212">CA</text>
+                <text x="60" y="228">(Attester)</text>
+                <text x="132" y="228">in</text>
+                <text x="160" y="228">CSR</text>
+                <text x="260" y="228">(Relying</text>
+                <text x="324" y="228">Party)</text>
+                <text x="396" y="228">Result</text>
+                <text x="448" y="228">Meets</text>
+                <text x="388" y="244">Cert</text>
+                <text x="440" y="244">policy?</text>
+              </g>
+            </svg><a href="#section-4-5.1.1" class="pilcrow">¶</a>
+</div>
+</div>
+<figcaption><a href="#figure-1" class="selfRef">Figure 1</a>:
+<a href="#name-example-data-flow-demonstra" class="selfRef">Example data flow demonstrating the architecture with Background Check Model.</a>
+        </figcaption></figure>
+</div>
+<p id="section-4-6">As discussed in RFC 9334, different security and privacy aspects need to be
+considered. For example, Evidence may need to be protected against replay and
+Section 10 of RFC 9334 lists approach for offering freshness. There are also
+concerns about the exposure of persistent identifiers by utilizing attestation
+technology, which are discussed in Section 11 of RFC 9334. Finally, the keying
+material used by the Attester needs to be protected against unauthorized access,
+and against signing arbitrary content that originated from outside the device.
+This aspect is described in Section 12 of RFC 9334. Most of these aspects are,
+however, outside the scope of this specification but relevant for use with a
+given attestation technology. The focus of this specification is on the
+transport of Evidence from the Attester to the Relying Party via existing
+CSR messages.<a href="#section-4-6" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="information-model">
+<section id="section-5">
+      <h2 id="name-information-model">
+<a href="#section-5" class="section-number selfRef">5. </a><a href="#name-information-model" class="section-name selfRef">Information Model</a>
+      </h2>
+<div id="interaction-with-an-hsm">
+<section id="section-5.1">
+        <h3 id="name-interaction-with-an-hsm">
+<a href="#section-5.1" class="section-number selfRef">5.1. </a><a href="#name-interaction-with-an-hsm" class="section-name selfRef">Interaction with an HSM</a>
+        </h3>
+<p id="section-5.1-1">This specification is applicable both in cases where a CSR
+is constructed internally or externally to the Attesting Environment, from the
+point of view of the calling application.<a href="#section-5.1-1" class="pilcrow">¶</a></p>
+<p id="section-5.1-2">Cases where the CSR is generated internally to the Attesting Environment
+are straightforward: the HSM generates and embeds the Evidence and the corresponding
+certification paths when constructing the CSR.<a href="#section-5.1-2" class="pilcrow">¶</a></p>
+<p id="section-5.1-3">Cases where the CSR is generated externally may require extra round-trips of communication
+between the CSR generator and the Attesting Environment, first to obtain
+the necessary Evidence about the subject key, and then to use
+the subject key to sign the CSR; for example, a CSR generated by
+a popular crypto library about a subject key stored on a PKCS#11 <span>[<a href="#PKCS11" class="cite xref">PKCS11</a>]</span> device.<a href="#section-5.1-3" class="pilcrow">¶</a></p>
+<p id="section-5.1-4">As an example, assuming that the HSM is, or contains, the Attesting Environment and
+some cryptographic library is assembling a CSR by interacting with the HSM over some
+network protocol, then the interaction would conceptually be:<a href="#section-5.1-4" class="pilcrow">¶</a></p>
+<span id="name-example-interaction-between"></span><div id="fig-csr-client-p11">
+<figure id="figure-2">
+          <div id="section-5.1-5.1">
+            <div class="alignLeft art-svg artwork" id="section-5.1-5.1.1">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="320" width="384" viewBox="0 0 384 320" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
+                <path d="M 8,176 L 8,208" fill="none" stroke="black"></path>
+                <path d="M 160,32 L 160,80" fill="none" stroke="black"></path>
+                <path d="M 184,176 L 184,208" fill="none" stroke="black"></path>
+                <path d="M 200,88 L 200,304" fill="none" stroke="black"></path>
+                <path d="M 240,32 L 240,80" fill="none" stroke="black"></path>
+                <path d="M 328,32 L 328,80" fill="none" stroke="black"></path>
+                <path d="M 352,88 L 352,304" fill="none" stroke="black"></path>
+                <path d="M 376,32 L 376,80" fill="none" stroke="black"></path>
+                <path d="M 160,32 L 240,32" fill="none" stroke="black"></path>
+                <path d="M 328,32 L 376,32" fill="none" stroke="black"></path>
+                <path d="M 160,80 L 240,80" fill="none" stroke="black"></path>
+                <path d="M 328,80 L 376,80" fill="none" stroke="black"></path>
+                <path d="M 208,128 L 344,128" fill="none" stroke="black"></path>
+                <path d="M 208,160 L 344,160" fill="none" stroke="black"></path>
+                <path d="M 8,176 L 184,176" fill="none" stroke="black"></path>
+                <path d="M 8,208 L 184,208" fill="none" stroke="black"></path>
+                <path d="M 208,256 L 344,256" fill="none" stroke="black"></path>
+                <path d="M 208,288 L 344,288" fill="none" stroke="black"></path>
+                <polygon class="arrowhead" points="352,256 340,250.4 340,261.6" fill="black" transform="rotate(0,344,256)"></polygon>
+                <polygon class="arrowhead" points="352,128 340,122.4 340,133.6" fill="black" transform="rotate(0,344,128)"></polygon>
+                <polygon class="arrowhead" points="216,288 204,282.4 204,293.6" fill="black" transform="rotate(180,208,288)"></polygon>
+                <polygon class="arrowhead" points="216,160 204,154.4 204,165.6" fill="black" transform="rotate(180,208,160)"></polygon>
+                <g class="text">
+                  <text x="196" y="52">Crypto</text>
+                  <text x="352" y="52">HSM</text>
+                  <text x="200" y="68">Library</text>
+                  <text x="264" y="116">getEvidence()</text>
+                  <text x="32" y="196">CSR</text>
+                  <text x="56" y="196">=</text>
+                  <text x="120" y="196">assembleCSR()</text>
+                  <text x="192" y="196">-</text>
+                  <text x="248" y="244">sign(CSR)</text>
+                </g>
+              </svg><a href="#section-5.1-5.1.1" class="pilcrow">¶</a>
+</div>
+</div>
+<figcaption><a href="#figure-2" class="selfRef">Figure 2</a>:
+<a href="#name-example-interaction-between" class="selfRef">Example interaction between CSR generator and HSM.</a>
+          </figcaption></figure>
+</div>
+</section>
+</div>
+<div id="implementation-strategies">
+<section id="section-5.2">
+        <h3 id="name-implementation-strategies">
+<a href="#section-5.2" class="section-number selfRef">5.2. </a><a href="#name-implementation-strategies" class="section-name selfRef">Implementation Strategies</a>
+        </h3>
+<p id="section-5.2-1">To support a number of different use cases for the transmission of
+Evidence in a CSR (together with certification paths) the structure
+shown in <a href="#fig-info-model" class="auto internal xref">Figure 3</a> is used.<a href="#section-5.2-1" class="pilcrow">¶</a></p>
+<p id="section-5.2-2">On a high-level, the structure is composed as follows:
+A PKCS#10 attribute or a CRMF extension contains one or more
+EvidenceBundle structures. Each EvidenceBundle contains one or more
+EvidenceStatement structures as well as one or more
+CertificateAlternatives which enable to carry various format of
+certificates.<a href="#section-5.2-2" class="pilcrow">¶</a></p>
+<span id="name-information-model-for-csr-e"></span><div id="fig-info-model">
+<figure id="figure-3">
+          <div id="section-5.2-3.1">
+            <div class="alignLeft art-svg artwork" id="section-5.2-3.1.1">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="368" width="488" viewBox="0 0 488 368" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
+                <path d="M 8,32 L 8,96" fill="none" stroke="black"></path>
+                <path d="M 8,256 L 8,288" fill="none" stroke="black"></path>
+                <path d="M 80,96 L 80,256" fill="none" stroke="black"></path>
+                <path d="M 160,144 L 160,256" fill="none" stroke="black"></path>
+                <path d="M 176,32 L 176,96" fill="none" stroke="black"></path>
+                <path d="M 176,256 L 176,288" fill="none" stroke="black"></path>
+                <path d="M 272,128 L 272,224" fill="none" stroke="black"></path>
+                <path d="M 272,256 L 272,336" fill="none" stroke="black"></path>
+                <path d="M 432,256 L 432,336" fill="none" stroke="black"></path>
+                <path d="M 480,128 L 480,224" fill="none" stroke="black"></path>
+                <path d="M 8,32 L 176,32" fill="none" stroke="black"></path>
+                <path d="M 8,96 L 176,96" fill="none" stroke="black"></path>
+                <path d="M 272,128 L 480,128" fill="none" stroke="black"></path>
+                <path d="M 160,144 L 272,144" fill="none" stroke="black"></path>
+                <path d="M 272,160 L 480,160" fill="none" stroke="black"></path>
+                <path d="M 272,224 L 480,224" fill="none" stroke="black"></path>
+                <path d="M 8,256 L 176,256" fill="none" stroke="black"></path>
+                <path d="M 272,256 L 432,256" fill="none" stroke="black"></path>
+                <path d="M 176,272 L 272,272" fill="none" stroke="black"></path>
+                <path d="M 8,288 L 176,288" fill="none" stroke="black"></path>
+                <path d="M 272,288 L 432,288" fill="none" stroke="black"></path>
+                <path d="M 272,336 L 432,336" fill="none" stroke="black"></path>
+                <g class="text">
+                  <text x="56" y="52">PKCS#10</text>
+                  <text x="100" y="52">or</text>
+                  <text x="132" y="52">CRMF</text>
+                  <text x="64" y="68">Attribute</text>
+                  <text x="116" y="68">or</text>
+                  <text x="64" y="84">Extension</text>
+                  <text x="180" y="132">(1</text>
+                  <text x="204" y="132">or</text>
+                  <text x="240" y="132">more)</text>
+                  <text x="376" y="148">CertificateAlternatives</text>
+                  <text x="328" y="180">Certificate</text>
+                  <text x="388" y="180">OR</text>
+                  <text x="320" y="196">TypedCert</text>
+                  <text x="388" y="196">OR</text>
+                  <text x="336" y="212">TypedFlatCert</text>
+                  <text x="28" y="228">(1</text>
+                  <text x="52" y="228">or</text>
+                  <text x="48" y="244">more)</text>
+                  <text x="220" y="244">(1</text>
+                  <text x="244" y="244">or</text>
+                  <text x="240" y="260">more)</text>
+                  <text x="84" y="276">EvidenceBundle</text>
+                  <text x="352" y="276">EvidenceStatement</text>
+                  <text x="300" y="308">Type</text>
+                  <text x="320" y="324">Statement</text>
+                </g>
+              </svg><a href="#section-5.2-3.1.1" class="pilcrow">¶</a>
+</div>
+</div>
+<figcaption><a href="#figure-3" class="selfRef">Figure 3</a>:
+<a href="#name-information-model-for-csr-e" class="selfRef">Information Model for CSR Evidence Conveyance.</a>
+          </figcaption></figure>
+</div>
+<p id="section-5.2-4">The following use cases are supported:<a href="#section-5.2-4" class="pilcrow">¶</a></p>
+<p id="section-5.2-5">A single Attester, which only distributes Evidence without any certification paths.
+In the use case, the Verifier is assumed to be in possession of the certification paths already
+or there is no certification paths because the Verifier directly trusts the Attester key.
+As a result, a single EvidenceBundle is included
+in a CSR that contains a single EvidenceStatement without the CertificateAlternatives
+structure. <a href="#fig-single-attester" class="auto internal xref">Figure 4</a> shows this use case.<a href="#section-5.2-5" class="pilcrow">¶</a></p>
+<span id="name-use-case-1-single-attester-"></span><div id="fig-single-attester">
+<figure id="figure-4">
+          <div id="section-5.2-6.1">
+            <div class="alignLeft art-svg artwork" id="section-5.2-6.1.1">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="128" width="184" viewBox="0 0 184 128" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
+                <path d="M 8,32 L 8,96" fill="none" stroke="black"></path>
+                <path d="M 176,32 L 176,96" fill="none" stroke="black"></path>
+                <path d="M 8,32 L 176,32" fill="none" stroke="black"></path>
+                <path d="M 8,64 L 176,64" fill="none" stroke="black"></path>
+                <path d="M 8,96 L 176,96" fill="none" stroke="black"></path>
+                <g class="text">
+                  <text x="84" y="52">EvidenceBundle</text>
+                  <text x="88" y="84">EvidenceStatement</text>
+                </g>
+              </svg><a href="#section-5.2-6.1.1" class="pilcrow">¶</a>
+</div>
+</div>
+<figcaption><a href="#figure-4" class="selfRef">Figure 4</a>:
+<a href="#name-use-case-1-single-attester-" class="selfRef">Use Case 1: Single Attester without Certification Path.</a>
+          </figcaption></figure>
+</div>
+<p id="section-5.2-7">A single Attester, which shares Evidence together with a certification path.
+The CSR conveys a single EvidenceBundle with a single EvidenceStatement
+and a single CertificateAlternatives structure. <a href="#fig-single-attester-with-path" class="auto internal xref">Figure 5</a> shows
+this use case.<a href="#section-5.2-7" class="pilcrow">¶</a></p>
+<span id="name-use-case-2-single-attester-"></span><div id="fig-single-attester-with-path">
+<figure id="figure-5">
+          <div id="section-5.2-8.1">
+            <div class="alignLeft art-svg artwork" id="section-5.2-8.1.1">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="144" width="224" viewBox="0 0 224 144" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
+                <path d="M 8,32 L 8,112" fill="none" stroke="black"></path>
+                <path d="M 216,32 L 216,112" fill="none" stroke="black"></path>
+                <path d="M 8,32 L 216,32" fill="none" stroke="black"></path>
+                <path d="M 8,64 L 216,64" fill="none" stroke="black"></path>
+                <path d="M 8,112 L 216,112" fill="none" stroke="black"></path>
+                <g class="text">
+                  <text x="84" y="52">EvidenceBundle</text>
+                  <text x="88" y="84">EvidenceStatement</text>
+                  <text x="112" y="100">CertificateAlternatives</text>
+                </g>
+              </svg><a href="#section-5.2-8.1.1" class="pilcrow">¶</a>
+</div>
+</div>
+<figcaption><a href="#figure-5" class="selfRef">Figure 5</a>:
+<a href="#name-use-case-2-single-attester-" class="selfRef">Use Case 2: Single Attester with Certification Path.</a>
+          </figcaption></figure>
+</div>
+<p id="section-5.2-9">In a Composite Device, which contains multiple Attesters, a collection of Evidence
+statements is obtained. In this use case, each Attester returns its Evidence together with a
+certification path. As a result, multiple EvidenceBundle structures, each carrying
+an EvidenceStatement and the corresponding CertificateAlternative structure with the
+certification path as provided by each Attester, are included in the CSR.
+This may result in certificates being duplicated across multiple EvidenceBundles.
+This approach does not require any processing capabilities
+by a lead Attester since the information is merely forwarded. <a href="#fig-multiple-attesters" class="auto internal xref">Figure 6</a>
+shows this use case.<a href="#section-5.2-9" class="pilcrow">¶</a></p>
+<span id="name-use-case-3-multiple-atteste"></span><div id="fig-multiple-attesters">
+<figure id="figure-6">
+          <div id="section-5.2-10.1">
+            <div class="alignLeft art-svg artwork" id="section-5.2-10.1.1">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="224" width="336" viewBox="0 0 336 224" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
+                <path d="M 8,32 L 8,192" fill="none" stroke="black"></path>
+                <path d="M 216,32 L 216,192" fill="none" stroke="black"></path>
+                <path d="M 8,32 L 216,32" fill="none" stroke="black"></path>
+                <path d="M 8,64 L 216,64" fill="none" stroke="black"></path>
+                <path d="M 8,112 L 216,112" fill="none" stroke="black"></path>
+                <path d="M 8,144 L 216,144" fill="none" stroke="black"></path>
+                <path d="M 8,192 L 216,192" fill="none" stroke="black"></path>
+                <path d="M 216,112 L 236,152" fill="none" stroke="black"></path>
+                <path d="M 216,32 L 236,72" fill="none" stroke="black"></path>
+                <path d="M 216,112 L 236,72" fill="none" stroke="black"></path>
+                <path d="M 216,192 L 236,152" fill="none" stroke="black"></path>
+                <g class="text">
+                  <text x="84" y="52">EvidenceBundle</text>
+                  <text x="160" y="52">(1)</text>
+                  <text x="276" y="68">Provided</text>
+                  <text x="324" y="68">by</text>
+                  <text x="88" y="84">EvidenceStatement</text>
+                  <text x="276" y="84">Attester</text>
+                  <text x="320" y="84">1</text>
+                  <text x="112" y="100">CertificateAlternatives</text>
+                  <text x="84" y="132">EvidenceBundle</text>
+                  <text x="160" y="132">(2)</text>
+                  <text x="276" y="148">Provided</text>
+                  <text x="324" y="148">by</text>
+                  <text x="88" y="164">EvidenceStatement</text>
+                  <text x="276" y="164">Attester</text>
+                  <text x="320" y="164">2</text>
+                  <text x="112" y="180">CertificateAlternatives</text>
+                </g>
+              </svg><a href="#section-5.2-10.1.1" class="pilcrow">¶</a>
+</div>
+</div>
+<figcaption><a href="#figure-6" class="selfRef">Figure 6</a>:
+<a href="#name-use-case-3-multiple-atteste" class="selfRef">Use Case 3: Multiple Attesters in Composite Device.</a>
+          </figcaption></figure>
+</div>
+<p id="section-5.2-11">In the last use case, a Composite Device with additional processing
+capabilities of the Leader Attester parses the certification path provided by
+all Attesters in the device and removes redundant certificate information. The
+benefit of this approach is the reduced transmission overhead. There are several
+implementation strategies and we show two in <a href="#fig-multiple-attesters-optimized" class="auto internal xref">Figure 7</a>.<a href="#section-5.2-11" class="pilcrow">¶</a></p>
+<span id="name-use-case-4-multiple-atteste"></span><div id="fig-multiple-attesters-optimized">
+<figure id="figure-7">
+          <div id="section-5.2-12.1">
+            <div class="alignLeft art-svg artwork" id="section-5.2-12.1.1">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="544" width="472" viewBox="0 0 472 544" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
+                <path d="M 16,320 L 16,528" fill="none" stroke="black"></path>
+                <path d="M 144,64 L 144,144" fill="none" stroke="black"></path>
+                <path d="M 144,176 L 144,256" fill="none" stroke="black"></path>
+                <path d="M 264,320 L 264,528" fill="none" stroke="black"></path>
+                <path d="M 352,64 L 352,144" fill="none" stroke="black"></path>
+                <path d="M 352,176 L 352,256" fill="none" stroke="black"></path>
+                <path d="M 144,64 L 352,64" fill="none" stroke="black"></path>
+                <path d="M 144,96 L 352,96" fill="none" stroke="black"></path>
+                <path d="M 112,128 L 136,128" fill="none" stroke="black"></path>
+                <path d="M 144,144 L 352,144" fill="none" stroke="black"></path>
+                <path d="M 144,176 L 352,176" fill="none" stroke="black"></path>
+                <path d="M 144,208 L 352,208" fill="none" stroke="black"></path>
+                <path d="M 112,240 L 136,240" fill="none" stroke="black"></path>
+                <path d="M 144,256 L 352,256" fill="none" stroke="black"></path>
+                <path d="M 16,320 L 264,320" fill="none" stroke="black"></path>
+                <path d="M 16,352 L 264,352" fill="none" stroke="black"></path>
+                <path d="M 16,528 L 264,528" fill="none" stroke="black"></path>
+                <path d="M 352,176 L 372,216" fill="none" stroke="black"></path>
+                <path d="M 352,64 L 372,104" fill="none" stroke="black"></path>
+                <path d="M 352,144 L 372,104" fill="none" stroke="black"></path>
+                <path d="M 352,256 L 372,216" fill="none" stroke="black"></path>
+                <polygon class="arrowhead" points="144,240 132,234.4 132,245.6" fill="black" transform="rotate(0,136,240)"></polygon>
+                <polygon class="arrowhead" points="144,128 132,122.4 132,133.6" fill="black" transform="rotate(0,136,128)"></polygon>
+                <g class="text">
+                  <text x="60" y="36">Implementation</text>
+                  <text x="156" y="36">strategy</text>
+                  <text x="212" y="36">(4a)</text>
+                  <text x="220" y="84">EvidenceBundle</text>
+                  <text x="296" y="84">(1)</text>
+                  <text x="72" y="100">Certification</text>
+                  <text x="412" y="100">Provided</text>
+                  <text x="460" y="100">by</text>
+                  <text x="36" y="116">Path</text>
+                  <text x="64" y="116">+</text>
+                  <text x="224" y="116">EvidenceStatement</text>
+                  <text x="412" y="116">Attester</text>
+                  <text x="456" y="116">1</text>
+                  <text x="60" y="132">End-Entity</text>
+                  <text x="248" y="132">CertificateAlternatives</text>
+                  <text x="64" y="148">Certificate</text>
+                  <text x="228" y="164">....</text>
+                  <text x="220" y="196">EvidenceBundle</text>
+                  <text x="296" y="196">(n)</text>
+                  <text x="412" y="212">Provided</text>
+                  <text x="460" y="212">by</text>
+                  <text x="60" y="228">End-Entity</text>
+                  <text x="224" y="228">EvidenceStatement</text>
+                  <text x="412" y="228">Attester</text>
+                  <text x="456" y="228">n</text>
+                  <text x="64" y="244">Certificate</text>
+                  <text x="248" y="244">CertificateAlternatives</text>
+                  <text x="60" y="292">Implementation</text>
+                  <text x="156" y="292">strategy</text>
+                  <text x="212" y="292">(4b)</text>
+                  <text x="92" y="340">EvidenceBundle</text>
+                  <text x="96" y="372">EvidenceStatement</text>
+                  <text x="184" y="372">(1)</text>
+                  <text x="96" y="388">...</text>
+                  <text x="96" y="404">EvidenceStatement</text>
+                  <text x="184" y="404">(n)</text>
+                  <text x="120" y="420">CertificateAlternatives</text>
+                  <text x="224" y="420">{</text>
+                  <text x="56" y="436">End</text>
+                  <text x="100" y="436">Entity</text>
+                  <text x="176" y="436">Certificate</text>
+                  <text x="240" y="436">(1)</text>
+                  <text x="96" y="452">...</text>
+                  <text x="56" y="468">End</text>
+                  <text x="100" y="468">Entity</text>
+                  <text x="176" y="468">Certificate</text>
+                  <text x="240" y="468">(n)</text>
+                  <text x="84" y="484">&lt;Remainder</text>
+                  <text x="140" y="484">of</text>
+                  <text x="168" y="484">the</text>
+                  <text x="104" y="500">Certification</text>
+                  <text x="184" y="500">Path&gt;</text>
+                  <text x="32" y="516">}</text>
+                </g>
+              </svg><a href="#section-5.2-12.1.1" class="pilcrow">¶</a>
+</div>
+</div>
+<figcaption><a href="#figure-7" class="selfRef">Figure 7</a>:
+<a href="#name-use-case-4-multiple-atteste" class="selfRef">Use Case 4: Multiple Attesters in Composite Device (with Optimization).</a>
+          </figcaption></figure>
+</div>
+<p id="section-5.2-13">In implementation strategy (4a), each Attester is provisioned with
+a unique end-entity certificate. Hence, the certification path at least differs
+with respect to the end-entity certificates.
+The lead Attester therefore creates multiple EvidenceBundle structures, where each
+carries an EvidenceStatement followed by a certification path in
+the CertificateAlternative structures containing most likely only the end-entity
+certificate. The shared certification path is carried in the first entry of the
+EvidenceBundle sequence to allow path validation to take place immediately after
+processing the first structure. This implementation strategy may
+place extra burden on the Relying Party to parse EvidenceBundles and
+reconstruct certification path if the Verifier requires each
+EvidenceStatement to be accompanied with a complete certification path.<a href="#section-5.2-13" class="pilcrow">¶</a></p>
+<p id="section-5.2-14">Implementation strategy (4b), as an alternative, requires the lead Attester
+to merge all certification paths into a single EvidenceBundle containing a single
+de-duplicated sequence of CertificateAlternatives structures. This means that each
+EvidenceBundle is self-contained and any EvidenceStatement can be verified using
+only the sequence of CertificateAlternatives in its bundle, but Verifiers will have
+to do proper certification path building since the sequence of CertificateAlternatives
+is now a cert bag and not a certification path. This implementation strategy may
+place extra burden on the Attester in order to allow the Relying Party
+to treat the Evidence and Certificates as opaque content. It also may place
+extra burden on the Verifier since this implementation strategy requires it to be able to
+perform X.509 path building over a bag of certificates that may be out of
+order or contain extraneous certificates.<a href="#section-5.2-14" class="pilcrow">¶</a></p>
+<p id="section-5.2-15">Note: This specification does not mandate optimizing certification path since
+there is a trade-off between the Attester implementation complexity and the
+transmission overhead.<a href="#section-5.2-15" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+<div id="asn1-elements">
+<section id="section-6">
+      <h2 id="name-asn1-elements">
+<a href="#section-6" class="section-number selfRef">6. </a><a href="#name-asn1-elements" class="section-name selfRef">ASN.1 Elements</a>
+      </h2>
+<div id="object-identifiers">
+<section id="section-6.1">
+        <h3 id="name-object-identifiers">
+<a href="#section-6.1" class="section-number selfRef">6.1. </a><a href="#name-object-identifiers" class="section-name selfRef">Object Identifiers</a>
+        </h3>
+<p id="section-6.1-1">This document references <code>id-pkix</code> and <code>id-aa</code>, both defined in <span>[<a href="#RFC5912" class="cite xref">RFC5912</a>]</span>.<a href="#section-6.1-1" class="pilcrow">¶</a></p>
+<p id="section-6.1-2">This document defines the arc depicted in <a href="#code-ata-arc" class="auto internal xref">Figure 8</a><a href="#section-6.1-2" class="pilcrow">¶</a></p>
+<span id="name-new-oid-arc-for-pkix-eviden"></span><div id="code-ata-arc">
+<figure id="figure-8">
+          <div class="alignLeft art-text artwork" id="section-6.1-3.1">
+<pre>
+-- Arc for Evidence types
+id-ata OBJECT IDENTIFIER ::= { id-pkix (TBD1) }
+</pre>
+</div>
+<figcaption><a href="#figure-8" class="selfRef">Figure 8</a>:
+<a href="#name-new-oid-arc-for-pkix-eviden" class="selfRef">New OID Arc for PKIX Evidence Statement Formats</a>
+          </figcaption></figure>
+</div>
+</section>
+</div>
+<div id="sec-evidenceAttr">
+<section id="section-6.2">
+        <h3 id="name-evidence-attribute-and-exte">
+<a href="#section-6.2" class="section-number selfRef">6.2. </a><a href="#name-evidence-attribute-and-exte" class="section-name selfRef">Evidence Attribute and Extension</a>
+        </h3>
+<p id="section-6.2-1">By definition, attributes within a PKCS#10 CSR are
+typed as ATTRIBUTE and within a CRMF CSR are typed as EXTENSION.
+This attribute definition contains one or more
+Evidence bundles of type <code>EvidenceBundle</code> where each contain
+one or more Evidence statements of a type <code>EvidenceStatement</code> along with
+an optional certification path.
+This structure allows for grouping Evidence statements that share a
+certification path.<a href="#section-6.2-1" class="pilcrow">¶</a></p>
+<span id="name-definition-of-evidencestate"></span><div id="code-EvidenceStatementSet">
+<figure id="figure-9">
+          <div class="alignLeft art-text artwork" id="section-6.2-2.1">
+<pre>
+EVIDENCE-STATEMENT ::= TYPE-IDENTIFIER
+
+EvidenceStatementSet EVIDENCE-STATEMENT ::= {
+   ... -- None defined in this document --
+}
+</pre>
+</div>
+<figcaption><a href="#figure-9" class="selfRef">Figure 9</a>:
+<a href="#name-definition-of-evidencestate" class="selfRef">Definition of EvidenceStatementSet</a>
+          </figcaption></figure>
+</div>
+<p id="section-6.2-3">The expression illustrated in <a href="#code-EvidenceStatementSet" class="auto internal xref">Figure 9</a> maps ASN.1 Types for Evidence Statements to the OIDs
+that identify them. These mappings are are used to construct
+or parse EvidenceStatements. Evidence Statement formats are typically
+defined in other IETF standards, other standards bodies,
+or vendor proprietary formats along with corresponding OIDs that identify them.<a href="#section-6.2-3" class="pilcrow">¶</a></p>
+<p id="section-6.2-4">This list is left undefined in this document. However, implementers can
+populate it with the formats that they wish to support.<a href="#section-6.2-4" class="pilcrow">¶</a></p>
+<span id="name-definition-of-evidencestatem"></span><div id="code-EvidenceStatement">
+<figure id="figure-10">
+          <div class="alignLeft art-text artwork" id="section-6.2-5.1">
+<pre>
+EvidenceStatements ::= SEQUENCE SIZE (1..MAX) OF EvidenceStatement
+
+EvidenceStatement ::= SEQUENCE {
+   type   EVIDENCE-STATEMENT.&amp;id({EvidenceStatementSet}),
+   stmt   EVIDENCE-STATEMENT.&amp;Type({EvidenceStatementSet}{@type}),
+   hint   UTF8String OPTIONAL
+}
+</pre>
+</div>
+<figcaption><a href="#figure-10" class="selfRef">Figure 10</a>:
+<a href="#name-definition-of-evidencestatem" class="selfRef">Definition of EvidenceStatement</a>
+          </figcaption></figure>
+</div>
+<p id="section-6.2-6">In <a href="#code-EvidenceStatement" class="auto internal xref">Figure 10</a>, type is an OID that indicates the format of the value of stmt.<a href="#section-6.2-6" class="pilcrow">¶</a></p>
+<p id="section-6.2-7">The Attester <span class="bcp14">MAY</span> populate the hint with the name of a Verifier software package
+which will be capable of parsing the data contained in <code>EvidenceStatement.stmt</code>;
+this is to help the Relying Party select the correct Verifier without requiring
+the Relying Party to perform any parsing of the data in <code>EvidenceStatement.stmt</code>.
+The type OID, which identifies the format of the data found in the Evidence statement,
+typically suffices for a Relying Party to select the correct
+Verifier (software) to invoke. However, in some cases the Relying Party
+may have more than one Verifier capable of parsing a given type OID -- for
+example if the OID indicates a wrapper format such as DICE
+ConceptualMessageWrapper that can contain further proprietary data.
+A design goal of this specification is to enable Relying Parties to
+select an appropriate Verifier (software) without the need to perform any
+parsing of the <code>EvidenceStatement.stmt</code> data.
+To help with this, the Attester <span class="bcp14">MAY</span> populate the hint with a name of a
+software package that will be capable of parsing this data.
+The hint <span class="bcp14">SHOULD</span> contain a value that is unique
+to this Verifier, for example,  a fully qualified domain name (FQDN), a uniform
+resource name (URN) <span>[<a href="#RFC8141" class="cite xref">RFC8141</a>]</span>, or a registered value corresponding to this
+Evidence format.
+In a typical usage scenario, the RP is pre-configured with a list of trusted
+Verifiers and the corresponding hint values can be used to look up appropriate Verifier.
+Tricking an RP into interacting with an unknown and untrusted Verifier has to be avoided
+as the retrieved Attestation Result must be reliable.<a href="#section-6.2-7" class="pilcrow">¶</a></p>
+<p id="section-6.2-8">Usage of the hint field can be seen in the TPM2_attest example in
+<a href="#appdx-tpm2" class="auto internal xref">Appendix A.2</a> where the type OID indicates the OID
+id-TcgAttestCertify and the corresponding hint indicates the Verifier software
+"tpmverifier.example.com" should be invoked for parsing it.<a href="#section-6.2-8" class="pilcrow">¶</a></p>
+<span id="name-definitions-of-csr-attribut"></span><div id="code-extensions">
+<figure id="figure-11">
+          <div class="alignLeft art-text artwork" id="section-6.2-9.1">
+<pre>
+EvidenceBundles ::= SEQUENCE SIZE (1..MAX) OF EvidenceBundle
+
+EvidenceBundle ::= SEQUENCE
+{
+  evidence EvidenceStatements,
+  certs SEQUENCE SIZE (1..MAX) OF CertificateAlternatives OPTIONAL
+}
+
+id-aa-evidence OBJECT IDENTIFIER ::= { id-aa 59 }
+
+-- For PKCS#10
+attr-evidence ATTRIBUTE ::= {
+  TYPE EvidenceBundles
+  IDENTIFIED BY id-aa-evidence
+}
+
+-- For CRMF
+ext-evidence EXTENSION ::= {
+  SYNTAX EvidenceBundles
+  IDENTIFIED BY id-aa-evidence
+}
+</pre>
+</div>
+<figcaption><a href="#figure-11" class="selfRef">Figure 11</a>:
+<a href="#name-definitions-of-csr-attribut" class="selfRef">Definitions of CSR attribute and extension</a>
+          </figcaption></figure>
+</div>
+<p id="section-6.2-10">The Extension variant illustrated in <a href="#code-extensions" class="auto internal xref">Figure 11</a> is intended only for use within CRMF CSRs and is <span class="bcp14">NOT RECOMMENDED</span> to be used within X.509 certificates due to the privacy implications of publishing Evidence about the end entity's hardware environment. See <a href="#sec-con-publishing-x509" class="auto internal xref">Section 8.2</a> for more discussion.<a href="#section-6.2-10" class="pilcrow">¶</a></p>
+<p id="section-6.2-11">The <code>certs</code> contains a set of certificates that
+is intended to validate the contents of an Evidence statement
+contained in <code>evidence</code>, if required. The set of certificates should contain
+the object that contains the public key needed to directly validate the
+<code>evidence</code>. The remaining elements should chain that data back to
+an agreed upon trust anchor used for attestation. No order is implied, it is
+up to the Attester and its Verifier to agree on both the order and format
+of certificates contained in <code>certs</code>.<a href="#section-6.2-11" class="pilcrow">¶</a></p>
+<p id="section-6.2-12">A CSR <span class="bcp14">MAY</span> contain one or more instances of <code>attr-evidence</code> or <code>ext-evidence</code>.
+This means that the <code>SEQUENCE OF EvidenceBundle</code> is redundant with the
+ability to carry multiple <code>attr-evidence</code> or <code>ext-evidence</code> at the CSR level;
+either mechanism <span class="bcp14">MAY</span> be used for carrying multiple Evidence bundles.<a href="#section-6.2-12" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="certificatealternatives">
+<section id="section-6.3">
+        <h3 id="name-certificatealternatives">
+<a href="#section-6.3" class="section-number selfRef">6.3. </a><a href="#name-certificatealternatives" class="section-name selfRef">CertificateAlternatives</a>
+        </h3>
+<p id="section-6.3-1">fixme: I am not fixing this because another PR fully removed this section, so in the merge, this should go away.<a href="#section-6.3-1" class="pilcrow">¶</a></p>
+<p id="section-6.3-2"><a href="#choice-fixme" class="auto internal xref">Figure 12</a> shows an ASN.1 CHOICE construct used to represent an encoding of a
+broad variety of certificate types.<a href="#section-6.3-2" class="pilcrow">¶</a></p>
+<span id="name-figure-name-fixme5"></span><div id="choice-fixme">
+<figure id="figure-12">
+          <div class="alignLeft art-text artwork" id="section-6.3-3.1">
+<pre>
+CertificateAlternatives ::=
+   CHOICE {
+      cert              Certificate,
+                           -- Using the Certificate ASN.1
+                           -- structure as defined in RFC 5280.
+      typedCert     [0] TypedCert,
+      typedFlatCert [1] TypedFlatCert,
+      ...
+   }
+</pre>
+</div>
+<figcaption><a href="#figure-12" class="selfRef">Figure 12</a>:
+<a href="#name-figure-name-fixme5" class="selfRef">Figure Name FixMe5</a>
+          </figcaption></figure>
+</div>
+<p id="section-6.3-4">"Certificate" is a standard X.509 certificate that <span class="bcp14">MUST</span> be compliant
+with RFC 5280.
+Enforcement of this constraint is left to Relying
+Parties.<a href="#section-6.3-4" class="pilcrow">¶</a></p>
+<p id="section-6.3-5">"TypedCert" is an ASN.1 construct that has the characteristics of a
+certificate, but is not encoded as an X.509 certificate.  The
+certType Field (below) indicates how to interpret the certBody field.  While
+it is possible to carry any type of data in this structure, the intend of
+the content field is to include data for at least one public key
+formatted as a SubjectPublicKeyInfo (see <span>[<a href="#RFC5912" class="cite xref">RFC5912</a>]</span>).<a href="#section-6.3-5" class="pilcrow">¶</a></p>
+<span id="name-figure-name-fixme6"></span><div id="type-fixme">
+<figure id="figure-13">
+          <div class="alignLeft art-text artwork" id="section-6.3-6.1">
+<pre>
+TYPED-CERT ::= TYPE-IDENTIFIER
+
+CertType ::= TYPED-CERT.&amp;id
+
+TypedCert ::= SEQUENCE {
+              certType     TYPED-CERT.&amp;id({TypedCertSet}),
+              content     TYPED-CERT.&amp;Type ({TypedCertSet}{@certType})
+          }
+
+TypedCertSet TYPED-CERT ::= {
+   ... -- None defined in this document --
+      }
+</pre>
+</div>
+<figcaption><a href="#figure-13" class="selfRef">Figure 13</a>:
+<a href="#name-figure-name-fixme6" class="selfRef">Figure Name FixMe6</a>
+          </figcaption></figure>
+</div>
+<p id="section-6.3-7">fixme: I am not fixing this because another PR fully removed this section, so in the merge, this should go away.<a href="#section-6.3-7" class="pilcrow">¶</a></p>
+<p id="section-6.3-8">Figure <a href="#type-fixme" class="auto internal xref">Figure 13</a> illustrates "TypedFlatCert" representing a certificate that does not have a valid ASN.1
+encoding.
+Certificates that are not ASN.1 compliant are often compact or implicit certificates used by smart cards.
+certType as shown in <a href="#flat-fixme" class="auto internal xref">Figure 14</a> indicates the format of the data in the
+certBody field and ideally refers to an appropriate published specification.<a href="#section-6.3-8" class="pilcrow">¶</a></p>
+<span id="name-figure-name-fixme7"></span><div id="flat-fixme">
+<figure id="figure-14">
+          <div class="alignLeft art-text artwork" id="section-6.3-9.1">
+<pre>
+TypedFlatCert ::= SEQUENCE {
+    certType OBJECT IDENTIFIER,
+    certBody OCTET STRING
+}
+</pre>
+</div>
+<figcaption><a href="#figure-14" class="selfRef">Figure 14</a>:
+<a href="#name-figure-name-fixme7" class="selfRef">Figure Name FixMe7</a>
+          </figcaption></figure>
+</div>
+</section>
+</div>
+</section>
+</div>
+<div id="iana-considerations">
+<section id="section-7">
+      <h2 id="name-iana-considerations">
+<a href="#section-7" class="section-number selfRef">7. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
+      </h2>
+<p id="section-7-1">IANA is requested to open two new registries, allocate a value
+from the "SMI Security for PKIX Module Identifier" registry for the
+included ASN.1 module, and allocate values from "SMI Security for
+S/MIME Attributes" to identify two attributes defined within.<a href="#section-7-1" class="pilcrow">¶</a></p>
+<div id="module-registration-smi-security-for-pkix-module-identifier">
+<section id="section-7.1">
+        <h3 id="name-module-registration-smi-sec">
+<a href="#section-7.1" class="section-number selfRef">7.1. </a><a href="#name-module-registration-smi-sec" class="section-name selfRef">Module Registration - SMI Security for PKIX Module Identifier</a>
+        </h3>
+<ul class="normal">
+<li class="normal" id="section-7.1-1.1">
+            <p id="section-7.1-1.1.1">Decimal: IANA Assigned - <strong>Replace TBDMOD</strong><a href="#section-7.1-1.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-7.1-1.2">
+            <p id="section-7.1-1.2.1">Description: CSR-ATTESTATION-2023 - id-mod-pkix-attest-01<a href="#section-7.1-1.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-7.1-1.3">
+            <p id="section-7.1-1.3.1">References: This Document<a href="#section-7.1-1.3.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+</section>
+</div>
+<div id="object-identifier-registrations-smi-security-for-smime-attributes">
+<section id="section-7.2">
+        <h3 id="name-object-identifier-registrat">
+<a href="#section-7.2" class="section-number selfRef">7.2. </a><a href="#name-object-identifier-registrat" class="section-name selfRef">Object Identifier Registrations - SMI Security for S/MIME Attributes</a>
+        </h3>
+<ul class="normal">
+<li class="normal" id="section-7.2-1.1">
+            <p id="section-7.2-1.1.1">Evidence Statement<a href="#section-7.2-1.1.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-7.2-1.1.2.1">
+                <p id="section-7.2-1.1.2.1.1">Decimal: IANA Assigned - This was early-allocated as <code>59</code> so that we could generate the sample data.<a href="#section-7.2-1.1.2.1.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-7.2-1.1.2.2">
+                <p id="section-7.2-1.1.2.2.1">Description: id-aa-evidence<a href="#section-7.2-1.1.2.2.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-7.2-1.1.2.3">
+                <p id="section-7.2-1.1.2.3.1">References: This Document<a href="#section-7.2-1.1.2.3.1" class="pilcrow">¶</a></p>
+</li>
+            </ul>
+</li>
+        </ul>
+</section>
+</div>
+<div id="smi-security-for-pkix-evidence-statement-formats-registry">
+<section id="section-7.3">
+        <h3 id="name-smi-security-for-pkix-evide">
+<a href="#section-7.3" class="section-number selfRef">7.3. </a><a href="#name-smi-security-for-pkix-evide" class="section-name selfRef">"SMI Security for PKIX Evidence Statement Formats" Registry</a>
+        </h3>
+<p id="section-7.3-1">IANA is asked to create a registry for Evidence Statement Formats within
+the SMI-numbers registry, allocating an assignment from id-pkix ("SMI
+Security for PKIX" Registry) for the purpose.<a href="#section-7.3-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-7.3-2.1">
+            <p id="section-7.3-2.1.1">Decimal: IANA Assigned - <strong>replace TBD1</strong><a href="#section-7.3-2.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-7.3-2.2">
+            <p id="section-7.3-2.2.1">Description: id-ata<a href="#section-7.3-2.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-7.3-2.3">
+            <p id="section-7.3-2.3.1">References: This document<a href="#section-7.3-2.3.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-7.3-2.4">
+            <p id="section-7.3-2.4.1">Initial contents: None<a href="#section-7.3-2.4.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-7.3-2.5">
+            <p id="section-7.3-2.5.1">Registration Regime: Specification Required.
+Document must specify an EVIDENCE-STATEMENT definition to which this
+Object Identifier shall be bound.<a href="#section-7.3-2.5.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+<p id="section-7.3-3">Columns:<a href="#section-7.3-3" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-7.3-4.1">
+            <p id="section-7.3-4.1.1">Decimal: The subcomponent under id-ata<a href="#section-7.3-4.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-7.3-4.2">
+            <p id="section-7.3-4.2.1">Description: Begins with id-ata<a href="#section-7.3-4.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-7.3-4.3">
+            <p id="section-7.3-4.3.1">References: RFC or other document<a href="#section-7.3-4.3.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+</section>
+</div>
+<div id="attestation-evidence-oid-registry">
+<section id="section-7.4">
+        <h3 id="name-attestation-evidence-oid-re">
+<a href="#section-7.4" class="section-number selfRef">7.4. </a><a href="#name-attestation-evidence-oid-re" class="section-name selfRef">Attestation Evidence OID Registry</a>
+        </h3>
+<p id="section-7.4-1">IANA is asked to create a registry that helps developers to find
+OID/Evidence mappings.<a href="#section-7.4-1" class="pilcrow">¶</a></p>
+<p id="section-7.4-2">Registration requests are evaluated using the criteria described in
+the registration template below after a three-week review period on
+the [[TBD]] mailing list, with the advice of one or more Designated
+Experts <span>[<a href="#RFC8126" class="cite xref">RFC8126</a>]</span>.  However, to allow for the allocation of values
+prior to publication, the Designated Experts may approve registration
+once they are satisfied that such a specification will be published.<a href="#section-7.4-2" class="pilcrow">¶</a></p>
+<p id="section-7.4-3">Registration requests sent to the mailing list for review should use
+an appropriate subject (e.g., "Request to register attestation
+evidence: example").<a href="#section-7.4-3" class="pilcrow">¶</a></p>
+<p id="section-7.4-4">IANA must only accept registry updates from the Designated Experts
+and should direct all requests for registration to the review mailing
+list.<a href="#section-7.4-4" class="pilcrow">¶</a></p>
+<div id="registration-template">
+<section id="section-7.4.1">
+          <h4 id="name-registration-template">
+<a href="#section-7.4.1" class="section-number selfRef">7.4.1. </a><a href="#name-registration-template" class="section-name selfRef">Registration Template</a>
+          </h4>
+<p id="section-7.4.1-1">The registry has the following columns:<a href="#section-7.4.1-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-7.4.1-2.1">
+              <p id="section-7.4.1-2.1.1">OID: The OID number, which has already been allocated. IANA does
+not allocate OID numbers for use with this registry.<a href="#section-7.4.1-2.1.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-7.4.1-2.2">
+              <p id="section-7.4.1-2.2.1">Description: Brief description of the use of the Evidence and the
+registration of the OID.<a href="#section-7.4.1-2.2.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-7.4.1-2.3">
+              <p id="section-7.4.1-2.3.1">Reference(s): Reference to the document or documents that register
+the OID for use with a specific attestation technology, preferably
+including URIs that can be used to retrieve copies of the documents.
+An indication of the relevant sections may also be included but is not
+required.<a href="#section-7.4.1-2.3.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-7.4.1-2.4">
+              <p id="section-7.4.1-2.4.1">Change Controller: For Standards Track RFCs, list the "IESG".  For
+others, give the name of the responsible party. In most cases the
+third party requesting registration in this registry will also be the
+party that registered the OID.<a href="#section-7.4.1-2.4.1" class="pilcrow">¶</a></p>
+</li>
+          </ul>
+</section>
+</div>
+<div id="initial-registry-contents">
+<section id="section-7.4.2">
+          <h4 id="name-initial-registry-contents">
+<a href="#section-7.4.2" class="section-number selfRef">7.4.2. </a><a href="#name-initial-registry-contents" class="section-name selfRef">Initial Registry Contents</a>
+          </h4>
+<p id="section-7.4.2-1">The initial registry contents is shown in the table below.
+It lists entries for several evidence encodings including an entry for the Conceptual Message Wrapper (CMW) <span>[<a href="#I-D.ietf-rats-msg-wrap" class="cite xref">I-D.ietf-rats-msg-wrap</a>]</span>.<a href="#section-7.4.2-1" class="pilcrow">¶</a></p>
+<span id="name-initial-contents-of-the-att"></span><div id="tab-ae-reg">
+<table class="center" id="table-1">
+            <caption>
+<a href="#table-1" class="selfRef">Table 1</a>:
+<a href="#name-initial-contents-of-the-att" class="selfRef">Initial Contents of the Attestation Evidence OID Registry</a>
+            </caption>
+<thead>
+              <tr>
+                <th class="text-left" rowspan="1" colspan="1">OID</th>
+                <th class="text-left" rowspan="1" colspan="1">Description</th>
+                <th class="text-left" rowspan="1" colspan="1">Reference(s)</th>
+                <th class="text-left" rowspan="1" colspan="1">Change Controller</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">2 23 133 5 4 1</td>
+                <td class="text-left" rowspan="1" colspan="1">DiceTcbInfo</td>
+                <td class="text-left" rowspan="1" colspan="1">
+                  <span>[<a href="#TCGDICE1.1" class="cite xref">TCGDICE1.1</a>]</span>
+</td>
+                <td class="text-left" rowspan="1" colspan="1">TCG</td>
+              </tr>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">2 23 133 5 4 5</td>
+                <td class="text-left" rowspan="1" colspan="1">DiceMultiTcbInfo</td>
+                <td class="text-left" rowspan="1" colspan="1">
+                  <span>[<a href="#TCGDICE1.1" class="cite xref">TCGDICE1.1</a>]</span>
+</td>
+                <td class="text-left" rowspan="1" colspan="1">TCG</td>
+              </tr>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">2 23 133 5 4 6</td>
+                <td class="text-left" rowspan="1" colspan="1">DiceUccsEvidence</td>
+                <td class="text-left" rowspan="1" colspan="1">
+                  <span>[<a href="#TCGDICE1.1" class="cite xref">TCGDICE1.1</a>]</span>
+</td>
+                <td class="text-left" rowspan="1" colspan="1">TCG</td>
+              </tr>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">2 23 133 5 4 7</td>
+                <td class="text-left" rowspan="1" colspan="1">DiceManifestEvidence</td>
+                <td class="text-left" rowspan="1" colspan="1">
+                  <span>[<a href="#TCGDICE1.1" class="cite xref">TCGDICE1.1</a>]</span>
+</td>
+                <td class="text-left" rowspan="1" colspan="1">TCG</td>
+              </tr>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">2 23 133 5 4 8</td>
+                <td class="text-left" rowspan="1" colspan="1">DiceTcbInfoComp</td>
+                <td class="text-left" rowspan="1" colspan="1">
+                  <span>[<a href="#TCGDICE1.1" class="cite xref">TCGDICE1.1</a>]</span>
+</td>
+                <td class="text-left" rowspan="1" colspan="1">TCG</td>
+              </tr>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">2 23 133 5 4 9</td>
+                <td class="text-left" rowspan="1" colspan="1">DiceConceptualMessageWrapper</td>
+                <td class="text-left" rowspan="1" colspan="1">
+                  <span>[<a href="#TCGDICE1.1" class="cite xref">TCGDICE1.1</a>]</span>
+</td>
+                <td class="text-left" rowspan="1" colspan="1">TCG</td>
+              </tr>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">2 23 133 20 1</td>
+                <td class="text-left" rowspan="1" colspan="1">tcg-attest-tpm-certify</td>
+                <td class="text-left" rowspan="1" colspan="1">Private Registry</td>
+                <td class="text-left" rowspan="1" colspan="1">TCG</td>
+              </tr>
+            </tbody>
+          </table>
+</div>
+<p id="section-7.4.2-3">The current registry values can be retrieved from the IANA online website.<a href="#section-7.4.2-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+</section>
+</div>
+<div id="security-considerations">
+<section id="section-8">
+      <h2 id="name-security-considerations">
+<a href="#section-8" class="section-number selfRef">8. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
+      </h2>
+<p id="section-8-1">A PKCS#10 or CRMF Certification Request message typically consists of a
+distinguished name, a public key, and optionally a set of attributes,
+collectively signed by the entity requesting certification.
+In general usage, the private key used to sign the CSR <span class="bcp14">MUST</span> be different from the
+Attesting Key utilized to sign Evidence about the Target
+Environment, though exceptions <span class="bcp14">MAY</span> be made where CSRs and Evidence are involved in
+bootstrapping the Attesting Key.
+To demonstrate that the private
+key applied to sign the CSR is generated, and stored in a secure
+environment that has controls to prevent theft or misuse (including
+being non-exportable / non-recoverable), the Attesting Environment
+has to collect claims about this secure environment (or Target
+Environment, as shown in <a href="#fig-attester" class="auto internal xref">Figure 15</a>).<a href="#section-8-1" class="pilcrow">¶</a></p>
+<p id="section-8-2"><a href="#fig-attester" class="auto internal xref">Figure 15</a> shows the interaction inside an Attester. The
+Attesting Environment, which is provisioned with an Attestation Key,
+retrieves claims about the Target Environment. The Target
+Environment offers key generation, storage and usage, which it
+makes available to services. The Attesting Environment collects
+these claims about the Target Environment and signs them and
+exports Evidence for use in remote attestation via a CSR.<a href="#section-8-2" class="pilcrow">¶</a></p>
+<span id="name-interaction-between-attesti"></span><div id="fig-attester">
+<figure id="figure-15">
+        <div id="section-8-3.1">
+          <div class="alignLeft art-svg artwork" id="section-8-3.1.1">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="576" width="328" viewBox="0 0 328 576" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
+              <path d="M 8,240 L 8,544" fill="none" stroke="black"></path>
+              <path d="M 40,80 L 40,144" fill="none" stroke="black"></path>
+              <path d="M 48,288 L 48,352" fill="none" stroke="black"></path>
+              <path d="M 96,152 L 96,280" fill="none" stroke="black"></path>
+              <path d="M 120,152 L 120,280" fill="none" stroke="black"></path>
+              <path d="M 120,448 L 120,512" fill="none" stroke="black"></path>
+              <path d="M 152,32 L 152,80" fill="none" stroke="black"></path>
+              <path d="M 168,352 L 168,440" fill="none" stroke="black"></path>
+              <path d="M 200,152 L 200,280" fill="none" stroke="black"></path>
+              <path d="M 232,448 L 232,512" fill="none" stroke="black"></path>
+              <path d="M 240,280 L 240,352" fill="none" stroke="black"></path>
+              <path d="M 264,80 L 264,144" fill="none" stroke="black"></path>
+              <path d="M 304,240 L 304,472" fill="none" stroke="black"></path>
+              <path d="M 304,488 L 304,544" fill="none" stroke="black"></path>
+              <path d="M 320,112 L 320,480" fill="none" stroke="black"></path>
+              <path d="M 40,80 L 264,80" fill="none" stroke="black"></path>
+              <path d="M 272,112 L 320,112" fill="none" stroke="black"></path>
+              <path d="M 40,144 L 264,144" fill="none" stroke="black"></path>
+              <path d="M 8,240 L 88,240" fill="none" stroke="black"></path>
+              <path d="M 128,240 L 192,240" fill="none" stroke="black"></path>
+              <path d="M 208,240 L 304,240" fill="none" stroke="black"></path>
+              <path d="M 48,288 L 240,288" fill="none" stroke="black"></path>
+              <path d="M 48,352 L 240,352" fill="none" stroke="black"></path>
+              <path d="M 120,448 L 232,448" fill="none" stroke="black"></path>
+              <path d="M 72,480 L 112,480" fill="none" stroke="black"></path>
+              <path d="M 232,480 L 320,480" fill="none" stroke="black"></path>
+              <path d="M 120,512 L 232,512" fill="none" stroke="black"></path>
+              <path d="M 8,544 L 304,544" fill="none" stroke="black"></path>
+              <polygon class="arrowhead" points="280,112 268,106.4 268,117.6" fill="black" transform="rotate(180,272,112)"></polygon>
+              <polygon class="arrowhead" points="208,280 196,274.4 196,285.6" fill="black" transform="rotate(90,200,280)"></polygon>
+              <polygon class="arrowhead" points="208,152 196,146.4 196,157.6" fill="black" transform="rotate(270,200,152)"></polygon>
+              <polygon class="arrowhead" points="176,440 164,434.4 164,445.6" fill="black" transform="rotate(90,168,440)"></polygon>
+              <polygon class="arrowhead" points="160,32 148,26.4 148,37.6" fill="black" transform="rotate(270,152,32)"></polygon>
+              <polygon class="arrowhead" points="128,152 116,146.4 116,157.6" fill="black" transform="rotate(270,120,152)"></polygon>
+              <polygon class="arrowhead" points="120,480 108,474.4 108,485.6" fill="black" transform="rotate(0,112,480)"></polygon>
+              <polygon class="arrowhead" points="104,280 92,274.4 92,285.6" fill="black" transform="rotate(90,96,280)"></polygon>
+              <g class="text">
+                <text x="168" y="52">CSR</text>
+                <text x="204" y="52">with</text>
+                <text x="188" y="68">Evidence</text>
+                <text x="112" y="116">CSR</text>
+                <text x="160" y="116">Library</text>
+                <text x="32" y="180">Private</text>
+                <text x="156" y="180">Public</text>
+                <text x="248" y="180">Signature</text>
+                <text x="16" y="196">Key</text>
+                <text x="144" y="196">Key</text>
+                <text x="248" y="196">Operation</text>
+                <text x="44" y="212">Generation</text>
+                <text x="156" y="212">Export</text>
+                <text x="108" y="244">--</text>
+                <text x="268" y="260">Attester</text>
+                <text x="256" y="276">(HSM)</text>
+                <text x="84" y="308">Target</text>
+                <text x="160" y="308">Environment</text>
+                <text x="80" y="324">(with</text>
+                <text x="120" y="324">key</text>
+                <text x="184" y="324">generation,</text>
+                <text x="88" y="340">storage</text>
+                <text x="136" y="340">and</text>
+                <text x="180" y="340">usage)</text>
+                <text x="128" y="388">Collect</text>
+                <text x="132" y="404">Claims</text>
+                <text x="56" y="468">Attestation</text>
+                <text x="168" y="468">Attesting</text>
+                <text x="48" y="484">Key</text>
+                <text x="176" y="484">Environment</text>
+                <text x="172" y="500">(Firmware)</text>
+                <text x="268" y="500">Evidence</text>
+              </g>
+            </svg><a href="#section-8-3.1.1" class="pilcrow">¶</a>
+</div>
+</div>
+<figcaption><a href="#figure-15" class="selfRef">Figure 15</a>:
+<a href="#name-interaction-between-attesti" class="selfRef">Interaction between Attesting and Target Environment</a>
+        </figcaption></figure>
+</div>
+<p id="section-8-4"><a href="#fig-attester" class="auto internal xref">Figure 15</a> places the CSR library outside the Attester, which
+is a valid architecture for certificate enrollment.
+The CSR library may also be located
+inside the trusted computing base. Regardless of the placement
+of the CSR library, an Attesting Environment <span class="bcp14">MUST</span> be able to collect
+claims about the Target Environment such that statements about
+the storage of the keying material can be made.
+For the Verifier, the provided Evidence must allow
+an assessment to be made whether the key used to sign the CSR
+is stored in a secure location and cannot be exported.<a href="#section-8-4" class="pilcrow">¶</a></p>
+<p id="section-8-5">Evidence communicated in the attributes and structures defined
+in this document are meant to be used in a CSR. It is up to
+the Verifier and to the Relying Party (RA/CA) to place as much or
+as little trust in this information as dictated by policies.<a href="#section-8-5" class="pilcrow">¶</a></p>
+<p id="section-8-6">This document defines the transport of Evidence of different formats
+in a CSR. Some of these encoding formats are based on standards
+while others are proprietary formats. A Verifier will need to understand
+these formats for matching the received claim values against policies.<a href="#section-8-6" class="pilcrow">¶</a></p>
+<p id="section-8-7">Policies drive the processing of Evidence at the Verifier: the Verifier's
+Appraisal Policy for Evidence will often be based on specifications by the manufacturer
+of a hardware security module, a regulatory agency, or specified by an
+oversight body, such as the CA Browser Forum. The Code-Signing Baseline
+Requirements <span>[<a href="#CSBR" class="cite xref">CSBR</a>]</span> document
+is an example of such a policy that has
+been published by the CA Browser Forum and specifies certain properties,
+such as non-exportability, which must be enabled for storing
+publicly-trusted code-signing keys. Other
+policies influence the decision making at the Relying Party when
+evaluating the Attestation Result. The Relying Party is ultimately
+responsible for making a decision of what information in the Attestation
+Result it will accept. The presence of the attributes defined in this
+specification provide the Relying Party with additional assurance about
+an Attester. Policies used at the Verifier and the Relying Party are
+implementation dependent and out of scope for this document. Whether to
+require the use of Evidence in a CSR is out-of-scope for this document.<a href="#section-8-7" class="pilcrow">¶</a></p>
+<div id="freshness">
+<section id="section-8.1">
+        <h3 id="name-freshness">
+<a href="#section-8.1" class="section-number selfRef">8.1. </a><a href="#name-freshness" class="section-name selfRef">Freshness</a>
+        </h3>
+<p id="section-8.1-1">Evidence generated by an Attester generally needs to be fresh to provide
+value to the Verifier since the configuration on the device may change
+over time. Section 10 of <span>[<a href="#RFC9334" class="cite xref">RFC9334</a>]</span> discusses different approaches for
+providing freshness, including a nonce-based approach, the use of timestamps
+and an epoch-based technique.  The use of nonces requires that nonce to be provided by
+the Relying Party in some protocol step prior to Evidence and CSR generation,
+and the use of timestamps requires synchronized clocks which cannot be
+guaranteed in all operating environments. Epochs also require (unidirectional)
+communication prior to Evidence and CSR generation.
+This document only specifies how to carry existing Evidence formats inside a CSR,
+and so issues of synchronizing freshness data is left to be handled, for example,
+via certificate management protocols.
+Developers, operators, and designers of protocols, which embed
+Evidence-carrying-CSRs, <span class="bcp14">MUST</span> consider what notion of freshness is
+appropriate and available in-context; thus the issue of freshness is
+left up to the discretion of protocol designers and implementers.<a href="#section-8.1-1" class="pilcrow">¶</a></p>
+<p id="section-8.1-2">In the case of Hardware Security Modules (HSM), the definition of "fresh" is somewhat ambiguous in the context
+of CSRs, especially considering that non-automated certificate enrollments
+are often asynchronous, and considering the common practice of re-using the
+same CSR for multiple certificate renewals across the lifetime of a key.
+"Freshness" typically implies both asserting that the data was generated
+at a certain point-in-time, as well as providing non-replayability.
+Certain use cases may have special properties impacting the freshness
+requirements. For example, HSMs are typically designed to not allow downgrade
+of private key storage properties; for example if a given key was asserted at
+time T to have been generated inside the hardware boundary and to be
+non-exportable, then it can be assumed that those properties of that key
+will continue to hold into the future.<a href="#section-8.1-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="sec-con-publishing-x509">
+<section id="section-8.2">
+        <h3 id="name-publishing-evidence-in-an-x">
+<a href="#section-8.2" class="section-number selfRef">8.2. </a><a href="#name-publishing-evidence-in-an-x" class="section-name selfRef">Publishing evidence in an X.509 extension</a>
+        </h3>
+<p id="section-8.2-1">This document specifies an Extension for carrying Evidence in a CRMF Certificate Signing Request (CSR), but it is intentionally <span class="bcp14">NOT RECOMMENDED</span> for a CA to copy the ext-evidence extension into the published certificate.
+The reason for this is that certificates are considered public information and the Evidence might contain detailed information about hardware and patch levels of the device on which the private key resides.
+The certificate requester has consented to sharing this detailed device information with the CA but might not consent to having these details published.
+These privacy considerations are beyond the scope of this document and may require additional signaling mechanisms in the CSR to prevent unintended publication of sensitive information, so we leave it as "<span class="bcp14">NOT RECOMMENDED</span>". The authors suggest that the correct layer at which to address this is either in certificate profiles, or in the protocol or application that carries the CSR to the RA/CA where a flag can be added indicating whether the RA/CA should consider the evidence to be public or private.<a href="#section-8.2-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="type-oid-and-verifier-hint">
+<section id="section-8.3">
+        <h3 id="name-type-oid-and-verifier-hint">
+<a href="#section-8.3" class="section-number selfRef">8.3. </a><a href="#name-type-oid-and-verifier-hint" class="section-name selfRef">Type OID and verifier hint</a>
+        </h3>
+<p id="section-8.3-1">The <code>EvidenceStatement</code> includes both a <code>type</code> OID and a free form <code>hint</code> field with which the Attester can provide information to the Relying Party about which Verifier to invoke to parse a given piece of Evidence.
+Care should be taken when processing these data since at the time they are used, they are not yet verified. In fact, they are protected by the CSR signature but not by the signature from the Attester and so could be maliciously replaced in some cases.
+The authors' intent is that the <code>type</code> OID and <code>hint</code> will allow an RP to select between Verifier with which it has pre-established trust relationships, such as Verifier libraries that have been compiled in to the RP application.
+As an example, the <code>hint</code> may take the form of an FQDN to uniquely identify a Verifier implementation, but the RP <span class="bcp14">MUST NOT</span> blindly make network calls to unknown domain names and trust the results.
+Implementers should also be cautious around <code>type</code> OID or <code>hint</code> values that cause a short-circuit in the verification logic, such as <code>None</code>, <code>Null</code>, <code>Debug</code>, empty CMW contents, or similar values that could cause the Evidence to appear to be valid when in fact it was not properly checked.<a href="#section-8.3-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+<section id="section-9">
+      <h2 id="name-references">
+<a href="#section-9" class="section-number selfRef">9. </a><a href="#name-references" class="section-name selfRef">References</a>
+      </h2>
+<div id="sec-normative-references">
+<section id="section-9.1">
+        <h3 id="name-normative-references">
+<a href="#section-9.1" class="section-number selfRef">9.1. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
+        </h3>
+<dl class="references">
+<dt id="RFC2119">[RFC2119]</dt>
+        <dd>
+<span class="refAuthor">Bradner, S.</span>, <span class="refTitle">"Key words for use in RFCs to Indicate Requirement Levels"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 2119</span>, <span class="seriesInfo">DOI 10.17487/RFC2119</span>, <time datetime="1997-03" class="refDate">March 1997</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc2119">https://www.rfc-editor.org/rfc/rfc2119</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC2986">[RFC2986]</dt>
+        <dd>
+<span class="refAuthor">Nystrom, M.</span> and <span class="refAuthor">B. Kaliski</span>, <span class="refTitle">"PKCS #10: Certification Request Syntax Specification Version 1.7"</span>, <span class="seriesInfo">RFC 2986</span>, <span class="seriesInfo">DOI 10.17487/RFC2986</span>, <time datetime="2000-11" class="refDate">November 2000</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc2986">https://www.rfc-editor.org/rfc/rfc2986</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC4211">[RFC4211]</dt>
+        <dd>
+<span class="refAuthor">Schaad, J.</span>, <span class="refTitle">"Internet X.509 Public Key Infrastructure Certificate Request Message Format (CRMF)"</span>, <span class="seriesInfo">RFC 4211</span>, <span class="seriesInfo">DOI 10.17487/RFC4211</span>, <time datetime="2005-09" class="refDate">September 2005</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc4211">https://www.rfc-editor.org/rfc/rfc4211</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC5912">[RFC5912]</dt>
+        <dd>
+<span class="refAuthor">Hoffman, P.</span> and <span class="refAuthor">J. Schaad</span>, <span class="refTitle">"New ASN.1 Modules for the Public Key Infrastructure Using X.509 (PKIX)"</span>, <span class="seriesInfo">RFC 5912</span>, <span class="seriesInfo">DOI 10.17487/RFC5912</span>, <time datetime="2010-06" class="refDate">June 2010</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc5912">https://www.rfc-editor.org/rfc/rfc5912</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8174">[RFC8174]</dt>
+        <dd>
+<span class="refAuthor">Leiba, B.</span>, <span class="refTitle">"Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 8174</span>, <span class="seriesInfo">DOI 10.17487/RFC8174</span>, <time datetime="2017-05" class="refDate">May 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8174">https://www.rfc-editor.org/rfc/rfc8174</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC9334">[RFC9334]</dt>
+      <dd>
+<span class="refAuthor">Birkholz, H.</span>, <span class="refAuthor">Thaler, D.</span>, <span class="refAuthor">Richardson, M.</span>, <span class="refAuthor">Smith, N.</span>, and <span class="refAuthor">W. Pan</span>, <span class="refTitle">"Remote ATtestation procedureS (RATS) Architecture"</span>, <span class="seriesInfo">RFC 9334</span>, <span class="seriesInfo">DOI 10.17487/RFC9334</span>, <time datetime="2023-01" class="refDate">January 2023</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9334">https://www.rfc-editor.org/rfc/rfc9334</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+</dl>
+</section>
+</div>
+<div id="sec-informative-references">
+<section id="section-9.2">
+        <h3 id="name-informative-references">
+<a href="#section-9.2" class="section-number selfRef">9.2. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
+        </h3>
+<dl class="references">
+<dt id="CSBR">[CSBR]</dt>
+        <dd>
+<span class="refAuthor">CA/Browser Forum</span>, <span class="refTitle">"Baseline Requirements for Code-Signing Certificates, v.3.3"</span>, <time datetime="2023-06" class="refDate">June 2023</time>, <span>&lt;<a href="https://cabforum.org/wp-content/uploads/Baseline-Requirements-for-the-Issuance-and-Management-of-Code-Signing.v3.3.pdf">https://cabforum.org/wp-content/uploads/Baseline-Requirements-for-the-Issuance-and-Management-of-Code-Signing.v3.3.pdf</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="I-D.bft-rats-kat">[I-D.bft-rats-kat]</dt>
+        <dd>
+<span class="refAuthor">Brossard, M.</span>, <span class="refAuthor">Fossati, T.</span>, and <span class="refAuthor">H. Tschofenig</span>, <span class="refTitle">"An EAT-based Key Attestation Token"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-bft-rats-kat-03</span>, <time datetime="2024-03-04" class="refDate">4 March 2024</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-bft-rats-kat-03">https://datatracker.ietf.org/doc/html/draft-bft-rats-kat-03</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="I-D.ietf-rats-msg-wrap">[I-D.ietf-rats-msg-wrap]</dt>
+        <dd>
+<span class="refAuthor">Birkholz, H.</span>, <span class="refAuthor">Smith, N.</span>, <span class="refAuthor">Fossati, T.</span>, and <span class="refAuthor">H. Tschofenig</span>, <span class="refTitle">"RATS Conceptual Messages Wrapper (CMW)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-rats-msg-wrap-05</span>, <time datetime="2024-06-13" class="refDate">13 June 2024</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-rats-msg-wrap-05">https://datatracker.ietf.org/doc/html/draft-ietf-rats-msg-wrap-05</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="I-D.ietf-rats-tpm-based-network-device-attest">[I-D.ietf-rats-tpm-based-network-device-attest]</dt>
+        <dd>
+<span class="refAuthor">Fedorkow, G.</span>, <span class="refAuthor">Voit, E.</span>, and <span class="refAuthor">J. Fitzgerald-McKay</span>, <span class="refTitle">"TPM-based Network Device Remote Integrity Verification"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-rats-tpm-based-network-device-attest-14</span>, <time datetime="2022-03-22" class="refDate">22 March 2022</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-rats-tpm-based-network-device-attest-14">https://datatracker.ietf.org/doc/html/draft-ietf-rats-tpm-based-network-device-attest-14</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="I-D.tschofenig-rats-psa-token">[I-D.tschofenig-rats-psa-token]</dt>
+        <dd>
+<span class="refAuthor">Tschofenig, H.</span>, <span class="refAuthor">Frost, S.</span>, <span class="refAuthor">Brossard, M.</span>, <span class="refAuthor">Shaw, A. L.</span>, and <span class="refAuthor">T. Fossati</span>, <span class="refTitle">"Arm's Platform Security Architecture (PSA) Attestation Token"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-tschofenig-rats-psa-token-22</span>, <time datetime="2024-02-21" class="refDate">21 February 2024</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-tschofenig-rats-psa-token-22">https://datatracker.ietf.org/doc/html/draft-tschofenig-rats-psa-token-22</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="PKCS11">[PKCS11]</dt>
+        <dd>
+<span class="refAuthor">OASIS</span>, <span class="refTitle">"PKCS #11 Cryptographic Token Interface Base Specification Version 2.40"</span>, <time datetime="2015-04" class="refDate">April 2015</time>, <span>&lt;<a href="http://docs.oasis-open.org/pkcs11/pkcs11-base/v2.40/os/pkcs11-base-v2.40-os.html">http://docs.oasis-open.org/pkcs11/pkcs11-base/v2.40/os/pkcs11-base-v2.40-os.html</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC7030">[RFC7030]</dt>
+        <dd>
+<span class="refAuthor">Pritikin, M., Ed.</span>, <span class="refAuthor">Yee, P., Ed.</span>, and <span class="refAuthor">D. Harkins, Ed.</span>, <span class="refTitle">"Enrollment over Secure Transport"</span>, <span class="seriesInfo">RFC 7030</span>, <span class="seriesInfo">DOI 10.17487/RFC7030</span>, <time datetime="2013-10" class="refDate">October 2013</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc7030">https://www.rfc-editor.org/rfc/rfc7030</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8126">[RFC8126]</dt>
+        <dd>
+<span class="refAuthor">Cotton, M.</span>, <span class="refAuthor">Leiba, B.</span>, and <span class="refAuthor">T. Narten</span>, <span class="refTitle">"Guidelines for Writing an IANA Considerations Section in RFCs"</span>, <span class="seriesInfo">BCP 26</span>, <span class="seriesInfo">RFC 8126</span>, <span class="seriesInfo">DOI 10.17487/RFC8126</span>, <time datetime="2017-06" class="refDate">June 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8126">https://www.rfc-editor.org/rfc/rfc8126</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8141">[RFC8141]</dt>
+        <dd>
+<span class="refAuthor">Saint-Andre, P.</span> and <span class="refAuthor">J. Klensin</span>, <span class="refTitle">"Uniform Resource Names (URNs)"</span>, <span class="seriesInfo">RFC 8141</span>, <span class="seriesInfo">DOI 10.17487/RFC8141</span>, <time datetime="2017-04" class="refDate">April 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8141">https://www.rfc-editor.org/rfc/rfc8141</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="SampleData">[SampleData]</dt>
+        <dd>
+<span class="refTitle">"CSR Attestation Sample Data"</span>, <span>n.d.</span>, <span>&lt;<a href="https://github.com/lamps-wg/csr-attestation-examples">https://github.com/lamps-wg/csr-attestation-examples</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="TCGDICE1.1">[TCGDICE1.1]</dt>
+        <dd>
+<span class="refAuthor">Trusted Computing Group</span>, <span class="refTitle">"DICE Attestation Architecture"</span>, <time datetime="2024-01" class="refDate">January 2024</time>, <span>&lt;<a href="https://trustedcomputinggroup.org/wp-content/uploads/DICE-Attestation-Architecture-Version-1.1-Revision-18_pub.pdf">https://trustedcomputinggroup.org/wp-content/uploads/DICE-Attestation-Architecture-Version-1.1-Revision-18_pub.pdf</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="TPM20">[TPM20]</dt>
+      <dd>
+<span class="refAuthor">Trusted Computing Group</span>, <span class="refTitle">"Trusted Platform Module Library Specification, Family 2.0, Level 00, Revision 01.59"</span>, <time datetime="2019-11" class="refDate">November 2019</time>, <span>&lt;<a href="https://trustedcomputinggroup.org/resource/tpm-library-specification/">https://trustedcomputinggroup.org/resource/tpm-library-specification/</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+</dl>
+</section>
+</div>
+</section>
+<div id="examples">
+<section id="appendix-A">
+      <h2 id="name-examples">
+<a href="#appendix-A" class="section-number selfRef">Appendix A. </a><a href="#name-examples" class="section-name selfRef">Examples</a>
+      </h2>
+<p id="appendix-A-1">This section provides several examples and sample data for embedding Evidence
+in CSRs. The first example embeds Evidence produced by a TPM in the CSR.
+The second example conveys an Arm Platform Security Architecture token,
+which provides claims about the used hardware and software platform,
+into the CSR.<a href="#appendix-A-1" class="pilcrow">¶</a></p>
+<p id="appendix-A-2">After publicatian of this document, additional examples and sample data will
+be collected at the following GitHub repository <span>[<a href="#SampleData" class="cite xref">SampleData</a>]</span>:<a href="#appendix-A-2" class="pilcrow">¶</a></p>
+<p id="appendix-A-3">https://github.com/lamps-wg/csr-attestation-examples<a href="#appendix-A-3" class="pilcrow">¶</a></p>
+<div id="extending-evidencestatementset">
+<section id="appendix-A.1">
+        <h3 id="name-extending-evidencestatement">
+<a href="#appendix-A.1" class="section-number selfRef">A.1. </a><a href="#name-extending-evidencestatement" class="section-name selfRef">Extending EvidenceStatementSet</a>
+        </h3>
+<p id="appendix-A.1-1">As defined in <a href="#sec-evidenceAttr" class="auto internal xref">Section 6.2</a>, EvidenceStatementSet acts as a way to provide an ASN.1 compiler or
+runtime parser with a list of OBJECT IDENTIFIERs that are known to represent EvidenceStatements
+-- and are expected to appear in an EvidenceStatement.type field, along with
+the ASN.1 type that should be used to parse the data in the associated EvidenceStatement.stmt field.
+Essentially this is a mapping of OIDs to data structures. Implementers are expected to populate it
+with mappings for the Evidence types that their application will be handling.<a href="#appendix-A.1-1" class="pilcrow">¶</a></p>
+<p id="appendix-A.1-2">This specification aims to be agnostic about the type of data being carried, and therefore
+does not specify any mandatory-to-implement Evidence types.<a href="#appendix-A.1-2" class="pilcrow">¶</a></p>
+<p id="appendix-A.1-3">As an example of how to populate EvidenceStatementSet, implementing the TPM 2.0 and PSA Evidence types
+given below would result in the following EvidenceStatementSet definition:<a href="#appendix-A.1-3" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="appendix-A.1-4">
+<pre>
+EvidenceStatementSet EVIDENCE-STATEMENT ::= {
+  --- TPM 2.0
+  { Tcg-attest-tpm-certify IDENTIFIED BY tcg-attest-tpm-certify },
+  ...,
+
+  --- PSA
+  { OCTET STRING IDENTIFIED BY { 1 3 6 1 5 5 7 1 99 } }
+}
+</pre><a href="#appendix-A.1-4" class="pilcrow">¶</a>
+</div>
+</section>
+</div>
+<div id="appdx-tpm2">
+<section id="appendix-A.2">
+        <h3 id="name-tpm-v20-evidence-in-csr">
+<a href="#appendix-A.2" class="section-number selfRef">A.2. </a><a href="#name-tpm-v20-evidence-in-csr" class="section-name selfRef">TPM V2.0 Evidence in CSR</a>
+        </h3>
+<p id="appendix-A.2-1">This section describes TPM2 key attestation for use in a CSR.<a href="#appendix-A.2-1" class="pilcrow">¶</a></p>
+<p id="appendix-A.2-2">This is a complete and canonical example that can be used to test parsers implemented against this specification. Readers who wish the sample data may skip to <a href="#appdx-tpm-example" class="auto internal xref">Appendix A.2.6</a>; the following sections explain the TPM-specific data structures needed to fully parse the contents of the evidence statement.<a href="#appendix-A.2-2" class="pilcrow">¶</a></p>
+<div id="tcg-key-attestation-certify">
+<section id="appendix-A.2.1">
+          <h4 id="name-tcg-key-attestation-certify">
+<a href="#appendix-A.2.1" class="section-number selfRef">A.2.1. </a><a href="#name-tcg-key-attestation-certify" class="section-name selfRef">TCG Key Attestation Certify</a>
+          </h4>
+<p id="appendix-A.2.1-1">There are several ways in TPM2 to provide proof of a key's properties.
+(i.e., key attestation). This description uses the simplest and most generally
+expected to used which is the TPM2_Certify and the TPM2_ReadPublic commands.<a href="#appendix-A.2.1-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="tcg-oids">
+<section id="appendix-A.2.2">
+          <h4 id="name-tcg-oids">
+<a href="#appendix-A.2.2" class="section-number selfRef">A.2.2. </a><a href="#name-tcg-oids" class="section-name selfRef">TCG OIDs</a>
+          </h4>
+<p id="appendix-A.2.2-1">The OIDs in this section are defined by TCG
+TCG has a registered arc of 2.23.133<a href="#appendix-A.2.2-1" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="appendix-A.2.2-2">
+<pre>
+tcg OBJECT IDENTIFIER ::= { 2 23 133 }
+
+tcg-kp-AIKCertificate OBJECT IDENTIFIER ::= { id-tcg 8 3 }
+
+tcg-attest OBJECT IDENTIFIER ::= { tcg 20 }
+
+tcg-attest-tpm-certify OBJECT IDENTIFIER ::= { tcg-attest 1 }
+</pre><a href="#appendix-A.2.2-2" class="pilcrow">¶</a>
+</div>
+</section>
+</div>
+<div id="appdx-tcg-attest-tpm-certify">
+<section id="appendix-A.2.3">
+          <h4 id="name-tpm2-attestationstatement">
+<a href="#appendix-A.2.3" class="section-number selfRef">A.2.3. </a><a href="#name-tpm2-attestationstatement" class="section-name selfRef">TPM2 AttestationStatement</a>
+          </h4>
+<p id="appendix-A.2.3-1">The EvidenceStatement structure contains a sequence of two fields:
+a type and a stmt. The 'type' field contains the OID of the Evidence format and it is
+set to tcg-attest-tpm-certify. The content of the structure shown below is placed into
+the stmt, which is a concatenation of existing TPM2 structures. These structures
+will be explained in the rest of this section.<a href="#appendix-A.2.3-1" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="appendix-A.2.3-2">
+<pre>
+Tcg-csr-tpm-certify ::= SEQUENCE {
+  tpmSAttest       OCTET STRING,
+  signature        OCTET STRING,
+  tpmTPublic       OCTET STRING OPTIONAL
+}
+</pre><a href="#appendix-A.2.3-2" class="pilcrow">¶</a>
+</div>
+<p id="appendix-A.2.3-3">The tcg-kp-AIKCertificate field contains the AIK Certificate in RFC 5280 format.<a href="#appendix-A.2.3-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="introduction-to-tpm2-concepts">
+<section id="appendix-A.2.4">
+          <h4 id="name-introduction-to-tpm2-concep">
+<a href="#appendix-A.2.4" class="section-number selfRef">A.2.4. </a><a href="#name-introduction-to-tpm2-concep" class="section-name selfRef">Introduction to TPM2 concepts</a>
+          </h4>
+<p id="appendix-A.2.4-1">The definitions in the following sections are defined by the TPM2 and various TCG defined
+specification including the TPM2 set of specifications. Those familiar with
+TPM2 concepts may skip to <a href="#appdx-tcg-attest-tpm-certify" class="auto internal xref">Appendix A.2.3</a> which defines an ASN.1 structure
+specific for bundling a TPM attestation into an EvidenceStatement, and <a href="#appdx-tpm-example" class="auto internal xref">Appendix A.2.6</a>
+which provides the example. For those unfamiliar with TPM2 concepts
+this section provides only the minimum information to understand TPM2
+Attestation in CSR and is not a complete description of the technology in
+general.<a href="#appendix-A.2.4-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="tcg-objects-and-key-attestation">
+<section id="appendix-A.2.5">
+          <h4 id="name-tcg-objects-and-key-attesta">
+<a href="#appendix-A.2.5" class="section-number selfRef">A.2.5. </a><a href="#name-tcg-objects-and-key-attesta" class="section-name selfRef">TCG Objects and Key Attestation</a>
+          </h4>
+<p id="appendix-A.2.5-1">This provides a brief explanation of the relevant TPM2 commands and data
+structures needed to understand TPM2 Attestation used in this RFC.
+NOTE: The TPM2 specification used in this explanation is version 1.59,
+section number cited are based on that version. Note also that the TPM2
+specification comprises four documents: Part 1: Architecture; Part 2: Structures;
+Part 3: Commands; Part 4: Supporting Routines.<a href="#appendix-A.2.5-1" class="pilcrow">¶</a></p>
+<p id="appendix-A.2.5-2">Note about convention:
+All structures starting with TPM2B_ are:<a href="#appendix-A.2.5-2" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="appendix-A.2.5-3.1">
+              <p id="appendix-A.2.5-3.1.1">a structure that is a sized buffer where the size of the buffer is contained in a 16-bit, unsigned value.<a href="#appendix-A.2.5-3.1.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="appendix-A.2.5-3.2">
+              <p id="appendix-A.2.5-3.2.1">The first parameter is the size in octets of the second parameter. The second parameter may be any type.<a href="#appendix-A.2.5-3.2.1" class="pilcrow">¶</a></p>
+</li>
+          </ul>
+<p id="appendix-A.2.5-4">A full explanation of the TPM structures is outside the scope of this document. As a
+simplification references to TPM2B_ structures will simply use the enclosed
+TPMT_ structure by the same name following the '_'.<a href="#appendix-A.2.5-4" class="pilcrow">¶</a></p>
+<div id="tpm2-object-names">
+<section id="appendix-A.2.5.1">
+            <h5 id="name-tpm2-object-names">
+<a href="#appendix-A.2.5.1" class="section-number selfRef">A.2.5.1. </a><a href="#name-tpm2-object-names" class="section-name selfRef">TPM2 Object Names</a>
+            </h5>
+<p id="appendix-A.2.5.1-1">All TPM2 Objects (e.g., keys are key objects which is the focus of this specification).
+A TPM2 object name is persistent across the object's life cycle whether the TPM2
+object is transient or persistent.<a href="#appendix-A.2.5.1-1" class="pilcrow">¶</a></p>
+<p id="appendix-A.2.5.1-2">A TPM2 Object name is a concatenation of a hash algorithm identifier and a hash of
+the TPM2 Object's TPMT_PUBLIC.<a href="#appendix-A.2.5.1-2" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="appendix-A.2.5.1-3">
+<pre>
+     Name ≔ nameAlg || HnameAlg (handle→publicArea)
+     nameAlg is a TCG defined 16 bit algorithm identifier
+</pre><a href="#appendix-A.2.5.1-3" class="pilcrow">¶</a>
+</div>
+<p id="appendix-A.2.5.1-4">publicArea is the TPMT_PUBLIC structure for that TPM2 Object.<a href="#appendix-A.2.5.1-4" class="pilcrow">¶</a></p>
+<p id="appendix-A.2.5.1-5">The size of the Name field can be derived by examining the nameAlg value, which defines
+the hashing algorithm and the resulting size.<a href="#appendix-A.2.5.1-5" class="pilcrow">¶</a></p>
+<p id="appendix-A.2.5.1-6">The Name field is returned in the TPM2B_ATTEST data field.<a href="#appendix-A.2.5.1-6" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="appendix-A.2.5.1-7">
+<pre>
+     typedef struct {
+          TPM_GENERATED magic;
+          TPMI_ST_ATTEST type;
+          TPM2B_NAME qualifiedSigner;
+          TPM2B_DATA extraData;
+          TPMS_CLOCK_INFO clockInfo;
+          UINT64 firmwareVersion;
+          TPMU_ATTEST attested;
+     } TPMS_ATTEST;
+</pre><a href="#appendix-A.2.5.1-7" class="pilcrow">¶</a>
+</div>
+<p id="appendix-A.2.5.1-8">where for a key object the attested field is<a href="#appendix-A.2.5.1-8" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="appendix-A.2.5.1-9">
+<pre>
+     typedef struct {
+          TPM2B_NAME name;
+          TPM2B_NAME qualifiedName;
+     } TPMS_CERTIFY_INFO;
+</pre><a href="#appendix-A.2.5.1-9" class="pilcrow">¶</a>
+</div>
+</section>
+</div>
+<div id="tpm2-public-structure">
+<section id="appendix-A.2.5.2">
+            <h5 id="name-tpm2-public-structure">
+<a href="#appendix-A.2.5.2" class="section-number selfRef">A.2.5.2. </a><a href="#name-tpm2-public-structure" class="section-name selfRef">TPM2 Public Structure</a>
+            </h5>
+<p id="appendix-A.2.5.2-1">Any TPM2 Object has an associated TPM2 Public structure defined
+as TPMT_PUBLIC. This is defined below as a 'C' structure. While there
+are many types of TPM2 Objects each with its own specific TPMT_PUBLIC
+structure (handled by the use of 'unions') this document will specifically
+define TPMT_PUBLIC for a TPM2 key object.<a href="#appendix-A.2.5.2-1" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="appendix-A.2.5.2-2">
+<pre>
+     typedef struct {
+          TPMI_ALG_PUBLIC type;
+          TPMI_ALG_HASH nameAlg;
+          TPMA_OBJECT objectAttributes;
+          TPM2B_DIGEST authPolicy;
+          TPMU_PUBLIC_PARMS parameters;
+          TPMU_PUBLIC_ID unique;
+     } TPMT_PUBLIC;
+</pre><a href="#appendix-A.2.5.2-2" class="pilcrow">¶</a>
+</div>
+<p id="appendix-A.2.5.2-3">Where:
+* type and nameAlg are 16 bit TCG defined algorithms.
+* objectAttributes is a 32 bit field defining properties of the object, as shown below<a href="#appendix-A.2.5.2-3" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="appendix-A.2.5.2-4">
+<pre>
+     typedef struct TPMA_OBJECT {
+          unsigned Reserved_bit_at_0 : 1;
+          unsigned fixedTPM : 1;
+          unsigned stClear : 1;
+          unsigned Reserved_bit_at_3 : 1;
+          unsigned fixedParent : 1;
+          unsigned sensitiveDataOrigin : 1;
+          unsigned userWithAuth : 1;
+          unsigned adminWithPolicy : 1;
+          unsigned Reserved_bits_at_8 : 2;
+          unsigned noDA : 1;
+          unsigned encryptedDuplication : 1;
+          unsigned Reserved_bits_at_12 : 4;
+          unsigned restricted : 1;
+          unsigned decrypt : 1;
+          unsigned sign : 1;
+          unsigned x509sign : 1;
+          unsigned Reserved_bits_at_20 : 12;
+     } TPMA_OBJECT;
+</pre><a href="#appendix-A.2.5.2-4" class="pilcrow">¶</a>
+</div>
+<ul class="normal">
+<li class="normal" id="appendix-A.2.5.2-5.1">
+                <p id="appendix-A.2.5.2-5.1.1">authPolicy is the Policy Digest needed to authorize use of the object.<a href="#appendix-A.2.5.2-5.1.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="appendix-A.2.5.2-5.2">
+                <p id="appendix-A.2.5.2-5.2.1">Parameters are the object type specific public information about the key.<a href="#appendix-A.2.5.2-5.2.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="appendix-A.2.5.2-5.2.2.1">
+                    <p id="appendix-A.2.5.2-5.2.2.1.1">For key objects, this would be the key's public parameters.<a href="#appendix-A.2.5.2-5.2.2.1.1" class="pilcrow">¶</a></p>
+</li>
+                </ul>
+</li>
+              <li class="normal" id="appendix-A.2.5.2-5.3">
+                <p id="appendix-A.2.5.2-5.3.1">unique is the identifier for parameters<a href="#appendix-A.2.5.2-5.3.1" class="pilcrow">¶</a></p>
+</li>
+            </ul>
+<p id="appendix-A.2.5.2-6">The size of the TPMT_PUBLIC is provided by the following structure:<a href="#appendix-A.2.5.2-6" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="appendix-A.2.5.2-7">
+<pre>
+     typedef struct {
+          UINT16     size;
+          TPMT_PUBLIC publicArea;
+     } TPM2B_PUBLIC;
+</pre><a href="#appendix-A.2.5.2-7" class="pilcrow">¶</a>
+</div>
+</section>
+</div>
+<div id="tpm2-signatures">
+<section id="appendix-A.2.5.3">
+            <h5 id="name-tpm2-signatures">
+<a href="#appendix-A.2.5.3" class="section-number selfRef">A.2.5.3. </a><a href="#name-tpm2-signatures" class="section-name selfRef">TPM2 Signatures</a>
+            </h5>
+<p id="appendix-A.2.5.3-1">TPM2 signatures use a union where the first field (16 bits) identifies
+the signature scheme. The example below shows an RSA signature where
+TPMT_SIGNATURE-&gt;sigAlg will indicate to use TPMS_SIGNATURE_RSA
+as the signature.<a href="#appendix-A.2.5.3-1" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="appendix-A.2.5.3-2">
+<pre>
+     typedef struct {
+          TPMI_ALG_SIG_SCHEME sigAlg;
+          TPMU_SIGNATURE signature;
+     } TPMT_SIGNATURE;
+
+     typedef struct {
+          TPMI_ALG_HASH hash;
+          TPM2B_PUBLIC_KEY_RSA sig;
+     } TPMS_SIGNATURE_RSA;
+</pre><a href="#appendix-A.2.5.3-2" class="pilcrow">¶</a>
+</div>
+</section>
+</div>
+<div id="attestation-key">
+<section id="appendix-A.2.5.4">
+            <h5 id="name-attestation-key">
+<a href="#appendix-A.2.5.4" class="section-number selfRef">A.2.5.4. </a><a href="#name-attestation-key" class="section-name selfRef">Attestation Key</a>
+            </h5>
+<p id="appendix-A.2.5.4-1">The uniquely identifying TPM2 key is the Endorsement Key (the EK). As this is a privacy
+sensitive key, the EK is not directly used to attest to any TPM2 asset. Instead,
+the EK is used by an Attestation CA to create an Attestation Key (the AK). The AK is
+assumed trusted by the Verifier and is assume to be loaded in the TPM during the execution
+of the process described in the subsequent sections. The description of how to create the AK is outside
+the scope of this document.<a href="#appendix-A.2.5.4-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="attester-processing">
+<section id="appendix-A.2.5.5">
+            <h5 id="name-attester-processing">
+<a href="#appendix-A.2.5.5" class="section-number selfRef">A.2.5.5. </a><a href="#name-attester-processing" class="section-name selfRef">Attester Processing</a>
+            </h5>
+<p id="appendix-A.2.5.5-1">The only signed component is the TPM2B_ATTEST structure, which returns
+only the (key's) Name and the signature computed over the Name but no detailed information
+about the key. As the Name is comprised of public information, the Name can
+be calculated by the Verifier but only if the Verify knows all the public
+information about the Key.<a href="#appendix-A.2.5.5-1" class="pilcrow">¶</a></p>
+<p id="appendix-A.2.5.5-2">The Attester's processing steps are as follows:<a href="#appendix-A.2.5.5-2" class="pilcrow">¶</a></p>
+<p id="appendix-A.2.5.5-3">Using the TPM2 command TPM2_Certify obtain the TPM2B_ATTEST and TPMT_SIGNATURE structures
+from the TPM2. The signing key for TPMT_SIGNATURE is an Attention Key (or AK), which is
+assumed to be available to the TPM2 upfront. More details are provided in <a href="#attestation-key" class="auto internal xref">Appendix A.2.5.4</a><a href="#appendix-A.2.5.5-3" class="pilcrow">¶</a></p>
+<p id="appendix-A.2.5.5-4">The TPM2 command TPM2_Certify takes the following input:<a href="#appendix-A.2.5.5-4" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="appendix-A.2.5.5-5.1">
+                <p id="appendix-A.2.5.5-5.1.1">TPM2 handle for Key (the key to be attested to)<a href="#appendix-A.2.5.5-5.1.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="appendix-A.2.5.5-5.2">
+                <p id="appendix-A.2.5.5-5.2.1">TPM2 handle for the AK (see <a href="#attestation-key" class="auto internal xref">Appendix A.2.5.4</a>)<a href="#appendix-A.2.5.5-5.2.1" class="pilcrow">¶</a></p>
+</li>
+            </ul>
+<p id="appendix-A.2.5.5-6">It produces the following output:<a href="#appendix-A.2.5.5-6" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="appendix-A.2.5.5-7.1">
+                <p id="appendix-A.2.5.5-7.1.1">TPM2B_ATTEST in binary format<a href="#appendix-A.2.5.5-7.1.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="appendix-A.2.5.5-7.2">
+                <p id="appendix-A.2.5.5-7.2.1">TPMT_SIGNATURE in binary format<a href="#appendix-A.2.5.5-7.2.1" class="pilcrow">¶</a></p>
+</li>
+            </ul>
+<p id="appendix-A.2.5.5-8">Then, using the TPM2 command TPM2_ReadPublic obtain the Keys TPM2B_PUBLIC structure.
+While the Key's public information can be obtained by the Verifier in a number
+ways, such as storing it from when the Key was created, this may be impractical
+in many situations. As TPM2 provided a command to obtain this information, this
+specification will include it in the TPM2 Attestation CSR extension.<a href="#appendix-A.2.5.5-8" class="pilcrow">¶</a></p>
+<p id="appendix-A.2.5.5-9">The TPM2 command TPM2_ReadPublic takes the following input:<a href="#appendix-A.2.5.5-9" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="appendix-A.2.5.5-10.1">
+                <p id="appendix-A.2.5.5-10.1.1">TPM2 handle for Key (the key to be attested to)<a href="#appendix-A.2.5.5-10.1.1" class="pilcrow">¶</a></p>
+</li>
+            </ul>
+<p id="appendix-A.2.5.5-11">It produces the following output:<a href="#appendix-A.2.5.5-11" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="appendix-A.2.5.5-12.1">
+                <p id="appendix-A.2.5.5-12.1.1">TPM2B_PUBLIC in binary format<a href="#appendix-A.2.5.5-12.1.1" class="pilcrow">¶</a></p>
+</li>
+            </ul>
+</section>
+</div>
+<div id="verifier-processing">
+<section id="appendix-A.2.5.6">
+            <h5 id="name-verifier-processing">
+<a href="#appendix-A.2.5.6" class="section-number selfRef">A.2.5.6. </a><a href="#name-verifier-processing" class="section-name selfRef">Verifier Processing</a>
+            </h5>
+<p id="appendix-A.2.5.6-1">The Verifier has to perform the following steps once it receives the Evidence:<a href="#appendix-A.2.5.6-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="appendix-A.2.5.6-2.1">
+                <p id="appendix-A.2.5.6-2.1.1">Verify the TPM2B_ATTEST using the TPMT_SIGNATURE.<a href="#appendix-A.2.5.6-2.1.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="appendix-A.2.5.6-2.2">
+                <p id="appendix-A.2.5.6-2.2.1">Use the Key's "expected" Name from the provided TPM2B_PUBLIC structure.
+If Key's "expected" Name equals TPM2B_ATTEST-&gt;attestationData then returned TPM2B_PUBLIC is the verified.<a href="#appendix-A.2.5.6-2.2.1" class="pilcrow">¶</a></p>
+</li>
+            </ul>
+</section>
+</div>
+</section>
+</div>
+<div id="appdx-tpm-example">
+<section id="appendix-A.2.6">
+          <h4 id="name-sample-csr">
+<a href="#appendix-A.2.6" class="section-number selfRef">A.2.6. </a><a href="#name-sample-csr" class="section-name selfRef">Sample CSR</a>
+          </h4>
+<p id="appendix-A.2.6-1">This CSR demonstrates a certification request for a key stored in a TPM using the following structure:<a href="#appendix-A.2.6-1" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="appendix-A.2.6-2">
+<pre>
+CSR {
+  attributes {
+    id-aa-evidence {
+      EvidenceBundles {
+        EvidenceBundle {
+          EvidenceStatements {
+            EvidenceStatement {
+              type: tcg-attest-tpm-certify,
+              stmt: &lt;TcgAttestTpmCertify_data&gt;
+              hint: "tpmverifier.example.com"
+            }
+          },
+          certs {
+            akCertificate,
+            caCertificate
+          }
+        }
+      }
+    }
+  }
+}
+</pre><a href="#appendix-A.2.6-2" class="pilcrow">¶</a>
+</div>
+<p id="appendix-A.2.6-3">Note that this example demonstrates most of the features of this specification:<a href="#appendix-A.2.6-3" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="appendix-A.2.6-4.1">
+              <p id="appendix-A.2.6-4.1.1">The data type is identified by the OID id-TcgCsrCertify contained in the <code>EvidenceStatement.type</code> field.<a href="#appendix-A.2.6-4.1.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="appendix-A.2.6-4.2">
+              <p id="appendix-A.2.6-4.2.1">The signed evidence is carried in the <code>EvidenceStatement.stmt</code> field.<a href="#appendix-A.2.6-4.2.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="appendix-A.2.6-4.3">
+              <p id="appendix-A.2.6-4.3.1">The <code>EvidenceStatement.hint</code> provides information to the Relying Party about which Verifier (software) will be able to correctly parse this data. Note that the <code>type</code> OID indicates the format of the data, but that may itself be a wrapper format that contains further data in a proprietary format. In this example, the hint says that software from the package <code>"tpmverifier.example.com"</code> will be able to parse this data.<a href="#appendix-A.2.6-4.3.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="appendix-A.2.6-4.4">
+              <p id="appendix-A.2.6-4.4.1">The evidence statement is accompanied by a certificate chain in the <code>EvidenceBundle.certs</code> field which can be used to verify the signature on the evidence statement. How the Verifier establishes trust in the provided certificates is outside the scope of this specification.<a href="#appendix-A.2.6-4.4.1" class="pilcrow">¶</a></p>
+</li>
+          </ul>
+<p id="appendix-A.2.6-5">Features of this specification that are not demonstrated by this example are:<a href="#appendix-A.2.6-5" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="appendix-A.2.6-6.1">
+              <p id="appendix-A.2.6-6.1.1">An EvidenceBundle containing multiple EvidenceStatements that share a certificate chain.<a href="#appendix-A.2.6-6.1.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="appendix-A.2.6-6.2">
+              <p id="appendix-A.2.6-6.2.1">Multiple EvidenceBundles that each have their own certificate chain.<a href="#appendix-A.2.6-6.2.1" class="pilcrow">¶</a></p>
+</li>
+          </ul>
+<div class="alignLeft art-text artwork" id="appendix-A.2.6-7">
+<pre>
+-----BEGIN CERTIFICATE REQUEST-----
+MIIMmjCCC4QCAQAwcjELMAkGA1UEBhMCQVUxDDAKBgNVBAgMA1FMRDERMA8GA1UE
+BwwIQnJpc2JhbmUxGzAZBgNVBAoMEmlldGYtMTE5LWhhY2thdGhvbjEWMBQGA1UE
+CwwNaWV0Zi1jc3ItdGVzdDENMAsGA1UEAwwEa2V5MTCCASIwDQYJKoZIhvcNAQEB
+BQADggEPADCCAQoCggEBAM3AeVGnRgRMijvkuKreB+B6vWEi7QXRANIhvvkcHH3h
+Jg0y//13XTQjUC0/pj5Hi66ILSxMru5j2aNZ7n5THEK2dMqrjjLokcfojdAoErK6
+BmGHSCB8US41tb7qurneJzRCO0VGExpAKI1Ps05j0HHtYvwqHTlikWCpIOiDkNQt
+gz7sgr3z3aE2OKqsXfYehnBIJbqdClOMz7C23V/XcjEi/WF0vGTboHYmLHNwkTr5
+VrFhDqKFxQUx4+neqSJGeo30USno6Lr8hFAufxQzzoiFx571C4Wad+J1chCKORb/
+5Kbu4O7wu9doOsFK+I2anUHFEJS5wowVfcWuyjcIZ/0CAwEAAaCCCeMwggnfBgsq
+hkiG9w0BCRACOzGCCc4wggnKMIIJxjCCAtwwggLYBgVngQUUATCCArQEgZH/VENH
+gBcAIgALgSWffuitIOAJ6HaGbtjgb5HYkvYKKPpxeBsZOS8nnxgABAD/VaoAAAAA
+Nc8rIAAAAAcAAAAAASAZECMAFjY2ACIACwIYIzzfD3YNj+9DpDfm6cw/eyH2BuNJ
+me/FQlkl1WnlACIAC66AuFfCBmj8QrwfqOSqNt/dUwtgVMSh+iaYiSJslGTiBIIB
+ADLHaelFw/JTKhJbwi0tz5zkzJVyfo1nHER2s1YWZj/7GNcNZ5uvtcYgK65XIyMw
+LjIA0AncNhOVAJhJm0uRkbjUmvtW5kGpDtepFqQj394N4XiXulGIXimwVKkc9lqS
+kkRcfmzqomSaMmafVwXBAQ1NGrHV/PaX7IUlW5Hqo3Ja++sYro8y/hEQL3ILXdEG
+lQEj/wB9NhiuVqW/SpT0iIs+E1MD2uJRICxCw21F352BGiAda0pmvr7nknJhv5kM
+gWKInhonhLfLXlWVmvI+pf/z4QHXSWNZoibiihRcP7Eruq1X+VMx2T+Au2Q2O8zz
+9omo9Ktyq/cZDUGsLcs5E0UEggEYARYAAQALAAYAcgAAABAAEAgAAAAAAAEAzcB5
+UadGBEyKO+S4qt4H4Hq9YSLtBdEA0iG++RwcfeEmDTL//XddNCNQLT+mPkeLrogt
+LEyu7mPZo1nuflMcQrZ0yquOMuiRx+iN0CgSsroGYYdIIHxRLjW1vuq6ud4nNEI7
+RUYTGkAojU+zTmPQce1i/CodOWKRYKkg6IOQ1C2DPuyCvfPdoTY4qqxd9h6GcEgl
+up0KU4zPsLbdX9dyMSL9YXS8ZNugdiYsc3CROvlWsWEOooXFBTHj6d6pIkZ6jfRR
+KejouvyEUC5/FDPOiIXHnvULhZp34nVyEIo5Fv/kpu7g7vC712g6wUr4jZqdQcUQ
+lLnCjBV9xa7KNwhn/QwXdHBtdmVyaWZpZXIuZXhhbXBsZS5jb20wggbiMIIDazCC
+AlMCFD+SFCWsL2qqj29Qjboa1MYhl3spMA0GCSqGSIb3DQEBCwUAMHQxCzAJBgNV
+BAYTAkFVMQwwCgYDVQQIDANRTEQxETAPBgNVBAcMCEJyaXNiYW5lMRswGQYDVQQK
+DBJpZXRmLTExOS1oYWNrYXRob24xFjAUBgNVBAsMDWlldGYtY3NyLXRlc3QxDzAN
+BgNVBAMMBnJvb3RDQTAeFw0yNDA1MDUwMDMyMjhaFw0yNDA2MDQwMDMyMjhaMHAx
+CzAJBgNVBAYTAkFVMQwwCgYDVQQIDANRTEQxETAPBgNVBAcMCEJyaXNiYW5lMRsw
+GQYDVQQKDBJpZXRmLTExOS1oYWNrYXRob24xFjAUBgNVBAsMDWlldGYtY3NyLXRl
+c3QxCzAJBgNVBAMMAmFrMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA
+rJwY3dhpjd5Mm4r8Gcjx6qympTD8J+ldfUVglCFXxVpmZmX7Bec6fPcARLBR4jte
+/Y/UGszreRv8WQ2O6J85XMPiJvYeWQExVL3NU5izX7+DVqX0is3HARUfkyXgF8zL
+2BkSgQcuYqAR2riG6YH+waE44qCVAi/k9nni25CtsHzyD6twWvvE3BdhzBt8j1eA
+1qWgOvVebVmMuN53caNkeAMb6a+OIirsU/eCbP0mycDfwabHg1DNCVio3pgQWJeW
+uNsYWcCNDZ0yYOKKGzN4tmu1se3NyZRPPU1H6SGlgqLPlJce1KDnLc9E1hBX8gCJ
+Aw7kzR66MXSNW9j9rHnYOQIDAQABMA0GCSqGSIb3DQEBCwUAA4IBAQCSNgvEgZju
+zRqBiwVfe7Jy3ZfNwacVinS38SlKdaZsfeh+qpR6YCyeumS2Is8Ei70OzSr8QuN5
+NYQamDSnbjsJoCoWLk3O4S/JAXHXdKesBNGY8/wG3nxMSjzoaQ6UXOrsXWtgPKUg
+0/3bWN8JYrQPp2Ieggi/pE0DRE0vvO2LfA3L19la7mVYv0SWk/vEj5rVrqOWAHYu
+4TUC+9lm3k6QmGgf6MTC3tPgE3/Xi/tIKOlf0McdNfVNRA4tlhKb+jZaUC5AeNfp
+d74RTjICwRjQct3yS+GdtShiXUdyu04kgkruQTf2RBZ+QxFaYS0cVqfiYRRE5CZO
+oMnqMV0Ezwu/MIIDbzCCAlcCFAUfP4YmjszQY/Vtn/04g5htsJN7MA0GCSqGSIb3
+DQEBCwUAMHQxCzAJBgNVBAYTAkFVMQwwCgYDVQQIDANRTEQxETAPBgNVBAcMCEJy
+aXNiYW5lMRswGQYDVQQKDBJpZXRmLTExOS1oYWNrYXRob24xFjAUBgNVBAsMDWll
+dGYtY3NyLXRlc3QxDzANBgNVBAMMBnJvb3RDQTAeFw0yNDA1MDUwMDMyMjBaFw0z
+NDA1MDMwMDMyMjBaMHQxCzAJBgNVBAYTAkFVMQwwCgYDVQQIDANRTEQxETAPBgNV
+BAcMCEJyaXNiYW5lMRswGQYDVQQKDBJpZXRmLTExOS1oYWNrYXRob24xFjAUBgNV
+BAsMDWlldGYtY3NyLXRlc3QxDzANBgNVBAMMBnJvb3RDQTCCASIwDQYJKoZIhvcN
+AQEBBQADggEPADCCAQoCggEBAJ7JEtP/VDfRndsRmNqCs3iD/oLVSX2LSrkV2cb4
+Cj9P5qwarxdBMuQocKyY/WZ3kL3iLXJfo3jzLQ90cMkoJ88swcY94I4d/SLE9E7s
+X8+CTeyVfuvZ40dbrbxifNDRZWpdBCEt0J/kYtwEJMNqwGrPsYsZoQh3Ge9IMiPo
+GiQSFHFiosl59xCf4Fp7HLAzASQTzRgAJg7T24djiV9G8lnR+pDKRKaMiwbhaUyv
+rYV+9Ogs5QLmQRD3kutPNs/57imqb2JMypF2JdDZ8fOj1D8AIQJDxOQSpzqJq5Oo
+d0OMPEsH9ZiliMOjzCKU2P5cnEeVoWzraiY7Is6z2/8/LQkCAwEAATANBgkqhkiG
+9w0BAQsFAAOCAQEAjv0pbXilgnaD9xJLwn60uO/RQY4Npxclf5FiWIqeHQ12ssKE
+sAqodmRzo8xz3/y+Zk5BYMfXDtB4SG/XIZ/Xuo1Jc7GYrUJg5oXYRxsejjdb0z6K
+WzIe5l5hFkbSJnLfWNx/DcGyeOXDRfRTwOAuC4i2IMQBHOMCVq3btQXuKW8foEDF
+u85w7fT0YbiXdgRyU6LROxy8odMDqgDqTh9PS2adqlF2N/A3NNV2bK5ae0zldniN
+e8zqFpIKrNjGv81svpUCh+YgQK/LBU0W0Mi70nrp8uFWN88vv/Pl+CVX5zJIEHM6
+Mzil8NgCaWeRXg0d9RHn8z0JwuEZXThJtpv7JTALBgkqhkiG9w0BAQsDggEBAF9Q
+3g8tC87eaabivJ8kU10vA6EhAA3aSC7iqOqQxgrc80g5jn+y8mZUE8WhEeS+SN2W
+ewSEr3L+LQdftCtWETKreJXVfqqwDh5UkmB5R7tds+HLrNUy9cVT4K/PvhS/yhMa
+qLtl2DuXHfDtdRgn4O4vOAJqyHm3CKm2tIlr22vG3tRH1kRjnZLUvtsIN2uzLbC3
+vQXFf0dKOw3U2bhVywyj6RF9bXObFTzUPArfHm+bSTtKmUJxBnApn8uBw4eLapAc
+Aor2874rll5Ey3pSng9lCgKE2nn8Xuw3ZGys894nOJc15Uwr/QP2aKHnv/MzdXwU
+mBFIOcV149HcobQM974=
+-----END CERTIFICATE REQUEST-----
+</pre><a href="#appendix-A.2.6-7" class="pilcrow">¶</a>
+</div>
+</section>
+</div>
+</section>
+</div>
+<div id="psa-attestation-token-in-csr">
+<section id="appendix-A.3">
+        <h3 id="name-psa-attestation-token-in-cs">
+<a href="#appendix-A.3" class="section-number selfRef">A.3. </a><a href="#name-psa-attestation-token-in-cs" class="section-name selfRef">PSA Attestation Token in CSR</a>
+        </h3>
+<p id="appendix-A.3-1">The Platform Security Architecture (PSA) Attestation Token is
+defined in <span>[<a href="#I-D.tschofenig-rats-psa-token" class="cite xref">I-D.tschofenig-rats-psa-token</a>]</span> and specifies
+claims to be included in an Entity Attestation
+Token (EAT). <span>[<a href="#I-D.bft-rats-kat" class="cite xref">I-D.bft-rats-kat</a>]</span> defines key attestation
+based on the EAT format. In this section the platform
+attestation offered by <span>[<a href="#I-D.tschofenig-rats-psa-token" class="cite xref">I-D.tschofenig-rats-psa-token</a>]</span>
+is combined with key attestation by binding the
+key attestation token (KAT) to the platform attestation token (PAT)
+with the help of the nonce. For details see <span>[<a href="#I-D.bft-rats-kat" class="cite xref">I-D.bft-rats-kat</a>]</span>.
+The resulting KAT-PAT bundle is, according to
+<span><a href="https://datatracker.ietf.org/doc/html/draft-bft-rats-kat-03#section-5.1" class="relref">Section 5.1</a> of [<a href="#I-D.bft-rats-kat" class="cite xref">I-D.bft-rats-kat</a>]</span>, combined in a CMW collection
+<span>[<a href="#I-D.ietf-rats-msg-wrap" class="cite xref">I-D.ietf-rats-msg-wrap</a>]</span>.<a href="#appendix-A.3-1" class="pilcrow">¶</a></p>
+<p id="appendix-A.3-2">The encoding of this KAT-PAT bundle is shown in the example below.<a href="#appendix-A.3-2" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="appendix-A.3-3">
+<pre>
+EvidenceBundles
+ +
+ |
+ +-&gt; EvidenceBundle
+      +
+      |
+      +-&gt;  EvidenceStatement
+            +
+            |
+            +-&gt; type: OID for CMW Collection
+            |         1 3 6 1 5 5 7 1 TBD
+            |
+            +-&gt; stmt: KAT/PAT CMW Collection
+</pre><a href="#appendix-A.3-3" class="pilcrow">¶</a>
+</div>
+<p id="appendix-A.3-4">The value in EvidenceStatement-&gt;stmt is based on the
+KAT/PAT example from <span><a href="https://datatracker.ietf.org/doc/html/draft-bft-rats-kat-03#section-6" class="relref">Section 6</a> of [<a href="#I-D.bft-rats-kat" class="cite xref">I-D.bft-rats-kat</a>]</span> and
+the result of CBOR encoding the CMW collection shown below
+(with line-breaks added for readability purposes):<a href="#appendix-A.3-4" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="appendix-A.3-5">
+<pre>
+{
+  "kat":
+    h'd28443A10126A058C0A30A5820B91B03129222973C214E42BF31D68
+      72A3EF2DBDDA401FBD1F725D48D6BF9C8171909C4A40102200121
+      5820F0FFFA7BA35E76E44CA1F5446D327C8382A5A40E5F29745DF
+      948346C7C88A5D32258207CB4C4873CBB6F097562F61D5280768C
+      D2CFE35FBA97E997280DBAAAE3AF92FE08A101A40102200121582
+      0D7CC072DE2205BDC1537A543D53C60A6ACB62ECCD890C7FA27C9
+      E354089BBE13225820F95E1D4B851A2CC80FFF87D8E23F22AFB72
+      5D535E515D020731E79A3B4E47120584056F50D131FA83979AE06
+      4E76E70DC75C070B6D991AEC08ADF9F41CAB7F1B7E2C47F67DACA
+      8BB49E3119B7BAE77AEC6C89162713E0CC6D0E7327831E67F3284
+      1A',
+  "pat":
+    h'd28443A10126A05824A10A58205CA3750DAF829C30C20797EDDB794
+      9B1FD028C5408F2DD8650AD732327E3FB645840F9F41CAB7F1B7E
+      2C47F67DACA8BB49E3119B7BAE77AEC6C89162713E0CC6D0E7327
+      831E67F32841A56F50D131FA83979AE064E76E70DC75C070B6D99
+      1AEC08AD'
+}
+</pre><a href="#appendix-A.3-5" class="pilcrow">¶</a>
+</div>
+</section>
+</div>
+</section>
+</div>
+<div id="asn1-module">
+<section id="appendix-B">
+      <h2 id="name-asn1-module">
+<a href="#appendix-B" class="section-number selfRef">Appendix B. </a><a href="#name-asn1-module" class="section-name selfRef">ASN.1 Module</a>
+      </h2>
+<div class="alignLeft art-text artwork" id="appendix-B-1">
+<pre>
+CSR-ATTESTATION-2023
+           {iso(1) identified-organization(3) dod(6) internet(1) security(5)
+       mechanisms(5) pkix(7) id-mod(0) id-mod-pkix-attest-01(TBDMOD)}
+
+DEFINITIONS IMPLICIT TAGS ::= BEGIN
+
+EXPORTS ALL;
+
+IMPORTS
+
+Certificate, id-pkix
+ FROM PKIX1Explicit-2009
+     {iso(1) identified-organization(3) dod(6) internet(1) security(5)
+     mechanisms(5) pkix(7) id-mod(0) id-mod-pkix1-explicit-02(51)}
+
+
+EXTENSION, ATTRIBUTE, AttributeSet{}, SingleAttribute{}
+    FROM PKIX-CommonTypes-2009 -- from [RFC5912]
+    { iso(1) identified-organization(3) dod(6) internet(1) security(5)
+      mechanisms(5) pkix(7) id-mod(0) id-mod-pkixCommon-02(57) }
+
+id-aa
+FROM SecureMimeMessageV3dot1
+    { iso(1) member-body(2) us(840) rsadsi(113549)
+        pkcs(1) pkcs-9(9) smime(16) modules(0) msg-v3dot1(21) }
+  ;
+
+
+-- Branch for attestation statement types
+id-ata OBJECT IDENTIFIER ::= { id-pkix (TBD1) }
+
+
+CertificateAlternatives ::=
+   CHOICE {
+      cert              Certificate,
+                           -- Using the Certificate ASN.1
+                           -- structure as defined in RFC 5280.
+      typedCert     [0] TypedCert,
+      typedFlatCert [1] TypedFlatCert,
+      ...
+   }
+
+TYPED-CERT ::= TYPE-IDENTIFIER
+
+TypedCert ::= SEQUENCE {
+      certType     TYPED-CERT.&amp;id({TypedCertSet}),
+      content     TYPED-CERT.&amp;Type ({TypedCertSet}{@certType})
+  }
+
+TypedCertSet TYPED-CERT ::= {
+   ... -- None defined in this document --
+  }
+
+TypedFlatCert ::= SEQUENCE {
+    certType OBJECT IDENTIFIER,
+    certBody OCTET STRING
+}
+
+EVIDENCE-STATEMENT ::= TYPE-IDENTIFIER
+
+EvidenceStatementSet EVIDENCE-STATEMENT ::= {
+   ... -- None defined in this document --
+}
+
+EvidenceStatements ::= SEQUENCE SIZE (1..MAX) OF EvidenceStatement
+
+EvidenceStatement ::= SEQUENCE {
+   type   EVIDENCE-STATEMENT.&amp;id({EvidenceStatementSet}),
+   stmt   EVIDENCE-STATEMENT.&amp;Type({EvidenceStatementSet}{@type}),
+   hint   UTF8String OPTIONAL
+}
+
+id-aa-evidence OBJECT IDENTIFIER ::= { id-aa 59 }
+
+-- For PKCS#10
+attr-evidence ATTRIBUTE ::= {
+  TYPE EvidenceBundles
+  IDENTIFIED BY id-aa-evidence
+}
+
+
+-- For CRMF
+ext-evidence EXTENSION ::= {
+  SYNTAX EvidenceBundles
+  IDENTIFIED BY id-aa-evidence
+}
+
+EvidenceBundles ::= SEQUENCE SIZE (1..MAX) OF EvidenceBundle
+
+EvidenceBundle ::= SEQUENCE
+{
+  evidence EvidenceStatements,
+  certs SEQUENCE SIZE (1..MAX) OF CertificateAlternatives OPTIONAL
+}
+
+
+END
+</pre><a href="#appendix-B-1" class="pilcrow">¶</a>
+</div>
+<div id="tcg-dice-conceptualmessagewrapper-in-csr">
+<section id="appendix-B.1">
+        <h3 id="name-tcg-dice-conceptualmessagew">
+<a href="#appendix-B.1" class="section-number selfRef">B.1. </a><a href="#name-tcg-dice-conceptualmessagew" class="section-name selfRef">TCG DICE ConceptualMessageWrapper in CSR</a>
+        </h3>
+<p id="appendix-B.1-1">This section gives an example of extending the ASN.1 module above to carry an existing ASN.1-based evidence statement.
+The example used is the Trusted Computing Group DICE Attestation Conceptual Message Wrapper, as defined in <span>[<a href="#TCGDICE1.1" class="cite xref">TCGDICE1.1</a>]</span>.<a href="#appendix-B.1-1" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="appendix-B.1-2">
+<pre>
+tcgDiceEvidenceStatementES EVIDENCE-STATEMENT ::=
+  { ConceptualMessageWrapper IDENTIFIED BY tcg-dice-conceptual-message-wrapper }
+
+-- where ConceptualMessageWrapper and tcg-dice-conceptual-message-wrapper
+-- are defined in DICE-Attestation-Architecture-Version-1.1-Revision-17_1August2023.pdf
+
+EvidenceStatementSet EVIDENCE-STATEMENT ::= {
+  tcgDiceEvidenceStatementES, ...
+}
+
+</pre><a href="#appendix-B.1-2" class="pilcrow">¶</a>
+</div>
+</section>
+</div>
+<div id="tcg-dice-conceptualmessagewrapper-in-csr-1">
+<section id="appendix-B.2">
+        <h3 id="name-tcg-dice-conceptualmessagewr">
+<a href="#appendix-B.2" class="section-number selfRef">B.2. </a><a href="#name-tcg-dice-conceptualmessagewr" class="section-name selfRef">TCG DICE ConceptualMessageWrapper in CSR</a>
+        </h3>
+<p id="appendix-B.2-1">This section gives an example of extending the ASN.1 module above to carry an existing ASN.1-based evidence statement.
+The example used is the Trusted Computing Group DiceTcbInfo, as defined in <span>[<a href="#TCGDICE1.1" class="cite xref">TCGDICE1.1</a>]</span>.<a href="#appendix-B.2-1" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="appendix-B.2-2">
+<pre>
+﻿// SET of CSR Attributes
+A0 82 00 8E
+  // CSR attributes
+  30 82 00 8A
+    // OBJECT IDENTIFIER id-aa-evidence (1 2 840 113549 1 9 16 2 59)
+    06 0B 2A 86 48 86 F7 0D 01 09 10 02 3B
+      // SET -- This attribute
+      31 79
+        // EvidenceBundles ::= SEQUENCE SIZE (1..MAX) OF EvidenceBundle
+        30 77
+          // EvidenceBundle ::= SEQUENCE
+          30 75
+            // EvidenceStatements ::= SEQUENCE SIZE (1..MAX) OF EvidenceStatement
+            30 73
+              // EvidenceStatement ::= SEQUENCE
+              30 71
+                // type: OBJECT IDENTIFIER tcg-dice-TcbInfo (2.23.133.5.4.1)
+                06 06 67 81 05 05 04 01
+                // stmt: SEQUENCE
+                30 4E
+                  // CONTEXT_SPECIFIC | version (02)
+                  // version = ABCDEF123456
+                  82 0C 41 42 43 44 45 46 31 32 33 34 35 36
+                  // CONTEXT_SPECIFIC | svn (03)
+                  // svn = 4
+                  83 01 04
+                  // CONTEXT_SPECIFIC | CONSTRUCTED | fwids (06)
+                  A6 2F
+                  // SEQUENCE
+                  30 2D
+                    // OBJECT IDENTIFIER SHA256
+                    06 09 60 86 48 01 65 03 04 02 01
+                    // OCTET STRING
+                    // fwid = 0x0000....00
+                    04 20 00 00 00 00 00 00 00 00
+                    00 00 00 00 00 00 00 00
+                    00 00 00 00 00 00 00 00
+                    00 00 00 00 00 00 00 00
+                  // CONTEXT_SPECIFIC | vendorInfo (08)
+                  // vendor info = 0x00000000
+                  88 04 00 00 00 00
+                  // CONTEXT_SPECIFIC | type (09)
+                  // type = 0x00000000
+                  89 04 00 00 00 00
+                // hint: UTF8STRING "DiceTcbInfo.example.com"
+                0C 17 44 69 63 65 54 63 62 49 6e 66 6f
+                2e 65 78 61 6d 70 6c 65 2e 63 6f 6d
+
+// BER only
+A0 82 00 8E 30 82 00 8A 06 0B 2A 86 48 86 F7 0D
+01 09 10 02 3B 30 7B 31 79 30 77 30 75 30 73 30
+71 06 06 67 81 05 05 04 01 30 4E 82 0C 41 42 43
+44 45 46 31 32 33 34 35 36 83 01 04 A6 2F 30 2D
+06 09 60 86 48 01 65 03 04 02 01 04 20 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 88 04 00
+00 00 00 89 04 00 00 00 00 0C 17 44 69 63 65 54
+63 62 49 6e 66 6f 2e 65 78 61 6d 70 6c 65 2e 63
+6f 6d
+</pre><a href="#appendix-B.2-2" class="pilcrow">¶</a>
+</div>
+</section>
+</div>
+</section>
+</div>
+<div id="acknowledgments">
+<section id="appendix-C">
+      <h2 id="name-acknowledgments">
+<a href="#appendix-C" class="section-number selfRef">Appendix C. </a><a href="#name-acknowledgments" class="section-name selfRef">Acknowledgments</a>
+      </h2>
+<p id="appendix-C-1">This specification is the work of a design team created by the chairs of the
+LAMPS working group. The following persons, in no specific order,
+contributed to the work: Richard Kettlewell, Chris Trufan, Bruno Couillard,
+Jean-Pierre Fiset, Sander Temme, Jethro Beekman, Zsolt Rózsahegyi, Ferenc
+Pető, Mike Agrenius Kushner, Tomas Gustavsson, Dieter Bong, Christopher Meyer,
+Michael StJohns, Carl Wallace, Michael Richardson, Tomofumi Okubo, Olivier
+Couillard, John Gray, Eric Amador, Johnson Darren, Herman Slatman, Tiru Reddy,
+Corey Bonnell, Argenius Kushner, James Hagborg, Monty Wiseman, John Kemp,
+Ned Smith.<a href="#appendix-C-1" class="pilcrow">¶</a></p>
+<p id="appendix-C-2">We would like to specifically thank Mike StJohns for his work on an earlier
+version of this draft.<a href="#appendix-C-2" class="pilcrow">¶</a></p>
+<p id="appendix-C-3">We would also like to specifically thank Monty Wiseman for providing the
+appendix showing how to carry a TPM 2.0 Attestation, and to Corey Bonell for helping with the hackathon scripts to bundle it into a CSR.<a href="#appendix-C-3" class="pilcrow">¶</a></p>
+<p id="appendix-C-4">Finally, we would like to thank Andreas Kretschmer and Thomas Fossati for their
+feedback based on implementation experience, and Daniel Migault and Russ Housley
+for their review comments.<a href="#appendix-C-4" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="contributors">
+<section id="appendix-D">
+      <h2 id="name-contributors">
+<a href="#name-contributors" class="section-name selfRef">Contributors</a>
+      </h2>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Ned Smith</span></div>
+<div dir="auto" class="left"><span class="org">Intel Corporation</span></div>
+<div dir="auto" class="left"><span class="country-name">United States</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:ned.smith@intel.com" class="email">ned.smith@intel.com</a>
+</div>
+</address>
+<p id="appendix-D-1">Ned Smith contributed DICE examples and review feedback.<a href="#appendix-D-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="authors-addresses">
+<section id="appendix-E">
+      <h2 id="name-authors-addresses">
+<a href="#name-authors-addresses" class="section-name selfRef">Authors' Addresses</a>
+      </h2>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Mike Ounsworth</span></div>
+<div dir="auto" class="left"><span class="org">Entrust Limited</span></div>
+<div dir="auto" class="left"><span class="street-address">2500 Solandt Road – Suite 100</span></div>
+<div dir="auto" class="left">
+<span class="locality">Ottawa, Ontario</span>  <span class="postal-code">K2K 3G5</span>
+</div>
+<div dir="auto" class="left"><span class="country-name">Canada</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:mike.ounsworth@entrust.com" class="email">mike.ounsworth@entrust.com</a>
+</div>
+</address>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Hannes Tschofenig</span></div>
+<div dir="auto" class="left"><span class="org">Siemens</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:Hannes.Tschofenig@gmx.net" class="email">Hannes.Tschofenig@gmx.net</a>
+</div>
+</address>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Henk Birkholz</span></div>
+<div dir="auto" class="left"><span class="org">Fraunhofer SIT</span></div>
+<div dir="auto" class="left"><span class="street-address">Rheinstrasse 75</span></div>
+<div dir="auto" class="left">
+<span class="postal-code">64295</span> <span class="locality">Darmstadt</span>
+</div>
+<div dir="auto" class="left"><span class="country-name">Germany</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:henk.birkholz@sit.fraunhofer.de" class="email">henk.birkholz@sit.fraunhofer.de</a>
+</div>
+</address>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Monty Wiseman</span></div>
+<div dir="auto" class="left"><span class="org">Beyond Identity</span></div>
+<div dir="auto" class="left"><span class="country-name">United States of America</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:monty.wiseman@beyondidentity.com" class="email">monty.wiseman@beyondidentity.com</a>
+</div>
+</address>
+</section>
+</div>
+<script>const toc = document.getElementById("toc");
+toc.querySelector("h2").addEventListener("click", e => {
+  toc.classList.toggle("active");
+});
+toc.querySelector("nav").addEventListener("click", e => {
+  toc.classList.remove("active");
+});
+</script>
+</body>
+</html>

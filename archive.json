@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-06-16T00:55:25.724417+00:00",
+  "timestamp": "2024-06-18T00:51:54.889690+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -1620,6 +1620,62 @@
       "updatedAt": "2024-06-08T13:18:12Z",
       "closedAt": null,
       "comments": []
+    },
+    {
+      "number": 136,
+      "id": "I_kwDOJ3IIN86MbskG",
+      "title": "Do a spell check after all the merges",
+      "url": "https://github.com/lamps-wg/csr-attestation/issues/136",
+      "state": "OPEN",
+      "author": "ounsworth",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2024-06-17T00:15:54Z",
+      "updatedAt": "2024-06-17T00:15:54Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 137,
+      "id": "I_kwDOJ3IIN86Mby1-",
+      "title": "Using this as an X.509 extension, MUST NOT, or NOT RECOMMENDED?",
+      "url": "https://github.com/lamps-wg/csr-attestation/issues/137",
+      "state": "OPEN",
+      "author": "ounsworth",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Carl makes an excellent point:\r\n\r\n> Section 7.2\r\n> - The NOT RECOMMENDED here is inconsistent with the MUST NOT in section 5.2. NOT RECOMMENDED seems right.\r\n> - Given the words throughout about not using the extension type in a certificate, ought there be some words about not using the attribute type in a subject directory attributes extension in a certificate?\r\n\r\nMonty also wants to see a way to place evidence into X.509 certs.\r\n\r\nThe current wording is the body is this:\r\n\r\n> The Extension variant illustrated in [Figure 11] is intended only for use within CRMF CSRs and MUST NOT be used within X.509 certificates due to the privacy implications of publishing Evidence about the end entity's hardware environment. See [Section 8.2] for more discussion.\r\n\r\nWhat if we simply changed that to a NOT RECOMMENDED, and in the security consideration added a note that protocols and applications carrying CSRs that contain Evidence should consider adding a flag to indicate whether the Evidence should be copied into the certificate, and the privacy implications should be handled at the protocol level.\r\n\r\n",
+      "createdAt": "2024-06-17T00:50:38Z",
+      "updatedAt": "2024-06-17T00:50:38Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 139,
+      "id": "I_kwDOJ3IIN86MiF4P",
+      "title": "Definition of Key Attestation",
+      "url": "https://github.com/lamps-wg/csr-attestation/issues/139",
+      "state": "OPEN",
+      "author": "hannestschofenig",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "See this discussion: https://mailarchive.ietf.org/arch/msg/rats/aYeAOmAsqas4WomxImwXW8R63Mc/\r\n",
+      "createdAt": "2024-06-17T16:25:08Z",
+      "updatedAt": "2024-06-17T17:37:34Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "aj-stein-nist",
+          "authorAssociation": "NONE",
+          "body": "Given today's conversation, is the [PKI Consortium definition I posted](https://pkic.org/activities/remote-key-attestation/) relevant, as a starting point, or must it be something specific to the LAMPS or RATS WGs in IETF?\r\n\r\nHat tip to @frumioj for this issue and cross-org visibility in https://github.com/pkic/remote-key-attestation/issues/22.",
+          "createdAt": "2024-06-17T17:37:32Z",
+          "updatedAt": "2024-06-17T17:37:32Z"
+        }
+      ]
     }
   ],
   "pulls": [
@@ -6265,19 +6321,40 @@
       "labels": [],
       "body": "Closes #127 \r\n\r\nWe need to convince ourselves that this change does not affect the wire format ... ie that none of the appendices need to change.",
       "createdAt": "2024-06-03T18:55:08Z",
-      "updatedAt": "2024-06-08T14:12:22Z",
+      "updatedAt": "2024-06-17T16:33:08Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "5b3c711ac1fa95822f5aa5d90096ee2cd70d7194",
       "headRepository": "lamps-wg/csr-attestation",
       "headRefName": "mikeo_removeTypedCert",
-      "headRefOid": "d2964292f2dbe3388bf568b24ef205420dc2587f",
+      "headRefOid": "9c32bd9dd28056c8ea4ff16daefbfcd212e3821d",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOJ3IIN85-kACR",
+          "commit": {
+            "abbreviatedOid": "9c32bd9"
+          },
+          "author": "aj-stein-nist",
+          "authorAssociation": "NONE",
+          "state": "CHANGES_REQUESTED",
+          "body": "One minor quibble, more review to follow.",
+          "createdAt": "2024-06-17T16:32:53Z",
+          "updatedAt": "2024-06-17T16:33:08Z",
+          "comments": [
+            {
+              "originalPosition": 37,
+              "body": "Blocking: Per discussion in design meeting, we probably want this to be a normative change.\r\n\r\n```suggestion\r\nThe CertificateChoices structure defined in [RFC6268] allows for carrying certificates in the default X.509 [RFC5280] format, or in other non-X.509 certificate formats. CertificateChoices MUST only contain certificate or other. CertificateChoices MUST NOT contain extendedCertificate, v1AttrCert, or v2AttrCert. Note that for non-ASN.1 certificate formats, the CertificateChoices MUST use `other [3]` with an `OtherCertificateFormat.Type` of `OCTET STRING`, and then can carry any binary data.\r\n```",
+              "createdAt": "2024-06-17T16:32:53Z",
+              "updatedAt": "2024-06-17T16:33:08Z"
+            }
+          ]
+        }
+      ]
     },
     {
       "number": 133,
@@ -6287,11 +6364,14 @@
       "state": "OPEN",
       "author": "ounsworth",
       "authorAssociation": "CONTRIBUTOR",
-      "assignees": [],
+      "assignees": [
+        "hannestschofenig",
+        "henkbirkholz"
+      ],
       "labels": [],
       "body": "Closes #131",
       "createdAt": "2024-06-04T17:53:58Z",
-      "updatedAt": "2024-06-04T17:53:58Z",
+      "updatedAt": "2024-06-17T16:59:15Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "d446ab7af757c10c021373d7a038e8817ccc0f97",
@@ -6302,7 +6382,22 @@
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
+      "comments": [
+        {
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I disagree with this approach, see https://mailarchive.ietf.org/arch/msg/spasm/1VTT7_tpJuSXIZ7Dr7-dpIimgK0/",
+          "createdAt": "2024-06-17T16:26:28Z",
+          "updatedAt": "2024-06-17T16:26:28Z"
+        },
+        {
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "To move this forward, I am assigning this PR to @hannestschofenig and @henkbirkholz to produce another version of this PR for the group to review.",
+          "createdAt": "2024-06-17T16:58:57Z",
+          "updatedAt": "2024-06-17T16:58:57Z"
+        }
+      ],
       "reviews": []
     },
     {
@@ -6315,21 +6410,61 @@
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
-      "body": "Closes #126 \r\n\r\nINCOMPLETE -- DO NOT MERGE YET\r\nI am up to the beginning of Section 5.3 in Carl's feedback\r\nhttps://mailarchive.ietf.org/arch/msg/spasm/UVQ0yXAEqsm9snJIOcelFQoYyEA/\r\n\r\n\r\nResponses to Carl:\r\n---\r\n\r\n> \"Residency\" doesn't seem quite right since it misses the non-exportability requirement that is usually a goal. Maybe steal some verbiage from the CAB Forum guidelines and say: \"Regulatory bodies are beginning to require proof that keys are generated in a non\u2010exportable way using a suitable Hardware Crypto Module.\"\r\n\r\nI am going to leave this one as-is. I think that \"proof of hardware residency\" is not incorrect, and is made more precise in the following sentence, including the direct quote from the CA/B CSBRs.\r\n\r\n\r\n\r\n> The last paragraph leaves open the possibility of having multiple instantiations of attr-evidence or ext-evidence but does not mention the fact that the values field in Attribute can contain multiple values. Do we really need three ways to convey multiple evidence bundles, i.e., via EvidenceBundles, via multiple attributes, via multiple attribute values? Is there any reason to not just limit this to one attribute/extension, one value within attribute and let EvidenceBundles handle collections?\r\n\r\n\r\nYes, good point.\r\nI have attempted to strengthen this, but I would love review of the new paragraph. Have I correctly understood and referenced the AttributeSet and ExtensionSet stuff from RFC5912? Is there a better way to enforce this through the ASN.1 definitions?\r\n",
+      "body": "Closes #126 \r\n\r\nhttps://mailarchive.ietf.org/arch/msg/spasm/UVQ0yXAEqsm9snJIOcelFQoYyEA/\r\n\r\n\r\nResponses to Carl:\r\n---\r\n\r\n> \"Residency\" doesn't seem quite right since it misses the non-exportability requirement that is usually a goal. Maybe steal some verbiage from the CAB Forum guidelines and say: \"Regulatory bodies are beginning to require proof that keys are generated in a non\u2010exportable way using a suitable Hardware Crypto Module.\"\r\n\r\nI am going to leave this one as-is. I think that \"proof of hardware residency\" is not incorrect, and is made more precise in the following sentence, including the direct quote from the CA/B CSBRs.\r\n\r\n\r\n\r\n> The last paragraph leaves open the possibility of having multiple instantiations of attr-evidence or ext-evidence but does not mention the fact that the values field in Attribute can contain multiple values. Do we really need three ways to convey multiple evidence bundles, i.e., via EvidenceBundles, via multiple attributes, via multiple attribute values? Is there any reason to not just limit this to one attribute/extension, one value within attribute and let EvidenceBundles handle collections?\r\n\r\n\r\nYes, good point.\r\nI have attempted to strengthen this, but I would love review of the new paragraph. Have I correctly understood and referenced the AttributeSet and ExtensionSet stuff from RFC5912? Is there a better way to enforce this through the ASN.1 definitions?\r\n\r\n> Section 5.3 CertificateAlternatives\r\n\r\nGiven the on-list discussion, and that we have subsequently fully removed the CertificateAlternatives section, I am going to mostly skip over this feedback as no longer relevant.\r\n\r\n> Section 5.3\r\n> - Given the use of Verifier throughout, if enforcement of RFC5280 compliance is to be addressed by this spec, perhaps it should be allocated to the verifier instead of the relying party.\r\n\r\nI don't understand this comment at all? What are we enforcing for 5280 compliance? The CSR? -- I am imagining that the Verifier won't get to see the full CSR, just the evidence blob that has been forklifted out of it.\r\n\r\n> Section 7.1\r\n> - Either add a reference to draft-birkholz-rats-epoch-markers in support of` \"Epochs also require\" or delete that sentence. The section is fine without the reference to Epochs.\r\n\r\nSo, this sentence is going through RATS Architecture [RFC9334} sections 10.1, 10.2, and 10.3, and saying why each is not a general solution here. I generified the sentence a bit so that it fits better within the scope of RFC9334 10.3.\r\n\r\n> Section 7.2\r\n> - The NOT RECOMMENDED here is inconsistent with the MUST NOT in section 5.2. NOT RECOMMENDED seems right.\r\n> - Given the words throughout about not using the extension type in a certificate, ought there be some words about not using the attribute type in a subject directory attributes extension in a certificate?\r\n\r\nThese are excellent points. I have opened a separate pull request (#138) so that they can be discussed separately.\r\n\r\n> Section 7.3\r\n> - How does the last sentence of this section apply to this draft, i.e., where could one express \"None, Null, Debug, empty CMW contents, or similar values\"?\r\n\r\nI see your point, but I think I'm going to leave it; I think it reads ok. Could you please read it again and see if you still feel strongly about that sentence?\r\n\r\n> Section B.1\r\n> - This should probably be presented as a standalone ASN.1 module that adds this definition instead of as a snip from an ASN.1 module.\r\n\r\nI will discuss with @nedmsmith .",
       "createdAt": "2024-06-09T15:23:49Z",
-      "updatedAt": "2024-06-09T15:23:49Z",
+      "updatedAt": "2024-06-17T16:27:05Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "3d0da7a48d3404795de6c0ce9a5993687cdecb5f",
       "headRepository": "lamps-wg/csr-attestation",
       "headRefName": "mikeo_126",
-      "headRefOid": "a148de5db60b97dc244d47207fce3055d5e65af5",
+      "headRefOid": "9268f1bad34f5a0c1a4a06f4e587cf83c2df0a01",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
       "comments": [],
       "reviews": []
+    },
+    {
+      "number": 138,
+      "id": "PR_kwDOJ3IIN85yoJXQ",
+      "title": "Made publishing evidence in a cert NOT RECOMMENDED (from MUST NOT).",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/138",
+      "state": "OPEN",
+      "author": "ounsworth",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Closes #137 .\r\n\r\n@mwiseman-byid  will probably be happy about this change since it sorta avoids the need for a second standard.",
+      "createdAt": "2024-06-17T00:58:43Z",
+      "updatedAt": "2024-06-17T17:14:30Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "3d0da7a48d3404795de6c0ce9a5993687cdecb5f",
+      "headRepository": "lamps-wg/csr-attestation",
+      "headRefName": "mikeo_137",
+      "headRefOid": "0caedbbe07471a7bfe7ee0e26eea1926966ffc43",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJ3IIN85-kFki",
+          "commit": {
+            "abbreviatedOid": "4f1b510"
+          },
+          "author": "aj-stein-nist",
+          "authorAssociation": "NONE",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-06-17T16:45:30Z",
+          "updatedAt": "2024-06-17T16:45:30Z",
+          "comments": []
+        }
+      ]
     }
   ]
 }

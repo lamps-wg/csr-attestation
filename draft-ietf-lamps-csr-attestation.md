@@ -1342,8 +1342,8 @@ Jean-Pierre Fiset, Sander Temme, Jethro Beekman, Zsolt Rózsahegyi, Ferenc
 Pető, Mike Agrenius Kushner, Tomas Gustavsson, Dieter Bong, Christopher Meyer,
 Michael StJohns, Carl Wallace, Michael Richardson, Tomofumi Okubo, Olivier
 Couillard, John Gray, Eric Amador, Johnson Darren, Herman Slatman, Tiru Reddy,
-Corey Bonnell, Argenius Kushner, James Hagborg, Monty Wiseman, John Kemp,
-Ned Smith.
+Corey Bonnell, Argenius Kushner, James Hagborg, A.J. Stein, John Kemp,
+Ned Smith, 
 
 We would like to specifically thank Mike StJohns for his work on an earlier
 version of this draft.

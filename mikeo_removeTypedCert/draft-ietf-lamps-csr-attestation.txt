@@ -5,12 +5,12 @@
 Network Working Group                                       M. Ounsworth
 Internet-Draft                                                   Entrust
 Intended status: Standards Track                           H. Tschofenig
-Expires: 19 December 2024                                        Siemens
+Expires: 1 January 2025                                          Siemens
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                               M. Wiseman
                                                          Beyond Identity
-                                                            17 June 2024
+                                                            30 June 2024
 
 
      Use of Remote Attestation with Certification Signing Requests
@@ -66,7 +66,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 19 December 2024.
+   This Internet-Draft will expire on 1 January 2025.
 
 Copyright Notice
 
@@ -624,7 +624,7 @@ Table of Contents
    other non-X.509 certificate formats.  CertificateChoices MUST only
    contain certificate or other.  CertificateChoices MUST NOT contain
    extendedCertificate, v1AttrCert, or v2AttrCert.  Note that for non-
-   ASN.1 certificate formats, the CertificateChoices can use other [3]
+   ASN.1 certificate formats, the CertificateChoices MUST use other [3]
    with an OtherCertificateFormat.Type of OCTET STRING, and then can
    carry any binary data.
 
@@ -1045,9 +1045,9 @@ Table of Contents
               Tschofenig, H., Frost, S., Brossard, M., Shaw, A. L., and
               T. Fossati, "Arm's Platform Security Architecture (PSA)
               Attestation Token", Work in Progress, Internet-Draft,
-              draft-tschofenig-rats-psa-token-22, 21 February 2024,
+              draft-tschofenig-rats-psa-token-23, 24 June 2024,
               <https://datatracker.ietf.org/doc/html/draft-tschofenig-
-              rats-psa-token-22>.
+              rats-psa-token-23>.
 
    [PKCS11]   OASIS, "PKCS #11 Cryptographic Token Interface Base
               Specification Version 2.40", April 2015,

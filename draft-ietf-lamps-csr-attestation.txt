@@ -5,12 +5,12 @@
 Network Working Group                                       M. Ounsworth
 Internet-Draft                                                   Entrust
 Intended status: Standards Track                           H. Tschofenig
-Expires: 10 December 2024                                        Siemens
+Expires: 1 January 2025                                          Siemens
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                               M. Wiseman
                                                          Beyond Identity
-                                                             8 June 2024
+                                                            30 June 2024
 
 
      Use of Remote Attestation with Certification Signing Requests
@@ -66,7 +66,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 10 December 2024.
+   This Internet-Draft will expire on 1 January 2025.
 
 Copyright Notice
 
@@ -640,9 +640,10 @@ Table of Contents
            Figure 11: Definitions of CSR attribute and extension
 
    The Extension variant illustrated in Figure 11 is intended only for
-   use within CRMF CSRs and MUST NOT be used within X.509 certificates
-   due to the privacy implications of publishing Evidence about the end
-   entity's hardware environment.  See Section 8 for more discussion.
+   use within CRMF CSRs and is NOT RECOMMENDED to be used within X.509
+   certificates due to the privacy implications of publishing Evidence
+   about the end entity's hardware environment.  See Section 8.2 for
+   more discussion.
 
    The certs contains a set of certificates that is intended to validate
    the contents of an Evidence statement contained in evidence, if
@@ -996,19 +997,23 @@ Table of Contents
 
 8.2.  Publishing evidence in an X.509 extension
 
-   This document specifies and Extension for carrying Evidence in a CRMF
+   This document specifies an Extension for carrying Evidence in a CRMF
    Certificate Signing Request (CSR), but it is intentionally NOT
-   RECOMMENDED for a CA to copy the ext-evidence or ext-evidenceCerts
-   extensions into the published certificate.  The reason for this is
-   that certificates are considered public information and the Evidence
-   might contain detailed information about hardware and patch levels of
-   the device on which the private key resides.  The certificate
-   requester has consented to sharing this detailed device information
-   with the CA but might not consent to having these details published.
-   These privacy considerations are beyond the scope of this document
-   and may require additional signaling mechanisms in the CSR to prevent
-   unintended publication of sensitive information, so we leave it as
-   "NOT RECOMMENDED".
+   RECOMMENDED for a CA to copy the ext-evidence extension into the
+   published certificate.  The reason for this is that certificates are
+   considered public information and the Evidence might contain detailed
+   information about hardware and patch levels of the device on which
+   the private key resides.  The certificate requester has consented to
+   sharing this detailed device information with the CA but might not
+   consent to having these details published.  These privacy
+   considerations are beyond the scope of this document and may require
+   additional signaling mechanisms in the CSR to prevent unintended
+   publication of sensitive information, so we leave it as "NOT
+   RECOMMENDED".  Often, the correct layer at which to address this is
+   either in certificate profiles, a Certificate Practice Statement
+   (CPS), or in the protocol or application that carries the CSR to the
+   RA/CA where a flag can be added indicating whether the RA/CA should
+   consider the evidence to be public or private.
 
 8.3.  Type OID and verifier hint
 
@@ -1081,9 +1086,9 @@ Table of Contents
    [I-D.ietf-rats-msg-wrap]
               Birkholz, H., Smith, N., Fossati, T., and H. Tschofenig,
               "RATS Conceptual Messages Wrapper (CMW)", Work in
-              Progress, Internet-Draft, draft-ietf-rats-msg-wrap-04, 27
-              February 2024, <https://datatracker.ietf.org/doc/html/
-              draft-ietf-rats-msg-wrap-04>.
+              Progress, Internet-Draft, draft-ietf-rats-msg-wrap-05, 13
+              June 2024, <https://datatracker.ietf.org/doc/html/draft-
+              ietf-rats-msg-wrap-05>.
 
    [I-D.ietf-rats-tpm-based-network-device-attest]
               Fedorkow, G., Voit, E., and J. Fitzgerald-McKay, "TPM-
@@ -1097,9 +1102,9 @@ Table of Contents
               Tschofenig, H., Frost, S., Brossard, M., Shaw, A. L., and
               T. Fossati, "Arm's Platform Security Architecture (PSA)
               Attestation Token", Work in Progress, Internet-Draft,
-              draft-tschofenig-rats-psa-token-22, 21 February 2024,
+              draft-tschofenig-rats-psa-token-23, 24 June 2024,
               <https://datatracker.ietf.org/doc/html/draft-tschofenig-
-              rats-psa-token-22>.
+              rats-psa-token-23>.
 
    [PKCS11]   OASIS, "PKCS #11 Cryptographic Token Interface Base
               Specification Version 2.40", April 2015,

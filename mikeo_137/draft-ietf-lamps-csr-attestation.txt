@@ -5,12 +5,12 @@
 Network Working Group                                       M. Ounsworth
 Internet-Draft                                                   Entrust
 Intended status: Standards Track                           H. Tschofenig
-Expires: 19 December 2024                                        Siemens
+Expires: 1 January 2025                                          Siemens
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                               M. Wiseman
                                                          Beyond Identity
-                                                            17 June 2024
+                                                            30 June 2024
 
 
      Use of Remote Attestation with Certification Signing Requests
@@ -66,7 +66,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 19 December 2024.
+   This Internet-Draft will expire on 1 January 2025.
 
 Copyright Notice
 
@@ -1010,10 +1010,10 @@ Table of Contents
    additional signaling mechanisms in the CSR to prevent unintended
    publication of sensitive information, so we leave it as "NOT
    RECOMMENDED".  Often, the correct layer at which to address this is
-   either in certificate profiles, or in the protocol or application
-   that carries the CSR to the RA/CA where a flag can be added
-   indicating whether the RA/CA should consider the evidence to be
-   public or private.
+   either in certificate profiles, a Certificate Practice Statement
+   (CPS), or in the protocol or application that carries the CSR to the
+   RA/CA where a flag can be added indicating whether the RA/CA should
+   consider the evidence to be public or private.
 
 8.3.  Type OID and verifier hint
 
@@ -1102,9 +1102,9 @@ Table of Contents
               Tschofenig, H., Frost, S., Brossard, M., Shaw, A. L., and
               T. Fossati, "Arm's Platform Security Architecture (PSA)
               Attestation Token", Work in Progress, Internet-Draft,
-              draft-tschofenig-rats-psa-token-22, 21 February 2024,
+              draft-tschofenig-rats-psa-token-23, 24 June 2024,
               <https://datatracker.ietf.org/doc/html/draft-tschofenig-
-              rats-psa-token-22>.
+              rats-psa-token-23>.
 
    [PKCS11]   OASIS, "PKCS #11 Cryptographic Token Interface Base
               Specification Version 2.40", April 2015,

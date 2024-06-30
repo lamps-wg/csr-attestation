@@ -374,14 +374,14 @@ this use case.
 {: #fig-single-attester-with-path title="Use Case 2: Single Attester with Certification Path."}
 
 
-In a Composite Device, which contains multiple Attesters, a collection of Evidence
+In a Composite Device as defined in [RFC9334], which contains multiple Attesters, a collection of Evidence
 statements is obtained. In this use case, each Attester returns its Evidence together with a
 certification path. As a result, multiple EvidenceBundle structures, each carrying
 an EvidenceStatement and the corresponding CertificateAlternative structure with the
 certification path as provided by each Attester, are included in the CSR.
 This may result in certificates being duplicated across multiple EvidenceBundles.
 This approach does not require any processing capabilities
-by a lead Attester since the information is merely forwarded. {{fig-multiple-attesters}}
+by a Lead Attester since the information is merely forwarded. {{fig-multiple-attesters}}
 shows this use case.
 
 ~~~ aasvg

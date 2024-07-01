@@ -69,6 +69,7 @@ contributor:
 
 normative:
   RFC9334:
+  RFC6268:
   RFC5912:
   RFC4211:
   RFC2986:
@@ -328,11 +329,10 @@ certificates.
  +--------+-----------+
           |
           |           (1 or more) +-------------------------+
-          |         +-------------+ CertificateAlternatives |
+          |         +-------------+ CertificateChoices      |
           |         |             +-------------------------+
           |         |             | Certificate OR          |
-          |         |             | TypedCert   OR          |
-          |         |             | TypedFlatCert           |
+          |         |             | OtherCertificateFormat  |
    (1 or  |         |             +-------------------------+
     more) |         |      (1 or
  +--------+---------+-+     more) +-------------------+
@@ -564,12 +564,17 @@ id-TcgAttestCertify and the corresponding hint indicates the Verifier software
 ~~~
 EvidenceBundles ::= SEQUENCE SIZE (1..MAX) OF EvidenceBundle
 
-EvidenceBundle ::= SEQUENCE
-{
-  evidence EvidenceStatements,
-  certs SEQUENCE SIZE (1..MAX) OF CertificateAlternatives OPTIONAL
+EvidenceBundle ::= SEQUENCE {
+   evidence EvidenceStatements,
+   certs SEQUENCE SIZE (1..MAX) OF CertificateChoices OPTIONAL
+      -- CertificateChoices MUST only contain certificate or other
 }
+~~~
 
+The CertificateChoices structure defined in [RFC6268] allows for carrying certificates in the default X.509 [RFC5280] format, or in other non-X.509 certificate formats. CertificateChoices MUST only contain certificate or other. CertificateChoices MUST NOT contain extendedCertificate, v1AttrCert, or v2AttrCert. Note that for non-ASN.1 certificate formats, the CertificateChoices MUST use `other [3]` with an `OtherCertificateFormat.Type` of `OCTET STRING`, and then can carry any binary data.
+
+
+~~~
 id-aa-evidence OBJECT IDENTIFIER ::= { id-aa 59 }
 
 -- For PKCS#10
@@ -587,7 +592,7 @@ ext-evidence EXTENSION ::= {
 ~~~
 {: #code-extensions title="Definitions of CSR attribute and extension"}
 
-The Extension variant illustrated in {{code-extensions}} is intended only for use within CRMF CSRs and MUST NOT be used within X.509 certificates due to the privacy implications of publishing Evidence about the end entity's hardware environment. See {{sec-con-publishing-x509}} for more discussion.
+The Extension variant illustrated in {{code-extensions}} is intended only for use within CRMF CSRs and is NOT RECOMMENDED to be used within X.509 certificates due to the privacy implications of publishing Evidence about the end entity's hardware environment. See {{sec-con-publishing-x509}} for more discussion.
 
 The `certs` field contains a set of certificates that
 is intended to validate the contents of an Evidence statement
@@ -603,70 +608,6 @@ This specification places no restriction on mixing certificate types within the 
 
 By the nature of the PKIX ASN.1 classes [[RFC5912]], there are multiple ways to convey multiple Evidence statements: by including multiple copies of `attr-evidence` or `ext-evidence`, multiple values within the attribute or extension, and finally, by including multiple `EvidenceStatement`s within an `EvidenceBundle`. The latter is the preferred way to carry multiple Evidence statements. Implementations MUST NOT place multiple copies of `attr-evidence` into a PKCS#10 CSR due to the `COUNTS MAX 1` declaration, and SHOULD NOT place multiple copies of `EvidenceBundles` into an `AttributeSet`. In a CRMF CSR, implementers SHOULD NOT place multiple copies of `ext-evidence` and SHOULD NOT place multiple copies of `EvidenceBundles` into an `ExtensionSet`.
 
-
-##  CertificateAlternatives
-
-fixme: I am not fixing this because another PR fully removed this section, so in the merge, this should go away.
-
-{{choice-fixme}} shows an ASN.1 CHOICE construct used to represent an encoding of a
-broad variety of certificate types.
-
-~~~
-CertificateAlternatives ::=
-   CHOICE {
-      cert              Certificate,
-                           -- Using the Certificate ASN.1
-                           -- structure as defined in RFC 5280.
-      typedCert     [0] TypedCert,
-      typedFlatCert [1] TypedFlatCert,
-      ...
-   }
-~~~
-{: #choice-fixme title="Figure Name FixMe5"}
-
-"Certificate" is a standard X.509 certificate that MUST be compliant
-with RFC 5280.
-Enforcement of this constraint is left to Relying
-Parties.
-
-"TypedCert" is an ASN.1 construct that has the characteristics of a
-certificate, but is not encoded as an X.509 certificate.  The
-certType Field (below) indicates how to interpret the certBody field.  While
-it is possible to carry any type of data in this structure, the intend of
-the content field is to include data for at least one public key
-formatted as a SubjectPublicKeyInfo (see {{RFC5912}}).
-
-~~~
-TYPED-CERT ::= TYPE-IDENTIFIER
-
-CertType ::= TYPED-CERT.&id
-
-TypedCert ::= SEQUENCE {
-              certType     TYPED-CERT.&id({TypedCertSet}),
-              content     TYPED-CERT.&Type ({TypedCertSet}{@certType})
-          }
-
-TypedCertSet TYPED-CERT ::= {
-   ... -- None defined in this document --
-      }
-~~~
-{: #type-fixme title="Figure Name FixMe6"}
-
-fixme: I am not fixing this because another PR fully removed this section, so in the merge, this should go away.
-
-Figure {{type-fixme}} illustrates "TypedFlatCert" representing a certificate that does not have a valid ASN.1
-encoding.
-Certificates that are not ASN.1 compliant are often compact or implicit certificates used by smart cards.
-certType as shown in {{flat-fixme}} indicates the format of the data in the
-certBody field and ideally refers to an appropriate published specification.
-
-~~~
-TypedFlatCert ::= SEQUENCE {
-    certType OBJECT IDENTIFIER,
-    certBody OCTET STRING
-}
-~~~
-{: #flat-fixme title="Figure Name FixMe7"}
 
 # IANA Considerations
 
@@ -906,7 +847,7 @@ will continue to hold into the future.
 This document specifies an Extension for carrying Evidence in a CRMF Certificate Signing Request (CSR), but it is intentionally NOT RECOMMENDED for a CA to copy the ext-evidence extension into the published certificate.
 The reason for this is that certificates are considered public information and the Evidence might contain detailed information about hardware and patch levels of the device on which the private key resides.
 The certificate requester has consented to sharing this detailed device information with the CA but might not consent to having these details published.
-These privacy considerations are beyond the scope of this document and may require additional signaling mechanisms in the CSR to prevent unintended publication of sensitive information, so we leave it as "NOT RECOMMENDED".
+These privacy considerations are beyond the scope of this document and may require additional signaling mechanisms in the CSR to prevent unintended publication of sensitive information, so we leave it as "NOT RECOMMENDED". Often, the correct layer at which to address this is either in certificate profiles, a Certificate Practice Statement (CPS), or in the protocol or application that carries the CSR to the RA/CA where a flag can be added indicating whether the RA/CA should consider the evidence to be public or private.
 
 ## Type OID and verifier hint
 
@@ -1352,8 +1293,8 @@ Jean-Pierre Fiset, Sander Temme, Jethro Beekman, Zsolt Rózsahegyi, Ferenc
 Pető, Mike Agrenius Kushner, Tomas Gustavsson, Dieter Bong, Christopher Meyer,
 Michael StJohns, Carl Wallace, Michael Richardson, Tomofumi Okubo, Olivier
 Couillard, John Gray, Eric Amador, Johnson Darren, Herman Slatman, Tiru Reddy,
-Corey Bonnell, Argenius Kushner, James Hagborg, Monty Wiseman, John Kemp,
-Ned Smith.
+Corey Bonnell, Argenius Kushner, James Hagborg, A.J. Stein, John Kemp,
+Ned Smith, 
 
 We would like to specifically thank Mike StJohns for his work on an earlier
 version of this draft.

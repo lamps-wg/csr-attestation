@@ -47,7 +47,7 @@ About This Document
    This note is to be removed before publishing as an RFC.
 
    The latest revision of this draft can be found at https://lamps-
-   wg.github.io/csr-attestation/draft-ounsworth-csr-attestation.html.
+   wg.github.io/csr-attestation/draft-ietf-lamps-csr-attestation.html.
    Status information for this document may be found at
    https://datatracker.ietf.org/doc/draft-ietf-lamps-csr-attestation/.
 

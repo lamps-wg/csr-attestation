@@ -24,7 +24,7 @@ venue:
 #  mail: spasm@ietf.org
 #  arch: https://datatracker.ietf.org/wg/lamps/about/
   github: "lamps-wg/csr-attestation"
-  latest: "https://lamps-wg.github.io/csr-attestation/draft-ounsworth-csr-attestation.html"
+  latest: "https://lamps-wg.github.io/csr-attestation/draft-ietf-lamps-csr-attestation.html"
 
 author:
   -

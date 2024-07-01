@@ -536,6 +536,13 @@ Verifier configured for use by a Relying Party but gets more complex when there
 are different Verifiers available and each of them capable of parsing only certain
 Evidence formats.
 
+In some cases, the EvidenceStatement.type OID will be sufficient information
+for the Relying Party to correctly route it to an appropriate Verifier,
+however since the type OID only identifies the general data format, it is possible
+that multiple Verifiers are registered against the same type OID in which case the 
+Relying Party will either require additional parsing of the evidence statement, or
+the Attester will be required to provide additional information.
+
 To simplify the task for the Relying Party an optional field, the hint, is available
 in the EvidenceStatement structure, as shown in {{code-EvidenceStatement}}. An
 Attester MAY include the hint to the EvidenceStatement and it MAY be processed
@@ -544,7 +551,13 @@ embedded in the hint or policy MAY override any information provided by the Atte
 via this hint.
 
 When the Attester populates the hint, it MUST contain a fully qualified domain
-name (FQDN). In a typical usage scenario, the Relying Party is pre-configured with
+name (FQDN) which uniquely identifies a Verifier.
+The problem of mapping hint FQDNs to Verifiers, and the problem of FQDN collision
+is out of scope for this specification; it is assumed that Attester and Verifier
+makers can manage this appropriately on their own FQDN trees, however if this
+becomes problematic then a public registry may be needed.
+
+In a typical usage scenario, the Relying Party is pre-configured with
 a list of trusted Verifiers and the corresponding hint values can be used to look
 up appropriate Verifier. Tricking an Relying Party into interacting with an unknown
 and untrusted Verifier must be avoided.

@@ -10,6 +10,8 @@ Expires: 2 January 2025                                          Siemens
                                                           Fraunhofer SIT
                                                               M. Wiseman
                                                          Beyond Identity
+                                                                N. Smith
+                                                       Intel Corporation
                                                              1 July 2024
 
 
@@ -126,7 +128,6 @@ Table of Contents
      B.1.  TCG DICE ConceptualMessageWrapper in CSR
      B.2.  TCG DICE ConceptualMessageWrapper in CSR
    Appendix C.  Acknowledgments
-   Contributors
    Authors' Addresses
 
 1.  Changes in version -10
@@ -1835,16 +1836,6 @@ Appendix C.  Acknowledgments
    for their feedback based on implementation experience, and Daniel
    Migault and Russ Housley for their review comments.
 
-Contributors
-
-   Ned Smith
-   Intel Corporation
-   United States
-   Email: ned.smith@intel.com
-
-
-   Ned Smith contributed DICE examples and review feedback.
-
 Authors' Addresses
 
    Mike Ounsworth
@@ -1872,3 +1863,9 @@ Authors' Addresses
    Beyond Identity
    United States of America
    Email: monty.wiseman@beyondidentity.com
+
+
+   Ned Smith
+   Intel Corporation
+   United States
+   Email: ned.smith@intel.com

@@ -539,7 +539,7 @@ Evidence formats.
 In some cases, the EvidenceStatement.type OID will be sufficient information
 for the Relying Party to correctly route it to an appropriate Verifier,
 however since the type OID only identifies the general data format, it is possible
-that multiple Verifiers are registered against the same type OID in which case the 
+that multiple Verifiers are registered against the same type OID in which case the
 Relying Party will either require additional parsing of the evidence statement, or
 the Attester will be required to provide additional information.
 

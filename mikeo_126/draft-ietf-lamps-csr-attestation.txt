@@ -5,12 +5,12 @@
 Network Working Group                                       M. Ounsworth
 Internet-Draft                                                   Entrust
 Intended status: Standards Track                           H. Tschofenig
-Expires: 19 December 2024                                        Siemens
+Expires: 2 January 2025                                          Siemens
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                               M. Wiseman
                                                          Beyond Identity
-                                                            17 June 2024
+                                                             1 July 2024
 
 
      Use of Remote Attestation with Certification Signing Requests
@@ -67,7 +67,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 19 December 2024.
+   This Internet-Draft will expire on 2 January 2025.
 
 Copyright Notice
 
@@ -95,7 +95,6 @@ Table of Contents
    6.  ASN.1 Elements
      6.1.  Object Identifiers
      6.2.  Evidence Attribute and Extension
-     6.3.  CertificateAlternatives
    7.  IANA Considerations
      7.1.  Module Registration - SMI Security for PKIX Module
            Identifier
@@ -382,11 +381,10 @@ Table of Contents
     +--------+-----------+
              |
              |           (1 or more) +-------------------------+
-             |         +-------------+ CertificateAlternatives |
+             |         +-------------+ CertificateChoices      |
              |         |             +-------------------------+
              |         |             | Certificate OR          |
-             |         |             | TypedCert   OR          |
-             |         |             | TypedFlatCert           |
+             |         |             | OtherCertificateFormat  |
       (1 or  |         |             +-------------------------+
        more) |         |      (1 or
     +--------+---------+-+     more) +-------------------+
@@ -620,11 +618,20 @@ Table of Contents
 
    EvidenceBundles ::= SEQUENCE SIZE (1..MAX) OF EvidenceBundle
 
-   EvidenceBundle ::= SEQUENCE
-   {
-     evidence EvidenceStatements,
-     certs SEQUENCE SIZE (1..MAX) OF CertificateAlternatives OPTIONAL
+   EvidenceBundle ::= SEQUENCE {
+      evidence EvidenceStatements,
+      certs SEQUENCE SIZE (1..MAX) OF CertificateChoices OPTIONAL
+         -- CertificateChoices MUST only contain certificate or other
    }
+
+   The CertificateChoices structure defined in [RFC6268] allows for
+   carrying certificates in the default X.509 [RFC5280] format, or in
+   other non-X.509 certificate formats.  CertificateChoices MUST only
+   contain certificate or other.  CertificateChoices MUST NOT contain
+   extendedCertificate, v1AttrCert, or v2AttrCert.  Note that for non-
+   ASN.1 certificate formats, the CertificateChoices MUST use other [3]
+   with an OtherCertificateFormat.Type of OCTET STRING, and then can
+   carry any binary data.
 
    id-aa-evidence OBJECT IDENTIFIER ::= { id-aa 59 }
 
@@ -644,9 +651,10 @@ Table of Contents
            Figure 11: Definitions of CSR attribute and extension
 
    The Extension variant illustrated in Figure 11 is intended only for
-   use within CRMF CSRs and MUST NOT be used within X.509 certificates
-   due to the privacy implications of publishing Evidence about the end
-   entity's hardware environment.  See Section 8.2 for more discussion.
+   use within CRMF CSRs and is NOT RECOMMENDED to be used within X.509
+   certificates due to the privacy implications of publishing Evidence
+   about the end entity's hardware environment.  See Section 8.2 for
+   more discussion.
 
    The certs field contains a set of certificates that is intended to
    validate the contents of an Evidence statement contained in evidence,
@@ -676,69 +684,6 @@ Table of Contents
    implementers SHOULD NOT place multiple copies of ext-evidence and
    SHOULD NOT place multiple copies of EvidenceBundles into an
    ExtensionSet.
-
-6.3.  CertificateAlternatives
-
-   fixme: I am not fixing this because another PR fully removed this
-   section, so in the merge, this should go away.
-
-   Figure 12 shows an ASN.1 CHOICE construct used to represent an
-   encoding of a broad variety of certificate types.
-
-   CertificateAlternatives ::=
-      CHOICE {
-         cert              Certificate,
-                              -- Using the Certificate ASN.1
-                              -- structure as defined in RFC 5280.
-         typedCert     [0] TypedCert,
-         typedFlatCert [1] TypedFlatCert,
-         ...
-      }
-
-                       Figure 12: Figure Name FixMe5
-
-   "Certificate" is a standard X.509 certificate that MUST be compliant
-   with RFC 5280.  Enforcement of this constraint is left to Relying
-   Parties.
-
-   "TypedCert" is an ASN.1 construct that has the characteristics of a
-   certificate, but is not encoded as an X.509 certificate.  The
-   certType Field (below) indicates how to interpret the certBody field.
-   While it is possible to carry any type of data in this structure, the
-   intend of the content field is to include data for at least one
-   public key formatted as a SubjectPublicKeyInfo (see [RFC5912]).
-
-  TYPED-CERT ::= TYPE-IDENTIFIER
-
-  CertType ::= TYPED-CERT.&id
-
-  TypedCert ::= SEQUENCE {
-                certType     TYPED-CERT.&id({TypedCertSet}),
-                content     TYPED-CERT.&Type ({TypedCertSet}{@certType})
-            }
-
-  TypedCertSet TYPED-CERT ::= {
-     ... -- None defined in this document --
-        }
-
-                      Figure 13: Figure Name FixMe6
-
-   fixme: I am not fixing this because another PR fully removed this
-   section, so in the merge, this should go away.
-
-   Figure Figure 13 illustrates "TypedFlatCert" representing a
-   certificate that does not have a valid ASN.1 encoding.  Certificates
-   that are not ASN.1 compliant are often compact or implicit
-   certificates used by smart cards. certType as shown in Figure 14
-   indicates the format of the data in the certBody field and ideally
-   refers to an appropriate published specification.
-
-   TypedFlatCert ::= SEQUENCE {
-       certType OBJECT IDENTIFIER,
-       certBody OCTET STRING
-   }
-
-                       Figure 14: Figure Name FixMe7
 
 7.  IANA Considerations
 
@@ -892,9 +837,9 @@ Table of Contents
    prevent theft or misuse (including being non-exportable / non-
    recoverable), the Attesting Environment has to collect claims about
    this secure environment (or Target Environment, as shown in
-   Figure 15).
+   Figure 12).
 
-   Figure 15 shows the interaction inside an Attester.  The Attesting
+   Figure 12 shows the interaction inside an Attester.  The Attesting
    Environment, which is provisioned with an Attestation Key, retrieves
    claims about the Target Environment.  The Target Environment offers
    key generation, storage and usage, which it makes available to
@@ -936,9 +881,9 @@ Table of Contents
     |                                    |
     '------------------------------------'
 
-      Figure 15: Interaction between Attesting and Target Environment
+      Figure 12: Interaction between Attesting and Target Environment
 
-   Figure 15 places the CSR library outside the Attester, which is a
+   Figure 12 places the CSR library outside the Attester, which is a
    valid architecture for certificate enrollment.  The CSR library may
    also be located inside the trusted computing base.  Regardless of the
    placement of the CSR library, an Attesting Environment MUST be able
@@ -1026,7 +971,11 @@ Table of Contents
    considerations are beyond the scope of this document and may require
    additional signaling mechanisms in the CSR to prevent unintended
    publication of sensitive information, so we leave it as "NOT
-   RECOMMENDED".
+   RECOMMENDED".  Often, the correct layer at which to address this is
+   either in certificate profiles, a Certificate Practice Statement
+   (CPS), or in the protocol or application that carries the CSR to the
+   RA/CA where a flag can be added indicating whether the RA/CA should
+   consider the evidence to be public or private.
 
 8.3.  Type OID and verifier hint
 
@@ -1095,6 +1044,12 @@ Table of Contents
               DOI 10.17487/RFC5912, June 2010,
               <https://www.rfc-editor.org/rfc/rfc5912>.
 
+   [RFC6268]  Schaad, J. and S. Turner, "Additional New ASN.1 Modules
+              for the Cryptographic Message Syntax (CMS) and the Public
+              Key Infrastructure Using X.509 (PKIX)", RFC 6268,
+              DOI 10.17487/RFC6268, July 2011,
+              <https://www.rfc-editor.org/rfc/rfc6268>.
+
    [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
               May 2017, <https://www.rfc-editor.org/rfc/rfc8174>.
@@ -1137,9 +1092,9 @@ Table of Contents
               Tschofenig, H., Frost, S., Brossard, M., Shaw, A. L., and
               T. Fossati, "Arm's Platform Security Architecture (PSA)
               Attestation Token", Work in Progress, Internet-Draft,
-              draft-tschofenig-rats-psa-token-22, 21 February 2024,
+              draft-tschofenig-rats-psa-token-23, 24 June 2024,
               <https://datatracker.ietf.org/doc/html/draft-tschofenig-
-              rats-psa-token-22>.
+              rats-psa-token-23>.
 
    [PKCS11]   OASIS, "PKCS #11 Cryptographic Token Interface Base
               Specification Version 2.40", April 2015,
@@ -1683,6 +1638,10 @@ Certificate, id-pkix
      {iso(1) identified-organization(3) dod(6) internet(1) security(5)
      mechanisms(5) pkix(7) id-mod(0) id-mod-pkix1-explicit-02(51)}
 
+CertificateChoices
+FROM CryptographicMessageSyntax-2010
+{ iso(1) member-body(2) us(840) rsadsi(113549)
+pkcs(1) pkcs-9(9) smime(16) modules(0) id-mod-cms-2009(58) }
 
 EXTENSION, ATTRIBUTE, AttributeSet{}, SingleAttribute{}
     FROM PKIX-CommonTypes-2009 -- from [RFC5912]
@@ -1758,10 +1717,10 @@ ext-evidence EXTENSION ::= {
 
 EvidenceBundles ::= SEQUENCE SIZE (1..MAX) OF EvidenceBundle
 
-EvidenceBundle ::= SEQUENCE
-{
-  evidence EvidenceStatements,
-  certs SEQUENCE SIZE (1..MAX) OF CertificateAlternatives OPTIONAL
+EvidenceBundle ::= SEQUENCE {
+   evidence EvidenceStatements,
+   certs SEQUENCE SIZE (1..MAX) OF CertificateChoices OPTIONAL
+      -- CertificateChoices MUST only contain certificate or other
 }
 
 
@@ -1861,8 +1820,8 @@ Appendix C.  Acknowledgments
    Gustavsson, Dieter Bong, Christopher Meyer, Michael StJohns, Carl
    Wallace, Michael Richardson, Tomofumi Okubo, Olivier Couillard, John
    Gray, Eric Amador, Johnson Darren, Herman Slatman, Tiru Reddy, Corey
-   Bonnell, Argenius Kushner, James Hagborg, Monty Wiseman, John Kemp,
-   Ned Smith.
+   Bonnell, Argenius Kushner, James Hagborg, A.J.  Stein, John Kemp, Ned
+   Smith,
 
    We would like to specifically thank Mike StJohns for his work on an
    earlier version of this draft.

@@ -56,7 +56,8 @@ author:
     org: Beyond Identity
     country: USA
     email: monty.wiseman@beyondidentity.com
-  - ins: N. Smith
+  -
+    ins: N. Smith
     name: Ned Smith
     org: Intel Corporation
     country: United States

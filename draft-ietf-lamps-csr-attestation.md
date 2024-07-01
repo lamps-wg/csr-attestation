@@ -41,8 +41,8 @@ author:
     name: Hannes Tschofenig
     organization: Siemens
     email: Hannes.Tschofenig@gmx.net
-
-  - name: Henk Birkholz
+  -
+    name: Henk Birkholz
     org: Fraunhofer SIT
     abbrev: Fraunhofer SIT
     email: henk.birkholz@sit.fraunhofer.de
@@ -50,22 +50,18 @@ author:
     code: '64295'
     city: Darmstadt
     country: Germany
-
   -
     ins: M. Wiseman
     name: Monty Wiseman
     org: Beyond Identity
     country: USA
     email: monty.wiseman@beyondidentity.com
-
-contributor:
-  - ins: N. Smith
+  -
+    ins: N. Smith
     name: Ned Smith
     org: Intel Corporation
     country: United States
     email: ned.smith@intel.com
-    contribution: >
-      Ned Smith contributed DICE examples and review feedback.
 
 normative:
   RFC9334:

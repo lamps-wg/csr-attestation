@@ -1951,22 +1951,33 @@ Evidence itself. This "routing" decision is simple when there is only a single
 Verifier configured for use by a Relying Party but gets more complex when there
 are different Verifiers available and each of them capable of parsing only certain
 Evidence formats.<a href="#section-6.2-7" class="pilcrow">¶</a></p>
-<p id="section-6.2-8">To simplify the task for the Relying Party an optional field, the hint, is available
+<p id="section-6.2-8">In some cases, the EvidenceStatement.type OID will be sufficient information
+for the Relying Party to correctly route it to an appropriate Verifier,
+however since the type OID only identifies the general data format, it is possible
+that multiple Verifiers are registered against the same type OID in which case the
+Relying Party will either require additional parsing of the evidence statement, or
+the Attester will be required to provide additional information.<a href="#section-6.2-8" class="pilcrow">¶</a></p>
+<p id="section-6.2-9">To simplify the task for the Relying Party an optional field, the hint, is available
 in the EvidenceStatement structure, as shown in <a href="#code-EvidenceStatement" class="auto internal xref">Figure 10</a>. An
 Attester <span class="bcp14">MAY</span> include the hint to the EvidenceStatement and it <span class="bcp14">MAY</span> be processed
 by the Relying Party. The Relying Party <span class="bcp14">MAY</span> decide not to trust the information
 embedded in the hint or policy <span class="bcp14">MAY</span> override any information provided by the Attester
-via this hint.<a href="#section-6.2-8" class="pilcrow">¶</a></p>
-<p id="section-6.2-9">When the Attester populates the hint, it <span class="bcp14">MUST</span> contain a fully qualified domain
-name (FQDN). In a typical usage scenario, the Relying Party is pre-configured with
+via this hint.<a href="#section-6.2-9" class="pilcrow">¶</a></p>
+<p id="section-6.2-10">When the Attester populates the hint, it <span class="bcp14">MUST</span> contain a fully qualified domain
+name (FQDN) which uniquely identifies a Verifier.
+The problem of mapping hint FQDNs to Verifiers, and the problem of FQDN collision
+is out of scope for this specification; it is assumed that Attester and Verifier
+makers can manage this appropriately on their own FQDN trees, however if this
+becomes problematic then a public registry may be needed.<a href="#section-6.2-10" class="pilcrow">¶</a></p>
+<p id="section-6.2-11">In a typical usage scenario, the Relying Party is pre-configured with
 a list of trusted Verifiers and the corresponding hint values can be used to look
 up appropriate Verifier. Tricking an Relying Party into interacting with an unknown
-and untrusted Verifier must be avoided.<a href="#section-6.2-9" class="pilcrow">¶</a></p>
-<p id="section-6.2-10">Usage of the hint field can be seen in the TPM2_attest example in
+and untrusted Verifier must be avoided.<a href="#section-6.2-11" class="pilcrow">¶</a></p>
+<p id="section-6.2-12">Usage of the hint field can be seen in the TPM2_attest example in
 <a href="#appdx-tpm2" class="auto internal xref">Appendix A.2</a> where the type OID indicates the OID
 id-TcgAttestCertify and the corresponding hint identifies the Verifier as
-"tpmverifier.example.com".<a href="#section-6.2-10" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="section-6.2-11">
+"tpmverifier.example.com".<a href="#section-6.2-12" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-6.2-13">
 <pre>
 EvidenceBundles ::= SEQUENCE SIZE (1..MAX) OF EvidenceBundle
 
@@ -1975,12 +1986,12 @@ EvidenceBundle ::= SEQUENCE {
    certs SEQUENCE SIZE (1..MAX) OF CertificateChoices OPTIONAL
       -- CertificateChoices MUST only contain certificate or other
 }
-</pre><a href="#section-6.2-11" class="pilcrow">¶</a>
+</pre><a href="#section-6.2-13" class="pilcrow">¶</a>
 </div>
-<p id="section-6.2-12">The CertificateChoices structure defined in <span>[<a href="#RFC6268" class="cite xref">RFC6268</a>]</span> allows for carrying certificates in the default X.509 [RFC5280] format, or in other non-X.509 certificate formats. CertificateChoices <span class="bcp14">MUST</span> only contain certificate or other. CertificateChoices <span class="bcp14">MUST NOT</span> contain extendedCertificate, v1AttrCert, or v2AttrCert. Note that for non-ASN.1 certificate formats, the CertificateChoices <span class="bcp14">MUST</span> use <code>other [3]</code> with an <code>OtherCertificateFormat.Type</code> of <code>OCTET STRING</code>, and then can carry any binary data.<a href="#section-6.2-12" class="pilcrow">¶</a></p>
+<p id="section-6.2-14">The CertificateChoices structure defined in <span>[<a href="#RFC6268" class="cite xref">RFC6268</a>]</span> allows for carrying certificates in the default X.509 [RFC5280] format, or in other non-X.509 certificate formats. CertificateChoices <span class="bcp14">MUST</span> only contain certificate or other. CertificateChoices <span class="bcp14">MUST NOT</span> contain extendedCertificate, v1AttrCert, or v2AttrCert. Note that for non-ASN.1 certificate formats, the CertificateChoices <span class="bcp14">MUST</span> use <code>other [3]</code> with an <code>OtherCertificateFormat.Type</code> of <code>OCTET STRING</code>, and then can carry any binary data.<a href="#section-6.2-14" class="pilcrow">¶</a></p>
 <span id="name-definitions-of-csr-attribut"></span><div id="code-extensions">
 <figure id="figure-11">
-          <div class="alignLeft art-text artwork" id="section-6.2-13.1">
+          <div class="alignLeft art-text artwork" id="section-6.2-15.1">
 <pre>
 id-aa-evidence OBJECT IDENTIFIER ::= { id-aa 59 }
 
@@ -2001,19 +2012,19 @@ ext-evidence EXTENSION ::= {
 <a href="#name-definitions-of-csr-attribut" class="selfRef">Definitions of CSR attribute and extension</a>
           </figcaption></figure>
 </div>
-<p id="section-6.2-14">The Extension variant illustrated in <a href="#code-extensions" class="auto internal xref">Figure 11</a> is intended only for use within CRMF CSRs and is <span class="bcp14">NOT RECOMMENDED</span> to be used within X.509 certificates due to the privacy implications of publishing Evidence about the end entity's hardware environment. See <a href="#sec-con-publishing-x509" class="auto internal xref">Section 8.2</a> for more discussion.<a href="#section-6.2-14" class="pilcrow">¶</a></p>
-<p id="section-6.2-15">The <code>certs</code> contains a set of certificates that
+<p id="section-6.2-16">The Extension variant illustrated in <a href="#code-extensions" class="auto internal xref">Figure 11</a> is intended only for use within CRMF CSRs and is <span class="bcp14">NOT RECOMMENDED</span> to be used within X.509 certificates due to the privacy implications of publishing Evidence about the end entity's hardware environment. See <a href="#sec-con-publishing-x509" class="auto internal xref">Section 8.2</a> for more discussion.<a href="#section-6.2-16" class="pilcrow">¶</a></p>
+<p id="section-6.2-17">The <code>certs</code> contains a set of certificates that
 is intended to validate the contents of an Evidence statement
 contained in <code>evidence</code>, if required. The set of certificates should contain
 the object that contains the public key needed to directly validate the
 <code>evidence</code>. The remaining elements should chain that data back to
 an agreed upon trust anchor used for attestation. No order is implied, it is
 up to the Attester and its Verifier to agree on both the order and format
-of certificates contained in <code>certs</code>.<a href="#section-6.2-15" class="pilcrow">¶</a></p>
-<p id="section-6.2-16">A CSR <span class="bcp14">MAY</span> contain one or more instances of <code>attr-evidence</code> or <code>ext-evidence</code>.
+of certificates contained in <code>certs</code>.<a href="#section-6.2-17" class="pilcrow">¶</a></p>
+<p id="section-6.2-18">A CSR <span class="bcp14">MAY</span> contain one or more instances of <code>attr-evidence</code> or <code>ext-evidence</code>.
 This means that the <code>SEQUENCE OF EvidenceBundle</code> is redundant with the
 ability to carry multiple <code>attr-evidence</code> or <code>ext-evidence</code> at the CSR level;
-either mechanism <span class="bcp14">MAY</span> be used for carrying multiple Evidence bundles.<a href="#section-6.2-16" class="pilcrow">¶</a></p>
+either mechanism <span class="bcp14">MAY</span> be used for carrying multiple Evidence bundles.<a href="#section-6.2-18" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>

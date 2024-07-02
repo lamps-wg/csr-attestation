@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-06-30T00:56:10.486078+00:00",
+  "timestamp": "2024-07-02T00:52:06.587051+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -1515,15 +1515,15 @@
       "id": "I_kwDOJ3IIN86J3sCo",
       "title": "Address Carl's review feedback",
       "url": "https://github.com/lamps-wg/csr-attestation/issues/126",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "ounsworth",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "https://mailarchive.ietf.org/arch/msg/spasm/UVQ0yXAEqsm9snJIOcelFQoYyEA/",
       "createdAt": "2024-05-23T14:28:22Z",
-      "updatedAt": "2024-05-23T14:28:22Z",
-      "closedAt": null,
+      "updatedAt": "2024-07-01T13:40:06Z",
+      "closedAt": "2024-07-01T13:40:06Z",
       "comments": []
     },
     {
@@ -1531,15 +1531,15 @@
       "id": "I_kwDOJ3IIN86KQFen",
       "title": "Replace TypedCert with RFC 6268 CertificateChoices",
       "url": "https://github.com/lamps-wg/csr-attestation/issues/127",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "ounsworth",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "From Russ:\r\n\r\n\r\nAfter looking at this for the past few days, I am not convinced that the separation of non-ASN.1 and non-X.509 ASN.1 provides any value to the implementer.  At some point, the implementation must look up the OID to detimen how to fully parse the certificate.  Mike has shown some tricks to detect errors early with the current syntax.  To that end, I suggest that the module IMPORT CertificateChoices from RFC 6268.\r\n\r\nThe resulting ASN.1 for EvidenceBundle would be:\r\n\r\nEvidenceBundle ::= SEQUENCE {\r\n    evidence  EvidenceStatements,\r\n    certs SEQUENCE SIZE (1..MAX) OF CertificateChoices OPTIONAL\r\n    -- CertificateChoices MUST only contain certificate or other\r\n}\r\n\r\nIn addition, the text should say:\r\n\r\nCertificateChoices MUST only contain certificate or other.  CertificateChoices MUST NOT contain extendedCertificate, v1AttrCert, or v2AttrCert.\r\n\r\nRuss\r\n\r\n\r\nP.S.  If the WG likes this suggestion, then the full ASN.1 module for this Internet-Draft follows.\r\n\r\nCSR-ATTESTATION-2024\r\n    {iso(1) identified-organization(3) dod(6) internet(1) security(5)\r\n     mechanisms(5) pkix(7) id-mod(0) id-mod-pkix-attest-01(TBDMOD)}\r\n\r\nDEFINITIONS IMPLICIT TAGS ::= BEGIN\r\n\r\nEXPORTS ALL;\r\n\r\nIMPORTS\r\n\r\nCertificate, id-pkix\r\n  FROM PKIX1Explicit-2009\r\n    { iso(1) identified-organization(3) dod(6) internet(1) security(5)\r\n      mechanisms(5) pkix(7) id-mod(0) id-mod-pkix1-explicit-02(51)}\r\n\r\nCertificateChoices\r\n  FROM CryptographicMessageSyntax-2010\r\n    { iso(1) member-body(2) us(840) rsadsi(113549)\r\n      pkcs(1) pkcs-9(9) smime(16) modules(0) id-mod-cms-2009(58) }\r\n\r\nEXTENSION, ATTRIBUTE, AttributeSet{}, SingleAttribute{}\r\n  FROM PKIX-CommonTypes-2009 -- from [RFC5912]\r\n    { iso(1) identified-organization(3) dod(6) internet(1) security(5)\r\n      mechanisms(5) pkix(7) id-mod(0) id-mod-pkixCommon-02(57) }\r\n\r\nid-aa\r\n  FROM SecureMimeMessageV3dot1\r\n    { iso(1) member-body(2) us(840) rsadsi(113549)\r\n        pkcs(1) pkcs-9(9) smime(16) modules(0) msg-v3dot1(21) }\r\n  ;\r\n  \r\n\r\n-- OID Arc for attestation statement types\r\nid-ata OBJECT IDENTIFIER ::= { id-pkix TBD1 }\r\n\r\nEVIDENCE-STATEMENT ::= TYPE-IDENTIFIER\r\n\r\nEvidenceStatementSet EVIDENCE-STATEMENT ::= {\r\n   ... -- None defined in this document --\r\n}\r\n\r\nEvidenceHint ::= CHOICE {\r\n  rfc822Name [0] IA5String,\r\n  dNSName    [1] IA5String,\r\n  uri        [2] IA5String,\r\n  text       [3] UTF8String\r\n}\r\n\r\nEvidenceStatements ::= SEQUENCE SIZE (1..MAX) OF EvidenceStatement\r\n\r\nEvidenceStatement ::= SEQUENCE {\r\n   type   EVIDENCE-STATEMENT.&id({EvidenceStatementSet}),\r\n   stmt   EVIDENCE-STATEMENT.&Type({EvidenceStatementSet}{@type}),\r\n   hint   EvidenceHint OPTIONAL\r\n}\r\n\r\nid-aa-evidence OBJECT IDENTIFIER ::= { id-aa TBDAA }\r\n\r\n-- For PKCS#10\r\nattr-evidence ATTRIBUTE ::= {\r\n  TYPE SEQUENCE OF EvidenceBundles\r\n  IDENTIFIED BY id-aa-evidence\r\n}\r\n\r\n\r\n-- For CRMF\r\next-evidence EXTENSION ::= {\r\n  SYNTAX EvidenceBundles\r\n  IDENTIFIED BY id-aa-evidence\r\n}\r\n\r\n\r\nEvidenceBundles ::= SEQUENCE SIZE (1..MAX) OF EvidenceBundle\r\n\r\nEvidenceBundle ::= SEQUENCE {\r\n    evidence  EvidenceStatements,\r\n    certs SEQUENCE SIZE (1..MAX) OF CertificateChoices OPTIONAL\r\n    -- CertificateChoices MUST only contain certificate or other\r\n}\r\n\r\nEND\r\n",
       "createdAt": "2024-05-27T16:13:52Z",
-      "updatedAt": "2024-06-03T18:56:33Z",
-      "closedAt": null,
+      "updatedAt": "2024-06-30T13:59:00Z",
+      "closedAt": "2024-06-30T13:59:00Z",
       "comments": [
         {
           "author": "ounsworth",
@@ -1558,11 +1558,13 @@
       "state": "OPEN",
       "author": "ounsworth",
       "authorAssociation": "CONTRIBUTOR",
-      "assignees": [],
+      "assignees": [
+        "hannestschofenig"
+      ],
       "labels": [],
       "body": "1) \"Lead Attester\" is not defined anywhere, but used in multiple places.   A paragraph on that role and its responsibilities appears to be necessary.\r\n2) Section 4.2 needs subsections for each of the cases.   At least one diagram has both a caption and free floating identifiers (e.g. \"Implementation strategy 4b\" vs \"Figure 7....\") that are indistinguishable from body text. There needs to be a way to differentiate between body text and a title for the various cases and objects.     So a) split Figure 7 into two different figures, b) have a section on \"Case 4\" with subsections on \"Implementation Strategy 4a\" and \"Implementation Strategy 4b\" with the appropriate figures from Figure 7 within the section boundaries.  This is mostly editorial, but needs cleanup for figuring out which text paragraph belongs with which diagram.\r\n4.2 - How to encode\r\n4.2.1 - Case 1 - Single Evidence Bundle\r\n4.2.2 - Case 2 - Single Evidence Bundle with Certificates\r\n4.2.3 - Case 3 - Multiple Evidence Bundles each with complete Paths\r\n4.2.4 - Case 4 - Multiple Evidence Bundles with Certificate Transmission Optimization\r\n4.2.4.1 - Strategy 4a\r\n4.2.4.2 - Strategy 4b.\r\n\r\n3) Can Case 1 (where the validator is thought to know some of Case 1's certificates) be encoded as part of Case 4?  I.e., is it legal to have an EvidenceBundle with no certificates as part of any of Case 4?  Or for that matter Case 3?  \r\n4) What knowledge must a \"Leader Attester\" have to select between each of the cases for encoding?   I.e., pre-configured?, some policy object they got?  Specific guidance from each of the possible validators each wanting the same data formatted in a specific way to make their lives easier?\r\n5) Must a validator that can handle Case 3, must also be able to go looking for certs in other bundles if the chain for a given bundle can't be built for validation?  Or must that be treated as a non-validation error by the validator?\r\n6) May a 4B output contain multiple EvidenceBundles each looking like 4B but with a partially disjoint set of certificates?  The description for 4b looks more like case 3 than a special case of 4.\r\n7) May you mix and match the various cases?  And must a Validator be required to riffle through all the various bundles to find the right mix of certificates to validate a given evidence statement?\r\nText needs to be written to cover answers for each of these I believe.\r\n8) Evidence Hint appears to be a way to convey type data that's otherwise buried inside of an Evidence Object of identical top-level types.  This seems to be laziness to not require different OIDs for different pseudo-wrapped and typed evidence statements from DICE ConceptualMessageWrapper (the example, but also handwaving other possibilities).  Recommend elimination of this and putting the onus on the post-processing software to do the differentiation if the proponents of these types of objects don't want to request multiple OIDs.  I don't find the arguments for inclusion convincing.  \r\n9) The TPM example needs work, A2.3\r\n9a)  \r\nThe structure here needs to be de-OCTET STRING'd.\r\nE.g. \r\nTpmV2Attest ::= OCTET STRING -- This is formatted as the encoding of <tpmv2 structures, TPMS_ATTEST>.  \r\n                                                        -- This may be any of the valid attestation structures. For a signature over a public key, only a hash of related public key data is included under the signature.\r\nTpm2InternalSig ::= OCTET STRING -- This is formatted as the encoding of <tpmv2 structures TPMT_SIGNATURE>.  This structure includes the type of signature as well as the actual signature bytes/bits \r\nTpm2Public ::= OCTET STRING -- This is formatted as <tpmv2 structures TPMT_PUBLIC>.  This structure includes the type of key as well as the key bytes.  This is the key being signed.\r\n\r\nTcg-csr-certify ::= SEQUENCE {\r\n   tpmSAttest ::= TpmV2Attest,\r\n   tpmSignature :: = Tpm2InternalSig, -- This is the signature returned by a call to TPM2_Certify over the tpmSAttest object.\r\n   tpmTPublic ::= Tpm2Public OPTIONAL -- This is REQUIRED if the attestation is over a public key  (e.g. if TPMS_ATTEST.type == ???) as it's the only way to map from the key being attested to the attestation.\r\n}\r\n9b) tcg-kp-AIKCertificateField????   This is an extended key purpose OID.  There is no field that contains the AIK certificate.  \r\n9c) A2.5.1 - the TPMU_ATTEST field is a Union identified by .type.  The TPMS_CERTIFY_INFO is union value of what's certified for a public key\r\n9d) If you've got TPMU_ATTEST, you need to explain how to get from Tpm2Public (TPMT_PUBLIC) to the value of the attested field.\r\n9e) Sample CSR - how does the lead attester know what software is installed on the validator's side (e.g. package tpmverifier.example.com)?   This implies there needs to be a registry mapping \"hints\" to something global.  In any event, if you have the OID and you have the structure definitions pointed to that OID, then the Hint is extraneous.  If the validator has multiple ways of resolving a TPMv2 attestation, they're doing it wrong.  Repeat my recommendation to remove hints.\r\n10) Should additional CMS error codes be added for this new extension?  E.g. RFC5272, section 6.1.1 - ExtendedFailInfo.  I don't see how CMCStatus or CMCFailInfo can be extended to cover the possible chaining errors and evidence/validator mismatches.  Ditto for CMP?\r\nLater, Mike\r\n",
       "createdAt": "2024-05-28T12:45:24Z",
-      "updatedAt": "2024-05-28T19:58:21Z",
+      "updatedAt": "2024-06-30T14:17:56Z",
       "closedAt": null,
       "comments": [
         {
@@ -1571,6 +1573,13 @@
           "body": "> 1. \"Lead Attester\" is not defined anywhere,\r\n\r\n9334 quasi defines and uses it in examples. The use here is intended to align with 9334 use. Is that not the case / should this reference 9334?\r\n\r\n>4. ... \"Leader Attester\"\r\n\r\nI assume this is a typo.\r\n\r\n> 8. Evidence Hint appears to be a way to convey type data that's otherwise buried inside of an Evidence Object\r\n\r\nThe PR #125 defines the `type` and `hint` objects. The type is an OID from the table of OIDs further in the I-D. e.g.: type: OBJECT IDENTIFIER tcg-dice-TcbInfo (2.23.133.5.4.1)\r\nHint is a quasi URI that describes the same object e.g. \"DiceTcbInfo.example.com\" \r\n\r\nPossibly, the CSR example should be defined to the same level of detail as the DiceTcbInfo example. Then type would be `type: OBJECT IDENTIFIER tcg-dice-DiceConceptualMessageWrapper (2.23.133.5.4.9)` and hint would be `\"DiceConceptualMessageWrapper.example.com\"`.\r\n\r\nOtherwise, the feedback is unclear about what `laziness` means. Possibly, `type` is sufficient and `hint` has no value?",
           "createdAt": "2024-05-28T19:41:39Z",
           "updatedAt": "2024-05-28T19:58:21Z"
+        },
+        {
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "> 10) Should additional CMS error codes be added for this new extension? E.g. RFC5272, section 6.1.1 - ExtendedFailInfo. I don't see how CMCStatus or CMCFailInfo can be extended to cover the possible chaining errors and evidence/validator mismatches. Ditto for CMP?\r\n\r\nPossibly, but I think it's scope creep to consider that in this document.",
+          "createdAt": "2024-06-30T14:14:18Z",
+          "updatedAt": "2024-06-30T14:14:18Z"
         }
       ]
     },
@@ -1610,16 +1619,24 @@
       "id": "I_kwDOJ3IIN86Lksxv",
       "title": "Look at the diff from last version and make sure the changelog is complete",
       "url": "https://github.com/lamps-wg/csr-attestation/issues/134",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "ounsworth",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2024-06-08T13:18:12Z",
-      "updatedAt": "2024-06-08T13:18:12Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2024-07-01T14:48:19Z",
+      "closedAt": "2024-07-01T14:48:19Z",
+      "comments": [
+        {
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Nevermind, Hannes nuked the changelog.",
+          "createdAt": "2024-07-01T14:48:19Z",
+          "updatedAt": "2024-07-01T14:48:19Z"
+        }
+      ]
     },
     {
       "number": 136,
@@ -1642,15 +1659,15 @@
       "id": "I_kwDOJ3IIN86Mby1-",
       "title": "Using this as an X.509 extension, MUST NOT, or NOT RECOMMENDED?",
       "url": "https://github.com/lamps-wg/csr-attestation/issues/137",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "ounsworth",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Carl makes an excellent point:\r\n\r\n> Section 7.2\r\n> - The NOT RECOMMENDED here is inconsistent with the MUST NOT in section 5.2. NOT RECOMMENDED seems right.\r\n> - Given the words throughout about not using the extension type in a certificate, ought there be some words about not using the attribute type in a subject directory attributes extension in a certificate?\r\n\r\nMonty also wants to see a way to place evidence into X.509 certs.\r\n\r\nThe current wording is the body is this:\r\n\r\n> The Extension variant illustrated in [Figure 11] is intended only for use within CRMF CSRs and MUST NOT be used within X.509 certificates due to the privacy implications of publishing Evidence about the end entity's hardware environment. See [Section 8.2] for more discussion.\r\n\r\nWhat if we simply changed that to a NOT RECOMMENDED, and in the security consideration added a note that protocols and applications carrying CSRs that contain Evidence should consider adding a flag to indicate whether the Evidence should be copied into the certificate, and the privacy implications should be handled at the protocol level.\r\n\r\n",
       "createdAt": "2024-06-17T00:50:38Z",
-      "updatedAt": "2024-06-17T00:50:38Z",
-      "closedAt": null,
+      "updatedAt": "2024-06-30T13:56:22Z",
+      "closedAt": "2024-06-30T13:56:22Z",
       "comments": []
     },
     {
@@ -1665,12 +1682,12 @@
       "labels": [],
       "body": "See this discussion: https://mailarchive.ietf.org/arch/msg/rats/aYeAOmAsqas4WomxImwXW8R63Mc/\r\n",
       "createdAt": "2024-06-17T16:25:08Z",
-      "updatedAt": "2024-06-21T18:12:40Z",
+      "updatedAt": "2024-06-30T14:03:58Z",
       "closedAt": null,
       "comments": [
         {
           "author": "aj-stein-nist",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "body": "Given today's conversation, is the [PKI Consortium definition I posted](https://pkic.org/activities/remote-key-attestation/) relevant, as a starting point, or must it be something specific to the LAMPS or RATS WGs in IETF?\r\n\r\nHat tip to @frumioj for this issue and cross-org visibility in https://github.com/pkic/remote-key-attestation/issues/22.",
           "createdAt": "2024-06-17T17:37:32Z",
           "updatedAt": "2024-06-17T17:37:32Z"
@@ -1681,8 +1698,49 @@
           "body": "Is this issue asking to do something? \r\nAssuming there is general agreement on a definition of key attestation. The salient part is whether or not an AE (cryptographic token) can assert properties of keys. The basic building block of such a statement are (a) naming the key in question (b) describing its properties.\r\n\r\nThe PKI Consortium suggests that the property that is most important is: \"key pair was generated and is managed inside a hardware security module\"\r\n\r\nThe entity making the claim, i.e. the \"hardware security module\" a.k.a., AE also needs to be named. \r\n\r\nThe statement semantics would be: \r\nHSM_A says KEY_X has the property \"key pair was generated and is managed inside a hardware security module\"\r\n\r\nRATS Evidence might rely on a signed object such as JWT/CWT/CSR where the signing key speaks on behalf of the AE. The assumption is the AE (HSM) has been endorsed by a trustworthy entity (e.g., its vendor) usually in the form of an endorsement certificate issued by the vendor CA that identifies the AE. Typically, this is in the form of a device ID certificate where the device ID key is embedded in the AE at manufacturing time (or by a secure process) such that the HSM and HSM key are considered to be the same entity. \r\n\r\nSince KEY_A is under the control of the HSM, the HSM key can sign statements about KEY_A. Such as: \"key pair was generated and is managed inside the HSM_A hardware security module\".\r\n\r\nIf the signed object is the CSR (as that is what's relevant to this I-D), then there needs to be a way to encode the identity of KEY_A (e.g., key-id) and the statement above. There are lots of ways to encode the statement, text string, OID, a single bit. \r\n\r\nThe lamps/csr-attestation I-D has focused on providing a way to include Evidence in a CSR but stops short of defining specific statements. For that, there is a RATS draft https://datatracker.ietf.org/doc/draft-ounsworth-rats-x509-evidence/\r\n\r\nIt seems this draft is the logical place to define an evidence statement for: \r\nHSM_A says KEY_X has the property \"key pair was generated and is managed inside the HSM_A hardware security module\"\r\n\r\nScanning this I-D it seems to have some building block \"Claims\" that could be used to construct the above statement. For example, the HSM might be given an OEMID, HWMODEL, HWVERSION etc. It might contain some firmware (SOFTWARE-COMPONENT) and it might have some operational characteristics (DBGSTAT).  The HSM might be evaluated, such that an Endorser might want to assert (FIPS_CONF or CC_CONF). \r\n\r\nHowever, these properties seem to describe the HSM and not the key. For example, there is not discussion on how to identify a key (key-id). \r\n\r\nThere is no attention to encoding the properties of a key.\r\n\r\nThere is no attention to how a device ID key (aka endorsement key) might be bound to an HSM such that it can \"speak for\" the objects the HSM controls (such as KEY_A). \r\n\r\nA TPM (as a form of HSM) does have the above capabilities and https://datatracker.ietf.org/doc/draft-ietf-rats-yang-tpm-charra/ documents how that works for TPMs. \r\n\r\nIt seems draft-ounsworth-rats-x509-evidence could do a better job of describing key attestation by filling the gaps I've pointed out.  \r\n",
           "createdAt": "2024-06-21T18:12:38Z",
           "updatedAt": "2024-06-21T18:12:38Z"
+        },
+        {
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Given the word count of the RATS email thread and of Ned's comment here, I think that this LAMPS document is also not the correct place to attempt a formal definition of \"attestation\" or \"key attestation\". \r\n\r\nCan we just say something hand-wavy?",
+          "createdAt": "2024-06-30T14:03:56Z",
+          "updatedAt": "2024-06-30T14:03:56Z"
         }
       ]
+    },
+    {
+      "number": 144,
+      "id": "I_kwDOJ3IIN86OFeto",
+      "title": "Should the DICE CMW example have a complete ASN.1 Module?",
+      "url": "https://github.com/lamps-wg/csr-attestation/issues/144",
+      "state": "OPEN",
+      "author": "ounsworth",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [
+        "nedmsmith"
+      ],
+      "labels": [],
+      "body": "Feedback from Carl:\r\n\r\n> Section B.1\r\n> This should probably be presented as a standalone ASN.1 module that adds this definition instead of as a snip from an ASN.1 module.\r\n\r\nI will discuss with @nedmsmith .",
+      "createdAt": "2024-07-01T13:03:45Z",
+      "updatedAt": "2024-07-01T13:03:45Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 145,
+      "id": "I_kwDOJ3IIN86OGgtI",
+      "title": "Are we capitalizing RATS terms, or not?",
+      "url": "https://github.com/lamps-wg/csr-attestation/issues/145",
+      "state": "OPEN",
+      "author": "ounsworth",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2024-07-01T14:56:02Z",
+      "updatedAt": "2024-07-01T14:56:02Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
@@ -4681,7 +4739,7 @@
       "comments": [
         {
           "author": "aj-stein-nist",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "body": "This looks good you may (but not a must) change the figure title to not mention OpenSSL anymore (if you look at the aasvg figure metadata), @hannestschofenig.",
           "createdAt": "2024-01-15T17:49:40Z",
           "updatedAt": "2024-01-15T17:49:40Z"
@@ -6321,24 +6379,26 @@
       "id": "PR_kwDOJ3IIN85xViW-",
       "title": "Replaced TypedCert with CertificateChoices from RFC6268",
       "url": "https://github.com/lamps-wg/csr-attestation/pull/132",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "ounsworth",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Closes #127 \r\n\r\nWe need to convince ourselves that this change does not affect the wire format ... ie that none of the appendices need to change.",
       "createdAt": "2024-06-03T18:55:08Z",
-      "updatedAt": "2024-06-17T16:33:08Z",
+      "updatedAt": "2024-06-30T13:59:19Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "5b3c711ac1fa95822f5aa5d90096ee2cd70d7194",
       "headRepository": "lamps-wg/csr-attestation",
       "headRefName": "mikeo_removeTypedCert",
-      "headRefOid": "9c32bd9dd28056c8ea4ff16daefbfcd212e3821d",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "5cf50769792a61aebaa17f5517e38ba3bb416683",
+      "closedAt": "2024-06-30T13:58:59Z",
+      "mergedAt": "2024-06-30T13:58:59Z",
+      "mergedBy": "ounsworth",
+      "mergeCommit": {
+        "oid": "69b5337cd2b4b8a4f91ac45e3a457f1aed31a2b9"
+      },
       "comments": [],
       "reviews": [
         {
@@ -6347,7 +6407,7 @@
             "abbreviatedOid": "9c32bd9"
           },
           "author": "aj-stein-nist",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "CHANGES_REQUESTED",
           "body": "One minor quibble, more review to follow.",
           "createdAt": "2024-06-17T16:32:53Z",
@@ -6412,25 +6472,35 @@
       "id": "PR_kwDOJ3IIN85x5QfA",
       "title": "Addressing Carl's review",
       "url": "https://github.com/lamps-wg/csr-attestation/pull/135",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "ounsworth",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Closes #126 \r\n\r\nhttps://mailarchive.ietf.org/arch/msg/spasm/UVQ0yXAEqsm9snJIOcelFQoYyEA/\r\n\r\n\r\nResponses to Carl:\r\n---\r\n\r\n> \"Residency\" doesn't seem quite right since it misses the non-exportability requirement that is usually a goal. Maybe steal some verbiage from the CAB Forum guidelines and say: \"Regulatory bodies are beginning to require proof that keys are generated in a non\u2010exportable way using a suitable Hardware Crypto Module.\"\r\n\r\nI am going to leave this one as-is. I think that \"proof of hardware residency\" is not incorrect, and is made more precise in the following sentence, including the direct quote from the CA/B CSBRs.\r\n\r\n\r\n\r\n> The last paragraph leaves open the possibility of having multiple instantiations of attr-evidence or ext-evidence but does not mention the fact that the values field in Attribute can contain multiple values. Do we really need three ways to convey multiple evidence bundles, i.e., via EvidenceBundles, via multiple attributes, via multiple attribute values? Is there any reason to not just limit this to one attribute/extension, one value within attribute and let EvidenceBundles handle collections?\r\n\r\n\r\nYes, good point.\r\nI have attempted to strengthen this, but I would love review of the new paragraph. Have I correctly understood and referenced the AttributeSet and ExtensionSet stuff from RFC5912? Is there a better way to enforce this through the ASN.1 definitions?\r\n\r\n> Section 5.3 CertificateAlternatives\r\n\r\nGiven the on-list discussion, and that we have subsequently fully removed the CertificateAlternatives section, I am going to mostly skip over this feedback as no longer relevant.\r\n\r\n> Section 5.3\r\n> - Given the use of Verifier throughout, if enforcement of RFC5280 compliance is to be addressed by this spec, perhaps it should be allocated to the verifier instead of the relying party.\r\n\r\nI don't understand this comment at all? What are we enforcing for 5280 compliance? The CSR? -- I am imagining that the Verifier won't get to see the full CSR, just the evidence blob that has been forklifted out of it.\r\n\r\n> Section 7.1\r\n> - Either add a reference to draft-birkholz-rats-epoch-markers in support of` \"Epochs also require\" or delete that sentence. The section is fine without the reference to Epochs.\r\n\r\nSo, this sentence is going through RATS Architecture [RFC9334} sections 10.1, 10.2, and 10.3, and saying why each is not a general solution here. I generified the sentence a bit so that it fits better within the scope of RFC9334 10.3.\r\n\r\n> Section 7.2\r\n> - The NOT RECOMMENDED here is inconsistent with the MUST NOT in section 5.2. NOT RECOMMENDED seems right.\r\n> - Given the words throughout about not using the extension type in a certificate, ought there be some words about not using the attribute type in a subject directory attributes extension in a certificate?\r\n\r\nThese are excellent points. I have opened a separate pull request (#138) so that they can be discussed separately.\r\n\r\n> Section 7.3\r\n> - How does the last sentence of this section apply to this draft, i.e., where could one express \"None, Null, Debug, empty CMW contents, or similar values\"?\r\n\r\nI see your point, but I think I'm going to leave it; I think it reads ok. Could you please read it again and see if you still feel strongly about that sentence?\r\n\r\n> Section B.1\r\n> - This should probably be presented as a standalone ASN.1 module that adds this definition instead of as a snip from an ASN.1 module.\r\n\r\nI will discuss with @nedmsmith .",
       "createdAt": "2024-06-09T15:23:49Z",
-      "updatedAt": "2024-06-17T16:27:05Z",
+      "updatedAt": "2024-07-01T13:40:10Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
-      "baseRefOid": "3d0da7a48d3404795de6c0ce9a5993687cdecb5f",
+      "baseRefOid": "69b5337cd2b4b8a4f91ac45e3a457f1aed31a2b9",
       "headRepository": "lamps-wg/csr-attestation",
       "headRefName": "mikeo_126",
-      "headRefOid": "9268f1bad34f5a0c1a4a06f4e587cf83c2df0a01",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
-      "comments": [],
+      "headRefOid": "b1fba1cfb424cb03593f1a11647df46217c1cfe2",
+      "closedAt": "2024-07-01T13:40:05Z",
+      "mergedAt": "2024-07-01T13:40:05Z",
+      "mergedBy": "ounsworth",
+      "mergeCommit": {
+        "oid": "359a137f695857cc971f3206de51b4a9c30f0638"
+      },
+      "comments": [
+        {
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "I split the un-addressed issue out into its own ticket so that I can merge. See #144 ",
+          "createdAt": "2024-07-01T13:04:48Z",
+          "updatedAt": "2024-07-01T13:04:48Z"
+        }
+      ],
       "reviews": []
     },
     {
@@ -6438,24 +6508,26 @@
       "id": "PR_kwDOJ3IIN85yoJXQ",
       "title": "Made publishing evidence in a cert NOT RECOMMENDED (from MUST NOT).",
       "url": "https://github.com/lamps-wg/csr-attestation/pull/138",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "ounsworth",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Closes #137 .\r\n\r\n@mwiseman-byid  will probably be happy about this change since it sorta avoids the need for a second standard.",
       "createdAt": "2024-06-17T00:58:43Z",
-      "updatedAt": "2024-06-17T17:14:30Z",
+      "updatedAt": "2024-06-30T13:56:24Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "3d0da7a48d3404795de6c0ce9a5993687cdecb5f",
       "headRepository": "lamps-wg/csr-attestation",
       "headRefName": "mikeo_137",
-      "headRefOid": "0caedbbe07471a7bfe7ee0e26eea1926966ffc43",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "4a8c0801e9cbddf26a547f7aeb6e959610f6e2e9",
+      "closedAt": "2024-06-30T13:56:21Z",
+      "mergedAt": "2024-06-30T13:56:21Z",
+      "mergedBy": "ounsworth",
+      "mergeCommit": {
+        "oid": "28383f63a3a12024c781d868688abdfc9821153a"
+      },
       "comments": [],
       "reviews": [
         {
@@ -6464,7 +6536,7 @@
             "abbreviatedOid": "4f1b510"
           },
           "author": "aj-stein-nist",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "APPROVED",
           "body": "",
           "createdAt": "2024-06-17T16:45:30Z",
@@ -6472,6 +6544,263 @@
           "comments": []
         }
       ]
+    },
+    {
+      "number": 140,
+      "id": "PR_kwDOJ3IIN85z_Pw2",
+      "title": "Addressing MSJ commens",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/140",
+      "state": "OPEN",
+      "author": "ounsworth",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [
+        "hannestschofenig"
+      ],
+      "labels": [],
+      "body": "MSJ's comments are in #128 ",
+      "createdAt": "2024-06-30T14:16:17Z",
+      "updatedAt": "2024-06-30T14:17:35Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "69b5337cd2b4b8a4f91ac45e3a457f1aed31a2b9",
+      "headRepository": "lamps-wg/csr-attestation",
+      "headRefName": "mikeo_128",
+      "headRefOid": "9691703a7fd46013a7e143c6b384c83ee8c530d1",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 141,
+      "id": "PR_kwDOJ3IIN85z_ewA",
+      "title": "Suggesting to add Ned as Co-Author",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/141",
+      "state": "MERGED",
+      "author": "hannestschofenig",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2024-06-30T17:35:22Z",
+      "updatedAt": "2024-07-01T14:02:41Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "69b5337cd2b4b8a4f91ac45e3a457f1aed31a2b9",
+      "headRepository": "lamps-wg/csr-attestation",
+      "headRefName": "hannestschofenig-patch-2",
+      "headRefOid": "ee681196c069bb3f20e55be78fb7ddded5cd7693",
+      "closedAt": "2024-07-01T14:02:39Z",
+      "mergedAt": "2024-07-01T14:02:39Z",
+      "mergedBy": "ounsworth",
+      "mergeCommit": {
+        "oid": "459bb98504e1f75fec7d8c10bad14939d40780df"
+      },
+      "comments": [
+        {
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Yup. With Ned that makes 5.",
+          "createdAt": "2024-07-01T14:02:36Z",
+          "updatedAt": "2024-07-01T14:02:36Z"
+        }
+      ],
+      "reviews": []
+    },
+    {
+      "number": 142,
+      "id": "PR_kwDOJ3IIN850B_qk",
+      "title": "Removing change history",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/142",
+      "state": "MERGED",
+      "author": "hannestschofenig",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "I don't know why we are now starting to track the changes from draft to draft version.",
+      "createdAt": "2024-07-01T07:47:01Z",
+      "updatedAt": "2024-07-01T14:03:47Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "69b5337cd2b4b8a4f91ac45e3a457f1aed31a2b9",
+      "headRepository": "lamps-wg/csr-attestation",
+      "headRefName": "hannestschofenig-patch-3",
+      "headRefOid": "c401b7ff7be4379c2a96f8b39b029e33d540e0ff",
+      "closedAt": "2024-07-01T14:03:44Z",
+      "mergedAt": "2024-07-01T14:03:44Z",
+      "mergedBy": "ounsworth",
+      "mergeCommit": {
+        "oid": "0995e8add620afb3578b6a01917d796c5f4cfd57"
+      },
+      "comments": [
+        {
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "I figured it would make the second WGLC easier; but I guess that's what the datatracker diff tool is for.",
+          "createdAt": "2024-07-01T14:03:31Z",
+          "updatedAt": "2024-07-01T14:03:31Z"
+        }
+      ],
+      "reviews": []
+    },
+    {
+      "number": 143,
+      "id": "PR_kwDOJ3IIN850CuSM",
+      "title": "New Hint Text Proposal",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/143",
+      "state": "OPEN",
+      "author": "hannestschofenig",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Aiming to address the mailing list discussion\r\n\r\nQuestion: Is there a good ASN.1 structure to use for FQDNs?",
+      "createdAt": "2024-07-01T09:25:28Z",
+      "updatedAt": "2024-07-01T21:34:01Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "69b5337cd2b4b8a4f91ac45e3a457f1aed31a2b9",
+      "headRepository": "lamps-wg/csr-attestation",
+      "headRefName": "hannestschofenig-patch-5",
+      "headRefOid": "61e6e8cb97e7c20514c4ba5c3e703734cd392851",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "> Question: Is there a good ASN.1 structure to use for FQDNs?\r\n\r\nNone that I'm aware of, but we could ask someone more expert, like @carl-wallace.\r\nUPDATE: short answer: no, it should be UTF8String or IA5String (ascii).",
+          "createdAt": "2024-07-01T14:49:59Z",
+          "updatedAt": "2024-07-01T16:37:49Z"
+        },
+        {
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Note that I took the hint out of the CSR generated by Monty's hackathon code. So if we add it back in, then I need to re-undo my changes to the hackathon code, and re-update the CSR appendix.\r\n\r\nhttps://github.com/mwiseman-byid/csr-attestation-tpm-example/blob/main/csr.pem",
+          "createdAt": "2024-07-01T14:59:14Z",
+          "updatedAt": "2024-07-01T14:59:14Z"
+        },
+        {
+          "author": "aj-stein-nist",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "> > Question: Is there a good ASN.1 structure Fto use for FQDNs?\r\n> \r\n> None that I'm aware of, but we could ask someone more expert, like @carl-wallace. UPDATE: short answer: no, it should be UTF8String or IA5String (ascii).\r\n\r\nPer [RFC6125](https://datatracker.ietf.org/doc/html/rfc6125#section-2.2), if we support Unicode, we support internationalized FQDNs and all the UTF8 and punycode support right? I know that is not part of the scope of this I-D, but worth calling out.",
+          "createdAt": "2024-07-01T16:54:46Z",
+          "updatedAt": "2024-07-01T16:54:46Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJ3IIN86AQoLA",
+          "commit": {
+            "abbreviatedOid": "61e6e8c"
+          },
+          "author": "aj-stein-nist",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "Just some feedback, not for or against yet.",
+          "createdAt": "2024-07-01T16:58:07Z",
+          "updatedAt": "2024-07-01T16:58:23Z",
+          "comments": [
+            {
+              "originalPosition": 51,
+              "body": "```suggestion\r\nname (FQDN, per {{RFC6125}}) which uniquely identifies a Verifier.\r\n```\r\n\r\nNon-blocking recommendation: perhaps the creation of an informative reference to [RFC6125](https://datatracker.ietf.org/doc/html/rfc6125#section-2.2) and relevant implications? It seems RFC1035 is too high-level and only refers to the traditional terms so may not be so helpful. If you do that and cite it here, it is something I would want to look up to know what \"exactly you mean by FQDN\" like I did during this review.\r\n\r\nI know this suggestion is only partial, as I cannot suggest a reference for the citation, normative or informative, later in the document because you cannot make a suggestion in a chunk without a change or diff.",
+              "createdAt": "2024-07-01T16:58:07Z",
+              "updatedAt": "2024-07-01T17:26:49Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN86AQoYj",
+          "commit": {
+            "abbreviatedOid": "61e6e8c"
+          },
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-07-01T16:58:38Z",
+          "updatedAt": "2024-07-01T16:58:38Z",
+          "comments": [
+            {
+              "originalPosition": 59,
+              "body": "This sentence needs to be strengthened to say that the FQDN is simply an identifier. It MUST NOT be dereferenced, looked up in DNS, or FETCHED.\r\n\r\nQuestion: is \"FQDN\" misleading here? Would calling it a URI make it less dangerous (or more dangerous??).",
+              "createdAt": "2024-07-01T16:58:38Z",
+              "updatedAt": "2024-07-01T16:58:39Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN86AQo8b",
+          "commit": {
+            "abbreviatedOid": "61e6e8c"
+          },
+          "author": "aj-stein-nist",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-07-01T16:59:48Z",
+          "updatedAt": "2024-07-01T16:59:48Z",
+          "comments": [
+            {
+              "originalPosition": 59,
+              "body": "> Question: is \"FQDN\" misleading here? Would calling it a URI make it less dangerous (or more dangerous??).\r\n\r\nPer this topic of discussion in an editors' meeting, this is specifically why I mentioned URN is preferable to URI. There is a reason I believed that was picked in the version modified by this PR.\r\n",
+              "createdAt": "2024-07-01T16:59:48Z",
+              "updatedAt": "2024-07-01T16:59:48Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN86ASTo1",
+          "commit": {
+            "abbreviatedOid": "61e6e8c"
+          },
+          "author": "nedmsmith",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-07-01T21:34:00Z",
+          "updatedAt": "2024-07-01T21:34:01Z",
+          "comments": [
+            {
+              "originalPosition": 59,
+              "body": "> > Question: is \"FQDN\" misleading here? Would calling it a URI make it less dangerous (or more dangerous??).\r\n> \r\n> Per this topic of discussion in an editors' meeting, this is specifically why I mentioned URN is preferable to URI. There is a reason I believed that was picked in the version modified by this PR.\r\n\r\nAre you saying URNs aren't dereferenced, looked up in DNS or FETCHED? I would think just the opposite is more likely.",
+              "createdAt": "2024-07-01T21:34:01Z",
+              "updatedAt": "2024-07-01T21:34:01Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 146,
+      "id": "PR_kwDOJ3IIN850F22C",
+      "title": "Update the 'latest' link to be correct",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/146",
+      "state": "MERGED",
+      "author": "frumioj",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "I think https://lamps-wg.github.io/csr-attestation/draft-ietf-lamps-csr-attestation.html is the correct place for the built file?",
+      "createdAt": "2024-07-01T16:12:31Z",
+      "updatedAt": "2024-07-01T16:35:31Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "0995e8add620afb3578b6a01917d796c5f4cfd57",
+      "headRepository": "frumioj/csr-attestation2",
+      "headRefName": "main",
+      "headRefOid": "c0dd08c2d1b11bdad37defc835c0def37363648a",
+      "closedAt": "2024-07-01T16:35:31Z",
+      "mergedAt": "2024-07-01T16:35:31Z",
+      "mergedBy": "ounsworth",
+      "mergeCommit": {
+        "oid": "5eb0d71c3325c68016c8a68bae29a4c80113531e"
+      },
+      "comments": [],
+      "reviews": []
     }
   ]
 }

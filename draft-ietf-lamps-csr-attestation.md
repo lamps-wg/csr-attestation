@@ -409,7 +409,7 @@ complexity and the transmission overhead.
 
 #### First Implementation Option
 
-In our first implementation strategy each Attester is provisioned with
+In our first implementation option each Attester is provisioned with
 a unique end-entity certificate. Hence, the certificate chain at least differs
 with respect to the end-entity certificates.
 

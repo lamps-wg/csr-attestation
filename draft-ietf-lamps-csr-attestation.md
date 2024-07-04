@@ -443,7 +443,7 @@ EvidenceStatement to be accompanied with a complete certification path.
 
 ### Second Implementation Option
 
-Our second implementation strategy requires the Lead Attester
+Our second implementation option requires the Lead Attester
 to merge all certificate chains into a single EvidenceBundle containing a single
 de-duplicated sequence of CertificateAlternatives structures. This means that each
 EvidenceBundle is self-contained and any EvidenceStatement can be verified using

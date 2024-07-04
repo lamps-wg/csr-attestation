@@ -473,9 +473,9 @@ Table of Contents
 
 4.2.4.1.  First Implementation Option
 
-   In our first implementation strategy each Attester is provisioned
-   with a unique end-entity certificate.  Hence, the certificate chain
-   at least differs with respect to the end-entity certificates.
+   In our first implementation option each Attester is provisioned with
+   a unique end-entity certificate.  Hence, the certificate chain at
+   least differs with respect to the end-entity certificates.
 
    The Lead Attester therefore creates multiple EvidenceBundle
    structures, where each carries an EvidenceStatement followed by a

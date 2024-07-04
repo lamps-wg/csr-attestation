@@ -296,7 +296,7 @@ network protocol, then the interaction would conceptually be:
 ~~~
 {: #fig-csr-client-p11 title="Example interaction between CSR generator and HSM."}
 
-## Encoding
+## Encoding Strategy
 
 To support a number of different use cases for the transmission of
 Evidence and certificate chains in a CSR the structure

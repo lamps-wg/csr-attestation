@@ -99,7 +99,7 @@ Table of Contents
                Certificate Chains
        4.2.4.  Case 4 - Multiple Evidence Bundles with Certificate
                Transmission Optimization
-       4.2.5.  Second Implementation Strategy
+       4.2.5.  Second Implementation Option
    5.  ASN.1 Elements
      5.1.  Object Identifiers
      5.2.  Evidence Attribute and Extension
@@ -504,7 +504,7 @@ Table of Contents
      Certificate--->| CertificateAlternatives |/
                     +-------------------------+
 
-4.2.5.  Second Implementation Strategy
+4.2.5.  Second Implementation Option
 
    Our second implementation strategy requires the Lead Attester to
    merge all certificate chains into a single EvidenceBundle containing

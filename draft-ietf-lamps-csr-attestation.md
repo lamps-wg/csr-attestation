@@ -407,7 +407,7 @@ Note: This specification does not mandate optimizing the transmission of the
 certificate chain since there is a trade-off between the Attester implementation
 complexity and the transmission overhead.
 
-#### First Implementation Strategy
+#### First Implementation Option
 
 In our first implementation strategy each Attester is provisioned with
 a unique end-entity certificate. Hence, the certificate chain at least differs

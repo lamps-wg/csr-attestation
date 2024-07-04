@@ -168,7 +168,7 @@ This document re-uses the terms defined in {{RFC9334}} related to remote
 attestation. Readers of this document are assumed to be familiar with
 the following terms: Evidence, Claim, Attestation Results (AR), Attester,
 Verifier, Target Environment, Attesting Environment, Composite Device,
-Lead Attester, and Relying Party (RP).
+Lead Attester, Attestation Key, and Relying Party (RP).
 
 The term "Certification Request" message is defined in {{RFC2986}}.
 Specifications, such as {{RFC7030}}, later introduced the term
@@ -296,10 +296,10 @@ network protocol, then the interaction would conceptually be:
 ~~~
 {: #fig-csr-client-p11 title="Example interaction between CSR generator and HSM."}
 
-## Implementation Strategies
+## Encoding
 
 To support a number of different use cases for the transmission of
-Evidence in a CSR (together with certification paths) the structure
+Evidence and certificate chains in a CSR the structure
 shown in {{fig-info-model}} is used.
 
 On a high-level, the structure is composed as follows:
@@ -310,11 +310,11 @@ CertificateAlternatives which enable to carry various format of
 certificates.
 
 ~~~ aasvg
- +--------------------+
- |  PKCS#10 or CRMF   |
- |  Attribute or      |
- |  Extension         |
- +--------+-----------+
+ +-------------------+
+ | PKCS#10 Attribute |
+ |       or          |
+ | CRMF Extension    |
+ +--------+----------+
           |
           |           (1 or more) +-------------------------+
           |         +-------------+ CertificateChoices      |
@@ -332,14 +332,15 @@ certificates.
 ~~~
 {: #fig-info-model title="Information Model for CSR Evidence Conveyance."}
 
-The following use cases are supported:
+The following use cases are supported, as described in the sub-sections below.
 
-A single Attester, which only distributes Evidence without any certification paths.
-In the use case, the Verifier is assumed to be in possession of the certification paths already
-or there is no certification paths because the Verifier directly trusts the Attester key.
-As a result, a single EvidenceBundle is included
-in a CSR that contains a single EvidenceStatement without the CertificateAlternatives
-structure. {{fig-single-attester}} shows this use case.
+### Case 1 - Single Evidence Bundle
+
+A single Attester, which only distributes Evidence without an attached certificate chain.
+In the use case, the Verifier is assumed to be in possession of the certificate chain already
+or the Verifier directly trusts the Attestation Key and therefore no certificate chain is needed.
+As a result, a single EvidenceBundle is included in a CSR that contains a single EvidenceStatement
+without the CertificateAlternatives structure. {{fig-single-attester}} shows this use case.
 
 ~~~ aasvg
   +--------------------+
@@ -348,13 +349,14 @@ structure. {{fig-single-attester}} shows this use case.
   | EvidenceStatement  |
   +--------------------+
 ~~~
-{: #fig-single-attester title="Use Case 1: Single Attester without Certification Path."}
+{: #fig-single-attester title="Case 1: Single Evidence Bundle."}
 
+### Case 2 - Single Evidence Bundle with Certificate Chain
 
-A single Attester, which shares Evidence together with a certification path.
+A single Attester, which shares Evidence together with a certificate chain.
 The CSR conveys a single EvidenceBundle with a single EvidenceStatement
-and a single CertificateAlternatives structure. {{fig-single-attester-with-path}} shows
-this use case.
+and a single CertificateAlternatives structure. {{fig-single-attester-with-path}}
+shows this use case.
 
 ~~~ aasvg
  +-------------------------+
@@ -364,14 +366,15 @@ this use case.
  | CertificateAlternatives |
  +-------------------------+
 ~~~
-{: #fig-single-attester-with-path title="Use Case 2: Single Attester with Certification Path."}
+{: #fig-single-attester-with-path title="Case 2: Single Evidence Bundle with Certificate Chain."}
 
+### Case 3 - Multiple Evidence Bundles each with Complete Certificate Chains
 
 In a Composite Device, which contains multiple Attesters, a collection of Evidence
 statements is obtained. In this use case, each Attester returns its Evidence together with a
-certification path. As a result, multiple EvidenceBundle structures, each carrying
+certificate chain. As a result, multiple EvidenceBundle structures, each carrying
 an EvidenceStatement and the corresponding CertificateAlternative structure with the
-certification path as provided by each Attester, are included in the CSR.
+certification chain as provided by each Attester, are included in the CSR.
 This may result in certificates being duplicated across multiple EvidenceBundles.
 This approach does not require any processing capabilities
 by a Lead Attester since the information is merely forwarded. {{fig-multiple-attesters}}
@@ -390,21 +393,43 @@ shows this use case.
   | CertificateAlternatives |/
   +-------------------------+
 ~~~
-{: #fig-multiple-attesters title="Use Case 3: Multiple Attesters in Composite Device."}
+{: #fig-multiple-attesters title="Case 3: Multiple Evidence Bundles each with Complete Certificate Chains."}
+
+### Case 4 - Multiple Evidence Bundles with Certificate Transmission Optimization
 
 In the last use case, a Composite Device with additional processing
-capabilities of the Lead Attester parses the certification path provided by
-all Attesters in the device and removes redundant certificate information. The
-benefit of this approach is the reduced transmission overhead. There are several
-implementation strategies and we show two in {{fig-multiple-attesters-optimized}}.
+capabilities of the Lead Attester parses the certificate chain provided by
+all Attesters in the device and removes duplicate certificates. The
+benefit of this approach is the reduced transmission payload size. There are several
+implementation strategies and we show two in the sub-sections below.
+
+Note: This specification does not mandate optimizing the transmission of the
+certificate chain since there is a trade-off between the Attester implementation
+complexity and the transmission overhead.
+
+#### First Implementation Strategy
+
+In our first implementation strategy each Attester is provisioned with
+a unique end-entity certificate. Hence, the certificate chain at least differs
+with respect to the end-entity certificates.
+
+The Lead Attester therefore creates multiple EvidenceBundle structures, where each
+carries an EvidenceStatement followed by a certificate chain in
+the CertificateAlternative structures containing most likely only the end-entity
+certificate. The shared certification path is carried in the first entry of the
+EvidenceBundle sequence to allow path validation to take place immediately after
+processing the first structure.
+
+This implementation strategy may
+place extra burden on the Relying Party to parse EvidenceBundles and
+reconstruct the certification path if the Verifier requires each
+EvidenceStatement to be accompanied with a complete certification path.
 
 ~~~ aasvg
-Implementation strategy (4a)
-
                  +-------------------------+
                  |  EvidenceBundle (1)     |\
-  Certification  +-------------------------+ \ Provided by
-  Path +         | EvidenceStatement       | / Attester 1
+  Certificate    +-------------------------+ \ Provided by
+  Chain +        | EvidenceStatement       | / Attester 1
   End-Entity --->| CertificateAlternatives |/
   Certificate    +-------------------------+
                           ....
@@ -414,9 +439,19 @@ Implementation strategy (4a)
   End-Entity     | EvidenceStatement       | / Attester n
   Certificate--->| CertificateAlternatives |/
                  +-------------------------+
+~~~
 
-Implementation strategy (4b)
+### Second Implementation Strategy
 
+Our second implementation strategy requires the Lead Attester
+to merge all certificate chains into a single EvidenceBundle containing a single
+de-duplicated sequence of CertificateAlternatives structures. This means that each
+EvidenceBundle is self-contained and any EvidenceStatement can be verified using
+only the sequence of CertificateAlternatives in its bundle, but Verifiers will have
+to do proper certification path building since the sequence of CertificateAlternatives
+is now a cert bag and not a certificate chain.
+
+~~~
  +------------------------------+
  |  EvidenceBundle              |
  +------------------------------+
@@ -428,41 +463,16 @@ Implementation strategy (4b)
  |        ...                   |
  |   End Entity Certificate (n) |
  |   <Remainder of the          |
- |    Certification Path>       |
+ |    Certificate Chain>        |
  | }                            |
  +------------------------------+
 ~~~
-{: #fig-multiple-attesters-optimized title="Use Case 4: Multiple Attesters in Composite Device (with Optimization)."}
 
-In implementation strategy (4a), each Attester is provisioned with
-a unique end-entity certificate. Hence, the certification path at least differs
-with respect to the end-entity certificates.
-The lead Attester therefore creates multiple EvidenceBundle structures, where each
-carries an EvidenceStatement followed by a certification path in
-the CertificateAlternative structures containing most likely only the end-entity
-certificate. The shared certification path is carried in the first entry of the
-EvidenceBundle sequence to allow path validation to take place immediately after
-processing the first structure. This implementation strategy may
-place extra burden on the Relying Party to parse EvidenceBundles and
-reconstruct certification path if the Verifier requires each
-EvidenceStatement to be accompanied with a complete certification path.
-
-Implementation strategy (4b), as an alternative, requires the lead Attester
-to merge all certification paths into a single EvidenceBundle containing a single
-de-duplicated sequence of CertificateAlternatives structures. This means that each
-EvidenceBundle is self-contained and any EvidenceStatement can be verified using
-only the sequence of CertificateAlternatives in its bundle, but Verifiers will have
-to do proper certification path building since the sequence of CertificateAlternatives
-is now a cert bag and not a certification path. This implementation strategy may
-place extra burden on the Attester in order to allow the Relying Party
-to treat the Evidence and Certificates as opaque content. It also may place
+This implementation strategy may place extra burden on the Attester in order to allow
+the Relying Party to treat the Evidence and Certificates as opaque content. It also may place
 extra burden on the Verifier since this implementation strategy requires it to be able to
-perform X.509 path building over a bag of certificates that may be out of
+perform X.509 certification path building over a bag of certificates that may be out of
 order or contain extraneous certificates.
-
-Note: This specification does not mandate optimizing certification path since
-there is a trade-off between the Attester implementation complexity and the
-transmission overhead.
 
 # ASN.1 Elements
 

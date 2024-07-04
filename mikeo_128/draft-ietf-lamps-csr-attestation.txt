@@ -5,12 +5,12 @@
 Network Working Group                                       M. Ounsworth
 Internet-Draft                                                   Entrust
 Intended status: Standards Track                           H. Tschofenig
-Expires: 1 January 2025                                          Siemens
+Expires: 5 January 2025                                          Siemens
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                               M. Wiseman
                                                          Beyond Identity
-                                                            30 June 2024
+                                                             4 July 2024
 
 
      Use of Remote Attestation with Certification Signing Requests
@@ -66,7 +66,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 1 January 2025.
+   This Internet-Draft will expire on 5 January 2025.
 
 Copyright Notice
 
@@ -225,7 +225,7 @@ Table of Contents
    remote attestation.  Readers of this document are assumed to be
    familiar with the following terms: Evidence, Claim, Attestation
    Results (AR), Attester, Verifier, Target Environment, Attesting
-   Environment, and Relying Party (RP).
+   Environment, Composite Device, Lead Attester, and Relying Party (RP).
 
    The term "Certification Request" message is defined in [RFC2986].
    Specifications, such as [RFC7030], later introduced the term
@@ -426,17 +426,16 @@ Table of Contents
 
        Figure 5: Use Case 2: Single Attester with Certification Path.
 
-   In a Composite Device as defined in [RFC9334], which contains
-   multiple Attesters, a collection of Evidence statements is obtained.
-   In this use case, each Attester returns its Evidence together with a
-   certification path.  As a result, multiple EvidenceBundle structures,
-   each carrying an EvidenceStatement and the corresponding
-   CertificateAlternative structure with the certification path as
-   provided by each Attester, are included in the CSR.  This may result
-   in certificates being duplicated across multiple EvidenceBundles.
-   This approach does not require any processing capabilities by a Lead
-   Attester since the information is merely forwarded.  Figure 6 shows
-   this use case.
+   In a Composite Device, which contains multiple Attesters, a
+   collection of Evidence statements is obtained.  In this use case,
+   each Attester returns its Evidence together with a certification
+   path.  As a result, multiple EvidenceBundle structures, each carrying
+   an EvidenceStatement and the corresponding CertificateAlternative
+   structure with the certification path as provided by each Attester,
+   are included in the CSR.  This may result in certificates being
+   duplicated across multiple EvidenceBundles.  This approach does not
+   require any processing capabilities by a Lead Attester since the
+   information is merely forwarded.  Figure 6 shows this use case.
 
      +-------------------------+
      |  EvidenceBundle (1)     |\
@@ -1037,9 +1036,9 @@ Table of Contents
    [I-D.ietf-rats-msg-wrap]
               Birkholz, H., Smith, N., Fossati, T., and H. Tschofenig,
               "RATS Conceptual Messages Wrapper (CMW)", Work in
-              Progress, Internet-Draft, draft-ietf-rats-msg-wrap-05, 13
-              June 2024, <https://datatracker.ietf.org/doc/html/draft-
-              ietf-rats-msg-wrap-05>.
+              Progress, Internet-Draft, draft-ietf-rats-msg-wrap-06, 1
+              July 2024, <https://datatracker.ietf.org/doc/html/draft-
+              ietf-rats-msg-wrap-06>.
 
    [I-D.ietf-rats-tpm-based-network-device-attest]
               Fedorkow, G., Voit, E., and J. Fitzgerald-McKay, "TPM-

@@ -14,7 +14,7 @@
        This document defines a new PKCS#10 attribute attr-evidence and CRMF extension ext-evidence that allows placing any Evidence data, in any pre-existing format, along with any certificates needed to validate it, into a PKCS#10 or CRMF CSR. 
        Including Evidence along with a CSR can help to improve the assessment of the security posture for the private key, and the trustworthiness properties of the submitted key to the requested certificate profile. These Evidence Claims can include information about the hardware component's manufacturer, the version of installed or running firmware, the version of software installed or running in layers above the firmware, or the presence of hardware components providing specific protection capabilities or shielded locations (e.g., to protect keys). 
     " name="description">
-<meta content="xml2rfc 3.21.0" name="generator">
+<meta content="xml2rfc 3.22.0" name="generator">
 <meta content="PKI" name="keyword">
 <meta content="PKCS#10" name="keyword">
 <meta content="CRMF" name="keyword">
@@ -23,7 +23,7 @@
 <meta content="Certificate Signing Requests" name="keyword">
 <meta content="draft-ietf-lamps-csr-attestation-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.21.0
+  xml2rfc 3.22.0
     Python 3.12.3
     ConfigArgParse 1.7
     google-i18n-address 3.1.0
@@ -33,9 +33,8 @@
     platformdirs 4.2.2
     pycountry 22.3.5
     PyYAML 6.0.1
-    requests 2.31.0
+    requests 2.32.3
     setuptools 69.5.1
-    six 1.16.0
     wcwidth 0.2.13
 -->
 <link href="draft-ietf-lamps-csr-attestation.xml" rel="alternate" type="application/rfc+xml">
@@ -1035,11 +1034,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">Remote Attestation with CSRs</td>
-<td class="right">June 2024</td>
+<td class="right">July 2024</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Ounsworth, et al.</td>
-<td class="center">Expires 1 January 2025</td>
+<td class="center">Expires 5 January 2025</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1052,12 +1051,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-lamps-csr-attestation-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2024-06-30" class="published">30 June 2024</time>
+<time datetime="2024-07-04" class="published">4 July 2024</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2025-01-01">1 January 2025</time></dd>
+<dd class="expires"><time datetime="2025-01-05">5 January 2025</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1116,7 +1115,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 1 January 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 5 January 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1357,7 +1356,8 @@ appear in all capitals, as shown here.<a href="#section-3-1" class="pilcrow">¶<
 <p id="section-3-2">This document re-uses the terms defined in <span>[<a href="#RFC9334" class="cite xref">RFC9334</a>]</span> related to remote
 attestation. Readers of this document are assumed to be familiar with
 the following terms: Evidence, Claim, Attestation Results (AR), Attester,
-Verifier, Target Environment, Attesting Environment, and Relying Party (RP).<a href="#section-3-2" class="pilcrow">¶</a></p>
+Verifier, Target Environment, Attesting Environment, Composite Device,
+Lead Attester, and Relying Party (RP).<a href="#section-3-2" class="pilcrow">¶</a></p>
 <p id="section-3-3">The term "Certification Request" message is defined in <span>[<a href="#RFC2986" class="cite xref">RFC2986</a>]</span>.
 Specifications, such as <span>[<a href="#RFC7030" class="cite xref">RFC7030</a>]</span>, later introduced the term
 "Certificate Signing Request (CSR)" to refer to the Certification
@@ -1688,7 +1688,7 @@ this use case.<a href="#section-5.2-7" class="pilcrow">¶</a></p>
 <a href="#name-use-case-2-single-attester-" class="selfRef">Use Case 2: Single Attester with Certification Path.</a>
           </figcaption></figure>
 </div>
-<p id="section-5.2-9">In a Composite Device as defined in <span>[<a href="#RFC9334" class="cite xref">RFC9334</a>]</span>, which contains multiple Attesters, a collection of Evidence
+<p id="section-5.2-9">In a Composite Device, which contains multiple Attesters, a collection of Evidence
 statements is obtained. In this use case, each Attester returns its Evidence together with a
 certification path. As a result, multiple EvidenceBundle structures, each carrying
 an EvidenceStatement and the corresponding CertificateAlternative structure with the
@@ -2508,7 +2508,7 @@ Implementers should also be cautious around <code>type</code> OID or <code>hint<
 <dd class="break"></dd>
 <dt id="I-D.ietf-rats-msg-wrap">[I-D.ietf-rats-msg-wrap]</dt>
         <dd>
-<span class="refAuthor">Birkholz, H.</span>, <span class="refAuthor">Smith, N.</span>, <span class="refAuthor">Fossati, T.</span>, and <span class="refAuthor">H. Tschofenig</span>, <span class="refTitle">"RATS Conceptual Messages Wrapper (CMW)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-rats-msg-wrap-05</span>, <time datetime="2024-06-13" class="refDate">13 June 2024</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-rats-msg-wrap-05">https://datatracker.ietf.org/doc/html/draft-ietf-rats-msg-wrap-05</a>&gt;</span>. </dd>
+<span class="refAuthor">Birkholz, H.</span>, <span class="refAuthor">Smith, N.</span>, <span class="refAuthor">Fossati, T.</span>, and <span class="refAuthor">H. Tschofenig</span>, <span class="refTitle">"RATS Conceptual Messages Wrapper (CMW)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-rats-msg-wrap-06</span>, <time datetime="2024-07-01" class="refDate">1 July 2024</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-rats-msg-wrap-06">https://datatracker.ietf.org/doc/html/draft-ietf-rats-msg-wrap-06</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.ietf-rats-tpm-based-network-device-attest">[I-D.ietf-rats-tpm-based-network-device-attest]</dt>
         <dd>

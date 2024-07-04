@@ -10,6 +10,8 @@ Expires: 5 January 2025                                          Siemens
                                                           Fraunhofer SIT
                                                               M. Wiseman
                                                          Beyond Identity
+                                                                N. Smith
+                                                       Intel Corporation
                                                              4 July 2024
 
 
@@ -19,32 +21,33 @@ Expires: 5 January 2025                                          Siemens
 Abstract
 
    A PKI end entity requesting a certificate from a Certification
-   Authority (CA) may wish to offer believable claims about the
-   protections afforded to the corresponding private key, such as
-   whether the private key resides on a hardware security module or the
-   protection capabilities provided by the hardware.
+   Authority (CA) may wish to offer trustworthy claims about the
+   platform generating the certification request and the environment
+   associated with the corresponding private key, such as whether the
+   private key resides on a hardware security module.
 
-   This document defines a new PKCS#10 attribute attr-evidence and CRMF
-   extension ext-evidence that allows placing any Evidence data, in any
-   pre-existing format, along with any certificates needed to validate
-   it, into a PKCS#10 or CRMF CSR.
+   This specification defines an attribute and an extension that allow
+   for conveyance of Evidence in Certificate Signing Requests (CSRs)
+   such as PKCS#10 or Certificate Request Message Format (CRMF) payloads
+   which provides an elegant and automatable mechanism for transporting
+   Evidence to a Certification Authority.
 
    Including Evidence along with a CSR can help to improve the
-   assessment of the security posture for the private key, and the
-   trustworthiness properties of the submitted key to the requested
-   certificate profile.  These Evidence Claims can include information
-   about the hardware component's manufacturer, the version of installed
-   or running firmware, the version of software installed or running in
-   layers above the firmware, or the presence of hardware components
-   providing specific protection capabilities or shielded locations
-   (e.g., to protect keys).
+   assessment of the security posture for the private key, and can help
+   the Certification Authority to assess whether it satisfies the
+   requested certificate profile.  These Evidence Claims can include
+   information about the hardware component's manufacturer, the version
+   of installed or running firmware, the version of software installed
+   or running in layers above the firmware, or the presence of hardware
+   components providing specific protection capabilities or shielded
+   locations (e.g., to protect keys).
 
 About This Document
 
    This note is to be removed before publishing as an RFC.
 
    The latest revision of this draft can be found at https://lamps-
-   wg.github.io/csr-attestation/draft-ounsworth-csr-attestation.html.
+   wg.github.io/csr-attestation/draft-ietf-lamps-csr-attestation.html.
    Status information for this document may be found at
    https://datatracker.ietf.org/doc/draft-ietf-lamps-csr-attestation/.
 
@@ -84,32 +87,32 @@ Copyright Notice
 
 Table of Contents
 
-   1.  Changes in version -10
-   2.  Introduction
-   3.  Conventions and Definitions
-   4.  Architecture
-   5.  Information Model
-     5.1.  Interaction with an HSM
-     5.2.  Implementation Strategies
-   6.  ASN.1 Elements
-     6.1.  Object Identifiers
-     6.2.  Evidence Attribute and Extension
-   7.  IANA Considerations
-     7.1.  Module Registration - SMI Security for PKIX Module
+   1.  Introduction
+   2.  Conventions and Definitions
+   3.  Architecture
+   4.  Information Model
+     4.1.  Interaction with an HSM
+     4.2.  Implementation Strategies
+   5.  ASN.1 Elements
+     5.1.  Object Identifiers
+     5.2.  Evidence Attribute and Extension
+   6.  IANA Considerations
+     6.1.  Module Registration - SMI Security for PKIX Module
            Identifier
-     7.2.  Object Identifier Registrations - SMI Security for S/MIME
+     6.2.  Object Identifier Registrations - SMI Security for S/MIME
            Attributes
-     7.3.  "SMI Security for PKIX Evidence Statement Formats" Registry
-     7.4.  Attestation Evidence OID Registry
-       7.4.1.  Registration Template
-       7.4.2.  Initial Registry Contents
-   8.  Security Considerations
-     8.1.  Freshness
-     8.2.  Publishing evidence in an X.509 extension
-     8.3.  Type OID and verifier hint
-   9.  References
-     9.1.  Normative References
-     9.2.  Informative References
+     6.3.  "SMI Security for PKIX Evidence Statement Formats" Registry
+     6.4.  Attestation Evidence OID Registry
+       6.4.1.  Registration Template
+       6.4.2.  Initial Registry Contents
+   7.  Security Considerations
+     7.1.  Freshness
+     7.2.  Publishing evidence in an X.509 extension
+     7.3.  Type OID and verifier hint
+     7.4.  Addtional security considerations
+   8.  References
+     8.1.  Normative References
+     8.2.  Informative References
    Appendix A.  Examples
      A.1.  Extending EvidenceStatementSet
      A.2.  TPM V2.0 Evidence in CSR
@@ -124,23 +127,9 @@ Table of Contents
      B.1.  TCG DICE ConceptualMessageWrapper in CSR
      B.2.  TCG DICE ConceptualMessageWrapper in CSR
    Appendix C.  Acknowledgments
-   Contributors
    Authors' Addresses
 
-1.  Changes in version -10
-
-   Addressing comments from WGLC.
-
-   *  Editorial and grammar.
-
-   *  Updated name and value of OID tcg-attest-tpm-certify, as per TCG
-      request.
-
-   *  Added appendix "B.2.  TCG DICE ConceptualMessageWrapper in CSR".
-
-   *  Updated main architecture diagram to separate RA and CA roles.
-
-2.  Introduction
+1.  Introduction
 
    When requesting a certificate from a Certification Authority (CA), a
    PKI end entity may wish to include Evidence of the security
@@ -149,7 +138,7 @@ Table of Contents
    entities, such as a Registration Authority (RA) or a CA, or
    associated trusted Verifiers as part of validating an incoming
    certificate request against given certificate policies.  Regulatory
-   bodies are beginning to require proof-of-hardware residency for
+   bodies are beginning to require proof of hardware residency for
    certain classifications of cryptographic keys.  At the time of
    writing, the most notable example is the Code-Signing Baseline
    Requirements [CSBR] document maintained by the CA/Browser Forum,
@@ -158,22 +147,22 @@ Table of Contents
    controls to prevent theft or misuse".
 
    This specification defines an attribute and an extension that allow
-   for conveyance of Evidence in Certificate Signing Requests (CSRs) in
-   either PKCS#10 [RFC2986] or Certificate Request Message Format (CRMF)
-   [RFC4211] payloads which provides an elegant and automatable
-   mechanism for meeting requirements such as those in the CA/B Forum's
-   [CSBR].
+   for conveyance of Evidence in Certificate Signing Requests (CSRs)
+   such as PKCS#10 [RFC2986] or Certificate Request Message Format
+   (CRMF) [RFC4211] payloads which provides an elegant and automatable
+   mechanism for transporting Evidence to a Certification Authority and
+   meeting requirements such as those in the CA/B Forum's [CSBR].
 
    As outlined in the RATS Architecture [RFC9334], an Attester
    (typically a device) produces a signed collection of Claims that
-   constitutes Evidence about its running environment(s).  While the
-   term "attestation" is not defined in RFC 9334, it was later defined
-   in [I-D.ietf-rats-tpm-based-network-device-attest], it refers to the
+   constitute Evidence about its running environment(s).  While the term
+   "attestation" is not defined in RFC 9334, it was later defined in
+   [I-D.ietf-rats-tpm-based-network-device-attest], it refers to the
    activity of producing and appraising remote attestation Evidence.  A
    Relying Party may consult an Attestation Result produced by a
    Verifier that has appraised the Evidence in making policy decisions
    about the trustworthiness of the Target Environment being assessed
-   via appraisal of Evidence.  Section 4 provides the basis to
+   via appraisal of Evidence.  Section 3 provides the basis to
    illustrate in this document how the various roles in the RATS
    architecture map to a certificate requester and a CA/RA.
 
@@ -185,7 +174,7 @@ Table of Contents
    while making minimal assumptions about content or format of the
    transported Evidence and (2) the conveyance of sets of certificates
    used for validation of Evidence.  The certificates typically contain
-   one or more certification paths rooted in a device manufacture trust
+   one or more certification paths rooted in a device manufacturer trust
    anchor and the end-entity certificate being on the device in
    question.  The end-entity certificate is associated with key material
    that takes on the role of an Attestation Key and is used as Evidence
@@ -199,7 +188,7 @@ Table of Contents
    EvidenceStatements may be grouped together along with the set of
    CertificateAlternatives needed to validate them to form a
    EvidenceBundle.  One or more EvidenceBundles may be placed into the
-   id-aa-evidence CSR Attribute (or CRFM Extension).
+   id-aa-evidence CSR Attribute (or CRMF Extension).
 
    A CSR may contain one or more Evidence payloads, for example Evidence
    asserting the storage properties of a private key, Evidence asserting
@@ -213,7 +202,7 @@ Table of Contents
    within CSR.  The exact format of the Evidence being conveyed is
    defined in various standard and proprietary specifications.
 
-3.  Conventions and Definitions
+2.  Conventions and Definitions
 
    The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
    "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
@@ -239,7 +228,7 @@ Table of Contents
    to be "CSRs".  In this document, the terms "CSR" and Certificate
    Request message are used interchangeably.
 
-4.  Architecture
+3.  Architecture
 
    Figure 1 shows the high-level communication pattern of the RATS
    background check model where the Attester transmits the Evidence in
@@ -254,9 +243,9 @@ Table of Contents
    model requires the Attester to transmit Evidence to the Verifier
    directly in order to obtain the Attestation Result, which is then
    forwarded to the Relying Party.  This specification utilizes the
-   background model since CSRs are often used as one-shot messages where
-   no direct real-time interaction between the Attester and the Verifier
-   is possible.
+   background check model since CSRs are often used as one-shot messages
+   where no direct real-time interaction between the Attester and the
+   Verifier is possible.
 
    Note that the Verifier is a logical role that may be included in the
    RA/CA product.  In this case, the Relying Party role and Verifier
@@ -313,9 +302,9 @@ Table of Contents
    of this specification is on the transport of Evidence from the
    Attester to the Relying Party via existing CSR messages.
 
-5.  Information Model
+4.  Information Model
 
-5.1.  Interaction with an HSM
+4.1.  Interaction with an HSM
 
    This specification is applicable both in cases where a CSR is
    constructed internally or externally to the Attesting Environment,
@@ -359,7 +348,7 @@ Table of Contents
 
         Figure 2: Example interaction between CSR generator and HSM.
 
-5.2.  Implementation Strategies
+4.2.  Implementation Strategies
 
    To support a number of different use cases for the transmission of
    Evidence in a CSR (together with certification paths) the structure
@@ -528,12 +517,12 @@ Table of Contents
    path since there is a trade-off between the Attester implementation
    complexity and the transmission overhead.
 
-6.  ASN.1 Elements
+5.  ASN.1 Elements
 
-6.1.  Object Identifiers
+5.1.  Object Identifiers
 
-   This document references id-pkix and id-aa, both defined in
-   [RFC5912].
+   This document references id-pkix and id-aa, both defined in [RFC5911]
+   and [RFC5912].
 
    This document defines the arc depicted in Figure 8
 
@@ -542,7 +531,7 @@ Table of Contents
 
          Figure 8: New OID Arc for PKIX Evidence Statement Formats
 
-6.2.  Evidence Attribute and Extension
+5.2.  Evidence Attribute and Extension
 
    By definition, attributes within a PKCS#10 CSR are typed as ATTRIBUTE
    and within a CRMF CSR are typed as EXTENSION.  This attribute
@@ -567,8 +556,9 @@ Table of Contents
    standards bodies, or vendor proprietary formats along with
    corresponding OIDs that identify them.
 
-   This list is left undefined in this document.  However, implementers
-   can populate it with the formats that they wish to support.
+   This list is left unconstrained in this document.  However,
+   implementers can populate it with the formats that they wish to
+   support.
 
    EvidenceStatements ::= SEQUENCE SIZE (1..MAX) OF EvidenceStatement
 
@@ -611,7 +601,7 @@ Table of Contents
    Usage of the hint field can be seen in the TPM2_attest example in
    Appendix A.2 where the type OID indicates the OID id-TcgAttestCertify
    and the corresponding hint indicates the Verifier software
-   "tpmverifier.example.com" should be invoked for parsing it.
+   "tpmverifier.example.com" can be invoked for parsing it.
 
    EvidenceBundles ::= SEQUENCE SIZE (1..MAX) OF EvidenceBundle
 
@@ -635,6 +625,7 @@ Table of Contents
    -- For PKCS#10
    attr-evidence ATTRIBUTE ::= {
      TYPE EvidenceBundles
+     COUNTS MAX 1
      IDENTIFIED BY id-aa-evidence
    }
 
@@ -649,32 +640,46 @@ Table of Contents
    The Extension variant illustrated in Figure 11 is intended only for
    use within CRMF CSRs and is NOT RECOMMENDED to be used within X.509
    certificates due to the privacy implications of publishing Evidence
-   about the end entity's hardware environment.  See Section 8.2 for
+   about the end entity's hardware environment.  See Section 7.2 for
    more discussion.
 
-   The certs contains a set of certificates that is intended to validate
-   the contents of an Evidence statement contained in evidence, if
-   required.  The set of certificates should contain the object that
-   contains the public key needed to directly validate the evidence.
-   The remaining elements should chain that data back to an agreed upon
-   trust anchor used for attestation.  No order is implied, it is up to
-   the Attester and its Verifier to agree on both the order and format
-   of certificates contained in certs.
+   The certs field contains a set of certificates that is intended to
+   validate the contents of an Evidence statement contained in evidence,
+   if required.  The set of certificates should contain the certificate
+   that contains the public key needed to directly validate the
+   evidence.  Additional certificates may be provided, for example, to
+   chain the Evidence signer key back to an agreed upon trust anchor.
+   No order is implied, it is up to the Attester and its Verifier to
+   agree on both the order and format of certificates contained in
+   certs.
 
-   A CSR MAY contain one or more instances of attr-evidence or ext-
-   evidence.  This means that the SEQUENCE OF EvidenceBundle is
-   redundant with the ability to carry multiple attr-evidence or ext-
-   evidence at the CSR level; either mechanism MAY be used for carrying
-   multiple Evidence bundles.
+   This specification places no restriction on mixing certificate types
+   within the certs field.  For example a non-X.509 Evidence signer
+   certificate MAY chain to a trust anchor via a chain of X.509
+   certificates.  It is up to the Attester and its Verifier to agree on
+   supported certificate formats.
 
-7.  IANA Considerations
+   By the nature of the PKIX ASN.1 classes [[RFC5912]], there are
+   multiple ways to convey multiple Evidence statements: by including
+   multiple copies of attr-evidence or ext-evidence, multiple values
+   within the attribute or extension, and finally, by including multiple
+   EvidenceStatements within an EvidenceBundle.  The latter is the
+   preferred way to carry multiple Evidence statements.  Implementations
+   MUST NOT place multiple copies of attr-evidence into a PKCS#10 CSR
+   due to the COUNTS MAX 1 declaration, and SHOULD NOT place multiple
+   copies of EvidenceBundles into an AttributeSet.  In a CRMF CSR,
+   implementers SHOULD NOT place multiple copies of ext-evidence and
+   SHOULD NOT place multiple copies of EvidenceBundles into an
+   ExtensionSet.
+
+6.  IANA Considerations
 
    IANA is requested to open two new registries, allocate a value from
    the "SMI Security for PKIX Module Identifier" registry for the
    included ASN.1 module, and allocate values from "SMI Security for S/
    MIME Attributes" to identify two attributes defined within.
 
-7.1.  Module Registration - SMI Security for PKIX Module Identifier
+6.1.  Module Registration - SMI Security for PKIX Module Identifier
 
    *  Decimal: IANA Assigned - *Replace TBDMOD*
 
@@ -682,7 +687,7 @@ Table of Contents
 
    *  References: This Document
 
-7.2.  Object Identifier Registrations - SMI Security for S/MIME
+6.2.  Object Identifier Registrations - SMI Security for S/MIME
       Attributes
 
    *  Evidence Statement
@@ -694,7 +699,7 @@ Table of Contents
 
       -  References: This Document
 
-7.3.  "SMI Security for PKIX Evidence Statement Formats" Registry
+6.3.  "SMI Security for PKIX Evidence Statement Formats" Registry
 
    IANA is asked to create a registry for Evidence Statement Formats
    within the SMI-numbers registry, allocating an assignment from id-
@@ -720,7 +725,7 @@ Table of Contents
 
    *  References: RFC or other document
 
-7.4.  Attestation Evidence OID Registry
+6.4.  Attestation Evidence OID Registry
 
    IANA is asked to create a registry that helps developers to find OID/
    Evidence mappings.
@@ -740,7 +745,7 @@ Table of Contents
    and should direct all requests for registration to the review mailing
    list.
 
-7.4.1.  Registration Template
+6.4.1.  Registration Template
 
    The registry has the following columns:
 
@@ -761,7 +766,7 @@ Table of Contents
       third party requesting registration in this registry will also be
       the party that registered the OID.
 
-7.4.2.  Initial Registry Contents
+6.4.2.  Initial Registry Contents
 
    The initial registry contents is shown in the table below.  It lists
    entries for several evidence encodings including an entry for the
@@ -805,7 +810,7 @@ Table of Contents
    The current registry values can be retrieved from the IANA online
    website.
 
-8.  Security Considerations
+7.  Security Considerations
 
    A PKCS#10 or CRMF Certification Request message typically consists of
    a distinguished name, a public key, and optionally a set of
@@ -904,7 +909,7 @@ Table of Contents
    out of scope for this document.  Whether to require the use of
    Evidence in a CSR is out-of-scope for this document.
 
-8.1.  Freshness
+7.1.  Freshness
 
    Evidence generated by an Attester generally needs to be fresh to
    provide value to the Verifier since the configuration on the device
@@ -914,15 +919,15 @@ Table of Contents
    nonces requires that nonce to be provided by the Relying Party in
    some protocol step prior to Evidence and CSR generation, and the use
    of timestamps requires synchronized clocks which cannot be guaranteed
-   in all operating environments.  Epochs also require (unidirectional)
-   communication prior to Evidence and CSR generation.  This document
-   only specifies how to carry existing Evidence formats inside a CSR,
-   and so issues of synchronizing freshness data is left to be handled,
-   for example, via certificate management protocols.  Developers,
-   operators, and designers of protocols, which embed Evidence-carrying-
-   CSRs, MUST consider what notion of freshness is appropriate and
-   available in-context; thus the issue of freshness is left up to the
-   discretion of protocol designers and implementers.
+   in all operating environments.  Epochs also require an out-of-band
+   communication channel.  This document only specifies how to carry
+   existing Evidence formats inside a CSR, and so issues of
+   synchronizing freshness data is left to be handled, for example, via
+   certificate management protocols.  Developers, operators, and
+   designers of protocols, which embed Evidence-carrying-CSRs, MUST
+   consider what notion of freshness is appropriate and available in-
+   context; thus the issue of freshness is left up to the discretion of
+   protocol designers and implementers.
 
    In the case of Hardware Security Modules (HSM), the definition of
    "fresh" is somewhat ambiguous in the context of CSRs, especially
@@ -939,7 +944,7 @@ Table of Contents
    then it can be assumed that those properties of that key will
    continue to hold into the future.
 
-8.2.  Publishing evidence in an X.509 extension
+7.2.  Publishing evidence in an X.509 extension
 
    This document specifies an Extension for carrying Evidence in a CRMF
    Certificate Signing Request (CSR), but it is intentionally NOT
@@ -959,7 +964,7 @@ Table of Contents
    RA/CA where a flag can be added indicating whether the RA/CA should
    consider the evidence to be public or private.
 
-8.3.  Type OID and verifier hint
+7.3.  Type OID and verifier hint
 
    The EvidenceStatement includes both a type OID and a free form hint
    field with which the Attester can provide information to the Relying
@@ -980,9 +985,26 @@ Table of Contents
    could cause the Evidence to appear to be valid when in fact it was
    not properly checked.
 
-9.  References
+7.4.  Addtional security considerations
 
-9.1.  Normative References
+   In addition to the securtiy considerations listed here, implementers
+   should be familiar with the security considerations of the
+   specifications on this this depends: PKCS#10 [RFC2986], CRMF [4211],
+   as well as general security concepts relating to evidence and remote
+   attestation; many of these concepts are discussed in the Remote
+   ATtestation prodedureS (RATS) Architecture [RFC9334] sections 6 Roles
+   and Entities, 7 Trust Model, 9 Freshness, 11 Privacy Considerations,
+   and 12 Security Considerations.  Implementers should also be aware of
+   any security considerations relating to the specific evidence format
+   being carried withinin the CSR.
+
+8.  References
+
+8.1.  Normative References
+
+   [ASN1-2002]
+              ITU-T, "ITU-T Recommendation X.680, X.681, X.682, and
+              X.683", 2002.
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -998,6 +1020,11 @@ Table of Contents
               Certificate Request Message Format (CRMF)", RFC 4211,
               DOI 10.17487/RFC4211, September 2005,
               <https://www.rfc-editor.org/rfc/rfc4211>.
+
+   [RFC5911]  Hoffman, P. and J. Schaad, "New ASN.1 Modules for
+              Cryptographic Message Syntax (CMS) and S/MIME", RFC 5911,
+              DOI 10.17487/RFC5911, June 2010,
+              <https://www.rfc-editor.org/rfc/rfc5911>.
 
    [RFC5912]  Hoffman, P. and J. Schaad, "New ASN.1 Modules for the
               Public Key Infrastructure Using X.509 (PKIX)", RFC 5912,
@@ -1019,12 +1046,12 @@ Table of Contents
               Architecture", RFC 9334, DOI 10.17487/RFC9334, January
               2023, <https://www.rfc-editor.org/rfc/rfc9334>.
 
-9.2.  Informative References
+8.2.  Informative References
 
    [CSBR]     CA/Browser Forum, "Baseline Requirements for Code-Signing
-              Certificates, v.3.3", June 2023, <https://cabforum.org/wp-
-              content/uploads/Baseline-Requirements-for-the-Issuance-
-              and-Management-of-Code-Signing.v3.3.pdf>.
+              Certificates, v.3.7", February 2024,
+              <https://cabforum.org/uploads/Baseline-Requirements-for-
+              the-Issuance-and-Management-of-Code-Signing.v3.7.pdf>.
 
    [I-D.bft-rats-kat]
               Brossard, M., Fossati, T., and H. Tschofenig, "An EAT-
@@ -1099,7 +1126,7 @@ Appendix A.  Examples
    Architecture token, which provides claims about the used hardware and
    software platform, into the CSR.
 
-   After publicatian of this document, additional examples and sample
+   After publication of this document, additional examples and sample
    data will be collected at the following GitHub repository
    [SampleData]:
 
@@ -1107,7 +1134,7 @@ Appendix A.  Examples
 
 A.1.  Extending EvidenceStatementSet
 
-   As defined in Section 6.2, EvidenceStatementSet acts as a way to
+   As defined in Section 5.2, EvidenceStatementSet acts as a way to
    provide an ASN.1 compiler or runtime parser with a list of OBJECT
    IDENTIFIERs that are known to represent EvidenceStatements -- and are
    expected to appear in an EvidenceStatement.type field, along with the
@@ -1664,6 +1691,7 @@ id-aa-evidence OBJECT IDENTIFIER ::= { id-aa 59 }
 -- For PKCS#10
 attr-evidence ATTRIBUTE ::= {
   TYPE EvidenceBundles
+  COUNTS MAX 1
   IDENTIFIED BY id-aa-evidence
 }
 
@@ -1794,16 +1822,6 @@ Appendix C.  Acknowledgments
    for their feedback based on implementation experience, and Daniel
    Migault and Russ Housley for their review comments.
 
-Contributors
-
-   Ned Smith
-   Intel Corporation
-   United States
-   Email: ned.smith@intel.com
-
-
-   Ned Smith contributed DICE examples and review feedback.
-
 Authors' Addresses
 
    Mike Ounsworth
@@ -1831,3 +1849,9 @@ Authors' Addresses
    Beyond Identity
    United States of America
    Email: monty.wiseman@beyondidentity.com
+
+
+   Ned Smith
+   Intel Corporation
+   United States
+   Email: ned.smith@intel.com

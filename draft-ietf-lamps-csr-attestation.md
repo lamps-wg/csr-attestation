@@ -401,7 +401,7 @@ shows this use case.
 {: #fig-multiple-attesters title="Use Case 3: Multiple Attesters in Composite Device."}
 
 In the last use case, a Composite Device with additional processing
-capabilities of the Leader Attester parses the certification path provided by
+capabilities of the Lead Attester parses the certification path provided by
 all Attesters in the device and removes redundant certificate information. The
 benefit of this approach is the reduced transmission overhead. There are several
 implementation strategies and we show two in {{fig-multiple-attesters-optimized}}.

@@ -92,7 +92,7 @@ Table of Contents
    3.  Architecture
    4.  Information Model
      4.1.  Interaction with an HSM
-     4.2.  Encoding
+     4.2.  Encoding Strategy
        4.2.1.  Case 1 - Single Evidence Bundle
        4.2.2.  Case 2 - Single Evidence Bundle with Certificate Chain
        4.2.3.  Case 3 - Multiple Evidence Bundles each with Complete
@@ -356,7 +356,7 @@ Table of Contents
 
         Figure 2: Example interaction between CSR generator and HSM.
 
-4.2.  Encoding
+4.2.  Encoding Strategy
 
    To support a number of different use cases for the transmission of
    Evidence and certificate chains in a CSR the structure shown in

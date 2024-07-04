@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-07-02T00:52:06.587051+00:00",
+  "timestamp": "2024-07-04T00:52:05.644543+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -6657,7 +6657,7 @@
       "labels": [],
       "body": "Aiming to address the mailing list discussion\r\n\r\nQuestion: Is there a good ASN.1 structure to use for FQDNs?",
       "createdAt": "2024-07-01T09:25:28Z",
-      "updatedAt": "2024-07-01T21:34:01Z",
+      "updatedAt": "2024-07-03T19:05:59Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "69b5337cd2b4b8a4f91ac45e3a457f1aed31a2b9",
@@ -6689,6 +6689,20 @@
           "body": "> > Question: Is there a good ASN.1 structure Fto use for FQDNs?\r\n> \r\n> None that I'm aware of, but we could ask someone more expert, like @carl-wallace. UPDATE: short answer: no, it should be UTF8String or IA5String (ascii).\r\n\r\nPer [RFC6125](https://datatracker.ietf.org/doc/html/rfc6125#section-2.2), if we support Unicode, we support internationalized FQDNs and all the UTF8 and punycode support right? I know that is not part of the scope of this I-D, but worth calling out.",
           "createdAt": "2024-07-01T16:54:46Z",
           "updatedAt": "2024-07-01T16:54:46Z"
+        },
+        {
+          "author": "nedmsmith",
+          "authorAssociation": "COLLABORATOR",
+          "body": "We ended up looking at FQDNs because the review feedback was concerned about possible misuse. But if the I-D specifies expected use, then it seems the intended usage is that of an identifier (and nothing more). Hence, it is useful as a key for searching a list but not as an address that could invoke network services that might exist outside of an administrative domain or require network connectivity (assuming the list is local). The I-D didn\u2019t want to specify the type of identifier, just let the application developer choose.\r\n\r\nHence, something generic like byte string or text string seems good enough.\r\n\r\nCheers,\r\nNed\r\n\r\nFrom: A.J. Stein ***@***.***>\r\nDate: Tuesday, July 2, 2024 at 07:27\r\nTo: lamps-wg/csr-attestation ***@***.***>\r\nCc: Smith, Ned ***@***.***>, Comment ***@***.***>\r\nSubject: Re: [lamps-wg/csr-attestation] New Hint Text Proposal (PR #143)\r\n\r\n@aj-stein-nist commented on this pull request.\r\n\r\n________________________________\r\n\r\nIn draft-ietf-lamps-csr-attestation.md<https://github.com/lamps-wg/csr-attestation/pull/143#discussion_r1662520148>:\r\n\r\n> +In some cases, the EvidenceStatement.type OID will be sufficient information\r\n\r\n+for the Relying Party to correctly route it to an appropriate Verifier,\r\n\r\n+however since the type OID only identifies the general data format, it is possible\r\n\r\n+that multiple Verifiers are registered against the same type OID in which case the\r\n\r\n+Relying Party will either require additional parsing of the evidence statement, or\r\n\r\n+the Attester will be required to provide additional information.\r\n\r\n+\r\n\r\n+To simplify the task for the Relying Party an optional field, the hint, is available\r\n\r\n+in the EvidenceStatement structure, as shown in {{code-EvidenceStatement}}. An\r\n\r\n+Attester MAY include the hint to the EvidenceStatement and it MAY be processed\r\n\r\n+by the Relying Party. The Relying Party MAY decide not to trust the information\r\n\r\n+embedded in the hint or policy MAY override any information provided by the Attester\r\n\r\n+via this hint.\r\n\r\n+\r\n\r\n+When the Attester populates the hint, it MUST contain a fully qualified domain\r\n\r\n+name (FQDN) which uniquely identifies a Verifier.\r\n\r\nNit - RFC6125 was obsoleted by RFC9525. It seems odd to reference this RFC (on TLS service identity) for a value that is not intended to be de-referenced.\r\n\r\nI do not disagree, I could not really find the right reference to explain what FQDN is or is not without other necessary context, but I thought per the title, \"Representation and Verification of Domain-Based Application Service\r\nIdentity within Internet Public Key Infrastructure Using X.509,\" aside from the TLS identity context. Are you suggesting a reference to RFC1034 is more suitable? Ironically 1034 does not reference the term FQDN, it seems to evolved from fully qualified address, total, or absolute domain. FQDN is not defined, so I thought it would be counterproductive.\r\n\r\nIf RFC1034 is not helpful, is there another you would recommend?\r\n\r\n\u2014\r\nReply to this email directly, view it on GitHub<https://github.com/lamps-wg/csr-attestation/pull/143#discussion_r1662520148>, or unsubscribe<https://github.com/notifications/unsubscribe-auth/ABPMCSGN3QISG6MMDUAYFZTZKKTCTAVCNFSM6AAAAABKFFQR5OVHI2DSMVQWIX3LMV43YUDVNRWFEZLROVSXG5CSMV3GSZLXHMZDCNJTHAYTGNBXHE>.\r\nYou are receiving this because you commented.Message ID: ***@***.***>\r\n",
+          "createdAt": "2024-07-02T19:34:24Z",
+          "updatedAt": "2024-07-02T19:34:24Z"
+        },
+        {
+          "author": "mcr",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Even if the majority of the time an opaque FQDN will be used, I strongly suggest this field be a URN or URI.\r\n\r\nhttps://www.iana.org/assignments/uri-schemes/uri-schemes.xhtml#uri-schemes-1 or \r\nhttps://www.iana.org/assignments/urn-namespaces/urn-namespaces.xhtml#urn-namespaces-1 has lots of options.\r\noid: , uuid:, ni:, \r\n",
+          "createdAt": "2024-07-03T19:05:58Z",
+          "updatedAt": "2024-07-03T19:05:58Z"
         }
       ],
       "reviews": [
@@ -6769,6 +6783,66 @@
               "body": "> > Question: is \"FQDN\" misleading here? Would calling it a URI make it less dangerous (or more dangerous??).\r\n> \r\n> Per this topic of discussion in an editors' meeting, this is specifically why I mentioned URN is preferable to URI. There is a reason I believed that was picked in the version modified by this PR.\r\n\r\nAre you saying URNs aren't dereferenced, looked up in DNS or FETCHED? I would think just the opposite is more likely.",
               "createdAt": "2024-07-01T21:34:01Z",
               "updatedAt": "2024-07-01T21:34:01Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN86ATJhK",
+          "commit": {
+            "abbreviatedOid": "61e6e8c"
+          },
+          "author": "aj-stein-nist",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-07-02T01:41:06Z",
+          "updatedAt": "2024-07-02T01:41:06Z",
+          "comments": [
+            {
+              "originalPosition": 59,
+              "body": "> Are you saying URNs aren't dereferenced, looked up in DNS or FETCHED? I would think just the opposite is more likely.\r\n\r\nI was trying to avoid comment on de-referencing for now, if you are referring to reply in response to Mike's question. A URN cannot be de-referenced in the same way, and the previous section that this PR changes originaly referenced URN and RFC8141.\r\n\r\nBy using a name that cannot refer explicitly to a location (if I can be casual with the definition), it furthers the allowlist concept (\"the Relying Party is pre-configured with\r\na list of trusted Verifiers and the corresponding hint values can be used to look\r\nup appropriate Verifier\") and conceptually limits the misuse and usage of DNS _without_ allowlist, for those who enjoy ignoring the recommendations of the spec, as an added benefit.",
+              "createdAt": "2024-07-02T01:41:06Z",
+              "updatedAt": "2024-07-02T01:41:06Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN86AWvZH",
+          "commit": {
+            "abbreviatedOid": "61e6e8c"
+          },
+          "author": "carl-wallace",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-07-02T10:48:55Z",
+          "updatedAt": "2024-07-02T10:48:55Z",
+          "comments": [
+            {
+              "originalPosition": 51,
+              "body": "Nit - RFC6125 was obsoleted by RFC9525. It seems odd to reference this RFC (on TLS service identity) for a value that is not intended to be de-referenced. If it may be the case that one day it'd be desirable to dereference verifier hints, this field should be extensible with the current non-dereferenceable name notion the first (and initially only) instantiation.",
+              "createdAt": "2024-07-02T10:48:55Z",
+              "updatedAt": "2024-07-02T10:48:55Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN86AYJXn",
+          "commit": {
+            "abbreviatedOid": "61e6e8c"
+          },
+          "author": "aj-stein-nist",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-07-02T13:26:42Z",
+          "updatedAt": "2024-07-02T13:26:43Z",
+          "comments": [
+            {
+              "originalPosition": 51,
+              "body": "> Nit - RFC6125 was obsoleted by RFC9525. It seems odd to reference this RFC (on TLS service identity) for a value that is not intended to be de-referenced.\r\n\r\nI do not disagree, I could not really find the right reference to explain what FQDN is or is not without other necessary context, but I thought per the title, \"Representation and Verification of Domain-Based Application Service\r\n Identity within Internet Public Key Infrastructure Using X.509 ...,\" aside from the TLS identity context. Are you suggesting a reference to RFC1034 is more suitable? Ironically 1034 does not reference the term FQDN, it seems to evolved from fully qualified address, total, or absolute domain. FQDN is not defined, so I thought it would be counterproductive.\r\n\r\nIf RFC1034 is not helpful, is there another you would recommend?\r\n\r\n",
+              "createdAt": "2024-07-02T13:26:42Z",
+              "updatedAt": "2024-07-02T13:28:19Z"
             }
           ]
         }

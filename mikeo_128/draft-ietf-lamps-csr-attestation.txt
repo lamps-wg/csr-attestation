@@ -506,11 +506,11 @@ Table of Contents
 
 4.2.5.  Second Implementation Option
 
-   Our second implementation strategy requires the Lead Attester to
-   merge all certificate chains into a single EvidenceBundle containing
-   a single de-duplicated sequence of CertificateAlternatives
-   structures.  This means that each EvidenceBundle is self-contained
-   and any EvidenceStatement can be verified using only the sequence of
+   Our second implementation option requires the Lead Attester to merge
+   all certificate chains into a single EvidenceBundle containing a
+   single de-duplicated sequence of CertificateAlternatives structures.
+   This means that each EvidenceBundle is self-contained and any
+   EvidenceStatement can be verified using only the sequence of
    CertificateAlternatives in its bundle, but Verifiers will have to do
    proper certification path building since the sequence of
    CertificateAlternatives is now a cert bag and not a certificate

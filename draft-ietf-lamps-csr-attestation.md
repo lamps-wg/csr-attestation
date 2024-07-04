@@ -333,6 +333,8 @@ certificates.
 {: #fig-info-model title="Information Model for CSR Evidence Conveyance."}
 
 The following use cases are supported, as described in the sub-sections below.
+A conformant implementation of an entity parsing the CSR structures MUST be prepared
+to parse certificates in all EvidenceBundle to build a certification path.
 
 ### Case 1 - Single Evidence Bundle
 

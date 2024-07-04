@@ -175,7 +175,8 @@ specifications.
 This document re-uses the terms defined in {{RFC9334}} related to remote
 attestation. Readers of this document are assumed to be familiar with
 the following terms: Evidence, Claim, Attestation Results (AR), Attester,
-Verifier, Target Environment, Attesting Environment, and Relying Party (RP).
+Verifier, Target Environment, Attesting Environment, Composite Device,
+Lead Attester, and Relying Party (RP).
 
 The term "Certification Request" message is defined in {{RFC2986}}.
 Specifications, such as {{RFC7030}}, later introduced the term
@@ -374,7 +375,7 @@ this use case.
 {: #fig-single-attester-with-path title="Use Case 2: Single Attester with Certification Path."}
 
 
-In a Composite Device as defined in [RFC9334], which contains multiple Attesters, a collection of Evidence
+In a Composite Device, which contains multiple Attesters, a collection of Evidence
 statements is obtained. In this use case, each Attester returns its Evidence together with a
 certification path. As a result, multiple EvidenceBundle structures, each carrying
 an EvidenceStatement and the corresponding CertificateAlternative structure with the

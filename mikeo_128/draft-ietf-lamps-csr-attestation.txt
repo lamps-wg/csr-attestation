@@ -471,7 +471,7 @@ Table of Contents
    of the certificate chain since there is a trade-off between the
    Attester implementation complexity and the transmission overhead.
 
-4.2.4.1.  First Implementation Strategy
+4.2.4.1.  First Implementation Option
 
    In our first implementation strategy each Attester is provisioned
    with a unique end-entity certificate.  Hence, the certificate chain

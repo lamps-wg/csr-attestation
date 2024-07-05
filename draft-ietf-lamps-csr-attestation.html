@@ -15,7 +15,7 @@
        This specification defines an attribute and an extension that allow for conveyance of Evidence in Certificate Signing Requests (CSRs) such as PKCS#10 or Certificate Request Message Format (CRMF) payloads which provides an elegant and automatable mechanism for transporting Evidence to a Certification Authority. 
        Including Evidence along with a CSR can help to improve the assessment of the security posture for the private key, and can help the Certification Authority to assess whether it satisfies the requested certificate profile. These Evidence Claims can include information about the hardware component's manufacturer, the version of installed or running firmware, the version of software installed or running in layers above the firmware, or the presence of hardware components providing specific protection capabilities or shielded locations (e.g., to protect keys). 
     " name="description">
-<meta content="xml2rfc 3.21.0" name="generator">
+<meta content="xml2rfc 3.22.0" name="generator">
 <meta content="PKI" name="keyword">
 <meta content="PKCS#10" name="keyword">
 <meta content="CRMF" name="keyword">
@@ -24,7 +24,7 @@
 <meta content="Certificate Signing Requests" name="keyword">
 <meta content="draft-ietf-lamps-csr-attestation-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.21.0
+  xml2rfc 3.22.0
     Python 3.12.3
     ConfigArgParse 1.7
     google-i18n-address 3.1.0
@@ -34,9 +34,8 @@
     platformdirs 4.2.2
     pycountry 22.3.5
     PyYAML 6.0.1
-    requests 2.31.0
+    requests 2.32.3
     setuptools 69.5.1
-    six 1.16.0
     wcwidth 0.2.13
 -->
 <link href="draft-ietf-lamps-csr-attestation.xml" rel="alternate" type="application/rfc+xml">
@@ -1040,7 +1039,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Ounsworth, et al.</td>
-<td class="center">Expires 2 January 2025</td>
+<td class="center">Expires 6 January 2025</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1053,12 +1052,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-lamps-csr-attestation-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2024-07-01" class="published">1 July 2024</time>
+<time datetime="2024-07-05" class="published">5 July 2024</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2025-01-02">2 January 2025</time></dd>
+<dd class="expires"><time datetime="2025-01-06">6 January 2025</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1121,7 +1120,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 2 January 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 6 January 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1166,7 +1165,24 @@ svg :is([fill="white"], [fill^="#fff"]) {
                 <p id="section-toc.1-1.4.2.1.1"><a href="#section-4.1" class="auto internal xref">4.1</a>.  <a href="#name-interaction-with-an-hsm" class="internal xref">Interaction with an HSM</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.2">
-                <p id="section-toc.1-1.4.2.2.1"><a href="#section-4.2" class="auto internal xref">4.2</a>.  <a href="#name-implementation-strategies" class="internal xref">Implementation Strategies</a></p>
+                <p id="section-toc.1-1.4.2.2.1"><a href="#section-4.2" class="auto internal xref">4.2</a>.  <a href="#name-encoding-strategy" class="internal xref">Encoding Strategy</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.2.2.1">
+                    <p id="section-toc.1-1.4.2.2.2.1.1"><a href="#section-4.2.1" class="auto internal xref">4.2.1</a>.  <a href="#name-case-1-single-evidence-bund" class="internal xref">Case 1 - Single Evidence Bundle</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.2.2.2">
+                    <p id="section-toc.1-1.4.2.2.2.2.1"><a href="#section-4.2.2" class="auto internal xref">4.2.2</a>.  <a href="#name-case-2-single-evidence-bund" class="internal xref">Case 2 - Single Evidence Bundle with Certificate Chain</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.2.2.3">
+                    <p id="section-toc.1-1.4.2.2.2.3.1"><a href="#section-4.2.3" class="auto internal xref">4.2.3</a>.  <a href="#name-case-3-multiple-evidence-bu" class="internal xref">Case 3 - Multiple Evidence Bundles each with Complete Certificate Chains</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.2.2.4">
+                    <p id="section-toc.1-1.4.2.2.2.4.1"><a href="#section-4.2.4" class="auto internal xref">4.2.4</a>.  <a href="#name-case-4-multiple-evidence-bu" class="internal xref">Case 4 - Multiple Evidence Bundles with Certificate Transmission Optimization</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.2.2.5">
+                    <p id="section-toc.1-1.4.2.2.2.5.1"><a href="#section-4.2.5" class="auto internal xref">4.2.5</a>.  <a href="#name-second-implementation-optio" class="internal xref">Second Implementation Option</a></p>
+</li>
+                </ul>
 </li>
             </ul>
 </li>
@@ -1337,7 +1353,8 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
 <p id="section-2-2">This document re-uses the terms defined in <span>[<a href="#RFC9334" class="cite xref">RFC9334</a>]</span> related to remote
 attestation. Readers of this document are assumed to be familiar with
 the following terms: Evidence, Claim, Attestation Results (AR), Attester,
-Verifier, Target Environment, Attesting Environment, and Relying Party (RP).<a href="#section-2-2" class="pilcrow">¶</a></p>
+Verifier, Target Environment, Attesting Environment, Composite Device,
+Lead Attester, Attestation Key, and Relying Party (RP).<a href="#section-2-2" class="pilcrow">¶</a></p>
 <p id="section-2-3">The term "Certification Request" message is defined in <span>[<a href="#RFC2986" class="cite xref">RFC2986</a>]</span>.
 Specifications, such as <span>[<a href="#RFC7030" class="cite xref">RFC7030</a>]</span>, later introduced the term
 "Certificate Signing Request (CSR)" to refer to the Certification
@@ -1541,13 +1558,13 @@ network protocol, then the interaction would conceptually be:<a href="#section-4
 </div>
 </section>
 </div>
-<div id="implementation-strategies">
+<div id="encoding-strategy">
 <section id="section-4.2">
-        <h3 id="name-implementation-strategies">
-<a href="#section-4.2" class="section-number selfRef">4.2. </a><a href="#name-implementation-strategies" class="section-name selfRef">Implementation Strategies</a>
+        <h3 id="name-encoding-strategy">
+<a href="#section-4.2" class="section-number selfRef">4.2. </a><a href="#name-encoding-strategy" class="section-name selfRef">Encoding Strategy</a>
         </h3>
 <p id="section-4.2-1">To support a number of different use cases for the transmission of
-Evidence in a CSR (together with certification paths) the structure
+Evidence and certificate chains in a CSR the structure
 shown in <a href="#fig-info-model" class="auto internal xref">Figure 3</a> is used.<a href="#section-4.2-1" class="pilcrow">¶</a></p>
 <p id="section-4.2-2">On a high-level, the structure is composed as follows:
 A PKCS#10 attribute or a CRMF extension contains one or more
@@ -1564,14 +1581,14 @@ certificates.<a href="#section-4.2-2" class="pilcrow">¶</a></p>
                 <path d="M 8,240 L 8,272" fill="none" stroke="black"></path>
                 <path d="M 80,96 L 80,240" fill="none" stroke="black"></path>
                 <path d="M 160,144 L 160,240" fill="none" stroke="black"></path>
-                <path d="M 176,32 L 176,96" fill="none" stroke="black"></path>
+                <path d="M 168,32 L 168,96" fill="none" stroke="black"></path>
                 <path d="M 176,240 L 176,272" fill="none" stroke="black"></path>
                 <path d="M 272,128 L 272,208" fill="none" stroke="black"></path>
                 <path d="M 272,240 L 272,320" fill="none" stroke="black"></path>
                 <path d="M 432,240 L 432,320" fill="none" stroke="black"></path>
                 <path d="M 480,128 L 480,208" fill="none" stroke="black"></path>
-                <path d="M 8,32 L 176,32" fill="none" stroke="black"></path>
-                <path d="M 8,96 L 176,96" fill="none" stroke="black"></path>
+                <path d="M 8,32 L 168,32" fill="none" stroke="black"></path>
+                <path d="M 8,96 L 168,96" fill="none" stroke="black"></path>
                 <path d="M 272,128 L 480,128" fill="none" stroke="black"></path>
                 <path d="M 160,144 L 272,144" fill="none" stroke="black"></path>
                 <path d="M 272,160 L 480,160" fill="none" stroke="black"></path>
@@ -1583,12 +1600,11 @@ certificates.<a href="#section-4.2-2" class="pilcrow">¶</a></p>
                 <path d="M 272,272 L 432,272" fill="none" stroke="black"></path>
                 <path d="M 272,320 L 432,320" fill="none" stroke="black"></path>
                 <g class="text">
-                  <text x="56" y="52">PKCS#10</text>
-                  <text x="100" y="52">or</text>
-                  <text x="132" y="52">CRMF</text>
-                  <text x="64" y="68">Attribute</text>
-                  <text x="116" y="68">or</text>
-                  <text x="64" y="84">Extension</text>
+                  <text x="48" y="52">PKCS#10</text>
+                  <text x="120" y="52">Attribute</text>
+                  <text x="76" y="68">or</text>
+                  <text x="36" y="84">CRMF</text>
+                  <text x="96" y="84">Extension</text>
                   <text x="180" y="132">(1</text>
                   <text x="204" y="132">or</text>
                   <text x="240" y="132">more)</text>
@@ -1614,232 +1630,254 @@ certificates.<a href="#section-4.2-2" class="pilcrow">¶</a></p>
 <a href="#name-information-model-for-csr-e" class="selfRef">Information Model for CSR Evidence Conveyance.</a>
           </figcaption></figure>
 </div>
-<p id="section-4.2-4">The following use cases are supported:<a href="#section-4.2-4" class="pilcrow">¶</a></p>
-<p id="section-4.2-5">A single Attester, which only distributes Evidence without any certification paths.
-In the use case, the Verifier is assumed to be in possession of the certification paths already
-or there is no certification paths because the Verifier directly trusts the Attester key.
-As a result, a single EvidenceBundle is included
-in a CSR that contains a single EvidenceStatement without the CertificateAlternatives
-structure. <a href="#fig-single-attester" class="auto internal xref">Figure 4</a> shows this use case.<a href="#section-4.2-5" class="pilcrow">¶</a></p>
-<span id="name-use-case-1-single-attester-"></span><div id="fig-single-attester">
+<p id="section-4.2-4">The following use cases are supported, as described in the sub-sections below.
+A conformant implementation of an entity parsing the CSR structures <span class="bcp14">MUST</span> be prepared
+to parse certificates in all EvidenceBundle to build a certification path.<a href="#section-4.2-4" class="pilcrow">¶</a></p>
+<div id="case-1-single-evidence-bundle">
+<section id="section-4.2.1">
+          <h4 id="name-case-1-single-evidence-bund">
+<a href="#section-4.2.1" class="section-number selfRef">4.2.1. </a><a href="#name-case-1-single-evidence-bund" class="section-name selfRef">Case 1 - Single Evidence Bundle</a>
+          </h4>
+<p id="section-4.2.1-1">A single Attester, which only distributes Evidence without an attached certificate chain.
+In the use case, the Verifier is assumed to be in possession of the certificate chain already
+or the Verifier directly trusts the Attestation Key and therefore no certificate chain is needed.
+As a result, a single EvidenceBundle is included in a CSR that contains a single EvidenceStatement
+without the CertificateAlternatives structure. <a href="#fig-single-attester" class="auto internal xref">Figure 4</a> shows this use case.<a href="#section-4.2.1-1" class="pilcrow">¶</a></p>
+<span id="name-case-1-single-evidence-bundl"></span><div id="fig-single-attester">
 <figure id="figure-4">
-          <div id="section-4.2-6.1">
-            <div class="alignLeft art-svg artwork" id="section-4.2-6.1.1">
+            <div id="section-4.2.1-2.1">
+              <div class="alignLeft art-svg artwork" id="section-4.2.1-2.1.1">
 <svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="128" width="184" viewBox="0 0 184 128" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
-                <path d="M 8,32 L 8,96" fill="none" stroke="black"></path>
-                <path d="M 176,32 L 176,96" fill="none" stroke="black"></path>
-                <path d="M 8,32 L 176,32" fill="none" stroke="black"></path>
-                <path d="M 8,64 L 176,64" fill="none" stroke="black"></path>
-                <path d="M 8,96 L 176,96" fill="none" stroke="black"></path>
-                <g class="text">
-                  <text x="84" y="52">EvidenceBundle</text>
-                  <text x="88" y="84">EvidenceStatement</text>
-                </g>
-              </svg><a href="#section-4.2-6.1.1" class="pilcrow">¶</a>
+                  <path d="M 8,32 L 8,96" fill="none" stroke="black"></path>
+                  <path d="M 176,32 L 176,96" fill="none" stroke="black"></path>
+                  <path d="M 8,32 L 176,32" fill="none" stroke="black"></path>
+                  <path d="M 8,64 L 176,64" fill="none" stroke="black"></path>
+                  <path d="M 8,96 L 176,96" fill="none" stroke="black"></path>
+                  <g class="text">
+                    <text x="84" y="52">EvidenceBundle</text>
+                    <text x="88" y="84">EvidenceStatement</text>
+                  </g>
+                </svg><a href="#section-4.2.1-2.1.1" class="pilcrow">¶</a>
 </div>
 </div>
 <figcaption><a href="#figure-4" class="selfRef">Figure 4</a>:
-<a href="#name-use-case-1-single-attester-" class="selfRef">Use Case 1: Single Attester without Certification Path.</a>
-          </figcaption></figure>
+<a href="#name-case-1-single-evidence-bundl" class="selfRef">Case 1: Single Evidence Bundle.</a>
+            </figcaption></figure>
 </div>
-<p id="section-4.2-7">A single Attester, which shares Evidence together with a certification path.
+</section>
+</div>
+<div id="case-2-single-evidence-bundle-with-certificate-chain">
+<section id="section-4.2.2">
+          <h4 id="name-case-2-single-evidence-bund">
+<a href="#section-4.2.2" class="section-number selfRef">4.2.2. </a><a href="#name-case-2-single-evidence-bund" class="section-name selfRef">Case 2 - Single Evidence Bundle with Certificate Chain</a>
+          </h4>
+<p id="section-4.2.2-1">A single Attester, which shares Evidence together with a certificate chain.
 The CSR conveys a single EvidenceBundle with a single EvidenceStatement
-and a single CertificateAlternatives structure. <a href="#fig-single-attester-with-path" class="auto internal xref">Figure 5</a> shows
-this use case.<a href="#section-4.2-7" class="pilcrow">¶</a></p>
-<span id="name-use-case-2-single-attester-"></span><div id="fig-single-attester-with-path">
+and a single CertificateAlternatives structure. <a href="#fig-single-attester-with-path" class="auto internal xref">Figure 5</a>
+shows this use case.<a href="#section-4.2.2-1" class="pilcrow">¶</a></p>
+<span id="name-case-2-single-evidence-bundl"></span><div id="fig-single-attester-with-path">
 <figure id="figure-5">
-          <div id="section-4.2-8.1">
-            <div class="alignLeft art-svg artwork" id="section-4.2-8.1.1">
+            <div id="section-4.2.2-2.1">
+              <div class="alignLeft art-svg artwork" id="section-4.2.2-2.1.1">
 <svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="144" width="224" viewBox="0 0 224 144" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
-                <path d="M 8,32 L 8,112" fill="none" stroke="black"></path>
-                <path d="M 216,32 L 216,112" fill="none" stroke="black"></path>
-                <path d="M 8,32 L 216,32" fill="none" stroke="black"></path>
-                <path d="M 8,64 L 216,64" fill="none" stroke="black"></path>
-                <path d="M 8,112 L 216,112" fill="none" stroke="black"></path>
-                <g class="text">
-                  <text x="84" y="52">EvidenceBundle</text>
-                  <text x="88" y="84">EvidenceStatement</text>
-                  <text x="112" y="100">CertificateAlternatives</text>
-                </g>
-              </svg><a href="#section-4.2-8.1.1" class="pilcrow">¶</a>
+                  <path d="M 8,32 L 8,112" fill="none" stroke="black"></path>
+                  <path d="M 216,32 L 216,112" fill="none" stroke="black"></path>
+                  <path d="M 8,32 L 216,32" fill="none" stroke="black"></path>
+                  <path d="M 8,64 L 216,64" fill="none" stroke="black"></path>
+                  <path d="M 8,112 L 216,112" fill="none" stroke="black"></path>
+                  <g class="text">
+                    <text x="84" y="52">EvidenceBundle</text>
+                    <text x="88" y="84">EvidenceStatement</text>
+                    <text x="112" y="100">CertificateAlternatives</text>
+                  </g>
+                </svg><a href="#section-4.2.2-2.1.1" class="pilcrow">¶</a>
 </div>
 </div>
 <figcaption><a href="#figure-5" class="selfRef">Figure 5</a>:
-<a href="#name-use-case-2-single-attester-" class="selfRef">Use Case 2: Single Attester with Certification Path.</a>
-          </figcaption></figure>
+<a href="#name-case-2-single-evidence-bundl" class="selfRef">Case 2: Single Evidence Bundle with Certificate Chain.</a>
+            </figcaption></figure>
 </div>
-<p id="section-4.2-9">In a Composite Device, which contains multiple Attesters, a collection of Evidence
+</section>
+</div>
+<div id="case-3-multiple-evidence-bundles-each-with-complete-certificate-chains">
+<section id="section-4.2.3">
+          <h4 id="name-case-3-multiple-evidence-bu">
+<a href="#section-4.2.3" class="section-number selfRef">4.2.3. </a><a href="#name-case-3-multiple-evidence-bu" class="section-name selfRef">Case 3 - Multiple Evidence Bundles each with Complete Certificate Chains</a>
+          </h4>
+<p id="section-4.2.3-1">In a Composite Device, which contains multiple Attesters, a collection of Evidence
 statements is obtained. In this use case, each Attester returns its Evidence together with a
-certification path. As a result, multiple EvidenceBundle structures, each carrying
+certificate chain. As a result, multiple EvidenceBundle structures, each carrying
 an EvidenceStatement and the corresponding CertificateAlternative structure with the
-certification path as provided by each Attester, are included in the CSR.
+certification chain as provided by each Attester, are included in the CSR.
 This may result in certificates being duplicated across multiple EvidenceBundles.
 This approach does not require any processing capabilities
-by a lead Attester since the information is merely forwarded. <a href="#fig-multiple-attesters" class="auto internal xref">Figure 6</a>
-shows this use case.<a href="#section-4.2-9" class="pilcrow">¶</a></p>
-<span id="name-use-case-3-multiple-atteste"></span><div id="fig-multiple-attesters">
+by a Lead Attester since the information is merely forwarded. <a href="#fig-multiple-attesters" class="auto internal xref">Figure 6</a>
+shows this use case.<a href="#section-4.2.3-1" class="pilcrow">¶</a></p>
+<span id="name-case-3-multiple-evidence-bun"></span><div id="fig-multiple-attesters">
 <figure id="figure-6">
-          <div id="section-4.2-10.1">
-            <div class="alignLeft art-svg artwork" id="section-4.2-10.1.1">
+            <div id="section-4.2.3-2.1">
+              <div class="alignLeft art-svg artwork" id="section-4.2.3-2.1.1">
 <svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="224" width="336" viewBox="0 0 336 224" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
-                <path d="M 8,32 L 8,192" fill="none" stroke="black"></path>
-                <path d="M 216,32 L 216,192" fill="none" stroke="black"></path>
-                <path d="M 8,32 L 216,32" fill="none" stroke="black"></path>
-                <path d="M 8,64 L 216,64" fill="none" stroke="black"></path>
-                <path d="M 8,112 L 216,112" fill="none" stroke="black"></path>
-                <path d="M 8,144 L 216,144" fill="none" stroke="black"></path>
-                <path d="M 8,192 L 216,192" fill="none" stroke="black"></path>
-                <path d="M 216,112 L 236,152" fill="none" stroke="black"></path>
-                <path d="M 216,32 L 236,72" fill="none" stroke="black"></path>
-                <path d="M 216,112 L 236,72" fill="none" stroke="black"></path>
-                <path d="M 216,192 L 236,152" fill="none" stroke="black"></path>
-                <g class="text">
-                  <text x="84" y="52">EvidenceBundle</text>
-                  <text x="160" y="52">(1)</text>
-                  <text x="276" y="68">Provided</text>
-                  <text x="324" y="68">by</text>
-                  <text x="88" y="84">EvidenceStatement</text>
-                  <text x="276" y="84">Attester</text>
-                  <text x="320" y="84">1</text>
-                  <text x="112" y="100">CertificateAlternatives</text>
-                  <text x="84" y="132">EvidenceBundle</text>
-                  <text x="160" y="132">(2)</text>
-                  <text x="276" y="148">Provided</text>
-                  <text x="324" y="148">by</text>
-                  <text x="88" y="164">EvidenceStatement</text>
-                  <text x="276" y="164">Attester</text>
-                  <text x="320" y="164">2</text>
-                  <text x="112" y="180">CertificateAlternatives</text>
-                </g>
-              </svg><a href="#section-4.2-10.1.1" class="pilcrow">¶</a>
+                  <path d="M 8,32 L 8,192" fill="none" stroke="black"></path>
+                  <path d="M 216,32 L 216,192" fill="none" stroke="black"></path>
+                  <path d="M 8,32 L 216,32" fill="none" stroke="black"></path>
+                  <path d="M 8,64 L 216,64" fill="none" stroke="black"></path>
+                  <path d="M 8,112 L 216,112" fill="none" stroke="black"></path>
+                  <path d="M 8,144 L 216,144" fill="none" stroke="black"></path>
+                  <path d="M 8,192 L 216,192" fill="none" stroke="black"></path>
+                  <path d="M 216,112 L 236,152" fill="none" stroke="black"></path>
+                  <path d="M 216,32 L 236,72" fill="none" stroke="black"></path>
+                  <path d="M 216,112 L 236,72" fill="none" stroke="black"></path>
+                  <path d="M 216,192 L 236,152" fill="none" stroke="black"></path>
+                  <g class="text">
+                    <text x="84" y="52">EvidenceBundle</text>
+                    <text x="160" y="52">(1)</text>
+                    <text x="276" y="68">Provided</text>
+                    <text x="324" y="68">by</text>
+                    <text x="88" y="84">EvidenceStatement</text>
+                    <text x="276" y="84">Attester</text>
+                    <text x="320" y="84">1</text>
+                    <text x="112" y="100">CertificateAlternatives</text>
+                    <text x="84" y="132">EvidenceBundle</text>
+                    <text x="160" y="132">(2)</text>
+                    <text x="276" y="148">Provided</text>
+                    <text x="324" y="148">by</text>
+                    <text x="88" y="164">EvidenceStatement</text>
+                    <text x="276" y="164">Attester</text>
+                    <text x="320" y="164">2</text>
+                    <text x="112" y="180">CertificateAlternatives</text>
+                  </g>
+                </svg><a href="#section-4.2.3-2.1.1" class="pilcrow">¶</a>
 </div>
 </div>
 <figcaption><a href="#figure-6" class="selfRef">Figure 6</a>:
-<a href="#name-use-case-3-multiple-atteste" class="selfRef">Use Case 3: Multiple Attesters in Composite Device.</a>
-          </figcaption></figure>
+<a href="#name-case-3-multiple-evidence-bun" class="selfRef">Case 3: Multiple Evidence Bundles each with Complete Certificate Chains.</a>
+            </figcaption></figure>
 </div>
-<p id="section-4.2-11">In the last use case, a Composite Device with additional processing
-capabilities of the Leader Attester parses the certification path provided by
-all Attesters in the device and removes redundant certificate information. The
-benefit of this approach is the reduced transmission overhead. There are several
-implementation strategies and we show two in <a href="#fig-multiple-attesters-optimized" class="auto internal xref">Figure 7</a>.<a href="#section-4.2-11" class="pilcrow">¶</a></p>
-<span id="name-use-case-4-multiple-atteste"></span><div id="fig-multiple-attesters-optimized">
-<figure id="figure-7">
-          <div id="section-4.2-12.1">
-            <div class="alignLeft art-svg artwork" id="section-4.2-12.1.1">
-<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="544" width="472" viewBox="0 0 472 544" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
-                <path d="M 16,320 L 16,528" fill="none" stroke="black"></path>
-                <path d="M 144,64 L 144,144" fill="none" stroke="black"></path>
-                <path d="M 144,176 L 144,256" fill="none" stroke="black"></path>
-                <path d="M 264,320 L 264,528" fill="none" stroke="black"></path>
-                <path d="M 352,64 L 352,144" fill="none" stroke="black"></path>
-                <path d="M 352,176 L 352,256" fill="none" stroke="black"></path>
-                <path d="M 144,64 L 352,64" fill="none" stroke="black"></path>
-                <path d="M 144,96 L 352,96" fill="none" stroke="black"></path>
-                <path d="M 112,128 L 136,128" fill="none" stroke="black"></path>
-                <path d="M 144,144 L 352,144" fill="none" stroke="black"></path>
-                <path d="M 144,176 L 352,176" fill="none" stroke="black"></path>
-                <path d="M 144,208 L 352,208" fill="none" stroke="black"></path>
-                <path d="M 112,240 L 136,240" fill="none" stroke="black"></path>
-                <path d="M 144,256 L 352,256" fill="none" stroke="black"></path>
-                <path d="M 16,320 L 264,320" fill="none" stroke="black"></path>
-                <path d="M 16,352 L 264,352" fill="none" stroke="black"></path>
-                <path d="M 16,528 L 264,528" fill="none" stroke="black"></path>
-                <path d="M 352,176 L 372,216" fill="none" stroke="black"></path>
-                <path d="M 352,64 L 372,104" fill="none" stroke="black"></path>
-                <path d="M 352,144 L 372,104" fill="none" stroke="black"></path>
-                <path d="M 352,256 L 372,216" fill="none" stroke="black"></path>
-                <polygon class="arrowhead" points="144,240 132,234.4 132,245.6" fill="black" transform="rotate(0,136,240)"></polygon>
-                <polygon class="arrowhead" points="144,128 132,122.4 132,133.6" fill="black" transform="rotate(0,136,128)"></polygon>
-                <g class="text">
-                  <text x="60" y="36">Implementation</text>
-                  <text x="156" y="36">strategy</text>
-                  <text x="212" y="36">(4a)</text>
-                  <text x="220" y="84">EvidenceBundle</text>
-                  <text x="296" y="84">(1)</text>
-                  <text x="72" y="100">Certification</text>
-                  <text x="412" y="100">Provided</text>
-                  <text x="460" y="100">by</text>
-                  <text x="36" y="116">Path</text>
-                  <text x="64" y="116">+</text>
-                  <text x="224" y="116">EvidenceStatement</text>
-                  <text x="412" y="116">Attester</text>
-                  <text x="456" y="116">1</text>
-                  <text x="60" y="132">End-Entity</text>
-                  <text x="248" y="132">CertificateAlternatives</text>
-                  <text x="64" y="148">Certificate</text>
-                  <text x="228" y="164">....</text>
-                  <text x="220" y="196">EvidenceBundle</text>
-                  <text x="296" y="196">(n)</text>
-                  <text x="412" y="212">Provided</text>
-                  <text x="460" y="212">by</text>
-                  <text x="60" y="228">End-Entity</text>
-                  <text x="224" y="228">EvidenceStatement</text>
-                  <text x="412" y="228">Attester</text>
-                  <text x="456" y="228">n</text>
-                  <text x="64" y="244">Certificate</text>
-                  <text x="248" y="244">CertificateAlternatives</text>
-                  <text x="60" y="292">Implementation</text>
-                  <text x="156" y="292">strategy</text>
-                  <text x="212" y="292">(4b)</text>
-                  <text x="92" y="340">EvidenceBundle</text>
-                  <text x="96" y="372">EvidenceStatement</text>
-                  <text x="184" y="372">(1)</text>
-                  <text x="96" y="388">...</text>
-                  <text x="96" y="404">EvidenceStatement</text>
-                  <text x="184" y="404">(n)</text>
-                  <text x="120" y="420">CertificateAlternatives</text>
-                  <text x="224" y="420">{</text>
-                  <text x="56" y="436">End</text>
-                  <text x="100" y="436">Entity</text>
-                  <text x="176" y="436">Certificate</text>
-                  <text x="240" y="436">(1)</text>
-                  <text x="96" y="452">...</text>
-                  <text x="56" y="468">End</text>
-                  <text x="100" y="468">Entity</text>
-                  <text x="176" y="468">Certificate</text>
-                  <text x="240" y="468">(n)</text>
-                  <text x="84" y="484">&lt;Remainder</text>
-                  <text x="140" y="484">of</text>
-                  <text x="168" y="484">the</text>
-                  <text x="104" y="500">Certification</text>
-                  <text x="184" y="500">Path&gt;</text>
-                  <text x="32" y="516">}</text>
-                </g>
-              </svg><a href="#section-4.2-12.1.1" class="pilcrow">¶</a>
+</section>
 </div>
-</div>
-<figcaption><a href="#figure-7" class="selfRef">Figure 7</a>:
-<a href="#name-use-case-4-multiple-atteste" class="selfRef">Use Case 4: Multiple Attesters in Composite Device (with Optimization).</a>
-          </figcaption></figure>
-</div>
-<p id="section-4.2-13">In implementation strategy (4a), each Attester is provisioned with
-a unique end-entity certificate. Hence, the certification path at least differs
-with respect to the end-entity certificates.
-The lead Attester therefore creates multiple EvidenceBundle structures, where each
-carries an EvidenceStatement followed by a certification path in
+<div id="case-4-multiple-evidence-bundles-with-certificate-transmission-optimization">
+<section id="section-4.2.4">
+          <h4 id="name-case-4-multiple-evidence-bu">
+<a href="#section-4.2.4" class="section-number selfRef">4.2.4. </a><a href="#name-case-4-multiple-evidence-bu" class="section-name selfRef">Case 4 - Multiple Evidence Bundles with Certificate Transmission Optimization</a>
+          </h4>
+<p id="section-4.2.4-1">In the last use case, a Composite Device with additional processing
+capabilities of the Lead Attester parses the certificate chain provided by
+all Attesters in the device and removes duplicate certificates. The
+benefit of this approach is the reduced transmission payload size. There are several
+implementation strategies and we show two in the sub-sections below.<a href="#section-4.2.4-1" class="pilcrow">¶</a></p>
+<p id="section-4.2.4-2">Note: This specification does not mandate optimizing the transmission of the
+certificate chain since there is a trade-off between the Attester implementation
+complexity and the transmission overhead.<a href="#section-4.2.4-2" class="pilcrow">¶</a></p>
+<div id="first-implementation-option">
+<section id="section-4.2.4.1">
+            <h5 id="name-first-implementation-option">
+<a href="#section-4.2.4.1" class="section-number selfRef">4.2.4.1. </a><a href="#name-first-implementation-option" class="section-name selfRef">First Implementation Option</a>
+            </h5>
+<p id="section-4.2.4.1-1">In our first implementation option each Attester is provisioned with
+a unique end-entity certificate. Hence, the certificate chain at least differs
+with respect to the end-entity certificates.<a href="#section-4.2.4.1-1" class="pilcrow">¶</a></p>
+<p id="section-4.2.4.1-2">The Lead Attester therefore creates multiple EvidenceBundle structures, where each
+carries an EvidenceStatement followed by a certificate chain in
 the CertificateAlternative structures containing most likely only the end-entity
 certificate. The shared certification path is carried in the first entry of the
 EvidenceBundle sequence to allow path validation to take place immediately after
-processing the first structure. This implementation strategy may
+processing the first structure.<a href="#section-4.2.4.1-2" class="pilcrow">¶</a></p>
+<p id="section-4.2.4.1-3">This implementation strategy may
 place extra burden on the Relying Party to parse EvidenceBundles and
-reconstruct certification path if the Verifier requires each
-EvidenceStatement to be accompanied with a complete certification path.<a href="#section-4.2-13" class="pilcrow">¶</a></p>
-<p id="section-4.2-14">Implementation strategy (4b), as an alternative, requires the lead Attester
-to merge all certification paths into a single EvidenceBundle containing a single
+reconstruct the certification path if the Verifier requires each
+EvidenceStatement to be accompanied with a complete certification path.<a href="#section-4.2.4.1-3" class="pilcrow">¶</a></p>
+<div id="section-4.2.4.1-4">
+              <div class="alignLeft art-svg artwork" id="section-4.2.4.1-4.1">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="256" width="456" viewBox="0 0 456 256" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
+                  <path d="M 128,32 L 128,112" fill="none" stroke="black"></path>
+                  <path d="M 128,144 L 128,224" fill="none" stroke="black"></path>
+                  <path d="M 336,32 L 336,112" fill="none" stroke="black"></path>
+                  <path d="M 336,144 L 336,224" fill="none" stroke="black"></path>
+                  <path d="M 128,32 L 336,32" fill="none" stroke="black"></path>
+                  <path d="M 128,64 L 336,64" fill="none" stroke="black"></path>
+                  <path d="M 96,96 L 120,96" fill="none" stroke="black"></path>
+                  <path d="M 128,112 L 336,112" fill="none" stroke="black"></path>
+                  <path d="M 128,144 L 336,144" fill="none" stroke="black"></path>
+                  <path d="M 128,176 L 336,176" fill="none" stroke="black"></path>
+                  <path d="M 96,208 L 120,208" fill="none" stroke="black"></path>
+                  <path d="M 128,224 L 336,224" fill="none" stroke="black"></path>
+                  <path d="M 336,144 L 356,184" fill="none" stroke="black"></path>
+                  <path d="M 336,32 L 356,72" fill="none" stroke="black"></path>
+                  <path d="M 336,112 L 356,72" fill="none" stroke="black"></path>
+                  <path d="M 336,224 L 356,184" fill="none" stroke="black"></path>
+                  <polygon class="arrowhead" points="128,208 116,202.4 116,213.6" fill="black" transform="rotate(0,120,208)"></polygon>
+                  <polygon class="arrowhead" points="128,96 116,90.4 116,101.6" fill="black" transform="rotate(0,120,96)"></polygon>
+                  <g class="text">
+                    <text x="204" y="52">EvidenceBundle</text>
+                    <text x="280" y="52">(1)</text>
+                    <text x="48" y="68">Certificate</text>
+                    <text x="396" y="68">Provided</text>
+                    <text x="444" y="68">by</text>
+                    <text x="24" y="84">Chain</text>
+                    <text x="56" y="84">+</text>
+                    <text x="208" y="84">EvidenceStatement</text>
+                    <text x="396" y="84">Attester</text>
+                    <text x="440" y="84">1</text>
+                    <text x="44" y="100">End-Entity</text>
+                    <text x="232" y="100">CertificateAlternatives</text>
+                    <text x="48" y="116">Certificate</text>
+                    <text x="212" y="132">....</text>
+                    <text x="204" y="164">EvidenceBundle</text>
+                    <text x="280" y="164">(n)</text>
+                    <text x="396" y="180">Provided</text>
+                    <text x="444" y="180">by</text>
+                    <text x="44" y="196">End-Entity</text>
+                    <text x="208" y="196">EvidenceStatement</text>
+                    <text x="396" y="196">Attester</text>
+                    <text x="440" y="196">n</text>
+                    <text x="48" y="212">Certificate</text>
+                    <text x="232" y="212">CertificateAlternatives</text>
+                  </g>
+                </svg><a href="#section-4.2.4.1-4.1" class="pilcrow">¶</a>
+</div>
+</div>
+</section>
+</div>
+</section>
+</div>
+<div id="second-implementation-option">
+<section id="section-4.2.5">
+          <h4 id="name-second-implementation-optio">
+<a href="#section-4.2.5" class="section-number selfRef">4.2.5. </a><a href="#name-second-implementation-optio" class="section-name selfRef">Second Implementation Option</a>
+          </h4>
+<p id="section-4.2.5-1">Our second implementation option requires the Lead Attester
+to merge all certificate chains into a single EvidenceBundle containing a single
 de-duplicated sequence of CertificateAlternatives structures. This means that each
 EvidenceBundle is self-contained and any EvidenceStatement can be verified using
 only the sequence of CertificateAlternatives in its bundle, but Verifiers will have
 to do proper certification path building since the sequence of CertificateAlternatives
-is now a cert bag and not a certification path. This implementation strategy may
-place extra burden on the Attester in order to allow the Relying Party
-to treat the Evidence and Certificates as opaque content. It also may place
+is now a cert bag and not a certificate chain.<a href="#section-4.2.5-1" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-4.2.5-2">
+<pre>
+ +------------------------------+
+ |  EvidenceBundle              |
+ +------------------------------+
+ | EvidenceStatement (1)        |
+ |        ...                   |
+ | EvidenceStatement (n)        |
+ | CertificateAlternatives {    |
+ |   End Entity Certificate (1) |
+ |        ...                   |
+ |   End Entity Certificate (n) |
+ |   &lt;Remainder of the          |
+ |    Certificate Chain&gt;        |
+ | }                            |
+ +------------------------------+
+</pre><a href="#section-4.2.5-2" class="pilcrow">¶</a>
+</div>
+<p id="section-4.2.5-3">This implementation strategy may place extra burden on the Attester in order to allow
+the Relying Party to treat the Evidence and Certificates as opaque content. It also may place
 extra burden on the Verifier since this implementation strategy requires it to be able to
-perform X.509 path building over a bag of certificates that may be out of
-order or contain extraneous certificates.<a href="#section-4.2-14" class="pilcrow">¶</a></p>
-<p id="section-4.2-15">Note: This specification does not mandate optimizing certification path since
-there is a trade-off between the Attester implementation complexity and the
-transmission overhead.<a href="#section-4.2-15" class="pilcrow">¶</a></p>
+perform X.509 certification path building over a bag of certificates that may be out of
+order or contain extraneous certificates.<a href="#section-4.2.5-3" class="pilcrow">¶</a></p>
+</section>
+</div>
 </section>
 </div>
 </section>
@@ -1855,16 +1893,16 @@ transmission overhead.<a href="#section-4.2-15" class="pilcrow">¶</a></p>
 <a href="#section-5.1" class="section-number selfRef">5.1. </a><a href="#name-object-identifiers" class="section-name selfRef">Object Identifiers</a>
         </h3>
 <p id="section-5.1-1">This document references <code>id-pkix</code> and <code>id-aa</code>, both defined in <span>[<a href="#RFC5911" class="cite xref">RFC5911</a>]</span> and <span>[<a href="#RFC5912" class="cite xref">RFC5912</a>]</span>.<a href="#section-5.1-1" class="pilcrow">¶</a></p>
-<p id="section-5.1-2">This document defines the arc depicted in <a href="#code-ata-arc" class="auto internal xref">Figure 8</a><a href="#section-5.1-2" class="pilcrow">¶</a></p>
+<p id="section-5.1-2">This document defines the arc depicted in <a href="#code-ata-arc" class="auto internal xref">Figure 7</a><a href="#section-5.1-2" class="pilcrow">¶</a></p>
 <span id="name-new-oid-arc-for-pkix-eviden"></span><div id="code-ata-arc">
-<figure id="figure-8">
+<figure id="figure-7">
           <div class="alignLeft art-text artwork" id="section-5.1-3.1">
 <pre>
 -- Arc for Evidence types
 id-ata OBJECT IDENTIFIER ::= { id-pkix (TBD1) }
 </pre>
 </div>
-<figcaption><a href="#figure-8" class="selfRef">Figure 8</a>:
+<figcaption><a href="#figure-7" class="selfRef">Figure 7</a>:
 <a href="#name-new-oid-arc-for-pkix-eviden" class="selfRef">New OID Arc for PKIX Evidence Statement Formats</a>
           </figcaption></figure>
 </div>
@@ -1884,7 +1922,7 @@ an optional certification path.
 This structure allows for grouping Evidence statements that share a
 certification path.<a href="#section-5.2-1" class="pilcrow">¶</a></p>
 <span id="name-definition-of-evidencestate"></span><div id="code-EvidenceStatementSet">
-<figure id="figure-9">
+<figure id="figure-8">
           <div class="alignLeft art-text artwork" id="section-5.2-2.1">
 <pre>
 EVIDENCE-STATEMENT ::= TYPE-IDENTIFIER
@@ -1894,11 +1932,11 @@ EvidenceStatementSet EVIDENCE-STATEMENT ::= {
 }
 </pre>
 </div>
-<figcaption><a href="#figure-9" class="selfRef">Figure 9</a>:
+<figcaption><a href="#figure-8" class="selfRef">Figure 8</a>:
 <a href="#name-definition-of-evidencestate" class="selfRef">Definition of EvidenceStatementSet</a>
           </figcaption></figure>
 </div>
-<p id="section-5.2-3">The expression illustrated in <a href="#code-EvidenceStatementSet" class="auto internal xref">Figure 9</a> maps ASN.1 Types for Evidence Statements to the OIDs
+<p id="section-5.2-3">The expression illustrated in <a href="#code-EvidenceStatementSet" class="auto internal xref">Figure 8</a> maps ASN.1 Types for Evidence Statements to the OIDs
 that identify them. These mappings are are used to construct
 or parse EvidenceStatements. Evidence Statement formats are typically
 defined in other IETF standards, other standards bodies,
@@ -1906,7 +1944,7 @@ or vendor proprietary formats along with corresponding OIDs that identify them.<
 <p id="section-5.2-4">This list is left unconstrained in this document. However, implementers can
 populate it with the formats that they wish to support.<a href="#section-5.2-4" class="pilcrow">¶</a></p>
 <span id="name-definition-of-evidencestatem"></span><div id="code-EvidenceStatement">
-<figure id="figure-10">
+<figure id="figure-9">
           <div class="alignLeft art-text artwork" id="section-5.2-5.1">
 <pre>
 EvidenceStatements ::= SEQUENCE SIZE (1..MAX) OF EvidenceStatement
@@ -1918,11 +1956,11 @@ EvidenceStatement ::= SEQUENCE {
 }
 </pre>
 </div>
-<figcaption><a href="#figure-10" class="selfRef">Figure 10</a>:
+<figcaption><a href="#figure-9" class="selfRef">Figure 9</a>:
 <a href="#name-definition-of-evidencestatem" class="selfRef">Definition of EvidenceStatement</a>
           </figcaption></figure>
 </div>
-<p id="section-5.2-6">In <a href="#code-EvidenceStatement" class="auto internal xref">Figure 10</a>, type is an OID that indicates the format of the value of stmt.<a href="#section-5.2-6" class="pilcrow">¶</a></p>
+<p id="section-5.2-6">In <a href="#code-EvidenceStatement" class="auto internal xref">Figure 9</a>, type is an OID that indicates the format of the value of stmt.<a href="#section-5.2-6" class="pilcrow">¶</a></p>
 <p id="section-5.2-7">The Attester <span class="bcp14">MAY</span> populate the hint with the name of a Verifier software package
 which will be capable of parsing the data contained in <code>EvidenceStatement.stmt</code>;
 this is to help the Relying Party select the correct Verifier without requiring
@@ -1963,7 +2001,7 @@ EvidenceBundle ::= SEQUENCE {
 </div>
 <p id="section-5.2-10">The CertificateChoices structure defined in <span>[<a href="#RFC6268" class="cite xref">RFC6268</a>]</span> allows for carrying certificates in the default X.509 [RFC5280] format, or in other non-X.509 certificate formats. CertificateChoices <span class="bcp14">MUST</span> only contain certificate or other. CertificateChoices <span class="bcp14">MUST NOT</span> contain extendedCertificate, v1AttrCert, or v2AttrCert. Note that for non-ASN.1 certificate formats, the CertificateChoices <span class="bcp14">MUST</span> use <code>other [3]</code> with an <code>OtherCertificateFormat.Type</code> of <code>OCTET STRING</code>, and then can carry any binary data.<a href="#section-5.2-10" class="pilcrow">¶</a></p>
 <span id="name-definitions-of-csr-attribut"></span><div id="code-extensions">
-<figure id="figure-11">
+<figure id="figure-10">
           <div class="alignLeft art-text artwork" id="section-5.2-11.1">
 <pre>
 id-aa-evidence OBJECT IDENTIFIER ::= { id-aa 59 }
@@ -1982,11 +2020,11 @@ ext-evidence EXTENSION ::= {
 }
 </pre>
 </div>
-<figcaption><a href="#figure-11" class="selfRef">Figure 11</a>:
+<figcaption><a href="#figure-10" class="selfRef">Figure 10</a>:
 <a href="#name-definitions-of-csr-attribut" class="selfRef">Definitions of CSR attribute and extension</a>
           </figcaption></figure>
 </div>
-<p id="section-5.2-12">The Extension variant illustrated in <a href="#code-extensions" class="auto internal xref">Figure 11</a> is intended only for use within CRMF CSRs and is <span class="bcp14">NOT RECOMMENDED</span> to be used within X.509 certificates due to the privacy implications of publishing Evidence about the end entity's hardware environment. See <a href="#sec-con-publishing-x509" class="auto internal xref">Section 7.2</a> for more discussion.<a href="#section-5.2-12" class="pilcrow">¶</a></p>
+<p id="section-5.2-12">The Extension variant illustrated in <a href="#code-extensions" class="auto internal xref">Figure 10</a> is intended only for use within CRMF CSRs and is <span class="bcp14">NOT RECOMMENDED</span> to be used within X.509 certificates due to the privacy implications of publishing Evidence about the end entity's hardware environment. See <a href="#sec-con-publishing-x509" class="auto internal xref">Section 7.2</a> for more discussion.<a href="#section-5.2-12" class="pilcrow">¶</a></p>
 <p id="section-5.2-13">The <code>certs</code> field contains a set of certificates that
 is intended to validate the contents of an Evidence statement
 contained in <code>evidence</code>, if required. The set of certificates should contain
@@ -2245,8 +2283,8 @@ key applied to sign the CSR is generated, and stored in a secure
 environment that has controls to prevent theft or misuse (including
 being non-exportable / non-recoverable), the Attesting Environment
 has to collect claims about this secure environment (or Target
-Environment, as shown in <a href="#fig-attester" class="auto internal xref">Figure 12</a>).<a href="#section-7-1" class="pilcrow">¶</a></p>
-<p id="section-7-2"><a href="#fig-attester" class="auto internal xref">Figure 12</a> shows the interaction inside an Attester. The
+Environment, as shown in <a href="#fig-attester" class="auto internal xref">Figure 11</a>).<a href="#section-7-1" class="pilcrow">¶</a></p>
+<p id="section-7-2"><a href="#fig-attester" class="auto internal xref">Figure 11</a> shows the interaction inside an Attester. The
 Attesting Environment, which is provisioned with an Attestation Key,
 retrieves claims about the Target Environment. The Target
 Environment offers key generation, storage and usage, which it
@@ -2254,7 +2292,7 @@ makes available to services. The Attesting Environment collects
 these claims about the Target Environment and signs them and
 exports Evidence for use in remote attestation via a CSR.<a href="#section-7-2" class="pilcrow">¶</a></p>
 <span id="name-interaction-between-attesti"></span><div id="fig-attester">
-<figure id="figure-12">
+<figure id="figure-11">
         <div id="section-7-3.1">
           <div class="alignLeft art-svg artwork" id="section-7-3.1.1">
 <svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="576" width="328" viewBox="0 0 328 576" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
@@ -2331,11 +2369,11 @@ exports Evidence for use in remote attestation via a CSR.<a href="#section-7-2" 
             </svg><a href="#section-7-3.1.1" class="pilcrow">¶</a>
 </div>
 </div>
-<figcaption><a href="#figure-12" class="selfRef">Figure 12</a>:
+<figcaption><a href="#figure-11" class="selfRef">Figure 11</a>:
 <a href="#name-interaction-between-attesti" class="selfRef">Interaction between Attesting and Target Environment</a>
         </figcaption></figure>
 </div>
-<p id="section-7-4"><a href="#fig-attester" class="auto internal xref">Figure 12</a> places the CSR library outside the Attester, which
+<p id="section-7-4"><a href="#fig-attester" class="auto internal xref">Figure 11</a> places the CSR library outside the Attester, which
 is a valid architecture for certificate enrollment.
 The CSR library may also be located
 inside the trusted computing base. Regardless of the placement
@@ -2503,7 +2541,7 @@ Implementers should also be cautious around <code>type</code> OID or <code>hint<
 <dd class="break"></dd>
 <dt id="I-D.ietf-rats-msg-wrap">[I-D.ietf-rats-msg-wrap]</dt>
         <dd>
-<span class="refAuthor">Birkholz, H.</span>, <span class="refAuthor">Smith, N.</span>, <span class="refAuthor">Fossati, T.</span>, and <span class="refAuthor">H. Tschofenig</span>, <span class="refTitle">"RATS Conceptual Messages Wrapper (CMW)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-rats-msg-wrap-05</span>, <time datetime="2024-06-13" class="refDate">13 June 2024</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-rats-msg-wrap-05">https://datatracker.ietf.org/doc/html/draft-ietf-rats-msg-wrap-05</a>&gt;</span>. </dd>
+<span class="refAuthor">Birkholz, H.</span>, <span class="refAuthor">Smith, N.</span>, <span class="refAuthor">Fossati, T.</span>, and <span class="refAuthor">H. Tschofenig</span>, <span class="refTitle">"RATS Conceptual Messages Wrapper (CMW)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-rats-msg-wrap-06</span>, <time datetime="2024-07-01" class="refDate">1 July 2024</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-rats-msg-wrap-06">https://datatracker.ietf.org/doc/html/draft-ietf-rats-msg-wrap-06</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.ietf-rats-tpm-based-network-device-attest">[I-D.ietf-rats-tpm-based-network-device-attest]</dt>
         <dd>
@@ -3331,8 +3369,8 @@ Jean-Pierre Fiset, Sander Temme, Jethro Beekman, Zsolt Rózsahegyi, Ferenc
 Pető, Mike Agrenius Kushner, Tomas Gustavsson, Dieter Bong, Christopher Meyer,
 Michael StJohns, Carl Wallace, Michael Richardson, Tomofumi Okubo, Olivier
 Couillard, John Gray, Eric Amador, Johnson Darren, Herman Slatman, Tiru Reddy,
-Corey Bonnell, Argenius Kushner, James Hagborg, A.J. Stein, John Kemp,
-Ned Smith,<a href="#appendix-C-1" class="pilcrow">¶</a></p>
+Corey Bonnell, Argenius Kushner, James Hagborg, A.J. Stein, John Kemp, Ned
+Smith.<a href="#appendix-C-1" class="pilcrow">¶</a></p>
 <p id="appendix-C-2">We would like to specifically thank Mike StJohns for his work on an earlier
 version of this draft.<a href="#appendix-C-2" class="pilcrow">¶</a></p>
 <p id="appendix-C-3">We would also like to specifically thank Monty Wiseman for providing the

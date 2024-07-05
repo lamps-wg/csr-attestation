@@ -5,14 +5,14 @@
 Network Working Group                                       M. Ounsworth
 Internet-Draft                                                   Entrust
 Intended status: Standards Track                           H. Tschofenig
-Expires: 2 January 2025                                          Siemens
+Expires: 6 January 2025                                          Siemens
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                               M. Wiseman
                                                          Beyond Identity
                                                                 N. Smith
                                                        Intel Corporation
-                                                             1 July 2024
+                                                             5 July 2024
 
 
      Use of Remote Attestation with Certification Signing Requests
@@ -69,7 +69,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 2 January 2025.
+   This Internet-Draft will expire on 6 January 2025.
 
 Copyright Notice
 
@@ -92,7 +92,14 @@ Table of Contents
    3.  Architecture
    4.  Information Model
      4.1.  Interaction with an HSM
-     4.2.  Implementation Strategies
+     4.2.  Encoding Strategy
+       4.2.1.  Case 1 - Single Evidence Bundle
+       4.2.2.  Case 2 - Single Evidence Bundle with Certificate Chain
+       4.2.3.  Case 3 - Multiple Evidence Bundles each with Complete
+               Certificate Chains
+       4.2.4.  Case 4 - Multiple Evidence Bundles with Certificate
+               Transmission Optimization
+       4.2.5.  Second Implementation Option
    5.  ASN.1 Elements
      5.1.  Object Identifiers
      5.2.  Evidence Attribute and Extension
@@ -214,7 +221,8 @@ Table of Contents
    remote attestation.  Readers of this document are assumed to be
    familiar with the following terms: Evidence, Claim, Attestation
    Results (AR), Attester, Verifier, Target Environment, Attesting
-   Environment, and Relying Party (RP).
+   Environment, Composite Device, Lead Attester, Attestation Key, and
+   Relying Party (RP).
 
    The term "Certification Request" message is defined in [RFC2986].
    Specifications, such as [RFC7030], later introduced the term
@@ -348,11 +356,11 @@ Table of Contents
 
         Figure 2: Example interaction between CSR generator and HSM.
 
-4.2.  Implementation Strategies
+4.2.  Encoding Strategy
 
    To support a number of different use cases for the transmission of
-   Evidence in a CSR (together with certification paths) the structure
-   shown in Figure 3 is used.
+   Evidence and certificate chains in a CSR the structure shown in
+   Figure 3 is used.
 
    On a high-level, the structure is composed as follows: A PKCS#10
    attribute or a CRMF extension contains one or more EvidenceBundle
@@ -361,11 +369,11 @@ Table of Contents
    CertificateAlternatives which enable to carry various format of
    certificates.
 
-    +--------------------+
-    |  PKCS#10 or CRMF   |
-    |  Attribute or      |
-    |  Extension         |
-    +--------+-----------+
+    +-------------------+
+    | PKCS#10 Attribute |
+    |       or          |
+    | CRMF Extension    |
+    +--------+----------+
              |
              |           (1 or more) +-------------------------+
              |         +-------------+ CertificateChoices      |
@@ -383,14 +391,19 @@ Table of Contents
 
           Figure 3: Information Model for CSR Evidence Conveyance.
 
-   The following use cases are supported:
+   The following use cases are supported, as described in the sub-
+   sections below.  A conformant implementation of an entity parsing the
+   CSR structures MUST be prepared to parse certificates in all
+   EvidenceBundle to build a certification path.
 
-   A single Attester, which only distributes Evidence without any
-   certification paths.  In the use case, the Verifier is assumed to be
-   in possession of the certification paths already or there is no
-   certification paths because the Verifier directly trusts the Attester
-   key.  As a result, a single EvidenceBundle is included in a CSR that
-   contains a single EvidenceStatement without the
+4.2.1.  Case 1 - Single Evidence Bundle
+
+   A single Attester, which only distributes Evidence without an
+   attached certificate chain.  In the use case, the Verifier is assumed
+   to be in possession of the certificate chain already or the Verifier
+   directly trusts the Attestation Key and therefore no certificate
+   chain is needed.  As a result, a single EvidenceBundle is included in
+   a CSR that contains a single EvidenceStatement without the
    CertificateAlternatives structure.  Figure 4 shows this use case.
 
      +--------------------+
@@ -399,12 +412,14 @@ Table of Contents
      | EvidenceStatement  |
      +--------------------+
 
-     Figure 4: Use Case 1: Single Attester without Certification Path.
+                 Figure 4: Case 1: Single Evidence Bundle.
 
-   A single Attester, which shares Evidence together with a
-   certification path.  The CSR conveys a single EvidenceBundle with a
-   single EvidenceStatement and a single CertificateAlternatives
-   structure.  Figure 5 shows this use case.
+4.2.2.  Case 2 - Single Evidence Bundle with Certificate Chain
+
+   A single Attester, which shares Evidence together with a certificate
+   chain.  The CSR conveys a single EvidenceBundle with a single
+   EvidenceStatement and a single CertificateAlternatives structure.
+   Figure 5 shows this use case.
 
     +-------------------------+
     |  EvidenceBundle         |
@@ -413,17 +428,20 @@ Table of Contents
     | CertificateAlternatives |
     +-------------------------+
 
-       Figure 5: Use Case 2: Single Attester with Certification Path.
+      Figure 5: Case 2: Single Evidence Bundle with Certificate Chain.
+
+4.2.3.  Case 3 - Multiple Evidence Bundles each with Complete
+        Certificate Chains
 
    In a Composite Device, which contains multiple Attesters, a
    collection of Evidence statements is obtained.  In this use case,
-   each Attester returns its Evidence together with a certification
-   path.  As a result, multiple EvidenceBundle structures, each carrying
-   an EvidenceStatement and the corresponding CertificateAlternative
-   structure with the certification path as provided by each Attester,
+   each Attester returns its Evidence together with a certificate chain.
+   As a result, multiple EvidenceBundle structures, each carrying an
+   EvidenceStatement and the corresponding CertificateAlternative
+   structure with the certification chain as provided by each Attester,
    are included in the CSR.  This may result in certificates being
    duplicated across multiple EvidenceBundles.  This approach does not
-   require any processing capabilities by a lead Attester since the
+   require any processing capabilities by a Lead Attester since the
    information is merely forwarded.  Figure 6 shows this use case.
 
      +-------------------------+
@@ -438,21 +456,46 @@ Table of Contents
      | CertificateAlternatives |/
      +-------------------------+
 
-       Figure 6: Use Case 3: Multiple Attesters in Composite Device.
+       Figure 6: Case 3: Multiple Evidence Bundles each with Complete
+                            Certificate Chains.
+
+4.2.4.  Case 4 - Multiple Evidence Bundles with Certificate Transmission
+        Optimization
 
    In the last use case, a Composite Device with additional processing
-   capabilities of the Leader Attester parses the certification path
-   provided by all Attesters in the device and removes redundant
-   certificate information.  The benefit of this approach is the reduced
-   transmission overhead.  There are several implementation strategies
-   and we show two in Figure 7.
+   capabilities of the Lead Attester parses the certificate chain
+   provided by all Attesters in the device and removes duplicate
+   certificates.  The benefit of this approach is the reduced
+   transmission payload size.  There are several implementation
+   strategies and we show two in the sub-sections below.
 
-   Implementation strategy (4a)
+   Note: This specification does not mandate optimizing the transmission
+   of the certificate chain since there is a trade-off between the
+   Attester implementation complexity and the transmission overhead.
+
+4.2.4.1.  First Implementation Option
+
+   In our first implementation option each Attester is provisioned with
+   a unique end-entity certificate.  Hence, the certificate chain at
+   least differs with respect to the end-entity certificates.
+
+   The Lead Attester therefore creates multiple EvidenceBundle
+   structures, where each carries an EvidenceStatement followed by a
+   certificate chain in the CertificateAlternative structures containing
+   most likely only the end-entity certificate.  The shared
+   certification path is carried in the first entry of the
+   EvidenceBundle sequence to allow path validation to take place
+   immediately after processing the first structure.
+
+   This implementation strategy may place extra burden on the Relying
+   Party to parse EvidenceBundles and reconstruct the certification path
+   if the Verifier requires each EvidenceStatement to be accompanied
+   with a complete certification path.
 
                     +-------------------------+
                     |  EvidenceBundle (1)     |\
-     Certification  +-------------------------+ \ Provided by
-     Path +         | EvidenceStatement       | / Attester 1
+     Certificate    +-------------------------+ \ Provided by
+     Chain +        | EvidenceStatement       | / Attester 1
      End-Entity --->| CertificateAlternatives |/
      Certificate    +-------------------------+
                              ....
@@ -463,7 +506,17 @@ Table of Contents
      Certificate--->| CertificateAlternatives |/
                     +-------------------------+
 
-   Implementation strategy (4b)
+4.2.5.  Second Implementation Option
+
+   Our second implementation option requires the Lead Attester to merge
+   all certificate chains into a single EvidenceBundle containing a
+   single de-duplicated sequence of CertificateAlternatives structures.
+   This means that each EvidenceBundle is self-contained and any
+   EvidenceStatement can be verified using only the sequence of
+   CertificateAlternatives in its bundle, but Verifiers will have to do
+   proper certification path building since the sequence of
+   CertificateAlternatives is now a cert bag and not a certificate
+   chain.
 
     +------------------------------+
     |  EvidenceBundle              |
@@ -476,46 +529,17 @@ Table of Contents
     |        ...                   |
     |   End Entity Certificate (n) |
     |   <Remainder of the          |
-    |    Certification Path>       |
+    |    Certificate Chain>        |
     | }                            |
     +------------------------------+
 
-     Figure 7: Use Case 4: Multiple Attesters in Composite Device (with
-                               Optimization).
-
-   In implementation strategy (4a), each Attester is provisioned with a
-   unique end-entity certificate.  Hence, the certification path at
-   least differs with respect to the end-entity certificates.  The lead
-   Attester therefore creates multiple EvidenceBundle structures, where
-   each carries an EvidenceStatement followed by a certification path in
-   the CertificateAlternative structures containing most likely only the
-   end-entity certificate.  The shared certification path is carried in
-   the first entry of the EvidenceBundle sequence to allow path
-   validation to take place immediately after processing the first
-   structure.  This implementation strategy may place extra burden on
-   the Relying Party to parse EvidenceBundles and reconstruct
-   certification path if the Verifier requires each EvidenceStatement to
-   be accompanied with a complete certification path.
-
-   Implementation strategy (4b), as an alternative, requires the lead
-   Attester to merge all certification paths into a single
-   EvidenceBundle containing a single de-duplicated sequence of
-   CertificateAlternatives structures.  This means that each
-   EvidenceBundle is self-contained and any EvidenceStatement can be
-   verified using only the sequence of CertificateAlternatives in its
-   bundle, but Verifiers will have to do proper certification path
-   building since the sequence of CertificateAlternatives is now a cert
-   bag and not a certification path.  This implementation strategy may
-   place extra burden on the Attester in order to allow the Relying
-   Party to treat the Evidence and Certificates as opaque content.  It
-   also may place extra burden on the Verifier since this implementation
-   strategy requires it to be able to perform X.509 path building over a
-   bag of certificates that may be out of order or contain extraneous
+   This implementation strategy may place extra burden on the Attester
+   in order to allow the Relying Party to treat the Evidence and
+   Certificates as opaque content.  It also may place extra burden on
+   the Verifier since this implementation strategy requires it to be
+   able to perform X.509 certification path building over a bag of
+   certificates that may be out of order or contain extraneous
    certificates.
-
-   Note: This specification does not mandate optimizing certification
-   path since there is a trade-off between the Attester implementation
-   complexity and the transmission overhead.
 
 5.  ASN.1 Elements
 
@@ -524,12 +548,12 @@ Table of Contents
    This document references id-pkix and id-aa, both defined in [RFC5911]
    and [RFC5912].
 
-   This document defines the arc depicted in Figure 8
+   This document defines the arc depicted in Figure 7
 
    -- Arc for Evidence types
    id-ata OBJECT IDENTIFIER ::= { id-pkix (TBD1) }
 
-         Figure 8: New OID Arc for PKIX Evidence Statement Formats
+         Figure 7: New OID Arc for PKIX Evidence Statement Formats
 
 5.2.  Evidence Attribute and Extension
 
@@ -547,9 +571,9 @@ Table of Contents
       ... -- None defined in this document --
    }
 
-                Figure 9: Definition of EvidenceStatementSet
+                Figure 8: Definition of EvidenceStatementSet
 
-   The expression illustrated in Figure 9 maps ASN.1 Types for Evidence
+   The expression illustrated in Figure 8 maps ASN.1 Types for Evidence
    Statements to the OIDs that identify them.  These mappings are are
    used to construct or parse EvidenceStatements.  Evidence Statement
    formats are typically defined in other IETF standards, other
@@ -568,10 +592,10 @@ Table of Contents
       hint   UTF8String OPTIONAL
    }
 
-                 Figure 10: Definition of EvidenceStatement
+                 Figure 9: Definition of EvidenceStatement
 
-   In Figure 10, type is an OID that indicates the format of the value
-   of stmt.
+   In Figure 9, type is an OID that indicates the format of the value of
+   stmt.
 
    The Attester MAY populate the hint with the name of a Verifier
    software package which will be capable of parsing the data contained
@@ -635,9 +659,9 @@ Table of Contents
      IDENTIFIED BY id-aa-evidence
    }
 
-           Figure 11: Definitions of CSR attribute and extension
+           Figure 10: Definitions of CSR attribute and extension
 
-   The Extension variant illustrated in Figure 11 is intended only for
+   The Extension variant illustrated in Figure 10 is intended only for
    use within CRMF CSRs and is NOT RECOMMENDED to be used within X.509
    certificates due to the privacy implications of publishing Evidence
    about the end entity's hardware environment.  See Section 7.2 for
@@ -824,9 +848,9 @@ Table of Contents
    prevent theft or misuse (including being non-exportable / non-
    recoverable), the Attesting Environment has to collect claims about
    this secure environment (or Target Environment, as shown in
-   Figure 12).
+   Figure 11).
 
-   Figure 12 shows the interaction inside an Attester.  The Attesting
+   Figure 11 shows the interaction inside an Attester.  The Attesting
    Environment, which is provisioned with an Attestation Key, retrieves
    claims about the Target Environment.  The Target Environment offers
    key generation, storage and usage, which it makes available to
@@ -868,9 +892,9 @@ Table of Contents
     |                                    |
     '------------------------------------'
 
-      Figure 12: Interaction between Attesting and Target Environment
+      Figure 11: Interaction between Attesting and Target Environment
 
-   Figure 12 places the CSR library outside the Attester, which is a
+   Figure 11 places the CSR library outside the Attester, which is a
    valid architecture for certificate enrollment.  The CSR library may
    also be located inside the trusted computing base.  Regardless of the
    placement of the CSR library, an Attesting Environment MUST be able
@@ -1063,9 +1087,9 @@ Table of Contents
    [I-D.ietf-rats-msg-wrap]
               Birkholz, H., Smith, N., Fossati, T., and H. Tschofenig,
               "RATS Conceptual Messages Wrapper (CMW)", Work in
-              Progress, Internet-Draft, draft-ietf-rats-msg-wrap-05, 13
-              June 2024, <https://datatracker.ietf.org/doc/html/draft-
-              ietf-rats-msg-wrap-05>.
+              Progress, Internet-Draft, draft-ietf-rats-msg-wrap-06, 1
+              July 2024, <https://datatracker.ietf.org/doc/html/draft-
+              ietf-rats-msg-wrap-06>.
 
    [I-D.ietf-rats-tpm-based-network-device-attest]
               Fedorkow, G., Voit, E., and J. Fitzgerald-McKay, "TPM-
@@ -1808,7 +1832,7 @@ Appendix C.  Acknowledgments
    Wallace, Michael Richardson, Tomofumi Okubo, Olivier Couillard, John
    Gray, Eric Amador, Johnson Darren, Herman Slatman, Tiru Reddy, Corey
    Bonnell, Argenius Kushner, James Hagborg, A.J.  Stein, John Kemp, Ned
-   Smith,
+   Smith.
 
    We would like to specifically thank Mike StJohns for his work on an
    earlier version of this draft.

@@ -1235,7 +1235,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
                 <p id="section-toc.1-1.7.2.3.1"><a href="#section-7.3" class="auto internal xref">7.3</a>.  <a href="#name-type-oid-and-verifier-hint" class="internal xref">Type OID and verifier hint</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.4">
-                <p id="section-toc.1-1.7.2.4.1"><a href="#section-7.4" class="auto internal xref">7.4</a>.  <a href="#name-addtional-security-consider" class="internal xref">Addtional security considerations</a></p>
+                <p id="section-toc.1-1.7.2.4.1"><a href="#section-7.4" class="auto internal xref">7.4</a>.  <a href="#name-additional-security-conside" class="internal xref">Additional security considerations</a></p>
 </li>
             </ul>
 </li>
@@ -1326,7 +1326,7 @@ This specification thereby is intended to be as technology-agnostic as it is fea
 The certificates typically contain one or more certification paths
 rooted in a device manufacturer trust anchor and the end-entity certificate being
 on the device in question. The end-entity certificate is associated with key material that takes on the role of an Attestation Key and is used as Evidence originating from the Attester.<a href="#section-1-4" class="pilcrow">¶</a></p>
-<p id="section-1-5">This document specifies a CSR Attribute (or Extension for Certificate Request Message Format (CRMF) CSRs) for carrying Evidence. Evidence can be placed into an EvidenceStatement along with an OID to identify its type and optionally a hint to the Relying Party about which Verifier (software package) will be capable of parsing it. A set of EvidenceStatements may be grouped together along with the set of CertificateAlternatives needed to validate them to form a EvidenceBundle. One or more EvidenceBundles may be placed into the id-aa-evidence CSR Attribute (or CRMF Extension).<a href="#section-1-5" class="pilcrow">¶</a></p>
+<p id="section-1-5">This document specifies a CSR Attribute (or Extension for Certificate Request Message Format (CRMF) CSRs) for carrying Evidence. Evidence can be placed into an EvidenceStatement along with an OID to identify its type and optionally a hint to the Relying Party about which Verifier (software package) will be capable of parsing it. A set of EvidenceStatements may be grouped together along with the set of CertificateChoices needed to validate them to form a EvidenceBundle. One or more EvidenceBundles may be placed into the id-aa-evidence CSR Attribute (or CRMF Extension).<a href="#section-1-5" class="pilcrow">¶</a></p>
 <p id="section-1-6">A CSR may contain one or more Evidence payloads, for example Evidence
 asserting the storage properties of a private key, Evidence
 asserting firmware version and other general properties
@@ -1570,7 +1570,7 @@ shown in <a href="#fig-info-model" class="auto internal xref">Figure 3</a> is us
 A PKCS#10 attribute or a CRMF extension contains one or more
 EvidenceBundle structures. Each EvidenceBundle contains one or more
 EvidenceStatement structures as well as one or more
-CertificateAlternatives which enable to carry various format of
+CertificateChoices which enable to carry various format of
 certificates.<a href="#section-4.2-2" class="pilcrow">¶</a></p>
 <span id="name-information-model-for-csr-e"></span><div id="fig-info-model">
 <figure id="figure-3">
@@ -1642,7 +1642,7 @@ to parse certificates in all EvidenceBundle to build a certification path.<a hre
 In the use case, the Verifier is assumed to be in possession of the certificate chain already
 or the Verifier directly trusts the Attestation Key and therefore no certificate chain is needed.
 As a result, a single EvidenceBundle is included in a CSR that contains a single EvidenceStatement
-without the CertificateAlternatives structure. <a href="#fig-single-attester" class="auto internal xref">Figure 4</a> shows this use case.<a href="#section-4.2.1-1" class="pilcrow">¶</a></p>
+without the CertificateChoices structure. <a href="#fig-single-attester" class="auto internal xref">Figure 4</a> shows this use case.<a href="#section-4.2.1-1" class="pilcrow">¶</a></p>
 <span id="name-case-1-single-evidence-bundl"></span><div id="fig-single-attester">
 <figure id="figure-4">
             <div id="section-4.2.1-2.1">
@@ -1673,7 +1673,7 @@ without the CertificateAlternatives structure. <a href="#fig-single-attester" cl
           </h4>
 <p id="section-4.2.2-1">A single Attester, which shares Evidence together with a certificate chain.
 The CSR conveys a single EvidenceBundle with a single EvidenceStatement
-and a single CertificateAlternatives structure. <a href="#fig-single-attester-with-path" class="auto internal xref">Figure 5</a>
+and a single CertificateChoices structure. <a href="#fig-single-attester-with-path" class="auto internal xref">Figure 5</a>
 shows this use case.<a href="#section-4.2.2-1" class="pilcrow">¶</a></p>
 <span id="name-case-2-single-evidence-bundl"></span><div id="fig-single-attester-with-path">
 <figure id="figure-5">
@@ -1688,7 +1688,7 @@ shows this use case.<a href="#section-4.2.2-1" class="pilcrow">¶</a></p>
                   <g class="text">
                     <text x="84" y="52">EvidenceBundle</text>
                     <text x="88" y="84">EvidenceStatement</text>
-                    <text x="112" y="100">CertificateAlternatives</text>
+                    <text x="92" y="100">CertificateChoices</text>
                   </g>
                 </svg><a href="#section-4.2.2-2.1.1" class="pilcrow">¶</a>
 </div>
@@ -1737,7 +1737,7 @@ shows this use case.<a href="#section-4.2.3-1" class="pilcrow">¶</a></p>
                     <text x="88" y="84">EvidenceStatement</text>
                     <text x="276" y="84">Attester</text>
                     <text x="320" y="84">1</text>
-                    <text x="112" y="100">CertificateAlternatives</text>
+                    <text x="92" y="100">CertificateChoices</text>
                     <text x="84" y="132">EvidenceBundle</text>
                     <text x="160" y="132">(2)</text>
                     <text x="276" y="148">Provided</text>
@@ -1745,7 +1745,7 @@ shows this use case.<a href="#section-4.2.3-1" class="pilcrow">¶</a></p>
                     <text x="88" y="164">EvidenceStatement</text>
                     <text x="276" y="164">Attester</text>
                     <text x="320" y="164">2</text>
-                    <text x="112" y="180">CertificateAlternatives</text>
+                    <text x="92" y="180">CertificateChoices</text>
                   </g>
                 </svg><a href="#section-4.2.3-2.1.1" class="pilcrow">¶</a>
 </div>
@@ -1820,7 +1820,7 @@ EvidenceStatement to be accompanied with a complete certification path.<a href="
                     <text x="396" y="84">Attester</text>
                     <text x="440" y="84">1</text>
                     <text x="44" y="100">End-Entity</text>
-                    <text x="232" y="100">CertificateAlternatives</text>
+                    <text x="212" y="100">CertificateChoices</text>
                     <text x="48" y="116">Certificate</text>
                     <text x="212" y="132">....</text>
                     <text x="204" y="164">EvidenceBundle</text>
@@ -1832,7 +1832,7 @@ EvidenceStatement to be accompanied with a complete certification path.<a href="
                     <text x="396" y="196">Attester</text>
                     <text x="440" y="196">n</text>
                     <text x="48" y="212">Certificate</text>
-                    <text x="232" y="212">CertificateAlternatives</text>
+                    <text x="212" y="212">CertificateChoices</text>
                   </g>
                 </svg><a href="#section-4.2.4.1-4.1" class="pilcrow">¶</a>
 </div>
@@ -1848,10 +1848,10 @@ EvidenceStatement to be accompanied with a complete certification path.<a href="
           </h4>
 <p id="section-4.2.5-1">Our second implementation option requires the Lead Attester
 to merge all certificate chains into a single EvidenceBundle containing a single
-de-duplicated sequence of CertificateAlternatives structures. This means that each
+de-duplicated sequence of CertificateChoices structures. This means that each
 EvidenceBundle is self-contained and any EvidenceStatement can be verified using
-only the sequence of CertificateAlternatives in its bundle, but Verifiers will have
-to do proper certification path building since the sequence of CertificateAlternatives
+only the sequence of CertificateChoices in its bundle, but Verifiers will have
+to do proper certification path building since the sequence of CertificateChoices
 is now a cert bag and not a certificate chain.<a href="#section-4.2.5-1" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="section-4.2.5-2">
 <pre>
@@ -1861,7 +1861,7 @@ is now a cert bag and not a certificate chain.<a href="#section-4.2.5-1" class="
  | EvidenceStatement (1)        |
  |        ...                   |
  | EvidenceStatement (n)        |
- | CertificateAlternatives {    |
+ | CertificateChoices {         |
  |   End Entity Certificate (1) |
  |        ...                   |
  |   End Entity Certificate (n) |
@@ -2186,7 +2186,7 @@ party that registered the OID.<a href="#section-6.4.1-2.4.1" class="pilcrow">¶<
 <a href="#section-6.4.2" class="section-number selfRef">6.4.2. </a><a href="#name-initial-registry-contents" class="section-name selfRef">Initial Registry Contents</a>
           </h4>
 <p id="section-6.4.2-1">The initial registry contents is shown in the table below.
-It lists entries for several evidence encodings including an entry for the Conceptual Message Wrapper (CMW) <span>[<a href="#I-D.ietf-rats-msg-wrap" class="cite xref">I-D.ietf-rats-msg-wrap</a>]</span>.<a href="#section-6.4.2-1" class="pilcrow">¶</a></p>
+It lists entries for several evidence encoding including an entry for the Conceptual Message Wrapper (CMW) <span>[<a href="#I-D.ietf-rats-msg-wrap" class="cite xref">I-D.ietf-rats-msg-wrap</a>]</span>.<a href="#section-6.4.2-1" class="pilcrow">¶</a></p>
 <span id="name-initial-contents-of-the-att"></span><div id="tab-ae-reg">
 <table class="center" id="table-1">
             <caption>
@@ -2466,12 +2466,12 @@ As an example, the <code>hint</code> may take the form of an FQDN to uniquely id
 Implementers should also be cautious around <code>type</code> OID or <code>hint</code> values that cause a short-circuit in the verification logic, such as <code>None</code>, <code>Null</code>, <code>Debug</code>, empty CMW contents, or similar values that could cause the Evidence to appear to be valid when in fact it was not properly checked.<a href="#section-7.3-1" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="addtional-security-considerations">
+<div id="additional-security-considerations">
 <section id="section-7.4">
-        <h3 id="name-addtional-security-consider">
-<a href="#section-7.4" class="section-number selfRef">7.4. </a><a href="#name-addtional-security-consider" class="section-name selfRef">Addtional security considerations</a>
+        <h3 id="name-additional-security-conside">
+<a href="#section-7.4" class="section-number selfRef">7.4. </a><a href="#name-additional-security-conside" class="section-name selfRef">Additional security considerations</a>
         </h3>
-<p id="section-7.4-1">In addition to the securtiy considerations listed here, implementers should be familiar with the security considerations of the specifications on this this depends: PKCS#10 <span>[<a href="#RFC2986" class="cite xref">RFC2986</a>]</span>, CRMF [4211], as well as general security concepts relating to evidence and remote attestation; many of these concepts are discussed in the Remote ATtestation prodedureS (RATS) Architecture <span>[<a href="#RFC9334" class="cite xref">RFC9334</a>]</span> sections 6 Roles and Entities, 7 Trust Model, 9 Freshness, 11 Privacy Considerations, and 12 Security Considerations. Implementers should also be aware of any security considerations relating to the specific evidence format being carried withinin the CSR.<a href="#section-7.4-1" class="pilcrow">¶</a></p>
+<p id="section-7.4-1">In addition to the security considerations listed here, implementers should be familiar with the security considerations of the specifications on this this depends: PKCS#10 <span>[<a href="#RFC2986" class="cite xref">RFC2986</a>]</span>, CRMF [4211], as well as general security concepts relating to evidence and remote attestation; many of these concepts are discussed in the Remote ATtestation prodedureS (RATS) Architecture <span>[<a href="#RFC9334" class="cite xref">RFC9334</a>]</span> sections 6 Roles and Entities, 7 Trust Model, 9 Freshness, 11 Privacy Considerations, and 12 Security Considerations. Implementers should also be aware of any security considerations relating to the specific evidence format being carried within the CSR.<a href="#section-7.4-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -3381,7 +3381,7 @@ Smith.<a href="#appendix-C-1" class="pilcrow">¶</a></p>
 <p id="appendix-C-2">We would like to specifically thank Mike StJohns for his work on an earlier
 version of this draft.<a href="#appendix-C-2" class="pilcrow">¶</a></p>
 <p id="appendix-C-3">We would also like to specifically thank Monty Wiseman for providing the
-appendix showing how to carry a TPM 2.0 Attestation, and to Corey Bonell for helping with the hackathon scripts to bundle it into a CSR.<a href="#appendix-C-3" class="pilcrow">¶</a></p>
+appendix showing how to carry a TPM 2.0 Attestation, and to Corey Bonnell for helping with the hackathon scripts to bundle it into a CSR.<a href="#appendix-C-3" class="pilcrow">¶</a></p>
 <p id="appendix-C-4">Finally, we would like to thank Andreas Kretschmer and Thomas Fossati for their
 feedback based on implementation experience, and Daniel Migault and Russ Housley
 for their review comments.<a href="#appendix-C-4" class="pilcrow">¶</a></p>

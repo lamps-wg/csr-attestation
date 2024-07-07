@@ -1136,8 +1136,7 @@ Table of Contents
               Revision-18_pub.pdf>.
 
    [TPM20]    Trusted Computing Group, "Trusted Platform Module Library
-              Specification, Family 2.0, Level 00, Revision 01.59",
-              November 2019,
+              Specification, Family 2.0", n.d.,
               <https://trustedcomputinggroup.org/resource/tpm-library-
               specification/>.
 
@@ -1238,9 +1237,10 @@ A.2.3.  TPM2 AttestationStatement
 
 A.2.4.  Introduction to TPM2 concepts
 
-   The definitions in the following sections are defined by the TPM2 and
-   various TCG defined specification including the TPM2 set of
-   specifications.  Those familiar with TPM2 concepts may skip to
+   The definitions in the following sections are specified by the
+   Trusted Computing Group (TCG).  TCG specification including the TPM2
+   set of specifications [TPM20], specifically Part 2 defines the TPM
+   2.0 structures.  Those familiar with TPM2 concepts may skip to
    Appendix A.2.3 which defines an ASN.1 structure specific for bundling
    a TPM attestation into an EvidenceStatement, and Appendix A.2.6 which
    provides the example.  For those unfamiliar with TPM2 concepts this

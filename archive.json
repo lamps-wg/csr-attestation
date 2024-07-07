@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-07-04T00:52:05.644543+00:00",
+  "timestamp": "2024-07-07T00:56:36.598931+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -1564,7 +1564,7 @@
       "labels": [],
       "body": "1) \"Lead Attester\" is not defined anywhere, but used in multiple places.   A paragraph on that role and its responsibilities appears to be necessary.\r\n2) Section 4.2 needs subsections for each of the cases.   At least one diagram has both a caption and free floating identifiers (e.g. \"Implementation strategy 4b\" vs \"Figure 7....\") that are indistinguishable from body text. There needs to be a way to differentiate between body text and a title for the various cases and objects.     So a) split Figure 7 into two different figures, b) have a section on \"Case 4\" with subsections on \"Implementation Strategy 4a\" and \"Implementation Strategy 4b\" with the appropriate figures from Figure 7 within the section boundaries.  This is mostly editorial, but needs cleanup for figuring out which text paragraph belongs with which diagram.\r\n4.2 - How to encode\r\n4.2.1 - Case 1 - Single Evidence Bundle\r\n4.2.2 - Case 2 - Single Evidence Bundle with Certificates\r\n4.2.3 - Case 3 - Multiple Evidence Bundles each with complete Paths\r\n4.2.4 - Case 4 - Multiple Evidence Bundles with Certificate Transmission Optimization\r\n4.2.4.1 - Strategy 4a\r\n4.2.4.2 - Strategy 4b.\r\n\r\n3) Can Case 1 (where the validator is thought to know some of Case 1's certificates) be encoded as part of Case 4?  I.e., is it legal to have an EvidenceBundle with no certificates as part of any of Case 4?  Or for that matter Case 3?  \r\n4) What knowledge must a \"Leader Attester\" have to select between each of the cases for encoding?   I.e., pre-configured?, some policy object they got?  Specific guidance from each of the possible validators each wanting the same data formatted in a specific way to make their lives easier?\r\n5) Must a validator that can handle Case 3, must also be able to go looking for certs in other bundles if the chain for a given bundle can't be built for validation?  Or must that be treated as a non-validation error by the validator?\r\n6) May a 4B output contain multiple EvidenceBundles each looking like 4B but with a partially disjoint set of certificates?  The description for 4b looks more like case 3 than a special case of 4.\r\n7) May you mix and match the various cases?  And must a Validator be required to riffle through all the various bundles to find the right mix of certificates to validate a given evidence statement?\r\nText needs to be written to cover answers for each of these I believe.\r\n8) Evidence Hint appears to be a way to convey type data that's otherwise buried inside of an Evidence Object of identical top-level types.  This seems to be laziness to not require different OIDs for different pseudo-wrapped and typed evidence statements from DICE ConceptualMessageWrapper (the example, but also handwaving other possibilities).  Recommend elimination of this and putting the onus on the post-processing software to do the differentiation if the proponents of these types of objects don't want to request multiple OIDs.  I don't find the arguments for inclusion convincing.  \r\n9) The TPM example needs work, A2.3\r\n9a)  \r\nThe structure here needs to be de-OCTET STRING'd.\r\nE.g. \r\nTpmV2Attest ::= OCTET STRING -- This is formatted as the encoding of <tpmv2 structures, TPMS_ATTEST>.  \r\n                                                        -- This may be any of the valid attestation structures. For a signature over a public key, only a hash of related public key data is included under the signature.\r\nTpm2InternalSig ::= OCTET STRING -- This is formatted as the encoding of <tpmv2 structures TPMT_SIGNATURE>.  This structure includes the type of signature as well as the actual signature bytes/bits \r\nTpm2Public ::= OCTET STRING -- This is formatted as <tpmv2 structures TPMT_PUBLIC>.  This structure includes the type of key as well as the key bytes.  This is the key being signed.\r\n\r\nTcg-csr-certify ::= SEQUENCE {\r\n   tpmSAttest ::= TpmV2Attest,\r\n   tpmSignature :: = Tpm2InternalSig, -- This is the signature returned by a call to TPM2_Certify over the tpmSAttest object.\r\n   tpmTPublic ::= Tpm2Public OPTIONAL -- This is REQUIRED if the attestation is over a public key  (e.g. if TPMS_ATTEST.type == ???) as it's the only way to map from the key being attested to the attestation.\r\n}\r\n9b) tcg-kp-AIKCertificateField????   This is an extended key purpose OID.  There is no field that contains the AIK certificate.  \r\n9c) A2.5.1 - the TPMU_ATTEST field is a Union identified by .type.  The TPMS_CERTIFY_INFO is union value of what's certified for a public key\r\n9d) If you've got TPMU_ATTEST, you need to explain how to get from Tpm2Public (TPMT_PUBLIC) to the value of the attested field.\r\n9e) Sample CSR - how does the lead attester know what software is installed on the validator's side (e.g. package tpmverifier.example.com)?   This implies there needs to be a registry mapping \"hints\" to something global.  In any event, if you have the OID and you have the structure definitions pointed to that OID, then the Hint is extraneous.  If the validator has multiple ways of resolving a TPMv2 attestation, they're doing it wrong.  Repeat my recommendation to remove hints.\r\n10) Should additional CMS error codes be added for this new extension?  E.g. RFC5272, section 6.1.1 - ExtendedFailInfo.  I don't see how CMCStatus or CMCFailInfo can be extended to cover the possible chaining errors and evidence/validator mismatches.  Ditto for CMP?\r\nLater, Mike\r\n",
       "createdAt": "2024-05-28T12:45:24Z",
-      "updatedAt": "2024-06-30T14:17:56Z",
+      "updatedAt": "2024-07-04T18:05:50Z",
       "closedAt": null,
       "comments": [
         {
@@ -1580,6 +1580,13 @@
           "body": "> 10) Should additional CMS error codes be added for this new extension? E.g. RFC5272, section 6.1.1 - ExtendedFailInfo. I don't see how CMCStatus or CMCFailInfo can be extended to cover the possible chaining errors and evidence/validator mismatches. Ditto for CMP?\r\n\r\nPossibly, but I think it's scope creep to consider that in this document.",
           "createdAt": "2024-06-30T14:14:18Z",
           "updatedAt": "2024-06-30T14:14:18Z"
+        },
+        {
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> Can Case 1 (where the validator is thought to know some of Case 1's certificates) be encoded as part of Case 4? I.e., is it legal to have an EvidenceBundle with no certificates as part of any of Case 4? Or for that matter Case 3?\r\n\r\n[Hannes] An EvidenceBundle can contain an EvidenceStatement without a certificate. Case 4, however, has multiple Evidence Bundles, which makes it different from Case 1.\r\n\r\n\r\n\r\n> What knowledge must a \"Leader Attester\" have to select between each of the cases for encoding? I.e., pre-configured?, some policy object they got? Specific guidance from each of the possible validators each wanting the same data formatted in a specific way to make their lives easier?\r\n\r\n[Hannes] The design of an Lead Attester is likely the result of developer choice. \r\n\r\n\r\n> Must a validator that can handle Case 3, must also be able to go looking for certs in other bundles if the chain for a given bundle can't be built for validation? Or must that be treated as a non-validation error by the validator?\r\n\r\n\r\n[Hannes] A conformant implementation will have to parse certs in other bundles. This is the downside of us adding this optimization.\r\n",
+          "createdAt": "2024-07-04T18:05:49Z",
+          "updatedAt": "2024-07-04T18:05:49Z"
         }
       ]
     },
@@ -1731,16 +1738,31 @@
       "id": "I_kwDOJ3IIN86OGgtI",
       "title": "Are we capitalizing RATS terms, or not?",
       "url": "https://github.com/lamps-wg/csr-attestation/issues/145",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "ounsworth",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2024-07-01T14:56:02Z",
-      "updatedAt": "2024-07-01T14:56:02Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2024-07-05T22:37:19Z",
+      "closedAt": "2024-07-05T22:37:19Z",
+      "comments": [
+        {
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I suggest we leave the terms capitalized in the draft. ",
+          "createdAt": "2024-07-05T08:25:40Z",
+          "updatedAt": "2024-07-05T08:25:40Z"
+        },
+        {
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Great. No change. Closing this issue.",
+          "createdAt": "2024-07-05T22:37:19Z",
+          "updatedAt": "2024-07-05T22:37:19Z"
+        }
+      ]
     }
   ],
   "pulls": [
@@ -6548,9 +6570,9 @@
     {
       "number": 140,
       "id": "PR_kwDOJ3IIN85z_Pw2",
-      "title": "Addressing MSJ commens",
+      "title": "Addressing MSJ comments",
       "url": "https://github.com/lamps-wg/csr-attestation/pull/140",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "ounsworth",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [
@@ -6559,19 +6581,122 @@
       "labels": [],
       "body": "MSJ's comments are in #128 ",
       "createdAt": "2024-06-30T14:16:17Z",
-      "updatedAt": "2024-06-30T14:17:35Z",
+      "updatedAt": "2024-07-05T22:36:48Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
-      "baseRefOid": "69b5337cd2b4b8a4f91ac45e3a457f1aed31a2b9",
+      "baseRefOid": "5eb0d71c3325c68016c8a68bae29a4c80113531e",
       "headRepository": "lamps-wg/csr-attestation",
       "headRefName": "mikeo_128",
-      "headRefOid": "9691703a7fd46013a7e143c6b384c83ee8c530d1",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "cf9cbe9a027e321c118528dd1e728dfe305e166b",
+      "closedAt": "2024-07-05T22:36:45Z",
+      "mergedAt": "2024-07-05T22:36:45Z",
+      "mergedBy": "ounsworth",
+      "mergeCommit": {
+        "oid": "a4e66ca323a8c46dbc094b95474037083230a1de"
+      },
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOJ3IIN86AtMjt",
+          "commit": {
+            "abbreviatedOid": "2d54f1e"
+          },
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-07-04T17:41:06Z",
+          "updatedAt": "2024-07-04T17:41:07Z",
+          "comments": [
+            {
+              "originalPosition": 15,
+              "body": "```suggestion\r\n## Encoding Strategy\r\n```",
+              "createdAt": "2024-07-04T17:41:06Z",
+              "updatedAt": "2024-07-04T17:41:07Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN86AtMrV",
+          "commit": {
+            "abbreviatedOid": "ad7ad0e"
+          },
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-07-04T17:41:40Z",
+          "updatedAt": "2024-07-04T17:41:41Z",
+          "comments": [
+            {
+              "originalPosition": 164,
+              "body": "```suggestion\r\n### Second Implementation Option\r\n```",
+              "createdAt": "2024-07-04T17:41:40Z",
+              "updatedAt": "2024-07-04T17:41:41Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN86AtMwF",
+          "commit": {
+            "abbreviatedOid": "c50e53c"
+          },
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-07-04T17:42:03Z",
+          "updatedAt": "2024-07-04T17:42:04Z",
+          "comments": [
+            {
+              "originalPosition": 130,
+              "body": "```suggestion\r\n#### First Implementation Option\r\n```",
+              "createdAt": "2024-07-04T17:42:03Z",
+              "updatedAt": "2024-07-04T17:42:04Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN86AtM0E",
+          "commit": {
+            "abbreviatedOid": "fe61c67"
+          },
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-07-04T17:42:24Z",
+          "updatedAt": "2024-07-04T17:42:24Z",
+          "comments": [
+            {
+              "originalPosition": 167,
+              "body": "```suggestion\r\nOur second implementation option requires the Lead Attester\r\n```",
+              "createdAt": "2024-07-04T17:42:24Z",
+              "updatedAt": "2024-07-04T17:42:24Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN86AtM2z",
+          "commit": {
+            "abbreviatedOid": "fe61c67"
+          },
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-07-04T17:42:37Z",
+          "updatedAt": "2024-07-04T17:42:38Z",
+          "comments": [
+            {
+              "originalPosition": 132,
+              "body": "```suggestion\r\nIn our first implementation option each Attester is provisioned with\r\n```",
+              "createdAt": "2024-07-04T17:42:37Z",
+              "updatedAt": "2024-07-04T17:42:38Z"
+            }
+          ]
+        }
+      ]
     },
     {
       "number": 141,
@@ -6657,13 +6782,13 @@
       "labels": [],
       "body": "Aiming to address the mailing list discussion\r\n\r\nQuestion: Is there a good ASN.1 structure to use for FQDNs?",
       "createdAt": "2024-07-01T09:25:28Z",
-      "updatedAt": "2024-07-03T19:05:59Z",
+      "updatedAt": "2024-07-05T18:33:37Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
-      "baseRefOid": "69b5337cd2b4b8a4f91ac45e3a457f1aed31a2b9",
+      "baseRefOid": "5eb0d71c3325c68016c8a68bae29a4c80113531e",
       "headRepository": "lamps-wg/csr-attestation",
       "headRefName": "hannestschofenig-patch-5",
-      "headRefOid": "61e6e8cb97e7c20514c4ba5c3e703734cd392851",
+      "headRefOid": "9e60bf8530c87281e969326982adc7cf1a53ec35",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -6703,6 +6828,20 @@
           "body": "Even if the majority of the time an opaque FQDN will be used, I strongly suggest this field be a URN or URI.\r\n\r\nhttps://www.iana.org/assignments/uri-schemes/uri-schemes.xhtml#uri-schemes-1 or \r\nhttps://www.iana.org/assignments/urn-namespaces/urn-namespaces.xhtml#urn-namespaces-1 has lots of options.\r\noid: , uuid:, ni:, \r\n",
           "createdAt": "2024-07-03T19:05:58Z",
           "updatedAt": "2024-07-03T19:05:58Z"
+        },
+        {
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "body": "It is clear that we do not have a consensus on the FQDN vs. URI vs. URN discussion here. I would suggest to bring this topic as a discussion point to the IETF meeting and merge the PR as is for now. I think the PR contains many other wording improvements that are worthwhile to include in the next draft submission!",
+          "createdAt": "2024-07-05T08:24:08Z",
+          "updatedAt": "2024-07-05T08:24:08Z"
+        },
+        {
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Just as a reminder, the _current_ text (-09 datatracker) is:\r\n\r\n```\r\nEvidenceStatement ::= SEQUENCE {\r\n   type   EVIDENCE-STATEMENT.&id({EvidenceStatementSet}),\r\n   stmt   EVIDENCE-STATEMENT.&Type({EvidenceStatementSet}{@type}),\r\n   hint   UTF8String OPTIONAL\r\n}\r\n```\r\n\r\n> The hint SHOULD contain a value which is unique to this Verifier, such as a fully qualified domain name (FQDN), a uniform resource name (URN) [[RFC8141](https://www.rfc-editor.org/rfc/rfc8141)] or a registered value corresponding to this evidence format. It is assumed that the RP must be pre-configured with a list of trusted Verifiers and that the contents of this hint can be used to look up the correct Verifier. Under no circumstances must the RP be tricked into contacting an unknown and untrusted Verifier since the returned Attestation Result must not be relied on.\r\n\r\nNed's comment above seems to be coming full circle to the original (current) text.\r\n\r\nThe review feedback was that this is too loose, and instead of \"UTF8String _such as_\", we should make it more precise: \"UTF8String which MUST be {something}\", but we can't agree on what that {something} should be. A valid outcome is to put back the original text. I personally think it is already clear enough.",
+          "createdAt": "2024-07-05T18:30:55Z",
+          "updatedAt": "2024-07-05T18:33:37Z"
         }
       ],
       "reviews": [

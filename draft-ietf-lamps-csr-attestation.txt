@@ -116,7 +116,7 @@ Table of Contents
      7.1.  Freshness
      7.2.  Publishing evidence in an X.509 extension
      7.3.  Type OID and verifier hint
-     7.4.  Addtional security considerations
+     7.4.  Additional security considerations
    8.  References
      8.1.  Normative References
      8.2.  Informative References
@@ -193,9 +193,9 @@ Table of Contents
    its type and optionally a hint to the Relying Party about which
    Verifier (software package) will be capable of parsing it.  A set of
    EvidenceStatements may be grouped together along with the set of
-   CertificateAlternatives needed to validate them to form a
-   EvidenceBundle.  One or more EvidenceBundles may be placed into the
-   id-aa-evidence CSR Attribute (or CRMF Extension).
+   CertificateChoices needed to validate them to form a EvidenceBundle.
+   One or more EvidenceBundles may be placed into the id-aa-evidence CSR
+   Attribute (or CRMF Extension).
 
    A CSR may contain one or more Evidence payloads, for example Evidence
    asserting the storage properties of a private key, Evidence asserting
@@ -366,7 +366,7 @@ Table of Contents
    attribute or a CRMF extension contains one or more EvidenceBundle
    structures.  Each EvidenceBundle contains one or more
    EvidenceStatement structures as well as one or more
-   CertificateAlternatives which enable to carry various format of
+   CertificateChoices which enable to carry various format of
    certificates.
 
     +-------------------+
@@ -404,7 +404,7 @@ Table of Contents
    directly trusts the Attestation Key and therefore no certificate
    chain is needed.  As a result, a single EvidenceBundle is included in
    a CSR that contains a single EvidenceStatement without the
-   CertificateAlternatives structure.  Figure 4 shows this use case.
+   CertificateChoices structure.  Figure 4 shows this use case.
 
      +--------------------+
      |  EvidenceBundle    |
@@ -418,14 +418,14 @@ Table of Contents
 
    A single Attester, which shares Evidence together with a certificate
    chain.  The CSR conveys a single EvidenceBundle with a single
-   EvidenceStatement and a single CertificateAlternatives structure.
+   EvidenceStatement and a single CertificateChoices structure.
    Figure 5 shows this use case.
 
     +-------------------------+
     |  EvidenceBundle         |
     +-------------------------+
     | EvidenceStatement       |
-    | CertificateAlternatives |
+    | CertificateChoices      |
     +-------------------------+
 
       Figure 5: Case 2: Single Evidence Bundle with Certificate Chain.
@@ -448,12 +448,12 @@ Table of Contents
      |  EvidenceBundle (1)     |\
      +-------------------------+ \ Provided by
      | EvidenceStatement       | / Attester 1
-     | CertificateAlternatives |/
+     | CertificateChoices      |/
      +-------------------------+
      |  EvidenceBundle (2)     |\
      +-------------------------+ \ Provided by
      | EvidenceStatement       | / Attester 2
-     | CertificateAlternatives |/
+     | CertificateChoices      |/
      +-------------------------+
 
        Figure 6: Case 3: Multiple Evidence Bundles each with Complete
@@ -496,27 +496,26 @@ Table of Contents
                     |  EvidenceBundle (1)     |\
      Certificate    +-------------------------+ \ Provided by
      Chain +        | EvidenceStatement       | / Attester 1
-     End-Entity --->| CertificateAlternatives |/
+     End-Entity --->| CertificateChoices      |/
      Certificate    +-------------------------+
                              ....
                     +-------------------------+
                     |  EvidenceBundle (n)     |\
                     +-------------------------+ \ Provided by
      End-Entity     | EvidenceStatement       | / Attester n
-     Certificate--->| CertificateAlternatives |/
+     Certificate--->| CertificateChoices      |/
                     +-------------------------+
 
 4.2.5.  Second Implementation Option
 
    Our second implementation option requires the Lead Attester to merge
    all certificate chains into a single EvidenceBundle containing a
-   single de-duplicated sequence of CertificateAlternatives structures.
-   This means that each EvidenceBundle is self-contained and any
+   single de-duplicated sequence of CertificateChoices structures.  This
+   means that each EvidenceBundle is self-contained and any
    EvidenceStatement can be verified using only the sequence of
-   CertificateAlternatives in its bundle, but Verifiers will have to do
+   CertificateChoices in its bundle, but Verifiers will have to do
    proper certification path building since the sequence of
-   CertificateAlternatives is now a cert bag and not a certificate
-   chain.
+   CertificateChoices is now a cert bag and not a certificate chain.
 
     +------------------------------+
     |  EvidenceBundle              |
@@ -524,7 +523,7 @@ Table of Contents
     | EvidenceStatement (1)        |
     |        ...                   |
     | EvidenceStatement (n)        |
-    | CertificateAlternatives {    |
+    | CertificateChoices {         |
     |   End Entity Certificate (1) |
     |        ...                   |
     |   End Entity Certificate (n) |
@@ -793,7 +792,7 @@ Table of Contents
 6.4.2.  Initial Registry Contents
 
    The initial registry contents is shown in the table below.  It lists
-   entries for several evidence encodings including an entry for the
+   entries for several evidence encoding including an entry for the
    Conceptual Message Wrapper (CMW) [I-D.ietf-rats-msg-wrap].
 
    +=======+==============================+==============+============+
@@ -1009,9 +1008,9 @@ Table of Contents
    could cause the Evidence to appear to be valid when in fact it was
    not properly checked.
 
-7.4.  Addtional security considerations
+7.4.  Additional security considerations
 
-   In addition to the securtiy considerations listed here, implementers
+   In addition to the security considerations listed here, implementers
    should be familiar with the security considerations of the
    specifications on this this depends: PKCS#10 [RFC2986], CRMF [4211],
    as well as general security concepts relating to evidence and remote
@@ -1020,7 +1019,7 @@ Table of Contents
    and Entities, 7 Trust Model, 9 Freshness, 11 Privacy Considerations,
    and 12 Security Considerations.  Implementers should also be aware of
    any security considerations relating to the specific evidence format
-   being carried withinin the CSR.
+   being carried within the CSR.
 
 8.  References
 
@@ -1848,7 +1847,7 @@ Appendix C.  Acknowledgments
 
    We would also like to specifically thank Monty Wiseman for providing
    the appendix showing how to carry a TPM 2.0 Attestation, and to Corey
-   Bonell for helping with the hackathon scripts to bundle it into a
+   Bonnell for helping with the hackathon scripts to bundle it into a
    CSR.
 
    Finally, we would like to thank Andreas Kretschmer and Thomas Fossati

@@ -944,6 +944,9 @@ tcg-attest OBJECT IDENTIFIER ::= { id-tcg 20 }
 
 tcg-attest-tpm-certify OBJECT IDENTIFIER ::= { id-tcg-attest 1 }
 ~~~
+The tcg-kp-AIKCertificate OID in extendedKeyUsage identifies an AK Certificate in RFC 5280 format defined by TCG. This
+certificate would be a certificate in the EvidenceBundle defined in {{sec-evidenceAttr}}. (Note: The abbreviation AIK was used in
+TPM 1.2 specification. TPM 2.0 specifications use the abbreviation AK. The abbreviations are interchangeable.)
 
 ### TPM2 AttestationStatement {#appdx-tcg-attest-certify}
 
@@ -960,8 +963,6 @@ Tcg-csr-certify ::= SEQUENCE {
   tpmTPublic       OCTET STRING OPTIONAL
 }
 ~~~
-
-The tcg-kp-AIKCertificate field contains the AIK Certificate in RFC 5280 format.
 
 ### Introduction to TPM2 concepts
 

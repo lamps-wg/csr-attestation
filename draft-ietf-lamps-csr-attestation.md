@@ -531,34 +531,45 @@ EvidenceStatement ::= SEQUENCE {
 
 In {{code-EvidenceStatement}}, type is an OID that indicates the format of the value of stmt.
 
-The Attester MAY populate the hint with the name of a Verifier software package
-which will be capable of parsing the data contained in `EvidenceStatement.stmt`;
-this is to help the Relying Party select the correct Verifier without requiring
-the Relying Party to perform any parsing of the data in `EvidenceStatement.stmt`.
-The type OID, which identifies the format of the data found in the Evidence statement,
-typically suffices for a Relying Party to select the correct
-Verifier (software) to invoke. However, in some cases the Relying Party
-may have more than one Verifier capable of parsing a given type OID -- for
-example if the OID indicates a wrapper format such as DICE
-ConceptualMessageWrapper that can contain further proprietary data.
-A design goal of this specification is to enable Relying Parties to
-select an appropriate Verifier (software) without the need to perform any
-parsing of the `EvidenceStatement.stmt` data.
-To help with this, the Attester MAY populate the hint with a name of a
-software package that will be capable of parsing this data.
-The hint SHOULD contain a value that is unique
-to this Verifier, for example,  a fully qualified domain name (FQDN), a uniform
-resource name (URN) {{RFC8141}}, or a registered value corresponding to this
-Evidence format.
-In a typical usage scenario, the RP is pre-configured with a list of trusted
-Verifiers and the corresponding hint values can be used to look up appropriate Verifier.
-Tricking an RP into interacting with an unknown and untrusted Verifier has to be avoided
-as the retrieved Attestation Result must be reliable.
+Based on the responsibilities of the different roles in the RATS architecture,
+Relying Parties need to relay Evidence to Verifiers for evaluation and obtain
+an Attestation Result in return. Ideally, the Relying Party should select a Verifier
+based on the received Evidence without requiring the Relying Party to inspect the
+Evidence itself. This "routing" decision is simple when there is only a single
+Verifier configured for use by a Relying Party but gets more complex when there
+are different Verifiers available and each of them capable of parsing only certain
+Evidence formats.
+
+In some cases, the EvidenceStatement.type OID will be sufficient information
+for the Relying Party to correctly route it to an appropriate Verifier,
+however since the type OID only identifies the general data format, it is possible
+that multiple Verifiers are registered against the same type OID in which case the
+Relying Party will either require additional parsing of the evidence statement, or
+the Attester will be required to provide additional information.
+
+To simplify the task for the Relying Party an optional field, the hint, is available
+in the EvidenceStatement structure, as shown in {{code-EvidenceStatement}}. An
+Attester MAY include the hint to the EvidenceStatement and it MAY be processed
+by the Relying Party. The Relying Party MAY decide not to trust the information
+embedded in the hint or policy MAY override any information provided by the Attester
+via this hint.
+
+When the Attester populates the hint, it MUST contain a fully qualified domain
+name (FQDN) which uniquely identifies a Verifier.
+The problem of mapping hint FQDNs to Verifiers, and the problem of FQDN collision
+is out of scope for this specification; it is assumed that Attester and Verifier
+makers can manage this appropriately on their own FQDN trees, however if this
+becomes problematic then a public registry may be needed.
+
+In a typical usage scenario, the Relying Party is pre-configured with
+a list of trusted Verifiers and the corresponding hint values can be used to look
+up appropriate Verifier. Tricking an Relying Party into interacting with an unknown
+and untrusted Verifier must be avoided.
 
 Usage of the hint field can be seen in the TPM2_attest example in
 {{appdx-tpm2}} where the type OID indicates the OID
-id-TcgAttestCertify and the corresponding hint indicates the Verifier software
-"tpmverifier.example.com" can be invoked for parsing it.
+id-TcgAttestCertify and the corresponding hint identifies the Verifier as
+"tpmverifier.example.com".
 
 ~~~
 EvidenceBundles ::= SEQUENCE SIZE (1..MAX) OF EvidenceBundle

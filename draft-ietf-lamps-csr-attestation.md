@@ -85,8 +85,7 @@ informative:
   TPM20:
     author:
       org: Trusted Computing Group
-    title: Trusted Platform Module Library Specification, Family 2.0, Level 00, Revision 01.59
-    date: November 2019
+    title: Trusted Platform Module Library Specification, Family 2.0
     target: https://trustedcomputinggroup.org/resource/tpm-library-specification/
   CSBR:
     author:
@@ -953,14 +952,11 @@ Tcg-csr-tpm-certify ::= SEQUENCE {
 
 ### Introduction to TPM2 concepts
 
-The definitions in the following sections are defined by the TPM2 and various TCG defined
-specification including the TPM2 set of specifications. Those familiar with
-TPM2 concepts may skip to {{appdx-tcg-attest-tpm-certify}} which defines an ASN.1 structure
-specific for bundling a TPM attestation into an EvidenceStatement, and {{appdx-tpm-example}}
-which provides the example. For those unfamiliar with TPM2 concepts
-this section provides only the minimum information to understand TPM2
-Attestation in CSR and is not a complete description of the technology in
-general.
+The definitions in the following sections are specified by the Trusted Computing Group (TCG). TCG specification including the TPM2 set of specifications [TPM20], specifically Part 2 defines the TPM 2.0 structures.
+Those familiar with TPM2 concepts may skip to {{appdx-tcg-attest-tpm-certify}} which defines an ASN.1 structure
+specific for bundling a TPM attestation into an EvidenceStatement, and {{appdx-tpm-example}} which provides the example.
+For those unfamiliar with TPM2 concepts this section provides only the minimum information to understand TPM2
+Attestation in CSR and is not a complete description of the technology in general.
 
 ### TCG Objects and Key Attestation
 

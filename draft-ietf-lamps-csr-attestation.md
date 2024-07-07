@@ -144,7 +144,7 @@ The certificates typically contain one or more certification paths
 rooted in a device manufacturer trust anchor and the end-entity certificate being
 on the device in question. The end-entity certificate is associated with key material that takes on the role of an Attestation Key and is used as Evidence originating from the Attester.
 
-This document specifies a CSR Attribute (or Extension for Certificate Request Message Format (CRMF) CSRs) for carrying Evidence. Evidence can be placed into an EvidenceStatement along with an OID to identify its type and optionally a hint to the Relying Party about which Verifier (software package) will be capable of parsing it. A set of EvidenceStatements may be grouped together along with the set of CertificateAlternatives needed to validate them to form a EvidenceBundle. One or more EvidenceBundles may be placed into the id-aa-evidence CSR Attribute (or CRMF Extension).
+This document specifies a CSR Attribute (or Extension for Certificate Request Message Format (CRMF) CSRs) for carrying Evidence. Evidence can be placed into an EvidenceStatement along with an OID to identify its type and optionally a hint to the Relying Party about which Verifier (software package) will be capable of parsing it. A set of EvidenceStatements may be grouped together along with the set of CertificateChoices needed to validate them to form a EvidenceBundle. One or more EvidenceBundles may be placed into the id-aa-evidence CSR Attribute (or CRMF Extension).
 
 A CSR may contain one or more Evidence payloads, for example Evidence
 asserting the storage properties of a private key, Evidence
@@ -306,7 +306,7 @@ On a high-level, the structure is composed as follows:
 A PKCS#10 attribute or a CRMF extension contains one or more
 EvidenceBundle structures. Each EvidenceBundle contains one or more
 EvidenceStatement structures as well as one or more
-CertificateAlternatives which enable to carry various format of
+CertificateChoices which enable to carry various format of
 certificates.
 
 ~~~ aasvg
@@ -342,7 +342,7 @@ A single Attester, which only distributes Evidence without an attached certifica
 In the use case, the Verifier is assumed to be in possession of the certificate chain already
 or the Verifier directly trusts the Attestation Key and therefore no certificate chain is needed.
 As a result, a single EvidenceBundle is included in a CSR that contains a single EvidenceStatement
-without the CertificateAlternatives structure. {{fig-single-attester}} shows this use case.
+without the CertificateChoices structure. {{fig-single-attester}} shows this use case.
 
 ~~~ aasvg
   +--------------------+
@@ -357,7 +357,7 @@ without the CertificateAlternatives structure. {{fig-single-attester}} shows thi
 
 A single Attester, which shares Evidence together with a certificate chain.
 The CSR conveys a single EvidenceBundle with a single EvidenceStatement
-and a single CertificateAlternatives structure. {{fig-single-attester-with-path}}
+and a single CertificateChoices structure. {{fig-single-attester-with-path}}
 shows this use case.
 
 ~~~ aasvg
@@ -365,7 +365,7 @@ shows this use case.
  |  EvidenceBundle         |
  +-------------------------+
  | EvidenceStatement       |
- | CertificateAlternatives |
+ | CertificateChoices      |
  +-------------------------+
 ~~~
 {: #fig-single-attester-with-path title="Case 2: Single Evidence Bundle with Certificate Chain."}
@@ -387,12 +387,12 @@ shows this use case.
   |  EvidenceBundle (1)     |\
   +-------------------------+ \ Provided by
   | EvidenceStatement       | / Attester 1
-  | CertificateAlternatives |/
+  | CertificateChoices      |/
   +-------------------------+
   |  EvidenceBundle (2)     |\
   +-------------------------+ \ Provided by
   | EvidenceStatement       | / Attester 2
-  | CertificateAlternatives |/
+  | CertificateChoices      |/
   +-------------------------+
 ~~~
 {: #fig-multiple-attesters title="Case 3: Multiple Evidence Bundles each with Complete Certificate Chains."}
@@ -432,14 +432,14 @@ EvidenceStatement to be accompanied with a complete certification path.
                  |  EvidenceBundle (1)     |\
   Certificate    +-------------------------+ \ Provided by
   Chain +        | EvidenceStatement       | / Attester 1
-  End-Entity --->| CertificateAlternatives |/
+  End-Entity --->| CertificateChoices      |/
   Certificate    +-------------------------+
                           ....
                  +-------------------------+
                  |  EvidenceBundle (n)     |\
                  +-------------------------+ \ Provided by
   End-Entity     | EvidenceStatement       | / Attester n
-  Certificate--->| CertificateAlternatives |/
+  Certificate--->| CertificateChoices      |/
                  +-------------------------+
 ~~~
 
@@ -447,10 +447,10 @@ EvidenceStatement to be accompanied with a complete certification path.
 
 Our second implementation option requires the Lead Attester
 to merge all certificate chains into a single EvidenceBundle containing a single
-de-duplicated sequence of CertificateAlternatives structures. This means that each
+de-duplicated sequence of CertificateChoices structures. This means that each
 EvidenceBundle is self-contained and any EvidenceStatement can be verified using
-only the sequence of CertificateAlternatives in its bundle, but Verifiers will have
-to do proper certification path building since the sequence of CertificateAlternatives
+only the sequence of CertificateChoices in its bundle, but Verifiers will have
+to do proper certification path building since the sequence of CertificateChoices
 is now a cert bag and not a certificate chain.
 
 ~~~
@@ -460,7 +460,7 @@ is now a cert bag and not a certificate chain.
  | EvidenceStatement (1)        |
  |        ...                   |
  | EvidenceStatement (n)        |
- | CertificateAlternatives {    |
+ | CertificateChoices {         |
  |   End Entity Certificate (1) |
  |        ...                   |
  |   End Entity Certificate (n) |
@@ -694,7 +694,7 @@ party that registered the OID.
 ### Initial Registry Contents
 
 The initial registry contents is shown in the table below.
-It lists entries for several evidence encodings including an entry for the Conceptual Message Wrapper (CMW) {{I-D.ietf-rats-msg-wrap}}.
+It lists entries for several evidence encoding including an entry for the Conceptual Message Wrapper (CMW) {{I-D.ietf-rats-msg-wrap}}.
 
 | OID              | Description                  | Reference(s)     | Change Controller |
 |------------------|------------------------------|----------------  |-------------------|
@@ -857,9 +857,9 @@ The authors' intent is that the `type` OID and `hint` will allow an RP to select
 As an example, the `hint` may take the form of an FQDN to uniquely identify a Verifier implementation, but the RP MUST NOT blindly make network calls to unknown domain names and trust the results.
 Implementers should also be cautious around `type` OID or `hint` values that cause a short-circuit in the verification logic, such as `None`, `Null`, `Debug`, empty CMW contents, or similar values that could cause the Evidence to appear to be valid when in fact it was not properly checked.
 
-## Addtional security considerations
+## Additional security considerations
 
-In addition to the securtiy considerations listed here, implementers should be familiar with the security considerations of the specifications on this this depends: PKCS#10 [RFC2986], CRMF [4211], as well as general security concepts relating to evidence and remote attestation; many of these concepts are discussed in the Remote ATtestation prodedureS (RATS) Architecture [RFC9334] sections 6 Roles and Entities, 7 Trust Model, 9 Freshness, 11 Privacy Considerations, and 12 Security Considerations. Implementers should also be aware of any security considerations relating to the specific evidence format being carried withinin the CSR.
+In addition to the security considerations listed here, implementers should be familiar with the security considerations of the specifications on this this depends: PKCS#10 [RFC2986], CRMF [4211], as well as general security concepts relating to evidence and remote attestation; many of these concepts are discussed in the Remote ATtestation prodedureS (RATS) Architecture [RFC9334] sections 6 Roles and Entities, 7 Trust Model, 9 Freshness, 11 Privacy Considerations, and 12 Security Considerations. Implementers should also be aware of any security considerations relating to the specific evidence format being carried within the CSR.
 
 --- back
 
@@ -1301,7 +1301,7 @@ We would like to specifically thank Mike StJohns for his work on an earlier
 version of this draft.
 
 We would also like to specifically thank Monty Wiseman for providing the
-appendix showing how to carry a TPM 2.0 Attestation, and to Corey Bonell for helping with the hackathon scripts to bundle it into a CSR.
+appendix showing how to carry a TPM 2.0 Attestation, and to Corey Bonnell for helping with the hackathon scripts to bundle it into a CSR.
 
 Finally, we would like to thank Andreas Kretschmer and Thomas Fossati for their
 feedback based on implementation experience, and Daniel Migault and Russ Housley

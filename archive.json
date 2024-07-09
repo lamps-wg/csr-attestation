@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-07-07T00:56:36.598931+00:00",
+  "timestamp": "2024-07-09T00:52:38.662193+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -1501,7 +1501,7 @@
       "url": "https://github.com/lamps-wg/csr-attestation/issues/124",
       "state": "CLOSED",
       "author": "mwiseman-byid",
-      "authorAssociation": "CONTRIBUTOR",
+      "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "The filename for the tcg-attest-tpm-certify example is currently \"tcgCsrCertify_csr.pem\". To be consistent with the schema for the tcg OIDs I recommend renaming this to \"tcgAttestTpmCertify.pem\". As the text refers to this, the text will also need to change. ",
@@ -1555,7 +1555,7 @@
       "id": "I_kwDOJ3IIN86KV1G8",
       "title": "Comments from MSJ",
       "url": "https://github.com/lamps-wg/csr-attestation/issues/128",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "ounsworth",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [
@@ -1564,8 +1564,8 @@
       "labels": [],
       "body": "1) \"Lead Attester\" is not defined anywhere, but used in multiple places.   A paragraph on that role and its responsibilities appears to be necessary.\r\n2) Section 4.2 needs subsections for each of the cases.   At least one diagram has both a caption and free floating identifiers (e.g. \"Implementation strategy 4b\" vs \"Figure 7....\") that are indistinguishable from body text. There needs to be a way to differentiate between body text and a title for the various cases and objects.     So a) split Figure 7 into two different figures, b) have a section on \"Case 4\" with subsections on \"Implementation Strategy 4a\" and \"Implementation Strategy 4b\" with the appropriate figures from Figure 7 within the section boundaries.  This is mostly editorial, but needs cleanup for figuring out which text paragraph belongs with which diagram.\r\n4.2 - How to encode\r\n4.2.1 - Case 1 - Single Evidence Bundle\r\n4.2.2 - Case 2 - Single Evidence Bundle with Certificates\r\n4.2.3 - Case 3 - Multiple Evidence Bundles each with complete Paths\r\n4.2.4 - Case 4 - Multiple Evidence Bundles with Certificate Transmission Optimization\r\n4.2.4.1 - Strategy 4a\r\n4.2.4.2 - Strategy 4b.\r\n\r\n3) Can Case 1 (where the validator is thought to know some of Case 1's certificates) be encoded as part of Case 4?  I.e., is it legal to have an EvidenceBundle with no certificates as part of any of Case 4?  Or for that matter Case 3?  \r\n4) What knowledge must a \"Leader Attester\" have to select between each of the cases for encoding?   I.e., pre-configured?, some policy object they got?  Specific guidance from each of the possible validators each wanting the same data formatted in a specific way to make their lives easier?\r\n5) Must a validator that can handle Case 3, must also be able to go looking for certs in other bundles if the chain for a given bundle can't be built for validation?  Or must that be treated as a non-validation error by the validator?\r\n6) May a 4B output contain multiple EvidenceBundles each looking like 4B but with a partially disjoint set of certificates?  The description for 4b looks more like case 3 than a special case of 4.\r\n7) May you mix and match the various cases?  And must a Validator be required to riffle through all the various bundles to find the right mix of certificates to validate a given evidence statement?\r\nText needs to be written to cover answers for each of these I believe.\r\n8) Evidence Hint appears to be a way to convey type data that's otherwise buried inside of an Evidence Object of identical top-level types.  This seems to be laziness to not require different OIDs for different pseudo-wrapped and typed evidence statements from DICE ConceptualMessageWrapper (the example, but also handwaving other possibilities).  Recommend elimination of this and putting the onus on the post-processing software to do the differentiation if the proponents of these types of objects don't want to request multiple OIDs.  I don't find the arguments for inclusion convincing.  \r\n9) The TPM example needs work, A2.3\r\n9a)  \r\nThe structure here needs to be de-OCTET STRING'd.\r\nE.g. \r\nTpmV2Attest ::= OCTET STRING -- This is formatted as the encoding of <tpmv2 structures, TPMS_ATTEST>.  \r\n                                                        -- This may be any of the valid attestation structures. For a signature over a public key, only a hash of related public key data is included under the signature.\r\nTpm2InternalSig ::= OCTET STRING -- This is formatted as the encoding of <tpmv2 structures TPMT_SIGNATURE>.  This structure includes the type of signature as well as the actual signature bytes/bits \r\nTpm2Public ::= OCTET STRING -- This is formatted as <tpmv2 structures TPMT_PUBLIC>.  This structure includes the type of key as well as the key bytes.  This is the key being signed.\r\n\r\nTcg-csr-certify ::= SEQUENCE {\r\n   tpmSAttest ::= TpmV2Attest,\r\n   tpmSignature :: = Tpm2InternalSig, -- This is the signature returned by a call to TPM2_Certify over the tpmSAttest object.\r\n   tpmTPublic ::= Tpm2Public OPTIONAL -- This is REQUIRED if the attestation is over a public key  (e.g. if TPMS_ATTEST.type == ???) as it's the only way to map from the key being attested to the attestation.\r\n}\r\n9b) tcg-kp-AIKCertificateField????   This is an extended key purpose OID.  There is no field that contains the AIK certificate.  \r\n9c) A2.5.1 - the TPMU_ATTEST field is a Union identified by .type.  The TPMS_CERTIFY_INFO is union value of what's certified for a public key\r\n9d) If you've got TPMU_ATTEST, you need to explain how to get from Tpm2Public (TPMT_PUBLIC) to the value of the attested field.\r\n9e) Sample CSR - how does the lead attester know what software is installed on the validator's side (e.g. package tpmverifier.example.com)?   This implies there needs to be a registry mapping \"hints\" to something global.  In any event, if you have the OID and you have the structure definitions pointed to that OID, then the Hint is extraneous.  If the validator has multiple ways of resolving a TPMv2 attestation, they're doing it wrong.  Repeat my recommendation to remove hints.\r\n10) Should additional CMS error codes be added for this new extension?  E.g. RFC5272, section 6.1.1 - ExtendedFailInfo.  I don't see how CMCStatus or CMCFailInfo can be extended to cover the possible chaining errors and evidence/validator mismatches.  Ditto for CMP?\r\nLater, Mike\r\n",
       "createdAt": "2024-05-28T12:45:24Z",
-      "updatedAt": "2024-07-04T18:05:50Z",
-      "closedAt": null,
+      "updatedAt": "2024-07-07T21:47:37Z",
+      "closedAt": "2024-07-07T21:47:36Z",
       "comments": [
         {
           "author": "nedmsmith",
@@ -1587,6 +1587,20 @@
           "body": "> Can Case 1 (where the validator is thought to know some of Case 1's certificates) be encoded as part of Case 4? I.e., is it legal to have an EvidenceBundle with no certificates as part of any of Case 4? Or for that matter Case 3?\r\n\r\n[Hannes] An EvidenceBundle can contain an EvidenceStatement without a certificate. Case 4, however, has multiple Evidence Bundles, which makes it different from Case 1.\r\n\r\n\r\n\r\n> What knowledge must a \"Leader Attester\" have to select between each of the cases for encoding? I.e., pre-configured?, some policy object they got? Specific guidance from each of the possible validators each wanting the same data formatted in a specific way to make their lives easier?\r\n\r\n[Hannes] The design of an Lead Attester is likely the result of developer choice. \r\n\r\n\r\n> Must a validator that can handle Case 3, must also be able to go looking for certs in other bundles if the chain for a given bundle can't be built for validation? Or must that be treated as a non-validation error by the validator?\r\n\r\n\r\n[Hannes] A conformant implementation will have to parse certs in other bundles. This is the downside of us adding this optimization.\r\n",
           "createdAt": "2024-07-04T18:05:49Z",
           "updatedAt": "2024-07-04T18:05:49Z"
+        },
+        {
+          "author": "mwiseman-byid",
+          "authorAssociation": "COLLABORATOR",
+          "body": ". . .\r\nOnly addressing item #9 \r\n\r\n> 9. The TPM example needs work, A2.3\r\n>    9a)\r\n>    The structure here needs to be de-OCTET STRING'd.\r\n>    E.g.\r\n>    TpmV2Attest ::= OCTET STRING -- This is formatted as the encoding of <tpmv2 structures, TPMS_ATTEST>.\r\n>    -- This may be any of the valid attestation structures. For a signature over a public key, only a hash of related public key data is included under the signature.\r\n>    Tpm2InternalSig ::= OCTET STRING -- This is formatted as the encoding of .  This structure includes the type of signature as well as the actual signature bytes/bits\r\n>    Tpm2Public ::= OCTET STRING -- This is formatted as .  This structure includes the type of key as well as the key bytes.  This is the key being signed.\r\n> \r\n> Tcg-csr-certify ::= SEQUENCE { tpmSAttest ::= TpmV2Attest, tpmSignature :: = Tpm2InternalSig, -- This is the signature returned by a call to TPM2_Certify over the tpmSAttest object. tpmTPublic ::= Tpm2Public OPTIONAL -- This is REQUIRED if the attestation is over a public key (e.g. if TPMS_ATTEST.type == ???) as it's the only way to map from the key being attested to the attestation. }\r\nMW: We discussed this and decided it would put too much TCG specification into the \r\nRFC. This can be covered by example code. Regarding tpmTPublic being OPTIONAL. There are use cases where the verifier may already have this information. For example, if key1 was just created at the request of a remote service. The remote service may have kept this structure as it is the exact structure sent during key1's creations. In this case, the remote server just wants to verify that the key's properties it requested are the properties created in the TPM for the key. Requiring this would be redundant especially in small environments.\r\n\r\n9b) tcg-kp-AIKCertificateField???? This is an extended key purpose OID. There is no field that contains the AIK certificate.\r\nMW: This is left over from a few changes. I clarified.\r\n\r\n9c) A2.5.1 - the TPMU_ATTEST field is a Union identified by .type. The TPMS_CERTIFY_INFO is union value of what's certified for a public key\r\nMW: correct. Again, we decided not to dig too deep into the TPM specification and detailed explanations. Rather we will leave that for examples.\r\n\r\n9d) If you've got TPMU_ATTEST, you need to explain how to get from Tpm2Public (TPMT_PUBLIC) to the value of the attested field.\r\nMW: ibid\r\n\r\n9e) Sample CSR - how does the lead attester know what software is installed on the validator's side (e.g. package tpmverifier.example.com)? This implies there needs to be a registry mapping \"hints\" to something global. In any event, if you have the OID and you have the structure definitions pointed to that OID, then the Hint is extraneous. If the validator has multiple ways of resolving a TPMv2 attestation, they're doing it wrong. Repeat my recommendation to remove hints.\r\nMW: This has been discussed over last last few meeting. \r\n. . .\r\nThanks, Monty\r\n\r\n",
+          "createdAt": "2024-07-07T03:25:47Z",
+          "updatedAt": "2024-07-07T03:25:47Z"
+        },
+        {
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Both Hannes and Monty have addressed MSJ's comments. Closing.",
+          "createdAt": "2024-07-07T21:47:36Z",
+          "updatedAt": "2024-07-07T21:47:36Z"
         }
       ]
     },
@@ -1650,15 +1664,15 @@
       "id": "I_kwDOJ3IIN86MbskG",
       "title": "Do a spell check after all the merges",
       "url": "https://github.com/lamps-wg/csr-attestation/issues/136",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "ounsworth",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2024-06-17T00:15:54Z",
-      "updatedAt": "2024-06-17T00:15:54Z",
-      "closedAt": null,
+      "updatedAt": "2024-07-07T22:12:34Z",
+      "closedAt": "2024-07-07T22:12:34Z",
       "comments": []
     },
     {
@@ -1763,6 +1777,22 @@
           "updatedAt": "2024-07-05T22:37:19Z"
         }
       ]
+    },
+    {
+      "number": 150,
+      "id": "I_kwDOJ3IIN86O1oDU",
+      "title": "TPM CSR sample added for 120 has an extranuous empty extensionRequest",
+      "url": "https://github.com/lamps-wg/csr-attestation/issues/150",
+      "state": "OPEN",
+      "author": "ounsworth",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "TODO: study why\r\n\r\nIt looks like that isn't allowed to be empty, and probably shouldn't be there at all. Go look at Monty's repo and remove it.\r\n\r\n\r\nFrom Russ:\r\n\r\nhttps://mailarchive.ietf.org/arch/msg/spasm/ecN-85ImkAkVZ-04vLi-UrlxMLQ/",
+      "createdAt": "2024-07-08T19:45:26Z",
+      "updatedAt": "2024-07-08T19:45:26Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
@@ -5220,7 +5250,7 @@
       "url": "https://github.com/lamps-wg/csr-attestation/pull/91",
       "state": "MERGED",
       "author": "mwiseman-byid",
-      "authorAssociation": "CONTRIBUTOR",
+      "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "",
@@ -5229,7 +5259,7 @@
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "monty-tpm2-example",
       "baseRefOid": "38f236e5deee44087d59c893353215557de0d917",
-      "headRepository": "mwiseman-byid/csr-attestation",
+      "headRepository": null,
       "headRefName": "main",
       "headRefOid": "984a1b25910115ad47bfe9b2ab555af37d685f27",
       "closedAt": "2024-02-27T22:27:45Z",
@@ -5274,7 +5304,7 @@
             "abbreviatedOid": "01f1980"
           },
           "author": "mwiseman-byid",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "COLLABORATOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-02-26T05:36:13Z",
@@ -5314,7 +5344,7 @@
             "abbreviatedOid": "01f1980"
           },
           "author": "mwiseman-byid",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "COLLABORATOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-02-27T17:36:29Z",
@@ -5646,7 +5676,7 @@
       "url": "https://github.com/lamps-wg/csr-attestation/pull/101",
       "state": "MERGED",
       "author": "mwiseman-byid",
-      "authorAssociation": "CONTRIBUTOR",
+      "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Move section \"Introduction to TPM2 concepts\" from top of example to be the introduction to the entire section describing the TPM2's structures.",
@@ -5655,7 +5685,7 @@
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "594bb801786a73dc50bc8234bfa7efc085366ecc",
-      "headRepository": "mwiseman-byid/csr-attestation",
+      "headRepository": null,
       "headRefName": "patch-1",
       "headRefOid": "b0fa1441eaad2bb0677921e4cc42a86f7f26216f",
       "closedAt": "2024-02-29T14:39:48Z",
@@ -5700,7 +5730,7 @@
             "abbreviatedOid": "c47d00a"
           },
           "author": "mwiseman-byid",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "COLLABORATOR",
           "state": "APPROVED",
           "body": "Thanks for the clarifications and acknowledgement. ",
           "createdAt": "2024-02-29T22:30:06Z",
@@ -6004,7 +6034,7 @@
       "url": "https://github.com/lamps-wg/csr-attestation/pull/123",
       "state": "MERGED",
       "author": "mwiseman-byid",
-      "authorAssociation": "CONTRIBUTOR",
+      "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Make tcg OIDs consistent with TCG approved name. Removed EDNOTE indicating this is TBD. Still need to provide link to document but waiting on TCG process to publish document to provide the link.",
@@ -6013,7 +6043,7 @@
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "8b313c6b644641df3ce70cea75f129807bc063fc",
-      "headRepository": "mwiseman-byid/csr-attestation",
+      "headRepository": null,
       "headRefName": "patch-2",
       "headRefOid": "8ff4e8bc0d3a10e1103cbb91e3276f2943ff76a0",
       "closedAt": "2024-06-08T13:06:36Z",
@@ -7011,6 +7041,112 @@
       "mergedBy": "ounsworth",
       "mergeCommit": {
         "oid": "5eb0d71c3325c68016c8a68bae29a4c80113531e"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 147,
+      "id": "PR_kwDOJ3IIN850mtPd",
+      "title": "Clarified the purpose of mentioning tcg-kp-AIKCertificate OID. Update\u2026",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/147",
+      "state": "MERGED",
+      "author": "mwiseman-byid",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "This change is to tag -09. The only change is delete 964 and add new paragraph explaining why this OID is mentioned. This also updates the example csr.",
+      "createdAt": "2024-07-07T04:25:16Z",
+      "updatedAt": "2024-07-07T21:36:22Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "mwiseman-address-msj",
+      "baseRefOid": "a4e66ca323a8c46dbc094b95474037083230a1de",
+      "headRepository": "mwiseman-byid/csr-attestation",
+      "headRefName": "address-msj",
+      "headRefOid": "066cb2cfb9f279990fe7350b6fea1ce27a2bc3b8",
+      "closedAt": "2024-07-07T21:36:22Z",
+      "mergedAt": "2024-07-07T21:36:22Z",
+      "mergedBy": "ounsworth",
+      "mergeCommit": {
+        "oid": "6336f6eed74964c0e8ff664949664ec8564ef52b"
+      },
+      "comments": [
+        {
+          "author": "mwiseman-byid",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Updated .md and example csr.",
+          "createdAt": "2024-07-07T04:26:10Z",
+          "updatedAt": "2024-07-07T04:26:10Z"
+        },
+        {
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Closes #128 ",
+          "createdAt": "2024-07-07T21:05:22Z",
+          "updatedAt": "2024-07-07T21:05:22Z"
+        },
+        {
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Monty wants a second pair of eyes that this CSR looks to correctly implement the ASN.1 in the draft.\r\n\r\nHere is an annotated decompile of the ASN.1:\r\n\r\nYup, looks goo to me\r\n\r\n~~~\r\nAttribute SEQUENCE @442+2770 (constructed): (2 elem) -- attr-evidence\r\n  type AttributeType OBJECT_IDENTIFIER @446+11: 1.2.840.113549.1.9.16.2.59\r\n  values SET @459+2753 (constructed): (1 elem)\r\n    AttributeValue [?] SEQUENCE @463+2749 (constructed): (1 elem) -- EvidenceBundles\r\n      SEQUENCE @467+2745 (constructed): (2 elem) -- EvidenceBundle\r\n        SEQUENCE @471+730 (constructed): (1 elem) -- EvidenceBundle.evidence ::= EvidenceStatements\r\n          SEQUENCE @475+726 (constructed): (3 elem) -- EvidenceStatement\r\n            OBJECT_IDENTIFIER @479+5: 2.23.133.20.1 -- EvidenceStatement.type\r\n            SEQUENCE @486+690 (constructed): (3 elem) -- EvidenceStatement.stmt\r\n              OCTET_STRING @490+145: (145 byte)|FF544..snip\r\n              OCTET_STRING @638+256: (256 byte)|38599C9..snip\r\n              OCTET_STRING @898+278: (278 byte)|0001..snip\r\n            UTF8String @1180+23: tpmverifier.example.com -- EvidenceStatement.hint\r\n        SEQUENCE @1205+2007 (constructed): (2 elem) -- EvidenceBundle.certs\r\n          SEQUENCE @1209+1120 (constructed): (3 elem)\r\n            SEQUENCE @1213+840 (constructed): (8 elem)\r\n              [0] @1217+3 (constructed): (1 elem)\r\n                INTEGER @1219+1: 2\r\n              INTEGER @1222+20: (158 bit)|226537393587166197990548330573891864754199365749\r\n              SEQUENCE @1244+13 (constructed): (2 elem)\r\n                OBJECT_IDENTIFIER @1246+9: 1.2.840.113549.1.1.11|sha256WithRSAEncryption|PKCS #1\r\n   .. snip the rest of the cert chain\r\n~~~\r\n\r\n",
+          "createdAt": "2024-07-07T21:34:15Z",
+          "updatedAt": "2024-07-07T21:34:15Z"
+        }
+      ],
+      "reviews": []
+    },
+    {
+      "number": 148,
+      "id": "PR_kwDOJ3IIN850nxMl",
+      "title": "Mwiseman address msj",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/148",
+      "state": "MERGED",
+      "author": "ounsworth",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2024-07-07T21:36:57Z",
+      "updatedAt": "2024-07-07T21:47:01Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "a4e66ca323a8c46dbc094b95474037083230a1de",
+      "headRepository": "lamps-wg/csr-attestation",
+      "headRefName": "mwiseman-address-msj",
+      "headRefOid": "f2204da2180d9f9bf6896d5c8c9c347f5004619d",
+      "closedAt": "2024-07-07T21:46:59Z",
+      "mergedAt": "2024-07-07T21:46:59Z",
+      "mergedBy": "ounsworth",
+      "mergeCommit": {
+        "oid": "77f4720f674503493eeec9ce931d5c391b241b31"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 149,
+      "id": "PR_kwDOJ3IIN850n0zd",
+      "title": "Clarify references to the TPM 2.0 structures",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/149",
+      "state": "MERGED",
+      "author": "mwiseman-byid",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2024-07-07T22:29:30Z",
+      "updatedAt": "2024-07-07T22:36:12Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "024bcf2747f723fee2902504b0407b3cbd9eb995",
+      "headRepository": "lamps-wg/csr-attestation",
+      "headRefName": "patch-1",
+      "headRefOid": "944262067066714f4860ef952b623f9ef6f79f47",
+      "closedAt": "2024-07-07T22:35:51Z",
+      "mergedAt": "2024-07-07T22:35:51Z",
+      "mergedBy": "mwiseman-byid",
+      "mergeCommit": {
+        "oid": "5fd5fdab410de3fce32859d2ca8bafa097a6a1b9"
       },
       "comments": [],
       "reviews": []

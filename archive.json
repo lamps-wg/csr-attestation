@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-07-23T00:53:37.529405+00:00",
+  "timestamp": "2024-07-25T00:53:30.753467+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -1703,7 +1703,7 @@
       "labels": [],
       "body": "See this discussion: https://mailarchive.ietf.org/arch/msg/rats/aYeAOmAsqas4WomxImwXW8R63Mc/\r\n",
       "createdAt": "2024-06-17T16:25:08Z",
-      "updatedAt": "2024-06-30T14:03:58Z",
+      "updatedAt": "2024-07-24T23:42:46Z",
       "closedAt": null,
       "comments": [
         {
@@ -1726,6 +1726,34 @@
           "body": "Given the word count of the RATS email thread and of Ned's comment here, I think that this LAMPS document is also not the correct place to attempt a formal definition of \"attestation\" or \"key attestation\". \r\n\r\nCan we just say something hand-wavy?",
           "createdAt": "2024-06-30T14:03:56Z",
           "updatedAt": "2024-06-30T14:03:56Z"
+        },
+        {
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "NIST has a definition that is maybe sufficiently hand-wavy?\r\nhttps://csrc.nist.gov/glossary/term/attestation",
+          "createdAt": "2024-07-24T23:18:48Z",
+          "updatedAt": "2024-07-24T23:18:48Z"
+        },
+        {
+          "author": "muhammad-usama-sardar",
+          "authorAssociation": "NONE",
+          "body": "> NIST has a definition that is maybe sufficiently hand-wavy? https://csrc.nist.gov/glossary/term/attestation\r\n\r\nRepeating from the meeting chat: NIST has 2 definitions. The first definition is the most relevant to the draft. \r\n\r\nHowever, I do have concerns with the first definition. It does not necessarily have to be digital signatures and only measurements. Also note the glossary wrongly attributed the definition to NIST SP 1800-19B but actually it comes from Bartock et al., Trusted Geolocation in the Cloud: Proof of Concept Implementation, NISTIR 7904, 2015.\r\nFor instance, there is local attestation which is based on MAC rather than digital signatures. And it needs freshness in addition to measurements. ",
+          "createdAt": "2024-07-24T23:29:03Z",
+          "updatedAt": "2024-07-24T23:29:03Z"
+        },
+        {
+          "author": "nedmsmith",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> Also note the glossary wrongly attributed the definition to NIST SP 1800-19B but actually it comes from Bartock et al., Trusted Geolocation in the Cloud: Proof of Concept Implementation, NISTIR 7904, 2015.\r\n\r\nThe NISTIR7904 definition is highly TPM specific while the SP1800-19B definition is more generally applicable.",
+          "createdAt": "2024-07-24T23:37:08Z",
+          "updatedAt": "2024-07-24T23:37:08Z"
+        },
+        {
+          "author": "nedmsmith",
+          "authorAssociation": "COLLABORATOR",
+          "body": "In terms of this draft, the terminology might use \"evidence\" instead of \"attestation\" since the goal isn't to define attestation but to describe how to convey evidence. Using RFC9334 terminology, the target environment is a key (or at least a key contained in a TA). The Evidence supplied applies to the key object specifically.",
+          "createdAt": "2024-07-24T23:39:00Z",
+          "updatedAt": "2024-07-24T23:42:46Z"
         }
       ]
     },

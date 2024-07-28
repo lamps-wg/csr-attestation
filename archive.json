@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-07-25T00:53:30.753467+00:00",
+  "timestamp": "2024-07-28T00:57:34.439458+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -1703,7 +1703,7 @@
       "labels": [],
       "body": "See this discussion: https://mailarchive.ietf.org/arch/msg/rats/aYeAOmAsqas4WomxImwXW8R63Mc/\r\n",
       "createdAt": "2024-06-17T16:25:08Z",
-      "updatedAt": "2024-07-24T23:42:46Z",
+      "updatedAt": "2024-07-25T13:19:07Z",
       "closedAt": null,
       "comments": [
         {
@@ -1754,6 +1754,13 @@
           "body": "In terms of this draft, the terminology might use \"evidence\" instead of \"attestation\" since the goal isn't to define attestation but to describe how to convey evidence. Using RFC9334 terminology, the target environment is a key (or at least a key contained in a TA). The Evidence supplied applies to the key object specifically.",
           "createdAt": "2024-07-24T23:39:00Z",
           "updatedAt": "2024-07-24T23:42:46Z"
+        },
+        {
+          "author": "aj-stein-nist",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "> > Also note the glossary wrongly attributed the definition to NIST SP 1800-19B but actually it comes from Bartock et al., Trusted Geolocation in the Cloud: Proof of Concept Implementation, NISTIR 7904, 2015.\r\n> \r\n> The NISTIR7904 definition is highly TPM specific while the SP1800-19B definition is more generally applicable.\r\n\r\nSince we are in pick and choose mode, the glossary retrieves from all documents registered, they are not official definitions how external consumers perceive them. For the record, the [SP 1800 series](https://www.nist.gov/itl/publications-0/nist-special-publication-1800-series-general-information) is _not_ for normative standards-based definitions like it seems, unlike FIPS and SP 800 series, are meant for demonstrations of technologies and howto guides. Too bad [NISTIR 8320B](https://nvlpubs.nist.gov/nistpubs/ir/2021/NIST.IR.8320B-draft.pdf) doesn't define it explicitly, but NISTRs aren't meant for normative definitions either.",
+          "createdAt": "2024-07-25T13:18:38Z",
+          "updatedAt": "2024-07-25T13:19:07Z"
         }
       ]
     },

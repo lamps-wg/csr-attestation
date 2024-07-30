@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-07-28T00:57:34.439458+00:00",
+  "timestamp": "2024-07-30T00:53:39.883557+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -1703,7 +1703,7 @@
       "labels": [],
       "body": "See this discussion: https://mailarchive.ietf.org/arch/msg/rats/aYeAOmAsqas4WomxImwXW8R63Mc/\r\n",
       "createdAt": "2024-06-17T16:25:08Z",
-      "updatedAt": "2024-07-25T13:19:07Z",
+      "updatedAt": "2024-07-28T04:21:09Z",
       "closedAt": null,
       "comments": [
         {
@@ -1761,6 +1761,20 @@
           "body": "> > Also note the glossary wrongly attributed the definition to NIST SP 1800-19B but actually it comes from Bartock et al., Trusted Geolocation in the Cloud: Proof of Concept Implementation, NISTIR 7904, 2015.\r\n> \r\n> The NISTIR7904 definition is highly TPM specific while the SP1800-19B definition is more generally applicable.\r\n\r\nSince we are in pick and choose mode, the glossary retrieves from all documents registered, they are not official definitions how external consumers perceive them. For the record, the [SP 1800 series](https://www.nist.gov/itl/publications-0/nist-special-publication-1800-series-general-information) is _not_ for normative standards-based definitions like it seems, unlike FIPS and SP 800 series, are meant for demonstrations of technologies and howto guides. Too bad [NISTIR 8320B](https://nvlpubs.nist.gov/nistpubs/ir/2021/NIST.IR.8320B-draft.pdf) doesn't define it explicitly, but NISTRs aren't meant for normative definitions either.",
           "createdAt": "2024-07-25T13:18:38Z",
           "updatedAt": "2024-07-25T13:19:07Z"
+        },
+        {
+          "author": "muhammad-usama-sardar",
+          "authorAssociation": "NONE",
+          "body": "> The NISTIR7904 definition is highly TPM specific while the SP1800-19B definition is more generally applicable.\r\n\r\nThat's actually not correct. SP1800-19B never defines attestation by itself. It just reproduced the definition from NISTIR7904 for the convenience of readers. \r\n\r\nAppendix C in [NIST SP 1800-19B](https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.1800-19.pdf) (page 67) clearly states that: \r\n\r\n> All significant technical terms ``used`` within this document are ``defined in other key documents``,\r\n> particularly NISTIR 7904, Trusted Geolocation in the Cloud: Proof of Concept Implementation [1]. As a\r\n> convenience to the reader, terms critical to understanding this volume are provided in this glossary.``",
+          "createdAt": "2024-07-28T04:17:33Z",
+          "updatedAt": "2024-07-28T04:17:33Z"
+        },
+        {
+          "author": "muhammad-usama-sardar",
+          "authorAssociation": "NONE",
+          "body": "> Since we are in pick and choose mode, the glossary retrieves from all documents registered, they are not official definitions how external consumers perceive them.\r\n\r\nIn any case, I think the glossary should point to the document that actually defines it rather than the one that just uses it.",
+          "createdAt": "2024-07-28T04:21:08Z",
+          "updatedAt": "2024-07-28T04:21:08Z"
         }
       ]
     },

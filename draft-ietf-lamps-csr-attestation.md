@@ -67,8 +67,11 @@ normative:
   RFC9334:
   RFC6268:
   RFC5912:
+  RFC5911:
   RFC4211:
   RFC2986:
+  RFC6268:
+  RFC5280:  
   ASN1-2002:
     author:
       org: ITU-T
@@ -143,7 +146,7 @@ The certificates typically contain one or more certification paths
 rooted in a device manufacturer trust anchor and the end-entity certificate being
 on the device in question. The end-entity certificate is associated with key material that takes on the role of an Attestation Key and is used as Evidence originating from the Attester.
 
-This document specifies a CSR Attribute (or Extension for Certificate Request Message Format (CRMF) CSRs) for carrying Evidence. Evidence can be placed into an EvidenceStatement along with an OID to identify its type and optionally a hint to the Relying Party about which Verifier (software package) will be capable of parsing it. A set of EvidenceStatements may be grouped together along with the set of CertificateChoices needed to validate them to form a EvidenceBundle. One or more EvidenceBundles may be placed into the id-aa-evidence CSR Attribute (or CRMF Extension).
+This document specifies a CSR Attribute (or Extension for Certificate Request Message Format (CRMF) CSRs) for carrying Evidence. Evidence can be placed into an EvidenceStatement along with an OID to identify its type. A set of EvidenceStatements may be grouped together along with the set of CertificateChoices needed to validate them to form a EvidenceBundle. One or more EvidenceBundles may be placed into the id-aa-evidence CSR Attribute (or CRMF Extension).
 
 A CSR may contain one or more Evidence payloads, for example Evidence
 asserting the storage properties of a private key, Evidence
@@ -181,6 +184,9 @@ considers messages in the Certificate Request Message Format (CRMF) {{RFC4211}}
 to be "CSRs". In this document, the terms "CSR" and Certificate Request
 message are used interchangeably.
 
+The terms Registration Authority (RA) and Certification Authority (CA) are
+defined in {{RFC5280}}.
+
 # Architecture {#architecture}
 
 {{fig-arch}} shows the high-level communication pattern of the RATS
@@ -211,7 +217,7 @@ Attestation Results may be proprietary or standardized, but in any case is
 out-of-scope for this document.
 
 The diagram below shows an example data flow where Evidence is included in a
-CSR. The CSR is parsed by the Registration Authority (RA) component of a
+CSR. The CSR is parsed by the Registration Authority component of a
 Certification Authority which extracts the Evidence and forwards it to a
 trusted Verifier. The RA receives back an Attestation Result which it uses
 to decide whether this Evidence meets its policy for certificate issuance
@@ -479,7 +485,7 @@ order or contain extraneous certificates.
 
 ##  Object Identifiers
 
-This document references `id-pkix` and `id-aa`, both defined in {{!RFC5911}} and {{!RFC5912}}.
+This document references `id-pkix` and `id-aa`, both defined in {{RFC5911}} and {{RFC5912}}.
 
 This document defines the arc depicted in {{code-ata-arc}}
 
@@ -523,42 +529,12 @@ EvidenceStatements ::= SEQUENCE SIZE (1..MAX) OF EvidenceStatement
 
 EvidenceStatement ::= SEQUENCE {
    type   EVIDENCE-STATEMENT.&id({EvidenceStatementSet}),
-   stmt   EVIDENCE-STATEMENT.&Type({EvidenceStatementSet}{@type}),
-   hint   UTF8String OPTIONAL
+   stmt   EVIDENCE-STATEMENT.&Type({EvidenceStatementSet}{@type})
 }
 ~~~
 {: #code-EvidenceStatement title="Definition of EvidenceStatement"}
 
 In {{code-EvidenceStatement}}, type is an OID that indicates the format of the value of stmt.
-
-The Attester MAY populate the hint with the name of a Verifier software package
-which will be capable of parsing the data contained in `EvidenceStatement.stmt`;
-this is to help the Relying Party select the correct Verifier without requiring
-the Relying Party to perform any parsing of the data in `EvidenceStatement.stmt`.
-The type OID, which identifies the format of the data found in the Evidence statement,
-typically suffices for a Relying Party to select the correct
-Verifier (software) to invoke. However, in some cases the Relying Party
-may have more than one Verifier capable of parsing a given type OID -- for
-example if the OID indicates a wrapper format such as DICE
-ConceptualMessageWrapper that can contain further proprietary data.
-A design goal of this specification is to enable Relying Parties to
-select an appropriate Verifier (software) without the need to perform any
-parsing of the `EvidenceStatement.stmt` data.
-To help with this, the Attester MAY populate the hint with a name of a
-software package that will be capable of parsing this data.
-The hint SHOULD contain a value that is unique
-to this Verifier, for example,  a fully qualified domain name (FQDN), a uniform
-resource name (URN) {{RFC8141}}, or a registered value corresponding to this
-Evidence format.
-In a typical usage scenario, the RP is pre-configured with a list of trusted
-Verifiers and the corresponding hint values can be used to look up appropriate Verifier.
-Tricking an RP into interacting with an unknown and untrusted Verifier has to be avoided
-as the retrieved Attestation Result must be reliable.
-
-Usage of the hint field can be seen in the TPM2_attest example in
-{{appdx-tpm2}} where the type OID indicates the OID
-id-TcgAttestCertify and the corresponding hint indicates the Verifier software
-"tpmverifier.example.com" can be invoked for parsing it.
 
 ~~~
 EvidenceBundles ::= SEQUENCE SIZE (1..MAX) OF EvidenceBundle
@@ -570,7 +546,7 @@ EvidenceBundle ::= SEQUENCE {
 }
 ~~~
 
-The CertificateChoices structure defined in [RFC6268] allows for carrying certificates in the default X.509 [RFC5280] format, or in other non-X.509 certificate formats. CertificateChoices MUST only contain certificate or other. CertificateChoices MUST NOT contain extendedCertificate, v1AttrCert, or v2AttrCert. Note that for non-ASN.1 certificate formats, the CertificateChoices MUST use `other [3]` with an `OtherCertificateFormat.Type` of `OCTET STRING`, and then can carry any binary data.
+The CertificateChoices structure, defined in {{RFC6268}}, allows for carrying certificates in the default X.509 {{RFC5280}} format, or in other non-X.509 certificate formats. CertificateChoices MUST only contain certificate or other. CertificateChoices MUST NOT contain extendedCertificate, v1AttrCert, or v2AttrCert. Note that for non-ASN.1 certificate formats, the CertificateChoices MUST use `other [3]` with an `OtherCertificateFormat.Type` of `OCTET STRING`, and then can carry any binary data.
 
 
 ~~~
@@ -604,8 +580,7 @@ of certificates contained in `certs`.
 
 This specification places no restriction on mixing certificate types within the `certs` field. For example a non-X.509 Evidence signer certificate MAY chain to a trust anchor via a chain of X.509 certificates. It is up to the Attester and its Verifier to agree on supported certificate formats.
 
-
-By the nature of the PKIX ASN.1 classes [[RFC5912]], there are multiple ways to convey multiple Evidence statements: by including multiple copies of `attr-evidence` or `ext-evidence`, multiple values within the attribute or extension, and finally, by including multiple `EvidenceStatement`s within an `EvidenceBundle`. The latter is the preferred way to carry multiple Evidence statements. Implementations MUST NOT place multiple copies of `attr-evidence` into a PKCS#10 CSR due to the `COUNTS MAX 1` declaration, and SHOULD NOT place multiple copies of `EvidenceBundles` into an `AttributeSet`. In a CRMF CSR, implementers SHOULD NOT place multiple copies of `ext-evidence` and SHOULD NOT place multiple copies of `EvidenceBundles` into an `ExtensionSet`.
+By the nature of the PKIX ASN.1 classes {{RFC5912}}, there are multiple ways to convey multiple Evidence statements: by including multiple copies of `attr-evidence` or `ext-evidence`, multiple values within the attribute or extension, and finally, by including multiple `EvidenceStatement`s within an `EvidenceBundle`. The latter is the preferred way to carry multiple Evidence statements. Implementations MUST NOT place multiple copies of `attr-evidence` into a PKCS#10 CSR due to the `COUNTS MAX 1` declaration, and SHOULD NOT place multiple copies of `EvidenceBundles` into an `AttributeSet`. In a CRMF CSR, implementers SHOULD NOT place multiple copies of `ext-evidence` and SHOULD NOT place multiple copies of `EvidenceBundles` into an `ExtensionSet`.
 
 
 # IANA Considerations
@@ -840,28 +815,25 @@ time T to have been generated inside the hardware boundary and to be
 non-exportable, then it can be assumed that those properties of that key
 will continue to hold into the future.
 
-
-## Publishing evidence in an X.509 extension {#sec-con-publishing-x509}
+## Publishing Evidence in an X.509 Extension {#sec-con-publishing-x509}
 
 This document specifies an Extension for carrying Evidence in a CRMF Certificate Signing Request (CSR), but it is intentionally NOT RECOMMENDED for a CA to copy the ext-evidence extension into the published certificate.
 The reason for this is that certificates are considered public information and the Evidence might contain detailed information about hardware and patch levels of the device on which the private key resides.
 The certificate requester has consented to sharing this detailed device information with the CA but might not consent to having these details published.
 These privacy considerations are beyond the scope of this document and may require additional signaling mechanisms in the CSR to prevent unintended publication of sensitive information, so we leave it as "NOT RECOMMENDED". Often, the correct layer at which to address this is either in certificate profiles, a Certificate Practice Statement (CPS), or in the protocol or application that carries the CSR to the RA/CA where a flag can be added indicating whether the RA/CA should consider the evidence to be public or private.
 
-## Type OID and verifier hint
+## Type OID
 
-The `EvidenceStatement` includes both a `type` OID and a free form `hint` field with which the Attester can provide information to the Relying Party about which Verifier to invoke to parse a given piece of Evidence.
+The `EvidenceStatement` includes a `type` OID with which the Attester can provide information to the Relying Party about which Verifier to invoke to parse a given piece of Evidence.
 Care should be taken when processing these data since at the time they are used, they are not yet verified. In fact, they are protected by the CSR signature but not by the signature from the Attester and so could be maliciously replaced in some cases.
-The authors' intent is that the `type` OID and `hint` will allow an RP to select between Verifier with which it has pre-established trust relationships, such as Verifier libraries that have been compiled in to the RP application.
-As an example, the `hint` may take the form of an FQDN to uniquely identify a Verifier implementation, but the RP MUST NOT blindly make network calls to unknown domain names and trust the results.
-Implementers should also be cautious around `type` OID or `hint` values that cause a short-circuit in the verification logic, such as `None`, `Null`, `Debug`, empty CMW contents, or similar values that could cause the Evidence to appear to be valid when in fact it was not properly checked.
+The authors' intent is that the `type` OID will allow an RP to select between Verifier with which it has pre-established trust relationships, such as Verifier libraries that have been compiled in to the RP application.
+Implementers should also be cautious around `type` OID values that cause a short-circuit in the verification logic that could cause the Evidence to appear to be valid when in fact it was not properly checked.
 
-## Additional security considerations
+## Additional Security Considerations
 
-In addition to the security considerations listed here, implementers should be familiar with the security considerations of the specifications on this this depends: PKCS#10 [RFC2986], CRMF [4211], as well as general security concepts relating to evidence and remote attestation; many of these concepts are discussed in the Remote ATtestation prodedureS (RATS) Architecture [RFC9334] sections 6 Roles and Entities, 7 Trust Model, 9 Freshness, 11 Privacy Considerations, and 12 Security Considerations. Implementers should also be aware of any security considerations relating to the specific evidence format being carried within the CSR.
+In addition to the security considerations listed here, implementers should be familiar with the security considerations of the specifications on this this depends: PKCS#10 {{RFC2986}}, CRMF {{RFC4211}}, as well as general security concepts relating to evidence and remote attestation; many of these concepts are discussed in the Remote ATtestation prodedureS (RATS) Architecture {{RFC9334}} sections 6 Roles and Entities, 7 Trust Model, 9 Freshness, 11 Privacy Considerations, and 12 Security Considerations. Implementers should also be aware of any security considerations relating to the specific evidence format being carried within the CSR.
 
 --- back
-
 
 # Examples
 
@@ -875,7 +847,6 @@ After publication of this document, additional examples and sample data will
 be collected at the following GitHub repository {{SampleData}}:
 
 https://github.com/lamps-wg/csr-attestation-examples
-
 
 ## Extending EvidenceStatementSet
 
@@ -902,7 +873,6 @@ EvidenceStatementSet EVIDENCE-STATEMENT ::= {
   { OCTET STRING IDENTIFIED BY { 1 3 6 1 5 5 7 1 99 } }
 }
 ~~~
-
 
 ##  TPM V2.0 Evidence in CSR {#appdx-tpm2}
 
@@ -950,7 +920,7 @@ Tcg-csr-tpm-certify ::= SEQUENCE {
 }
 ~~~
 
-### Introduction to TPM2 concepts
+### Introduction to TPM2 Concepts
 
 The definitions in the following sections are specified by the Trusted Computing Group (TCG). TCG specification including the TPM2 set of specifications [TPM20], specifically Part 2 defines the TPM 2.0 structures.
 Those familiar with TPM2 concepts may skip to {{appdx-tcg-attest-tpm-certify}} which defines an ASN.1 structure
@@ -1166,7 +1136,6 @@ CSR {
             EvidenceStatement {
               type: tcg-attest-tpm-certify,
               stmt: <TcgAttestTpmCertify_data>
-              hint: "tpmverifier.example.com"
             }
           },
           certs {
@@ -1184,7 +1153,6 @@ Note that this example demonstrates most of the features of this specification:
 
 - The data type is identified by the OID id-TcgCsrCertify contained in the `EvidenceStatement.type` field.
 - The signed evidence is carried in the `EvidenceStatement.stmt` field.
-- The `EvidenceStatement.hint` provides information to the Relying Party about which Verifier (software) will be able to correctly parse this data. Note that the `type` OID indicates the format of the data, but that may itself be a wrapper format that contains further data in a proprietary format. In this example, the hint says that software from the package `"tpmverifier.example.com"` will be able to parse this data.
 - The evidence statement is accompanied by a certificate chain in the `EvidenceBundle.certs` field which can be used to verify the signature on the evidence statement. How the Verifier establishes trust in the provided certificates is outside the scope of this specification.
 
 Features of this specification that are not demonstrated by this example are:

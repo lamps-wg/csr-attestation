@@ -71,7 +71,7 @@ normative:
   RFC4211:
   RFC2986:
   RFC6268:
-  RFC5280:  
+  RFC5280:
   ASN1-2002:
     author:
       org: ITU-T

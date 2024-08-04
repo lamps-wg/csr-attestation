@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-08-01T00:58:09.536092+00:00",
+  "timestamp": "2024-08-04T00:57:40.860392+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -7231,6 +7231,72 @@
       },
       "comments": [],
       "reviews": []
+    },
+    {
+      "number": 153,
+      "id": "PR_kwDOJ3IIN853EiFI",
+      "title": "Removed hint",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/153",
+      "state": "OPEN",
+      "author": "hannestschofenig",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Per IETF discussion I am proposing to remove the optional hint from the CSR attestation draft.\r\n\r\nAccepting this PR also voids the need to consider https://github.com/lamps-wg/csr-attestation/pull/143 and https://github.com/lamps-wg/csr-attestation/pull/133",
+      "createdAt": "2024-08-01T05:43:13Z",
+      "updatedAt": "2024-08-01T05:44:47Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "5fd5fdab410de3fce32859d2ca8bafa097a6a1b9",
+      "headRepository": "lamps-wg/csr-attestation",
+      "headRefName": "hint-removed",
+      "headRefOid": "0b72a0edc2d6c2fca06d64925dc2fdd576b7ef18",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 154,
+      "id": "PR_kwDOJ3IIN853Eoxu",
+      "title": "Remove optimization",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/154",
+      "state": "OPEN",
+      "author": "hannestschofenig",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Based on the discussions at the Vancouver IETF meeting with MSJ I got the impression that he was never asking for this type of optimization. Hence, I am removing it. Of course, there is a benefit of optimizing the transmission but there is also complexity that comes along with it. Unless someone is screaming to have support for such an optimization, it is essentially gone.",
+      "createdAt": "2024-08-01T06:06:35Z",
+      "updatedAt": "2024-08-02T15:35:31Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "5fd5fdab410de3fce32859d2ca8bafa097a6a1b9",
+      "headRepository": "lamps-wg/csr-attestation",
+      "headRefName": "optimization-removed",
+      "headRefOid": "7cf784090fb4c78619ae268b551a1b6a6e9943c9",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJ3IIN86EE64Q",
+          "commit": {
+            "abbreviatedOid": "7cf7840"
+          },
+          "author": "mcr",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-08-02T15:35:31Z",
+          "updatedAt": "2024-08-02T15:35:31Z",
+          "comments": []
+        }
+      ]
     }
   ]
 }

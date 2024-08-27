@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-08-25T00:58:50.674979+00:00",
+  "timestamp": "2024-08-27T00:55:38.411428+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -1835,11 +1835,13 @@
       "state": "OPEN",
       "author": "ounsworth",
       "authorAssociation": "CONTRIBUTOR",
-      "assignees": [],
+      "assignees": [
+        "mwiseman-byid"
+      ],
       "labels": [],
       "body": "TODO: study why\r\n\r\nIt looks like that isn't allowed to be empty, and probably shouldn't be there at all. Go look at Monty's repo and remove it.\r\n\r\n\r\nFrom Russ:\r\n\r\nhttps://mailarchive.ietf.org/arch/msg/spasm/ecN-85ImkAkVZ-04vLi-UrlxMLQ/",
       "createdAt": "2024-07-08T19:45:26Z",
-      "updatedAt": "2024-07-08T19:45:26Z",
+      "updatedAt": "2024-08-26T16:42:39Z",
       "closedAt": null,
       "comments": []
     },
@@ -1851,11 +1853,13 @@
       "state": "OPEN",
       "author": "ounsworth",
       "authorAssociation": "CONTRIBUTOR",
-      "assignees": [],
+      "assignees": [
+        "mwiseman-byid"
+      ],
       "labels": [],
       "body": "See mail-list thread:\r\nhttps://mailarchive.ietf.org/arch/msg/spasm/mN2o2mP8mAKfQub6olWThF8ftMk/\r\n\r\n-----\r\n\r\nSo I still have issues with this section (and yes, I'm now working from \r\nthe -10 draft):\r\n\r\n1) There is no functional mapping from a SubjectPublicKeyInfo to a \r\nTPMT_PUBLIC  [f(spki)->tpmt_public], which means there is no guaranteed \r\nway to calculate the TPM2B_NAME \"name\" field in the attestation's \r\nTPMS_CERTIFY_INFO from the SPKI in the CSR.  You can however calculate \r\nthe TPM2B_NAME from a TPMT_PUBLIC object, and you can match a \r\nTPMT_PUBLIC to an SPKI allowing you to verify that the attestation is \r\nabout the public key in the CSR.   This makes the TPMT_PUBLIC mandatory \r\nto complete the attestation of a public key, not optional.   A \r\ndiscussion of how to map across this set of relationships rather than \r\ngoing into details of the various structures appears necessary or at \r\nleast pointers to the sections in the TPM documents.\r\n\r\n2) (Section A.2.5.5) There's a TPM2B_DATA qualifyingData argument to the \r\nTPM2_Certify command that can be used to provide nonce data.  To verify \r\nthe attestation, you need to know what nonce the TPM used to form it.   \r\nThere needs to be a field in Tcg-csr-tpm-certify to provide for the \r\ncarriage of this value.  If it's omitted, a standard value is provided \r\nat the time of the creation of the attestation.  \"qualifyingData\" is an \r\ninput used in all 6 of the TPM certify commands and should not be \r\nomitted from the example. It may be optional in the structure, but must \r\nnot be omitted if the attestation formation used qualifyingData.\r\n\r\n3) A.2.5.2 - \"This document will specifically define...\" seems to imply \r\nthat you can safely ignore the TPMV2 documents definition of TPMT_PUBLIC \r\nin favor of this documents definition- that seems strange.\r\n\r\n4) Same section.  If you're going to expand the TPMA_OBJECT structure, \r\nit might be useful to describe what a relying party might want to check \r\nhere.  E.g. generated on the TPM, not extractable, either a signing, key \r\nagreement or encrypting and not a restricted key.\r\n\r\n5) A.2.5.3 - You've chosen to carry the signature in the TPM way - it \r\ncould also be carried in a PKIX way.  Either is valid, the second might \r\nbe easier for a relying party to handle.\r\n\r\n6) Most of the A.2.5 section would be better if removed and replaced \r\nwith document references to the actual TPMV2 documents.\r\n\r\n7) A.2.6 - I'm assuming that the CA certificate in the CSR \r\nEvidenceBundle.certs is the CA certificate that signed the AK. I'm \r\nunclear why it's here unless its an intermediate CA subordinate to a \r\nwell known root of trust. (Looking at the asn1 dump, that doesn't seem \r\nto be the case).\r\n\r\n8) Some discussion of what information the verifier needs to give you an \r\nanswer might be useful.  (e.g afaict, a Verifier needs the CSR's key to \r\nbe certified, the TPMT_PUBLIC content octets, the signature content \r\noctets and the attestation content octets.  Or it needs to be able to \r\nparse ASN1 from the entire CSR.\r\n\r\nItem's 1 and 2 need to be fixed.  (3) may need to be fixed, or at least \r\nreworded.  Items 4-8 would add useful content, but are mostly a don't \r\ncare from my point of view.\r\n\r\nLater, Mike",
       "createdAt": "2024-07-09T13:04:27Z",
-      "updatedAt": "2024-07-09T13:04:28Z",
+      "updatedAt": "2024-08-26T16:42:53Z",
       "closedAt": null,
       "comments": []
     },

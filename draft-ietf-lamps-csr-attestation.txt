@@ -5,14 +5,14 @@
 Network Working Group                                       M. Ounsworth
 Internet-Draft                                                   Entrust
 Intended status: Standards Track                           H. Tschofenig
-Expires: 8 January 2025                                          Siemens
+Expires: 13 March 2025                                           Siemens
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                               M. Wiseman
                                                          Beyond Identity
                                                                 N. Smith
                                                        Intel Corporation
-                                                             7 July 2024
+                                                        9 September 2024
 
 
      Use of Remote Attestation with Certification Signing Requests
@@ -69,7 +69,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 8 January 2025.
+   This Internet-Draft will expire on 13 March 2025.
 
 Copyright Notice
 
@@ -1079,16 +1079,16 @@ Table of Contents
    [I-D.bft-rats-kat]
               Brossard, M., Fossati, T., and H. Tschofenig, "An EAT-
               based Key Attestation Token", Work in Progress, Internet-
-              Draft, draft-bft-rats-kat-03, 4 March 2024,
+              Draft, draft-bft-rats-kat-04, 3 September 2024,
               <https://datatracker.ietf.org/doc/html/draft-bft-rats-kat-
-              03>.
+              04>.
 
    [I-D.ietf-rats-msg-wrap]
               Birkholz, H., Smith, N., Fossati, T., and H. Tschofenig,
               "RATS Conceptual Messages Wrapper (CMW)", Work in
-              Progress, Internet-Draft, draft-ietf-rats-msg-wrap-06, 1
-              July 2024, <https://datatracker.ietf.org/doc/html/draft-
-              ietf-rats-msg-wrap-06>.
+              Progress, Internet-Draft, draft-ietf-rats-msg-wrap-08, 2
+              September 2024, <https://datatracker.ietf.org/doc/html/
+              draft-ietf-rats-msg-wrap-08>.
 
    [I-D.ietf-rats-tpm-based-network-device-attest]
               Fedorkow, G., Voit, E., and J. Fitzgerald-McKay, "TPM-

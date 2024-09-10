@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-09-08T01:01:46.141774+00:00",
+  "timestamp": "2024-09-10T00:57:45.082046+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -47,6 +47,11 @@
       "name": "wontfix",
       "description": "This will not be worked on",
       "color": "ffffff"
+    },
+    {
+      "name": "TODO",
+      "description": "",
+      "color": "F847A2"
     }
   ],
   "issues": [
@@ -1356,15 +1361,15 @@
       "id": "I_kwDOJ3IIN86Cwai-",
       "title": "Include a CMW example in the appendix",
       "url": "https://github.com/lamps-wg/csr-attestation/issues/109",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "ounsworth",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "https://datatracker.ietf.org/doc/html/draft-ietf-rats-msg-wrap-04#name-transporting-cmw-in-x509-me\r\n\r\nComplication is that the OID for that is not yet allocated, so in order to not slow down the CSR Attest draft, CMW would need to ask for early allocation in order to produce a complete example containing the final OID.\r\n\r\nDiscussion is needed about whether the CMW OID should be allocated within the new registry created by the CSR Attest draft \"SMI Security for PKIX Evidence Statement Formats\" Registry. That would require requesting early allocation of both the registry and the CMW OID within it. Possibly we should also re-name it to be broader than just Evidence.\r\n\r\nFYI @thomas-fossati , @hannestschofenig ",
       "createdAt": "2024-03-19T00:14:23Z",
-      "updatedAt": "2024-06-12T05:01:43Z",
-      "closedAt": null,
+      "updatedAt": "2024-09-09T16:34:44Z",
+      "closedAt": "2024-09-09T16:34:44Z",
       "comments": [
         {
           "author": "ounsworth",
@@ -1696,15 +1701,15 @@
       "id": "I_kwDOJ3IIN86MiF4P",
       "title": "Definition of Key Attestation",
       "url": "https://github.com/lamps-wg/csr-attestation/issues/139",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "hannestschofenig",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "See this discussion: https://mailarchive.ietf.org/arch/msg/rats/aYeAOmAsqas4WomxImwXW8R63Mc/\r\n",
       "createdAt": "2024-06-17T16:25:08Z",
-      "updatedAt": "2024-07-28T04:21:09Z",
-      "closedAt": null,
+      "updatedAt": "2024-09-09T21:12:06Z",
+      "closedAt": "2024-09-09T16:32:51Z",
       "comments": [
         {
           "author": "aj-stein-nist",
@@ -1775,6 +1780,13 @@
           "body": "> Since we are in pick and choose mode, the glossary retrieves from all documents registered, they are not official definitions how external consumers perceive them.\r\n\r\nIn any case, I think the glossary should point to the document that actually defines it rather than the one that just uses it.",
           "createdAt": "2024-07-28T04:21:08Z",
           "updatedAt": "2024-07-28T04:21:08Z"
+        },
+        {
+          "author": "muhammad-usama-sardar",
+          "authorAssociation": "NONE",
+          "body": "@ounsworth Could you please add some concluding remarks? What view do editors take in the draft?",
+          "createdAt": "2024-09-09T21:12:04Z",
+          "updatedAt": "2024-09-09T21:12:04Z"
         }
       ]
     },
@@ -1838,10 +1850,12 @@
       "assignees": [
         "mwiseman-byid"
       ],
-      "labels": [],
+      "labels": [
+        "TODO"
+      ],
       "body": "TODO: study why\r\n\r\nIt looks like that isn't allowed to be empty, and probably shouldn't be there at all. Go look at Monty's repo and remove it.\r\n\r\n\r\nFrom Russ:\r\n\r\nhttps://mailarchive.ietf.org/arch/msg/spasm/ecN-85ImkAkVZ-04vLi-UrlxMLQ/",
       "createdAt": "2024-07-08T19:45:26Z",
-      "updatedAt": "2024-08-26T16:42:39Z",
+      "updatedAt": "2024-09-09T16:29:18Z",
       "closedAt": null,
       "comments": []
     },
@@ -1875,9 +1889,17 @@
       "labels": [],
       "body": "We should provide test data for multiple EvidenceBundles and multiple EvidenceStatements. For completeness, we should provide samples of each of the 4 cases in Section 4.2:\r\n\r\n4.2.1. Case 1 - Single Evidence Bundle\r\n4.2.2. Case 2 - Single Evidence Bundle with Certificate Chain\r\n4.2.3. Case 3 - Multiple Evidence Bundles each with Complete Certificate Chains\r\n4.2.4. Case 4 - Multiple Evidence Bundles with Certificate Transmission Optimization\r\n\r\nThe actual evidence payload can be a stub, like a JWS with the content being the string \"Evidence\"; the point is to provide test vectors that exercise all functionality of the draft.",
       "createdAt": "2024-07-20T03:35:53Z",
-      "updatedAt": "2024-07-20T03:36:29Z",
+      "updatedAt": "2024-09-09T16:44:38Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "We have the Informative Reference:\r\n\r\n```\r\n[SampleData]\r\n\"CSR Attestation Sample Data\", n.d., <https://github.com/lamps-wg/csr-attestation-examples>.\r\n```\r\n\r\nwhich allows us to continue producing samples at hackathons after this is published as RFC.",
+          "createdAt": "2024-09-09T16:44:37Z",
+          "updatedAt": "2024-09-09T16:44:37Z"
+        }
+      ]
     }
   ],
   "pulls": [

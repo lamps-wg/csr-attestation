@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-09-10T00:57:45.082046+00:00",
+  "timestamp": "2024-09-12T00:57:21.254746+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -1900,6 +1900,53 @@
           "updatedAt": "2024-09-09T16:44:37Z"
         }
       ]
+    },
+    {
+      "number": 155,
+      "id": "I_kwDOJ3IIN86V8T_s",
+      "title": "Appendix B.1 and B.2 need some TLC",
+      "url": "https://github.com/lamps-wg/csr-attestation/issues/155",
+      "state": "OPEN",
+      "author": "thomas-fossati",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "@henkbirkholz asked me to look at B.1 and B.2.\r\n\r\nTwo observations:\r\n\r\n* The title is the same and a good percentage of the prose portion is repeated. It is not clear why both sections are needed.  (My guess is you wanted to have CMW and TCBInfo examples one alongside the other, but for some reason, you ended in this garbled situation.)\r\n* The example in B.2 is not a CMW, it's a DICE TCBInfo.  To be a CMW it should use OID [id-pe-cmw](https://www.iana.org/assignments/smi-numbers/smi-numbers.xhtml#smi-numbers-1.3.6.1.5.5.7.1), and the encoding defined in [Section 5 of CMW](https://www.ietf.org/archive/id/draft-ietf-rats-msg-wrap-08.html#section-5-8).\r\n\r\nIn conclusion:\r\n1. The title of B.2 should be \"TCG DiceTCBInfo in CSR\", and\r\n2. B.1 still needs some tender love and care.\r\n \r\nThis may be related to #144 ",
+      "createdAt": "2024-09-10T07:19:23Z",
+      "updatedAt": "2024-09-11T18:58:34Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "body": "[6.4.2. Initial Registry Contents](https://lamps-wg.github.io/csr-attestation/draft-ietf-lamps-csr-attestation.html#name-initial-registry-contents) references [I-D.ietf-rats-msg-wrap](https://lamps-wg.github.io/csr-attestation/draft-ietf-lamps-csr-attestation.html#I-D.ietf-rats-msg-wrap) (oid [1.3.6.1.5.5.7.1.35](https://www.iana.org/assignments/smi-numbers/smi-numbers.xhtml#smi-numbers-1.3.6.1.5.5.7.1.35)) and then lists DiceConceptualMessageWrapper (oid 2.23.133.5.4.9) as the item to register.\r\n\r\n1.3.6.1.5.5.7.1.35 represents a superset of 2.23.133.5.4.9, I think. Should we consider using that oid instead?",
+          "createdAt": "2024-09-11T17:02:23Z",
+          "updatedAt": "2024-09-11T17:02:23Z"
+        },
+        {
+          "author": "thomas-fossati",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "> 1.3.6.1.5.5.7.1.35 represents a superset of 2.23.133.5.4.9, I think. Should we consider using that oid instead?\r\n\r\nYes, two reasons:\r\n\r\n1. As you also noted, IETF CMW is a superset of TCG CMW;\r\n2. It makes sense for an IETF spec to eat its own dog food :-)",
+          "createdAt": "2024-09-11T18:58:33Z",
+          "updatedAt": "2024-09-11T18:58:33Z"
+        }
+      ]
+    },
+    {
+      "number": 156,
+      "id": "I_kwDOJ3IIN86WKxRz",
+      "title": "evidenceId ",
+      "url": "https://github.com/lamps-wg/csr-attestation/issues/156",
+      "state": "OPEN",
+      "author": "hannestschofenig",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Hendrik raised this issue in this email to the list:\r\nhttps://mailarchive.ietf.org/arch/msg/spasm/p-1z2lkDwzq0JNvbWyzDf71aA0U/\r\n\r\n> I recommend at least adding an evidenceId field in the evidence-statement structure to have an explicit ID of each evidence-statement. This can be used to clearly identify which nonce was used for which evidence-statement.",
+      "createdAt": "2024-09-11T10:56:00Z",
+      "updatedAt": "2024-09-11T10:56:00Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [

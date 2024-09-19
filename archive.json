@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-09-17T00:47:45.293214+00:00",
+  "timestamp": "2024-09-19T00:58:16.872411+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -1614,15 +1614,15 @@
       "id": "I_kwDOJ3IIN86K8cmk",
       "title": "Remove hint",
       "url": "https://github.com/lamps-wg/csr-attestation/issues/131",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "ounsworth",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "See LAMPS mail list discussion.",
       "createdAt": "2024-06-03T13:01:18Z",
-      "updatedAt": "2024-06-04T12:52:53Z",
-      "closedAt": null,
+      "updatedAt": "2024-09-18T10:04:46Z",
+      "closedAt": "2024-09-18T10:04:46Z",
       "comments": [
         {
           "author": "ounsworth",
@@ -1637,6 +1637,13 @@
           "body": "The hackathon code that generated the TPM example will need to be re-done to remove the hint.",
           "createdAt": "2024-06-04T12:52:53Z",
           "updatedAt": "2024-06-04T12:52:53Z"
+        },
+        {
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Based on the design team discussions we leave the hint in the draft",
+          "createdAt": "2024-09-18T10:04:46Z",
+          "updatedAt": "2024-09-18T10:04:46Z"
         }
       ]
     },
@@ -1945,6 +1952,22 @@
       "body": "Hendrik raised this issue in this email to the list:\r\nhttps://mailarchive.ietf.org/arch/msg/spasm/p-1z2lkDwzq0JNvbWyzDf71aA0U/\r\n\r\n> I recommend at least adding an evidenceId field in the evidence-statement structure to have an explicit ID of each evidence-statement. This can be used to clearly identify which nonce was used for which evidence-statement.",
       "createdAt": "2024-09-11T10:56:00Z",
       "updatedAt": "2024-09-11T10:56:00Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 157,
+      "id": "I_kwDOJ3IIN86W_xRs",
+      "title": "hint: FQDN vs. URI vs. URN",
+      "url": "https://github.com/lamps-wg/csr-attestation/issues/157",
+      "state": "OPEN",
+      "author": "hannestschofenig",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "There is still an open issue based on the discussions at this PR:\r\nhttps://github.com/lamps-wg/csr-attestation/pull/143",
+      "createdAt": "2024-09-18T10:06:12Z",
+      "updatedAt": "2024-09-18T10:06:12Z",
       "closedAt": null,
       "comments": []
     }
@@ -6634,7 +6657,7 @@
       "id": "PR_kwDOJ3IIN85xdN2Q",
       "title": "Removed Hint",
       "url": "https://github.com/lamps-wg/csr-attestation/pull/133",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "ounsworth",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [
@@ -6644,14 +6667,14 @@
       "labels": [],
       "body": "Closes #131",
       "createdAt": "2024-06-04T17:53:58Z",
-      "updatedAt": "2024-06-17T16:59:15Z",
+      "updatedAt": "2024-09-18T10:02:07Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "d446ab7af757c10c021373d7a038e8817ccc0f97",
       "headRepository": "lamps-wg/csr-attestation",
       "headRefName": "mikeo_131",
       "headRefOid": "a35a92e1bbec2adcd60f8e2f93fbc09f8937d4e7",
-      "closedAt": null,
+      "closedAt": "2024-09-18T10:02:06Z",
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
@@ -6669,6 +6692,13 @@
           "body": "To move this forward, I am assigning this PR to @hannestschofenig and @henkbirkholz to produce another version of this PR for the group to review.",
           "createdAt": "2024-06-17T16:58:57Z",
           "updatedAt": "2024-06-17T16:58:57Z"
+        },
+        {
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Closed PR based on the design team discussions",
+          "createdAt": "2024-09-18T10:02:06Z",
+          "updatedAt": "2024-09-18T10:02:06Z"
         }
       ],
       "reviews": []
@@ -6959,24 +6989,26 @@
       "id": "PR_kwDOJ3IIN850CuSM",
       "title": "New Hint Text Proposal",
       "url": "https://github.com/lamps-wg/csr-attestation/pull/143",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "hannestschofenig",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Aiming to address the mailing list discussion\r\n\r\nQuestion: Is there a good ASN.1 structure to use for FQDNs?",
       "createdAt": "2024-07-01T09:25:28Z",
-      "updatedAt": "2024-07-05T18:33:37Z",
+      "updatedAt": "2024-09-18T10:04:13Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "5eb0d71c3325c68016c8a68bae29a4c80113531e",
       "headRepository": "lamps-wg/csr-attestation",
       "headRefName": "hannestschofenig-patch-5",
       "headRefOid": "9e60bf8530c87281e969326982adc7cf1a53ec35",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2024-09-18T10:04:13Z",
+      "mergedAt": "2024-09-18T10:04:13Z",
+      "mergedBy": "hannestschofenig",
+      "mergeCommit": {
+        "oid": "3e147827271363ac87e545f0cffbccbd80bf285c"
+      },
       "comments": [
         {
           "author": "ounsworth",
@@ -7310,25 +7342,33 @@
       "id": "PR_kwDOJ3IIN853EiFI",
       "title": "Removed hint",
       "url": "https://github.com/lamps-wg/csr-attestation/pull/153",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "hannestschofenig",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Per IETF discussion I am proposing to remove the optional hint from the CSR attestation draft.\r\n\r\nAccepting this PR also voids the need to consider https://github.com/lamps-wg/csr-attestation/pull/143 and https://github.com/lamps-wg/csr-attestation/pull/133",
       "createdAt": "2024-08-01T05:43:13Z",
-      "updatedAt": "2024-08-01T05:44:47Z",
+      "updatedAt": "2024-09-18T10:02:20Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "5fd5fdab410de3fce32859d2ca8bafa097a6a1b9",
       "headRepository": "lamps-wg/csr-attestation",
       "headRefName": "hint-removed",
       "headRefOid": "0b72a0edc2d6c2fca06d64925dc2fdd576b7ef18",
-      "closedAt": null,
+      "closedAt": "2024-09-18T10:02:20Z",
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
+      "comments": [
+        {
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Closed PR based on the design team discussions",
+          "createdAt": "2024-09-18T10:02:20Z",
+          "updatedAt": "2024-09-18T10:02:20Z"
+        }
+      ],
       "reviews": []
     },
     {
@@ -7336,24 +7376,26 @@
       "id": "PR_kwDOJ3IIN853Eoxu",
       "title": "Remove optimization",
       "url": "https://github.com/lamps-wg/csr-attestation/pull/154",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "hannestschofenig",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Based on the discussions at the Vancouver IETF meeting with MSJ I got the impression that he was never asking for this type of optimization. Hence, I am removing it. Of course, there is a benefit of optimizing the transmission but there is also complexity that comes along with it. Unless someone is screaming to have support for such an optimization, it is essentially gone.",
       "createdAt": "2024-08-01T06:06:35Z",
-      "updatedAt": "2024-08-02T15:35:31Z",
+      "updatedAt": "2024-09-18T10:06:28Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "5fd5fdab410de3fce32859d2ca8bafa097a6a1b9",
       "headRepository": "lamps-wg/csr-attestation",
       "headRefName": "optimization-removed",
       "headRefOid": "7cf784090fb4c78619ae268b551a1b6a6e9943c9",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2024-09-18T10:06:28Z",
+      "mergedAt": "2024-09-18T10:06:28Z",
+      "mergedBy": "hannestschofenig",
+      "mergeCommit": {
+        "oid": "8242ad75210d973485ea1653c73a3dc57b4dc9c9"
+      },
       "comments": [],
       "reviews": [
         {

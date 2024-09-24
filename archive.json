@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-09-22T01:04:06.188976+00:00",
+  "timestamp": "2024-09-24T01:00:29.214302+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -1486,16 +1486,18 @@
     {
       "number": 122,
       "id": "I_kwDOJ3IIN86IeSwq",
-      "title": "Choose a mailing list for the expert review of external SDO registry",
+      "title": "Choose a mailing list for the expert review of SDO",
       "url": "https://github.com/lamps-wg/csr-attestation/issues/122",
       "state": "OPEN",
       "author": "ounsworth",
       "authorAssociation": "CONTRIBUTOR",
-      "assignees": [],
+      "assignees": [
+        "hannestschofenig"
+      ],
       "labels": [],
       "body": "Replace the TBD in:\r\n\r\n> Registration requests are evaluated using the criteria described in\r\nthe registration template below after a three-week review period on\r\nthe [[TBD]] mailing list",
       "createdAt": "2024-05-10T12:29:37Z",
-      "updatedAt": "2024-05-10T12:29:37Z",
+      "updatedAt": "2024-09-23T16:27:01Z",
       "closedAt": null,
       "comments": []
     },
@@ -1916,11 +1918,13 @@
       "state": "OPEN",
       "author": "thomas-fossati",
       "authorAssociation": "CONTRIBUTOR",
-      "assignees": [],
+      "assignees": [
+        "nedmsmith"
+      ],
       "labels": [],
       "body": "@henkbirkholz asked me to look at B.1 and B.2.\r\n\r\nTwo observations:\r\n\r\n* The title is the same and a good percentage of the prose portion is repeated. It is not clear why both sections are needed.  (My guess is you wanted to have CMW and TCBInfo examples one alongside the other, but for some reason, you ended in this garbled situation.)\r\n* The example in B.2 is not a CMW, it's a DICE TCBInfo.  To be a CMW it should use OID [id-pe-cmw](https://www.iana.org/assignments/smi-numbers/smi-numbers.xhtml#smi-numbers-1.3.6.1.5.5.7.1), and the encoding defined in [Section 5 of CMW](https://www.ietf.org/archive/id/draft-ietf-rats-msg-wrap-08.html#section-5-8).\r\n\r\nIn conclusion:\r\n1. The title of B.2 should be \"TCG DiceTCBInfo in CSR\", and\r\n2. B.1 still needs some tender love and care.\r\n \r\nThis may be related to #144 ",
       "createdAt": "2024-09-10T07:19:23Z",
-      "updatedAt": "2024-09-11T18:58:34Z",
+      "updatedAt": "2024-09-23T16:28:01Z",
       "closedAt": null,
       "comments": [
         {
@@ -1947,11 +1951,13 @@
       "state": "OPEN",
       "author": "hannestschofenig",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
+      "assignees": [
+        "HBrock"
+      ],
       "labels": [],
       "body": "Hendrik raised this issue in this email to the list:\r\nhttps://mailarchive.ietf.org/arch/msg/spasm/p-1z2lkDwzq0JNvbWyzDf71aA0U/\r\n\r\n> I recommend at least adding an evidenceId field in the evidence-statement structure to have an explicit ID of each evidence-statement. This can be used to clearly identify which nonce was used for which evidence-statement.",
       "createdAt": "2024-09-11T10:56:00Z",
-      "updatedAt": "2024-09-11T10:56:00Z",
+      "updatedAt": "2024-09-23T16:36:47Z",
       "closedAt": null,
       "comments": []
     },
@@ -1963,11 +1969,59 @@
       "state": "OPEN",
       "author": "hannestschofenig",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
+      "assignees": [
+        "hannestschofenig"
+      ],
       "labels": [],
       "body": "There is still an open issue based on the discussions at this PR:\r\nhttps://github.com/lamps-wg/csr-attestation/pull/143",
       "createdAt": "2024-09-18T10:06:12Z",
-      "updatedAt": "2024-09-18T10:06:12Z",
+      "updatedAt": "2024-09-23T16:36:09Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 158,
+      "id": "I_kwDOJ3IIN86XlPxp",
+      "title": "Add OID for CMW in the IANA Consideration Section",
+      "url": "https://github.com/lamps-wg/csr-attestation/issues/158",
+      "state": "OPEN",
+      "author": "hannestschofenig",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "nedmsmith",
+        "henkbirkholz"
+      ],
+      "labels": [],
+      "body": "",
+      "createdAt": "2024-09-23T16:23:40Z",
+      "updatedAt": "2024-09-23T16:29:07Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "body": "https://github.com/lamps-wg/csr-attestation/issues/155\r\n",
+          "createdAt": "2024-09-23T16:29:06Z",
+          "updatedAt": "2024-09-23T16:29:06Z"
+        }
+      ]
+    },
+    {
+      "number": 159,
+      "id": "I_kwDOJ3IIN86XlVAL",
+      "title": "DICE IANA Registry Contents",
+      "url": "https://github.com/lamps-wg/csr-attestation/issues/159",
+      "state": "OPEN",
+      "author": "hannestschofenig",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "nedmsmith",
+        "mwiseman-byid"
+      ],
+      "labels": [],
+      "body": "Change the description to match what is in the TCG registry.",
+      "createdAt": "2024-09-23T16:35:22Z",
+      "updatedAt": "2024-09-23T16:35:23Z",
       "closedAt": null,
       "comments": []
     }

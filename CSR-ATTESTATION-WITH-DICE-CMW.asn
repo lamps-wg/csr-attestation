@@ -1,11 +1,100 @@
 
-tcgDiceEvidenceStatementES EVIDENCE-STATEMENT ::=
-  { ConceptualMessageWrapper IDENTIFIED BY tcg-dice-conceptual-message-wrapper }
+CsrAttestationDiceExample DEFINITIONS IMPLICIT TAGS ::= BEGIN
 
--- where ConceptualMessageWrapper and tcg-dice-conceptual-message-wrapper 
+IMPORTS 
+
+tcg-dice-conceptual-message-wrapper FROM TcgDiceAttestation
+DiceConceptualMessageWrapper FROM TcgDiceAttestation
+
+EvidenceStatementSet FROM CsrAttestation 
+;
+
+tcgDiceCmwEvidenceStatementES EVIDENCE-STATEMENT ::= { 
+  DiceConceptualMessageWrapper IDENTIFIED BY tcg-dice-conceptual-message-wrapper }
+
+tcgDiceTcbInfoEvidenceStatementES EVIDENCE-STATEMENT ::= {
+  DiceTcbInfo IDENTIFIED BY tcg-dice-TcbInfo }
+-- where ConceptualMessageWrapper, tcg-dice-conceptual-message-wrapper, DiceTcbInfo, and tcg-dice-TcbInfo
 -- are defined in DICE-Attestation-Architecture-Version-1.1-Revision-17_1August2023.pdf
 
 EvidenceStatementSet EVIDENCE-STATEMENT ::= {
-  tcgDiceEvidenceStatementES, ...
+  tcgDiceEvidenceStatementES, 
+  tcgDiceTcbInfoEvidenceStatementES, 
+  ...
+}
+END
+
+TcgDiceAttestation DEFINITIONS AUTOMATIC TAGS ::= BEGIN
+
+EXPORTS ALL;
+
+tcg OBJECT IDENTIFIER ::= { 2 23 133 }
+tcg-dice OBJECT IDENTIFIER ::= { tcg platformClass(5) dice(4) }
+tcg-dice-TcbInfo OBJECT IDENTIFIER ::= { tcg-dice tcbinfo(1) }
+tcg-dice-MultiTcbInfo OBJECT IDENTIFIER ::= {tcg-dice multitcbinfo(5) }
+tcg-dice-UCCS-evidence OBJECT IDENTIFIER ::= {tcg-dice uccs-evidence(6) }
+tcg-dice-manifest-evidence OBJECT IDENTIFIER ::= {tcg-dice manifest-evidience(7) }
+tcg-dice-MultiTcbInfoComp OBJECT IDENTIFIER ::= {tcg-dice multitcbinfocomp(8) }
+tcg-dice-conceptual-message-wrapper OBJECT IDENTIFIER ::= { tcg-dice cmw(9) }
+
+DiceConceptualMessageWrapper ::= SEQUENCE {
+  cmw OCTECT STRING
 }
 
+DiceTcbInfo ::= SEQUENCE {
+  vendor [0] IMPLICIT UTF8String OPTIONAL,
+  model [1] IMPLICIT UTF8String OPTIONAL,
+  version [2] IMPLICIT UTF8String OPTIONAL,
+  svn [3] IMPLICIT INTEGER OPTIONAL,
+  layer [4] IMPLICIT INTEGER OPTIONAL,
+  index [5] IMPLICIT INTEGER OPTIONAL,
+  fwids [6] IMPLICIT FWIDLIST OPTIONAL,
+  flags [7] IMPLICIT OperationalFlags OPTIONAL,
+  vendorInfo [8] IMPLICIT OCTET STRING OPTIONAL,
+  type [9] IMPLICIT OCTET STRING OPTIONAL,
+  flagsMask [10]IMPLICIT OperationalFlagsMask OPTIONAL,
+  integrityRegisters [11] IMPLICIT IrList OPTIONAL
+}
+
+FWIDLIST ::= SEQUENCE SIZE (1..MAX) OF FWID
+  FWID ::= SEQUENCE {
+  hashAlg OBJECT IDENTIFIER,
+  digest OCTET STRING
+}
+
+OperationalFlags ::= BIT STRING {
+  notConfigured (0),
+  notSecure (1),
+  recovery (2),
+  debug (3),
+  notReplayProtected (4),
+  notIntegrityProtected (5),
+  notRuntimeMeasured (6),
+  notImmutable (7),
+  notTcb (8),
+  fixedWidth (31)
+}
+
+OperationalFlagsMask ::= BIT STRING {
+  notConfigured (0),
+  notSecure (1),
+  recovery (2),
+  debug (3),
+  notReplayProtected (4),
+  notIntegrityProtected (5),
+  notRuntimeMeasured (6),
+  notImmutable (7),
+  notTcb (8),
+  fixedWidth (31)
+}
+
+IrList ::= SEQUENCE SIZE (1..MAX) OF IntegrityRegister
+
+IntegrityRegister ::= SEQUENCE {
+  registerName IA5String OPTIONAL,
+  registerNum INTEGER OPTIONAL,
+  hashAlg OBJECT IDENTIFIER,
+  digest OCTET STRING
+}
+    
+END

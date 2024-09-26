@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-09-24T01:00:29.214302+00:00",
+  "timestamp": "2024-09-26T00:59:32.964861+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -1924,7 +1924,7 @@
       "labels": [],
       "body": "@henkbirkholz asked me to look at B.1 and B.2.\r\n\r\nTwo observations:\r\n\r\n* The title is the same and a good percentage of the prose portion is repeated. It is not clear why both sections are needed.  (My guess is you wanted to have CMW and TCBInfo examples one alongside the other, but for some reason, you ended in this garbled situation.)\r\n* The example in B.2 is not a CMW, it's a DICE TCBInfo.  To be a CMW it should use OID [id-pe-cmw](https://www.iana.org/assignments/smi-numbers/smi-numbers.xhtml#smi-numbers-1.3.6.1.5.5.7.1), and the encoding defined in [Section 5 of CMW](https://www.ietf.org/archive/id/draft-ietf-rats-msg-wrap-08.html#section-5-8).\r\n\r\nIn conclusion:\r\n1. The title of B.2 should be \"TCG DiceTCBInfo in CSR\", and\r\n2. B.1 still needs some tender love and care.\r\n \r\nThis may be related to #144 ",
       "createdAt": "2024-09-10T07:19:23Z",
-      "updatedAt": "2024-09-23T16:28:01Z",
+      "updatedAt": "2024-09-24T18:59:49Z",
       "closedAt": null,
       "comments": [
         {
@@ -1940,6 +1940,13 @@
           "body": "> 1.3.6.1.5.5.7.1.35 represents a superset of 2.23.133.5.4.9, I think. Should we consider using that oid instead?\r\n\r\nYes, two reasons:\r\n\r\n1. As you also noted, IETF CMW is a superset of TCG CMW;\r\n2. It makes sense for an IETF spec to eat its own dog food :-)",
           "createdAt": "2024-09-11T18:58:33Z",
           "updatedAt": "2024-09-11T18:58:33Z"
+        },
+        {
+          "author": "nedmsmith",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Here's proposed ASN.1 for Section B.1\r\nI noted there was no name given to the DEFINITIONS section that defined EvidenceStatementSet. Was there a reason?\r\nI found it helpful to give it a name so I can write the IMPORTS section, namely: EvidenceStatementSet FROM CsrAttestation \r\n\r\nShould I give it a name in a PR to add the other ASN.1?\r\n\r\nNote also the TcgDice block defines the other DICE OIDs that show up in the OID registry in the IANA section.\r\n\r\nI also noticed the B.2 section is mislabeled as it is showing a DiceTcbInfo example. The updated ASN.1 shows construction of an EvidenceStatementSet containing both Dice CMW and Dice TcbInfo structures.\r\n\r\n```\r\nCsrAttestationDiceExample DEFINITIONS IMPLICIT TAGS ::= BEGIN\r\n\r\nIMPORTS \r\n\r\ntcg-dice-conceptual-message-wrapper FROM TcgDice\r\nDiceConceptualMessageWrapper FROM TcgDice\r\n\r\nEvidenceStatementSet FROM CsrAttestation \r\n;\r\n\r\ntcgDiceCmwEvidenceStatementES EVIDENCE-STATEMENT ::=\r\n  { DiceConceptualMessageWrapper IDENTIFIED BY tcg-dice-conceptual-message-wrapper }\r\n\r\ntcgDiceTcbInfoEvidenceStatementES EVIDENCE-STATEMENT ::=\r\n  { DiceTcbInfo IDENTIFIED BY tcg-dice-TcbInfo }\r\n-- where ConceptualMessageWrapper, tcg-dice-conceptual-message-wrapper, DiceTcbInfo, and tcg-dice-TcbInfo\r\n-- are defined in DICE-Attestation-Architecture-Version-1.1-Revision-17_1August2023.pdf\r\n\r\nEvidenceStatementSet EVIDENCE-STATEMENT ::= {\r\n  tcgDiceEvidenceStatementES, \r\n  tcgDiceTcbInfoEvidenceStatementES, \r\n  ...\r\n}\r\nEND\r\n\r\nTcgDice DEFINITIONS IMPLICIT TAGS ::= BEGIN\r\n\r\nEXPORTS ALL;\r\n\r\ntcg OBJECT IDENTIFIER ::= { 2 23 133 }\r\ntcg-dice OBJECT IDENTIFIER ::= { tcg platformClass(5) dice(4) }\r\ntcg-dice-TcbInfo OBJECT IDENTIFIER ::= { tcg-dice tcbinfo(1) }\r\ntcg-dice-MultiTcbInfo OBJECT IDENTIFIER ::= {tcg-dice multitcbinfo(5) }\r\ntcg-dice-UCCS-evidence OBJECT IDENTIFIER ::= {tcg-dice uccs-evidence(6) }\r\ntcg-dice-manifest-evidence OBJECT IDENTIFIER ::= {tcg-dice manifest-evidience(7) }\r\ntcg-dice-MultiTcbInfoComp OBJECT IDENTIFIER ::= {tcg-dice multitcbinfocomp(8) }\r\ntcg-dice-conceptual-message-wrapper OBJECT IDENTIFIER ::= { tcg-dice cmw(9) }\r\n\r\nDiceConceptualMessageWrapper ::= SEQUENCE {\r\n    cmw OCTECT STRING\r\n}\r\n\r\nDiceTcbInfo ::== SEQUENCE {\r\n    vendor [0] IMPLICIT UTF8String OPTIONAL,\r\n    model [1] IMPLICIT UTF8String OPTIONAL,\r\n    version [2] IMPLICIT UTF8String OPTIONAL,\r\n    svn [3] IMPLICIT INTEGER OPTIONAL,\r\n    layer [4] IMPLICIT INTEGER OPTIONAL,\r\n    index [5] IMPLICIT INTEGER OPTIONAL,\r\n    fwids [6] IMPLICIT FWIDLIST OPTIONAL,\r\n    flags [7] IMPLICIT OperationalFlags OPTIONAL,\r\n    vendorInfo [8] IMPLICIT OCTET STRING OPTIONAL,\r\n    type [9] IMPLICIT OCTET STRING OPTIONAL,\r\n    flagsMask [10]IMPLICIT OperationalFlagsMask OPTIONAL\r\n}\r\n\r\nFWIDLIST ::== SEQUENCE SIZE (1..MAX) OF FWID\r\n    FWID ::== SEQUENCE {\r\n    hashAlg OBJECT IDENTIFIER,\r\n    digest OCTET STRING\r\n}\r\n\r\nOperationalFlags ::= BIT STRING {\r\n    notConfigured (0),\r\n    notSecure (1),\r\n    recovery (2),\r\n    debug (3),\r\n    notReplayProtected (4),\r\n    notIntegrityProtected (5),\r\n    notRuntimeMeasured (6),\r\n    notImmutable (7),\r\n    notTcb (8),\r\n    fixedWidth (31)\r\n}\r\n\r\nOperationalFlagsMask ::= BIT STRING {\r\n    notConfigured (0),\r\n    notSecure (1),\r\n    recovery (2),\r\n    debug (3),\r\n    notReplayProtected (4),\r\n    notIntegrityProtected (5),\r\n    notRuntimeMeasured (6),\r\n    notImmutable (7),\r\n    notTcb (8),\r\n    fixedWidth (31)\r\n}\r\n    \r\nEND\r\n```",
+          "createdAt": "2024-09-24T18:45:34Z",
+          "updatedAt": "2024-09-24T18:59:49Z"
         }
       ]
     },
@@ -1957,9 +1964,17 @@
       "labels": [],
       "body": "Hendrik raised this issue in this email to the list:\r\nhttps://mailarchive.ietf.org/arch/msg/spasm/p-1z2lkDwzq0JNvbWyzDf71aA0U/\r\n\r\n> I recommend at least adding an evidenceId field in the evidence-statement structure to have an explicit ID of each evidence-statement. This can be used to clearly identify which nonce was used for which evidence-statement.",
       "createdAt": "2024-09-11T10:56:00Z",
-      "updatedAt": "2024-09-23T16:36:47Z",
+      "updatedAt": "2024-09-24T09:32:08Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "HBrock",
+          "authorAssociation": "NONE",
+          "body": "The goal is to have a unique ID for all evidence statements in a CSR to use them when requesting an attestation freshness nonce. \r\nAs there are EvidenceStatements in EvicenceBundles, the IDs must be unique throughout all statements in all bundles\r\nTherefore, I think adding an ID to the EvidenceStatement structure and using 128bit nonce as ID should work.\r\nThere may be still the case that an ID is reused in different statements in the same CSR. \r\nWhat do others think?",
+          "createdAt": "2024-09-24T09:32:06Z",
+          "updatedAt": "2024-09-24T09:32:06Z"
+        }
+      ]
     },
     {
       "number": 157,
@@ -7466,6 +7481,32 @@
           "comments": []
         }
       ]
+    },
+    {
+      "number": 160,
+      "id": "PR_kwDOJ3IIN858trpj",
+      "title": "Fixed DICE asn.1 example",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/160",
+      "state": "OPEN",
+      "author": "nedmsmith",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Updated DICE examples to create a evidence bundle containing a DICE cmw and DiceTcbInfo.  Added CsrAttestation name to the definition in CSR-ATTESTATION-2023.asn file so that imports would compile.",
+      "createdAt": "2024-09-25T21:34:28Z",
+      "updatedAt": "2024-09-25T21:34:28Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "8242ad75210d973485ea1653c73a3dc57b4dc9c9",
+      "headRepository": "lamps-wg/csr-attestation",
+      "headRefName": "fix-dice-bundle-example",
+      "headRefOid": "20984536470a4df76e7fece65df04425146abeb2",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }

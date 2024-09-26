@@ -1210,7 +1210,7 @@ the result of CBOR encoding the CMW collection shown below
 {::include CSR-ATTESTATION-2023.asn}
 ~~~
 
-## TCG DICE ConceptualMessageWrapper in CSR
+## TCG DICE Example in ASN.1
 
 This section gives an example of extending the ASN.1 module above to carry an existing ASN.1-based evidence statement.
 The example used is the Trusted Computing Group DICE Attestation Conceptual Message Wrapper, as defined in {{TCGDICE1.1}}.
@@ -1219,7 +1219,7 @@ The example used is the Trusted Computing Group DICE Attestation Conceptual Mess
 {::include CSR-ATTESTATION-WITH-DICE-CMW.asn}
 ~~~
 
-## TCG DICE ConceptualMessageWrapper in CSR
+## TCG DICE TcbInfo Example in CSR
 
 This section gives an example of extending the ASN.1 module above to carry an existing ASN.1-based evidence statement.
 The example used is the Trusted Computing Group DiceTcbInfo, as defined in {{TCGDICE1.1}}.

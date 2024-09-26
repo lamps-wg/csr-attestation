@@ -5,14 +5,14 @@
 Network Working Group                                       M. Ounsworth
 Internet-Draft                                                   Entrust
 Intended status: Standards Track                           H. Tschofenig
-Expires: 29 March 2025                                           Siemens
+Expires: 30 March 2025                                           Siemens
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                               M. Wiseman
                                                          Beyond Identity
                                                                 N. Smith
                                                        Intel Corporation
-                                                       25 September 2024
+                                                       26 September 2024
 
 
      Use of Remote Attestation with Certification Signing Requests
@@ -69,7 +69,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 29 March 2025.
+   This Internet-Draft will expire on 30 March 2025.
 
 Copyright Notice
 
@@ -130,8 +130,8 @@ Table of Contents
        A.2.6.  Sample CSR
      A.3.  PSA Attestation Token in CSR
    Appendix B.  ASN.1 Module
-     B.1.  TCG DICE ConceptualMessageWrapper in CSR
-     B.2.  TCG DICE ConceptualMessageWrapper in CSR
+     B.1.  TCG DICE Example in ASN.1
+     B.2.  TCG DICE TcbInfo Example in CSR
    Appendix C.  Acknowledgments
    Authors' Addresses
 
@@ -1694,7 +1694,7 @@ EvidenceBundle ::= SEQUENCE {
 
 END
 
-B.1.  TCG DICE ConceptualMessageWrapper in CSR
+B.1.  TCG DICE Example in ASN.1
 
    This section gives an example of extending the ASN.1 module above to
    carry an existing ASN.1-based evidence statement.  The example used
@@ -1801,7 +1801,7 @@ IntegrityRegister ::= SEQUENCE {
 
 END
 
-B.2.  TCG DICE ConceptualMessageWrapper in CSR
+B.2.  TCG DICE TcbInfo Example in CSR
 
    This section gives an example of extending the ASN.1 module above to
    carry an existing ASN.1-based evidence statement.  The example used

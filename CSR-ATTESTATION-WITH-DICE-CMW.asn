@@ -41,7 +41,7 @@ tcg-dice-conceptual-message-wrapper OBJECT IDENTIFIER ::= { tcg-dice cmw(9) }
 tcg-dice-TcbFreshness OBJECT IDENTIFIER ::= { tcg-dice tcb-freshness(11) }
 
 DiceConceptualMessageWrapper ::= SEQUENCE {
-  cmw OCTECT STRING
+  cmw OCTET STRING
 }
 
 DiceTcbInfo ::= SEQUENCE {

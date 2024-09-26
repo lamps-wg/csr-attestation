@@ -5,8 +5,9 @@ IMPORTS
 
 tcg-dice-conceptual-message-wrapper FROM TcgDiceAttestation
 DiceConceptualMessageWrapper FROM TcgDiceAttestation
-
-EvidenceStatementSet FROM CsrAttestation 
+cg-dice-TcbInfo FROM TcgDiceAttestation
+DiceTcbInfo FROM TcgDiceAttestation
+EvidenceStatementSet FROM CsrAttestation
 ;
 
 tcgDiceCmwEvidenceStatementES EVIDENCE-STATEMENT ::= { 
@@ -19,7 +20,7 @@ tcgDiceTcbInfoEvidenceStatementES EVIDENCE-STATEMENT ::= {
 
 EvidenceStatementSet EVIDENCE-STATEMENT ::= {
   tcgDiceEvidenceStatementES, 
-  tcgDiceTcbInfoEvidenceStatementES, 
+  tcgDiceTcbInfoEvidenceStatementES 
   ...
 }
 END

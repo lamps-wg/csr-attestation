@@ -644,12 +644,15 @@ It lists entries for several evidence encoding including an entry for the Concep
 
 | OID              | Description                  | Reference(s)     | Change Controller |
 |------------------|------------------------------|----------------  |-------------------|
-| 2 23 133 5 4 1   | DiceTcbInfo                  | {{TCGDICE1.1}}   |  TCG              |
-| 2 23 133 5 4 5   | DiceMultiTcbInfo             | {{TCGDICE1.1}}   |  TCG              |
-| 2 23 133 5 4 6   | DiceUccsEvidence             | {{TCGDICE1.1}}   |  TCG              |
-| 2 23 133 5 4 7   | DiceManifestEvidence         | {{TCGDICE1.1}}   |  TCG              |
-| 2 23 133 5 4 8   | DiceTcbInfoComp              | {{TCGDICE1.1}}   |  TCG              |
-| 2 23 133 5 4 9   | DiceConceptualMessageWrapper | {{TCGDICE1.1}}   |  TCG              |
+| 2 23 133 5 4 1   | tcg-dice-TcbInfo             | {{TCGDICE1.1}}   |  TCG              |
+| 2 23 133 5 4 3   | tcg-dice-endorsement-manifest-uri | {{TCGDICE1.1}}   |  TCG         |
+| 2 23 133 5 4 4   | tcg-dice-Ueid                | {{TCGDICE1.1}}   |  TCG              |
+| 2 23 133 5 4 5   | tcg-dice-MultiTcbInfo        | {{TCGDICE1.1}}   |  TCG              |
+| 2 23 133 5 4 6   | tcg-dice-UCCS-evidence       | {{TCGDICE1.1}}   |  TCG              |
+| 2 23 133 5 4 7   | tcg-dice-manifest-evidence   | {{TCGDICE1.1}}   |  TCG              |
+| 2 23 133 5 4 8   | tcg-dice-MultiTcbInfoComp    | {{TCGDICE1.1}}   |  TCG              |
+| 2 23 133 5 4 9   | tcg-dice-conceptual-message-wrapper | {{TCGDICE1.1}}   |  TCG       |
+| 2 23 133 5 4 11  | tcg-dice-TcbFreshness        | {{TCGDICE1.1}}   |  TCG              |
 | 2 23 133 20 1    | tcg-attest-tpm-certify       | Private Registry |  TCG              |
 {: #tab-ae-reg title="Initial Contents of the Attestation Evidence OID Registry"}
 

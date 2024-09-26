@@ -741,64 +741,60 @@ Table of Contents
 6.4.2.  Initial Registry Contents
 
    The initial registry contents is shown in the table below.  It lists
-   entries for several evidence encoding including an entry for the
+   entries for several evidence encoding OIDs including an entry for the
    Conceptual Message Wrapper (CMW) [I-D.ietf-rats-msg-wrap].
 
-   +=====+=====================================+============+==========+
-   |OID  | Description                         |Reference(s)|Change    |
-   |     |                                     |            |Controller|
-   +=====+=====================================+============+==========+
-   |2 23 | tcg-dice-TcbInfo                    |[TCGDICE1.1]|TCG       |
-   |133  |                                     |            |          |
-   |5 4  |                                     |            |          |
-   |1    |                                     |            |          |
-   +-----+-------------------------------------+------------+----------+
-   |2 23 | tcg-dice-endorsement-manifest-uri   |[TCGDICE1.1]|TCG       |
-   |133  |                                     |            |          |
-   |5 4  |                                     |            |          |
-   |3    |                                     |            |          |
-   +-----+-------------------------------------+------------+----------+
-   |2 23 | tcg-dice-Ueid                       |[TCGDICE1.1]|TCG       |
-   |133  |                                     |            |          |
-   |5 4  |                                     |            |          |
-   |4    |                                     |            |          |
-   +-----+-------------------------------------+------------+----------+
-   |2 23 | tcg-dice-MultiTcbInfo               |[TCGDICE1.1]|TCG       |
-   |133  |                                     |            |          |
-   |5 4  |                                     |            |          |
-   |5    |                                     |            |          |
-   +-----+-------------------------------------+------------+----------+
-   |2 23 | tcg-dice-UCCS-evidence              |[TCGDICE1.1]|TCG       |
-   |133  |                                     |            |          |
-   |5 4  |                                     |            |          |
-   |6    |                                     |            |          |
-   +-----+-------------------------------------+------------+----------+
-   |2 23 | tcg-dice-manifest-evidence          |[TCGDICE1.1]|TCG       |
-   |133  |                                     |            |          |
-   |5 4  |                                     |            |          |
-   |7    |                                     |            |          |
-   +-----+-------------------------------------+------------+----------+
-   |2 23 | tcg-dice-MultiTcbInfoComp           |[TCGDICE1.1]|TCG       |
-   |133  |                                     |            |          |
-   |5 4  |                                     |            |          |
-   |8    |                                     |            |          |
-   +-----+-------------------------------------+------------+----------+
-   |2 23 | tcg-dice-conceptual-message-wrapper |[TCGDICE1.1]|TCG       |
-   |133  |                                     |            |          |
-   |5 4  |                                     |            |          |
-   |9    |                                     |            |          |
-   +-----+-------------------------------------+------------+----------+
-   |2 23 | tcg-dice-TcbFreshness               |[TCGDICE1.1]|TCG       |
-   |133  |                                     |            |          |
-   |5 4  |                                     |            |          |
-   |11   |                                     |            |          |
-   +-----+-------------------------------------+------------+----------+
-   |2 23 | tcg-attest-tpm-certify              |Private     |TCG       |
-   |133  |                                     |Registry    |          |
-   |20 1 |                                     |            |          |
-   +-----+-------------------------------------+------------+----------+
+   +=======+==================+==========================+============+
+   | OID   | Description      | Reference(s)             | Change     |
+   |       |                  |                          | Controller |
+   +=======+==================+==========================+============+
+   | 2 23  | tcg-dice-TcbInfo | [TCGDICE1.1]             | TCG        |
+   | 133 5 |                  |                          |            |
+   | 4 1   |                  |                          |            |
+   +-------+------------------+--------------------------+------------+
+   | 2 23  | tcg-dice-        | [TCGDICE1.1]             | TCG        |
+   | 133 5 | endorsement-     |                          |            |
+   | 4 3   | manifest-uri     |                          |            |
+   +-------+------------------+--------------------------+------------+
+   | 2 23  | tcg-dice-Ueid    | [TCGDICE1.1]             | TCG        |
+   | 133 5 |                  |                          |            |
+   | 4 4   |                  |                          |            |
+   +-------+------------------+--------------------------+------------+
+   | 2 23  | tcg-dice-        | [TCGDICE1.1]             | TCG        |
+   | 133 5 | MultiTcbInfo     |                          |            |
+   | 4 5   |                  |                          |            |
+   +-------+------------------+--------------------------+------------+
+   | 2 23  | tcg-dice-UCCS-   | [TCGDICE1.1]             | TCG        |
+   | 133 5 | evidence         |                          |            |
+   | 4 6   |                  |                          |            |
+   +-------+------------------+--------------------------+------------+
+   | 2 23  | tcg-dice-        | [TCGDICE1.1]             | TCG        |
+   | 133 5 | manifest-        |                          |            |
+   | 4 7   | evidence         |                          |            |
+   +-------+------------------+--------------------------+------------+
+   | 2 23  | tcg-dice-        | [TCGDICE1.1]             | TCG        |
+   | 133 5 | MultiTcbInfoComp |                          |            |
+   | 4 8   |                  |                          |            |
+   +-------+------------------+--------------------------+------------+
+   | 2 23  | tcg-dice-        | [TCGDICE1.1]             | TCG        |
+   | 133 5 | conceptual-      |                          |            |
+   | 4 9   | message-wrapper  |                          |            |
+   +-------+------------------+--------------------------+------------+
+   | 2 23  | tcg-dice-        | [TCGDICE1.1]             | TCG        |
+   | 133 5 | TcbFreshness     |                          |            |
+   | 4 11  |                  |                          |            |
+   +-------+------------------+--------------------------+------------+
+   | 2 23  | tcg-attest-tpm-  | Private Registry         | TCG        |
+   | 133   | certify          |                          |            |
+   | 20 1  |                  |                          |            |
+   +-------+------------------+--------------------------+------------+
+   | 1 3 6 | id-pe-cmw        | [I-D.ietf-rats-msg-wrap] | IETF       |
+   | 1 5 5 |                  |                          |            |
+   | 7 1   |                  |                          |            |
+   | TBA   |                  |                          |            |
+   +-------+------------------+--------------------------+------------+
 
-     Table 1: Initial Contents of the Attestation Evidence OID Registry
+    Table 1: Initial Contents of the Attestation Evidence OID Registry
 
    The current registry values can be retrieved from the IANA online
    website.

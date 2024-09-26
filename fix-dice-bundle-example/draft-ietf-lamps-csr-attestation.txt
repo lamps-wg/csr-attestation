@@ -1739,7 +1739,7 @@ tcgDiceCmwEvidenceStatementES EVIDENCE-STATEMENT ::= {
 tcgDiceTcbInfoEvidenceStatementES EVIDENCE-STATEMENT ::= {
   DiceTcbInfo IDENTIFIED BY tcg-dice-TcbInfo }
 -- where ConceptualMessageWrapper, tcg-dice-conceptual-message-wrapper, DiceTcbInfo, and tcg-dice-TcbInfo
--- are defined in DICE-Attestation-Architecture-Version-1.1-Revision-17_1August2023.pdf
+-- are defined in DICE-Attestation-Architecture-Version-1.1-Revision-18_6Jan2024.pdf
 
 EvidenceStatementSet EVIDENCE-STATEMENT ::= {
   tcgDiceEvidenceStatementES,

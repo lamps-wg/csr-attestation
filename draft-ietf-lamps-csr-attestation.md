@@ -640,7 +640,7 @@ party that registered the OID.
 ### Initial Registry Contents
 
 The initial registry contents is shown in the table below.
-It lists entries for several evidence encoding including an entry for the Conceptual Message Wrapper (CMW) {{I-D.ietf-rats-msg-wrap}}.
+It lists entries for several evidence encoding OIDs including an entry for the Conceptual Message Wrapper (CMW) {{I-D.ietf-rats-msg-wrap}}.
 
 | OID              | Description                  | Reference(s)     | Change Controller |
 |------------------|------------------------------|----------------  |-------------------|
@@ -654,6 +654,7 @@ It lists entries for several evidence encoding including an entry for the Concep
 | 2 23 133 5 4 9   | tcg-dice-conceptual-message-wrapper | {{TCGDICE1.1}}   |  TCG       |
 | 2 23 133 5 4 11  | tcg-dice-TcbFreshness        | {{TCGDICE1.1}}   |  TCG              |
 | 2 23 133 20 1    | tcg-attest-tpm-certify       | Private Registry |  TCG              |
+| 1 3 6 1 5 5 7 1 TBA | id-pe-cmw                    | {{I-D.ietf-rats-msg-wrap} | IETF     |
 {: #tab-ae-reg title="Initial Contents of the Attestation Evidence OID Registry"}
 
 The current registry values can be retrieved from the IANA online website.

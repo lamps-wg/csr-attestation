@@ -3300,6 +3300,42 @@ IntegrityRegister ::= SEQUENCE {
   digest OCTET STRING
 }
 
+EndorsementManifestURI ::= SEQUENCE {
+  emUri UTF8String
+}
+
+TcgUeid ::= SEQUENCE {
+  ueid OCTET STRING
+}
+
+DiceTcbInfoSeq ::= SEQUENCE SIZE (1..MAX) OF DiceTcbInfo
+
+DiceTcbInfoComp ::= SEQUENCE SIZE (1..MAX) OF TcbInfoComp
+
+TcbInfoComp ::= SEQUENCE {
+  commonFields [0] IMPLICIT DiceTcbInfo,
+  evidenceValues [1] IMPLICIT DiceTcbInfoSeq
+}
+
+UccsEvidence ::= SEQUENCE {
+  uccs OCTET STRING
+}
+
+Manifest ::= SEQUENCE {
+  format ManifestFormat,
+  manifest OCTET STRING
+}
+
+ManifestFormat ::= ENUMERATED {
+  swid-xml              (0),
+  coswid-cbor           (1),
+  coswid-json           (2),
+  tagged-cbor           (3)
+}
+
+DiceTcbFreshness ::= SEQUENCE {
+  nonce OCTET STRING
+}
 END
 </pre><a href="#appendix-B.1-2" class="pilcrow">¶</a>
 </div>

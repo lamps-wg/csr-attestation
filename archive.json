@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-09-29T01:04:56.821647+00:00",
+  "timestamp": "2024-10-01T01:06:01.248529+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -7524,7 +7524,7 @@
       "labels": [],
       "body": "Updated DICE examples to create a evidence bundle containing a DICE cmw and DiceTcbInfo.  Added CsrAttestation name to the definition in CSR-ATTESTATION-2023.asn file so that imports would compile.",
       "createdAt": "2024-09-25T21:34:28Z",
-      "updatedAt": "2024-09-26T18:19:11Z",
+      "updatedAt": "2024-09-30T16:58:27Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "8242ad75210d973485ea1653c73a3dc57b4dc9c9",
@@ -7550,7 +7550,7 @@
       "labels": [],
       "body": "",
       "createdAt": "2024-09-28T21:43:40Z",
-      "updatedAt": "2024-09-28T21:43:40Z",
+      "updatedAt": "2024-09-30T17:00:00Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "8242ad75210d973485ea1653c73a3dc57b4dc9c9",
@@ -7562,7 +7562,21 @@
       "mergedBy": null,
       "mergeCommit": null,
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOJ3IIN86LXNd0",
+          "commit": {
+            "abbreviatedOid": "248909a"
+          },
+          "author": "nedmsmith",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-09-30T17:00:00Z",
+          "updatedAt": "2024-09-30T17:00:00Z",
+          "comments": []
+        }
+      ]
     }
   ]
 }

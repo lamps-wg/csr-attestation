@@ -15,7 +15,7 @@
        This specification defines an attribute and an extension that allow for conveyance of Evidence in Certificate Signing Requests (CSRs) such as PKCS#10 or Certificate Request Message Format (CRMF) payloads which provides an elegant and automatable mechanism for transporting Evidence to a Certification Authority. 
        Including Evidence along with a CSR can help to improve the assessment of the security posture for the private key, and can help the Certification Authority to assess whether it satisfies the requested certificate profile. These Evidence Claims can include information about the hardware component's manufacturer, the version of installed or running firmware, the version of software installed or running in layers above the firmware, or the presence of hardware components providing specific protection capabilities or shielded locations (e.g., to protect keys). 
     " name="description">
-<meta content="xml2rfc 3.23.1" name="generator">
+<meta content="xml2rfc 3.23.2" name="generator">
 <meta content="PKI" name="keyword">
 <meta content="PKCS#10" name="keyword">
 <meta content="CRMF" name="keyword">
@@ -24,7 +24,7 @@
 <meta content="Certificate Signing Requests" name="keyword">
 <meta content="draft-ietf-lamps-csr-attestation-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.23.1
+  xml2rfc 3.23.2
     Python 3.12.6
     ConfigArgParse 1.7
     google-i18n-address 3.1.1
@@ -1035,11 +1035,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">Remote Attestation with CSRs</td>
-<td class="right">September 2024</td>
+<td class="right">October 2024</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Ounsworth, et al.</td>
-<td class="center">Expires 22 March 2025</td>
+<td class="center">Expires 10 April 2025</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1052,12 +1052,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-lamps-csr-attestation-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2024-09-18" class="published">18 September 2024</time>
+<time datetime="2024-10-07" class="published">7 October 2024</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2025-03-22">22 March 2025</time></dd>
+<dd class="expires"><time datetime="2025-04-10">10 April 2025</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1120,7 +1120,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 22 March 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 10 April 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -2103,56 +2103,58 @@ It lists entries for several evidence encoding including an entry for the Concep
             <tbody>
               <tr>
                 <td class="text-left" rowspan="1" colspan="1">2 23 133 5 4 1</td>
-                <td class="text-left" rowspan="1" colspan="1">DiceTcbInfo</td>
+                <td class="text-left" rowspan="1" colspan="1">tcg-dice-tcbinfo</td>
                 <td class="text-left" rowspan="1" colspan="1">
-                  <span>[<a href="#TCGDICE1.1" class="cite xref">TCGDICE1.1</a>]</span>
+                  <span>[<a href="#TCGOIDREG" class="cite xref">TCGOIDREG</a>]</span>
 </td>
                 <td class="text-left" rowspan="1" colspan="1">TCG</td>
               </tr>
               <tr>
                 <td class="text-left" rowspan="1" colspan="1">2 23 133 5 4 5</td>
-                <td class="text-left" rowspan="1" colspan="1">DiceMultiTcbInfo</td>
+                <td class="text-left" rowspan="1" colspan="1">tcg-dice-multitcbinfo</td>
                 <td class="text-left" rowspan="1" colspan="1">
-                  <span>[<a href="#TCGDICE1.1" class="cite xref">TCGDICE1.1</a>]</span>
+                  <span>[<a href="#TCGOIDREG" class="cite xref">TCGOIDREG</a>]</span>
 </td>
                 <td class="text-left" rowspan="1" colspan="1">TCG</td>
               </tr>
               <tr>
                 <td class="text-left" rowspan="1" colspan="1">2 23 133 5 4 6</td>
-                <td class="text-left" rowspan="1" colspan="1">DiceUccsEvidence</td>
+                <td class="text-left" rowspan="1" colspan="1">tcg-dice-uccs-evidence</td>
                 <td class="text-left" rowspan="1" colspan="1">
-                  <span>[<a href="#TCGDICE1.1" class="cite xref">TCGDICE1.1</a>]</span>
+                  <span>[<a href="#TCGOIDREG" class="cite xref">TCGOIDREG</a>]</span>
 </td>
                 <td class="text-left" rowspan="1" colspan="1">TCG</td>
               </tr>
               <tr>
                 <td class="text-left" rowspan="1" colspan="1">2 23 133 5 4 7</td>
-                <td class="text-left" rowspan="1" colspan="1">DiceManifestEvidence</td>
+                <td class="text-left" rowspan="1" colspan="1">tcg-dice-manifest-evidence</td>
                 <td class="text-left" rowspan="1" colspan="1">
-                  <span>[<a href="#TCGDICE1.1" class="cite xref">TCGDICE1.1</a>]</span>
+                  <span>[<a href="#TCGOIDREG" class="cite xref">TCGOIDREG</a>]</span>
 </td>
                 <td class="text-left" rowspan="1" colspan="1">TCG</td>
               </tr>
               <tr>
                 <td class="text-left" rowspan="1" colspan="1">2 23 133 5 4 8</td>
-                <td class="text-left" rowspan="1" colspan="1">DiceTcbInfoComp</td>
+                <td class="text-left" rowspan="1" colspan="1">tcg-dice-multi-tcbinfo-comp</td>
                 <td class="text-left" rowspan="1" colspan="1">
-                  <span>[<a href="#TCGDICE1.1" class="cite xref">TCGDICE1.1</a>]</span>
+                  <span>[<a href="#TCGOIDREG" class="cite xref">TCGOIDREG</a>]</span>
 </td>
                 <td class="text-left" rowspan="1" colspan="1">TCG</td>
               </tr>
               <tr>
                 <td class="text-left" rowspan="1" colspan="1">2 23 133 5 4 9</td>
-                <td class="text-left" rowspan="1" colspan="1">DiceConceptualMessageWrapper</td>
+                <td class="text-left" rowspan="1" colspan="1">tcg-dice-cmw</td>
                 <td class="text-left" rowspan="1" colspan="1">
-                  <span>[<a href="#TCGDICE1.1" class="cite xref">TCGDICE1.1</a>]</span>
+                  <span>[<a href="#TCGOIDREG" class="cite xref">TCGOIDREG</a>]</span>
 </td>
                 <td class="text-left" rowspan="1" colspan="1">TCG</td>
               </tr>
               <tr>
                 <td class="text-left" rowspan="1" colspan="1">2 23 133 20 1</td>
                 <td class="text-left" rowspan="1" colspan="1">tcg-attest-tpm-certify</td>
-                <td class="text-left" rowspan="1" colspan="1">Private Registry</td>
+                <td class="text-left" rowspan="1" colspan="1">
+                  <span>[<a href="#TCGOIDREG" class="cite xref">TCGOIDREG</a>]</span>
+</td>
                 <td class="text-left" rowspan="1" colspan="1">TCG</td>
               </tr>
             </tbody>
@@ -2449,7 +2451,7 @@ Implementers should also be cautious around <code>type</code> OID or <code>hint<
 <dd class="break"></dd>
 <dt id="I-D.tschofenig-rats-psa-token">[I-D.tschofenig-rats-psa-token]</dt>
         <dd>
-<span class="refAuthor">Tschofenig, H.</span>, <span class="refAuthor">Frost, S.</span>, <span class="refAuthor">Brossard, M.</span>, <span class="refAuthor">Shaw, A. L.</span>, and <span class="refAuthor">T. Fossati</span>, <span class="refTitle">"Arm's Platform Security Architecture (PSA) Attestation Token"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-tschofenig-rats-psa-token-23</span>, <time datetime="2024-06-24" class="refDate">24 June 2024</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-tschofenig-rats-psa-token-23">https://datatracker.ietf.org/doc/html/draft-tschofenig-rats-psa-token-23</a>&gt;</span>. </dd>
+<span class="refAuthor">Tschofenig, H.</span>, <span class="refAuthor">Frost, S.</span>, <span class="refAuthor">Brossard, M.</span>, <span class="refAuthor">Shaw, A. L.</span>, and <span class="refAuthor">T. Fossati</span>, <span class="refTitle">"Arm's Platform Security Architecture (PSA) Attestation Token"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-tschofenig-rats-psa-token-24</span>, <time datetime="2024-09-23" class="refDate">23 September 2024</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-tschofenig-rats-psa-token-24">https://datatracker.ietf.org/doc/html/draft-tschofenig-rats-psa-token-24</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="PKCS11">[PKCS11]</dt>
         <dd>
@@ -2471,9 +2473,9 @@ Implementers should also be cautious around <code>type</code> OID or <code>hint<
         <dd>
 <span class="refTitle">"CSR Attestation Sample Data"</span>, <span>n.d.</span>, <span>&lt;<a href="https://github.com/lamps-wg/csr-attestation-examples">https://github.com/lamps-wg/csr-attestation-examples</a>&gt;</span>. </dd>
 <dd class="break"></dd>
-<dt id="TCGDICE1.1">[TCGDICE1.1]</dt>
+<dt id="TCGOIDREG">[TCGOIDREG]</dt>
         <dd>
-<span class="refAuthor">Trusted Computing Group</span>, <span class="refTitle">"DICE Attestation Architecture"</span>, <time datetime="2024-01" class="refDate">January 2024</time>, <span>&lt;<a href="https://trustedcomputinggroup.org/wp-content/uploads/DICE-Attestation-Architecture-Version-1.1-Revision-18_pub.pdf">https://trustedcomputinggroup.org/wp-content/uploads/DICE-Attestation-Architecture-Version-1.1-Revision-18_pub.pdf</a>&gt;</span>. </dd>
+<span class="refAuthor">Trusted Computing Group</span>, <span class="refTitle">"TCG OID Registry landing page"</span>, <time datetime="2024-10" class="refDate">October 2024</time>, <span>&lt;<a href="https://trustedcomputinggroup.org/resource/tcg-oid-registry/">https://trustedcomputinggroup.org/resource/tcg-oid-registry/</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="TPM20">[TPM20]</dt>
       <dd>
@@ -3171,7 +3173,7 @@ END
 <a href="#appendix-B.1" class="section-number selfRef">B.1. </a><a href="#name-tcg-dice-conceptualmessagew" class="section-name selfRef">TCG DICE ConceptualMessageWrapper in CSR</a>
         </h3>
 <p id="appendix-B.1-1">This section gives an example of extending the ASN.1 module above to carry an existing ASN.1-based evidence statement.
-The example used is the Trusted Computing Group DICE Attestation Conceptual Message Wrapper, as defined in <span>[<a href="#TCGDICE1.1" class="cite xref">TCGDICE1.1</a>]</span>.<a href="#appendix-B.1-1" class="pilcrow">¶</a></p>
+The example used is the Trusted Computing Group DICE Attestation Conceptual Message Wrapper, as defined in <span>[<a href="#TCGOIDREG" class="cite xref">TCGOIDREG</a>]</span>.<a href="#appendix-B.1-1" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="appendix-B.1-2">
 <pre>
 tcgDiceEvidenceStatementES EVIDENCE-STATEMENT ::=
@@ -3194,7 +3196,7 @@ EvidenceStatementSet EVIDENCE-STATEMENT ::= {
 <a href="#appendix-B.2" class="section-number selfRef">B.2. </a><a href="#name-tcg-dice-conceptualmessagewr" class="section-name selfRef">TCG DICE ConceptualMessageWrapper in CSR</a>
         </h3>
 <p id="appendix-B.2-1">This section gives an example of extending the ASN.1 module above to carry an existing ASN.1-based evidence statement.
-The example used is the Trusted Computing Group DiceTcbInfo, as defined in <span>[<a href="#TCGDICE1.1" class="cite xref">TCGDICE1.1</a>]</span>.<a href="#appendix-B.2-1" class="pilcrow">¶</a></p>
+The example used is the Trusted Computing Group DiceTcbInfo, as defined in <span>[<a href="#TCGOIDREG" class="cite xref">TCGOIDREG</a>]</span>.<a href="#appendix-B.2-1" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="appendix-B.2-2">
 <pre>
 ﻿// SET of CSR Attributes

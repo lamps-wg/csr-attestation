@@ -5,14 +5,14 @@
 Network Working Group                                       M. Ounsworth
 Internet-Draft                                                   Entrust
 Intended status: Standards Track                           H. Tschofenig
-Expires: 22 March 2025                                           Siemens
+Expires: 10 April 2025                                           Siemens
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                               M. Wiseman
                                                          Beyond Identity
                                                                 N. Smith
                                                        Intel Corporation
-                                                       18 September 2024
+                                                          7 October 2024
 
 
      Use of Remote Attestation with Certification Signing Requests
@@ -69,7 +69,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 22 March 2025.
+   This Internet-Draft will expire on 10 April 2025.
 
 Copyright Notice
 
@@ -744,40 +744,40 @@ Table of Contents
    entries for several evidence encoding including an entry for the
    Conceptual Message Wrapper (CMW) [I-D.ietf-rats-msg-wrap].
 
-   +=======+==============================+==============+============+
-   | OID   | Description                  | Reference(s) | Change     |
-   |       |                              |              | Controller |
-   +=======+==============================+==============+============+
-   | 2 23  | DiceTcbInfo                  | [TCGDICE1.1] | TCG        |
-   | 133 5 |                              |              |            |
-   | 4 1   |                              |              |            |
-   +-------+------------------------------+--------------+------------+
-   | 2 23  | DiceMultiTcbInfo             | [TCGDICE1.1] | TCG        |
-   | 133 5 |                              |              |            |
-   | 4 5   |                              |              |            |
-   +-------+------------------------------+--------------+------------+
-   | 2 23  | DiceUccsEvidence             | [TCGDICE1.1] | TCG        |
-   | 133 5 |                              |              |            |
-   | 4 6   |                              |              |            |
-   +-------+------------------------------+--------------+------------+
-   | 2 23  | DiceManifestEvidence         | [TCGDICE1.1] | TCG        |
-   | 133 5 |                              |              |            |
-   | 4 7   |                              |              |            |
-   +-------+------------------------------+--------------+------------+
-   | 2 23  | DiceTcbInfoComp              | [TCGDICE1.1] | TCG        |
-   | 133 5 |                              |              |            |
-   | 4 8   |                              |              |            |
-   +-------+------------------------------+--------------+------------+
-   | 2 23  | DiceConceptualMessageWrapper | [TCGDICE1.1] | TCG        |
-   | 133 5 |                              |              |            |
-   | 4 9   |                              |              |            |
-   +-------+------------------------------+--------------+------------+
-   | 2 23  | tcg-attest-tpm-certify       | Private      | TCG        |
-   | 133   |                              | Registry     |            |
-   | 20 1  |                              |              |            |
-   +-------+------------------------------+--------------+------------+
+    +=======+=============================+==============+============+
+    | OID   | Description                 | Reference(s) | Change     |
+    |       |                             |              | Controller |
+    +=======+=============================+==============+============+
+    | 2 23  | tcg-dice-tcbinfo            | [TCGOIDREG]  | TCG        |
+    | 133 5 |                             |              |            |
+    | 4 1   |                             |              |            |
+    +-------+-----------------------------+--------------+------------+
+    | 2 23  | tcg-dice-multitcbinfo       | [TCGOIDREG]  | TCG        |
+    | 133 5 |                             |              |            |
+    | 4 5   |                             |              |            |
+    +-------+-----------------------------+--------------+------------+
+    | 2 23  | tcg-dice-uccs-evidence      | [TCGOIDREG]  | TCG        |
+    | 133 5 |                             |              |            |
+    | 4 6   |                             |              |            |
+    +-------+-----------------------------+--------------+------------+
+    | 2 23  | tcg-dice-manifest-evidence  | [TCGOIDREG]  | TCG        |
+    | 133 5 |                             |              |            |
+    | 4 7   |                             |              |            |
+    +-------+-----------------------------+--------------+------------+
+    | 2 23  | tcg-dice-multi-tcbinfo-comp | [TCGOIDREG]  | TCG        |
+    | 133 5 |                             |              |            |
+    | 4 8   |                             |              |            |
+    +-------+-----------------------------+--------------+------------+
+    | 2 23  | tcg-dice-cmw                | [TCGOIDREG]  | TCG        |
+    | 133 5 |                             |              |            |
+    | 4 9   |                             |              |            |
+    +-------+-----------------------------+--------------+------------+
+    | 2 23  | tcg-attest-tpm-certify      | [TCGOIDREG]  | TCG        |
+    | 133   |                             |              |            |
+    | 20 1  |                             |              |            |
+    +-------+-----------------------------+--------------+------------+
 
-    Table 1: Initial Contents of the Attestation Evidence OID Registry
+     Table 1: Initial Contents of the Attestation Evidence OID Registry
 
    The current registry values can be retrieved from the IANA online
    website.
@@ -1051,9 +1051,9 @@ Table of Contents
               Tschofenig, H., Frost, S., Brossard, M., Shaw, A. L., and
               T. Fossati, "Arm's Platform Security Architecture (PSA)
               Attestation Token", Work in Progress, Internet-Draft,
-              draft-tschofenig-rats-psa-token-23, 24 June 2024,
+              draft-tschofenig-rats-psa-token-24, 23 September 2024,
               <https://datatracker.ietf.org/doc/html/draft-tschofenig-
-              rats-psa-token-23>.
+              rats-psa-token-24>.
 
    [PKCS11]   OASIS, "PKCS #11 Cryptographic Token Interface Base
               Specification Version 2.40", April 2015,
@@ -1078,11 +1078,10 @@ Table of Contents
               "CSR Attestation Sample Data", n.d.,
               <https://github.com/lamps-wg/csr-attestation-examples>.
 
-   [TCGDICE1.1]
-              Trusted Computing Group, "DICE Attestation Architecture",
-              January 2024, <https://trustedcomputinggroup.org/wp-
-              content/uploads/DICE-Attestation-Architecture-Version-1.1-
-              Revision-18_pub.pdf>.
+   [TCGOIDREG]
+              Trusted Computing Group, "TCG OID Registry landing page",
+              October 2024, <https://trustedcomputinggroup.org/resource/
+              tcg-oid-registry/>.
 
    [TPM20]    Trusted Computing Group, "Trusted Platform Module Library
               Specification, Family 2.0", n.d.,
@@ -1699,7 +1698,7 @@ B.1.  TCG DICE ConceptualMessageWrapper in CSR
    This section gives an example of extending the ASN.1 module above to
    carry an existing ASN.1-based evidence statement.  The example used
    is the Trusted Computing Group DICE Attestation Conceptual Message
-   Wrapper, as defined in [TCGDICE1.1].
+   Wrapper, as defined in [TCGOIDREG].
 
 tcgDiceEvidenceStatementES EVIDENCE-STATEMENT ::=
   { ConceptualMessageWrapper IDENTIFIED BY tcg-dice-conceptual-message-wrapper }
@@ -1716,7 +1715,7 @@ B.2.  TCG DICE ConceptualMessageWrapper in CSR
    This section gives an example of extending the ASN.1 module above to
    carry an existing ASN.1-based evidence statement.  The example used
    is the Trusted Computing Group DiceTcbInfo, as defined in
-   [TCGDICE1.1].
+   [TCGOIDREG].
 
 ﻿// SET of CSR Attributes
 A0 82 00 8E

@@ -331,11 +331,10 @@ certificates.
 ~~~
 {: #fig-info-model title="Information Model for CSR Evidence Conveyance."}
 
-A conformant implementation of an entity parsing the CSR structures MUST be prepared
-to parse certificates found in the corresponding EvidenceBundle structure to build
-a certification path to validate the EvidenceStatement found in the same EvidenceBundle.
-Hence, certificates need for validating EvidenceStatements are found in the same
-EvidenceBundle.
+A conformant implementation of an entity processing the CSR structures MUST be prepared
+to use certificates found in the parent EvidenceBundle structure to build a certification
+path to validate any EvidenceStatement found in an EvidenceBundle. That is, certificates
+needed for validating EvidenceStatements are found in the same EvidenceBundle.
 
 The following use cases are supported, as described in the sub-sections below.
 

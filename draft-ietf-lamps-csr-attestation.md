@@ -93,12 +93,12 @@ informative:
     title: Baseline Requirements for Code-Signing Certificates, v.3.7
     date: February 28, 2024
     target: https://cabforum.org/uploads/Baseline-Requirements-for-the-Issuance-and-Management-of-Code-Signing.v3.7.pdf
-  TCGDICE1.1:
+  TCGOIDREG:
     author:
       org: "Trusted Computing Group"
-    title: "DICE Attestation Architecture"
-    target: https://trustedcomputinggroup.org/wp-content/uploads/DICE-Attestation-Architecture-Version-1.1-Revision-18_pub.pdf
-    date: January, 2024
+    title: "TCG OID Registry landing page"
+    target: https://trustedcomputinggroup.org/resource/tcg-oid-registry/
+    date: October, 2024
   PKCS11:
     author:
       org: OASIS
@@ -644,13 +644,13 @@ It lists entries for several evidence encoding including an entry for the Concep
 
 | OID              | Description                  | Reference(s)     | Change Controller |
 |------------------|------------------------------|----------------  |-------------------|
-| 2 23 133 5 4 1   | DiceTcbInfo                  | {{TCGDICE1.1}}   |  TCG              |
-| 2 23 133 5 4 5   | DiceMultiTcbInfo             | {{TCGDICE1.1}}   |  TCG              |
-| 2 23 133 5 4 6   | DiceUccsEvidence             | {{TCGDICE1.1}}   |  TCG              |
-| 2 23 133 5 4 7   | DiceManifestEvidence         | {{TCGDICE1.1}}   |  TCG              |
-| 2 23 133 5 4 8   | DiceTcbInfoComp              | {{TCGDICE1.1}}   |  TCG              |
-| 2 23 133 5 4 9   | DiceConceptualMessageWrapper | {{TCGDICE1.1}}   |  TCG              |
-| 2 23 133 20 1    | tcg-attest-tpm-certify       | Private Registry |  TCG              |
+| 2 23 133 5 4 1   | DiceTcbInfo                  | {{TCGOIDREG}}   |  TCG              |
+| 2 23 133 5 4 5   | DiceMultiTcbInfo             | {{TCGOIDREG}}   |  TCG              |
+| 2 23 133 5 4 6   | DiceUccsEvidence             | {{TCGOIDREG}}   |  TCG              |
+| 2 23 133 5 4 7   | DiceManifestEvidence         | {{TCGOIDREG}}   |  TCG              |
+| 2 23 133 5 4 8   | DiceTcbInfoComp              | {{TCGOIDREG}}   |  TCG              |
+| 2 23 133 5 4 9   | DiceConceptualMessageWrapper | {{TCGOIDREG}}   |  TCG              |
+| 2 23 133 20 1    | tcg-attest-tpm-certify       | {{TCGOIDREG}}   |  TCG              |
 {: #tab-ae-reg title="Initial Contents of the Attestation Evidence OID Registry"}
 
 The current registry values can be retrieved from the IANA online website.

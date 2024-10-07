@@ -654,7 +654,7 @@ It lists entries for several evidence encoding OIDs including an entry for the C
 | 2 23 133 5 4 9   | tcg-dice-conceptual-message-wrapper | {{TCGDICE1.1}}   |  TCG       |
 | 2 23 133 5 4 11  | tcg-dice-TcbFreshness        | {{TCGDICE1.1}}   |  TCG              |
 | 2 23 133 20 1    | tcg-attest-tpm-certify       | Private Registry |  TCG              |
-| 1 3 6 1 5 5 7 1 TBA | id-pe-cmw                    | {{I-D.ietf-rats-msg-wrap} | IETF     |
+| 1 3 6 1 5 5 7 1 35 | id-pe-cmw                    | {{I-D.ietf-rats-msg-wrap} | IETF     |
 {: #tab-ae-reg title="Initial Contents of the Attestation Evidence OID Registry"}
 
 The current registry values can be retrieved from the IANA online website.

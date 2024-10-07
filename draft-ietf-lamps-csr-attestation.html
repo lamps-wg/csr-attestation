@@ -1627,11 +1627,10 @@ certificates.<a href="#section-4.2-2" class="pilcrow">¶</a></p>
 <a href="#name-information-model-for-csr-e" class="selfRef">Information Model for CSR Evidence Conveyance.</a>
           </figcaption></figure>
 </div>
-<p id="section-4.2-4">A conformant implementation of an entity parsing the CSR structures <span class="bcp14">MUST</span> be prepared
-to parse certificates found in the corresponding EvidenceBundle structure to build
-a certification path to validate the EvidenceStatement found in the same EvidenceBundle.
-Hence, certificates need for validating EvidenceStatements are found in the same
-EvidenceBundle.<a href="#section-4.2-4" class="pilcrow">¶</a></p>
+<p id="section-4.2-4">A conformant implementation of an entity processing the CSR structures <span class="bcp14">MUST</span> be prepared
+to use certificates found in the parent EvidenceBundle structure to build a certification
+path to validate any EvidenceStatement found in an EvidenceBundle. That is, certificates
+needed for validating EvidenceStatements are found in the same EvidenceBundle.<a href="#section-4.2-4" class="pilcrow">¶</a></p>
 <p id="section-4.2-5">The following use cases are supported, as described in the sub-sections below.<a href="#section-4.2-5" class="pilcrow">¶</a></p>
 <div id="case-1-single-evidence-bundle">
 <section id="section-4.2.1">

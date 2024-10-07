@@ -644,12 +644,12 @@ It lists entries for several evidence encoding including an entry for the Concep
 
 | OID              | Description                  | Reference(s)     | Change Controller |
 |------------------|------------------------------|----------------  |-------------------|
-| 2 23 133 5 4 1   | DiceTcbInfo                  | {{TCGOIDREG}}   |  TCG              |
-| 2 23 133 5 4 5   | DiceMultiTcbInfo             | {{TCGOIDREG}}   |  TCG              |
-| 2 23 133 5 4 6   | DiceUccsEvidence             | {{TCGOIDREG}}   |  TCG              |
-| 2 23 133 5 4 7   | DiceManifestEvidence         | {{TCGOIDREG}}   |  TCG              |
-| 2 23 133 5 4 8   | DiceTcbInfoComp              | {{TCGOIDREG}}   |  TCG              |
-| 2 23 133 5 4 9   | DiceConceptualMessageWrapper | {{TCGOIDREG}}   |  TCG              |
+| 2 23 133 5 4 1   | tcg-dice-tcbinfo             | {{TCGOIDREG}}   |  TCG              |
+| 2 23 133 5 4 5   | tcg-dice-multitcbinfo        | {{TCGOIDREG}}   |  TCG              |
+| 2 23 133 5 4 6   | tcg-dice-uccs-evidence       | {{TCGOIDREG}}   |  TCG              |
+| 2 23 133 5 4 7   | tcg-dice-manifest-evidence   | {{TCGOIDREG}}   |  TCG              |
+| 2 23 133 5 4 8   | tcg-dice-multi-tcbinfo-comp  | {{TCGOIDREG}}   |  TCG              |
+| 2 23 133 5 4 9   | tcg-dice-cmw                 | {{TCGOIDREG}}   |  TCG              |
 | 2 23 133 20 1    | tcg-attest-tpm-certify       | {{TCGOIDREG}}   |  TCG              |
 {: #tab-ae-reg title="Initial Contents of the Attestation Evidence OID Registry"}
 

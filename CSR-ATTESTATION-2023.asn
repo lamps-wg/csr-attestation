@@ -28,7 +28,6 @@ FROM SecureMimeMessageV3dot1
     { iso(1) member-body(2) us(840) rsadsi(113549)
         pkcs(1) pkcs-9(9) smime(16) modules(0) msg-v3dot1(21) }
   ;
-  
 
 -- Branch for attestation statement types
 id-ata OBJECT IDENTIFIER ::= { id-pkix (TBD1) }
@@ -38,8 +37,6 @@ EVIDENCE-STATEMENT ::= TYPE-IDENTIFIER
 EvidenceStatementSet EVIDENCE-STATEMENT ::= {
    ... -- None defined in this document --
 }
-
-EvidenceStatements ::= SEQUENCE SIZE (1..MAX) OF EvidenceStatement
 
 EvidenceStatement ::= SEQUENCE {
    type   EVIDENCE-STATEMENT.&id({EvidenceStatementSet}),
@@ -51,25 +48,22 @@ id-aa-evidence OBJECT IDENTIFIER ::= { id-aa 59 }
 
 -- For PKCS#10
 attr-evidence ATTRIBUTE ::= {
-  TYPE EvidenceBundles
+  TYPE EvidenceBundle
   COUNTS MAX 1
   IDENTIFIED BY id-aa-evidence
 }
 
-
 -- For CRMF
 ext-evidence EXTENSION ::= {
-  SYNTAX EvidenceBundles
+  SYNTAX EvidenceBundle
   IDENTIFIED BY id-aa-evidence
 }
 
-EvidenceBundles ::= SEQUENCE SIZE (1..MAX) OF EvidenceBundle
-
 EvidenceBundle ::= SEQUENCE {
-   evidence EvidenceStatements,
+   evidences SEQUENCE SIZE (1..MAX) OF EvidenceStatement,
    certs SEQUENCE SIZE (1..MAX) OF CertificateChoices OPTIONAL
-      -- CertificateChoices MUST only contain certificate or other
+      -- CertificateChoices MUST only contain certificate or other,
+      -- see Section 10.2.2 of [RFC5652]
 }
-
 
 END

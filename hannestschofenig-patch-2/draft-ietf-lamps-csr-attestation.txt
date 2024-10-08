@@ -1626,22 +1626,6 @@ FROM SecureMimeMessageV3dot1
 -- Branch for attestation statement types
 id-ata OBJECT IDENTIFIER ::= { id-pkix (TBD1) }
 
-TYPED-CERT ::= TYPE-IDENTIFIER
-
-TypedCert ::= SEQUENCE {
-      certType     TYPED-CERT.&id({TypedCertSet}),
-      content     TYPED-CERT.&Type ({TypedCertSet}{@certType})
-  }
-
-TypedCertSet TYPED-CERT ::= {
-   ... -- None defined in this document --
-  }
-
-TypedFlatCert ::= SEQUENCE {
-    certType OBJECT IDENTIFIER,
-    certBody OCTET STRING
-}
-
 EVIDENCE-STATEMENT ::= TYPE-IDENTIFIER
 
 EvidenceStatementSet EVIDENCE-STATEMENT ::= {

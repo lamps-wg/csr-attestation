@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-10-06T01:04:45.744946+00:00",
+  "timestamp": "2024-10-08T00:59:57.685074+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -189,7 +189,7 @@
       "comments": [
         {
           "author": "carl-wallace",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "body": "I don't think \"not required\" is what you want here but your second option seems fine. Maybe something like \"while this specification does not impose any freshness requirements, an attestation format or certificate management protocol may impose freshness requirements\".",
           "createdAt": "2023-07-12T11:11:54Z",
           "updatedAt": "2023-07-12T11:11:54Z"
@@ -1717,7 +1717,7 @@
       "labels": [],
       "body": "See this discussion: https://mailarchive.ietf.org/arch/msg/rats/aYeAOmAsqas4WomxImwXW8R63Mc/\r\n",
       "createdAt": "2024-06-17T16:25:08Z",
-      "updatedAt": "2024-09-09T21:12:06Z",
+      "updatedAt": "2024-10-07T19:25:57Z",
       "closedAt": "2024-09-09T16:32:51Z",
       "comments": [
         {
@@ -1796,6 +1796,13 @@
           "body": "@ounsworth Could you please add some concluding remarks? What view do editors take in the draft?",
           "createdAt": "2024-09-09T21:12:04Z",
           "updatedAt": "2024-09-09T21:12:04Z"
+        },
+        {
+          "author": "frumioj",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "I think the TECHNICAL definition of \"key attestation\" for the purposes of this would should be something like:\r\n\r\n1. Definition of one or more claims for \"key identifier\" in draft-ounsworth-rats-x509-evidence. The public key fingerprint might be a decent identifier for a key.\r\n2. Definition of one or more claims for attributes related to keys in draft-ounsworth-rats-x509-evidence. My favourites are \"key is generated in hardware\" and \"key has never been exported\".\r\n3. A \"key\" in the context of RATS _seems to be_ (as @nedmsmith described to me in https://mailarchive.ietf.org/arch/msg/rats/DrGb4NFwKz2bDoDAVMSUq-xMzmg/) a \"target environment\" - it attests properties of itself which can then be collected by the next layer up - the entity which is \"holding\" it, and attested on its behalf to the verifier.\r\n\r\nDo we actually need a wordier definition of \"key attestation\", or something that is less-specific than the technical specifics, if we can actually just define the specifics of the claims, and the relationship between the key and its holder as being RATS TE and AE? The definition would then rely only on these specific properties of the produced claims, and be entirely specific for this work.",
+          "createdAt": "2024-10-07T19:25:56Z",
+          "updatedAt": "2024-10-07T19:25:56Z"
         }
       ]
     },
@@ -3798,7 +3805,7 @@
       "comments": [
         {
           "author": "carl-wallace",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "body": "There are a few issues. First take a look at the definitions for ATTRIBUTE and EXTENSION:\r\n```\r\n  ATTRIBUTE ::= CLASS {\r\n      &id             OBJECT IDENTIFIER UNIQUE,\r\n      &Type           OPTIONAL,\r\n      &equality-match MATCHING-RULE OPTIONAL,\r\n      &minCount       INTEGER DEFAULT 1,\r\n      &maxCount       INTEGER OPTIONAL\r\n  } WITH SYNTAX {\r\n      [TYPE &Type]\r\n      [EQUALITY MATCHING RULE &equality-match]\r\n      [COUNTS [MIN &minCount] [MAX &maxCount]]\r\n      IDENTIFIED BY &id\r\n  }\r\n  \r\n  EXTENSION ::= CLASS {\r\n      &id  OBJECT IDENTIFIER UNIQUE,\r\n      &ExtnType,\r\n      &Critical    BOOLEAN DEFAULT {TRUE | FALSE }\r\n  } WITH SYNTAX {\r\n      SYNTAX &ExtnType IDENTIFIED BY &id\r\n      [CRITICALITY &Critical]\r\n  }\r\n ```\r\nNotice ATTRIBUTE uses TYPE and EXTENSION uses SYNTAX. You are using TYPE for both. So change the definitions of ext-evidence and ext-evidenceCerts to use SYNTAX. Also, remove the unnecessary commas from the definitions. There also is no COUNTS field in EXTENSION. Thus:\r\n```\r\next-evidence EXTENSION ::= {\r\n  SYNTAX SEQUENCE OF EvidenceBundle\r\n  IDENTIFIED BY id-aa-evidenceStatement\r\n}\r\n\r\next-evidenceCerts EXTENSION ::= {\r\n  SYNTAX SEQUENCE OF CertificateChoice\r\n  IDENTIFIED BY id-aa-evidenceChainCerts\r\n}\r\n\r\nattr-evidence ATTRIBUTE ::= {\r\n  TYPE SEQUENCE OF EvidenceBundle\r\n  IDENTIFIED BY id-aa-evidenceStatement\r\n}\r\n\r\nattr-evidenceCerts ATTRIBUTE ::= {\r\n  TYPE SEQUENCE OF CertificateChoice\r\n  COUNTS MAX 1\r\n  IDENTIFIED BY id-aa-evidenceChainCerts\r\n}\r\n```\r\nI got a compilation error on the Evidence Statement definition and changed it to be this (but wasn't really sure what you were aiming for so this may warrant further investigation):\r\n```\r\nEvidenceStatement ::= SEQUENCE {\r\n   type   EVIDENCE-STATEMENT.&id({EvidenceStatementSet}),\r\n   stmt   EVIDENCE-STATEMENT.&Type({EvidenceStatementSet}{@type})\r\n}\r\n```\r\nI also had to define id-aa and id-pkix in the module. The former because I did not have the referenced module lying around and the latter because id-pkix is not defined in the indicated module. It's actually in PKIX1Explicit-2009, not PKIX-CommonTypes-2009.\r\n\r\nOther changes I made to get it to compile:\r\n\r\n- used fake values for the OIDs (used 9991, 9992 and 9993 for the three TBDs)\r\n- dropped the symbolic name from the leaf element in the OID definitions, i.e., id-aa-evidenceChainCerts OBJECT IDENTIFIER ::= { id-aa 9993 }\r\n\r\nI will send you the module I test compiled successfully.\r\n",
           "createdAt": "2023-09-18T15:47:32Z",
           "updatedAt": "2023-09-18T15:47:32Z"
@@ -3888,7 +3895,7 @@
             "abbreviatedOid": "50c37f3"
           },
           "author": "carl-wallace",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2023-09-19T10:29:49Z",
@@ -3908,7 +3915,7 @@
             "abbreviatedOid": "50c37f3"
           },
           "author": "carl-wallace",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2023-09-19T10:31:49Z",
@@ -3928,7 +3935,7 @@
             "abbreviatedOid": "50c37f3"
           },
           "author": "carl-wallace",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2023-09-19T10:32:35Z",
@@ -7266,7 +7273,7 @@
             "abbreviatedOid": "61e6e8c"
           },
           "author": "carl-wallace",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-07-02T10:48:55Z",
@@ -7524,43 +7531,86 @@
       "labels": [],
       "body": "Updated DICE examples to create a evidence bundle containing a DICE cmw and DiceTcbInfo.  Added CsrAttestation name to the definition in CSR-ATTESTATION-2023.asn file so that imports would compile.",
       "createdAt": "2024-09-25T21:34:28Z",
-      "updatedAt": "2024-09-30T16:58:27Z",
+      "updatedAt": "2024-10-07T16:24:38Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "8242ad75210d973485ea1653c73a3dc57b4dc9c9",
       "headRepository": "lamps-wg/csr-attestation",
       "headRefName": "fix-dice-bundle-example",
-      "headRefOid": "17d69f05b137ce8f5ef7246ccdafbe0e72c57299",
+      "headRefOid": "4cbf1399869b7b4cfcd46daf4d4c4b854313ba03",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOJ3IIN86MNvye",
+          "commit": {
+            "abbreviatedOid": "17d69f0"
+          },
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-07T16:17:08Z",
+          "updatedAt": "2024-10-07T16:17:09Z",
+          "comments": [
+            {
+              "originalPosition": 25,
+              "body": "TBA = 35?",
+              "createdAt": "2024-10-07T16:17:09Z",
+              "updatedAt": "2024-10-07T16:17:09Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN86MNyZu",
+          "commit": {
+            "abbreviatedOid": "17d69f0"
+          },
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-07T16:22:21Z",
+          "updatedAt": "2024-10-07T16:22:22Z",
+          "comments": [
+            {
+              "originalPosition": 25,
+              "body": "```suggestion\r\n| 1 3 6 1 5 5 7 1 35 | id-pe-cmw                    | {{I-D.ietf-rats-msg-wrap} | IETF     |\r\n```\r\n\r\nI just checked again. There is a [provisional allocation for 35](https://www.iana.org/assignments/smi-numbers/smi-numbers.xhtml#smi-numbers-1.3.6.1.5.5.7.1.35) already.",
+              "createdAt": "2024-10-07T16:22:22Z",
+              "updatedAt": "2024-10-07T16:22:22Z"
+            }
+          ]
+        }
+      ]
     },
     {
       "number": 161,
       "id": "PR_kwDOJ3IIN859AZQg",
       "title": "minor wordsmithing to section 4.2",
       "url": "https://github.com/lamps-wg/csr-attestation/pull/161",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "carl-wallace",
-      "authorAssociation": "NONE",
+      "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2024-09-28T21:43:40Z",
-      "updatedAt": "2024-09-30T17:00:00Z",
+      "updatedAt": "2024-10-07T16:29:41Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "8242ad75210d973485ea1653c73a3dc57b4dc9c9",
       "headRepository": "carl-wallace/csr-attestation",
       "headRefName": "main",
       "headRefOid": "248909a3689337f36944a33b8715ff10c0d3ff31",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2024-10-07T16:29:40Z",
+      "mergedAt": "2024-10-07T16:29:40Z",
+      "mergedBy": "hannestschofenig",
+      "mergeCommit": {
+        "oid": "ccf0d36bb94a68b282c716a891e9fa06acd52309"
+      },
       "comments": [],
       "reviews": [
         {
@@ -7577,6 +7627,84 @@
           "comments": []
         }
       ]
+    },
+    {
+      "number": 162,
+      "id": "PR_kwDOJ3IIN8591cP6",
+      "title": "Update TCG OIDs and Registry",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/162",
+      "state": "MERGED",
+      "author": "mwiseman-byid",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Update references to TCG OID Registry\r\nUpdate TCG OID descriptions to match TCG OID Registry",
+      "createdAt": "2024-10-07T15:30:26Z",
+      "updatedAt": "2024-10-07T16:14:15Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "8242ad75210d973485ea1653c73a3dc57b4dc9c9",
+      "headRepository": "mwiseman-byid/csr-attestation",
+      "headRefName": "main",
+      "headRefOid": "996630b5c004be2c9c4bac1ae106e145d9b3cded",
+      "closedAt": "2024-10-07T16:12:12Z",
+      "mergedAt": "2024-10-07T16:12:12Z",
+      "mergedBy": "hannestschofenig",
+      "mergeCommit": {
+        "oid": "d3272deb0f7daa490d7fac780aafadfb286c128e"
+      },
+      "comments": [
+        {
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "body": "let's figure out if references to dynamic external registries are okay along the way",
+          "createdAt": "2024-10-07T16:14:12Z",
+          "updatedAt": "2024-10-07T16:14:12Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJ3IIN86MNt7t",
+          "commit": {
+            "abbreviatedOid": "996630b"
+          },
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-10-07T16:13:23Z",
+          "updatedAt": "2024-10-07T16:13:23Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 163,
+      "id": "PR_kwDOJ3IIN85911eK",
+      "title": "Revert \"Update TCG OIDs and Registry\"",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/163",
+      "state": "MERGED",
+      "author": "hannestschofenig",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Reverts lamps-wg/csr-attestation#162",
+      "createdAt": "2024-10-07T16:25:15Z",
+      "updatedAt": "2024-10-07T16:29:58Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "d3272deb0f7daa490d7fac780aafadfb286c128e",
+      "headRepository": "lamps-wg/csr-attestation",
+      "headRefName": "revert-162-main",
+      "headRefOid": "9fe8810e7c6c352ddf8fb06518416a56db8ffc43",
+      "closedAt": "2024-10-07T16:29:58Z",
+      "mergedAt": "2024-10-07T16:29:58Z",
+      "mergedBy": "hannestschofenig",
+      "mergeCommit": {
+        "oid": "1a9eca9c46d83ba601595e2b34ad360985eca857"
+      },
+      "comments": [],
+      "reviews": []
     }
   ]
 }

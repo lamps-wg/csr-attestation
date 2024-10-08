@@ -33,17 +33,6 @@ FROM SecureMimeMessageV3dot1
 -- Branch for attestation statement types
 id-ata OBJECT IDENTIFIER ::= { id-pkix (TBD1) }
 
-
-CertificateAlternatives ::=
-   CHOICE {
-      cert              Certificate,
-                           -- Using the Certificate ASN.1
-                           -- structure as defined in RFC 5280.
-      typedCert     [0] TypedCert,
-      typedFlatCert [1] TypedFlatCert,
-      ...
-   }
-
 TYPED-CERT ::= TYPE-IDENTIFIER
 
 TypedCert ::= SEQUENCE {

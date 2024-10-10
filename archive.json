@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-10-08T00:59:57.685074+00:00",
+  "timestamp": "2024-10-10T00:59:37.943793+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -2076,6 +2076,22 @@
           "updatedAt": "2024-09-26T17:57:19Z"
         }
       ]
+    },
+    {
+      "number": 166,
+      "id": "I_kwDOJ3IIN86ZWVjL",
+      "title": "Switch from CertificateAlternatives to CertificateChoices ",
+      "url": "https://github.com/lamps-wg/csr-attestation/issues/166",
+      "state": "OPEN",
+      "author": "hannestschofenig",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "When we decided to re-use the CMS-defined structure as a way to convey different types of certificates, including X.509 certificates, we are facing the question about what those other types are and whether we need to register OIDs for them. Why do we need to register OIDs for these types of certificates? The answer is in the structure of the CertificateChoices from CMS, see\r\n\r\n> \r\n>       CertificateChoices ::= CHOICE {\r\n>        certificate Certificate,\r\n>        extendedCertificate [0] IMPLICIT ExtendedCertificate, -- Obsolete\r\n>        v1AttrCert [1] IMPLICIT AttributeCertificateV1,       -- Obsolete\r\n>        v2AttrCert [2] IMPLICIT AttributeCertificateV2,\r\n>        other [3] IMPLICIT OtherCertificateFormat }\r\n> \r\n>       OtherCertificateFormat ::= SEQUENCE {\r\n>         otherCertFormat OBJECT IDENTIFIER,\r\n>         otherCert ANY DEFINED BY otherCertFormat }\r\n> \r\n\r\nWhen a certificate of type \"OtherCertificateFormat\" is defined then the type needs to be indicated via an object identifier. \r\n\r\nIf we have examples of certificate types that we plan to use beyond X.509 certificates then we should register them in the draft already now. An example that comes to my mind is a CWT.\r\n\r\n",
+      "createdAt": "2024-10-08T10:25:27Z",
+      "updatedAt": "2024-10-08T10:25:28Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
@@ -7705,6 +7721,86 @@
       },
       "comments": [],
       "reviews": []
+    },
+    {
+      "number": 164,
+      "id": "PR_kwDOJ3IIN8596q04",
+      "title": "Remove CertificateAlternatives",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/164",
+      "state": "OPEN",
+      "author": "hannestschofenig",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "We wanted to use the CMS defined CertificateChoices structure instead of our own CertificateAlternatives structure. We forgot to update the ASN.1 file accordingly. This PR makes this changes.\r\n",
+      "createdAt": "2024-10-08T08:41:23Z",
+      "updatedAt": "2024-10-09T21:11:49Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "1a9eca9c46d83ba601595e2b34ad360985eca857",
+      "headRepository": "lamps-wg/csr-attestation",
+      "headRefName": "hannestschofenig-patch-2",
+      "headRefOid": "4649115fb95b7054f2f833581f21953abd8b841a",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJ3IIN86MkTRk",
+          "commit": {
+            "abbreviatedOid": "4649115"
+          },
+          "author": "nedmsmith",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "LGTM",
+          "createdAt": "2024-10-09T21:11:49Z",
+          "updatedAt": "2024-10-09T21:11:49Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 165,
+      "id": "PR_kwDOJ3IIN85960L3",
+      "title": "Simplified ASN.1 Structure",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/165",
+      "state": "OPEN",
+      "author": "hannestschofenig",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "When the certificate chain optimization in PR 154 was removed, see https://github.com/lamps-wg/csr-attestation/pull/154, we forgot to also update the ASN.1 structure.\r\n\r\nIt is unfortunate that we did not notice this earlier.",
+      "createdAt": "2024-10-08T08:58:21Z",
+      "updatedAt": "2024-10-09T21:08:38Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "hannestschofenig-patch-2",
+      "baseRefOid": "4649115fb95b7054f2f833581f21953abd8b841a",
+      "headRepository": "lamps-wg/csr-attestation",
+      "headRefName": "hannestschofenig-patch-3",
+      "headRefOid": "4c5d0a100f173707a00db0e87172ffe17dd7468d",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJ3IIN86MkSJw",
+          "commit": {
+            "abbreviatedOid": "4c5d0a1"
+          },
+          "author": "nedmsmith",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "LGTM",
+          "createdAt": "2024-10-09T21:08:38Z",
+          "updatedAt": "2024-10-09T21:08:38Z",
+          "comments": []
+        }
+      ]
     }
   ]
 }

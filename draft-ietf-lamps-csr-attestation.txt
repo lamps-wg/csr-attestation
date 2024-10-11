@@ -5,14 +5,14 @@
 Network Working Group                                       M. Ounsworth
 Internet-Draft                                                   Entrust
 Intended status: Standards Track                           H. Tschofenig
-Expires: 10 April 2025                                           Siemens
+Expires: 14 April 2025                                           Siemens
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                               M. Wiseman
                                                          Beyond Identity
                                                                 N. Smith
                                                        Intel Corporation
-                                                          7 October 2024
+                                                         11 October 2024
 
 
      Use of Remote Attestation with Certification Signing Requests
@@ -69,7 +69,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 10 April 2025.
+   This Internet-Draft will expire on 14 April 2025.
 
 Copyright Notice
 
@@ -1625,33 +1625,6 @@ FROM SecureMimeMessageV3dot1
 
 -- Branch for attestation statement types
 id-ata OBJECT IDENTIFIER ::= { id-pkix (TBD1) }
-
-
-CertificateAlternatives ::=
-   CHOICE {
-      cert              Certificate,
-                           -- Using the Certificate ASN.1
-                           -- structure as defined in RFC 5280.
-      typedCert     [0] TypedCert,
-      typedFlatCert [1] TypedFlatCert,
-      ...
-   }
-
-TYPED-CERT ::= TYPE-IDENTIFIER
-
-TypedCert ::= SEQUENCE {
-      certType     TYPED-CERT.&id({TypedCertSet}),
-      content     TYPED-CERT.&Type ({TypedCertSet}{@certType})
-  }
-
-TypedCertSet TYPED-CERT ::= {
-   ... -- None defined in this document --
-  }
-
-TypedFlatCert ::= SEQUENCE {
-    certType OBJECT IDENTIFIER,
-    certBody OCTET STRING
-}
 
 EVIDENCE-STATEMENT ::= TYPE-IDENTIFIER
 

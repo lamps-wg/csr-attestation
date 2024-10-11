@@ -315,18 +315,19 @@ certificates.
  | CRMF Extension    |
  +--------+----------+
           |
-          |           (1 or more) +-------------------------+
+          |          (1 or more)  +-------------------------+
           |         +-------------+ CertificateChoices      |
           |         |             +-------------------------+
           |         |             | Certificate OR          |
           |         |             | OtherCertificateFormat  |
    (1 or  |         |             +-------------------------+
-    more) |         |      (1 or
- +--------+---------+-+     more) +-------------------+
+    more) |         |    (1 or
+ +--------+---------+-+   more)   +-------------------+
  |  EvidenceBundle    +-----------+ EvidenceStatement |
  +--------------------+           +-------------------+
                                   | Type              |
                                   | Statement         |
+                                  | Hint              |
                                   +-------------------+
 ~~~
 {: #fig-info-model title="Information Model for CSR Evidence Conveyance."}
@@ -350,7 +351,7 @@ without the CertificateChoices structure. {{fig-single-attester}} shows this use
 ~~~ aasvg
   +--------------------+
   |  EvidenceBundle    |
-  +--------------------+
+  +....................+
   | EvidenceStatement  |
   +--------------------+
 ~~~
@@ -366,7 +367,7 @@ shows this use case.
 ~~~ aasvg
  +-------------------------+
  |  EvidenceBundle         |
- +-------------------------+
+ +.........................+
  | EvidenceStatement       |
  | CertificateChoices      |
  +-------------------------+
@@ -378,7 +379,7 @@ shows this use case.
 In a Composite Device, which contains multiple Attesters, a collection of Evidence
 statements is obtained. In this use case, each Attester returns its Evidence together with a
 certificate chain. As a result, multiple EvidenceBundle structures, each carrying
-an EvidenceStatement and the corresponding CertificateAlternative structure with the
+an EvidenceStatement and the corresponding CertificateChoices structure with the
 certification chain as provided by each Attester, are included in the CSR.
 This may result in certificates being duplicated across multiple EvidenceBundles.
 This approach does not require any processing capabilities
@@ -388,27 +389,17 @@ shows this use case.
 ~~~ aasvg
   +-------------------------+
   |  EvidenceBundle (1)     |\
-  +-------------------------+ \ Provided by
+  +.........................+ \ Provided by
   | EvidenceStatement       | / Attester 1
   | CertificateChoices      |/
   +-------------------------+
   |  EvidenceBundle (2)     |\
-  +-------------------------+ \ Provided by
+  +.........................+ \ Provided by
   | EvidenceStatement       | / Attester 2
   | CertificateChoices      |/
   +-------------------------+
 ~~~
 {: #fig-multiple-attesters title="Case 3: Multiple Evidence Bundles each with Complete Certificate Chains."}
-
-### Case 4 - Multiple Evidence Bundles with Certificate Transmission Optimization
-
-In the last use case, a Composite Device with additional processing
-capabilities of the Lead Attester parses the certificate chain provided by
-all Attesters in the device and removes duplicate certificates. The
-benefit of this approach is the reduced transmission payload size. There are several
-implementation strategies and we show two in the sub-sections below.
-
-Note: This specification does not support this optimization.
 
 # ASN.1 Elements
 
@@ -446,7 +437,7 @@ EvidenceStatementSet EVIDENCE-STATEMENT ::= {
 
 The expression illustrated in {{code-EvidenceStatementSet}} maps ASN.1 Types for Evidence Statements to the OIDs
 that identify them. These mappings are are used to construct
-or parse EvidenceStatements. Evidence Statement formats are typically
+or parse EvidenceStatements. Evidence Statements are typically
 defined in other IETF standards, other standards bodies,
 or vendor proprietary formats along with corresponding OIDs that identify them.
 
@@ -454,8 +445,6 @@ This list is left unconstrained in this document. However, implementers can
 populate it with the formats that they wish to support.
 
 ~~~
-EvidenceStatements ::= SEQUENCE SIZE (1..MAX) OF EvidenceStatement
-
 EvidenceStatement ::= SEQUENCE {
    type   EVIDENCE-STATEMENT.&id({EvidenceStatementSet}),
    stmt   EVIDENCE-STATEMENT.&Type({EvidenceStatementSet}{@type}),
@@ -507,31 +496,29 @@ id-TcgAttestCertify and the corresponding hint identifies the Verifier as
 "tpmverifier.example.com".
 
 ~~~
-EvidenceBundles ::= SEQUENCE SIZE (1..MAX) OF EvidenceBundle
-
 EvidenceBundle ::= SEQUENCE {
-   evidence EvidenceStatements,
+   evidences SEQUENCE SIZE (1..MAX) OF EvidenceStatement,
    certs SEQUENCE SIZE (1..MAX) OF CertificateChoices OPTIONAL
-      -- CertificateChoices MUST only contain certificate or other
+      -- CertificateChoices MUST only contain certificate or other,
+      -- see Section 10.2.2 of [RFC5652]
 }
 ~~~
 
 The CertificateChoices structure defined in [RFC6268] allows for carrying certificates in the default X.509 [RFC5280] format, or in other non-X.509 certificate formats. CertificateChoices MUST only contain certificate or other. CertificateChoices MUST NOT contain extendedCertificate, v1AttrCert, or v2AttrCert. Note that for non-ASN.1 certificate formats, the CertificateChoices MUST use `other [3]` with an `OtherCertificateFormat.Type` of `OCTET STRING`, and then can carry any binary data.
-
 
 ~~~
 id-aa-evidence OBJECT IDENTIFIER ::= { id-aa 59 }
 
 -- For PKCS#10
 attr-evidence ATTRIBUTE ::= {
-  TYPE EvidenceBundles
+  TYPE EvidenceBundle
   COUNTS MAX 1
   IDENTIFIED BY id-aa-evidence
 }
 
 -- For CRMF
 ext-evidence EXTENSION ::= {
-  SYNTAX EvidenceBundles
+  SYNTAX EvidenceBundle
   IDENTIFIED BY id-aa-evidence
 }
 ~~~
@@ -544,15 +531,13 @@ is intended to validate the contents of an Evidence statement
 contained in `evidence`, if required. The set of certificates should contain
 the certificate that contains the public key needed to directly validate the
 `evidence`. Additional certificates may be provided, for example, to chain the
-Evidence signer key  back to an agreed upon trust anchor. No order is implied, it is
+Evidence signer key back to an agreed upon trust anchor. No order is implied, it is
 up to the Attester and its Verifier to agree on both the order and format
 of certificates contained in `certs`.
 
 This specification places no restriction on mixing certificate types within the `certs` field. For example a non-X.509 Evidence signer certificate MAY chain to a trust anchor via a chain of X.509 certificates. It is up to the Attester and its Verifier to agree on supported certificate formats.
 
-
-By the nature of the PKIX ASN.1 classes [[RFC5912]], there are multiple ways to convey multiple Evidence statements: by including multiple copies of `attr-evidence` or `ext-evidence`, multiple values within the attribute or extension, and finally, by including multiple `EvidenceStatement`s within an `EvidenceBundle`. The latter is the preferred way to carry multiple Evidence statements. Implementations MUST NOT place multiple copies of `attr-evidence` into a PKCS#10 CSR due to the `COUNTS MAX 1` declaration, and SHOULD NOT place multiple copies of `EvidenceBundles` into an `AttributeSet`. In a CRMF CSR, implementers SHOULD NOT place multiple copies of `ext-evidence` and SHOULD NOT place multiple copies of `EvidenceBundles` into an `ExtensionSet`.
-
+By the nature of the PKIX ASN.1 classes [[RFC5912]], there are multiple ways to convey multiple Evidence statements: by including multiple copies of `attr-evidence` or `ext-evidence`, multiple values within the attribute or extension, and finally, by including multiple `EvidenceStatement`s within an `EvidenceBundle`. The latter is the preferred way to carry multiple Evidence statements. Implementations MUST NOT place multiple copies of `attr-evidence` into a PKCS#10 CSR due to the `COUNTS MAX 1` declaration, and SHOULD NOT place multiple copies of `EvidenceBundle` into an `AttributeSet`. In a CRMF CSR, implementers SHOULD NOT place multiple copies of `ext-evidence` and SHOULD NOT place multiple copies of `EvidenceBundle` into an `ExtensionSet`.
 
 # IANA Considerations
 
@@ -804,7 +789,7 @@ Implementers should also be cautious around `type` OID or `hint` values that cau
 
 ## Additional security considerations
 
-In addition to the security considerations listed here, implementers should be familiar with the security considerations of the specifications on this this depends: PKCS#10 [RFC2986], CRMF [4211], as well as general security concepts relating to evidence and remote attestation; many of these concepts are discussed in the Remote ATtestation prodedureS (RATS) Architecture [RFC9334] sections 6 Roles and Entities, 7 Trust Model, 9 Freshness, 11 Privacy Considerations, and 12 Security Considerations. Implementers should also be aware of any security considerations relating to the specific evidence format being carried within the CSR.
+In addition to the security considerations listed here, implementers should be familiar with the security considerations of the specifications on this this depends: PKCS#10 [RFC2986], CRMF [RFC4211], as well as general security concepts relating to evidence and remote attestation; many of these concepts are discussed in the Remote ATtestation prodedureS (RATS) Architecture [RFC9334] sections 6 Roles and Entities, 7 Trust Model, 9 Freshness, 11 Privacy Considerations, and 12 Security Considerations. Implementers should also be aware of any security considerations relating to the specific evidence format being carried within the CSR.
 
 --- back
 
@@ -1106,19 +1091,17 @@ This CSR demonstrates a certification request for a key stored in a TPM using th
 CSR {
   attributes {
     id-aa-evidence {
-      EvidenceBundles {
-        EvidenceBundle {
-          EvidenceStatements {
-            EvidenceStatement {
-              type: tcg-attest-tpm-certify,
-              stmt: <TcgAttestTpmCertify_data>
-              hint: "tpmverifier.example.com"
-            }
-          },
-          certs {
-            akCertificate,
-            caCertificate
+      EvidenceBundle {
+        Evidences {
+          EvidenceStatement {
+            type: tcg-attest-tpm-certify,
+            stmt: <TcgAttestTpmCertify_data>
+            hint: "tpmverifier.example.com"
           }
+        },
+        certs {
+          akCertificate,
+          caCertificate
         }
       }
     }
@@ -1133,10 +1116,7 @@ Note that this example demonstrates most of the features of this specification:
 - The `EvidenceStatement.hint` provides information to the Relying Party about which Verifier (software) will be able to correctly parse this data. Note that the `type` OID indicates the format of the data, but that may itself be a wrapper format that contains further data in a proprietary format. In this example, the hint says that software from the package `"tpmverifier.example.com"` will be able to parse this data.
 - The evidence statement is accompanied by a certificate chain in the `EvidenceBundle.certs` field which can be used to verify the signature on the evidence statement. How the Verifier establishes trust in the provided certificates is outside the scope of this specification.
 
-Features of this specification that are not demonstrated by this example are:
-
-- An EvidenceBundle containing multiple EvidenceStatements that share a certificate chain.
-- Multiple EvidenceBundles that each have their own certificate chain.
+This example does not demonstrate an EvidenceBundle that contains multiple EvidenceStatements sharing a certificate chain.
 
 ~~~
 {::include sampledata/tcgAttestTpmCertify.pem}
@@ -1160,19 +1140,18 @@ The resulting KAT-PAT bundle is, according to
 The encoding of this KAT-PAT bundle is shown in the example below.
 
 ~~~
-EvidenceBundles
- +
- |
- +-> EvidenceBundle
-      +
-      |
-      +->  EvidenceStatement
-            +
-            |
-            +-> type: OID for CMW Collection
-            |         1 3 6 1 5 5 7 1 TBD
-            |
-            +-> stmt: KAT/PAT CMW Collection
+EvidenceBundle
+   +
+   |
+   + Evidences
+   |
+   +---->  EvidenceStatement
+        +
+        |
+        +-> type: OID for CMW Collection
+        |         1 3 6 1 5 5 7 1 TBD
+        |
+        +-> stmt: KAT/PAT CMW Collection
 ~~~
 
 The value in EvidenceStatement->stmt is based on the
@@ -1211,7 +1190,7 @@ the result of CBOR encoding the CMW collection shown below
 
 ## TCG DICE ConceptualMessageWrapper in CSR
 
-This section gives an example of extending the ASN.1 module above to carry an existing ASN.1-based evidence statement.
+This section gives an example of extending the ASN.1 module above to carry an existing ASN.1-based Evidence Statement.
 The example used is the Trusted Computing Group DICE Attestation Conceptual Message Wrapper, as defined in {{TCGDICE1.1}}.
 
 ~~~
@@ -1245,6 +1224,6 @@ version of this draft.
 We would also like to specifically thank Monty Wiseman for providing the
 appendix showing how to carry a TPM 2.0 Attestation, and to Corey Bonnell for helping with the hackathon scripts to bundle it into a CSR.
 
-Finally, we would like to thank Andreas Kretschmer and Thomas Fossati for their
-feedback based on implementation experience, and Daniel Migault and Russ Housley
+Finally, we would like to thank Andreas Kretschmer, Hendrik Brockhaus, David von Oheimb,
+and Thomas Fossati for their feedback based on implementation experience, and Daniel Migault and Russ Housley
 for their review comments.

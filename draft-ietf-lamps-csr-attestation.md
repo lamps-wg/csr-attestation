@@ -624,17 +624,21 @@ party that registered the OID.
 ### Initial Registry Contents
 
 The initial registry contents is shown in the table below.
-It lists entries for several evidence encoding including an entry for the Conceptual Message Wrapper (CMW) {{I-D.ietf-rats-msg-wrap}}.
+It lists entries for several evidence encoding OIDs including an entry for the Conceptual Message Wrapper (CMW) {{I-D.ietf-rats-msg-wrap}}.
 
 | OID              | Description                  | Reference(s)     | Change Controller |
 |------------------|------------------------------|----------------  |-------------------|
-| 2 23 133 5 4 1   | DiceTcbInfo                  | {{TCGDICE1.1}}   |  TCG              |
-| 2 23 133 5 4 5   | DiceMultiTcbInfo             | {{TCGDICE1.1}}   |  TCG              |
-| 2 23 133 5 4 6   | DiceUccsEvidence             | {{TCGDICE1.1}}   |  TCG              |
-| 2 23 133 5 4 7   | DiceManifestEvidence         | {{TCGDICE1.1}}   |  TCG              |
-| 2 23 133 5 4 8   | DiceTcbInfoComp              | {{TCGDICE1.1}}   |  TCG              |
-| 2 23 133 5 4 9   | DiceConceptualMessageWrapper | {{TCGDICE1.1}}   |  TCG              |
+| 2 23 133 5 4 1   | tcg-dice-TcbInfo             | {{TCGDICE1.1}}   |  TCG              |
+| 2 23 133 5 4 3   | tcg-dice-endorsement-manifest-uri | {{TCGDICE1.1}}   |  TCG         |
+| 2 23 133 5 4 4   | tcg-dice-Ueid                | {{TCGDICE1.1}}   |  TCG              |
+| 2 23 133 5 4 5   | tcg-dice-MultiTcbInfo        | {{TCGDICE1.1}}   |  TCG              |
+| 2 23 133 5 4 6   | tcg-dice-UCCS-evidence       | {{TCGDICE1.1}}   |  TCG              |
+| 2 23 133 5 4 7   | tcg-dice-manifest-evidence   | {{TCGDICE1.1}}   |  TCG              |
+| 2 23 133 5 4 8   | tcg-dice-MultiTcbInfoComp    | {{TCGDICE1.1}}   |  TCG              |
+| 2 23 133 5 4 9   | tcg-dice-conceptual-message-wrapper | {{TCGDICE1.1}}   |  TCG       |
+| 2 23 133 5 4 11  | tcg-dice-TcbFreshness        | {{TCGDICE1.1}}   |  TCG              |
 | 2 23 133 20 1    | tcg-attest-tpm-certify       | Private Registry |  TCG              |
+| 1 3 6 1 5 5 7 1 35 | id-pe-cmw                    | {{I-D.ietf-rats-msg-wrap} | IETF     |
 {: #tab-ae-reg title="Initial Contents of the Attestation Evidence OID Registry"}
 
 The current registry values can be retrieved from the IANA online website.
@@ -1188,7 +1192,7 @@ the result of CBOR encoding the CMW collection shown below
 {::include CSR-ATTESTATION-2023.asn}
 ~~~
 
-## TCG DICE ConceptualMessageWrapper in CSR
+## TCG DICE Example in ASN.1
 
 This section gives an example of extending the ASN.1 module above to carry an existing ASN.1-based Evidence Statement.
 The example used is the Trusted Computing Group DICE Attestation Conceptual Message Wrapper, as defined in {{TCGDICE1.1}}.
@@ -1197,7 +1201,7 @@ The example used is the Trusted Computing Group DICE Attestation Conceptual Mess
 {::include CSR-ATTESTATION-WITH-DICE-CMW.asn}
 ~~~
 
-## TCG DICE ConceptualMessageWrapper in CSR
+## TCG DICE TcbInfo Example in CSR
 
 This section gives an example of extending the ASN.1 module above to carry an existing ASN.1-based evidence statement.
 The example used is the Trusted Computing Group DiceTcbInfo, as defined in {{TCGDICE1.1}}.

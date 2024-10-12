@@ -69,18 +69,13 @@ normative:
   RFC5912:
   RFC4211:
   RFC2986:
-  ASN1-2002:
-    author:
-      org: ITU-T
-    title: "ITU-T Recommendation X.680, X.681, X.682, and X.683"
-    date: 2002
+  RFC5280:
 
 informative:
   RFC8126:
   I-D.ietf-rats-msg-wrap:
   I-D.bft-rats-kat:
   RFC7030:
-  RFC8141:
   I-D.tschofenig-rats-psa-token:
   TPM20:
     author:
@@ -504,7 +499,7 @@ EvidenceBundle ::= SEQUENCE {
 }
 ~~~
 
-The CertificateChoices structure defined in [RFC6268] allows for carrying certificates in the default X.509 [RFC5280] format, or in other non-X.509 certificate formats. CertificateChoices MUST only contain certificate or other. CertificateChoices MUST NOT contain extendedCertificate, v1AttrCert, or v2AttrCert. Note that for non-ASN.1 certificate formats, the CertificateChoices MUST use `other [3]` with an `OtherCertificateFormat.Type` of `OCTET STRING`, and then can carry any binary data.
+The CertificateChoices structure defined in {{RFC6268}} allows for carrying certificates in the default X.509 {{RFC5280}} format, or in other non-X.509 certificate formats. CertificateChoices MUST only contain certificate or other. CertificateChoices MUST NOT contain extendedCertificate, v1AttrCert, or v2AttrCert. Note that for non-ASN.1 certificate formats, the CertificateChoices MUST use `other [3]` with an `OtherCertificateFormat.Type` of `OCTET STRING`, and then can carry any binary data.
 
 ~~~
 id-aa-evidence OBJECT IDENTIFIER ::= { id-aa 59 }
@@ -537,7 +532,7 @@ of certificates contained in `certs`.
 
 This specification places no restriction on mixing certificate types within the `certs` field. For example a non-X.509 Evidence signer certificate MAY chain to a trust anchor via a chain of X.509 certificates. It is up to the Attester and its Verifier to agree on supported certificate formats.
 
-By the nature of the PKIX ASN.1 classes [[RFC5912]], there are multiple ways to convey multiple Evidence statements: by including multiple copies of `attr-evidence` or `ext-evidence`, multiple values within the attribute or extension, and finally, by including multiple `EvidenceStatement`s within an `EvidenceBundle`. The latter is the preferred way to carry multiple Evidence statements. Implementations MUST NOT place multiple copies of `attr-evidence` into a PKCS#10 CSR due to the `COUNTS MAX 1` declaration, and SHOULD NOT place multiple copies of `EvidenceBundle` into an `AttributeSet`. In a CRMF CSR, implementers SHOULD NOT place multiple copies of `ext-evidence` and SHOULD NOT place multiple copies of `EvidenceBundle` into an `ExtensionSet`.
+By the nature of the PKIX ASN.1 classes {{RFC5912}}, there are multiple ways to convey multiple Evidence statements: by including multiple copies of `attr-evidence` or `ext-evidence`, multiple values within the attribute or extension, and finally, by including multiple `EvidenceStatement`s within an `EvidenceBundle`. The latter is the preferred way to carry multiple Evidence statements. Implementations MUST NOT place multiple copies of `attr-evidence` into a PKCS#10 CSR due to the `COUNTS MAX 1` declaration, and SHOULD NOT place multiple copies of `EvidenceBundle` into an `AttributeSet`. In a CRMF CSR, implementers SHOULD NOT place multiple copies of `ext-evidence` and SHOULD NOT place multiple copies of `EvidenceBundle` into an `ExtensionSet`.
 
 # IANA Considerations
 
@@ -638,7 +633,7 @@ It lists entries for several evidence encoding OIDs including an entry for the C
 | 2 23 133 5 4 9   | tcg-dice-conceptual-message-wrapper | {{TCGDICE1.1}}   |  TCG       |
 | 2 23 133 5 4 11  | tcg-dice-TcbFreshness        | {{TCGDICE1.1}}   |  TCG              |
 | 2 23 133 20 1    | tcg-attest-tpm-certify       | Private Registry |  TCG              |
-| 1 3 6 1 5 5 7 1 35 | id-pe-cmw                    | {{I-D.ietf-rats-msg-wrap} | IETF     |
+| 1 3 6 1 5 5 7 1 35 | id-pe-cmw                    | {{I-D.ietf-rats-msg-wrap}} | IETF     |
 {: #tab-ae-reg title="Initial Contents of the Attestation Evidence OID Registry"}
 
 The current registry values can be retrieved from the IANA online website.
@@ -793,7 +788,7 @@ Implementers should also be cautious around `type` OID or `hint` values that cau
 
 ## Additional security considerations
 
-In addition to the security considerations listed here, implementers should be familiar with the security considerations of the specifications on this this depends: PKCS#10 [RFC2986], CRMF [RFC4211], as well as general security concepts relating to evidence and remote attestation; many of these concepts are discussed in the Remote ATtestation prodedureS (RATS) Architecture [RFC9334] sections 6 Roles and Entities, 7 Trust Model, 9 Freshness, 11 Privacy Considerations, and 12 Security Considerations. Implementers should also be aware of any security considerations relating to the specific evidence format being carried within the CSR.
+In addition to the security considerations listed here, implementers should be familiar with the security considerations of the specifications on this this depends: PKCS#10 {{RFC2986}}, CRMF {{RFC4211}}, as well as general security concepts relating to evidence and remote attestation; many of these concepts are discussed in the Remote ATtestation prodedureS (RATS) Architecture {{RFC9334}} sections 6 Roles and Entities, 7 Trust Model, 9 Freshness, 11 Privacy Considerations, and 12 Security Considerations. Implementers should also be aware of any security considerations relating to the specific evidence format being carried within the CSR.
 
 --- back
 
@@ -887,7 +882,7 @@ Tcg-csr-tpm-certify ::= SEQUENCE {
 
 ### Introduction to TPM2 concepts
 
-The definitions in the following sections are specified by the Trusted Computing Group (TCG). TCG specification including the TPM2 set of specifications [TPM20], specifically Part 2 defines the TPM 2.0 structures.
+The definitions in the following sections are specified by the Trusted Computing Group (TCG). TCG specification including the TPM2 set of specifications {{TPM20}}, specifically Part 2 defines the TPM 2.0 structures.
 Those familiar with TPM2 concepts may skip to {{appdx-tcg-attest-tpm-certify}} which defines an ASN.1 structure
 specific for bundling a TPM attestation into an EvidenceStatement, and {{appdx-tpm-example}} which provides the example.
 For those unfamiliar with TPM2 concepts this section provides only the minimum information to understand TPM2

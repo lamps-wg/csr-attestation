@@ -5,14 +5,14 @@
 Network Working Group                                       M. Ounsworth
 Internet-Draft                                                   Entrust
 Intended status: Standards Track                           H. Tschofenig
-Expires: 14 April 2025                                           Siemens
+Expires: 15 April 2025                                           Siemens
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                               M. Wiseman
                                                          Beyond Identity
                                                                 N. Smith
                                                        Intel Corporation
-                                                         11 October 2024
+                                                         12 October 2024
 
 
      Use of Remote Attestation with Certification Signing Requests
@@ -69,7 +69,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 14 April 2025.
+   This Internet-Draft will expire on 15 April 2025.
 
 Copyright Notice
 
@@ -615,10 +615,10 @@ Table of Contents
    certificates.  It is up to the Attester and its Verifier to agree on
    supported certificate formats.
 
-   By the nature of the PKIX ASN.1 classes [[RFC5912]], there are
-   multiple ways to convey multiple Evidence statements: by including
-   multiple copies of attr-evidence or ext-evidence, multiple values
-   within the attribute or extension, and finally, by including multiple
+   By the nature of the PKIX ASN.1 classes [RFC5912], there are multiple
+   ways to convey multiple Evidence statements: by including multiple
+   copies of attr-evidence or ext-evidence, multiple values within the
+   attribute or extension, and finally, by including multiple
    EvidenceStatements within an EvidenceBundle.  The latter is the
    preferred way to carry multiple Evidence statements.  Implementations
    MUST NOT place multiple copies of attr-evidence into a PKCS#10 CSR
@@ -975,10 +975,6 @@ Table of Contents
 
 8.1.  Normative References
 
-   [ASN1-2002]
-              ITU-T, "ITU-T Recommendation X.680, X.681, X.682, and
-              X.683", 2002.
-
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
               DOI 10.17487/RFC2119, March 1997,
@@ -993,6 +989,12 @@ Table of Contents
               Certificate Request Message Format (CRMF)", RFC 4211,
               DOI 10.17487/RFC4211, September 2005,
               <https://www.rfc-editor.org/rfc/rfc4211>.
+
+   [RFC5280]  Cooper, D., Santesson, S., Farrell, S., Boeyen, S.,
+              Housley, R., and W. Polk, "Internet X.509 Public Key
+              Infrastructure Certificate and Certificate Revocation List
+              (CRL) Profile", RFC 5280, DOI 10.17487/RFC5280, May 2008,
+              <https://www.rfc-editor.org/rfc/rfc5280>.
 
    [RFC5911]  Hoffman, P. and J. Schaad, "New ASN.1 Modules for
               Cryptographic Message Syntax (CMS) and S/MIME", RFC 5911,
@@ -1070,10 +1072,6 @@ Table of Contents
               Writing an IANA Considerations Section in RFCs", BCP 26,
               RFC 8126, DOI 10.17487/RFC8126, June 2017,
               <https://www.rfc-editor.org/rfc/rfc8126>.
-
-   [RFC8141]  Saint-Andre, P. and J. Klensin, "Uniform Resource Names
-              (URNs)", RFC 8141, DOI 10.17487/RFC8141, April 2017,
-              <https://www.rfc-editor.org/rfc/rfc8141>.
 
    [SampleData]
               "CSR Attestation Sample Data", n.d.,
@@ -1583,75 +1581,76 @@ A.3.  PSA Attestation Token in CSR
 
 Appendix B.  ASN.1 Module
 
-CSR-ATTESTATION-2023
-           {iso(1) identified-organization(3) dod(6) internet(1) security(5)
-       mechanisms(5) pkix(7) id-mod(0) id-mod-pkix-attest-01(TBDMOD)}
-
-CsrAttestation DEFINITIONS IMPLICIT TAGS ::= BEGIN
-
-EXPORTS ALL;
-
-IMPORTS
-
-Certificate, id-pkix
- FROM PKIX1Explicit-2009
-     {iso(1) identified-organization(3) dod(6) internet(1) security(5)
-     mechanisms(5) pkix(7) id-mod(0) id-mod-pkix1-explicit-02(51)}
-
-CertificateChoices
-FROM CryptographicMessageSyntax-2010
-{ iso(1) member-body(2) us(840) rsadsi(113549)
-pkcs(1) pkcs-9(9) smime(16) modules(0) id-mod-cms-2009(58) }
-
-EXTENSION, ATTRIBUTE, AttributeSet{}, SingleAttribute{}
-    FROM PKIX-CommonTypes-2009 -- from [RFC5912]
+  CSR-ATTESTATION-2023
     { iso(1) identified-organization(3) dod(6) internet(1) security(5)
+    mechanisms(5) pkix(7) id-mod(0) id-mod-pkix-attest-01(TBDMOD) }
+
+  CsrAttestation DEFINITIONS IMPLICIT TAGS ::= BEGIN
+
+  EXPORTS ALL;
+
+  IMPORTS
+
+  Certificate, id-pkix
+    FROM PKIX1Explicit-2009
+      { iso(1) identified-organization(3) dod(6) internet(1) security(5)
+      mechanisms(5) pkix(7) id-mod(0) id-mod-pkix1-explicit-02(51) }
+
+  CertificateChoices
+    FROM CryptographicMessageSyntax-2010
+      { iso(1) member-body(2) us(840) rsadsi(113549)
+      pkcs(1) pkcs-9(9) smime(16) modules(0) id-mod-cms-2009(58) }
+
+  EXTENSION, ATTRIBUTE, AttributeSet{}, SingleAttribute{}
+    FROM PKIX-CommonTypes-2009 -- from [RFC5912]
+      { iso(1) identified-organization(3) dod(6) internet(1) security(5)
       mechanisms(5) pkix(7) id-mod(0) id-mod-pkixCommon-02(57) }
 
-id-aa
-FROM SecureMimeMessageV3dot1
-    { iso(1) member-body(2) us(840) rsadsi(113549)
-        pkcs(1) pkcs-9(9) smime(16) modules(0) msg-v3dot1(21) }
-  ;
+  id-aa
+    FROM SecureMimeMessageV3dot1
+      { iso(1) member-body(2) us(840) rsadsi(113549)
+      pkcs(1) pkcs-9(9) smime(16) modules(0) msg-v3dot1(21) }
+    ;
 
--- Branch for attestation statement types
-id-ata OBJECT IDENTIFIER ::= { id-pkix (TBD1) }
+  -- Branch for attestation statement types
+  id-ata OBJECT IDENTIFIER ::= { id-pkix (TBD1) }
 
-EVIDENCE-STATEMENT ::= TYPE-IDENTIFIER
+  EVIDENCE-STATEMENT ::= TYPE-IDENTIFIER
 
-EvidenceStatementSet EVIDENCE-STATEMENT ::= {
-   ... -- None defined in this document --
-}
+  EvidenceStatementSet EVIDENCE-STATEMENT ::= {
+     ... -- None defined in this document --
+  }
 
-EvidenceStatement ::= SEQUENCE {
-   type   EVIDENCE-STATEMENT.&id({EvidenceStatementSet}),
-   stmt   EVIDENCE-STATEMENT.&Type({EvidenceStatementSet}{@type}),
-   hint   UTF8String OPTIONAL
-}
+  EvidenceStatement ::= SEQUENCE {
+     type   EVIDENCE-STATEMENT.&id({EvidenceStatementSet}),
+     stmt   EVIDENCE-STATEMENT.&Type({EvidenceStatementSet}{@type}),
+     hint   UTF8String OPTIONAL
+  }
 
-id-aa-evidence OBJECT IDENTIFIER ::= { id-aa 59 }
+  id-aa-evidence OBJECT IDENTIFIER ::= { id-aa 59 }
 
--- For PKCS#10
-attr-evidence ATTRIBUTE ::= {
-  TYPE EvidenceBundle
-  COUNTS MAX 1
-  IDENTIFIED BY id-aa-evidence
-}
+  -- For PKCS#10
+  attr-evidence ATTRIBUTE ::= {
+    TYPE EvidenceBundle
+    COUNTS MAX 1
+    IDENTIFIED BY id-aa-evidence
+  }
 
--- For CRMF
-ext-evidence EXTENSION ::= {
-  SYNTAX EvidenceBundle
-  IDENTIFIED BY id-aa-evidence
-}
+  -- For CRMF
+  ext-evidence EXTENSION ::= {
+    SYNTAX EvidenceBundle
+    IDENTIFIED BY id-aa-evidence
+  }
 
-EvidenceBundle ::= SEQUENCE {
-   evidences SEQUENCE SIZE (1..MAX) OF EvidenceStatement,
-   certs SEQUENCE SIZE (1..MAX) OF CertificateChoices OPTIONAL
-      -- CertificateChoices MUST NOT contain the depreciated certificate structures or attribute certificates,
-      -- see Section 10.2.2 of [RFC5652]
-}
+  EvidenceBundle ::= SEQUENCE {
+     evidences SEQUENCE SIZE (1..MAX) OF EvidenceStatement,
+     certs SEQUENCE SIZE (1..MAX) OF CertificateChoices OPTIONAL
+        -- CertificateChoices MUST NOT contain the depreciated
+        -- certificate structures or attribute certificates,
+        -- see Section 10.2.2 of [RFC5652]
+  }
 
-END
+  END
 
 B.1.  TCG DICE Example in ASN.1
 
@@ -1789,10 +1788,10 @@ Manifest ::= SEQUENCE {
 }
 
 ManifestFormat ::= ENUMERATED {
-  swid-xml              (0),
-  coswid-cbor           (1),
-  coswid-json           (2),
-  tagged-cbor           (3)
+  swid-xml    (0),
+  coswid-cbor (1),
+  coswid-json (2),
+  tagged-cbor (3)
 }
 
 DiceTcbFreshness ::= SEQUENCE {

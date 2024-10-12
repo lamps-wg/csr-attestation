@@ -1039,7 +1039,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Ounsworth, et al.</td>
-<td class="center">Expires 14 April 2025</td>
+<td class="center">Expires 15 April 2025</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1052,12 +1052,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-lamps-csr-attestation-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2024-10-11" class="published">11 October 2024</time>
+<time datetime="2024-10-12" class="published">12 October 2024</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2025-04-14">14 April 2025</time></dd>
+<dd class="expires"><time datetime="2025-04-15">15 April 2025</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1120,7 +1120,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 14 April 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 15 April 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1879,7 +1879,7 @@ EvidenceBundle ::= SEQUENCE {
 }
 </pre><a href="#section-5.2-13" class="pilcrow">¶</a>
 </div>
-<p id="section-5.2-14">The CertificateChoices structure defined in <span>[<a href="#RFC6268" class="cite xref">RFC6268</a>]</span> allows for carrying certificates in the default X.509 [RFC5280] format, or in other non-X.509 certificate formats. CertificateChoices <span class="bcp14">MUST</span> only contain certificate or other. CertificateChoices <span class="bcp14">MUST NOT</span> contain extendedCertificate, v1AttrCert, or v2AttrCert. Note that for non-ASN.1 certificate formats, the CertificateChoices <span class="bcp14">MUST</span> use <code>other [3]</code> with an <code>OtherCertificateFormat.Type</code> of <code>OCTET STRING</code>, and then can carry any binary data.<a href="#section-5.2-14" class="pilcrow">¶</a></p>
+<p id="section-5.2-14">The CertificateChoices structure defined in <span>[<a href="#RFC6268" class="cite xref">RFC6268</a>]</span> allows for carrying certificates in the default X.509 <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span> format, or in other non-X.509 certificate formats. CertificateChoices <span class="bcp14">MUST</span> only contain certificate or other. CertificateChoices <span class="bcp14">MUST NOT</span> contain extendedCertificate, v1AttrCert, or v2AttrCert. Note that for non-ASN.1 certificate formats, the CertificateChoices <span class="bcp14">MUST</span> use <code>other [3]</code> with an <code>OtherCertificateFormat.Type</code> of <code>OCTET STRING</code>, and then can carry any binary data.<a href="#section-5.2-14" class="pilcrow">¶</a></p>
 <span id="name-definitions-of-csr-attribut"></span><div id="code-extensions">
 <figure id="figure-10">
           <div class="alignLeft art-text artwork" id="section-5.2-15.1">
@@ -1914,7 +1914,7 @@ Evidence signer key back to an agreed upon trust anchor. No order is implied, it
 up to the Attester and its Verifier to agree on both the order and format
 of certificates contained in <code>certs</code>.<a href="#section-5.2-17" class="pilcrow">¶</a></p>
 <p id="section-5.2-18">This specification places no restriction on mixing certificate types within the <code>certs</code> field. For example a non-X.509 Evidence signer certificate <span class="bcp14">MAY</span> chain to a trust anchor via a chain of X.509 certificates. It is up to the Attester and its Verifier to agree on supported certificate formats.<a href="#section-5.2-18" class="pilcrow">¶</a></p>
-<p id="section-5.2-19">By the nature of the PKIX ASN.1 classes [<span>[<a href="#RFC5912" class="cite xref">RFC5912</a>]</span>], there are multiple ways to convey multiple Evidence statements: by including multiple copies of <code>attr-evidence</code> or <code>ext-evidence</code>, multiple values within the attribute or extension, and finally, by including multiple <code>EvidenceStatement</code>s within an <code>EvidenceBundle</code>. The latter is the preferred way to carry multiple Evidence statements. Implementations <span class="bcp14">MUST NOT</span> place multiple copies of <code>attr-evidence</code> into a PKCS#10 CSR due to the <code>COUNTS MAX 1</code> declaration, and <span class="bcp14">SHOULD NOT</span> place multiple copies of <code>EvidenceBundle</code> into an <code>AttributeSet</code>. In a CRMF CSR, implementers <span class="bcp14">SHOULD NOT</span> place multiple copies of <code>ext-evidence</code> and <span class="bcp14">SHOULD NOT</span> place multiple copies of <code>EvidenceBundle</code> into an <code>ExtensionSet</code>.<a href="#section-5.2-19" class="pilcrow">¶</a></p>
+<p id="section-5.2-19">By the nature of the PKIX ASN.1 classes <span>[<a href="#RFC5912" class="cite xref">RFC5912</a>]</span>, there are multiple ways to convey multiple Evidence statements: by including multiple copies of <code>attr-evidence</code> or <code>ext-evidence</code>, multiple values within the attribute or extension, and finally, by including multiple <code>EvidenceStatement</code>s within an <code>EvidenceBundle</code>. The latter is the preferred way to carry multiple Evidence statements. Implementations <span class="bcp14">MUST NOT</span> place multiple copies of <code>attr-evidence</code> into a PKCS#10 CSR due to the <code>COUNTS MAX 1</code> declaration, and <span class="bcp14">SHOULD NOT</span> place multiple copies of <code>EvidenceBundle</code> into an <code>AttributeSet</code>. In a CRMF CSR, implementers <span class="bcp14">SHOULD NOT</span> place multiple copies of <code>ext-evidence</code> and <span class="bcp14">SHOULD NOT</span> place multiple copies of <code>EvidenceBundle</code> into an <code>ExtensionSet</code>.<a href="#section-5.2-19" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -2399,10 +2399,6 @@ Implementers should also be cautious around <code>type</code> OID or <code>hint<
 <a href="#section-8.1" class="section-number selfRef">8.1. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
         </h3>
 <dl class="references">
-<dt id="ASN1-2002">[ASN1-2002]</dt>
-        <dd>
-<span class="refAuthor">ITU-T</span>, <span class="refTitle">"ITU-T Recommendation X.680, X.681, X.682, and X.683"</span>, <time datetime="2002" class="refDate">2002</time>. </dd>
-<dd class="break"></dd>
 <dt id="RFC2119">[RFC2119]</dt>
         <dd>
 <span class="refAuthor">Bradner, S.</span>, <span class="refTitle">"Key words for use in RFCs to Indicate Requirement Levels"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 2119</span>, <span class="seriesInfo">DOI 10.17487/RFC2119</span>, <time datetime="1997-03" class="refDate">March 1997</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc2119">https://www.rfc-editor.org/rfc/rfc2119</a>&gt;</span>. </dd>
@@ -2414,6 +2410,10 @@ Implementers should also be cautious around <code>type</code> OID or <code>hint<
 <dt id="RFC4211">[RFC4211]</dt>
         <dd>
 <span class="refAuthor">Schaad, J.</span>, <span class="refTitle">"Internet X.509 Public Key Infrastructure Certificate Request Message Format (CRMF)"</span>, <span class="seriesInfo">RFC 4211</span>, <span class="seriesInfo">DOI 10.17487/RFC4211</span>, <time datetime="2005-09" class="refDate">September 2005</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc4211">https://www.rfc-editor.org/rfc/rfc4211</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC5280">[RFC5280]</dt>
+        <dd>
+<span class="refAuthor">Cooper, D.</span>, <span class="refAuthor">Santesson, S.</span>, <span class="refAuthor">Farrell, S.</span>, <span class="refAuthor">Boeyen, S.</span>, <span class="refAuthor">Housley, R.</span>, and <span class="refAuthor">W. Polk</span>, <span class="refTitle">"Internet X.509 Public Key Infrastructure Certificate and Certificate Revocation List (CRL) Profile"</span>, <span class="seriesInfo">RFC 5280</span>, <span class="seriesInfo">DOI 10.17487/RFC5280</span>, <time datetime="2008-05" class="refDate">May 2008</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc5280">https://www.rfc-editor.org/rfc/rfc5280</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC5911">[RFC5911]</dt>
         <dd>
@@ -2475,10 +2475,6 @@ Implementers should also be cautious around <code>type</code> OID or <code>hint<
 <dt id="RFC8126">[RFC8126]</dt>
         <dd>
 <span class="refAuthor">Cotton, M.</span>, <span class="refAuthor">Leiba, B.</span>, and <span class="refAuthor">T. Narten</span>, <span class="refTitle">"Guidelines for Writing an IANA Considerations Section in RFCs"</span>, <span class="seriesInfo">BCP 26</span>, <span class="seriesInfo">RFC 8126</span>, <span class="seriesInfo">DOI 10.17487/RFC8126</span>, <time datetime="2017-06" class="refDate">June 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8126">https://www.rfc-editor.org/rfc/rfc8126</a>&gt;</span>. </dd>
-<dd class="break"></dd>
-<dt id="RFC8141">[RFC8141]</dt>
-        <dd>
-<span class="refAuthor">Saint-Andre, P.</span> and <span class="refAuthor">J. Klensin</span>, <span class="refTitle">"Uniform Resource Names (URNs)"</span>, <span class="seriesInfo">RFC 8141</span>, <span class="seriesInfo">DOI 10.17487/RFC8141</span>, <time datetime="2017-04" class="refDate">April 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8141">https://www.rfc-editor.org/rfc/rfc8141</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="SampleData">[SampleData]</dt>
         <dd>
@@ -3064,8 +3060,8 @@ the result of CBOR encoding the CMW collection shown below
 <div class="alignLeft art-text artwork" id="appendix-B-1">
 <pre>
 CSR-ATTESTATION-2023
-           {iso(1) identified-organization(3) dod(6) internet(1) security(5)
-       mechanisms(5) pkix(7) id-mod(0) id-mod-pkix-attest-01(TBDMOD)}
+  { iso(1) identified-organization(3) dod(6) internet(1) security(5)
+  mechanisms(5) pkix(7) id-mod(0) id-mod-pkix-attest-01(TBDMOD) }
 
 CsrAttestation DEFINITIONS IMPLICIT TAGS ::= BEGIN
 
@@ -3074,24 +3070,24 @@ EXPORTS ALL;
 IMPORTS
 
 Certificate, id-pkix
- FROM PKIX1Explicit-2009
-     {iso(1) identified-organization(3) dod(6) internet(1) security(5)
-     mechanisms(5) pkix(7) id-mod(0) id-mod-pkix1-explicit-02(51)}
+  FROM PKIX1Explicit-2009
+    { iso(1) identified-organization(3) dod(6) internet(1) security(5)
+    mechanisms(5) pkix(7) id-mod(0) id-mod-pkix1-explicit-02(51) }
 
 CertificateChoices
-FROM CryptographicMessageSyntax-2010
-{ iso(1) member-body(2) us(840) rsadsi(113549)
-pkcs(1) pkcs-9(9) smime(16) modules(0) id-mod-cms-2009(58) }
+  FROM CryptographicMessageSyntax-2010
+    { iso(1) member-body(2) us(840) rsadsi(113549)
+    pkcs(1) pkcs-9(9) smime(16) modules(0) id-mod-cms-2009(58) }
 
 EXTENSION, ATTRIBUTE, AttributeSet{}, SingleAttribute{}
-    FROM PKIX-CommonTypes-2009 -- from [RFC5912]
+  FROM PKIX-CommonTypes-2009 -- from [RFC5912]
     { iso(1) identified-organization(3) dod(6) internet(1) security(5)
-      mechanisms(5) pkix(7) id-mod(0) id-mod-pkixCommon-02(57) }
+    mechanisms(5) pkix(7) id-mod(0) id-mod-pkixCommon-02(57) }
 
 id-aa
-FROM SecureMimeMessageV3dot1
+  FROM SecureMimeMessageV3dot1
     { iso(1) member-body(2) us(840) rsadsi(113549)
-        pkcs(1) pkcs-9(9) smime(16) modules(0) msg-v3dot1(21) }
+    pkcs(1) pkcs-9(9) smime(16) modules(0) msg-v3dot1(21) }
   ;
 
 -- Branch for attestation statement types
@@ -3127,7 +3123,8 @@ ext-evidence EXTENSION ::= {
 EvidenceBundle ::= SEQUENCE {
    evidences SEQUENCE SIZE (1..MAX) OF EvidenceStatement,
    certs SEQUENCE SIZE (1..MAX) OF CertificateChoices OPTIONAL
-      -- CertificateChoices MUST NOT contain the depreciated certificate structures or attribute certificates,
+      -- CertificateChoices MUST NOT contain the depreciated
+      -- certificate structures or attribute certificates,
       -- see Section 10.2.2 of [RFC5652]
 }
 
@@ -3272,10 +3269,10 @@ Manifest ::= SEQUENCE {
 }
 
 ManifestFormat ::= ENUMERATED {
-  swid-xml              (0),
-  coswid-cbor           (1),
-  coswid-json           (2),
-  tagged-cbor           (3)
+  swid-xml    (0),
+  coswid-cbor (1),
+  coswid-json (2),
+  tagged-cbor (3)
 }
 
 DiceTcbFreshness ::= SEQUENCE {

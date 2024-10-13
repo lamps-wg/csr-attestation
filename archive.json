@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-10-10T00:59:37.943793+00:00",
+  "timestamp": "2024-10-13T01:04:25.149424+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -2082,14 +2082,38 @@
       "id": "I_kwDOJ3IIN86ZWVjL",
       "title": "Switch from CertificateAlternatives to CertificateChoices ",
       "url": "https://github.com/lamps-wg/csr-attestation/issues/166",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "hannestschofenig",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "When we decided to re-use the CMS-defined structure as a way to convey different types of certificates, including X.509 certificates, we are facing the question about what those other types are and whether we need to register OIDs for them. Why do we need to register OIDs for these types of certificates? The answer is in the structure of the CertificateChoices from CMS, see\r\n\r\n> \r\n>       CertificateChoices ::= CHOICE {\r\n>        certificate Certificate,\r\n>        extendedCertificate [0] IMPLICIT ExtendedCertificate, -- Obsolete\r\n>        v1AttrCert [1] IMPLICIT AttributeCertificateV1,       -- Obsolete\r\n>        v2AttrCert [2] IMPLICIT AttributeCertificateV2,\r\n>        other [3] IMPLICIT OtherCertificateFormat }\r\n> \r\n>       OtherCertificateFormat ::= SEQUENCE {\r\n>         otherCertFormat OBJECT IDENTIFIER,\r\n>         otherCert ANY DEFINED BY otherCertFormat }\r\n> \r\n\r\nWhen a certificate of type \"OtherCertificateFormat\" is defined then the type needs to be indicated via an object identifier. \r\n\r\nIf we have examples of certificate types that we plan to use beyond X.509 certificates then we should register them in the draft already now. An example that comes to my mind is a CWT.\r\n\r\n",
       "createdAt": "2024-10-08T10:25:27Z",
-      "updatedAt": "2024-10-08T10:25:28Z",
+      "updatedAt": "2024-10-11T15:43:55Z",
+      "closedAt": "2024-10-11T15:43:54Z",
+      "comments": [
+        {
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Merged PR.",
+          "createdAt": "2024-10-11T15:43:54Z",
+          "updatedAt": "2024-10-11T15:43:54Z"
+        }
+      ]
+    },
+    {
+      "number": 167,
+      "id": "I_kwDOJ3IIN86Z4SVV",
+      "title": "CSR-ATTESTATION-WITH-DiceTcbInfo Example",
+      "url": "https://github.com/lamps-wg/csr-attestation/issues/167",
+      "state": "OPEN",
+      "author": "hannestschofenig",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Update the example based on the removed EvidenceBundle",
+      "createdAt": "2024-10-11T15:37:32Z",
+      "updatedAt": "2024-10-11T15:37:33Z",
       "closedAt": null,
       "comments": []
     }
@@ -7540,24 +7564,26 @@
       "id": "PR_kwDOJ3IIN858trpj",
       "title": "Fixed DICE asn.1 example",
       "url": "https://github.com/lamps-wg/csr-attestation/pull/160",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "nedmsmith",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Updated DICE examples to create a evidence bundle containing a DICE cmw and DiceTcbInfo.  Added CsrAttestation name to the definition in CSR-ATTESTATION-2023.asn file so that imports would compile.",
       "createdAt": "2024-09-25T21:34:28Z",
-      "updatedAt": "2024-10-07T16:24:38Z",
+      "updatedAt": "2024-10-11T15:43:32Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "8242ad75210d973485ea1653c73a3dc57b4dc9c9",
       "headRepository": "lamps-wg/csr-attestation",
       "headRefName": "fix-dice-bundle-example",
       "headRefOid": "4cbf1399869b7b4cfcd46daf4d4c4b854313ba03",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2024-10-11T15:43:29Z",
+      "mergedAt": "2024-10-11T15:43:29Z",
+      "mergedBy": "hannestschofenig",
+      "mergeCommit": {
+        "oid": "9ada0c01131c9943d64a92a1522ccd8214c492e9"
+      },
       "comments": [],
       "reviews": [
         {
@@ -7727,24 +7753,26 @@
       "id": "PR_kwDOJ3IIN8596q04",
       "title": "Remove CertificateAlternatives",
       "url": "https://github.com/lamps-wg/csr-attestation/pull/164",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "hannestschofenig",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "We wanted to use the CMS defined CertificateChoices structure instead of our own CertificateAlternatives structure. We forgot to update the ASN.1 file accordingly. This PR makes this changes.\r\n",
       "createdAt": "2024-10-08T08:41:23Z",
-      "updatedAt": "2024-10-09T21:11:49Z",
+      "updatedAt": "2024-10-11T15:12:38Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "1a9eca9c46d83ba601595e2b34ad360985eca857",
       "headRepository": "lamps-wg/csr-attestation",
       "headRefName": "hannestschofenig-patch-2",
       "headRefOid": "4649115fb95b7054f2f833581f21953abd8b841a",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2024-10-11T15:12:35Z",
+      "mergedAt": "2024-10-11T15:12:35Z",
+      "mergedBy": "hannestschofenig",
+      "mergeCommit": {
+        "oid": "44b5535c6a2a5d34b9560d46b3eb859ebb682ae4"
+      },
       "comments": [],
       "reviews": [
         {
@@ -7767,24 +7795,26 @@
       "id": "PR_kwDOJ3IIN85960L3",
       "title": "Simplified ASN.1 Structure",
       "url": "https://github.com/lamps-wg/csr-attestation/pull/165",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "hannestschofenig",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "When the certificate chain optimization in PR 154 was removed, see https://github.com/lamps-wg/csr-attestation/pull/154, we forgot to also update the ASN.1 structure.\r\n\r\nIt is unfortunate that we did not notice this earlier.",
       "createdAt": "2024-10-08T08:58:21Z",
-      "updatedAt": "2024-10-09T21:08:38Z",
+      "updatedAt": "2024-10-11T15:41:52Z",
       "baseRepository": "lamps-wg/csr-attestation",
-      "baseRefName": "hannestschofenig-patch-2",
-      "baseRefOid": "4649115fb95b7054f2f833581f21953abd8b841a",
+      "baseRefName": "main",
+      "baseRefOid": "44b5535c6a2a5d34b9560d46b3eb859ebb682ae4",
       "headRepository": "lamps-wg/csr-attestation",
       "headRefName": "hannestschofenig-patch-3",
-      "headRefOid": "4c5d0a100f173707a00db0e87172ffe17dd7468d",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "a1706bae66a8fdedc5a6993514757a12b849709e",
+      "closedAt": "2024-10-11T15:41:47Z",
+      "mergedAt": "2024-10-11T15:41:47Z",
+      "mergedBy": "hannestschofenig",
+      "mergeCommit": {
+        "oid": "f9f56917bc9561e4031af4be9bd5a11db0b34516"
+      },
       "comments": [],
       "reviews": [
         {
@@ -7799,6 +7829,26 @@
           "createdAt": "2024-10-09T21:08:38Z",
           "updatedAt": "2024-10-09T21:08:38Z",
           "comments": []
+        },
+        {
+          "id": "PRR_kwDOJ3IIN86M2WUt",
+          "commit": {
+            "abbreviatedOid": "4c5d0a1"
+          },
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-11T15:19:21Z",
+          "updatedAt": "2024-10-11T15:19:21Z",
+          "comments": [
+            {
+              "originalPosition": 42,
+              "body": "```suggestion\r\n      -- CertificateChoices MUST NOT contain the depreciated certificate structures or attribute certificates,\r\n```",
+              "createdAt": "2024-10-11T15:19:21Z",
+              "updatedAt": "2024-10-11T15:19:21Z"
+            }
+          ]
         }
       ]
     }

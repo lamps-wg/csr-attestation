@@ -138,7 +138,7 @@ The certificates typically contain one or more certification paths
 rooted in a device manufacturer trust anchor and the end-entity certificate being
 on the device in question. The end-entity certificate is associated with key material that takes on the role of an Attestation Key and is used as Evidence originating from the Attester.
 
-This document specifies a CSR Attribute (or Extension for Certificate Request Message Format (CRMF) CSRs) for carrying Evidence. Evidence can be placed into an EvidenceStatement along with an OID to identify its type and optionally a hint to the Relying Party about which Verifier (software package) will be capable of parsing it. A set of EvidenceStatements may be grouped together along with the set of CertificateChoices needed to validate them to form a EvidenceBundle. One or more EvidenceBundles may be placed into the id-aa-evidence CSR Attribute (or CRMF Extension).
+This document specifies a CSR Attribute (or Extension for Certificate Request Message Format (CRMF) CSRs) for carrying Evidence. Evidence can be placed into an EvidenceStatement along with an OID to identify its type and optionally a hint to the Relying Party about which Verifier (software package) will be capable of parsing it. A set of EvidenceStatement structures may be grouped together along with the set of CertificateChoice structures needed to validate them to form a EvidenceBundle. The id-aa-evidence CSR Attribute (or CRMF Extension) contains one EvidenceBundle.
 
 A CSR may contain one or more Evidence payloads, for example Evidence
 asserting the storage properties of a private key, Evidence
@@ -147,7 +147,7 @@ of the device, or Evidence signed using different cryptographic
 algorithms.
 
 With these attributes, additional
-information information is available to an RA or CA, which may be used
+information is available to an RA or CA, which may be used
 to decide whether to issue a certificate and what certificate profile
 to apply. The scope of this document is, however,
 limited to the conveyance of Evidence within CSR. The exact format of the
@@ -167,7 +167,7 @@ Lead Attester, Attestation Key, and Relying Party (RP).
 The term "Certification Request" message is defined in {{RFC2986}}.
 Specifications, such as {{RFC7030}}, later introduced the term
 "Certificate Signing Request (CSR)" to refer to the Certification
-Request message. While the term "Certification Signing Request"
+Request message. While the term "Certification Request"
 would have been correct, the mistake was unnoticed. In the meanwhile
 CSR is an abbreviation used beyond PKCS#10. Hence, it is equally
 applicable to other protocols that use a different syntax and
@@ -297,11 +297,15 @@ Evidence and certificate chains in a CSR the structure
 shown in {{fig-info-model}} is used.
 
 On a high-level, the structure is composed as follows:
-A PKCS#10 attribute or a CRMF extension contains one or more
-EvidenceBundle structures. Each EvidenceBundle contains one or more
+A PKCS#10 attribute or a CRMF extension contains one
+EvidenceBundle structure. The EvidenceBundle contains one or more
 EvidenceStatement structures as well as one or more
 CertificateChoices which enable to carry various format of
 certificates.
+
+Note: As an extension must only be included once in a certificate,
+see {{Section 4.2 of RFC5280}}, it is RECOMMENDED to include the
+PKCS#10 attribute or the CRMF extension only once in a CSR.
 
 ~~~ aasvg
  +-------------------+
@@ -328,19 +332,17 @@ certificates.
 {: #fig-info-model title="Information Model for CSR Evidence Conveyance."}
 
 A conformant implementation of an entity processing the CSR structures MUST be prepared
-to use certificates found in the parent EvidenceBundle structure to build a certification
-path to validate any EvidenceStatement found in an EvidenceBundle. That is, certificates
-needed for validating EvidenceStatements are found in the same EvidenceBundle.
-
+to use certificates found in the EvidenceBundle structure to build a certification
+path to validate any EvidenceStatement.
 The following use cases are supported, as described in the sub-sections below.
 
-### Case 1 - Single Evidence Bundle
+### Case 1 - Evidence Bundle without Certificate Chain
 
 A single Attester, which only distributes Evidence without an attached certificate chain.
 In the use case, the Verifier is assumed to be in possession of the certificate chain already
 or the Verifier directly trusts the Attestation Key and therefore no certificate chain needs
 to be conveyed in the CSR.
-As a result, a single EvidenceBundle is included in a CSR that contains a single EvidenceStatement
+As a result, an EvidenceBundle is included in a CSR that contains a single EvidenceStatement
 without the CertificateChoices structure. {{fig-single-attester}} shows this use case.
 
 ~~~ aasvg
@@ -350,13 +352,13 @@ without the CertificateChoices structure. {{fig-single-attester}} shows this use
   | EvidenceStatement  |
   +--------------------+
 ~~~
-{: #fig-single-attester title="Case 1: Single Evidence Bundle."}
+{: #fig-single-attester title="Case 1: Evidence Bundle without Certificate Chain."}
 
-### Case 2 - Single Evidence Bundle with Certificate Chain
+### Case 2 - Evidence Bundle with Certificate Chain
 
 A single Attester, which shares Evidence together with a certificate chain.
-The CSR conveys a single EvidenceBundle with a single EvidenceStatement
-and a single CertificateChoices structure. {{fig-single-attester-with-path}}
+The CSR conveys an EvidenceBundle with a single EvidenceStatement
+and a CertificateChoices structure. {{fig-single-attester-with-path}}
 shows this use case.
 
 ~~~ aasvg
@@ -369,32 +371,26 @@ shows this use case.
 ~~~
 {: #fig-single-attester-with-path title="Case 2: Single Evidence Bundle with Certificate Chain."}
 
-### Case 3 - Multiple Evidence Bundles each with Complete Certificate Chains
+### Case 3 - Evidence Bundles with Multiple Evidence Statements and Complete Certificate Chains
 
 In a Composite Device, which contains multiple Attesters, a collection of Evidence
 statements is obtained. In this use case, each Attester returns its Evidence together with a
-certificate chain. As a result, multiple EvidenceBundle structures, each carrying
-an EvidenceStatement and the corresponding CertificateChoices structure with the
-certification chain as provided by each Attester, are included in the CSR.
-This may result in certificates being duplicated across multiple EvidenceBundles.
+certificate chain. As a result, multiple EvidenceStatement structures and the corresponding CertificateChoices structure with the
+certification chains as provided by the Attester, are included in the CSR.
 This approach does not require any processing capabilities
 by a Lead Attester since the information is merely forwarded. {{fig-multiple-attesters}}
 shows this use case.
 
 ~~~ aasvg
   +-------------------------+
-  |  EvidenceBundle (1)     |\
-  +.........................+ \ Provided by
-  | EvidenceStatement       | / Attester 1
-  | CertificateChoices      |/
+  |  EvidenceBundle         |
+  +.........................+
+  | EvidenceStatement (1)   | Provided by Attester 1
+  | EvidenceStatement (2)   | Provided by Attester 2
+  | CertificateChoices      | Certificates provicded by Attester 1 and 2
   +-------------------------+
-  |  EvidenceBundle (2)     |\
-  +.........................+ \ Provided by
-  | EvidenceStatement       | / Attester 2
-  | CertificateChoices      |/
-  +-------------------------+
-~~~
-{: #fig-multiple-attesters title="Case 3: Multiple Evidence Bundles each with Complete Certificate Chains."}
+ ~~~
+{: #fig-multiple-attesters title="Case 3: Multiple Evidence Structures each with Complete Certificate Chains."}
 
 # ASN.1 Elements
 

@@ -410,12 +410,12 @@ id-ata OBJECT IDENTIFIER ::= { id-pkix (TBD1) }
 
 By definition, attributes within a PKCS#10 CSR are
 typed as ATTRIBUTE and within a CRMF CSR are typed as EXTENSION.
-This attribute definition contains one or more
-Evidence bundles of type `EvidenceBundle` where each contain
+This attribute definition contains one
+Evidence bundle of type `EvidenceBundle` containing
 one or more Evidence statements of a type `EvidenceStatement` along with
-an optional certification path.
-This structure allows for grouping Evidence statements that share a
-certification path.
+optional certificates for certification path building.
+This structure allows for different Evidence statements that share a
+certification path not dublicationg them in the attribute.
 
 ~~~
 EVIDENCE-STATEMENT ::= TYPE-IDENTIFIER
@@ -427,7 +427,7 @@ EvidenceStatementSet EVIDENCE-STATEMENT ::= {
 {: #code-EvidenceStatementSet title="Definition of EvidenceStatementSet"}
 
 The expression illustrated in {{code-EvidenceStatementSet}} maps ASN.1 Types for Evidence Statements to the OIDs
-that identify them. These mappings are are used to construct
+that identify them. These mappings are used to construct
 or parse EvidenceStatements. Evidence Statements are typically
 defined in other IETF standards, other standards bodies,
 or vendor proprietary formats along with corresponding OIDs that identify them.
@@ -519,16 +519,14 @@ The Extension variant illustrated in {{code-extensions}} is intended only for us
 
 The `certs` field contains a set of certificates that
 is intended to validate the contents of an Evidence statement
-contained in `evidence`, if required. The set of certificates should contain
+contained in `evidences`, if required. For each Evidnece statement the set of certificates should contain
 the certificate that contains the public key needed to directly validate the
-`evidence`. Additional certificates may be provided, for example, to chain the
-Evidence signer key back to an agreed upon trust anchor. No order is implied, it is
-up to the Attester and its Verifier to agree on both the order and format
-of certificates contained in `certs`.
+Evidence statement. Additional certificates may be provided, for example, to chain the
+Evidence signer key back to an agreed upon trust anchor. No specific order of the certificates in `certs` SHOULD be expected because the certificates needed for different Evidence statements may be contained in `certs`.
 
 This specification places no restriction on mixing certificate types within the `certs` field. For example a non-X.509 Evidence signer certificate MAY chain to a trust anchor via a chain of X.509 certificates. It is up to the Attester and its Verifier to agree on supported certificate formats.
 
-By the nature of the PKIX ASN.1 classes {{RFC5912}}, there are multiple ways to convey multiple Evidence statements: by including multiple copies of `attr-evidence` or `ext-evidence`, multiple values within the attribute or extension, and finally, by including multiple `EvidenceStatement`s within an `EvidenceBundle`. The latter is the preferred way to carry multiple Evidence statements. Implementations MUST NOT place multiple copies of `attr-evidence` into a PKCS#10 CSR due to the `COUNTS MAX 1` declaration, and SHOULD NOT place multiple copies of `EvidenceBundle` into an `AttributeSet`. In a CRMF CSR, implementers SHOULD NOT place multiple copies of `ext-evidence` and SHOULD NOT place multiple copies of `EvidenceBundle` into an `ExtensionSet`.
+By the nature of the PKIX ASN.1 classes {{RFC5912}}, there are multiple ways to convey multiple Evidence statements: by including multiple copies of `attr-evidence` or `ext-evidence`, multiple values within the attribute or extension, and finally, by including multiple `EvidenceStatement` structures within an `EvidenceBundle`. The latter is the preferred way to carry multiple Evidence statements. Implementations MUST NOT place multiple copies of `attr-evidence` into a PKCS#10 CSR due to the `COUNTS MAX 1` declaration. In a CRMF CSR, implementers SHOULD NOT place multiple copies of `ext-evidence`.
 
 # IANA Considerations
 

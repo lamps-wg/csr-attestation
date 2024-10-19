@@ -414,7 +414,7 @@ This attribute definition contains one
 Evidence bundle of type `EvidenceBundle` containing
 one or more Evidence statements of a type `EvidenceStatement` along with
 optional certificates for certification path building.
-This structure allows for different Evidence statements that share a
+This structure enables different Evidence statements to share a
 certification path not dublicationg them in the attribute.
 
 ~~~

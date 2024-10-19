@@ -415,7 +415,7 @@ Evidence bundle of type `EvidenceBundle` containing
 one or more Evidence statements of a type `EvidenceStatement` along with
 optional certificates for certification path building.
 This structure enables different Evidence statements to share a
-certification path not dublicationg them in the attribute.
+certification path without duplicating it in the attribute.
 
 ~~~
 EVIDENCE-STATEMENT ::= TYPE-IDENTIFIER

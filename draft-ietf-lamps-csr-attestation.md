@@ -304,7 +304,7 @@ CertificateChoices which enable to carry various format of
 certificates.
 
 Note: As an extension must only be included once in a certificate,
-see {{Section 4.2 of RFC5280}}, it is RECOMMENDED to include the
+see {{Section 4.2 of RFC5280}}, it is RECOMMENDED to include the PKCS#10 attribute
  or the CRMF extension only once in a CSR.
 
 ~~~ aasvg

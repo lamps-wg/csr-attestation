@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-10-17T01:00:14.956293+00:00",
+  "timestamp": "2024-10-20T01:05:42.727360+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -1977,7 +1977,7 @@
       "id": "I_kwDOJ3IIN86WKxRz",
       "title": "evidenceId ",
       "url": "https://github.com/lamps-wg/csr-attestation/issues/156",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "hannestschofenig",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -1986,15 +1986,22 @@
       "labels": [],
       "body": "Hendrik raised this issue in this email to the list:\r\nhttps://mailarchive.ietf.org/arch/msg/spasm/p-1z2lkDwzq0JNvbWyzDf71aA0U/\r\n\r\n> I recommend at least adding an evidenceId field in the evidence-statement structure to have an explicit ID of each evidence-statement. This can be used to clearly identify which nonce was used for which evidence-statement.",
       "createdAt": "2024-09-11T10:56:00Z",
-      "updatedAt": "2024-09-24T09:32:08Z",
-      "closedAt": null,
+      "updatedAt": "2024-10-17T07:00:19Z",
+      "closedAt": "2024-10-17T07:00:19Z",
       "comments": [
         {
           "author": "HBrock",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "body": "The goal is to have a unique ID for all evidence statements in a CSR to use them when requesting an attestation freshness nonce. \r\nAs there are EvidenceStatements in EvicenceBundles, the IDs must be unique throughout all statements in all bundles\r\nTherefore, I think adding an ID to the EvidenceStatement structure and using 128bit nonce as ID should work.\r\nThere may be still the case that an ID is reused in different statements in the same CSR. \r\nWhat do others think?",
           "createdAt": "2024-09-24T09:32:06Z",
           "updatedAt": "2024-09-24T09:32:06Z"
+        },
+        {
+          "author": "HBrock",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "After discussing with Hannes the topic it will be sufficient reusing the structure of the evidenceBundle.",
+          "createdAt": "2024-10-17T07:00:19Z",
+          "updatedAt": "2024-10-17T07:00:19Z"
         }
       ]
     },
@@ -7847,6 +7854,143 @@
               "body": "```suggestion\r\n      -- CertificateChoices MUST NOT contain the depreciated certificate structures or attribute certificates,\r\n```",
               "createdAt": "2024-10-11T15:19:21Z",
               "updatedAt": "2024-10-11T15:19:21Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 168,
+      "id": "PR_kwDOJ3IIN85-71Nd",
+      "title": "Proposed some change to complete the removal of 'SEQUENCE OF EvedenceBundle'",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/168",
+      "state": "MERGED",
+      "author": "HBrock",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2024-10-17T08:40:16Z",
+      "updatedAt": "2024-10-19T14:08:14Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "4702dde571f22f37d773ef8de6b5037cfb70cbde",
+      "headRepository": "lamps-wg/csr-attestation",
+      "headRefName": "Propose-some-change-to-complete-the-removal-of-SEQUENCE-OF-evedenceBundle",
+      "headRefOid": "2fa3f4abd1a6dfd9b9e8c67010aa286c36967dcf",
+      "closedAt": "2024-10-19T14:08:11Z",
+      "mergedAt": "2024-10-19T14:08:11Z",
+      "mergedBy": "hannestschofenig",
+      "mergeCommit": {
+        "oid": "a520d8fb21faaa927dc8dd2a97c7ef81dce1bb30"
+      },
+      "comments": [
+        {
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Great review, Hendrik. Thanks a lot for the PR!",
+          "createdAt": "2024-10-19T14:03:15Z",
+          "updatedAt": "2024-10-19T14:03:15Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJ3IIN86N07oP",
+          "commit": {
+            "abbreviatedOid": "98ca7ea"
+          },
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-19T13:59:01Z",
+          "updatedAt": "2024-10-19T13:59:01Z",
+          "comments": [
+            {
+              "originalPosition": 144,
+              "body": "```suggestion\r\nThis structure enables different Evidence statements to share a\r\n```",
+              "createdAt": "2024-10-19T13:59:01Z",
+              "updatedAt": "2024-10-19T13:59:01Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN86N08D5",
+          "commit": {
+            "abbreviatedOid": "80dd48b"
+          },
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-19T13:59:17Z",
+          "updatedAt": "2024-10-19T13:59:18Z",
+          "comments": [
+            {
+              "originalPosition": 145,
+              "body": "```suggestion\r\ncertification path without duplicating it in the attribute.\r\n```",
+              "createdAt": "2024-10-19T13:59:17Z",
+              "updatedAt": "2024-10-19T13:59:18Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN86N0-oj",
+          "commit": {
+            "abbreviatedOid": "d26d74d"
+          },
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-19T14:01:56Z",
+          "updatedAt": "2024-10-19T14:01:57Z",
+          "comments": [
+            {
+              "originalPosition": 39,
+              "body": "```suggestion\r\nNote: Since an extension must only be included once in a certificate\r\n```",
+              "createdAt": "2024-10-19T14:01:57Z",
+              "updatedAt": "2024-10-19T14:01:57Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN86N0-3p",
+          "commit": {
+            "abbreviatedOid": "d26d74d"
+          },
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-19T14:02:17Z",
+          "updatedAt": "2024-10-19T14:02:17Z",
+          "comments": [
+            {
+              "originalPosition": 40,
+              "body": "```suggestion\r\nsee {{Section 4.2 of RFC5280}}, it is RECOMMENDED to include the PKCS#10 attribute\r\n```",
+              "createdAt": "2024-10-19T14:02:17Z",
+              "updatedAt": "2024-10-19T14:02:18Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN86N0_B0",
+          "commit": {
+            "abbreviatedOid": "d26d74d"
+          },
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-19T14:02:33Z",
+          "updatedAt": "2024-10-19T14:02:33Z",
+          "comments": [
+            {
+              "originalPosition": 41,
+              "body": "```suggestion\r\n or the CRMF extension only once in a CSR.\r\n```",
+              "createdAt": "2024-10-19T14:02:33Z",
+              "updatedAt": "2024-10-19T14:02:34Z"
             }
           ]
         }

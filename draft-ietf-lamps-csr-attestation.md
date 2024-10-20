@@ -387,9 +387,9 @@ shows this use case.
   +.........................+
   | EvidenceStatement (1)   | Provided by Attester 1
   | EvidenceStatement (2)   | Provided by Attester 2
-  | CertificateChoices      | Certificates provicded by Attester 1 and 2
+  | CertificateChoices      | Certificates provided by Attester 1 and 2
   +-------------------------+
- ~~~
+~~~
 {: #fig-multiple-attesters title="Case 3: Multiple Evidence Structures each with Complete Certificate Chains."}
 
 # ASN.1 Elements
@@ -398,7 +398,7 @@ shows this use case.
 
 This document references `id-pkix` and `id-aa`, both defined in {{!RFC5911}} and {{!RFC5912}}.
 
-This document defines the arc depicted in {{code-ata-arc}}
+This document defines the arc depicted in {{code-ata-arc}}.
 
 ~~~
 -- Arc for Evidence types

@@ -293,19 +293,20 @@ Table of Contents
       Figure 1: Example data flow demonstrating the architecture with
                           Background Check Model.
 
-   As discussed in RFC 9334, different security and privacy aspects need
-   to be considered.  For example, Evidence may need to be protected
-   against replay and Section 10 of RFC 9334 lists approach for offering
-   freshness.  There are also concerns about the exposure of persistent
-   identifiers by utilizing attestation technology, which are discussed
-   in Section 11 of RFC 9334.  Finally, the keying material used by the
-   Attester needs to be protected against unauthorized access, and
-   against signing arbitrary content that originated from outside the
-   device.  This aspect is described in Section 12 of RFC 9334.  Most of
-   these aspects are, however, outside the scope of this specification
-   but relevant for use with a given attestation technology.  The focus
-   of this specification is on the transport of Evidence from the
-   Attester to the Relying Party via existing CSR messages.
+   As discussed in RFC 9334 [RFC9334], different security and privacy
+   aspects need to be considered.  For example, Evidence may need to be
+   protected against replay and Section 10 of [RFC9334] lists approach
+   for offering freshness.  There are also concerns about the exposure
+   of persistent identifiers by utilizing attestation technology, which
+   are discussed in Section 11 of [RFC9334].  Finally, the keying
+   material used by the Attester needs to be protected against
+   unauthorized access, and against signing arbitrary content that
+   originated from outside the device.  This aspect is described in
+   Section 12 of [RFC9334].  Most of these aspects are, however, outside
+   the scope of this specification but relevant for use with a given
+   attestation technology.  The focus of this specification is on the
+   transport of Evidence from the Attester to the Relying Party via
+   existing CSR messages.
 
 4.  Information Model
 
@@ -956,12 +957,12 @@ Table of Contents
    should be familiar with the security considerations of the
    specifications on this this depends: PKCS#10 [RFC2986], CRMF
    [RFC4211], as well as general security concepts relating to evidence
-   and remote attestation; many of these concepts are discussed in the
-   Remote ATtestation prodedureS (RATS) Architecture [RFC9334] sections
-   6 Roles and Entities, 7 Trust Model, 9 Freshness, 11 Privacy
-   Considerations, and 12 Security Considerations.  Implementers should
-   also be aware of any security considerations relating to the specific
-   evidence format being carried within the CSR.
+   and remote attestation; many of these concepts are discussed in
+   Section 6 of [RFC9334], Section 7 of [RFC9334], Section 9 of
+   [RFC9334], Section 11 of [RFC9334], and Section 12 of [RFC9334].
+   Implementers should also be aware of any security considerations
+   relating to the specific evidence format being carried within the
+   CSR.
 
 8.  References
 
@@ -1076,7 +1077,7 @@ Table of Contents
               Revision-18_pub.pdf>.
 
    [TCGRegistry]
-              Trusted Computing Group, "TCG OID Registry",
+              Trusted Computing Group, "TCG OID Registry", October 2024,
               <https://trustedcomputinggroup.org/resource/tcg-oid-
               registry/>.
 
@@ -1578,76 +1579,80 @@ A.3.  PSA Attestation Token in CSR
 
 Appendix B.  ASN.1 Module
 
-  CSR-ATTESTATION-2023
-    { iso(1) identified-organization(3) dod(6) internet(1) security(5)
-    mechanisms(5) pkix(7) id-mod(0) id-mod-pkix-attest-01(TBDMOD) }
+   =============== NOTE: '\' line wrapping per RFC 8792 ================
 
-  CsrAttestation DEFINITIONS IMPLICIT TAGS ::= BEGIN
+   CSR-ATTESTATION-2023
+     { iso(1) identified-organization(3) dod(6) internet(1) security(5)
+     mechanisms(5) pkix(7) id-mod(0) id-mod-pkix-attest-01(TBDMOD) }
 
-  EXPORTS ALL;
+   CsrAttestation DEFINITIONS IMPLICIT TAGS ::= BEGIN
 
-  IMPORTS
+   EXPORTS ALL;
 
-  Certificate, id-pkix
-    FROM PKIX1Explicit-2009
-      { iso(1) identified-organization(3) dod(6) internet(1) security(5)
-      mechanisms(5) pkix(7) id-mod(0) id-mod-pkix1-explicit-02(51) }
+   IMPORTS
 
-  CertificateChoices
-    FROM CryptographicMessageSyntax-2010
-      { iso(1) member-body(2) us(840) rsadsi(113549)
-      pkcs(1) pkcs-9(9) smime(16) modules(0) id-mod-cms-2009(58) }
+   Certificate, id-pkix
+     FROM PKIX1Explicit-2009
+       { iso(1) identified-organization(3) dod(6) internet(1) security(\
+                                                                      5)
+       mechanisms(5) pkix(7) id-mod(0) id-mod-pkix1-explicit-02(51) }
 
-  EXTENSION, ATTRIBUTE, AttributeSet{}, SingleAttribute{}
-    FROM PKIX-CommonTypes-2009 -- from [RFC5912]
-      { iso(1) identified-organization(3) dod(6) internet(1) security(5)
-      mechanisms(5) pkix(7) id-mod(0) id-mod-pkixCommon-02(57) }
+   CertificateChoices
+     FROM CryptographicMessageSyntax-2010
+       { iso(1) member-body(2) us(840) rsadsi(113549)
+       pkcs(1) pkcs-9(9) smime(16) modules(0) id-mod-cms-2009(58) }
 
-  id-aa
-    FROM SecureMimeMessageV3dot1
-      { iso(1) member-body(2) us(840) rsadsi(113549)
-      pkcs(1) pkcs-9(9) smime(16) modules(0) msg-v3dot1(21) }
-    ;
+   EXTENSION, ATTRIBUTE, AttributeSet{}, SingleAttribute{}
+     FROM PKIX-CommonTypes-2009 -- from [RFC5912]
+       { iso(1) identified-organization(3) dod(6) internet(1) security(\
+                                                                      5)
+       mechanisms(5) pkix(7) id-mod(0) id-mod-pkixCommon-02(57) }
 
-  -- Branch for attestation statement types
-  id-ata OBJECT IDENTIFIER ::= { id-pkix (TBD1) }
+   id-aa
+     FROM SecureMimeMessageV3dot1
+       { iso(1) member-body(2) us(840) rsadsi(113549)
+       pkcs(1) pkcs-9(9) smime(16) modules(0) msg-v3dot1(21) }
+     ;
 
-  EVIDENCE-STATEMENT ::= TYPE-IDENTIFIER
+   -- Branch for attestation statement types
+   id-ata OBJECT IDENTIFIER ::= { id-pkix (TBD1) }
 
-  EvidenceStatementSet EVIDENCE-STATEMENT ::= {
-     ... -- None defined in this document --
-  }
+   EVIDENCE-STATEMENT ::= TYPE-IDENTIFIER
 
-  EvidenceStatement ::= SEQUENCE {
-     type   EVIDENCE-STATEMENT.&id({EvidenceStatementSet}),
-     stmt   EVIDENCE-STATEMENT.&Type({EvidenceStatementSet}{@type}),
-     hint   UTF8String OPTIONAL
-  }
+   EvidenceStatementSet EVIDENCE-STATEMENT ::= {
+      ... -- None defined in this document --
+   }
 
-  id-aa-evidence OBJECT IDENTIFIER ::= { id-aa 59 }
+   EvidenceStatement ::= SEQUENCE {
+      type   EVIDENCE-STATEMENT.&id({EvidenceStatementSet}),
+      stmt   EVIDENCE-STATEMENT.&Type({EvidenceStatementSet}{@type}),
+      hint   UTF8String OPTIONAL
+   }
 
-  -- For PKCS#10
-  attr-evidence ATTRIBUTE ::= {
-    TYPE EvidenceBundle
-    COUNTS MAX 1
-    IDENTIFIED BY id-aa-evidence
-  }
+   id-aa-evidence OBJECT IDENTIFIER ::= { id-aa 59 }
 
-  -- For CRMF
-  ext-evidence EXTENSION ::= {
-    SYNTAX EvidenceBundle
-    IDENTIFIED BY id-aa-evidence
-  }
+   -- For PKCS#10
+   attr-evidence ATTRIBUTE ::= {
+     TYPE EvidenceBundle
+     COUNTS MAX 1
+     IDENTIFIED BY id-aa-evidence
+   }
 
-  EvidenceBundle ::= SEQUENCE {
-     evidences SEQUENCE SIZE (1..MAX) OF EvidenceStatement,
-     certs SEQUENCE SIZE (1..MAX) OF CertificateChoices OPTIONAL
-        -- CertificateChoices MUST NOT contain the depreciated
-        -- certificate structures or attribute certificates,
-        -- see Section 10.2.2 of [RFC5652]
-  }
+   -- For CRMF
+   ext-evidence EXTENSION ::= {
+     SYNTAX EvidenceBundle
+     IDENTIFIED BY id-aa-evidence
+   }
 
-  END
+   EvidenceBundle ::= SEQUENCE {
+      evidences SEQUENCE SIZE (1..MAX) OF EvidenceStatement,
+      certs SEQUENCE SIZE (1..MAX) OF CertificateChoices OPTIONAL
+         -- CertificateChoices MUST NOT contain the depreciated
+         -- certificate structures or attribute certificates,
+         -- see Section 10.2.2 of [RFC5652]
+   }
+
+   END
 
 B.1.  TCG DICE Example in ASN.1
 
@@ -1656,145 +1661,157 @@ B.1.  TCG DICE Example in ASN.1
    is the Trusted Computing Group DICE Attestation Conceptual Message
    Wrapper, as defined in [TCGDICE1.1].
 
-CsrAttestationDiceExample DEFINITIONS IMPLICIT TAGS ::= BEGIN
+   =============== NOTE: '\' line wrapping per RFC 8792 ================
 
-IMPORTS
+   CsrAttestationDiceExample DEFINITIONS IMPLICIT TAGS ::= BEGIN
 
-tcg-dice-conceptual-message-wrapper FROM TcgDiceAttestation
-DiceConceptualMessageWrapper FROM TcgDiceAttestation
-tcg-dice-TcbInfo FROM TcgDiceAttestation
-DiceTcbInfo FROM TcgDiceAttestation
-EvidenceStatementSet FROM CsrAttestation
-;
+   IMPORTS
 
-tcgDiceCmwEvidenceStatementES EVIDENCE-STATEMENT ::= {
-  DiceConceptualMessageWrapper IDENTIFIED BY tcg-dice-conceptual-message-wrapper }
+   tcg-dice-conceptual-message-wrapper FROM TcgDiceAttestation
+   DiceConceptualMessageWrapper FROM TcgDiceAttestation
+   tcg-dice-TcbInfo FROM TcgDiceAttestation
+   DiceTcbInfo FROM TcgDiceAttestation
+   EvidenceStatementSet FROM CsrAttestation
+   ;
 
-tcgDiceTcbInfoEvidenceStatementES EVIDENCE-STATEMENT ::= {
-  DiceTcbInfo IDENTIFIED BY tcg-dice-TcbInfo }
--- where ConceptualMessageWrapper, tcg-dice-conceptual-message-wrapper, DiceTcbInfo, and tcg-dice-TcbInfo
--- are defined in DICE-Attestation-Architecture-Version-1.1-Revision-18_6Jan2024.pdf
+   tcgDiceCmwEvidenceStatementES EVIDENCE-STATEMENT ::= {
+     DiceConceptualMessageWrapper IDENTIFIED BY tcg-dice-conceptual-\
+                                                       message-wrapper }
 
-EvidenceStatementSet EVIDENCE-STATEMENT ::= {
-  tcgDiceEvidenceStatementES,
-  tcgDiceTcbInfoEvidenceStatementES
-  ...
-}
-END
+   tcgDiceTcbInfoEvidenceStatementES EVIDENCE-STATEMENT ::= {
+     DiceTcbInfo IDENTIFIED BY tcg-dice-TcbInfo }
+   -- where ConceptualMessageWrapper, tcg-dice-conceptual-message-\
+                              wrapper, DiceTcbInfo, and tcg-dice-TcbInfo
+   -- are defined in DICE-Attestation-Architecture-Version-1.1-Revision\
+                                                        -18_6Jan2024.pdf
 
-TcgDiceAttestation DEFINITIONS AUTOMATIC TAGS ::= BEGIN
+   EvidenceStatementSet EVIDENCE-STATEMENT ::= {
+     tcgDiceEvidenceStatementES,
+     tcgDiceTcbInfoEvidenceStatementES
+     ...
+   }
+   END
 
-EXPORTS ALL;
+   TcgDiceAttestation DEFINITIONS AUTOMATIC TAGS ::= BEGIN
 
-tcg OBJECT IDENTIFIER ::= { 2 23 133 }
-tcg-dice OBJECT IDENTIFIER ::= { tcg platformClass(5) dice(4) }
-tcg-dice-TcbInfo OBJECT IDENTIFIER ::= { tcg-dice tcbinfo(1) }
-tcg-dice-endorsement-manifest-uri OBJECT IDENTIFIER ::= { tcg-dice manifest-uri(3) }
-tcg-dice-Ueid OBJECT IDENTIFIER ::= { tcg-dice ueid(4) }
-tcg-dice-MultiTcbInfo OBJECT IDENTIFIER ::= {tcg-dice multitcbinfo(5) }
-tcg-dice-UCCS-evidence OBJECT IDENTIFIER ::= {tcg-dice uccs-evidence(6) }
-tcg-dice-manifest-evidence OBJECT IDENTIFIER ::= {tcg-dice manifest-evidience(7) }
-tcg-dice-MultiTcbInfoComp OBJECT IDENTIFIER ::= {tcg-dice multitcbinfocomp(8) }
-tcg-dice-conceptual-message-wrapper OBJECT IDENTIFIER ::= { tcg-dice cmw(9) }
-tcg-dice-TcbFreshness OBJECT IDENTIFIER ::= { tcg-dice tcb-freshness(11) }
+   EXPORTS ALL;
 
-DiceConceptualMessageWrapper ::= SEQUENCE {
-  cmw OCTET STRING
-}
+   tcg OBJECT IDENTIFIER ::= { 2 23 133 }
+   tcg-dice OBJECT IDENTIFIER ::= { tcg platformClass(5) dice(4) }
+   tcg-dice-TcbInfo OBJECT IDENTIFIER ::= { tcg-dice tcbinfo(1) }
+   tcg-dice-endorsement-manifest-uri OBJECT IDENTIFIER ::= { tcg-dice \
+                                                       manifest-uri(3) }
+   tcg-dice-Ueid OBJECT IDENTIFIER ::= { tcg-dice ueid(4) }
+   tcg-dice-MultiTcbInfo OBJECT IDENTIFIER ::= {tcg-dice multitcbinfo(5\
+                                                                     ) }
+   tcg-dice-UCCS-evidence OBJECT IDENTIFIER ::= {tcg-dice uccs-evidence\
+                                                                   (6) }
+   tcg-dice-manifest-evidence OBJECT IDENTIFIER ::= {tcg-dice manifest-\
+                                                          evidience(7) }
+   tcg-dice-MultiTcbInfoComp OBJECT IDENTIFIER ::= {tcg-dice \
+                                                   multitcbinfocomp(8) }
+   tcg-dice-conceptual-message-wrapper OBJECT IDENTIFIER ::= { tcg-\
+                                                           dice cmw(9) }
+   tcg-dice-TcbFreshness OBJECT IDENTIFIER ::= { tcg-dice tcb-freshness\
+                                                                  (11) }
 
-DiceTcbInfo ::= SEQUENCE {
-  vendor [0] IMPLICIT UTF8String OPTIONAL,
-  model [1] IMPLICIT UTF8String OPTIONAL,
-  version [2] IMPLICIT UTF8String OPTIONAL,
-  svn [3] IMPLICIT INTEGER OPTIONAL,
-  layer [4] IMPLICIT INTEGER OPTIONAL,
-  index [5] IMPLICIT INTEGER OPTIONAL,
-  fwids [6] IMPLICIT FWIDLIST OPTIONAL,
-  flags [7] IMPLICIT OperationalFlags OPTIONAL,
-  vendorInfo [8] IMPLICIT OCTET STRING OPTIONAL,
-  type [9] IMPLICIT OCTET STRING OPTIONAL,
-  flagsMask [10]IMPLICIT OperationalFlagsMask OPTIONAL,
-  integrityRegisters [11] IMPLICIT IrList OPTIONAL
-}
+   DiceConceptualMessageWrapper ::= SEQUENCE {
+     cmw OCTET STRING
+   }
 
-FWIDLIST ::= SEQUENCE SIZE (1..MAX) OF FWID
-  FWID ::= SEQUENCE {
-  hashAlg OBJECT IDENTIFIER,
-  digest OCTET STRING
-}
+   DiceTcbInfo ::= SEQUENCE {
+     vendor [0] IMPLICIT UTF8String OPTIONAL,
+     model [1] IMPLICIT UTF8String OPTIONAL,
+     version [2] IMPLICIT UTF8String OPTIONAL,
+     svn [3] IMPLICIT INTEGER OPTIONAL,
+     layer [4] IMPLICIT INTEGER OPTIONAL,
+     index [5] IMPLICIT INTEGER OPTIONAL,
+     fwids [6] IMPLICIT FWIDLIST OPTIONAL,
+     flags [7] IMPLICIT OperationalFlags OPTIONAL,
+     vendorInfo [8] IMPLICIT OCTET STRING OPTIONAL,
+     type [9] IMPLICIT OCTET STRING OPTIONAL,
+     flagsMask [10]IMPLICIT OperationalFlagsMask OPTIONAL,
+     integrityRegisters [11] IMPLICIT IrList OPTIONAL
+   }
 
-OperationalFlags ::= BIT STRING {
-  notConfigured (0),
-  notSecure (1),
-  recovery (2),
-  debug (3),
-  notReplayProtected (4),
-  notIntegrityProtected (5),
-  notRuntimeMeasured (6),
-  notImmutable (7),
-  notTcb (8),
-  fixedWidth (31)
-}
+   FWIDLIST ::= SEQUENCE SIZE (1..MAX) OF FWID
+     FWID ::= SEQUENCE {
+     hashAlg OBJECT IDENTIFIER,
+     digest OCTET STRING
+   }
 
-OperationalFlagsMask ::= BIT STRING {
-  notConfigured (0),
-  notSecure (1),
-  recovery (2),
-  debug (3),
-  notReplayProtected (4),
-  notIntegrityProtected (5),
-  notRuntimeMeasured (6),
-  notImmutable (7),
-  notTcb (8),
-  fixedWidth (31)
-}
+   OperationalFlags ::= BIT STRING {
+     notConfigured (0),
+     notSecure (1),
+     recovery (2),
+     debug (3),
+     notReplayProtected (4),
+     notIntegrityProtected (5),
+     notRuntimeMeasured (6),
+     notImmutable (7),
+     notTcb (8),
+     fixedWidth (31)
+   }
 
-IrList ::= SEQUENCE SIZE (1..MAX) OF IntegrityRegister
+   OperationalFlagsMask ::= BIT STRING {
+     notConfigured (0),
+     notSecure (1),
+     recovery (2),
+     debug (3),
+     notReplayProtected (4),
+     notIntegrityProtected (5),
+     notRuntimeMeasured (6),
+     notImmutable (7),
+     notTcb (8),
+     fixedWidth (31)
+   }
 
-IntegrityRegister ::= SEQUENCE {
-  registerName IA5String OPTIONAL,
-  registerNum INTEGER OPTIONAL,
-  hashAlg OBJECT IDENTIFIER,
-  digest OCTET STRING
-}
+   IrList ::= SEQUENCE SIZE (1..MAX) OF IntegrityRegister
 
-EndorsementManifestURI ::= SEQUENCE {
-  emUri UTF8String
-}
+   IntegrityRegister ::= SEQUENCE {
+     registerName IA5String OPTIONAL,
+     registerNum INTEGER OPTIONAL,
+     hashAlg OBJECT IDENTIFIER,
+     digest OCTET STRING
+   }
 
-TcgUeid ::= SEQUENCE {
-  ueid OCTET STRING
-}
+   EndorsementManifestURI ::= SEQUENCE {
+     emUri UTF8String
+   }
 
-DiceTcbInfoSeq ::= SEQUENCE SIZE (1..MAX) OF DiceTcbInfo
+   TcgUeid ::= SEQUENCE {
+     ueid OCTET STRING
+   }
 
-DiceTcbInfoComp ::= SEQUENCE SIZE (1..MAX) OF TcbInfoComp
+   DiceTcbInfoSeq ::= SEQUENCE SIZE (1..MAX) OF DiceTcbInfo
 
-TcbInfoComp ::= SEQUENCE {
-  commonFields [0] IMPLICIT DiceTcbInfo,
-  evidenceValues [1] IMPLICIT DiceTcbInfoSeq
-}
+   DiceTcbInfoComp ::= SEQUENCE SIZE (1..MAX) OF TcbInfoComp
 
-UccsEvidence ::= SEQUENCE {
-  uccs OCTET STRING
-}
+   TcbInfoComp ::= SEQUENCE {
+     commonFields [0] IMPLICIT DiceTcbInfo,
+     evidenceValues [1] IMPLICIT DiceTcbInfoSeq
+   }
 
-Manifest ::= SEQUENCE {
-  format ManifestFormat,
-  manifest OCTET STRING
-}
+   UccsEvidence ::= SEQUENCE {
+     uccs OCTET STRING
+   }
 
-ManifestFormat ::= ENUMERATED {
-  swid-xml    (0),
-  coswid-cbor (1),
-  coswid-json (2),
-  tagged-cbor (3)
-}
+   Manifest ::= SEQUENCE {
+     format ManifestFormat,
+     manifest OCTET STRING
+   }
 
-DiceTcbFreshness ::= SEQUENCE {
-  nonce OCTET STRING
-}
-END
+   ManifestFormat ::= ENUMERATED {
+     swid-xml    (0),
+     coswid-cbor (1),
+     coswid-json (2),
+     tagged-cbor (3)
+   }
+
+   DiceTcbFreshness ::= SEQUENCE {
+     nonce OCTET STRING
+   }
+   END
 
 B.2.  TCG DICE TcbInfo Example in CSR
 
@@ -1803,65 +1820,70 @@ B.2.  TCG DICE TcbInfo Example in CSR
    is the Trusted Computing Group DiceTcbInfo, as defined in
    [TCGDICE1.1].
 
-﻿// SET of CSR Attributes
-A0 82 00 8E
-  // CSR attributes
-  30 82 00 8A
-    // OBJECT IDENTIFIER id-aa-evidence (1 2 840 113549 1 9 16 2 59)
-    06 0B 2A 86 48 86 F7 0D 01 09 10 02 3B
-      // SET -- This attribute
-      31 79
-        // EvidenceBundles ::= SEQUENCE SIZE (1..MAX) OF EvidenceBundle
-        30 77
-          // EvidenceBundle ::= SEQUENCE
-          30 75
-            // EvidenceStatements ::= SEQUENCE SIZE (1..MAX) OF EvidenceStatement
-            30 73
-              // EvidenceStatement ::= SEQUENCE
-              30 71
-                // type: OBJECT IDENTIFIER tcg-dice-TcbInfo (2.23.133.5.4.1)
-                06 06 67 81 05 05 04 01
-                // stmt: SEQUENCE
-                30 4E
-                  // CONTEXT_SPECIFIC | version (02)
-                  // version = ABCDEF123456
-                  82 0C 41 42 43 44 45 46 31 32 33 34 35 36
-                  // CONTEXT_SPECIFIC | svn (03)
-                  // svn = 4
-                  83 01 04
-                  // CONTEXT_SPECIFIC | CONSTRUCTED | fwids (06)
-                  A6 2F
-                  // SEQUENCE
-                  30 2D
-                    // OBJECT IDENTIFIER SHA256
-                    06 09 60 86 48 01 65 03 04 02 01
-                    // OCTET STRING
-                    // fwid = 0x0000....00
-                    04 20 00 00 00 00 00 00 00 00
-                    00 00 00 00 00 00 00 00
-                    00 00 00 00 00 00 00 00
-                    00 00 00 00 00 00 00 00
-                  // CONTEXT_SPECIFIC | vendorInfo (08)
-                  // vendor info = 0x00000000
-                  88 04 00 00 00 00
-                  // CONTEXT_SPECIFIC | type (09)
-                  // type = 0x00000000
-                  89 04 00 00 00 00
-                // hint: UTF8STRING "DiceTcbInfo.example.com"
-                0C 17 44 69 63 65 54 63 62 49 6e 66 6f
-                2e 65 78 61 6d 70 6c 65 2e 63 6f 6d
+   =============== NOTE: '\' line wrapping per RFC 8792 ================
 
-// BER only
-A0 82 00 8E 30 82 00 8A 06 0B 2A 86 48 86 F7 0D
-01 09 10 02 3B 30 7B 31 79 30 77 30 75 30 73 30
-71 06 06 67 81 05 05 04 01 30 4E 82 0C 41 42 43
-44 45 46 31 32 33 34 35 36 83 01 04 A6 2F 30 2D
-06 09 60 86 48 01 65 03 04 02 01 04 20 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 88 04 00
-00 00 00 89 04 00 00 00 00 0C 17 44 69 63 65 54
-63 62 49 6e 66 6f 2e 65 78 61 6d 70 6c 65 2e 63
-6f 6d
+   ﻿// SET of CSR Attributes
+   A0 82 00 8E
+     // CSR attributes
+     30 82 00 8A
+       // OBJECT IDENTIFIER id-aa-evidence (1 2 840 113549 1 9 16 2 59)
+       06 0B 2A 86 48 86 F7 0D 01 09 10 02 3B
+         // SET -- This attribute
+         31 79
+           // EvidenceBundles ::= SEQUENCE SIZE (1..MAX) OF \
+                                                          EvidenceBundle
+           30 77
+             // EvidenceBundle ::= SEQUENCE
+             30 75
+               // EvidenceStatements ::= SEQUENCE SIZE (1..MAX) OF \
+                                                       EvidenceStatement
+               30 73
+                 // EvidenceStatement ::= SEQUENCE
+                 30 71
+                   // type: OBJECT IDENTIFIER tcg-dice-TcbInfo (2.23.\
+                                                              133.5.4.1)
+                   06 06 67 81 05 05 04 01
+                   // stmt: SEQUENCE
+                   30 4E
+                     // CONTEXT_SPECIFIC | version (02)
+                     // version = ABCDEF123456
+                     82 0C 41 42 43 44 45 46 31 32 33 34 35 36
+                     // CONTEXT_SPECIFIC | svn (03)
+                     // svn = 4
+                     83 01 04
+                     // CONTEXT_SPECIFIC | CONSTRUCTED | fwids (06)
+                     A6 2F
+                     // SEQUENCE
+                     30 2D
+                       // OBJECT IDENTIFIER SHA256
+                       06 09 60 86 48 01 65 03 04 02 01
+                       // OCTET STRING
+                       // fwid = 0x0000....00
+                       04 20 00 00 00 00 00 00 00 00
+                       00 00 00 00 00 00 00 00
+                       00 00 00 00 00 00 00 00
+                       00 00 00 00 00 00 00 00
+                     // CONTEXT_SPECIFIC | vendorInfo (08)
+                     // vendor info = 0x00000000
+                     88 04 00 00 00 00
+                     // CONTEXT_SPECIFIC | type (09)
+                     // type = 0x00000000
+                     89 04 00 00 00 00
+                   // hint: UTF8STRING "DiceTcbInfo.example.com"
+                   0C 17 44 69 63 65 54 63 62 49 6e 66 6f
+                   2e 65 78 61 6d 70 6c 65 2e 63 6f 6d
+
+   // BER only
+   A0 82 00 8E 30 82 00 8A 06 0B 2A 86 48 86 F7 0D
+   01 09 10 02 3B 30 7B 31 79 30 77 30 75 30 73 30
+   71 06 06 67 81 05 05 04 01 30 4E 82 0C 41 42 43
+   44 45 46 31 32 33 34 35 36 83 01 04 A6 2F 30 2D
+   06 09 60 86 48 01 65 03 04 02 01 04 20 00 00 00
+   00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+   00 00 00 00 00 00 00 00 00 00 00 00 00 88 04 00
+   00 00 00 89 04 00 00 00 00 0C 17 44 69 63 65 54
+   63 62 49 6e 66 6f 2e 65 78 61 6d 70 6c 65 2e 63
+   6f 6d
 
 Appendix C.  Acknowledgments
 

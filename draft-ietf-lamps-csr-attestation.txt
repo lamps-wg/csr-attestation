@@ -724,43 +724,43 @@ Table of Contents
    | OID    | Description      | Reference(s)             | Change     |
    |        |                  |                          | Controller |
    +========+==================+==========================+============+
-   | 2 23   | tcg-dice-TcbInfo | [TCGDICE1.1]             | TCG        |
+   | 2 23   | tcg-dice-TcbInfo | [TCGRegistry]            | TCG        |
    | 133 5  |                  |                          |            |
    | 4 1    |                  |                          |            |
    +--------+------------------+--------------------------+------------+
-   | 2 23   | tcg-dice-        | [TCGDICE1.1]             | TCG        |
+   | 2 23   | tcg-dice-        | [TCGRegistry]            | TCG        |
    | 133 5  | endorsement-     |                          |            |
    | 4 3    | manifest-uri     |                          |            |
    +--------+------------------+--------------------------+------------+
-   | 2 23   | tcg-dice-Ueid    | [TCGDICE1.1]             | TCG        |
+   | 2 23   | tcg-dice-Ueid    | [TCGRegistry]            | TCG        |
    | 133 5  |                  |                          |            |
    | 4 4    |                  |                          |            |
    +--------+------------------+--------------------------+------------+
-   | 2 23   | tcg-dice-        | [TCGDICE1.1]             | TCG        |
+   | 2 23   | tcg-dice-        | [TCGRegistry]            | TCG        |
    | 133 5  | MultiTcbInfo     |                          |            |
    | 4 5    |                  |                          |            |
    +--------+------------------+--------------------------+------------+
-   | 2 23   | tcg-dice-UCCS-   | [TCGDICE1.1]             | TCG        |
+   | 2 23   | tcg-dice-UCCS-   | [TCGRegistry]            | TCG        |
    | 133 5  | evidence         |                          |            |
    | 4 6    |                  |                          |            |
    +--------+------------------+--------------------------+------------+
-   | 2 23   | tcg-dice-        | [TCGDICE1.1]             | TCG        |
+   | 2 23   | tcg-dice-        | [TCGRegistry]            | TCG        |
    | 133 5  | manifest-        |                          |            |
    | 4 7    | evidence         |                          |            |
    +--------+------------------+--------------------------+------------+
-   | 2 23   | tcg-dice-        | [TCGDICE1.1]             | TCG        |
+   | 2 23   | tcg-dice-        | [TCGRegistry]            | TCG        |
    | 133 5  | MultiTcbInfoComp |                          |            |
    | 4 8    |                  |                          |            |
    +--------+------------------+--------------------------+------------+
-   | 2 23   | tcg-dice-        | [TCGDICE1.1]             | TCG        |
+   | 2 23   | tcg-dice-        | [TCGRegistry]            | TCG        |
    | 133 5  | conceptual-      |                          |            |
    | 4 9    | message-wrapper  |                          |            |
    +--------+------------------+--------------------------+------------+
-   | 2 23   | tcg-dice-        | [TCGDICE1.1]             | TCG        |
+   | 2 23   | tcg-dice-        | [TCGRegistry]            | TCG        |
    | 133 5  | TcbFreshness     |                          |            |
    | 4 11   |                  |                          |            |
    +--------+------------------+--------------------------+------------+
-   | 2 23   | tcg-attest-tpm-  | Private Registry         | TCG        |
+   | 2 23   | tcg-attest-tpm-  | [TCGRegistry]            | TCG        |
    | 133    | certify          |                          |            |
    | 20 1   |                  |                          |            |
    +--------+------------------+--------------------------+------------+
@@ -1074,6 +1074,11 @@ Table of Contents
               January 2024, <https://trustedcomputinggroup.org/wp-
               content/uploads/DICE-Attestation-Architecture-Version-1.1-
               Revision-18_pub.pdf>.
+
+   [TCGRegistry]
+              Trusted Computing Group, "TCG OID Registry",
+              <https://trustedcomputinggroup.org/resource/tcg-oid-
+              registry/>.
 
    [TPM20]    Trusted Computing Group, "Trusted Platform Module Library
               Specification, Family 2.0", n.d.,

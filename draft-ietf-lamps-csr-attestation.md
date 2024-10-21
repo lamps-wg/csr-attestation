@@ -88,6 +88,12 @@ informative:
     title: Baseline Requirements for Code-Signing Certificates, v.3.7
     date: February 28, 2024
     target: https://cabforum.org/uploads/Baseline-Requirements-for-the-Issuance-and-Management-of-Code-Signing.v3.7.pdf
+  TCGRegistry:
+    author:
+      org: "Trusted Computing Group"
+    title: "TCG OID Registry"
+    target: https://trustedcomputinggroup.org/resource/tcg-oid-registry/
+    date: Oktober, 2024
   TCGDICE1.1:
     author:
       org: "Trusted Computing Group"
@@ -617,16 +623,16 @@ It lists entries for several evidence encoding OIDs including an entry for the C
 
 | OID              | Description                  | Reference(s)     | Change Controller |
 |------------------|------------------------------|----------------  |-------------------|
-| 2 23 133 5 4 1   | tcg-dice-TcbInfo             | {{TCGDICE1.1}}   |  TCG              |
-| 2 23 133 5 4 3   | tcg-dice-endorsement-manifest-uri | {{TCGDICE1.1}}   |  TCG         |
-| 2 23 133 5 4 4   | tcg-dice-Ueid                | {{TCGDICE1.1}}   |  TCG              |
-| 2 23 133 5 4 5   | tcg-dice-MultiTcbInfo        | {{TCGDICE1.1}}   |  TCG              |
-| 2 23 133 5 4 6   | tcg-dice-UCCS-evidence       | {{TCGDICE1.1}}   |  TCG              |
-| 2 23 133 5 4 7   | tcg-dice-manifest-evidence   | {{TCGDICE1.1}}   |  TCG              |
-| 2 23 133 5 4 8   | tcg-dice-MultiTcbInfoComp    | {{TCGDICE1.1}}   |  TCG              |
-| 2 23 133 5 4 9   | tcg-dice-conceptual-message-wrapper | {{TCGDICE1.1}}   |  TCG       |
-| 2 23 133 5 4 11  | tcg-dice-TcbFreshness        | {{TCGDICE1.1}}   |  TCG              |
-| 2 23 133 20 1    | tcg-attest-tpm-certify       | Private Registry |  TCG              |
+| 2 23 133 5 4 1   | tcg-dice-TcbInfo             | {{TCGRegistry}}   |  TCG              |
+| 2 23 133 5 4 3   | tcg-dice-endorsement-manifest-uri | {{TCGRegistry}}   |  TCG         |
+| 2 23 133 5 4 4   | tcg-dice-Ueid                | {{TCGRegistry}}   |  TCG              |
+| 2 23 133 5 4 5   | tcg-dice-MultiTcbInfo        | {{TCGRegistry}}   |  TCG              |
+| 2 23 133 5 4 6   | tcg-dice-UCCS-evidence       | {{TCGRegistry}}   |  TCG              |
+| 2 23 133 5 4 7   | tcg-dice-manifest-evidence   | {{TCGRegistry}}   |  TCG              |
+| 2 23 133 5 4 8   | tcg-dice-MultiTcbInfoComp    | {{TCGRegistry}}   |  TCG              |
+| 2 23 133 5 4 9   | tcg-dice-conceptual-message-wrapper | {{TCGRegistry}}   |  TCG       |
+| 2 23 133 5 4 11  | tcg-dice-TcbFreshness        | {{TCGRegistry}}   |  TCG              |
+| 2 23 133 20 1    | tcg-attest-tpm-certify       | {{TCGRegistry}} |  TCG              |
 | 1 3 6 1 5 5 7 1 35 | id-pe-cmw                    | {{I-D.ietf-rats-msg-wrap}} | IETF     |
 {: #tab-ae-reg title="Initial Contents of the Attestation Evidence OID Registry"}
 

@@ -5,14 +5,14 @@
 Network Working Group                                       M. Ounsworth
 Internet-Draft                                                   Entrust
 Intended status: Standards Track                           H. Tschofenig
-Expires: 11 April 2025                                           Siemens
+Expires: 24 April 2025                                           Siemens
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                               M. Wiseman
                                                          Beyond Identity
                                                                 N. Smith
                                                        Intel Corporation
-                                                          8 October 2024
+                                                         21 October 2024
 
 
      Use of Remote Attestation with Certification Signing Requests
@@ -69,7 +69,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 11 April 2025.
+   This Internet-Draft will expire on 24 April 2025.
 
 Copyright Notice
 
@@ -93,12 +93,10 @@ Table of Contents
    4.  Information Model
      4.1.  Interaction with an HSM
      4.2.  Encoding Strategy
-       4.2.1.  Case 1 - Single Evidence Bundle
-       4.2.2.  Case 2 - Single Evidence Bundle with Certificate Chain
-       4.2.3.  Case 3 - Multiple Evidence Bundles each with Complete
-               Certificate Chains
-       4.2.4.  Case 4 - Multiple Evidence Bundles with Certificate
-               Transmission Optimization
+       4.2.1.  Case 1 - Evidence Bundle without Certificate Chain
+       4.2.2.  Case 2 - Evidence Bundle with Certificate Chain
+       4.2.3.  Case 3 - Evidence Bundles with Multiple Evidence
+               Statements and Complete Certificate Chains
    5.  ASN.1 Elements
      5.1.  Object Identifiers
      5.2.  Evidence Attribute and Extension
@@ -130,8 +128,8 @@ Table of Contents
        A.2.6.  Sample CSR
      A.3.  PSA Attestation Token in CSR
    Appendix B.  ASN.1 Module
-     B.1.  TCG DICE ConceptualMessageWrapper in CSR
-     B.2.  TCG DICE ConceptualMessageWrapper in CSR
+     B.1.  TCG DICE Example in ASN.1
+     B.2.  TCG DICE TcbInfo Example in CSR
    Appendix C.  Acknowledgments
    Authors' Addresses
 
@@ -191,22 +189,22 @@ Table of Contents
    can be placed into an EvidenceStatement along with an OID to identify
    its type and optionally a hint to the Relying Party about which
    Verifier (software package) will be capable of parsing it.  A set of
-   EvidenceStatements may be grouped together along with the set of
-   CertificateChoices needed to validate them to form a EvidenceBundle.
-   One or more EvidenceBundles may be placed into the id-aa-evidence CSR
-   Attribute (or CRMF Extension).
+   EvidenceStatement structures may be grouped together along with the
+   set of CertificateChoice structures needed to validate them to form a
+   EvidenceBundle.  The id-aa-evidence CSR Attribute (or CRMF Extension)
+   contains one EvidenceBundle.
 
    A CSR may contain one or more Evidence payloads, for example Evidence
    asserting the storage properties of a private key, Evidence asserting
    firmware version and other general properties of the device, or
    Evidence signed using different cryptographic algorithms.
 
-   With these attributes, additional information information is
-   available to an RA or CA, which may be used to decide whether to
-   issue a certificate and what certificate profile to apply.  The scope
-   of this document is, however, limited to the conveyance of Evidence
-   within CSR.  The exact format of the Evidence being conveyed is
-   defined in various standard and proprietary specifications.
+   With these attributes, additional information is available to an RA
+   or CA, which may be used to decide whether to issue a certificate and
+   what certificate profile to apply.  The scope of this document is,
+   however, limited to the conveyance of Evidence within CSR.  The exact
+   format of the Evidence being conveyed is defined in various standard
+   and proprietary specifications.
 
 2.  Conventions and Definitions
 
@@ -226,14 +224,14 @@ Table of Contents
    The term "Certification Request" message is defined in [RFC2986].
    Specifications, such as [RFC7030], later introduced the term
    "Certificate Signing Request (CSR)" to refer to the Certification
-   Request message.  While the term "Certification Signing Request"
-   would have been correct, the mistake was unnoticed.  In the meanwhile
-   CSR is an abbreviation used beyond PKCS#10.  Hence, it is equally
-   applicable to other protocols that use a different syntax and even a
-   different encoding, in particular this document also considers
-   messages in the Certificate Request Message Format (CRMF) [RFC4211]
-   to be "CSRs".  In this document, the terms "CSR" and Certificate
-   Request message are used interchangeably.
+   Request message.  While the term "Certification Request" would have
+   been correct, the mistake was unnoticed.  In the meanwhile CSR is an
+   abbreviation used beyond PKCS#10.  Hence, it is equally applicable to
+   other protocols that use a different syntax and even a different
+   encoding, in particular this document also considers messages in the
+   Certificate Request Message Format (CRMF) [RFC4211] to be "CSRs".  In
+   this document, the terms "CSR" and Certificate Request message are
+   used interchangeably.
 
 3.  Architecture
 
@@ -362,11 +360,14 @@ Table of Contents
    Figure 3 is used.
 
    On a high-level, the structure is composed as follows: A PKCS#10
-   attribute or a CRMF extension contains one or more EvidenceBundle
-   structures.  Each EvidenceBundle contains one or more
-   EvidenceStatement structures as well as one or more
-   CertificateChoices which enable to carry various format of
-   certificates.
+   attribute or a CRMF extension contains one EvidenceBundle structure.
+   The EvidenceBundle contains one or more EvidenceStatement structures
+   as well as one or more CertificateChoices which enable to carry
+   various format of certificates.
+
+   Note: Since an extension must only be included once in a certificate
+   see Section 4.2 of [RFC5280], it is RECOMMENDED to include the
+   PKCS#10 attribute or the CRMF extension only once in a CSR.
 
     +-------------------+
     | PKCS#10 Attribute |
@@ -374,107 +375,87 @@ Table of Contents
     | CRMF Extension    |
     +--------+----------+
              |
-             |           (1 or more) +-------------------------+
+             |          (1 or more)  +-------------------------+
              |         +-------------+ CertificateChoices      |
              |         |             +-------------------------+
              |         |             | Certificate OR          |
              |         |             | OtherCertificateFormat  |
       (1 or  |         |             +-------------------------+
-       more) |         |      (1 or
-    +--------+---------+-+     more) +-------------------+
+       more) |         |    (1 or
+    +--------+---------+-+   more)   +-------------------+
     |  EvidenceBundle    +-----------+ EvidenceStatement |
     +--------------------+           +-------------------+
                                      | Type              |
                                      | Statement         |
+                                     | Hint              |
                                      +-------------------+
 
           Figure 3: Information Model for CSR Evidence Conveyance.
 
    A conformant implementation of an entity processing the CSR
-   structures MUST be prepared to use certificates found in the parent
+   structures MUST be prepared to use certificates found in the
    EvidenceBundle structure to build a certification path to validate
-   any EvidenceStatement found in an EvidenceBundle.  That is,
-   certificates needed for validating EvidenceStatements are found in
-   the same EvidenceBundle.
+   any EvidenceStatement.  The following use cases are supported, as
+   described in the sub-sections below.
 
-   The following use cases are supported, as described in the sub-
-   sections below.
-
-4.2.1.  Case 1 - Single Evidence Bundle
+4.2.1.  Case 1 - Evidence Bundle without Certificate Chain
 
    A single Attester, which only distributes Evidence without an
    attached certificate chain.  In the use case, the Verifier is assumed
    to be in possession of the certificate chain already or the Verifier
    directly trusts the Attestation Key and therefore no certificate
-   chain needs to be conveyed in the CSR.  As a result, a single
+   chain needs to be conveyed in the CSR.  As a result, an
    EvidenceBundle is included in a CSR that contains a single
    EvidenceStatement without the CertificateChoices structure.  Figure 4
    shows this use case.
 
      +--------------------+
      |  EvidenceBundle    |
-     +--------------------+
+     +....................+
      | EvidenceStatement  |
      +--------------------+
 
-                 Figure 4: Case 1: Single Evidence Bundle.
+        Figure 4: Case 1: Evidence Bundle without Certificate Chain.
 
-4.2.2.  Case 2 - Single Evidence Bundle with Certificate Chain
+4.2.2.  Case 2 - Evidence Bundle with Certificate Chain
 
    A single Attester, which shares Evidence together with a certificate
-   chain.  The CSR conveys a single EvidenceBundle with a single
-   EvidenceStatement and a single CertificateChoices structure.
-   Figure 5 shows this use case.
+   chain.  The CSR conveys an EvidenceBundle with a single
+   EvidenceStatement and a CertificateChoices structure.  Figure 5 shows
+   this use case.
 
     +-------------------------+
     |  EvidenceBundle         |
-    +-------------------------+
+    +.........................+
     | EvidenceStatement       |
     | CertificateChoices      |
     +-------------------------+
 
       Figure 5: Case 2: Single Evidence Bundle with Certificate Chain.
 
-4.2.3.  Case 3 - Multiple Evidence Bundles each with Complete
-        Certificate Chains
+4.2.3.  Case 3 - Evidence Bundles with Multiple Evidence Statements and
+        Complete Certificate Chains
 
    In a Composite Device, which contains multiple Attesters, a
    collection of Evidence statements is obtained.  In this use case,
    each Attester returns its Evidence together with a certificate chain.
-   As a result, multiple EvidenceBundle structures, each carrying an
-   EvidenceStatement and the corresponding CertificateAlternative
-   structure with the certification chain as provided by each Attester,
-   are included in the CSR.  This may result in certificates being
-   duplicated across multiple EvidenceBundles.  This approach does not
-   require any processing capabilities by a Lead Attester since the
-   information is merely forwarded.  Figure 6 shows this use case.
+   As a result, multiple EvidenceStatement structures and the
+   corresponding CertificateChoices structure with the certification
+   chains as provided by the Attester, are included in the CSR.  This
+   approach does not require any processing capabilities by a Lead
+   Attester since the information is merely forwarded.  Figure 6 shows
+   this use case.
 
-     +-------------------------+
-     |  EvidenceBundle (1)     |\
-     +-------------------------+ \ Provided by
-     | EvidenceStatement       | / Attester 1
-     | CertificateChoices      |/
-     +-------------------------+
-     |  EvidenceBundle (2)     |\
-     +-------------------------+ \ Provided by
-     | EvidenceStatement       | / Attester 2
-     | CertificateChoices      |/
-     +-------------------------+
+   +-------------------------+
+   |  EvidenceBundle         |
+   +.........................+
+   | EvidenceStatement (1)   | Provided by Attester 1
+   | EvidenceStatement (2)   | Provided by Attester 2
+   | CertificateChoices      | Certificates provided by Attester 1 and 2
+   +-------------------------+
 
-       Figure 6: Case 3: Multiple Evidence Bundles each with Complete
-                            Certificate Chains.
-
-4.2.4.  Case 4 - Multiple Evidence Bundles with Certificate Transmission
-        Optimization
-
-   In the last use case, a Composite Device with additional processing
-   capabilities of the Lead Attester parses the certificate chain
-   provided by all Attesters in the device and removes duplicate
-   certificates.  The benefit of this approach is the reduced
-   transmission payload size.  There are several implementation
-   strategies and we show two in the sub-sections below.
-
-   Note: This specification does not support this optimization.
+   Figure 6: Case 3: Multiple Evidence Structures each with Complete
+                          Certificate Chains.
 
 5.  ASN.1 Elements
 
@@ -483,7 +464,7 @@ Table of Contents
    This document references id-pkix and id-aa, both defined in [RFC5911]
    and [RFC5912].
 
-   This document defines the arc depicted in Figure 7
+   This document defines the arc depicted in Figure 7.
 
    -- Arc for Evidence types
    id-ata OBJECT IDENTIFIER ::= { id-pkix (TBD1) }
@@ -494,11 +475,12 @@ Table of Contents
 
    By definition, attributes within a PKCS#10 CSR are typed as ATTRIBUTE
    and within a CRMF CSR are typed as EXTENSION.  This attribute
-   definition contains one or more Evidence bundles of type
-   EvidenceBundle where each contain one or more Evidence statements of
-   a type EvidenceStatement along with an optional certification path.
-   This structure allows for grouping Evidence statements that share a
-   certification path.
+   definition contains one Evidence bundle of type EvidenceBundle
+   containing one or more Evidence statements of a type
+   EvidenceStatement along with optional certificates for certification
+   path building.  This structure enables different Evidence statements
+   to share a certification path without duplicating it in the
+   attribute.
 
    EVIDENCE-STATEMENT ::= TYPE-IDENTIFIER
 
@@ -509,17 +491,15 @@ Table of Contents
                 Figure 8: Definition of EvidenceStatementSet
 
    The expression illustrated in Figure 8 maps ASN.1 Types for Evidence
-   Statements to the OIDs that identify them.  These mappings are are
-   used to construct or parse EvidenceStatements.  Evidence Statement
-   formats are typically defined in other IETF standards, other
-   standards bodies, or vendor proprietary formats along with
-   corresponding OIDs that identify them.
+   Statements to the OIDs that identify them.  These mappings are used
+   to construct or parse EvidenceStatements.  Evidence Statements are
+   typically defined in other IETF standards, other standards bodies, or
+   vendor proprietary formats along with corresponding OIDs that
+   identify them.
 
    This list is left unconstrained in this document.  However,
    implementers can populate it with the formats that they wish to
    support.
-
-   EvidenceStatements ::= SEQUENCE SIZE (1..MAX) OF EvidenceStatement
 
    EvidenceStatement ::= SEQUENCE {
       type   EVIDENCE-STATEMENT.&id({EvidenceStatementSet}),
@@ -575,12 +555,11 @@ Table of Contents
    and the corresponding hint identifies the Verifier as
    "tpmverifier.example.com".
 
-   EvidenceBundles ::= SEQUENCE SIZE (1..MAX) OF EvidenceBundle
-
    EvidenceBundle ::= SEQUENCE {
-      evidence EvidenceStatements,
+      evidences SEQUENCE SIZE (1..MAX) OF EvidenceStatement,
       certs SEQUENCE SIZE (1..MAX) OF CertificateChoices OPTIONAL
-         -- CertificateChoices MUST only contain certificate or other
+         -- CertificateChoices MUST only contain certificate or other,
+         -- see Section 10.2.2 of [RFC5652]
    }
 
    The CertificateChoices structure defined in [RFC6268] allows for
@@ -596,14 +575,14 @@ Table of Contents
 
    -- For PKCS#10
    attr-evidence ATTRIBUTE ::= {
-     TYPE EvidenceBundles
+     TYPE EvidenceBundle
      COUNTS MAX 1
      IDENTIFIED BY id-aa-evidence
    }
 
    -- For CRMF
    ext-evidence EXTENSION ::= {
-     SYNTAX EvidenceBundles
+     SYNTAX EvidenceBundle
      IDENTIFIED BY id-aa-evidence
    }
 
@@ -616,14 +595,14 @@ Table of Contents
    more discussion.
 
    The certs field contains a set of certificates that is intended to
-   validate the contents of an Evidence statement contained in evidence,
-   if required.  The set of certificates should contain the certificate
-   that contains the public key needed to directly validate the
-   evidence.  Additional certificates may be provided, for example, to
-   chain the Evidence signer key back to an agreed upon trust anchor.
-   No order is implied, it is up to the Attester and its Verifier to
-   agree on both the order and format of certificates contained in
-   certs.
+   validate the contents of an Evidence statement contained in
+   evidences, if required.  For each Evidnece statement the set of
+   certificates should contain the certificate that contains the public
+   key needed to directly validate the Evidence statement.  Additional
+   certificates may be provided, for example, to chain the Evidence
+   signer key back to an agreed upon trust anchor.  No specific order of
+   the certificates in certs SHOULD be expected because the certificates
+   needed for different Evidence statements may be contained in certs.
 
    This specification places no restriction on mixing certificate types
    within the certs field.  For example a non-X.509 Evidence signer
@@ -631,18 +610,15 @@ Table of Contents
    certificates.  It is up to the Attester and its Verifier to agree on
    supported certificate formats.
 
-   By the nature of the PKIX ASN.1 classes [[RFC5912]], there are
-   multiple ways to convey multiple Evidence statements: by including
-   multiple copies of attr-evidence or ext-evidence, multiple values
-   within the attribute or extension, and finally, by including multiple
-   EvidenceStatements within an EvidenceBundle.  The latter is the
-   preferred way to carry multiple Evidence statements.  Implementations
-   MUST NOT place multiple copies of attr-evidence into a PKCS#10 CSR
-   due to the COUNTS MAX 1 declaration, and SHOULD NOT place multiple
-   copies of EvidenceBundles into an AttributeSet.  In a CRMF CSR,
-   implementers SHOULD NOT place multiple copies of ext-evidence and
-   SHOULD NOT place multiple copies of EvidenceBundles into an
-   ExtensionSet.
+   By the nature of the PKIX ASN.1 classes [RFC5912], there are multiple
+   ways to convey multiple Evidence statements: by including multiple
+   copies of attr-evidence or ext-evidence, multiple values within the
+   attribute or extension, and finally, by including multiple
+   EvidenceStatement structures within an EvidenceBundle.  The latter is
+   the preferred way to carry multiple Evidence statements.
+   Implementations MUST NOT place multiple copies of attr-evidence into
+   a PKCS#10 CSR due to the COUNTS MAX 1 declaration.  In a CRMF CSR,
+   implementers SHOULD NOT place multiple copies of ext-evidence.
 
 6.  IANA Considerations
 
@@ -741,43 +717,60 @@ Table of Contents
 6.4.2.  Initial Registry Contents
 
    The initial registry contents is shown in the table below.  It lists
-   entries for several evidence encoding including an entry for the
+   entries for several evidence encoding OIDs including an entry for the
    Conceptual Message Wrapper (CMW) [I-D.ietf-rats-msg-wrap].
 
-   +=======+==============================+==============+============+
-   | OID   | Description                  | Reference(s) | Change     |
-   |       |                              |              | Controller |
-   +=======+==============================+==============+============+
-   | 2 23  | DiceTcbInfo                  | [TCGDICE1.1] | TCG        |
-   | 133 5 |                              |              |            |
-   | 4 1   |                              |              |            |
-   +-------+------------------------------+--------------+------------+
-   | 2 23  | DiceMultiTcbInfo             | [TCGDICE1.1] | TCG        |
-   | 133 5 |                              |              |            |
-   | 4 5   |                              |              |            |
-   +-------+------------------------------+--------------+------------+
-   | 2 23  | DiceUccsEvidence             | [TCGDICE1.1] | TCG        |
-   | 133 5 |                              |              |            |
-   | 4 6   |                              |              |            |
-   +-------+------------------------------+--------------+------------+
-   | 2 23  | DiceManifestEvidence         | [TCGDICE1.1] | TCG        |
-   | 133 5 |                              |              |            |
-   | 4 7   |                              |              |            |
-   +-------+------------------------------+--------------+------------+
-   | 2 23  | DiceTcbInfoComp              | [TCGDICE1.1] | TCG        |
-   | 133 5 |                              |              |            |
-   | 4 8   |                              |              |            |
-   +-------+------------------------------+--------------+------------+
-   | 2 23  | DiceConceptualMessageWrapper | [TCGDICE1.1] | TCG        |
-   | 133 5 |                              |              |            |
-   | 4 9   |                              |              |            |
-   +-------+------------------------------+--------------+------------+
-   | 2 23  | tcg-attest-tpm-certify       | Private      | TCG        |
-   | 133   |                              | Registry     |            |
-   | 20 1  |                              |              |            |
-   +-------+------------------------------+--------------+------------+
+   +========+==================+==========================+============+
+   | OID    | Description      | Reference(s)             | Change     |
+   |        |                  |                          | Controller |
+   +========+==================+==========================+============+
+   | 2 23   | tcg-dice-TcbInfo | [TCGRegistry]            | TCG        |
+   | 133 5  |                  |                          |            |
+   | 4 1    |                  |                          |            |
+   +--------+------------------+--------------------------+------------+
+   | 2 23   | tcg-dice-        | [TCGRegistry]            | TCG        |
+   | 133 5  | endorsement-     |                          |            |
+   | 4 3    | manifest-uri     |                          |            |
+   +--------+------------------+--------------------------+------------+
+   | 2 23   | tcg-dice-Ueid    | [TCGRegistry]            | TCG        |
+   | 133 5  |                  |                          |            |
+   | 4 4    |                  |                          |            |
+   +--------+------------------+--------------------------+------------+
+   | 2 23   | tcg-dice-        | [TCGRegistry]            | TCG        |
+   | 133 5  | MultiTcbInfo     |                          |            |
+   | 4 5    |                  |                          |            |
+   +--------+------------------+--------------------------+------------+
+   | 2 23   | tcg-dice-UCCS-   | [TCGRegistry]            | TCG        |
+   | 133 5  | evidence         |                          |            |
+   | 4 6    |                  |                          |            |
+   +--------+------------------+--------------------------+------------+
+   | 2 23   | tcg-dice-        | [TCGRegistry]            | TCG        |
+   | 133 5  | manifest-        |                          |            |
+   | 4 7    | evidence         |                          |            |
+   +--------+------------------+--------------------------+------------+
+   | 2 23   | tcg-dice-        | [TCGRegistry]            | TCG        |
+   | 133 5  | MultiTcbInfoComp |                          |            |
+   | 4 8    |                  |                          |            |
+   +--------+------------------+--------------------------+------------+
+   | 2 23   | tcg-dice-        | [TCGRegistry]            | TCG        |
+   | 133 5  | conceptual-      |                          |            |
+   | 4 9    | message-wrapper  |                          |            |
+   +--------+------------------+--------------------------+------------+
+   | 2 23   | tcg-dice-        | [TCGRegistry]            | TCG        |
+   | 133 5  | TcbFreshness     |                          |            |
+   | 4 11   |                  |                          |            |
+   +--------+------------------+--------------------------+------------+
+   | 2 23   | tcg-attest-tpm-  | [TCGRegistry]            | TCG        |
+   | 133    | certify          |                          |            |
+   | 20 1   |                  |                          |            |
+   +--------+------------------+--------------------------+------------+
+   | 1 3 6  | id-pe-cmw        | [I-D.ietf-rats-msg-wrap] | IETF       |
+   | 1 5 5  |                  |                          |            |
+   | 7 1    |                  |                          |            |
+   | 35     |                  |                          |            |
+   +--------+------------------+--------------------------+------------+
 
-    Table 1: Initial Contents of the Attestation Evidence OID Registry
+     Table 1: Initial Contents of the Attestation Evidence OID Registry
 
    The current registry values can be retrieved from the IANA online
    website.
@@ -961,22 +954,18 @@ Table of Contents
 
    In addition to the security considerations listed here, implementers
    should be familiar with the security considerations of the
-   specifications on this this depends: PKCS#10 [RFC2986], CRMF [4211],
-   as well as general security concepts relating to evidence and remote
-   attestation; many of these concepts are discussed in the Remote
-   ATtestation prodedureS (RATS) Architecture [RFC9334] sections 6 Roles
-   and Entities, 7 Trust Model, 9 Freshness, 11 Privacy Considerations,
-   and 12 Security Considerations.  Implementers should also be aware of
-   any security considerations relating to the specific evidence format
-   being carried within the CSR.
+   specifications on this this depends: PKCS#10 [RFC2986], CRMF
+   [RFC4211], as well as general security concepts relating to evidence
+   and remote attestation; many of these concepts are discussed in the
+   Remote ATtestation prodedureS (RATS) Architecture [RFC9334] sections
+   6 Roles and Entities, 7 Trust Model, 9 Freshness, 11 Privacy
+   Considerations, and 12 Security Considerations.  Implementers should
+   also be aware of any security considerations relating to the specific
+   evidence format being carried within the CSR.
 
 8.  References
 
 8.1.  Normative References
-
-   [ASN1-2002]
-              ITU-T, "ITU-T Recommendation X.680, X.681, X.682, and
-              X.683", 2002.
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -992,6 +981,12 @@ Table of Contents
               Certificate Request Message Format (CRMF)", RFC 4211,
               DOI 10.17487/RFC4211, September 2005,
               <https://www.rfc-editor.org/rfc/rfc4211>.
+
+   [RFC5280]  Cooper, D., Santesson, S., Farrell, S., Boeyen, S.,
+              Housley, R., and W. Polk, "Internet X.509 Public Key
+              Infrastructure Certificate and Certificate Revocation List
+              (CRL) Profile", RFC 5280, DOI 10.17487/RFC5280, May 2008,
+              <https://www.rfc-editor.org/rfc/rfc5280>.
 
    [RFC5911]  Hoffman, P. and J. Schaad, "New ASN.1 Modules for
               Cryptographic Message Syntax (CMS) and S/MIME", RFC 5911,
@@ -1035,9 +1030,9 @@ Table of Contents
    [I-D.ietf-rats-msg-wrap]
               Birkholz, H., Smith, N., Fossati, T., and H. Tschofenig,
               "RATS Conceptual Messages Wrapper (CMW)", Work in
-              Progress, Internet-Draft, draft-ietf-rats-msg-wrap-08, 2
-              September 2024, <https://datatracker.ietf.org/doc/html/
-              draft-ietf-rats-msg-wrap-08>.
+              Progress, Internet-Draft, draft-ietf-rats-msg-wrap-09, 20
+              October 2024, <https://datatracker.ietf.org/doc/html/
+              draft-ietf-rats-msg-wrap-09>.
 
    [I-D.ietf-rats-tpm-based-network-device-attest]
               Fedorkow, G., Voit, E., and J. Fitzgerald-McKay, "TPM-
@@ -1070,10 +1065,6 @@ Table of Contents
               RFC 8126, DOI 10.17487/RFC8126, June 2017,
               <https://www.rfc-editor.org/rfc/rfc8126>.
 
-   [RFC8141]  Saint-Andre, P. and J. Klensin, "Uniform Resource Names
-              (URNs)", RFC 8141, DOI 10.17487/RFC8141, April 2017,
-              <https://www.rfc-editor.org/rfc/rfc8141>.
-
    [SampleData]
               "CSR Attestation Sample Data", n.d.,
               <https://github.com/lamps-wg/csr-attestation-examples>.
@@ -1083,6 +1074,11 @@ Table of Contents
               January 2024, <https://trustedcomputinggroup.org/wp-
               content/uploads/DICE-Attestation-Architecture-Version-1.1-
               Revision-18_pub.pdf>.
+
+   [TCGRegistry]
+              Trusted Computing Group, "TCG OID Registry",
+              <https://trustedcomputinggroup.org/resource/tcg-oid-
+              registry/>.
 
    [TPM20]    Trusted Computing Group, "Trusted Platform Module Library
               Specification, Family 2.0", n.d.,
@@ -1407,19 +1403,17 @@ A.2.6.  Sample CSR
    CSR {
      attributes {
        id-aa-evidence {
-         EvidenceBundles {
-           EvidenceBundle {
-             EvidenceStatements {
-               EvidenceStatement {
-                 type: tcg-attest-tpm-certify,
-                 stmt: <TcgAttestTpmCertify_data>
-                 hint: "tpmverifier.example.com"
-               }
-             },
-             certs {
-               akCertificate,
-               caCertificate
+         EvidenceBundle {
+           Evidences {
+             EvidenceStatement {
+               type: tcg-attest-tpm-certify,
+               stmt: <TcgAttestTpmCertify_data>
+               hint: "tpmverifier.example.com"
              }
+           },
+           certs {
+             akCertificate,
+             caCertificate
            }
          }
        }
@@ -1449,14 +1443,8 @@ A.2.6.  Sample CSR
       trust in the provided certificates is outside the scope of this
       specification.
 
-   Features of this specification that are not demonstrated by this
-   example are:
-
-   *  An EvidenceBundle containing multiple EvidenceStatements that
-      share a certificate chain.
-
-   *  Multiple EvidenceBundles that each have their own certificate
-      chain.
+   This example does not demonstrate an EvidenceBundle that contains
+   multiple EvidenceStatements sharing a certificate chain.
 
    -----BEGIN CERTIFICATE REQUEST-----
    MIINnjCCDIgCAQAwcjELMAkGA1UEBhMCQVUxDDAKBgNVBAgMA1FMRDERMA8GA1UE
@@ -1549,19 +1537,18 @@ A.3.  PSA Attestation Token in CSR
 
    The encoding of this KAT-PAT bundle is shown in the example below.
 
-   EvidenceBundles
-    +
-    |
-    +-> EvidenceBundle
-         +
-         |
-         +->  EvidenceStatement
-               +
-               |
-               +-> type: OID for CMW Collection
-               |         1 3 6 1 5 5 7 1 TBD
-               |
-               +-> stmt: KAT/PAT CMW Collection
+   EvidenceBundle
+      +
+      |
+      + Evidences
+      |
+      +---->  EvidenceStatement
+           +
+           |
+           +-> type: OID for CMW Collection
+           |         1 3 6 1 5 5 7 1 TBD
+           |
+           +-> stmt: KAT/PAT CMW Collection
 
    The value in EvidenceStatement->stmt is based on the KAT/PAT example
    from Section 6 of [I-D.bft-rats-kat] and the result of CBOR encoding
@@ -1591,100 +1578,225 @@ A.3.  PSA Attestation Token in CSR
 
 Appendix B.  ASN.1 Module
 
-CSR-ATTESTATION-2023
-           {iso(1) identified-organization(3) dod(6) internet(1) security(5)
-       mechanisms(5) pkix(7) id-mod(0) id-mod-pkix-attest-01(TBDMOD)}
-
-DEFINITIONS IMPLICIT TAGS ::= BEGIN
-
-EXPORTS ALL;
-
-IMPORTS
-
-Certificate, id-pkix
- FROM PKIX1Explicit-2009
-     {iso(1) identified-organization(3) dod(6) internet(1) security(5)
-     mechanisms(5) pkix(7) id-mod(0) id-mod-pkix1-explicit-02(51)}
-
-CertificateChoices
-FROM CryptographicMessageSyntax-2010
-{ iso(1) member-body(2) us(840) rsadsi(113549)
-pkcs(1) pkcs-9(9) smime(16) modules(0) id-mod-cms-2009(58) }
-
-EXTENSION, ATTRIBUTE, AttributeSet{}, SingleAttribute{}
-    FROM PKIX-CommonTypes-2009 -- from [RFC5912]
+  CSR-ATTESTATION-2023
     { iso(1) identified-organization(3) dod(6) internet(1) security(5)
+    mechanisms(5) pkix(7) id-mod(0) id-mod-pkix-attest-01(TBDMOD) }
+
+  CsrAttestation DEFINITIONS IMPLICIT TAGS ::= BEGIN
+
+  EXPORTS ALL;
+
+  IMPORTS
+
+  Certificate, id-pkix
+    FROM PKIX1Explicit-2009
+      { iso(1) identified-organization(3) dod(6) internet(1) security(5)
+      mechanisms(5) pkix(7) id-mod(0) id-mod-pkix1-explicit-02(51) }
+
+  CertificateChoices
+    FROM CryptographicMessageSyntax-2010
+      { iso(1) member-body(2) us(840) rsadsi(113549)
+      pkcs(1) pkcs-9(9) smime(16) modules(0) id-mod-cms-2009(58) }
+
+  EXTENSION, ATTRIBUTE, AttributeSet{}, SingleAttribute{}
+    FROM PKIX-CommonTypes-2009 -- from [RFC5912]
+      { iso(1) identified-organization(3) dod(6) internet(1) security(5)
       mechanisms(5) pkix(7) id-mod(0) id-mod-pkixCommon-02(57) }
 
-id-aa
-FROM SecureMimeMessageV3dot1
-    { iso(1) member-body(2) us(840) rsadsi(113549)
-        pkcs(1) pkcs-9(9) smime(16) modules(0) msg-v3dot1(21) }
-  ;
+  id-aa
+    FROM SecureMimeMessageV3dot1
+      { iso(1) member-body(2) us(840) rsadsi(113549)
+      pkcs(1) pkcs-9(9) smime(16) modules(0) msg-v3dot1(21) }
+    ;
 
+  -- Branch for attestation statement types
+  id-ata OBJECT IDENTIFIER ::= { id-pkix (TBD1) }
 
--- Branch for attestation statement types
-id-ata OBJECT IDENTIFIER ::= { id-pkix (TBD1) }
+  EVIDENCE-STATEMENT ::= TYPE-IDENTIFIER
 
-EVIDENCE-STATEMENT ::= TYPE-IDENTIFIER
+  EvidenceStatementSet EVIDENCE-STATEMENT ::= {
+     ... -- None defined in this document --
+  }
 
-EvidenceStatementSet EVIDENCE-STATEMENT ::= {
-   ... -- None defined in this document --
-}
+  EvidenceStatement ::= SEQUENCE {
+     type   EVIDENCE-STATEMENT.&id({EvidenceStatementSet}),
+     stmt   EVIDENCE-STATEMENT.&Type({EvidenceStatementSet}{@type}),
+     hint   UTF8String OPTIONAL
+  }
 
-EvidenceStatements ::= SEQUENCE SIZE (1..MAX) OF EvidenceStatement
+  id-aa-evidence OBJECT IDENTIFIER ::= { id-aa 59 }
 
-EvidenceStatement ::= SEQUENCE {
-   type   EVIDENCE-STATEMENT.&id({EvidenceStatementSet}),
-   stmt   EVIDENCE-STATEMENT.&Type({EvidenceStatementSet}{@type}),
-   hint   UTF8String OPTIONAL
-}
+  -- For PKCS#10
+  attr-evidence ATTRIBUTE ::= {
+    TYPE EvidenceBundle
+    COUNTS MAX 1
+    IDENTIFIED BY id-aa-evidence
+  }
 
-id-aa-evidence OBJECT IDENTIFIER ::= { id-aa 59 }
+  -- For CRMF
+  ext-evidence EXTENSION ::= {
+    SYNTAX EvidenceBundle
+    IDENTIFIED BY id-aa-evidence
+  }
 
--- For PKCS#10
-attr-evidence ATTRIBUTE ::= {
-  TYPE EvidenceBundles
-  COUNTS MAX 1
-  IDENTIFIED BY id-aa-evidence
-}
+  EvidenceBundle ::= SEQUENCE {
+     evidences SEQUENCE SIZE (1..MAX) OF EvidenceStatement,
+     certs SEQUENCE SIZE (1..MAX) OF CertificateChoices OPTIONAL
+        -- CertificateChoices MUST NOT contain the depreciated
+        -- certificate structures or attribute certificates,
+        -- see Section 10.2.2 of [RFC5652]
+  }
 
+  END
 
--- For CRMF
-ext-evidence EXTENSION ::= {
-  SYNTAX EvidenceBundles
-  IDENTIFIED BY id-aa-evidence
-}
-
-EvidenceBundles ::= SEQUENCE SIZE (1..MAX) OF EvidenceBundle
-
-EvidenceBundle ::= SEQUENCE {
-   evidence EvidenceStatements,
-   certs SEQUENCE SIZE (1..MAX) OF CertificateChoices OPTIONAL
-      -- CertificateChoices MUST only contain certificate or other
-}
-
-
-END
-
-B.1.  TCG DICE ConceptualMessageWrapper in CSR
+B.1.  TCG DICE Example in ASN.1
 
    This section gives an example of extending the ASN.1 module above to
-   carry an existing ASN.1-based evidence statement.  The example used
+   carry an existing ASN.1-based Evidence Statement.  The example used
    is the Trusted Computing Group DICE Attestation Conceptual Message
    Wrapper, as defined in [TCGDICE1.1].
 
-tcgDiceEvidenceStatementES EVIDENCE-STATEMENT ::=
-  { ConceptualMessageWrapper IDENTIFIED BY tcg-dice-conceptual-message-wrapper }
+CsrAttestationDiceExample DEFINITIONS IMPLICIT TAGS ::= BEGIN
 
--- where ConceptualMessageWrapper and tcg-dice-conceptual-message-wrapper
--- are defined in DICE-Attestation-Architecture-Version-1.1-Revision-17_1August2023.pdf
+IMPORTS
+
+tcg-dice-conceptual-message-wrapper FROM TcgDiceAttestation
+DiceConceptualMessageWrapper FROM TcgDiceAttestation
+tcg-dice-TcbInfo FROM TcgDiceAttestation
+DiceTcbInfo FROM TcgDiceAttestation
+EvidenceStatementSet FROM CsrAttestation
+;
+
+tcgDiceCmwEvidenceStatementES EVIDENCE-STATEMENT ::= {
+  DiceConceptualMessageWrapper IDENTIFIED BY tcg-dice-conceptual-message-wrapper }
+
+tcgDiceTcbInfoEvidenceStatementES EVIDENCE-STATEMENT ::= {
+  DiceTcbInfo IDENTIFIED BY tcg-dice-TcbInfo }
+-- where ConceptualMessageWrapper, tcg-dice-conceptual-message-wrapper, DiceTcbInfo, and tcg-dice-TcbInfo
+-- are defined in DICE-Attestation-Architecture-Version-1.1-Revision-18_6Jan2024.pdf
 
 EvidenceStatementSet EVIDENCE-STATEMENT ::= {
-  tcgDiceEvidenceStatementES, ...
+  tcgDiceEvidenceStatementES,
+  tcgDiceTcbInfoEvidenceStatementES
+  ...
+}
+END
+
+TcgDiceAttestation DEFINITIONS AUTOMATIC TAGS ::= BEGIN
+
+EXPORTS ALL;
+
+tcg OBJECT IDENTIFIER ::= { 2 23 133 }
+tcg-dice OBJECT IDENTIFIER ::= { tcg platformClass(5) dice(4) }
+tcg-dice-TcbInfo OBJECT IDENTIFIER ::= { tcg-dice tcbinfo(1) }
+tcg-dice-endorsement-manifest-uri OBJECT IDENTIFIER ::= { tcg-dice manifest-uri(3) }
+tcg-dice-Ueid OBJECT IDENTIFIER ::= { tcg-dice ueid(4) }
+tcg-dice-MultiTcbInfo OBJECT IDENTIFIER ::= {tcg-dice multitcbinfo(5) }
+tcg-dice-UCCS-evidence OBJECT IDENTIFIER ::= {tcg-dice uccs-evidence(6) }
+tcg-dice-manifest-evidence OBJECT IDENTIFIER ::= {tcg-dice manifest-evidience(7) }
+tcg-dice-MultiTcbInfoComp OBJECT IDENTIFIER ::= {tcg-dice multitcbinfocomp(8) }
+tcg-dice-conceptual-message-wrapper OBJECT IDENTIFIER ::= { tcg-dice cmw(9) }
+tcg-dice-TcbFreshness OBJECT IDENTIFIER ::= { tcg-dice tcb-freshness(11) }
+
+DiceConceptualMessageWrapper ::= SEQUENCE {
+  cmw OCTET STRING
 }
 
-B.2.  TCG DICE ConceptualMessageWrapper in CSR
+DiceTcbInfo ::= SEQUENCE {
+  vendor [0] IMPLICIT UTF8String OPTIONAL,
+  model [1] IMPLICIT UTF8String OPTIONAL,
+  version [2] IMPLICIT UTF8String OPTIONAL,
+  svn [3] IMPLICIT INTEGER OPTIONAL,
+  layer [4] IMPLICIT INTEGER OPTIONAL,
+  index [5] IMPLICIT INTEGER OPTIONAL,
+  fwids [6] IMPLICIT FWIDLIST OPTIONAL,
+  flags [7] IMPLICIT OperationalFlags OPTIONAL,
+  vendorInfo [8] IMPLICIT OCTET STRING OPTIONAL,
+  type [9] IMPLICIT OCTET STRING OPTIONAL,
+  flagsMask [10]IMPLICIT OperationalFlagsMask OPTIONAL,
+  integrityRegisters [11] IMPLICIT IrList OPTIONAL
+}
+
+FWIDLIST ::= SEQUENCE SIZE (1..MAX) OF FWID
+  FWID ::= SEQUENCE {
+  hashAlg OBJECT IDENTIFIER,
+  digest OCTET STRING
+}
+
+OperationalFlags ::= BIT STRING {
+  notConfigured (0),
+  notSecure (1),
+  recovery (2),
+  debug (3),
+  notReplayProtected (4),
+  notIntegrityProtected (5),
+  notRuntimeMeasured (6),
+  notImmutable (7),
+  notTcb (8),
+  fixedWidth (31)
+}
+
+OperationalFlagsMask ::= BIT STRING {
+  notConfigured (0),
+  notSecure (1),
+  recovery (2),
+  debug (3),
+  notReplayProtected (4),
+  notIntegrityProtected (5),
+  notRuntimeMeasured (6),
+  notImmutable (7),
+  notTcb (8),
+  fixedWidth (31)
+}
+
+IrList ::= SEQUENCE SIZE (1..MAX) OF IntegrityRegister
+
+IntegrityRegister ::= SEQUENCE {
+  registerName IA5String OPTIONAL,
+  registerNum INTEGER OPTIONAL,
+  hashAlg OBJECT IDENTIFIER,
+  digest OCTET STRING
+}
+
+EndorsementManifestURI ::= SEQUENCE {
+  emUri UTF8String
+}
+
+TcgUeid ::= SEQUENCE {
+  ueid OCTET STRING
+}
+
+DiceTcbInfoSeq ::= SEQUENCE SIZE (1..MAX) OF DiceTcbInfo
+
+DiceTcbInfoComp ::= SEQUENCE SIZE (1..MAX) OF TcbInfoComp
+
+TcbInfoComp ::= SEQUENCE {
+  commonFields [0] IMPLICIT DiceTcbInfo,
+  evidenceValues [1] IMPLICIT DiceTcbInfoSeq
+}
+
+UccsEvidence ::= SEQUENCE {
+  uccs OCTET STRING
+}
+
+Manifest ::= SEQUENCE {
+  format ManifestFormat,
+  manifest OCTET STRING
+}
+
+ManifestFormat ::= ENUMERATED {
+  swid-xml    (0),
+  coswid-cbor (1),
+  coswid-json (2),
+  tagged-cbor (3)
+}
+
+DiceTcbFreshness ::= SEQUENCE {
+  nonce OCTET STRING
+}
+END
+
+B.2.  TCG DICE TcbInfo Example in CSR
 
    This section gives an example of extending the ASN.1 module above to
    carry an existing ASN.1-based evidence statement.  The example used
@@ -1772,9 +1884,10 @@ Appendix C.  Acknowledgments
    Bonnell for helping with the hackathon scripts to bundle it into a
    CSR.
 
-   Finally, we would like to thank Andreas Kretschmer and Thomas Fossati
-   for their feedback based on implementation experience, and Daniel
-   Migault and Russ Housley for their review comments.
+   Finally, we would like to thank Andreas Kretschmer, Hendrik
+   Brockhaus, David von Oheimb, and Thomas Fossati for their feedback
+   based on implementation experience, and Daniel Migault and Russ
+   Housley for their review comments.
 
 Authors' Addresses
 

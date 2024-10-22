@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-10-20T01:05:42.727360+00:00",
+  "timestamp": "2024-10-22T01:01:13.560070+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -7993,6 +7993,76 @@
               "updatedAt": "2024-10-19T14:02:34Z"
             }
           ]
+        }
+      ]
+    },
+    {
+      "number": 169,
+      "id": "PR_kwDOJ3IIN85_XX2H",
+      "title": "Corrected attributes to match new version of spec. Make SubjectName general",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/169",
+      "state": "MERGED",
+      "author": "mwiseman-byid",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2024-10-21T19:12:50Z",
+      "updatedAt": "2024-10-21T20:33:55Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "14c20627f8484e8aa22db77fd0f81e9543fb9cd3",
+      "headRepository": "mwiseman-byid/csr-attestation",
+      "headRefName": "main",
+      "headRefOid": "9245d169546a20d995bb463af77131e7269b3515",
+      "closedAt": "2024-10-21T20:33:55Z",
+      "mergedAt": "2024-10-21T20:33:55Z",
+      "mergedBy": "hannestschofenig",
+      "mergeCommit": {
+        "oid": "66e445c0b54d098fa25d08316da1ea2fbfa23e0e"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 170,
+      "id": "PR_kwDOJ3IIN85_XxYF",
+      "title": "Updated Attestation Evidence OID Registry Table",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/170",
+      "state": "MERGED",
+      "author": "hannestschofenig",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2024-10-21T20:16:49Z",
+      "updatedAt": "2024-10-21T20:37:16Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "14c20627f8484e8aa22db77fd0f81e9543fb9cd3",
+      "headRepository": "lamps-wg/csr-attestation",
+      "headRefName": "hannestschofenig-patch-2",
+      "headRefOid": "ee5948fcb36fbaf922257464ae885995816ce4de",
+      "closedAt": "2024-10-21T20:37:13Z",
+      "mergedAt": "2024-10-21T20:37:13Z",
+      "mergedBy": "hannestschofenig",
+      "mergeCommit": {
+        "oid": "05e3fd9bc35e02407c601ed306696d6f560dfd27"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJ3IIN86ODaTJ",
+          "commit": {
+            "abbreviatedOid": "ee5948f"
+          },
+          "author": "mwiseman-byid",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "This is correct",
+          "createdAt": "2024-10-21T20:36:13Z",
+          "updatedAt": "2024-10-21T20:36:13Z",
+          "comments": []
         }
       ]
     }

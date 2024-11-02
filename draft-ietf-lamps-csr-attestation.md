@@ -833,7 +833,6 @@ EvidenceStatementSet EVIDENCE-STATEMENT ::= {
 }
 ~~~
 
-
 ##  TPM V2.0 Evidence in CSR {#appdx-tpm2}
 
 This section describes TPM2 key attestation for use in a CSR.
@@ -844,7 +843,11 @@ This is a complete and canonical example that can be used to test parsers implem
 
 There are several ways in TPM2 to provide proof of a key's properties.
 (i.e., key attestation). This description uses the simplest and most generally
-expected to used which is the TPM2_Certify and the TPM2_ReadPublic commands.
+expected to be used, which is the TPM2_Certify and the TPM2_ReadPublic commands.
+
+This example does not describe how platform attestation augments key attestation.
+The properties of the key (such as the name of the key, the key usage) in this example
+do not change during the lifetime of the key.
 
 ### TCG OIDs
 

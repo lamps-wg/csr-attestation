@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-10-31T01:01:36.543010+00:00",
+  "timestamp": "2024-11-03T01:05:14.644338+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -8065,6 +8065,32 @@
           "comments": []
         }
       ]
+    },
+    {
+      "number": 171,
+      "id": "PR_kwDOJ3IIN86AsnYC",
+      "title": "Update draft-ietf-lamps-csr-attestation.md",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/171",
+      "state": "OPEN",
+      "author": "hannestschofenig",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2024-11-02T14:17:55Z",
+      "updatedAt": "2024-11-02T14:17:55Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "5bc171d95c6f3f7076818712749f37f385af5c0a",
+      "headRepository": "lamps-wg/csr-attestation",
+      "headRefName": "hannestschofenig-patch-2",
+      "headRefOid": "6c57014664f410a8ced82a4b4f3e1620f77d8c8b",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }

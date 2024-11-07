@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-11-05T00:59:26.788701+00:00",
+  "timestamp": "2024-11-07T00:59:44.105573+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -2123,6 +2123,46 @@
       "updatedAt": "2024-10-11T15:37:33Z",
       "closedAt": null,
       "comments": []
+    },
+    {
+      "number": 172,
+      "id": "I_kwDOJ3IIN86dIX5U",
+      "title": "Add CMW example",
+      "url": "https://github.com/lamps-wg/csr-attestation/issues/172",
+      "state": "OPEN",
+      "author": "gmandyam",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "As discussed during IETF 121.  Will use CCA profile as a potential starting point.  Will be creating candidate PR.",
+      "createdAt": "2024-11-05T18:49:00Z",
+      "updatedAt": "2024-11-05T18:49:00Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 173,
+      "id": "I_kwDOJ3IIN86dNJud",
+      "title": "Usama: have a sample from a real TEE",
+      "url": "https://github.com/lamps-wg/csr-attestation/issues/173",
+      "state": "OPEN",
+      "author": "ounsworth",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Intel SGX, or others (Usama will comment with more).",
+      "createdAt": "2024-11-06T09:12:31Z",
+      "updatedAt": "2024-11-06T09:15:20Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "muhammad-usama-sardar",
+          "authorAssociation": "NONE",
+          "body": "As mentioned in IETF meeting 120, add at least one of the following: \r\n- Intel SGX\r\n- Intel TDX\r\n- Arm CCA\r\n- AMD SEV-SNP\r\n- IBM PEF\r\n- RISC-V CoVE",
+          "createdAt": "2024-11-06T09:15:18Z",
+          "updatedAt": "2024-11-06T09:15:18Z"
+        }
+      ]
     }
   ],
   "pulls": [

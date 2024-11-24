@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-11-21T01:03:08.887946+00:00",
+  "timestamp": "2024-11-24T01:07:51.470380+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -8137,24 +8137,26 @@
       "id": "PR_kwDOJ3IIN86BLdZP",
       "title": "Update workflow",
       "url": "https://github.com/lamps-wg/csr-attestation/pull/174",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "seanturner",
-      "authorAssociation": "NONE",
+      "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2024-11-07T12:08:51Z",
-      "updatedAt": "2024-11-07T16:03:14Z",
+      "updatedAt": "2024-11-21T01:26:17Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "5bc171d95c6f3f7076818712749f37f385af5c0a",
       "headRepository": "lamps-wg/csr-attestation",
       "headRefName": "seanturner-workflow",
       "headRefOid": "557ae07e4e6e8ae104726d3a0a5d8bc74157b233",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2024-11-21T01:26:12Z",
+      "mergedAt": "2024-11-21T01:26:12Z",
+      "mergedBy": "ounsworth",
+      "mergeCommit": {
+        "oid": "68d3751488a8a68f3a851a0e0f8fa2c890d5cea2"
+      },
       "comments": [],
       "reviews": []
     }

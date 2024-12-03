@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-12-01T01:15:56.555426+00:00",
+  "timestamp": "2024-12-03T01:06:23.391798+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -1909,11 +1909,14 @@
       "state": "OPEN",
       "author": "ounsworth",
       "authorAssociation": "CONTRIBUTOR",
-      "assignees": [],
+      "assignees": [
+        "hannestschofenig",
+        "mwiseman-byid"
+      ],
       "labels": [],
       "body": "We should provide test data for multiple EvidenceBundles and multiple EvidenceStatements. For completeness, we should provide samples of each of the 4 cases in Section 4.2:\r\n\r\n4.2.1. Case 1 - Single Evidence Bundle\r\n4.2.2. Case 2 - Single Evidence Bundle with Certificate Chain\r\n4.2.3. Case 3 - Multiple Evidence Bundles each with Complete Certificate Chains\r\n4.2.4. Case 4 - Multiple Evidence Bundles with Certificate Transmission Optimization\r\n\r\nThe actual evidence payload can be a stub, like a JWS with the content being the string \"Evidence\"; the point is to provide test vectors that exercise all functionality of the draft.",
       "createdAt": "2024-07-20T03:35:53Z",
-      "updatedAt": "2024-09-09T16:44:38Z",
+      "updatedAt": "2024-12-02T17:23:54Z",
       "closedAt": null,
       "comments": [
         {
@@ -2116,11 +2119,13 @@
       "state": "OPEN",
       "author": "hannestschofenig",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
+      "assignees": [
+        "nedmsmith"
+      ],
       "labels": [],
       "body": "Update the example based on the removed EvidenceBundle",
       "createdAt": "2024-10-11T15:37:32Z",
-      "updatedAt": "2024-10-11T15:37:33Z",
+      "updatedAt": "2024-12-02T17:24:09Z",
       "closedAt": null,
       "comments": []
     },
@@ -2132,11 +2137,13 @@
       "state": "OPEN",
       "author": "gmandyam",
       "authorAssociation": "NONE",
-      "assignees": [],
+      "assignees": [
+        "gmandyam"
+      ],
       "labels": [],
       "body": "As discussed during IETF 121.  Will use CCA profile as a potential starting point.  Will be creating candidate PR.",
       "createdAt": "2024-11-05T18:49:00Z",
-      "updatedAt": "2024-11-05T18:49:00Z",
+      "updatedAt": "2024-12-02T17:21:20Z",
       "closedAt": null,
       "comments": []
     },
@@ -2148,11 +2155,13 @@
       "state": "OPEN",
       "author": "ounsworth",
       "authorAssociation": "CONTRIBUTOR",
-      "assignees": [],
+      "assignees": [
+        "muhammad-usama-sardar"
+      ],
       "labels": [],
       "body": "Intel SGX, or others (Usama will comment with more).",
       "createdAt": "2024-11-06T09:12:31Z",
-      "updatedAt": "2024-11-06T09:15:20Z",
+      "updatedAt": "2024-12-02T17:21:30Z",
       "closedAt": null,
       "comments": [
         {

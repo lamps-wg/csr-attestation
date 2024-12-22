@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-12-19T01:04:19.047819+00:00",
+  "timestamp": "2024-12-22T01:05:49.356329+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -2176,7 +2176,7 @@
       "labels": [],
       "body": "Intel SGX, or others (Usama will comment with more).",
       "createdAt": "2024-11-06T09:12:31Z",
-      "updatedAt": "2024-12-02T17:21:30Z",
+      "updatedAt": "2024-12-21T12:26:40Z",
       "closedAt": null,
       "comments": [
         {
@@ -2185,6 +2185,13 @@
           "body": "As mentioned in IETF meeting 120, add at least one of the following: \r\n- Intel SGX\r\n- Intel TDX\r\n- Arm CCA\r\n- AMD SEV-SNP\r\n- IBM PEF\r\n- RISC-V CoVE",
           "createdAt": "2024-11-06T09:15:18Z",
           "updatedAt": "2024-11-06T09:15:18Z"
+        },
+        {
+          "author": "muhammad-usama-sardar",
+          "authorAssociation": "NONE",
+          "body": "In a side meeting at IETF 120, Antonio Lioy presented his work utilizing attested CSR for RISC-V. I suggest reaching out to him.",
+          "createdAt": "2024-12-21T12:26:39Z",
+          "updatedAt": "2024-12-21T12:26:39Z"
         }
       ]
     }

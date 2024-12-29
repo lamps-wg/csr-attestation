@@ -619,9 +619,7 @@ ext-ar EXTENSION ::= {
   IDENTIFIED BY id-aa-ar
 }
 ~~~
-{: #code-extensions title="Definitions of CSR attribute and extension"}
-
-The Extension variant illustrated in {{code-extensions}} is intended only for use within CRMF CSRs and is NOT RECOMMENDED to be used within X.509 certificates due to the privacy implications of publishing Evidence about the end entity's hardware environment. See {{sec-con-publishing-x509}} for more discussion.
+{: #code-extensions-ar title="Definitions of CSR attribute and extension"}
 
 ## Implementation Considerations
 

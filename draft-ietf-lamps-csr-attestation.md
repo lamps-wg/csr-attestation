@@ -578,7 +578,7 @@ AttestationResultSet ATTESTATION-RESULT ::= {
 ~~~
 {: #code-AttestationResultSet title="Definition of AttestationResultSet"}
 
-The expression illustrated in {{code-EvidenceSAttestationResultSettatementSet}}
+The expression illustrated in {{code-AttestationResultSet}}
 maps ASN.1 Types for Attestation Result to the OIDs that identify them. These
 mappings are used to construct or parse AttestationResults. Attestation Results
 are defined in other IETF standards (see {{?I-D.ietf-rats-ar4si}}),

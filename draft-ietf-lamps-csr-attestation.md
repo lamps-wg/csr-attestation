@@ -144,7 +144,7 @@ This document specifies a CSR Attribute (or Extension for Certificate Request Me
 
 - Evidence is placed into an EvidenceStatement along with an OID to identify its type and optionally a hint to the Relying Party about which Verifier (software package, a microservice or some other service) will be capable of parsing it. A set of EvidenceStatement structures may be grouped together along with the set of CertificateChoice structures needed to validate them to form a EvidenceBundle.
 
-- Attestation Results are carried in the AttestationResult along with an OID to identify its type. A set of AttestationResult structures may be grouped together to form an AttestationResultBundle. 
+- Attestation Results are carried in the AttestationResult along with an OID to identify its type. A set of AttestationResult structures may be grouped together to form an AttestationResultBundle.
 
 A CSR may contain one or more Evidence payloads. For example Evidence
 asserting the storage properties of a private key, Evidence

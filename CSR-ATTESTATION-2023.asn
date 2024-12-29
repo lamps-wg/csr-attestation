@@ -30,11 +30,17 @@ id-aa
   ;
 
 -- Branch for attestation statement types
-id-ata OBJECT IDENTIFIER ::= { id-pkix (TBD1) }
+id-ata OBJECT IDENTIFIER ::= { id-aa (TBD1) }
 
 EVIDENCE-STATEMENT ::= TYPE-IDENTIFIER
 
 EvidenceStatementSet EVIDENCE-STATEMENT ::= {
+   ... -- None defined in this document --
+}
+
+ATTESTATION-RESULT ::= TYPE-IDENTIFIER
+
+AttestationResultSet ATTESTATION-RESULT ::= {
    ... -- None defined in this document --
 }
 
@@ -44,19 +50,41 @@ EvidenceStatement ::= SEQUENCE {
    hint   UTF8String OPTIONAL
 }
 
-id-aa-evidence OBJECT IDENTIFIER ::= { id-aa 59 }
+AttestationResult ::= SEQUENCE {
+   type   ATTESTATION-RESULT.&id({AttestationResultSet}),
+   stmt   ATTESTATION-RESULT.&Type({AttestationResultSet}{@type}),
+}
 
--- For PKCS#10
+-- Arc for Evidence types
+id-aa-evidence OBJECT IDENTIFIER ::= { id-ata 59 }
+
+-- Arc for Attestation Result types
+id-aa-ar OBJECT IDENTIFIER ::= { id-ata 60 }
+
+-- For PKCS#10 (Evidence)
 attr-evidence ATTRIBUTE ::= {
   TYPE EvidenceBundle
   COUNTS MAX 1
   IDENTIFIED BY id-aa-evidence
 }
 
--- For CRMF
+-- For CRMF (Evidence)
 ext-evidence EXTENSION ::= {
   SYNTAX EvidenceBundle
   IDENTIFIED BY id-aa-evidence
+}
+
+-- For PKCS#10 (Attestation Result)
+attr-ar ATTRIBUTE ::= {
+  TYPE AttestationResultBundle
+  COUNTS MAX 1
+  IDENTIFIED BY id-aa-ar
+}
+
+-- For CRMF (Attestation Result)
+ext-ar EXTENSION ::= {
+  SYNTAX AttestationResultBundle
+  IDENTIFIED BY id-aa-ar
 }
 
 EvidenceBundle ::= SEQUENCE {
@@ -66,5 +94,7 @@ EvidenceBundle ::= SEQUENCE {
       -- certificate structures or attribute certificates,
       -- see Section 10.2.2 of [RFC5652]
 }
+
+AttestationResultBundle ::= SEQUENCE SIZE (1..MAX) OF AttestationResult
 
 END

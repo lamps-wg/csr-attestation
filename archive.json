@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-12-29T01:06:37.473379+00:00",
+  "timestamp": "2024-12-31T01:00:28.859862+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -8188,6 +8188,32 @@
       "mergeCommit": {
         "oid": "68d3751488a8a68f3a851a0e0f8fa2c890d5cea2"
       },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 175,
+      "id": "PR_kwDOJ3IIN86GYfQA",
+      "title": "First version with passport model added.",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/175",
+      "state": "OPEN",
+      "author": "hannestschofenig",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "In this PR, I have added the long-awaited support for the passport model to the CSR attestation draft. While the functionality was implicitly present through the use of the conceptual message wrapper, the text previously lacked any explicit explanation.\r\n\r\nI understand that introducing this functionality at this stage may seem late. However, I strongly believe we should not publish the draft without it, as there is significant industry interest in supporting both models: the background-check model and the passport model.",
+      "createdAt": "2024-12-29T11:53:03Z",
+      "updatedAt": "2024-12-29T12:03:53Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "68d3751488a8a68f3a851a0e0f8fa2c890d5cea2",
+      "headRepository": "lamps-wg/csr-attestation",
+      "headRefName": "passport",
+      "headRefOid": "f82e90f3c2e25beed9f8c7e790487e4d71c7cf82",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
       "comments": [],
       "reviews": []
     }

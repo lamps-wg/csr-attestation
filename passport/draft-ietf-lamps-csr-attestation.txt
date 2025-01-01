@@ -5,14 +5,14 @@
 Network Working Group                                       M. Ounsworth
 Internet-Draft                                                   Entrust
 Intended status: Standards Track                           H. Tschofenig
-Expires: 2 July 2025                                             Siemens
+Expires: 5 July 2025                                             Siemens
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                               M. Wiseman
                                                          Beyond Identity
                                                                 N. Smith
                                                        Intel Corporation
-                                                        29 December 2024
+                                                          1 January 2025
 
 
      Use of Remote Attestation with Certification Signing Requests
@@ -65,11 +65,11 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 2 July 2025.
+   This Internet-Draft will expire on 5 July 2025.
 
 Copyright Notice
 
-   Copyright (c) 2024 IETF Trust and the persons identified as the
+   Copyright (c) 2025 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
    This document is subject to BCP 78 and the IETF Trust's Legal
@@ -111,8 +111,8 @@ Table of Contents
        7.4.2.  Initial Registry Contents
    8.  Security Considerations
      8.1.  Background Check Model Security Considerations
-     8.2.  Freshness
-     8.3.  Publishing Evidence in an X.509 extension
+     8.2.  Freshness for the Background Check Model
+     8.3.  Publishing Evidence in an X.509 Extension
      8.4.  Type OID and verifier hint
      8.5.  Additional Security Considerations
    9.  References
@@ -940,6 +940,56 @@ Table of Contents
 
 8.  Security Considerations
 
+   In the RATS architecture, when Evidence or an Attestation Result is
+   presented to a Relying Party (RP), the RP may learn detailed
+   information about the Attester unless that information has been
+   redacted or encrypted.  Consequently, a certain amount of trust must
+   be placed in the RP, which raises potential privacy concerns because
+   an RP could be used to track devices.  This observation is noted in
+   Section 11 of [RFC9334].
+
+   Typically, the RPs considered in the RATS architecture are
+   application services that use remote attestation, rather than RAs or
+   CAs.  Devices inherently place significant trust in RA/CA
+   infrastructure elements, and therefore any additional information
+   revealed through remote attestation to such entities is generally
+   less concerning than disclosure to application services.  The problem
+   of copying Evidence by CAs into an X.509 certificate is discussed in
+   Section 8.3.
+
+   These privacy risks can be mitigated using several approaches,
+   including:
+
+   *  Shared Attestation Keys: A manufacturer of devices may provision
+      all devices with the same attestation key(s), or share a common
+      attestation key across devices of the same product family.  This
+      approach anonymizes individual devices by making them
+      indistinguishable from others using the same key(s).  However, it
+      also means losing the ability to revoke a single attestation key
+      if a specific device is compromised.  Care must be taken to avoid
+      embedding uniquely identifying information in the Evidence, as
+      that would reduce the privacy benefits of using remote
+      attestation.
+
+   *  Per-Device Attestation Keys: Devices may be designed to
+      dynamically generate distinct attestation keys (and request the
+      corresponding certificates) for each use case, device, or session.
+      This is analogous to the Privacy CA model, in which a device is
+      initially provisioned with an attestation key and certificate;
+      then, in conjunction with a privacy-preserving CA, it can obtain
+      unique keys and certificates as needed.  This strategy reduces the
+      potential for tracking while maintaining strong security
+      assurances.  This is the model described in this document.
+
+   *  Anonymous Attestation Mechanisms: Direct anonymous attestation
+      (DAA) or similar cryptographic methods can be employed to generate
+      blinded attestation signatures.  In these schemes, the verifier
+      can validate the attestation using a root key but does not gain a
+      global correlation handle.  Thus, repeated use of the same
+      attestation key cannot be exploited to track devices.
+      [I-D.ietf-rats-daa] extends the RATS architecture with such a DAA
+      scheme, significantly enhancing privacy.
+
 8.1.  Background Check Model Security Considerations
 
    A PKCS#10 or CRMF Certification Request message typically consists of
@@ -1041,7 +1091,7 @@ Table of Contents
    out of scope for this document.  Whether to require the use of
    Evidence in a CSR is out-of-scope for this document.
 
-8.2.  Freshness
+8.2.  Freshness for the Background Check Model
 
    Evidence generated by an Attester generally needs to be fresh to
    provide value to the Verifier since the configuration on the device
@@ -1052,10 +1102,9 @@ Table of Contents
    some protocol step prior to Evidence and CSR generation, and the use
    of timestamps requires synchronized clocks which cannot be guaranteed
    in all operating environments.  Epochs also require an out-of-band
-   communication channel.  This document only specifies how to carry
-   existing Evidence formats inside a CSR, and so issues of
-   synchronizing freshness data is left to be handled, for example, via
-   certificate management protocols.  Developers, operators, and
+   communication channel.  This document leaves the exchange of nonces
+   and other freshness data to certificate management protocols, see
+   [I-D.ietf-lamps-attestation-freshness].  Developers, operators, and
    designers of protocols, which embed Evidence-carrying-CSRs, MUST
    consider what notion of freshness is appropriate and available in-
    context; thus the issue of freshness is left up to the discretion of
@@ -1076,7 +1125,11 @@ Table of Contents
    then it can be assumed that those properties of that key will
    continue to hold into the future.
 
-8.3.  Publishing Evidence in an X.509 extension
+   Note: Freshness is also a concern for remote attestation in the
+   passport model; however, the protocol between the Attester and the
+   Verifier lies outside the scope of this specification.
+
+8.3.  Publishing Evidence in an X.509 Extension
 
    This document specifies an Extension for carrying Evidence in a CRMF
    Certificate Signing Request (CSR), but it is intentionally NOT
@@ -1122,13 +1175,12 @@ Table of Contents
    In addition to the security considerations listed here, implementers
    should be familiar with the security considerations of the
    specifications on this this depends: PKCS#10 [RFC2986], CRMF
-   [RFC4211], as well as general security concepts relating to evidence
-   and remote attestation; many of these concepts are discussed in
-   Section 6 of [RFC9334], Section 7 of [RFC9334], Section 9 of
-   [RFC9334], Section 11 of [RFC9334], and Section 12 of [RFC9334].
-   Implementers should also be aware of any security considerations
-   relating to the specific evidence format being carried within the
-   CSR.
+   [RFC4211], as well as general security concepts relating to remote
+   attestation; many of these concepts are discussed in Section 6 of
+   [RFC9334], Section 7 of [RFC9334], Section 9 of [RFC9334], Section 11
+   of [RFC9334], and Section 12 of [RFC9334].  Implementers should also
+   be aware of any security considerations relating to the specific
+   Evidence and Attestation Result formats being carried within the CSR.
 
 9.  References
 
@@ -1194,6 +1246,16 @@ Table of Contents
               November 2024, <https://datatracker.ietf.org/doc/html/
               draft-bft-rats-kat-05>.
 
+   [I-D.ietf-lamps-attestation-freshness]
+              Tschofenig, H. and H. Brockhaus, "Nonce-based Freshness
+              for Remote Attestation in Certificate Signing Requests
+              (CSRs) for the Certification Management Protocol (CMP) and
+              for Enrollment over Secure Transport (EST)", Work in
+              Progress, Internet-Draft, draft-ietf-lamps-attestation-
+              freshness-03, 5 November 2024,
+              <https://datatracker.ietf.org/doc/html/draft-ietf-lamps-
+              attestation-freshness-03>.
+
    [I-D.ietf-rats-ar4si]
               Voit, E., Birkholz, H., Hardjono, T., Fossati, T., and V.
               Scarlata, "Attestation Results for Secure Interactions",
@@ -1201,6 +1263,14 @@ Table of Contents
               07, 2 September 2024,
               <https://datatracker.ietf.org/doc/html/draft-ietf-rats-
               ar4si-07>.
+
+   [I-D.ietf-rats-daa]
+              Birkholz, H., Newton, C., Chen, L., and D. Thaler, "Direct
+              Anonymous Attestation for the Remote Attestation
+              Procedures Architecture", Work in Progress, Internet-
+              Draft, draft-ietf-rats-daa-06, 5 September 2024,
+              <https://datatracker.ietf.org/doc/html/draft-ietf-rats-
+              daa-06>.
 
    [I-D.ietf-rats-msg-wrap]
               Birkholz, H., Smith, N., Fossati, T., Tschofenig, H., and

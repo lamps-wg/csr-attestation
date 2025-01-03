@@ -11,7 +11,7 @@
 }
 
 / This is a full CWT-format token. The payload is a sample    /
-/ platform claimset. The main structure                       /
+/ Platform Claim Set. The main structure                       /
 / visible is that of the COSE_Sign1.                          /
 
 61( 18( [

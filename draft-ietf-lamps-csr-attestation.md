@@ -1222,7 +1222,8 @@ EvidenceBundle
         +-> type: OID for CMW Collection
         |         1 3 6 1 5 5 7 1 TBD
         |
-        +-> stmt: Realm Token/Platform Token CMW Collection or Realm Claim Set/Platform Token CMW collection
+        +-> stmt: Realm Token/Platform Token CMW Collection or
+                         Realm Claim Set/Platform Token CMW Collection
 ~~~
 
 # ASN.1 Module

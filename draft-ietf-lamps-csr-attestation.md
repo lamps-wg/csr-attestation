@@ -77,6 +77,7 @@ informative:
   I-D.bft-rats-kat:
   RFC7030:
   I-D.tschofenig-rats-psa-token:
+  I-D.ffm-rats-cca-token:
   TPM20:
     author:
       org: Trusted Computing Group
@@ -1179,6 +1180,49 @@ the result of CBOR encoding the CMW collection shown below
       831E67F32841A56F50D131FA83979AE064E76E70DC75C070B6D99
       1AEC08AD'
 }
+~~~
+
+## Confidential Compute Architecture (CCA) Platform Token in CSR
+
+The Confidential Compute Architecture (CCA) Platform Token is described in
+{{I-D.ffm-rats-cca-token}} and is also based on the EAT format.  Although the
+full CCA attestation is composed of realm and platform evidence, for the purposes
+of this example only the platform token is provided.  
+~~~
+EvidenceBundle
+   +
+   |
+   + Evidences
+   |
+   +---->  EvidenceStatement
+        +
+        |
+        +-> type: OID for CCA Platform Attestation Toekn
+        |         1 3 6 1 5 5 7 1 TBD
+        |
+        +-> stmt: CCA Platform Token
+~~~
+Although the CCA Platform Token follows the EAT/CMW format, it is untagged.
+This is because the encoding can be discerned in the CSR based on the OID alone.
+The untagged token based on a sample claim set is provided below:
+~~~
+{::include sampledata/cca.diag}
+~~~
+Realm evidence can be included in a CMW bundle, similar to the PSA token.
+In this case, the CSR is constructed as follows:
+~~~
+EvidenceBundle
+   +
+   |
+   + Evidences
+   |
+   +---->  EvidenceStatement
+        +
+        |
+        +-> type: OID for CMW Collection
+        |         1 3 6 1 5 5 7 1 TBD
+        |
+        +-> stmt: Realm Token/Platform Token CMW Collection or Realm Claim Set/Platform Token CMW collection
 ~~~
 
 # ASN.1 Module

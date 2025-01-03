@@ -1186,7 +1186,7 @@ the result of CBOR encoding the CMW collection shown below
 
 The Confidential Compute Architecture (CCA) Platform Token is described in
 {{I-D.ffm-rats-cca-token}} and is also based on the EAT format.  Although the
-full CCA attestation is composed of realm and platform evidence, for the purposes
+full CCA attestation is composed of Realm and Platform Evidence, for the purposes
 of this example only the platform token is provided.  
 ~~~
 EvidenceBundle

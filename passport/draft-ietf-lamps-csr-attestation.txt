@@ -5,14 +5,14 @@
 Network Working Group                                       M. Ounsworth
 Internet-Draft                                                   Entrust
 Intended status: Standards Track                           H. Tschofenig
-Expires: 5 July 2025                                             Siemens
+Expires: 7 July 2025                                             Siemens
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                               M. Wiseman
                                                          Beyond Identity
                                                                 N. Smith
                                                        Intel Corporation
-                                                          1 January 2025
+                                                          3 January 2025
 
 
      Use of Remote Attestation with Certification Signing Requests
@@ -65,7 +65,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 5 July 2025.
+   This Internet-Draft will expire on 7 July 2025.
 
 Copyright Notice
 
@@ -146,14 +146,14 @@ Table of Contents
    requests against specified certificate policies.  Verifiers are
    associated with Registration Authorities (RAs) or CAs and function as
    logical entities responsible for processing Evidence and producing
-   Attestation Results.  Regulatory bodies are beginning to require
-   proof of hardware residency for certain classifications of
-   cryptographic keys.  At the time of writing, the most notable example
-   is the Code-Signing Baseline Requirements (CSBR) document maintained
-   by the CA/Browser Forum [CSBR], which requires compliant CAs to
-   "ensure that a Subscriber’s Private Key is generated, stored, and
-   used in a secure environment that has controls to prevent theft or
-   misuse".
+   Attestation Results.  As remote attestation technology matures, it is
+   natural for a Certificate Authority to want attested proof that the
+   requesting entity is in a state that matches the certificate profile.
+   At the time of writing, the most notable example is the Code-Signing
+   Baseline Requirements (CSBR) document maintained by the CA/Browser
+   Forum [CSBR], which requires compliant CAs to "ensure that a
+   Subscriber’s Private Key is generated, stored, and used in a secure
+   environment that has controls to prevent theft or misuse".
 
    This specification defines an attribute and an extension that allow
    for conveyance of Evidence and Attestation Results in Certificate

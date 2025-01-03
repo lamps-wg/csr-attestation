@@ -153,7 +153,8 @@ Table of Contents
    Baseline Requirements (CSBR) document maintained by the CA/Browser
    Forum [CSBR], which requires compliant CAs to "ensure that a
    Subscriber’s Private Key is generated, stored, and used in a secure
-   environment that has controls to prevent theft or misuse".
+   environment that has controls to prevent theft or misuse", which is a
+   natural fit to enforce via remote attestation.
 
    This specification defines an attribute and an extension that allow
    for conveyance of Evidence and Attestation Results in Certificate

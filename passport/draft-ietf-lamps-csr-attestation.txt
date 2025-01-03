@@ -147,7 +147,7 @@ Table of Contents
    associated with Registration Authorities (RAs) or CAs and function as
    logical entities responsible for processing Evidence and producing
    Attestation Results.  As remote attestation technology matures, it is
-   natural for a Certificate Authority to want attested proof that the
+   natural for a Certification Authority to want attested proof that the
    requesting entity is in a state that matches the certificate profile.
    At the time of writing, the most notable example is the Code-Signing
    Baseline Requirements (CSBR) document maintained by the CA/Browser

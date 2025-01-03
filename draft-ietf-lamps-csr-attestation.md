@@ -1206,7 +1206,7 @@ Although the CCA Platform Token follows the EAT/CMW format, it is untagged.
 This is because the encoding can be discerned in the CSR based on the OID alone.
 The untagged token based on a sample claim set is provided below:
 ~~~
-{::include sampledata/cca.diag}
+{::include-fold sampledata/cca.diag}
 ~~~
 Realm evidence can be included in a CMW bundle, similar to the PSA token.
 In this case, the CSR is constructed as follows:

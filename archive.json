@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-01-02T01:00:14.691775+00:00",
+  "timestamp": "2025-01-05T01:05:52.384441+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -8140,7 +8140,7 @@
     {
       "number": 171,
       "id": "PR_kwDOJ3IIN86AsnYC",
-      "title": "Update draft-ietf-lamps-csr-attestation.md",
+      "title": "Added Clarification to TPM Example",
       "url": "https://github.com/lamps-wg/csr-attestation/pull/171",
       "state": "OPEN",
       "author": "hannestschofenig",
@@ -8149,7 +8149,7 @@
       "labels": [],
       "body": "",
       "createdAt": "2024-11-02T14:17:55Z",
-      "updatedAt": "2024-11-02T14:17:55Z",
+      "updatedAt": "2025-01-03T09:40:42Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "5bc171d95c6f3f7076818712749f37f385af5c0a",
@@ -8203,19 +8203,243 @@
       "labels": [],
       "body": "In this PR, I have added the long-awaited support for the passport model to the CSR attestation draft. While the functionality was implicitly present through the use of the conceptual message wrapper, the text previously lacked any explicit explanation.\r\n\r\nI understand that introducing this functionality at this stage may seem late. However, I strongly believe we should not publish the draft without it, as there is significant industry interest in supporting both models: the background-check model and the passport model.",
       "createdAt": "2024-12-29T11:53:03Z",
-      "updatedAt": "2025-01-01T16:52:53Z",
+      "updatedAt": "2025-01-03T09:47:15Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "68d3751488a8a68f3a851a0e0f8fa2c890d5cea2",
       "headRepository": "lamps-wg/csr-attestation",
       "headRefName": "passport",
-      "headRefOid": "1f7dffa52e1b78457f7a4ba221bc221686c79a7e",
+      "headRefOid": "3a16da9216d7c3575b1797ba7fede18d46ebb344",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
-      "reviews": []
+      "comments": [
+        {
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Two points in response, Mike:\r\n\r\n1. ASN.1 correctness: I\u2019m not entirely sure about the validity of the included ASN.1. It seems we had a bug, which I noticed when extending it with this PR. We should review the ASN.1 carefully during an upcoming call.\r\n\r\n2. Attestation Results certificate chains: Because the standardization efforts for Attestation Results (ARs) are relatively recent, I assumed the AR structure can carry these chains. However, it\u2019s worth verifying this assumption.",
+          "createdAt": "2025-01-03T09:47:14Z",
+          "updatedAt": "2025-01-03T09:47:14Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJ3IIN86WtZvp",
+          "commit": {
+            "abbreviatedOid": "1f7dffa"
+          },
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "Ok, so you are defining a second pair of extensions / attributes for id-aa-ar that are basically the same but without the layer that allows bundles and certs. ARs must be signed, right? Is that true that ARs never need an external certificate chain? I understand that you don't need a SEQUENCE OF AR, but should there be a SEQUENCE OF CertificateChoices ?\r\n\r\n\r\nI did not read all the new text, but I skimmed it and it seems good.",
+          "createdAt": "2025-01-03T02:17:56Z",
+          "updatedAt": "2025-01-03T02:17:56Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJ3IIN86WtaD1",
+          "commit": {
+            "abbreviatedOid": "1f7dffa"
+          },
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-01-03T02:21:51Z",
+          "updatedAt": "2025-01-03T02:21:51Z",
+          "comments": [
+            {
+              "originalPosition": 29,
+              "body": "```suggestion\r\nEvidence are appraised by Verifiers, which generate Attestation Results that serve as input for validating incoming certificate requests against specified certificate policies. Verifiers are associated with Registration Authorities (RAs) or CAs and function as logical entities responsible for processing Evidence and producing Attestation Results. As remote attestation technology matures, it is natural for a Certificate Authority to want attested proof that the requesting entity is in a state that matches the certificate profile. At the time of writing, the most notable example is the Code-Signing Baseline Requirements (CSBR) document maintained by the CA/Browser Forum {{CSBR}}, which requires compliant CAs to \"ensure that a Subscriber\u2019s Private Key is generated, stored,\r\n```",
+              "createdAt": "2025-01-03T02:21:51Z",
+              "updatedAt": "2025-01-03T02:21:51Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN86WtaG1",
+          "commit": {
+            "abbreviatedOid": "1f7dffa"
+          },
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-01-03T02:22:21Z",
+          "updatedAt": "2025-01-03T02:22:21Z",
+          "comments": [
+            {
+              "originalPosition": 30,
+              "body": "```suggestion\r\nand used in a secure environment that has controls to prevent theft or misuse\", which is a natural fit to enforce via remote attestation.\r\n```",
+              "createdAt": "2025-01-03T02:22:21Z",
+              "updatedAt": "2025-01-03T02:22:21Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 176,
+      "id": "PR_kwDOJ3IIN86Gn2gW",
+      "title": "Add CCA Token example",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/176",
+      "state": "OPEN",
+      "author": "gmandyam",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "To address https://github.com/lamps-wg/csr-attestation/issues/172",
+      "createdAt": "2025-01-03T00:53:38Z",
+      "updatedAt": "2025-01-04T22:00:57Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "68d3751488a8a68f3a851a0e0f8fa2c890d5cea2",
+      "headRepository": "gmandyam/csr-attestation",
+      "headRefName": "CCA-Example",
+      "headRefOid": "bce2b4035bec8d890568d833843f83ee708fab76",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Thanks for the contribution, Giri. The text is good but I am wondering why you only included the Platform Evidence token instead of also the Realm token. Could you explain?",
+          "createdAt": "2025-01-03T13:42:18Z",
+          "updatedAt": "2025-01-03T13:42:18Z"
+        },
+        {
+          "author": "gmandyam",
+          "authorAssociation": "NONE",
+          "body": "> Thanks for the contribution, Giri. The text is good but I am wondering why you only included the Platform Evidence token instead of also the Realm token. Could you explain?\r\n\r\nI had not created a sample realm claim set yet, and this issue was pending for a while so I wanted to get something in for review.  I can add a realm token example.\r\n\r\nOne more question:  will a single OID be allocated for CCA token?  Or can different OID's be assigned for the different CCA attestation options?  I think t least for CSR's there could potentially be three:  (a) Platform token only, (b) DIrect model:  Platform token + realm claims set, where a hash of the realm claims set is included in the platform token payload as challenge data, and (c) Delegated model:  Platform token + Realm Attestation Token, where Platform token includes the Realm Attestation PubKey as challenge data.  Another option is to just assign one OID for CCA, and have the variants be identified by CBOR tags.",
+          "createdAt": "2025-01-03T18:50:10Z",
+          "updatedAt": "2025-01-04T22:00:57Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJ3IIN86Wvubz",
+          "commit": {
+            "abbreviatedOid": "24bacfc"
+          },
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-01-03T13:35:31Z",
+          "updatedAt": "2025-01-03T13:35:31Z",
+          "comments": [
+            {
+              "originalPosition": 36,
+              "body": "```suggestion\r\n{::include-fold sampledata/cca.diag}\r\n```",
+              "createdAt": "2025-01-03T13:35:31Z",
+              "updatedAt": "2025-01-03T13:35:31Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN86Wvuyl",
+          "commit": {
+            "abbreviatedOid": "24bacfc"
+          },
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-01-03T13:36:36Z",
+          "updatedAt": "2025-01-03T13:36:37Z",
+          "comments": [
+            {
+              "originalPosition": 52,
+              "body": "```suggestion\r\n        +-> stmt: Realm Token/Platform Token CMW Collection or\r\n                         Realm Claim Set/Platform Token CMW Collection\r\n```",
+              "createdAt": "2025-01-03T13:36:37Z",
+              "updatedAt": "2025-01-03T13:36:37Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN86WvvS-",
+          "commit": {
+            "abbreviatedOid": "24bacfc"
+          },
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-01-03T13:37:49Z",
+          "updatedAt": "2025-01-03T13:37:49Z",
+          "comments": [
+            {
+              "originalPosition": 13,
+              "body": "```suggestion\r\n/ This is a full CWT-formatted token. The payload is a sample\r\n```",
+              "createdAt": "2025-01-03T13:37:49Z",
+              "updatedAt": "2025-01-03T13:38:39Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN86Wvvbw",
+          "commit": {
+            "abbreviatedOid": "24bacfc"
+          },
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-01-03T13:38:16Z",
+          "updatedAt": "2025-01-03T13:38:16Z",
+          "comments": [
+            {
+              "originalPosition": 14,
+              "body": "```suggestion\r\n/ Platform Claim Set. The main structure                       /\r\n```",
+              "createdAt": "2025-01-03T13:38:16Z",
+              "updatedAt": "2025-01-03T13:38:16Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN86Wvv8k",
+          "commit": {
+            "abbreviatedOid": "24bacfc"
+          },
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-01-03T13:39:53Z",
+          "updatedAt": "2025-01-03T13:39:54Z",
+          "comments": [
+            {
+              "originalPosition": 17,
+              "body": "```suggestion\r\nof this example only the Platform token is provided.\r\n```",
+              "createdAt": "2025-01-03T13:39:53Z",
+              "updatedAt": "2025-01-03T13:39:54Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN86WvwE7",
+          "commit": {
+            "abbreviatedOid": "24bacfc"
+          },
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-01-03T13:40:10Z",
+          "updatedAt": "2025-01-03T13:40:10Z",
+          "comments": [
+            {
+              "originalPosition": 16,
+              "body": "```suggestion\r\nfull CCA attestation is composed of Realm and Platform Evidence, for the purposes\r\n```",
+              "createdAt": "2025-01-03T13:40:10Z",
+              "updatedAt": "2025-01-03T13:40:10Z"
+            }
+          ]
+        }
+      ]
     }
   ]
 }

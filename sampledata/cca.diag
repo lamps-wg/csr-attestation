@@ -10,7 +10,7 @@
    /arm-platform-implementation-id/ 2396: h’0000000000000000000000000000000000000000000000000000000000000001’
 }
 
-/ This is a full CWT-format token. The payload is a sample    /
+/ This is a full CWT-formatted token. The payload is a sample
 / Platform Claim Set. The main structure                       /
 / visible is that of the COSE_Sign1.                          /
 

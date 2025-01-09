@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-01-07T01:01:20.394098+00:00",
+  "timestamp": "2025-01-09T01:00:48.206596+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -8291,13 +8291,13 @@
       "labels": [],
       "body": "To address https://github.com/lamps-wg/csr-attestation/issues/172",
       "createdAt": "2025-01-03T00:53:38Z",
-      "updatedAt": "2025-01-04T22:00:57Z",
+      "updatedAt": "2025-01-08T16:43:37Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "68d3751488a8a68f3a851a0e0f8fa2c890d5cea2",
       "headRepository": "gmandyam/csr-attestation",
       "headRefName": "CCA-Example",
-      "headRefOid": "bce2b4035bec8d890568d833843f83ee708fab76",
+      "headRefOid": "cf08cac1e0270c18fa8d0e41c6056b5e854fd5b5",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,

@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-01-09T01:00:48.206596+00:00",
+  "timestamp": "2025-01-12T01:07:14.258949+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -8291,7 +8291,7 @@
       "labels": [],
       "body": "To address https://github.com/lamps-wg/csr-attestation/issues/172",
       "createdAt": "2025-01-03T00:53:38Z",
-      "updatedAt": "2025-01-08T16:43:37Z",
+      "updatedAt": "2025-01-11T20:20:50Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "68d3751488a8a68f3a851a0e0f8fa2c890d5cea2",
@@ -8316,6 +8316,13 @@
           "body": "> Thanks for the contribution, Giri. The text is good but I am wondering why you only included the Platform Evidence token instead of also the Realm token. Could you explain?\r\n\r\nI had not created a sample realm claim set yet, and this issue was pending for a while so I wanted to get something in for review.  I can add a realm token example.\r\n\r\nOne more question:  will a single OID be allocated for CCA token?  Or can different OID's be assigned for the different CCA attestation options?  I think t least for CSR's there could potentially be three:  (a) Platform token only, (b) DIrect model:  Platform token + realm claims set, where a hash of the realm claims set is included in the platform token payload as challenge data, and (c) Delegated model:  Platform token + Realm Attestation Token, where Platform token includes the Realm Attestation PubKey as challenge data.  Another option is to just assign one OID for CCA, and have the variants be identified by CBOR tags.",
           "createdAt": "2025-01-03T18:50:10Z",
           "updatedAt": "2025-01-04T22:00:57Z"
+        },
+        {
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "body": "In your case I think it would be best to assign three OIDs - one for each of the encodings.",
+          "createdAt": "2025-01-11T20:20:49Z",
+          "updatedAt": "2025-01-11T20:20:49Z"
         }
       ],
       "reviews": [

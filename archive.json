@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-01-14T00:58:16.761006+00:00",
+  "timestamp": "2025-01-16T00:59:02.256795+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -8203,7 +8203,7 @@
       "labels": [],
       "body": "In this PR, I have added the long-awaited support for the passport model to the CSR attestation draft. While the functionality was implicitly present through the use of the conceptual message wrapper, the text previously lacked any explicit explanation.\r\n\r\nI understand that introducing this functionality at this stage may seem late. However, I strongly believe we should not publish the draft without it, as there is significant industry interest in supporting both models: the background-check model and the passport model.",
       "createdAt": "2024-12-29T11:53:03Z",
-      "updatedAt": "2025-01-03T09:47:15Z",
+      "updatedAt": "2025-01-14T21:10:21Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "68d3751488a8a68f3a851a0e0f8fa2c890d5cea2",
@@ -8274,6 +8274,176 @@
               "body": "```suggestion\r\nand used in a secure environment that has controls to prevent theft or misuse\", which is a natural fit to enforce via remote attestation.\r\n```",
               "createdAt": "2025-01-03T02:22:21Z",
               "updatedAt": "2025-01-03T02:22:21Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN86YCe2W",
+          "commit": {
+            "abbreviatedOid": "3a16da9"
+          },
+          "author": "nedmsmith",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "See several comments.",
+          "createdAt": "2025-01-14T19:02:55Z",
+          "updatedAt": "2025-01-14T21:10:21Z",
+          "comments": [
+            {
+              "originalPosition": 30,
+              "body": "```suggestion\r\nEvidence are appraised by Verifiers, which typically produces Attestation Results that serve as input for validating incoming certificate requests against specified certificate policies.\r\nVerifiers are associated with Registration Authorities (RAs) or CAs and function as logical entities responsible for processing Evidence and producing Attestation Results.\r\nAs remote attestation technology matures, it is natural for a Certification Authority to want proof that the requesting entity is in a state that matches the certificate profile.\r\nAt the time of writing, the most notable example is the Code-Signing Baseline Requirements (CSBR) document maintained by the CA/Browser Forum {{CSBR}}, which requires compliant CAs to \"ensure that a Subscriber\u2019s Private Key is generated, stored,\r\n```",
+              "createdAt": "2025-01-14T19:02:55Z",
+              "updatedAt": "2025-01-14T21:10:21Z"
+            },
+            {
+              "originalPosition": 33,
+              "body": "```suggestion\r\nThis specification defines an attribute and an extension that allow for conveyance of Evidence and Attestation Results in Certificate Signing Requests (CSRs), such as PKCS#10 {{RFC2986}} or Certificate Request Message Format (CRMF) {{RFC4211}} payloads.\r\nThis CSR extension satisfies CA/B Forum's CSBR {{CSBR}} requirements for key protection assurance.\r\n```",
+              "createdAt": "2025-01-14T19:07:31Z",
+              "updatedAt": "2025-01-14T21:10:21Z"
+            },
+            {
+              "originalPosition": 35,
+              "body": "```suggestion\r\nAs outlined in the IETF RATS architecture {{RFC9334}}, an Attester (typically a device) produces a signed collection of Claims that constitute Evidence about its running environment(s).\r\nThe term \"attestation\" is not explicitly defined in RFC 9334 but was later clarified in {{?I-D.ietf-rats-tpm-based-network-device-attest}}.\r\nIt refers to the process of generating and evaluating remote attestation Evidence.\r\n```",
+              "createdAt": "2025-01-14T19:08:32Z",
+              "updatedAt": "2025-01-14T21:10:21Z"
+            },
+            {
+              "originalPosition": 35,
+              "body": "NIST also defines it in SP1800-19 \"The process of providing a digital signature for a set of measurements securely stored in hardware, and then having the requester validate the signature and the set of measurements.\"",
+              "createdAt": "2025-01-14T19:16:48Z",
+              "updatedAt": "2025-01-14T21:10:22Z"
+            },
+            {
+              "originalPosition": 37,
+              "body": "```suggestion\r\nAfter the Verifier appraises the Evidence, it generates a new structure called an Attestation Result.\r\nA Relying Party utilizes Attestation Results to inform risk or policy-based decisions that consider trustworthiness of the attested entity.\r\nThis document relies on {{architecture}} as the foundation for how the various roles within the RATS architecture correspond to a certificate requester and a CA/RA.\r\n```",
+              "createdAt": "2025-01-14T19:24:25Z",
+              "updatedAt": "2025-01-14T21:10:21Z"
+            },
+            {
+              "originalPosition": 40,
+              "body": "```suggestion\r\nThe IETF RATS architecture {{RFC9334}} defines two communication patterns: the __background-check model_ and the _passport model_.\r\nIn the background-check model, the Relying Party receives Evidence in the CSR from the Attester and must interact with a Verifier service directly to obtain Attestation Results.\r\nIn contrast, the passport model requires the Attester to first interact with the Verifier service to obtain an Attestation Result token that is then relayed to the Relying Party.\r\nThis specification defines both communication patterns.\r\n```",
+              "createdAt": "2025-01-14T19:31:01Z",
+              "updatedAt": "2025-01-14T21:10:21Z"
+            },
+            {
+              "originalPosition": 48,
+              "body": "```suggestion\r\nSeveral standard and proprietary remote attestation technologies are in use at the time of this writing.\r\nThis specification is technology-agnostic with respect to the various remote attestation technologies.\r\nIt is agnostic to Evidence and Attestation Results formats in two ways: (1) the CSR conveyance envelope regards Evidence and Attestation Results as an opaque payload and (2) the conveyance of sets of certificates, that may be used for validation of Evidence and Attestation Results, are also opaque payloads.\r\n```",
+              "createdAt": "2025-01-14T19:43:20Z",
+              "updatedAt": "2025-01-14T21:10:21Z"
+            },
+            {
+              "originalPosition": 50,
+              "body": "```suggestion\r\nThe certificates typically contain one or more certification paths rooted to a device manufacturer's trust anchor. End-entity certificates are in the certification path that contains a device ID certificate for the Attester device.\r\nEnd-entity and alias (intermediary device) certificates are associated with key material that takes on the Attester role (a.k.a., Attestation Key) and are used to sign Evidence originating from the Attester.\r\n```",
+              "createdAt": "2025-01-14T19:53:30Z",
+              "updatedAt": "2025-01-14T21:10:21Z"
+            },
+            {
+              "originalPosition": 30,
+              "body": "```suggestion\r\nEvidence are appraised by Verifiers, which generate Attestation Results that serve as input for validating incoming certificate requests against specified certificate policies. Verifiers are associated with Registration Authorities (RAs) or CAs and function as logical entities responsible for processing Evidence and producing Attestation Results.\r\nAs remote attestation technology matures, it is natural for a Certification Authority to want attested proof that the requesting entity is in a state that matches the certificate profile.\r\nAt the time of writing, the most notable example is the Code-Signing Baseline Requirements (CSBR) document maintained by the CA/Browser Forum {{CSBR}}, which requires compliant CAs to \"ensure that a Subscriber\u2019s Private Key is generated, stored,\r\n```",
+              "createdAt": "2025-01-14T19:56:02Z",
+              "updatedAt": "2025-01-14T21:10:21Z"
+            },
+            {
+              "originalPosition": 61,
+              "body": "```suggestion\r\n- Evidence is placed into an EvidenceStatement structure along with an OID to identify its type and optionally a hint to the Relying Party about which Verifier (software package, a microservice or some other service) will be capable of parsing it.\r\nA set of EvidenceStatement structures, along with a set of CertificateChoice structures, are grouped to form the EvidenceBundle structure.\r\nThe CertificateChoice structures are used to validate EvidenceStatement structures.\r\n```",
+              "createdAt": "2025-01-14T20:00:36Z",
+              "updatedAt": "2025-01-14T21:10:22Z"
+            },
+            {
+              "originalPosition": 64,
+              "body": "```suggestion\r\n- Attestation Results are carried in the AttestationResult structure along with an OID to identify its type. A set of AttestationResult structures are grouped to form the AttestationResultBundle structure.\r\n```",
+              "createdAt": "2025-01-14T20:02:49Z",
+              "updatedAt": "2025-01-14T21:10:22Z"
+            },
+            {
+              "originalPosition": 64,
+              "body": "Are the CertificateChoice structures from above used to validate AttestationResult structures?",
+              "createdAt": "2025-01-14T20:07:57Z",
+              "updatedAt": "2025-01-14T21:10:22Z"
+            },
+            {
+              "originalPosition": 66,
+              "body": "```suggestion\r\nA CSR may contain one or more EvidenceBundle payloads.\r\nFor example Evidence\r\n```",
+              "createdAt": "2025-01-14T20:08:49Z",
+              "updatedAt": "2025-01-14T21:10:22Z"
+            },
+            {
+              "originalPosition": 71,
+              "body": "```suggestion\r\nalgorithms.\r\nLike-wise a CSR may also contain one or more AttestationResultBundle payloads.\r\n```",
+              "createdAt": "2025-01-14T20:10:12Z",
+              "updatedAt": "2025-01-14T21:10:22Z"
+            },
+            {
+              "originalPosition": 80,
+              "body": "```suggestion\r\nlimited to the conveyance of Evidence and Attestation Results within a CSR.\r\nThe exact format of the Evidence and Attestation Results being conveyed is opaque to this\r\n```",
+              "createdAt": "2025-01-14T20:11:27Z",
+              "updatedAt": "2025-01-14T21:10:22Z"
+            },
+            {
+              "originalPosition": 81,
+              "body": "```suggestion\r\nspecification.\r\n```",
+              "createdAt": "2025-01-14T20:15:26Z",
+              "updatedAt": "2025-01-14T21:10:22Z"
+            },
+            {
+              "originalPosition": 128,
+              "body": "```suggestion\r\nbetween the Attester and the Verifier is not feasible.\r\nOr when Attestation Results are specific to a particular Relying Party.\r\n```",
+              "createdAt": "2025-01-14T20:28:19Z",
+              "updatedAt": "2025-01-14T21:10:22Z"
+            },
+            {
+              "originalPosition": 223,
+              "body": "```suggestion\r\nResult token, which is subsequently included in the CSR.\r\n```\r\n\r\nI'm suggesting adding 'token' to Attestation Results when in the passport model, so that it is more clear that the Attester can't modify the Attestation Results before forwarding to Relying Parties.\r\n\r\nSince the AR payload is opaque to this specification, it doesn't need to describe in detail a token fomat. However, the security assumptions should be clear.",
+              "createdAt": "2025-01-14T20:31:42Z",
+              "updatedAt": "2025-01-14T21:10:22Z"
+            },
+            {
+              "originalPosition": 333,
+              "body": "```suggestion\r\nAs a result, one EvidenceBundle is included in a CSR that contains a single EvidenceStatement\r\n```\r\nWhy? There could be multiple roots of trust each having disparate evidence and certification paths.",
+              "createdAt": "2025-01-14T20:37:24Z",
+              "updatedAt": "2025-01-14T21:10:22Z"
+            },
+            {
+              "originalPosition": 361,
+              "body": "```suggestion\r\none or more AttestationResult structures.\r\n```\r\n\r\nMore explanation is needed to describe cases where the AR payload may contain multiple tokens (can multiple Verifiers issue different AR tokens for the same Attester that a single CA should process?).  Are there other use cases motivating multiple ARs?",
+              "createdAt": "2025-01-14T20:42:24Z",
+              "updatedAt": "2025-01-14T21:10:22Z"
+            },
+            {
+              "originalPosition": 414,
+              "body": "```suggestion\r\nEvidence statement. Additional certificates may be provided for path construction, for example, to chain the\r\n```",
+              "createdAt": "2025-01-14T20:48:40Z",
+              "updatedAt": "2025-01-14T21:10:22Z"
+            },
+            {
+              "originalPosition": 415,
+              "body": "```suggestion\r\nEvidence signer key back to an agreed upon trust anchor. No specific order of the certificates in `certs` SHOULD be expected because certificates contained in `certs` may be needed to validate different Evidence statements.\r\n```\r\n\r\nWhat about validating Attestation Results too?",
+              "createdAt": "2025-01-14T20:50:43Z",
+              "updatedAt": "2025-01-14T21:10:22Z"
+            },
+            {
+              "originalPosition": 550,
+              "body": "I think its confusing for a crypto lib to have getEvidence calls. This dissonance is easier to see if you also have a diagram for getAttestationResultToken(). Both the AR token and Evidence are already signed (by Verifier / Attesting Env respectively) so there isn't a crypto operation needed to fetch them.",
+              "createdAt": "2025-01-14T21:00:53Z",
+              "updatedAt": "2025-01-14T21:10:22Z"
+            },
+            {
+              "originalPosition": 595,
+              "body": "```suggestion\r\n- Per-Use Attestation Keys: Devices may be designed to dynamically generate distinct attestation keys (and request the corresponding certificates) for each use case, device, or session. This is analogous to the Privacy CA model, in which a device is initially provisioned with an attestation key and certificate; then, in conjunction with a privacy-preserving CA, it can obtain unique keys and certificates as needed. This strategy reduces the potential for tracking while maintaining strong security assurances. This is the model described in this document.\r\n```",
+              "createdAt": "2025-01-14T21:04:50Z",
+              "updatedAt": "2025-01-14T21:10:22Z"
+            },
+            {
+              "originalPosition": 591,
+              "body": "Differential privacy analysis may be applied to Evidence, Attestation Results, or Certificates to reveal personally identifiable information that may be used to track a user or to correlate user's transactions.",
+              "createdAt": "2025-01-14T21:06:34Z",
+              "updatedAt": "2025-01-14T21:10:22Z"
+            },
+            {
+              "originalPosition": 604,
+              "body": "I don't think certification requests are limited to end entities. SPDM and DICE device ID certs can be embedded CAs.",
+              "createdAt": "2025-01-14T21:09:36Z",
+              "updatedAt": "2025-01-14T21:10:22Z"
             }
           ]
         }

@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-01-26T01:01:14.566345+00:00",
+  "timestamp": "2025-01-28T00:59:20.428650+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -8149,7 +8149,7 @@
       "labels": [],
       "body": "",
       "createdAt": "2024-11-02T14:17:55Z",
-      "updatedAt": "2025-01-03T09:40:42Z",
+      "updatedAt": "2025-01-27T16:46:08Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "5bc171d95c6f3f7076818712749f37f385af5c0a",
@@ -8161,7 +8161,21 @@
       "mergedBy": null,
       "mergeCommit": null,
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOJ3IIN86ZikoB",
+          "commit": {
+            "abbreviatedOid": "6c57014"
+          },
+          "author": "nedmsmith",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "LGTM",
+          "createdAt": "2025-01-27T16:46:08Z",
+          "updatedAt": "2025-01-27T16:46:08Z",
+          "comments": []
+        }
+      ]
     },
     {
       "number": 174,
@@ -8461,7 +8475,7 @@
       "labels": [],
       "body": "To address https://github.com/lamps-wg/csr-attestation/issues/172",
       "createdAt": "2025-01-03T00:53:38Z",
-      "updatedAt": "2025-01-11T20:20:50Z",
+      "updatedAt": "2025-01-27T16:45:41Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "68d3751488a8a68f3a851a0e0f8fa2c890d5cea2",
@@ -8615,6 +8629,19 @@
               "updatedAt": "2025-01-03T13:40:10Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN86ZikR1",
+          "commit": {
+            "abbreviatedOid": "cf08cac"
+          },
+          "author": "nedmsmith",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "LGTM",
+          "createdAt": "2025-01-27T16:45:41Z",
+          "updatedAt": "2025-01-27T16:45:41Z",
+          "comments": []
         }
       ]
     }

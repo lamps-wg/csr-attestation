@@ -1265,9 +1265,10 @@ Smith.
 We would like to specifically thank Mike StJohns for his work on an earlier
 version of this draft.
 
-We would also like to specifically thank Monty Wiseman for providing the
-appendix showing how to carry a TPM 2.0 Attestation, and to Corey Bonnell for helping with the hackathon scripts to bundle it into a CSR.
+We would also like to specifically thank Giri Mandyam for providing the
+appendix illustrating the confidential computing scenario, and to Corey
+Bonnell for helping with the hackathon scripts to bundle it into a CSR.
 
-Finally, we would like to thank Andreas Kretschmer, Hendrik Brockhaus, David von Oheimb,
-and Thomas Fossati for their feedback based on implementation experience, and Daniel Migault and Russ Housley
-for their review comments.
+Finally, we would like to thank Andreas Kretschmer, Hendrik Brockhaus,
+David von Oheimb, and Thomas Fossati for their feedback based on implementation
+experience, and Daniel Migault and Russ Housley for their review comments.

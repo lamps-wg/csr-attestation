@@ -172,12 +172,12 @@ Table of Contents
    Evidence.
 
    After the Verifier appraises the Evidence, it generates a new
-   structure called the Attestation Result.  A Relying Party utilizes
-   these Attestation Result to make policy decisions regarding the
-   trustworthiness of the Attester's Target Environment.  Section 3
-   serves as the foundation to demonstrate in this document how the
-   various roles within the RATS architecture correspond to a
-   certificate requester and a CA/RA.
+   structure called an Attestation Result.  A Relying Party utilizes
+   Attestation Results to inform risk or policy-based decisions that
+   consider trustworthiness of the attested entity.  This document
+   relies on Section 3 as the foundation for how the various roles
+   within the RATS architecture correspond to a certificate requester
+   and a CA/RA.
 
    The IETF RATS architecture defines two communication patterns: the
    background check model and the passport model.  In the background

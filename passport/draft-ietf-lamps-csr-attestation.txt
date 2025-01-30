@@ -180,7 +180,7 @@ Table of Contents
    and a CA/RA.
 
    The IETF RATS architecture [RFC9334] defines two communication
-   patterns: the __background-check model_ and the _passport model_. In
+   patterns: the _background-check model_ and the _passport model_. In
    the background-check model, the Relying Party receives Evidence in
    the CSR from the Attester and must interact with a Verifier service
    directly to obtain Attestation Results.  In contrast, the passport
@@ -996,7 +996,7 @@ Table of Contents
 
    A PKCS#10 or CRMF Certification Request message typically consists of
    a distinguished name, a public key, and optionally a set of
-   attributes, collectively signed by the end entity requesting
+   attributes, collectively signed by the entity requesting
    certification.  In general usage, the private key used to sign the
    CSR MUST be different from the Attesting Key utilized to sign
    Evidence about the Target Environment, though exceptions MAY be made

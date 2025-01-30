@@ -1357,7 +1357,7 @@ It refers to the process of generating and evaluating remote attestation Evidenc
 <p id="section-1-5">After the Verifier appraises the Evidence, it generates a new structure called an Attestation Result.
 A Relying Party utilizes Attestation Results to inform risk or policy-based decisions that consider trustworthiness of the attested entity.
 This document relies on <a href="#architecture" class="auto internal xref">Section 3</a> as the foundation for how the various roles within the RATS architecture correspond to a certificate requester and a CA/RA.<a href="#section-1-5" class="pilcrow">¶</a></p>
-<p id="section-1-6">The IETF RATS architecture <span>[<a href="#RFC9334" class="cite xref">RFC9334</a>]</span> defines two communication patterns: the <em>_background-check model</em> and the <em>passport model</em>.
+<p id="section-1-6">The IETF RATS architecture <span>[<a href="#RFC9334" class="cite xref">RFC9334</a>]</span> defines two communication patterns: the <em>background-check model</em> and the <em>passport model</em>.
 In the background-check model, the Relying Party receives Evidence in the CSR from the Attester and must interact with a Verifier service directly to obtain Attestation Results.
 In contrast, the passport model requires the Attester to first interact with the Verifier service to obtain an Attestation Result token that is then relayed to the Relying Party.
 This specification defines both communication patterns.<a href="#section-1-6" class="pilcrow">¶</a></p>
@@ -2499,7 +2499,7 @@ It lists entries for several evidence encoding OIDs including an entry for the C
         </h3>
 <p id="section-8.1-1">A PKCS#10 or CRMF Certification Request message typically consists of a
 distinguished name, a public key, and optionally a set of attributes,
-collectively signed by the end entity requesting certification.
+collectively signed by the entity requesting certification.
 In general usage, the private key used to sign the CSR <span class="bcp14">MUST</span> be different from the
 Attesting Key utilized to sign Evidence about the Target
 Environment, though exceptions <span class="bcp14">MAY</span> be made where CSRs and Evidence are involved in

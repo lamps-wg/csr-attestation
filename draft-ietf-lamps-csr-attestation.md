@@ -144,7 +144,10 @@ After the Verifier appraises the Evidence, it generates a new structure called a
 A Relying Party utilizes Attestation Results to inform risk or policy-based decisions that consider trustworthiness of the attested entity.
 This document relies on {{architecture}} as the foundation for how the various roles within the RATS architecture correspond to a certificate requester and a CA/RA.
 
-The IETF RATS architecture defines two communication patterns: the background check model and the passport model. In the background check model, the Relying Party receives Evidence in the CSR from the Attester and must interact with the Verifier to obtain the Attestation Result. In contrast, the passport model requires the Attester to first interact with the Verifier to obtain the Attestation Result before engaging with the Relying Party. This specification supports both communication patterns.
+The IETF RATS architecture {{RFC9334}} defines two communication patterns: the __background-check model_ and the _passport model_.
+In the background-check model, the Relying Party receives Evidence in the CSR from the Attester and must interact with a Verifier service directly to obtain Attestation Results.
+In contrast, the passport model requires the Attester to first interact with the Verifier service to obtain an Attestation Result token that is then relayed to the Relying Party.
+This specification defines both communication patterns.
 
 Several standard and proprietary remote attestation technologies are in use. This specification thereby is intended to be as technology-agnostic as it is feasible with respect to implemented remote attestation technologies. Hence, this specification focuses on (1) the conveyance of Evidence and Attestation Results via CSRs while making minimal assumptions about content or format of the transported payload and (2) the conveyance of sets of certificates used for validation of Evidence.
 

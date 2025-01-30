@@ -1315,6 +1315,9 @@ Attestation Results in Certificate Signing Requests (CSRs), such as PKCS#10 or C
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10.2.3">
                 <p id="section-toc.1-1.10.2.3.1"><a href="#appendix-A.3" class="auto internal xref">A.3</a>.  <a href="#name-psa-attestation-token-in-cs" class="internal xref">PSA Attestation Token in CSR</a></p>
 </li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10.2.4">
+                <p id="section-toc.1-1.10.2.4.1"><a href="#appendix-A.4" class="auto internal xref">A.4</a>.  <a href="#name-confidential-compute-archit" class="internal xref">Confidential Compute Architecture (CCA) Platform Token in CSR</a></p>
+</li>
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11">
@@ -2768,6 +2771,10 @@ Implementers should also be cautious around <code>type</code> OID or <code>hint<
         <dd>
 <span class="refAuthor">Brossard, M.</span>, <span class="refAuthor">Fossati, T.</span>, <span class="refAuthor">Tschofenig, H.</span>, and <span class="refAuthor">H. Birkholz</span>, <span class="refTitle">"An EAT-based Key Attestation Token"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-bft-rats-kat-05</span>, <time datetime="2024-11-21" class="refDate">21 November 2024</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-bft-rats-kat-05">https://datatracker.ietf.org/doc/html/draft-bft-rats-kat-05</a>&gt;</span>. </dd>
 <dd class="break"></dd>
+<dt id="I-D.ffm-rats-cca-token">[I-D.ffm-rats-cca-token]</dt>
+        <dd>
+<span class="refAuthor">Frost, S.</span>, <span class="refAuthor">Fossati, T.</span>, and <span class="refAuthor">G. Mandyam</span>, <span class="refTitle">"Arm's Confidential Compute Architecture Reference Attestation Token"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ffm-rats-cca-token-00</span>, <time datetime="2024-07-04" class="refDate">4 July 2024</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ffm-rats-cca-token-00">https://datatracker.ietf.org/doc/html/draft-ffm-rats-cca-token-00</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="I-D.ietf-lamps-attestation-freshness">[I-D.ietf-lamps-attestation-freshness]</dt>
         <dd>
 <span class="refAuthor">Tschofenig, H.</span> and <span class="refAuthor">H. Brockhaus</span>, <span class="refTitle">"Nonce-based Freshness for Remote Attestation in Certificate Signing Requests (CSRs) for the Certification Management Protocol (CMP) and for Enrollment over Secure Transport (EST)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-lamps-attestation-freshness-03</span>, <time datetime="2024-11-05" class="refDate">5 November 2024</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-lamps-attestation-freshness-03">https://datatracker.ietf.org/doc/html/draft-ietf-lamps-attestation-freshness-03</a>&gt;</span>. </dd>
@@ -3385,6 +3392,117 @@ the result of CBOR encoding the CMW collection shown below
 </div>
 </section>
 </div>
+<div id="confidential-compute-architecture-cca-platform-token-in-csr">
+<section id="appendix-A.4">
+        <h3 id="name-confidential-compute-archit">
+<a href="#appendix-A.4" class="section-number selfRef">A.4. </a><a href="#name-confidential-compute-archit" class="section-name selfRef">Confidential Compute Architecture (CCA) Platform Token in CSR</a>
+        </h3>
+<p id="appendix-A.4-1">The Confidential Compute Architecture (CCA) Platform Token is described in
+<span>[<a href="#I-D.ffm-rats-cca-token" class="cite xref">I-D.ffm-rats-cca-token</a>]</span> and is also based on the EAT format.  Although the
+full CCA attestation is composed of Realm and Platform Evidence, for the purposes
+of this example only the Platform token is provided.
+~~~
+EvidenceBundle
+   +
+   |
+   + Evidences
+   |
+   +----&gt;  EvidenceStatement
+        +
+        |
+        +-&gt; type: OID for CCA Platform Attestation Toekn
+        |         1 3 6 1 5 5 7 1 TBD
+        |
+        +-&gt; stmt: CCA Platform Token
+~~~
+Although the CCA Platform Token follows the EAT/CMW format, it is untagged.
+This is because the encoding can be discerned in the CSR based on the OID alone.
+The untagged token based on a sample claim set is provided below:
+~~~
+=============== NOTE: '' line wrapping per RFC 8792 ================<a href="#appendix-A.4-1" class="pilcrow">¶</a></p>
+<p id="appendix-A.4-2">/ Sample Platform Claims Set in CDDL                          /
+{
+   / cca-platform-profile / 265:"tag:arm.com,2023:cca_platform#1.0.0"
+   / arm-platform-challenge, SHA-256 calculation of ‘RAK’ / 10: h' \
+    c9cdc457ebe981d563b19b5a8e0e3cbef5b944d58e278c9c6779f77beb65bbd5’
+   / arm-platform-lifecycle / 2395: h'3000' /secured/
+   / arm-platform-sw-components / 2399: [ {1:"ROTFMC", 2:h'\
+903a36d3a0a511ecac4548fee8601af54247c110ce220f680a0b274441729105’, 5\
+:h'd4cf61e472d18c8e926ce0d44496674792587c88706e8a123b294c000895d9ea’\
+                                                                   },
+      {1:"ROTFW", 2:h'\
+59d4116525e974b5b62ffd7c4ffcbaa0b98e08263403aeb6638797132d2af959’, 5\
+:h'd4cf61e472d18c8e926ce0d44496674792587c88706e8a123b294c000895d9ea’\
+                                                                  } ]
+   /arm-platform-id/ 256: h’ \
+    946338159d767f9f37098a00a60f133b6d57886fc656f5f9eed13760b4893fa1’
+   /arm-platform-implementation-id/ 2396: h’\
+    0000000000000000000000000000000000000000000000000000000000000001’
+}<a href="#appendix-A.4-2" class="pilcrow">¶</a></p>
+<p id="appendix-A.4-3">/ This is a full CWT-formatted token. The payload is a sample
+/ Platform Claim Set. The main structure                       /
+/ visible is that of the COSE_Sign1.                          /<a href="#appendix-A.4-3" class="pilcrow">¶</a></p>
+<p id="appendix-A.4-4">61( 18( [
+    h'a10126',  / protected headers  /
+    {}, / empty unprotected headers / 
+    h’\
+a419010978237461673a61726d2e636f6d2c323032333a6363615f706c74666f726d\
+23312e392e300a580020c9cdc457ebe981d563b19b5a8e0e3cbef5b944d58e278c9c\
+                                 6779f77beb65bbd519095b42300019095f82
+      \
+a30166524f54464d4302580020903a36d3a0a511ecac4548fee8601af54247c110ce\
+220f680a0b27444172910505580020d4cf61e472d18c8e926ce0d44496674792587c\
+                                 88706e8a123b294c000895d9eaae0165524f
+      \
+5446575800200259d4116525e974b5b62ffd7c4ffcbaa0b98e08263403aeb6638797\
+132d2af95905580020d4cf61e472d18c8e926ce0d44496674792587c88706e8a123b\
+                                 294c000895d9ea1901007820946338159d76
+      \
+7f9f37098a00a60f133b6d57886fc656f5f9eed13760b4893fa11a095c5820000000\
+0000000000000000000000000000000000000000000000000000000001' /payload/
+    h'\
+cbbfa929cb9b846cb5527d7ef9b7657256412a5f22a6e1a8d3a0c71145022100db4b\
+1b97913b1cd9d6e11c1fadbc0869882ba6644b9db09d221f198e3286654b' /\
+                                                           signature/
+] ) )<a href="#appendix-A.4-4" class="pilcrow">¶</a></p>
+<p id="appendix-A.4-5">/Untagged serialized token/
+h'\
+8443a10126a0590141a419010978237461673a61726d2e636f6d2c323032333a6363\
+615f706c74666f726d23312e392e300a580020c9cdc457ebe981d563b19b5a8e0e3c\
+               bef5b944d58e278c9c6779f77beb65bbd519095b42300019095f82
+  \
+a30166524f54464d4302580020903a36d3a0a511ecac4548fee8601af54247c110ce\
+220f680a0b27444172910505580020d4cf61e472d18c8e926ce0d44496674792587c\
+               88706e8a123b294c000895d9eaae0165524f5446575800200259d4
+  \
+116525e974b5b62ffd7c4ffcbaa0b98e08263403aeb6638797132d2af95905580020\
+d4cf61e472d18c8e926ce0d44496674792587c88706e8a123b294c000895d9ea1901\
+               007820946338159d767f9f37098a00a60f133b6d57886fc656f5f9
+  \
+eed13760b4893fa11a095c5820000000000000000000000000000000000000000000\
+00000000000000000000015840cbbfa929cb9b846cb5527d7ef9b7657256412a5f22\
+               a6e1a8d3a0c71145022100db4b1b97913b1cd9d6e11c1fadbc0869
+  882ba6644b9db09d221f198e3286654b'
+~~~
+Realm evidence can be included in a CMW bundle, similar to the PSA token.
+In this case, the CSR is constructed as follows:
+~~~
+EvidenceBundle
+   +
+   |
+   + Evidences
+   |
+   +----&gt;  EvidenceStatement
+        +
+        |
+        +-&gt; type: OID for CMW Collection
+        |         1 3 6 1 5 5 7 1 TBD
+        |
+        +-&gt; stmt: Realm Token/Platform Token CMW Collection or
+                         Realm Claim Set/Platform Token CMW Collection
+~~~<a href="#appendix-A.4-5" class="pilcrow">¶</a></p>
+</section>
+</div>
 </section>
 </div>
 <div id="asn1-module">
@@ -3760,11 +3878,12 @@ Corey Bonnell, Argenius Kushner, James Hagborg, A.J. Stein, John Kemp, Ned
 Smith.<a href="#appendix-C-1" class="pilcrow">¶</a></p>
 <p id="appendix-C-2">We would like to specifically thank Mike StJohns for his work on an earlier
 version of this draft.<a href="#appendix-C-2" class="pilcrow">¶</a></p>
-<p id="appendix-C-3">We would also like to specifically thank Monty Wiseman for providing the
-appendix showing how to carry a TPM 2.0 Attestation, and to Corey Bonnell for helping with the hackathon scripts to bundle it into a CSR.<a href="#appendix-C-3" class="pilcrow">¶</a></p>
-<p id="appendix-C-4">Finally, we would like to thank Andreas Kretschmer, Hendrik Brockhaus, David von Oheimb,
-and Thomas Fossati for their feedback based on implementation experience, and Daniel Migault and Russ Housley
-for their review comments.<a href="#appendix-C-4" class="pilcrow">¶</a></p>
+<p id="appendix-C-3">We would also like to specifically thank Giri Mandyam for providing the
+appendix illustrating the confidential computing scenario, and to Corey
+Bonnell for helping with the hackathon scripts to bundle it into a CSR.<a href="#appendix-C-3" class="pilcrow">¶</a></p>
+<p id="appendix-C-4">Finally, we would like to thank Andreas Kretschmer, Hendrik Brockhaus,
+David von Oheimb, and Thomas Fossati for their feedback based on implementation
+experience, and Daniel Migault and Russ Housley for their review comments.<a href="#appendix-C-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="authors-addresses">

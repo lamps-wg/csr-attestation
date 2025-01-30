@@ -5,14 +5,14 @@
 Network Working Group                                       M. Ounsworth
 Internet-Draft                                                   Entrust
 Intended status: Standards Track                           H. Tschofenig
-Expires: 25 May 2025                                             Siemens
+Expires: 3 August 2025                                           Siemens
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                               M. Wiseman
                                                          Beyond Identity
                                                                 N. Smith
                                                        Intel Corporation
-                                                        21 November 2024
+                                                         30 January 2025
 
 
      Use of Remote Attestation with Certification Signing Requests
@@ -69,11 +69,11 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 25 May 2025.
+   This Internet-Draft will expire on 3 August 2025.
 
 Copyright Notice
 
-   Copyright (c) 2024 IETF Trust and the persons identified as the
+   Copyright (c) 2025 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
    This document is subject to BCP 78 and the IETF Trust's Legal
@@ -1022,11 +1022,11 @@ Table of Contents
               the-Issuance-and-Management-of-Code-Signing.v3.7.pdf>.
 
    [I-D.bft-rats-kat]
-              Brossard, M., Fossati, T., and H. Tschofenig, "An EAT-
-              based Key Attestation Token", Work in Progress, Internet-
-              Draft, draft-bft-rats-kat-04, 3 September 2024,
-              <https://datatracker.ietf.org/doc/html/draft-bft-rats-kat-
-              04>.
+              Brossard, M., Fossati, T., Tschofenig, H., and H.
+              Birkholz, "An EAT-based Key Attestation Token", Work in
+              Progress, Internet-Draft, draft-bft-rats-kat-05, 21
+              November 2024, <https://datatracker.ietf.org/doc/html/
+              draft-bft-rats-kat-05>.
 
    [I-D.ietf-rats-msg-wrap]
               Birkholz, H., Smith, N., Fossati, T., Tschofenig, H., and
@@ -1143,8 +1143,13 @@ A.2.1.  TCG Key Attestation Certify
 
    There are several ways in TPM2 to provide proof of a key's
    properties. (i.e., key attestation).  This description uses the
-   simplest and most generally expected to used which is the
+   simplest and most generally expected to be used, which is the
    TPM2_Certify and the TPM2_ReadPublic commands.
+
+   This example does not describe how platform attestation augments key
+   attestation.  The properties of the key (such as the name of the key,
+   the key usage) in this example do not change during the lifetime of
+   the key.
 
 A.2.2.  TCG OIDs
 

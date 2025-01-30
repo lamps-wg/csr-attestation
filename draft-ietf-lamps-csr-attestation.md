@@ -538,7 +538,7 @@ is intended to validate the contents of an Evidence statement
 contained in `evidences`, if required. For each Evidnece statement the set of certificates should contain
 the certificate that contains the public key needed to directly validate the
 Evidence statement. Additional certificates may be provided, for example, to chain the
-Evidence signer key back to an agreed upon trust anchor. No specific order of the certificates in `certs` SHOULD be expected because the certificates needed for different Evidence statements may be contained in `certs`.
+Evidence signer key back to an agreed upon trust anchor. No specific order of the certificates in `certs` SHOULD be expected because certificates contained in `certs` may be needed to validate different Evidence statements.
 
 This specification places no restriction on mixing certificate types within the `certs` field. For example a non-X.509 Evidence signer certificate MAY chain to a trust anchor via a chain of X.509 certificates. It is up to the Attester and its Verifier to agree on supported certificate formats.
 

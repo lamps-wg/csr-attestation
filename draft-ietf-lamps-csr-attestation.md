@@ -79,6 +79,7 @@ informative:
   I-D.ietf-rats-daa:
   I-D.ietf-lamps-attestation-freshness:
   I-D.tschofenig-rats-psa-token:
+  I-D.ffm-rats-cca-token:
   TPM20:
     author:
       org: Trusted Computing Group
@@ -1346,6 +1347,50 @@ the result of CBOR encoding the CMW collection shown below
 }
 ~~~
 
+## Confidential Compute Architecture (CCA) Platform Token in CSR
+
+The Confidential Compute Architecture (CCA) Platform Token is described in
+{{I-D.ffm-rats-cca-token}} and is also based on the EAT format.  Although the
+full CCA attestation is composed of Realm and Platform Evidence, for the purposes
+of this example only the Platform token is provided.
+~~~
+EvidenceBundle
+   +
+   |
+   + Evidences
+   |
+   +---->  EvidenceStatement
+        +
+        |
+        +-> type: OID for CCA Platform Attestation Toekn
+        |         1 3 6 1 5 5 7 1 TBD
+        |
+        +-> stmt: CCA Platform Token
+~~~
+Although the CCA Platform Token follows the EAT/CMW format, it is untagged.
+This is because the encoding can be discerned in the CSR based on the OID alone.
+The untagged token based on a sample claim set is provided below:
+~~~
+{::include-fold sampledata/cca.diag}
+~~~
+Realm evidence can be included in a CMW bundle, similar to the PSA token.
+In this case, the CSR is constructed as follows:
+~~~
+EvidenceBundle
+   +
+   |
+   + Evidences
+   |
+   +---->  EvidenceStatement
+        +
+        |
+        +-> type: OID for CMW Collection
+        |         1 3 6 1 5 5 7 1 TBD
+        |
+        +-> stmt: Realm Token/Platform Token CMW Collection or
+                         Realm Claim Set/Platform Token CMW Collection
+~~~
+
 # ASN.1 Module
 
 ~~~
@@ -1385,9 +1430,10 @@ Smith.
 We would like to specifically thank Mike StJohns for his work on an earlier
 version of this draft.
 
-We would also like to specifically thank Monty Wiseman for providing the
-appendix showing how to carry a TPM 2.0 Attestation, and to Corey Bonnell for helping with the hackathon scripts to bundle it into a CSR.
+We would also like to specifically thank Giri Mandyam for providing the
+appendix illustrating the confidential computing scenario, and to Corey
+Bonnell for helping with the hackathon scripts to bundle it into a CSR.
 
-Finally, we would like to thank Andreas Kretschmer, Hendrik Brockhaus, David von Oheimb,
-and Thomas Fossati for their feedback based on implementation experience, and Daniel Migault and Russ Housley
-for their review comments.
+Finally, we would like to thank Andreas Kretschmer, Hendrik Brockhaus,
+David von Oheimb, and Thomas Fossati for their feedback based on implementation
+experience, and Daniel Migault and Russ Housley for their review comments.

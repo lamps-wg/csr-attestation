@@ -140,7 +140,9 @@ As outlined in the IETF RATS architecture {{RFC9334}}, an Attester (typically a 
 The term "attestation" is not explicitly defined in RFC 9334 but was later clarified in {{?I-D.ietf-rats-tpm-based-network-device-attest}}.
 It refers to the process of generating and evaluating remote attestation Evidence.
 
-After the Verifier appraises the Evidence, it generates a new structure called the Attestation Result. A Relying Party utilizes these Attestation Result to make policy decisions regarding the trustworthiness of the Attester's Target Environment. {{architecture}} serves as the foundation to demonstrate in this document how the various roles within the RATS architecture correspond to a certificate requester and a CA/RA.
+After the Verifier appraises the Evidence, it generates a new structure called an Attestation Result.
+A Relying Party utilizes Attestation Results to inform risk or policy-based decisions that consider trustworthiness of the attested entity.
+This document relies on {{architecture}} as the foundation for how the various roles within the RATS architecture correspond to a certificate requester and a CA/RA.
 
 The IETF RATS architecture defines two communication patterns: the background check model and the passport model. In the background check model, the Relying Party receives Evidence in the CSR from the Attester and must interact with the Verifier to obtain the Attestation Result. In contrast, the passport model requires the Attester to first interact with the Verifier to obtain the Attestation Result before engaging with the Relying Party. This specification supports both communication patterns.
 

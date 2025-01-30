@@ -136,7 +136,9 @@ and used in a secure environment that has controls to prevent theft or misuse", 
 This specification defines an attribute and an extension that allow for conveyance of Evidence and Attestation Results in Certificate Signing Requests (CSRs), such as PKCS#10 {{RFC2986}} or Certificate Request Message Format (CRMF) {{RFC4211}} payloads.
 This CSR extension satisfies CA/B Forum's CSBR {{CSBR}} requirements for key protection assurance.
 
-As outlined in the IETF RATS architecture {{RFC9334}}, an Attester (typically a device) produces a signed collection of Claims that constitute Evidence about its running environment(s). The term "attestation" is not explicitly defined in RFC 9334 but was later clarified in {{?I-D.ietf-rats-tpm-based-network-device-attest}}. It refers to the process of generating and evaluating remote attestation Evidence.
+As outlined in the IETF RATS architecture {{RFC9334}}, an Attester (typically a device) produces a signed collection of Claims that constitute Evidence about its running environment(s).
+The term "attestation" is not explicitly defined in RFC 9334 but was later clarified in {{?I-D.ietf-rats-tpm-based-network-device-attest}}.
+It refers to the process of generating and evaluating remote attestation Evidence.
 
 After the Verifier appraises the Evidence, it generates a new structure called the Attestation Result. A Relying Party utilizes these Attestation Result to make policy decisions regarding the trustworthiness of the Attester's Target Environment. {{architecture}} serves as the foundation to demonstrate in this document how the various roles within the RATS architecture correspond to a certificate requester and a CA/RA.
 

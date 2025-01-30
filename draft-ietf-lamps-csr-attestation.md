@@ -144,7 +144,7 @@ After the Verifier appraises the Evidence, it generates a new structure called a
 A Relying Party utilizes Attestation Results to inform risk or policy-based decisions that consider trustworthiness of the attested entity.
 This document relies on {{architecture}} as the foundation for how the various roles within the RATS architecture correspond to a certificate requester and a CA/RA.
 
-The IETF RATS architecture {{RFC9334}} defines two communication patterns: the __background-check model_ and the _passport model_.
+The IETF RATS architecture {{RFC9334}} defines two communication patterns: the _background-check model_ and the _passport model_.
 In the background-check model, the Relying Party receives Evidence in the CSR from the Attester and must interact with a Verifier service directly to obtain Attestation Results.
 In contrast, the passport model requires the Attester to first interact with the Verifier service to obtain an Attestation Result token that is then relayed to the Relying Party.
 This specification defines both communication patterns.
@@ -803,7 +803,7 @@ These privacy risks can be mitigated using several approaches, including:
 
 A PKCS#10 or CRMF Certification Request message typically consists of a
 distinguished name, a public key, and optionally a set of attributes,
-collectively signed by the end entity requesting certification.
+collectively signed by the entity requesting certification.
 In general usage, the private key used to sign the CSR MUST be different from the
 Attesting Key utilized to sign Evidence about the Target
 Environment, though exceptions MAY be made where CSRs and Evidence are involved in

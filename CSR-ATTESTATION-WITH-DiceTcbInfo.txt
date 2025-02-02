@@ -6,15 +6,18 @@ A0 82 00 8E
     06 0B 2A 86 48 86 F7 0D 01 09 10 02 3B
       // SET -- This attribute
       31 79
-        // EvidenceBundles ::= SEQUENCE SIZE (1..MAX) OF EvidenceBundle
+        // EvidenceBundles ::= SEQUENCE SIZE (1..MAX) OF 
+                                                      EvidenceBundle
         30 77
           // EvidenceBundle ::= SEQUENCE
           30 75
-            // EvidenceStatements ::= SEQUENCE SIZE (1..MAX) OF EvidenceStatement
+            // EvidenceStatements ::= SEQUENCE SIZE (1..MAX) 
+                                                OF EvidenceStatement
             30 73
               // EvidenceStatement ::= SEQUENCE
               30 71
-                // type: OBJECT IDENTIFIER tcg-dice-TcbInfo (2.23.133.5.4.1)
+                // type: OBJECT IDENTIFIER tcg-dice-TcbInfo 
+                //                         (2.23.133.5.4.1)
                 06 06 67 81 05 05 04 01
                 // stmt: SEQUENCE
                 30 4E

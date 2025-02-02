@@ -699,7 +699,7 @@ S/MIME Attributes" to identify two attributes defined within.
 - References: This Document
 
 - Attestation Result
-- Decimal: IANA Assigned - This was early-allocated as `60` so that we could generate the sample data.
+- Decimal: IANA Assigned - - **Replace TBD2**
 - Description: id-aa-ar
 - References: This Document
 
@@ -1353,6 +1353,7 @@ The Confidential Compute Architecture (CCA) Platform Token is described in
 {{I-D.ffm-rats-cca-token}} and is also based on the EAT format.  Although the
 full CCA attestation is composed of Realm and Platform Evidence, for the purposes
 of this example only the Platform token is provided.
+
 ~~~
 EvidenceBundle
    +
@@ -1367,14 +1368,18 @@ EvidenceBundle
         |
         +-> stmt: CCA Platform Token
 ~~~
+
 Although the CCA Platform Token follows the EAT/CMW format, it is untagged.
 This is because the encoding can be discerned in the CSR based on the OID alone.
 The untagged token based on a sample claim set is provided below:
+
 ~~~
 {::include-fold sampledata/cca.diag}
 ~~~
+
 Realm evidence can be included in a CMW bundle, similar to the PSA token.
 In this case, the CSR is constructed as follows:
+
 ~~~
 EvidenceBundle
    +
@@ -1394,7 +1399,7 @@ EvidenceBundle
 # ASN.1 Module
 
 ~~~
-{::include-fold CSR-ATTESTATION-2023.asn}
+{::include-fold CSR-ATTESTATION-2025.asn}
 ~~~
 
 ## TCG DICE Example in ASN.1
@@ -1419,13 +1424,12 @@ The example used is the Trusted Computing Group DiceTcbInfo, as defined in {{TCG
 
 This specification is the work of a design team created by the chairs of the
 LAMPS working group. The following persons, in no specific order,
-contributed to the work: Richard Kettlewell, Chris Trufan, Bruno Couillard,
+contributed to the work directly, participated in design team meetings, or provided review of the document.
+
+Richard Kettlewell, Chris Trufan, Bruno Couillard,
 Jean-Pierre Fiset, Sander Temme, Jethro Beekman, Zsolt Rózsahegyi, Ferenc
-Pető, Mike Agrenius Kushner, Tomas Gustavsson, Dieter Bong, Christopher Meyer,
-Michael StJohns, Carl Wallace, Michael Richardson, Tomofumi Okubo, Olivier
-Couillard, John Gray, Eric Amador, Johnson Darren, Herman Slatman, Tiru Reddy,
-Corey Bonnell, Argenius Kushner, James Hagborg, A.J. Stein, John Kemp, Ned
-Smith.
+Pető, Mike Agrenius Kushner, Tomas Gustavsson, Dieter Bong, Christopher Meyer, Carl Wallace, Michael Richardson, Tomofumi Okubo, Olivier
+Couillard, John Gray, Eric Amador, Darren Johnson, Herman Slatman, Tiru Reddy, James Hagborg, A.J. Stein, John Kemp, Daniel Migault and Russ Housley.
 
 We would like to specifically thank Mike StJohns for his work on an earlier
 version of this draft.
@@ -1436,4 +1440,4 @@ Bonnell for helping with the hackathon scripts to bundle it into a CSR.
 
 Finally, we would like to thank Andreas Kretschmer, Hendrik Brockhaus,
 David von Oheimb, and Thomas Fossati for their feedback based on implementation
-experience, and Daniel Migault and Russ Housley for their review comments.
+experience.

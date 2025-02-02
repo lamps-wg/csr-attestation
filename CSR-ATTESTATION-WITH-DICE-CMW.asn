@@ -10,12 +10,16 @@ EvidenceStatementSet FROM CsrAttestation
 ;
 
 tcgDiceCmwEvidenceStatementES EVIDENCE-STATEMENT ::= { 
-  DiceConceptualMessageWrapper IDENTIFIED BY tcg-dice-conceptual-message-wrapper }
+  DiceConceptualMessageWrapper IDENTIFIED BY tcg-dice-conceptual-
+                                                    message-wrapper }
 
 tcgDiceTcbInfoEvidenceStatementES EVIDENCE-STATEMENT ::= {
   DiceTcbInfo IDENTIFIED BY tcg-dice-TcbInfo }
--- where ConceptualMessageWrapper, tcg-dice-conceptual-message-wrapper, DiceTcbInfo, and tcg-dice-TcbInfo
--- are defined in DICE-Attestation-Architecture-Version-1.1-Revision-18_6Jan2024.pdf
+-- where ConceptualMessageWrapper, tcg-dice-conceptual-message-
+                                                            wrapper, 
+-- DiceTcbInfo, and tcg-dice-TcbInfo
+-- are defined in DICE-Attestation-Architecture-Version-1.1-
+--                                        Revision-18_6Jan2024.pdf
 
 EvidenceStatementSet EVIDENCE-STATEMENT ::= {
   tcgDiceEvidenceStatementES, 
@@ -31,14 +35,21 @@ EXPORTS ALL;
 tcg OBJECT IDENTIFIER ::= { 2 23 133 }
 tcg-dice OBJECT IDENTIFIER ::= { tcg platformClass(5) dice(4) }
 tcg-dice-TcbInfo OBJECT IDENTIFIER ::= { tcg-dice tcbinfo(1) }
-tcg-dice-endorsement-manifest-uri OBJECT IDENTIFIER ::= { tcg-dice manifest-uri(3) }
+tcg-dice-endorsement-manifest-uri OBJECT IDENTIFIER ::= { 
+                                      tcg-dice manifest-uri(3) }
 tcg-dice-Ueid OBJECT IDENTIFIER ::= { tcg-dice ueid(4) }
-tcg-dice-MultiTcbInfo OBJECT IDENTIFIER ::= {tcg-dice multitcbinfo(5) }
-tcg-dice-UCCS-evidence OBJECT IDENTIFIER ::= {tcg-dice uccs-evidence(6) }
-tcg-dice-manifest-evidence OBJECT IDENTIFIER ::= {tcg-dice manifest-evidience(7) }
-tcg-dice-MultiTcbInfoComp OBJECT IDENTIFIER ::= {tcg-dice multitcbinfocomp(8) }
-tcg-dice-conceptual-message-wrapper OBJECT IDENTIFIER ::= { tcg-dice cmw(9) }
-tcg-dice-TcbFreshness OBJECT IDENTIFIER ::= { tcg-dice tcb-freshness(11) }
+tcg-dice-MultiTcbInfo OBJECT IDENTIFIER ::= {tcg-dice 
+                                                multitcbinfo(5) }
+tcg-dice-UCCS-evidence OBJECT IDENTIFIER ::= {tcg-dice 
+                                                uccs-evidence(6) }
+tcg-dice-manifest-evidence OBJECT IDENTIFIER ::= {tcg-dice 
+                                              manifest-evidience(7) }
+tcg-dice-MultiTcbInfoComp OBJECT IDENTIFIER ::= {tcg-dice 
+                                                multitcbinfocomp(8) }
+tcg-dice-conceptual-message-wrapper OBJECT IDENTIFIER ::= { 
+                                                    tcg-dice cmw(9) }
+tcg-dice-TcbFreshness OBJECT IDENTIFIER ::= { tcg-dice 
+                                                tcb-freshness(11) }
 
 DiceConceptualMessageWrapper ::= SEQUENCE {
   cmw OCTET STRING

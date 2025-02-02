@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-01-30T00:58:28.215590+00:00",
+  "timestamp": "2025-02-02T01:02:38.037295+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -1868,7 +1868,7 @@
       "id": "I_kwDOJ3IIN86O1oDU",
       "title": "TPM CSR sample added for 120 has an extranuous empty extensionRequest",
       "url": "https://github.com/lamps-wg/csr-attestation/issues/150",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "ounsworth",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [
@@ -1879,8 +1879,8 @@
       ],
       "body": "TODO: study why\r\n\r\nIt looks like that isn't allowed to be empty, and probably shouldn't be there at all. Go look at Monty's repo and remove it.\r\n\r\n\r\nFrom Russ:\r\n\r\nhttps://mailarchive.ietf.org/arch/msg/spasm/ecN-85ImkAkVZ-04vLi-UrlxMLQ/",
       "createdAt": "2024-07-08T19:45:26Z",
-      "updatedAt": "2024-09-09T16:29:18Z",
-      "closedAt": null,
+      "updatedAt": "2025-01-30T17:47:48Z",
+      "closedAt": "2025-01-30T17:47:48Z",
       "comments": []
     },
     {
@@ -2151,23 +2151,38 @@
       "url": "https://github.com/lamps-wg/csr-attestation/issues/172",
       "state": "OPEN",
       "author": "gmandyam",
-      "authorAssociation": "NONE",
+      "authorAssociation": "CONTRIBUTOR",
       "assignees": [
         "gmandyam"
       ],
       "labels": [],
       "body": "As discussed during IETF 121.  Will use CCA profile as a potential starting point.  Will be creating candidate PR.",
       "createdAt": "2024-11-05T18:49:00Z",
-      "updatedAt": "2024-12-02T17:21:20Z",
+      "updatedAt": "2025-02-02T00:48:34Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "#176 has been merged. Closing this issue.",
+          "createdAt": "2025-02-01T22:49:14Z",
+          "updatedAt": "2025-02-01T22:49:14Z"
+        },
+        {
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Oh never mind. The formatting of this appendix is absolutely completely mangled.\nSee:\nhttps://datatracker.ietf.org/doc/html/draft-ietf-lamps-csr-attestation-15#name-confidential-compute-archit\n\nGiven that this is the first time I'm seeing this content, I don't know what it's supposed to be, so I can't fix it. I am going to remove it. @gmandyam if you can get this fixed and re-submitted quickly, great, otherwise I think you should submit it as a PR to this repo which is referenced in the draft exactly to collect more examples over time.\n\nhttps://github.com/lamps-wg/csr-attestation-examples",
+          "createdAt": "2025-02-02T00:48:28Z",
+          "updatedAt": "2025-02-02T00:48:28Z"
+        }
+      ]
     },
     {
       "number": 173,
       "id": "I_kwDOJ3IIN86dNJud",
       "title": "Usama: have a sample from a real TEE",
       "url": "https://github.com/lamps-wg/csr-attestation/issues/173",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "ounsworth",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [
@@ -2176,8 +2191,8 @@
       "labels": [],
       "body": "Intel SGX, or others (Usama will comment with more).",
       "createdAt": "2024-11-06T09:12:31Z",
-      "updatedAt": "2024-12-21T12:26:40Z",
-      "closedAt": null,
+      "updatedAt": "2025-02-01T22:47:30Z",
+      "closedAt": "2025-02-01T22:47:28Z",
       "comments": [
         {
           "author": "muhammad-usama-sardar",
@@ -2192,6 +2207,44 @@
           "body": "In a side meeting at IETF 120, Antonio Lioy presented his work utilizing attested CSR for RISC-V. I suggest reaching out to him.",
           "createdAt": "2024-12-21T12:26:39Z",
           "updatedAt": "2024-12-21T12:26:39Z"
+        },
+        {
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "@muhammad-usama-sardar This draft is very quickly approaching WGLC. Are you planning to provide these samples or not?\n\nNote that we are expecting more samples to roll in for many years, so we have registered this github and included the link in the draft's references for this reason.\n\n> [SampleData]\n> \"CSR Attestation Sample Data\", n.d., <https://github.com/lamps-wg/csr-attestation-examples>.\n\nSo I do not think it is worth delaying the draft for more samples. I will close this issue.",
+          "createdAt": "2025-02-01T22:47:28Z",
+          "updatedAt": "2025-02-01T22:47:28Z"
+        }
+      ]
+    },
+    {
+      "number": 177,
+      "id": "I_kwDOJ3IIN86oK_sq",
+      "title": "Major issues from Russ",
+      "url": "https://github.com/lamps-wg/csr-attestation/issues/177",
+      "state": "OPEN",
+      "author": "ounsworth",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "I have serious problems with this document.\n\nThere is already an allocation for  id-aa-evidence, but it is now in id-ata.\n\nThe early assignment was made here: [https://www.iana.org/assignments/smi-numbers/smi-numbers.xhtml#security-smime-2](https://urldefense.com/v3/__https:/www.iana.org/assignments/smi-numbers/smi-numbers.xhtml*security-smime-2__;Iw!!FJ-Y8qCqXTj2!dez0Irbc1C_3H-5IEpwbHMBXSstWKfpjvD49_V5MapwMYd5FIjf47oVr7bw_ex2HanZVSUh6MIvSWhgqHwqjMjXZqPyS$)\n\nPLEASE change it back to:\n\n   id-aa-evidence OBJECT IDENTIFIER ::= { id-aa 59 }\n\nIn Section 7.2, there was no such early allocation request for:\n\n   id-aa-ar OBJECT IDENTIFIER ::= { id-ata 60 }\n\nAssuming this was to be allocated in the same arc as id-aa-evidence, PLEASE stop using 60. It is already allocated for something else.\n\nThere is a formatting problem in Appendix A.4.  I cannot figure it out; markdown went haywire.\n\nIn Appendix B, I am very uncomfortable with the OID assignments:\n\n    id-aa OBJECT IDENTIFIER ::= { 1 2 840 113549 1 9 16 2 }\n    -- IMPORTed FROM SecureMimeMessageV3dot1\n\n   id-ata OBJECT IDENTIFIER ::= { id-aa (TBD1) }\n\n   id-aa-evidence OBJECT IDENTIFIER ::= { id-ata 59 }\n\nThere is already an allocation for this OID.  Early assignment was made here:\n[https://www.iana.org/assignments/smi-numbers/smi-numbers.xhtml#security-smime-2](https://urldefense.com/v3/__https:/www.iana.org/assignments/smi-numbers/smi-numbers.xhtml*security-smime-2__;Iw!!FJ-Y8qCqXTj2!dez0Irbc1C_3H-5IEpwbHMBXSstWKfpjvD49_V5MapwMYd5FIjf47oVr7bw_ex2HanZVSUh6MIvSWhgqHwqjMjXZqPyS$)\n\nThis does not match that early assignment.  PLEASE change it back to:\n\n   id-aa-evidence OBJECT IDENTIFIER ::= { id-aa 59 }\n\nThis seems to be a muddling between id-aa-ar and id-aa-ata.  I think they are very different purposes, buy one is a arc within the other.\n\nIn Appendix B, there is '\\' line wrapping per RFC 8792.  Why?  There are three cases, and they are all easily avoided:\n\nOLD:\n\n   Certificate, id-pkix\n     FROM PKIX1Explicit-2009\n       { iso(1) identified-organization(3) dod(6) internet(1) security(\\\n                                                                      5)\n       mechanisms(5) pkix(7) id-mod(0) id-mod-pkix1-explicit-02(51) }\n\nNEW:\n\n   Certificate, id-pkix\n     FROM PKIX1Explicit-2009   -- from [RFC5912]\n       { iso(1) identified-organization(3) dod(6) internet(1)\n         security(5) mechanisms(5) pkix(7) id-mod(0)\n         id-mod-pkix1-explicit-02(51) }\n\nOLD:\n\n   EXTENSION, ATTRIBUTE, AttributeSet{}, SingleAttribute{}\n     FROM PKIX-CommonTypes-2009 -- from [RFC5912]\n       { iso(1) identified-organization(3) dod(6) internet(1) security(\\\n                                                                      5)\n       mechanisms(5) pkix(7) id-mod(0) id-mod-pkixCommon-02(57) }\n\nNEW:\n\n   EXTENSION, ATTRIBUTE, AttributeSet{}, SingleAttribute{}\n     FROM PKIX-CommonTypes-2009 -- from [RFC5912]\n       { iso(1) identified-organization(3) dod(6) internet(1)\n         security(5) mechanisms(5) pkix(7) id-mod(0)\n         id-mod-pkixCommon-02(57) }\n\nOLD:\n\n   AttestationResultBundle ::= SEQUENCE SIZE (1..MAX) OF \\\n                                                       AttestationResult\n\nNEW:\n\n   AttestationResultBundle ::= SEQUENCE SIZE (1..MAX)\n                                  OF AttestationResult\n\nSimilar changes can be made in B.1 and B.2.\n\nIn Appendix C, it is unusual for an author to be acknowledged.\n\nRuss",
+      "createdAt": "2025-01-30T17:48:16Z",
+      "updatedAt": "2025-02-01T22:56:32Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Also, do a cleanup / de-duplication of the Acknowledgements.\n(Corey Bonnell)",
+          "createdAt": "2025-01-30T19:20:26Z",
+          "updatedAt": "2025-01-30T19:21:45Z"
+        },
+        {
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "@hannestschofenig You have this in the IANA Considerations section:\n\n> - Decimal: IANA Assigned -  This was early-allocated as `60` so that we could generate the sample data.\n> - Description: id-aa-ar\n\nThat is untrue, as per Russ' comment above, { 60 } is already allocated for something else.\nhttps://www.iana.org/assignments/smi-numbers/smi-numbers.xhtml#security-smime-2\n\nDo we actually have any samples that use `id-aa-ar` (and therefore would need early allocation), or was this just copy and pasted from above?",
+          "createdAt": "2025-02-01T22:56:13Z",
+          "updatedAt": "2025-02-01T22:56:32Z"
         }
       ]
     }
@@ -8142,24 +8195,26 @@
       "id": "PR_kwDOJ3IIN86AsnYC",
       "title": "Added Clarification to TPM Example",
       "url": "https://github.com/lamps-wg/csr-attestation/pull/171",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "hannestschofenig",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2024-11-02T14:17:55Z",
-      "updatedAt": "2025-01-27T16:46:08Z",
+      "updatedAt": "2025-01-30T08:33:55Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "5bc171d95c6f3f7076818712749f37f385af5c0a",
       "headRepository": "lamps-wg/csr-attestation",
       "headRefName": "hannestschofenig-patch-2",
       "headRefOid": "6c57014664f410a8ced82a4b4f3e1620f77d8c8b",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2025-01-30T08:33:52Z",
+      "mergedAt": "2025-01-30T08:33:52Z",
+      "mergedBy": "hannestschofenig",
+      "mergeCommit": {
+        "oid": "1d372e9384b79e0e9f2423ed1958502a6a2ba499"
+      },
       "comments": [],
       "reviews": [
         {
@@ -8210,24 +8265,26 @@
       "id": "PR_kwDOJ3IIN86GYfQA",
       "title": "First version with passport model added.",
       "url": "https://github.com/lamps-wg/csr-attestation/pull/175",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "hannestschofenig",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "In this PR, I have added the long-awaited support for the passport model to the CSR attestation draft. While the functionality was implicitly present through the use of the conceptual message wrapper, the text previously lacked any explicit explanation.\r\n\r\nI understand that introducing this functionality at this stage may seem late. However, I strongly believe we should not publish the draft without it, as there is significant industry interest in supporting both models: the background-check model and the passport model.",
       "createdAt": "2024-12-29T11:53:03Z",
-      "updatedAt": "2025-01-14T21:10:21Z",
+      "updatedAt": "2025-01-30T09:19:21Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "68d3751488a8a68f3a851a0e0f8fa2c890d5cea2",
       "headRepository": "lamps-wg/csr-attestation",
       "headRefName": "passport",
-      "headRefOid": "3a16da9216d7c3575b1797ba7fede18d46ebb344",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "8ea28edc397eb34150822a90c4ae9ab5dc90617e",
+      "closedAt": "2025-01-30T09:19:18Z",
+      "mergedAt": "2025-01-30T09:19:18Z",
+      "mergedBy": "hannestschofenig",
+      "mergeCommit": {
+        "oid": "500fe12da669bcf1ba8e98ab5ce3ad5fc993acd1"
+      },
       "comments": [
         {
           "author": "hannestschofenig",
@@ -8460,6 +8517,66 @@
               "updatedAt": "2025-01-14T21:10:22Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN86Z-bmm",
+          "commit": {
+            "abbreviatedOid": "3a16da9"
+          },
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-01-30T08:54:27Z",
+          "updatedAt": "2025-01-30T08:54:27Z",
+          "comments": [
+            {
+              "originalPosition": 35,
+              "body": "Good to know but the authors of the NIST document are incorrect in saying that this is securely stored in hardware. ",
+              "createdAt": "2025-01-30T08:54:27Z",
+              "updatedAt": "2025-01-30T08:54:27Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN86Z-d68",
+          "commit": {
+            "abbreviatedOid": "3a16da9"
+          },
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-01-30T08:57:40Z",
+          "updatedAt": "2025-01-30T08:57:40Z",
+          "comments": [
+            {
+              "originalPosition": 591,
+              "body": "There is a lot that could be done but I did not want to provide an exhaustive list",
+              "createdAt": "2025-01-30T08:57:40Z",
+              "updatedAt": "2025-01-30T08:57:40Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN86Z-eiQ",
+          "commit": {
+            "abbreviatedOid": "3a16da9"
+          },
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-01-30T08:58:44Z",
+          "updatedAt": "2025-01-30T08:58:44Z",
+          "comments": [
+            {
+              "originalPosition": 604,
+              "body": "Fair enough. I will change this text.",
+              "createdAt": "2025-01-30T08:58:44Z",
+              "updatedAt": "2025-01-30T08:58:44Z"
+            }
+          ]
         }
       ]
     },
@@ -8468,24 +8585,26 @@
       "id": "PR_kwDOJ3IIN86Gn2gW",
       "title": "Add CCA Token example",
       "url": "https://github.com/lamps-wg/csr-attestation/pull/176",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "gmandyam",
-      "authorAssociation": "NONE",
+      "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "To address https://github.com/lamps-wg/csr-attestation/issues/172",
       "createdAt": "2025-01-03T00:53:38Z",
-      "updatedAt": "2025-01-27T16:45:41Z",
+      "updatedAt": "2025-01-30T09:22:15Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "68d3751488a8a68f3a851a0e0f8fa2c890d5cea2",
       "headRepository": "gmandyam/csr-attestation",
       "headRefName": "CCA-Example",
-      "headRefOid": "cf08cac1e0270c18fa8d0e41c6056b5e854fd5b5",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "9ed9276e648c6bfe76d70d75ae013176cd95ac3c",
+      "closedAt": "2025-01-30T09:22:15Z",
+      "mergedAt": "2025-01-30T09:22:15Z",
+      "mergedBy": "hannestschofenig",
+      "mergeCommit": {
+        "oid": "7557b8800b984e9e7e03a8c653966521dd2f2d67"
+      },
       "comments": [
         {
           "author": "hannestschofenig",
@@ -8496,7 +8615,7 @@
         },
         {
           "author": "gmandyam",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "body": "> Thanks for the contribution, Giri. The text is good but I am wondering why you only included the Platform Evidence token instead of also the Realm token. Could you explain?\r\n\r\nI had not created a sample realm claim set yet, and this issue was pending for a while so I wanted to get something in for review.  I can add a realm token example.\r\n\r\nOne more question:  will a single OID be allocated for CCA token?  Or can different OID's be assigned for the different CCA attestation options?  I think t least for CSR's there could potentially be three:  (a) Platform token only, (b) DIrect model:  Platform token + realm claims set, where a hash of the realm claims set is included in the platform token payload as challenge data, and (c) Delegated model:  Platform token + Realm Attestation Token, where Platform token includes the Realm Attestation PubKey as challenge data.  Another option is to just assign one OID for CCA, and have the variants be identified by CBOR tags.",
           "createdAt": "2025-01-03T18:50:10Z",
           "updatedAt": "2025-01-04T22:00:57Z"
@@ -8641,6 +8760,32 @@
           "body": "LGTM",
           "createdAt": "2025-01-27T16:45:41Z",
           "updatedAt": "2025-01-27T16:45:41Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJ3IIN86Z-q8f",
+          "commit": {
+            "abbreviatedOid": "cf08cac"
+          },
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-01-30T09:20:10Z",
+          "updatedAt": "2025-01-30T09:20:10Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJ3IIN86Z-sAK",
+          "commit": {
+            "abbreviatedOid": "cf08cac"
+          },
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-01-30T09:22:00Z",
+          "updatedAt": "2025-01-30T09:22:00Z",
           "comments": []
         }
       ]

@@ -5,14 +5,14 @@
 Network Working Group                                       M. Ounsworth
 Internet-Draft                                                   Entrust
 Intended status: Standards Track                           H. Tschofenig
-Expires: 3 August 2025                                           Siemens
+Expires: 6 August 2025                                           Siemens
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                               M. Wiseman
                                                          Beyond Identity
                                                                 N. Smith
                                                        Intel Corporation
-                                                         30 January 2025
+                                                         2 February 2025
 
 
      Use of Remote Attestation with Certification Signing Requests
@@ -65,7 +65,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 3 August 2025.
+   This Internet-Draft will expire on 6 August 2025.
 
 Copyright Notice
 
@@ -807,8 +807,7 @@ Table of Contents
 
    *  Attestation Result
 
-   *  Decimal: IANA Assigned - This was early-allocated as 60 so that we
-      could generate the sample data.
+   *  Decimal: IANA Assigned - - *Replace TBD2*
 
    *  Description: id-aa-ar
 
@@ -1844,78 +1843,105 @@ A.4.  Confidential Compute Architecture (CCA) Platform Token in CSR
    described in [I-D.ffm-rats-cca-token] and is also based on the EAT
    format.  Although the full CCA attestation is composed of Realm and
    Platform Evidence, for the purposes of this example only the Platform
-   token is provided. ~~~ EvidenceBundle + | + Evidences | +---->
-   EvidenceStatement + | +-> type: OID for CCA Platform Attestation
-   Toekn | 1 3 6 1 5 5 7 1 TBD | +-> stmt: CCA Platform Token ~~~
+   token is provided.
+
+   EvidenceBundle
+      +
+      |
+      + Evidences
+      |
+      +---->  EvidenceStatement
+           +
+           |
+           +-> type: OID for CCA Platform Attestation Toekn
+           |         1 3 6 1 5 5 7 1 TBD
+           |
+           +-> stmt: CCA Platform Token
+
    Although the CCA Platform Token follows the EAT/CMW format, it is
    untagged.  This is because the encoding can be discerned in the CSR
    based on the OID alone.  The untagged token based on a sample claim
-   set is provided below: ~~~ =============== NOTE: '' line wrapping per
-   RFC 8792 ================
+   set is provided below:
 
-   / Sample Platform Claims Set in CDDL / { / cca-platform-profile /
-   265:"tag:arm.com,2023:cca_platform#1.0.0" / arm-platform-challenge,
-   SHA-256 calculation of ‘RAK’ / 10: h' \
-   c9cdc457ebe981d563b19b5a8e0e3cbef5b944d58e278c9c6779f77beb65bbd5’ /
-   arm-platform-lifecycle / 2395: h'3000' /secured/ / arm-platform-sw-
-   components / 2399: [ {1:"ROTFMC", 2:h'\
-   903a36d3a0a511ecac4548fee8601af54247c110ce220f680a0b274441729105’, 5\
-   :h'd4cf61e472d18c8e926ce0d44496674792587c88706e8a123b294c000895d9ea’\
-   }, {1:"ROTFW", 2:h'\
-   59d4116525e974b5b62ffd7c4ffcbaa0b98e08263403aeb6638797132d2af959’, 5\
-   :h'd4cf61e472d18c8e926ce0d44496674792587c88706e8a123b294c000895d9ea’\
-   } ] /arm-platform-id/ 256: h’ \
-   946338159d767f9f37098a00a60f133b6d57886fc656f5f9eed13760b4893fa1’
-   /arm-platform-implementation-id/ 2396: h’\
-   0000000000000000000000000000000000000000000000000000000000000001’ }
+   (long lines wrapped for readability)
 
-   / This is a full CWT-formatted token.  The payload is a sample /
-   Platform Claim Set. The main structure / / visible is that of the
-   COSE_Sign1.  /
+   / Sample Platform Claims Set in CDDL                          /
+   {
+      / cca-platform-profile / 265:"tag:arm.com,2023:cca_platform#1.0.0"
+      / arm-platform-challenge, SHA-256 calculation of ‘RAK’ / 10:
+               h'c9cdc457ebe981d563b19b5a8e0e3cbef5b944d58e278c9c6779f
+               77beb65bbd5’
+      / arm-platform-lifecycle / 2395: h'3000' /secured/
+      / arm-platform-sw-components / 2399: [ {1:"ROTFMC", 2:h'903a36d3a
+               0a511ecac4548fee8601af54247c110ce220f680a0b274441729105’,
+               5:h'd4cf61e472d18c8e926ce0d44496674792587c88706e8a123b294
+               c000895d9ea’},
+         {1:"ROTFW", 2:h'59d4116525e974b5b62ffd7c4ffcbaa0b98e08263403aeb
+               6638797132d2af959’, 5:h'd4cf61e472d18c8e926ce0d4449667479
+               2587c88706e8a123b294c000895d9ea’} ]
+      /arm-platform-id/ 256: h’ 946338159d767f9f37098a00a60f133b6d57886f
+               c656f5f9eed13760b4893fa1’
+      /arm-platform-implementation-id/ 2396: h’0000000000000000000000000
+               000000000000000000000000000000000000001’
+   }
 
-   61( 18( [ h'a10126', / protected headers / {}, / empty unprotected
-   headers / h’\
-   a419010978237461673a61726d2e636f6d2c323032333a6363615f706c74666f726d\
-   23312e392e300a580020c9cdc457ebe981d563b19b5a8e0e3cbef5b944d58e278c9c\
-   6779f77beb65bbd519095b42300019095f82 \
-   a30166524f54464d4302580020903a36d3a0a511ecac4548fee8601af54247c110ce\
-   220f680a0b27444172910505580020d4cf61e472d18c8e926ce0d44496674792587c\
-   88706e8a123b294c000895d9eaae0165524f \
-   5446575800200259d4116525e974b5b62ffd7c4ffcbaa0b98e08263403aeb6638797\
-   132d2af95905580020d4cf61e472d18c8e926ce0d44496674792587c88706e8a123b\
-   294c000895d9ea1901007820946338159d76 \
-   7f9f37098a00a60f133b6d57886fc656f5f9eed13760b4893fa11a095c5820000000\
-   0000000000000000000000000000000000000000000000000000000001' /payload/
-   h'\
-   cbbfa929cb9b846cb5527d7ef9b7657256412a5f22a6e1a8d3a0c71145022100db4b\
-   1b97913b1cd9d6e11c1fadbc0869882ba6644b9db09d221f198e3286654b' /\
-   signature/ ] ) )
+   / This is a full CWT-formatted token. The payload is a sample
+   / Platform Claim Set. The main structure                       /
+   / visible is that of the COSE_Sign1.                          /
 
-   /Untagged serialized token/ h'\
-   8443a10126a0590141a419010978237461673a61726d2e636f6d2c323032333a6363\
-   615f706c74666f726d23312e392e300a580020c9cdc457ebe981d563b19b5a8e0e3c\
-   bef5b944d58e278c9c6779f77beb65bbd519095b42300019095f82 \
-   a30166524f54464d4302580020903a36d3a0a511ecac4548fee8601af54247c110ce\
-   220f680a0b27444172910505580020d4cf61e472d18c8e926ce0d44496674792587c\
-   88706e8a123b294c000895d9eaae0165524f5446575800200259d4 \
-   116525e974b5b62ffd7c4ffcbaa0b98e08263403aeb6638797132d2af95905580020\
-   d4cf61e472d18c8e926ce0d44496674792587c88706e8a123b294c000895d9ea1901\
-   007820946338159d767f9f37098a00a60f133b6d57886fc656f5f9 \
-   eed13760b4893fa11a095c5820000000000000000000000000000000000000000000\
-   00000000000000000000015840cbbfa929cb9b846cb5527d7ef9b7657256412a5f22\
-   a6e1a8d3a0c71145022100db4b1b97913b1cd9d6e11c1fadbc0869
-   882ba6644b9db09d221f198e3286654b' ~~~ Realm evidence can be included
-   in a CMW bundle, similar to the PSA token.  In this case, the CSR is
-   constructed as follows: ~~~ EvidenceBundle + | + Evidences | +---->
-   EvidenceStatement + | +-> type: OID for CMW Collection | 1 3 6 1 5 5
-   7 1 TBD | +-> stmt: Realm Token/Platform Token CMW Collection or
-   Realm Claim Set/Platform Token CMW Collection ~~~
+   61( 18( [
+       h'a10126',  / protected headers  /
+       {}, / empty unprotected headers /
+       h’a419010978237461673a61726d2e636f6d2c323032333a6363615f706c746
+       66f726d23312e392e300a580020c9cdc457ebe981d563b19b5a8e0e3cbef5b9
+       44d58e278c9c6779f77beb65bbd519095b42300019095f82a30166524f54464
+       d4302580020903a36d3a0a511ecac4548fee8601af54247c110ce220f680a0b
+       27444172910505580020d4cf61e472d18c8e926ce0d44496674792587c88706
+       e8a123b294c000895d9eaae0165524f5446575800200259d4116525e974b5b6
+       2ffd7c4ffcbaa0b98e08263403aeb6638797132d2af95905580020d4cf61e47
+       2d18c8e926ce0d44496674792587c88706e8a123b294c000895d9ea19010078
+       20946338159d767f9f37098a00a60f133b6d57886fc656f5f9eed13760b4893
+       fa11a095c582000000000000000000000000000000000000000000000000000
+       00000000000001' /payload/
+       h'cbbfa929cb9b846cb5527d7ef9b7657256412a5f22a6e1a8d3a0c71145022
+       100db4b1b97913b1cd9d6e11c1fadbc0869882ba6644b9db09d221f198e3286
+       654b' /signature/
+   ] ) )
+
+   /Untagged serialized token/
+   h'8443a10126a0590141a419010978237461673a61726d2e636f6d2c323032333a
+   6363615f706c74666f726d23312e392e300a580020c9cdc457ebe981d563b19b5a
+   8e0e3cbef5b944d58e278c9c6779f77beb65bbd519095b42300019095f82a30166
+   524f54464d4302580020903a36d3a0a511ecac4548fee8601af54247c110ce220f
+   680a0b27444172910505580020d4cf61e472d18c8e926ce0d44496674792587c88
+   706e8a123b294c000895d9eaae0165524f5446575800200259d4116525e974b5b6
+   2ffd7c4ffcbaa0b98e08263403aeb6638797132d2af95905580020d4cf61e472d1
+   8c8e926ce0d44496674792587c88706e8a123b294c000895d9ea19010078209463
+   38159d767f9f37098a00a60f133b6d57886fc656f5f9eed13760b4893fa11a095c
+   582000000000000000000000000000000000000000000000000000000000000000
+   015840cbbfa929cb9b846cb5527d7ef9b7657256412a5f22a6e1a8d3a0c7114502
+   2100db4b1b97913b1cd9d6e11c1fadbc0869882ba6644b9db09d221f198e3286654b'
+
+   Realm evidence can be included in a CMW bundle, similar to the PSA
+   token.  In this case, the CSR is constructed as follows:
+
+  EvidenceBundle
+     +
+     |
+     + Evidences
+     |
+     +---->  EvidenceStatement
+          +
+          |
+          +-> type: OID for CMW Collection
+          |         1 3 6 1 5 5 7 1 TBD
+          |
+          +-> stmt: Realm Token/Platform Token CMW Collection or
+                           Realm Claim Set/Platform Token CMW Collection
 
 Appendix B.  ASN.1 Module
 
-   =============== NOTE: '\' line wrapping per RFC 8792 ================
-
-   CSR-ATTESTATION-2023
+   CSR-ATTESTATION-2025
      { iso(1) identified-organization(3) dod(6) internet(1) security(5)
      mechanisms(5) pkix(7) id-mod(0) id-mod-pkix-attest-01(TBDMOD) }
 
@@ -1926,10 +1952,10 @@ Appendix B.  ASN.1 Module
    IMPORTS
 
    Certificate, id-pkix
-     FROM PKIX1Explicit-2009
-       { iso(1) identified-organization(3) dod(6) internet(1) security(\
-                                                                      5)
-       mechanisms(5) pkix(7) id-mod(0) id-mod-pkix1-explicit-02(51) }
+   FROM PKIX1Explicit-2009 -- from [RFC5912]
+   { iso(1) identified-organization(3) dod(6) internet(1)
+   security(5) mechanisms(5) pkix(7) id-mod(0)
+   id-mod-pkix1-explicit-02(51) }
 
    CertificateChoices
      FROM CryptographicMessageSyntax-2010
@@ -1937,10 +1963,10 @@ Appendix B.  ASN.1 Module
        pkcs(1) pkcs-9(9) smime(16) modules(0) id-mod-cms-2009(58) }
 
    EXTENSION, ATTRIBUTE, AttributeSet{}, SingleAttribute{}
-     FROM PKIX-CommonTypes-2009 -- from [RFC5912]
-       { iso(1) identified-organization(3) dod(6) internet(1) security(\
-                                                                      5)
-       mechanisms(5) pkix(7) id-mod(0) id-mod-pkixCommon-02(57) }
+   FROM PKIX-CommonTypes-2009 -- from [RFC5912]
+   { iso(1) identified-organization(3) dod(6) internet(1)
+   security(5) mechanisms(5) pkix(7) id-mod(0)
+   id-mod-pkixCommon-02(57) }
 
    id-aa
      FROM SecureMimeMessageV3dot1
@@ -1975,10 +2001,10 @@ Appendix B.  ASN.1 Module
    }
 
    -- Arc for Evidence types
-   id-aa-evidence OBJECT IDENTIFIER ::= { id-ata 59 }
+   id-aa-evidence OBJECT IDENTIFIER ::= { id-aa 59 }
 
    -- Arc for Attestation Result types
-   id-aa-ar OBJECT IDENTIFIER ::= { id-ata 60 }
+   id-aa-ar OBJECT IDENTIFIER ::= { id-ata (TBD2) }
 
    -- For PKCS#10 (Evidence)
    attr-evidence ATTRIBUTE ::= {
@@ -2014,8 +2040,8 @@ Appendix B.  ASN.1 Module
          -- see Section 10.2.2 of [RFC5652]
    }
 
-   AttestationResultBundle ::= SEQUENCE SIZE (1..MAX) OF \
-                                                       AttestationResult
+   AttestationResultBundle ::= SEQUENCE SIZE (1..MAX)
+                               OF AttestationResult
 
    END
 
@@ -2025,8 +2051,6 @@ B.1.  TCG DICE Example in ASN.1
    carry an existing ASN.1-based Evidence Statement.  The example used
    is the Trusted Computing Group DICE Attestation Conceptual Message
    Wrapper, as defined in [TCGDICE1.1].
-
-   =============== NOTE: '\' line wrapping per RFC 8792 ================
 
    CsrAttestationDiceExample DEFINITIONS IMPLICIT TAGS ::= BEGIN
 
@@ -2040,15 +2064,16 @@ B.1.  TCG DICE Example in ASN.1
    ;
 
    tcgDiceCmwEvidenceStatementES EVIDENCE-STATEMENT ::= {
-     DiceConceptualMessageWrapper IDENTIFIED BY tcg-dice-conceptual-\
+     DiceConceptualMessageWrapper IDENTIFIED BY tcg-dice-conceptual-
                                                        message-wrapper }
 
    tcgDiceTcbInfoEvidenceStatementES EVIDENCE-STATEMENT ::= {
      DiceTcbInfo IDENTIFIED BY tcg-dice-TcbInfo }
-   -- where ConceptualMessageWrapper, tcg-dice-conceptual-message-\
-                              wrapper, DiceTcbInfo, and tcg-dice-TcbInfo
-   -- are defined in DICE-Attestation-Architecture-Version-1.1-Revision\
-                                                        -18_6Jan2024.pdf
+   -- where ConceptualMessageWrapper, tcg-dice-conceptual-message-
+                                                               wrapper,
+   -- DiceTcbInfo, and tcg-dice-TcbInfo
+   -- are defined in DICE-Attestation-Architecture-Version-1.1-
+   --                                        Revision-18_6Jan2024.pdf
 
    EvidenceStatementSet EVIDENCE-STATEMENT ::= {
      tcgDiceEvidenceStatementES,
@@ -2064,21 +2089,21 @@ B.1.  TCG DICE Example in ASN.1
    tcg OBJECT IDENTIFIER ::= { 2 23 133 }
    tcg-dice OBJECT IDENTIFIER ::= { tcg platformClass(5) dice(4) }
    tcg-dice-TcbInfo OBJECT IDENTIFIER ::= { tcg-dice tcbinfo(1) }
-   tcg-dice-endorsement-manifest-uri OBJECT IDENTIFIER ::= { tcg-dice \
-                                                       manifest-uri(3) }
+   tcg-dice-endorsement-manifest-uri OBJECT IDENTIFIER ::= {
+                                         tcg-dice manifest-uri(3) }
    tcg-dice-Ueid OBJECT IDENTIFIER ::= { tcg-dice ueid(4) }
-   tcg-dice-MultiTcbInfo OBJECT IDENTIFIER ::= {tcg-dice multitcbinfo(5\
-                                                                     ) }
-   tcg-dice-UCCS-evidence OBJECT IDENTIFIER ::= {tcg-dice uccs-evidence\
-                                                                   (6) }
-   tcg-dice-manifest-evidence OBJECT IDENTIFIER ::= {tcg-dice manifest-\
-                                                          evidience(7) }
-   tcg-dice-MultiTcbInfoComp OBJECT IDENTIFIER ::= {tcg-dice \
+   tcg-dice-MultiTcbInfo OBJECT IDENTIFIER ::= {tcg-dice
+                                                   multitcbinfo(5) }
+   tcg-dice-UCCS-evidence OBJECT IDENTIFIER ::= {tcg-dice
+                                                   uccs-evidence(6) }
+   tcg-dice-manifest-evidence OBJECT IDENTIFIER ::= {tcg-dice
+                                                 manifest-evidience(7) }
+   tcg-dice-MultiTcbInfoComp OBJECT IDENTIFIER ::= {tcg-dice
                                                    multitcbinfocomp(8) }
-   tcg-dice-conceptual-message-wrapper OBJECT IDENTIFIER ::= { tcg-\
-                                                           dice cmw(9) }
-   tcg-dice-TcbFreshness OBJECT IDENTIFIER ::= { tcg-dice tcb-freshness\
-                                                                  (11) }
+   tcg-dice-conceptual-message-wrapper OBJECT IDENTIFIER ::= {
+                                                       tcg-dice cmw(9) }
+   tcg-dice-TcbFreshness OBJECT IDENTIFIER ::= { tcg-dice
+                                                   tcb-freshness(11) }
 
    DiceConceptualMessageWrapper ::= SEQUENCE {
      cmw OCTET STRING
@@ -2185,8 +2210,6 @@ B.2.  TCG DICE TcbInfo Example in CSR
    is the Trusted Computing Group DiceTcbInfo, as defined in
    [TCGDICE1.1].
 
-   =============== NOTE: '\' line wrapping per RFC 8792 ================
-
    ﻿// SET of CSR Attributes
    A0 82 00 8E
      // CSR attributes
@@ -2195,18 +2218,18 @@ B.2.  TCG DICE TcbInfo Example in CSR
        06 0B 2A 86 48 86 F7 0D 01 09 10 02 3B
          // SET -- This attribute
          31 79
-           // EvidenceBundles ::= SEQUENCE SIZE (1..MAX) OF \
-                                                          EvidenceBundle
+           // EvidenceBundles ::= SEQUENCE SIZE (1..MAX) OF
+                                                         EvidenceBundle
            30 77
              // EvidenceBundle ::= SEQUENCE
              30 75
-               // EvidenceStatements ::= SEQUENCE SIZE (1..MAX) OF \
-                                                       EvidenceStatement
+               // EvidenceStatements ::= SEQUENCE SIZE (1..MAX)
+                                                   OF EvidenceStatement
                30 73
                  // EvidenceStatement ::= SEQUENCE
                  30 71
-                   // type: OBJECT IDENTIFIER tcg-dice-TcbInfo (2.23.\
-                                                              133.5.4.1)
+                   // type: OBJECT IDENTIFIER tcg-dice-TcbInfo
+                   //                         (2.23.133.5.4.1)
                    06 06 67 81 05 05 04 01
                    // stmt: SEQUENCE
                    30 4E
@@ -2254,14 +2277,16 @@ Appendix C.  Acknowledgments
 
    This specification is the work of a design team created by the chairs
    of the LAMPS working group.  The following persons, in no specific
-   order, contributed to the work: Richard Kettlewell, Chris Trufan,
-   Bruno Couillard, Jean-Pierre Fiset, Sander Temme, Jethro Beekman,
-   Zsolt Rózsahegyi, Ferenc Pető, Mike Agrenius Kushner, Tomas
-   Gustavsson, Dieter Bong, Christopher Meyer, Michael StJohns, Carl
-   Wallace, Michael Richardson, Tomofumi Okubo, Olivier Couillard, John
-   Gray, Eric Amador, Johnson Darren, Herman Slatman, Tiru Reddy, Corey
-   Bonnell, Argenius Kushner, James Hagborg, A.J.  Stein, John Kemp, Ned
-   Smith.
+   order, contributed to the work directly, participated in design team
+   meetings, or provided review of the document.
+
+   Richard Kettlewell, Chris Trufan, Bruno Couillard, Jean-Pierre Fiset,
+   Sander Temme, Jethro Beekman, Zsolt Rózsahegyi, Ferenc Pető, Mike
+   Agrenius Kushner, Tomas Gustavsson, Dieter Bong, Christopher Meyer,
+   Carl Wallace, Michael Richardson, Tomofumi Okubo, Olivier Couillard,
+   John Gray, Eric Amador, Darren Johnson, Herman Slatman, Tiru Reddy,
+   James Hagborg, A.J.  Stein, John Kemp, Daniel Migault and Russ
+   Housley.
 
    We would like to specifically thank Mike StJohns for his work on an
    earlier version of this draft.
@@ -2273,8 +2298,7 @@ Appendix C.  Acknowledgments
 
    Finally, we would like to thank Andreas Kretschmer, Hendrik
    Brockhaus, David von Oheimb, and Thomas Fossati for their feedback
-   based on implementation experience, and Daniel Migault and Russ
-   Housley for their review comments.
+   based on implementation experience.
 
 Authors' Addresses
 

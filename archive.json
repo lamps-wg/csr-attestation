@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-02-02T01:02:38.037295+00:00",
+  "timestamp": "2025-02-04T00:59:37.284512+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -2149,7 +2149,7 @@
       "id": "I_kwDOJ3IIN86dIX5U",
       "title": "Add CMW example",
       "url": "https://github.com/lamps-wg/csr-attestation/issues/172",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "gmandyam",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [
@@ -2158,8 +2158,8 @@
       "labels": [],
       "body": "As discussed during IETF 121.  Will use CCA profile as a potential starting point.  Will be creating candidate PR.",
       "createdAt": "2024-11-05T18:49:00Z",
-      "updatedAt": "2025-02-02T00:48:34Z",
-      "closedAt": null,
+      "updatedAt": "2025-02-02T03:28:05Z",
+      "closedAt": "2025-02-02T03:28:04Z",
       "comments": [
         {
           "author": "ounsworth",
@@ -2174,6 +2174,13 @@
           "body": "Oh never mind. The formatting of this appendix is absolutely completely mangled.\nSee:\nhttps://datatracker.ietf.org/doc/html/draft-ietf-lamps-csr-attestation-15#name-confidential-compute-archit\n\nGiven that this is the first time I'm seeing this content, I don't know what it's supposed to be, so I can't fix it. I am going to remove it. @gmandyam if you can get this fixed and re-submitted quickly, great, otherwise I think you should submit it as a PR to this repo which is referenced in the draft exactly to collect more examples over time.\n\nhttps://github.com/lamps-wg/csr-attestation-examples",
           "createdAt": "2025-02-02T00:48:28Z",
           "updatedAt": "2025-02-02T00:48:28Z"
+        },
+        {
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "UPDATE: Nevermind, the source code was pretty clear on the intended formatting, I just needed to add some more newlines so that it rendered correctly.\n\nI also needed to add manual line wrapping to the example, hopefully I didn't break anything.\n\nRe-closing.",
+          "createdAt": "2025-02-02T03:28:04Z",
+          "updatedAt": "2025-02-02T03:28:04Z"
         }
       ]
     },
@@ -2227,9 +2234,9 @@
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
-      "body": "I have serious problems with this document.\n\nThere is already an allocation for  id-aa-evidence, but it is now in id-ata.\n\nThe early assignment was made here: [https://www.iana.org/assignments/smi-numbers/smi-numbers.xhtml#security-smime-2](https://urldefense.com/v3/__https:/www.iana.org/assignments/smi-numbers/smi-numbers.xhtml*security-smime-2__;Iw!!FJ-Y8qCqXTj2!dez0Irbc1C_3H-5IEpwbHMBXSstWKfpjvD49_V5MapwMYd5FIjf47oVr7bw_ex2HanZVSUh6MIvSWhgqHwqjMjXZqPyS$)\n\nPLEASE change it back to:\n\n   id-aa-evidence OBJECT IDENTIFIER ::= { id-aa 59 }\n\nIn Section 7.2, there was no such early allocation request for:\n\n   id-aa-ar OBJECT IDENTIFIER ::= { id-ata 60 }\n\nAssuming this was to be allocated in the same arc as id-aa-evidence, PLEASE stop using 60. It is already allocated for something else.\n\nThere is a formatting problem in Appendix A.4.  I cannot figure it out; markdown went haywire.\n\nIn Appendix B, I am very uncomfortable with the OID assignments:\n\n    id-aa OBJECT IDENTIFIER ::= { 1 2 840 113549 1 9 16 2 }\n    -- IMPORTed FROM SecureMimeMessageV3dot1\n\n   id-ata OBJECT IDENTIFIER ::= { id-aa (TBD1) }\n\n   id-aa-evidence OBJECT IDENTIFIER ::= { id-ata 59 }\n\nThere is already an allocation for this OID.  Early assignment was made here:\n[https://www.iana.org/assignments/smi-numbers/smi-numbers.xhtml#security-smime-2](https://urldefense.com/v3/__https:/www.iana.org/assignments/smi-numbers/smi-numbers.xhtml*security-smime-2__;Iw!!FJ-Y8qCqXTj2!dez0Irbc1C_3H-5IEpwbHMBXSstWKfpjvD49_V5MapwMYd5FIjf47oVr7bw_ex2HanZVSUh6MIvSWhgqHwqjMjXZqPyS$)\n\nThis does not match that early assignment.  PLEASE change it back to:\n\n   id-aa-evidence OBJECT IDENTIFIER ::= { id-aa 59 }\n\nThis seems to be a muddling between id-aa-ar and id-aa-ata.  I think they are very different purposes, buy one is a arc within the other.\n\nIn Appendix B, there is '\\' line wrapping per RFC 8792.  Why?  There are three cases, and they are all easily avoided:\n\nOLD:\n\n   Certificate, id-pkix\n     FROM PKIX1Explicit-2009\n       { iso(1) identified-organization(3) dod(6) internet(1) security(\\\n                                                                      5)\n       mechanisms(5) pkix(7) id-mod(0) id-mod-pkix1-explicit-02(51) }\n\nNEW:\n\n   Certificate, id-pkix\n     FROM PKIX1Explicit-2009   -- from [RFC5912]\n       { iso(1) identified-organization(3) dod(6) internet(1)\n         security(5) mechanisms(5) pkix(7) id-mod(0)\n         id-mod-pkix1-explicit-02(51) }\n\nOLD:\n\n   EXTENSION, ATTRIBUTE, AttributeSet{}, SingleAttribute{}\n     FROM PKIX-CommonTypes-2009 -- from [RFC5912]\n       { iso(1) identified-organization(3) dod(6) internet(1) security(\\\n                                                                      5)\n       mechanisms(5) pkix(7) id-mod(0) id-mod-pkixCommon-02(57) }\n\nNEW:\n\n   EXTENSION, ATTRIBUTE, AttributeSet{}, SingleAttribute{}\n     FROM PKIX-CommonTypes-2009 -- from [RFC5912]\n       { iso(1) identified-organization(3) dod(6) internet(1)\n         security(5) mechanisms(5) pkix(7) id-mod(0)\n         id-mod-pkixCommon-02(57) }\n\nOLD:\n\n   AttestationResultBundle ::= SEQUENCE SIZE (1..MAX) OF \\\n                                                       AttestationResult\n\nNEW:\n\n   AttestationResultBundle ::= SEQUENCE SIZE (1..MAX)\n                                  OF AttestationResult\n\nSimilar changes can be made in B.1 and B.2.\n\nIn Appendix C, it is unusual for an author to be acknowledged.\n\nRuss",
+      "body": "Don't close until:\n\n- [ ] Hannes looks at the comment at the bottom.\n\n\n----\n\n\nI have serious problems with this document.\n\nThere is already an allocation for  id-aa-evidence, but it is now in id-ata.\n\nThe early assignment was made here: [https://www.iana.org/assignments/smi-numbers/smi-numbers.xhtml#security-smime-2](https://urldefense.com/v3/__https:/www.iana.org/assignments/smi-numbers/smi-numbers.xhtml*security-smime-2__;Iw!!FJ-Y8qCqXTj2!dez0Irbc1C_3H-5IEpwbHMBXSstWKfpjvD49_V5MapwMYd5FIjf47oVr7bw_ex2HanZVSUh6MIvSWhgqHwqjMjXZqPyS$)\n\nPLEASE change it back to:\n\n   id-aa-evidence OBJECT IDENTIFIER ::= { id-aa 59 }\n\nIn Section 7.2, there was no such early allocation request for:\n\n   id-aa-ar OBJECT IDENTIFIER ::= { id-ata 60 }\n\nAssuming this was to be allocated in the same arc as id-aa-evidence, PLEASE stop using 60. It is already allocated for something else.\n\nThere is a formatting problem in Appendix A.4.  I cannot figure it out; markdown went haywire.\n\nIn Appendix B, I am very uncomfortable with the OID assignments:\n\n    id-aa OBJECT IDENTIFIER ::= { 1 2 840 113549 1 9 16 2 }\n    -- IMPORTed FROM SecureMimeMessageV3dot1\n\n   id-ata OBJECT IDENTIFIER ::= { id-aa (TBD1) }\n\n   id-aa-evidence OBJECT IDENTIFIER ::= { id-ata 59 }\n\nThere is already an allocation for this OID.  Early assignment was made here:\n[https://www.iana.org/assignments/smi-numbers/smi-numbers.xhtml#security-smime-2](https://urldefense.com/v3/__https:/www.iana.org/assignments/smi-numbers/smi-numbers.xhtml*security-smime-2__;Iw!!FJ-Y8qCqXTj2!dez0Irbc1C_3H-5IEpwbHMBXSstWKfpjvD49_V5MapwMYd5FIjf47oVr7bw_ex2HanZVSUh6MIvSWhgqHwqjMjXZqPyS$)\n\nThis does not match that early assignment.  PLEASE change it back to:\n\n   id-aa-evidence OBJECT IDENTIFIER ::= { id-aa 59 }\n\nThis seems to be a muddling between id-aa-ar and id-aa-ata.  I think they are very different purposes, buy one is a arc within the other.\n\nIn Appendix B, there is '\\' line wrapping per RFC 8792.  Why?  There are three cases, and they are all easily avoided:\n\nOLD:\n\n   Certificate, id-pkix\n     FROM PKIX1Explicit-2009\n       { iso(1) identified-organization(3) dod(6) internet(1) security(\\\n                                                                      5)\n       mechanisms(5) pkix(7) id-mod(0) id-mod-pkix1-explicit-02(51) }\n\nNEW:\n\n   Certificate, id-pkix\n     FROM PKIX1Explicit-2009   -- from [RFC5912]\n       { iso(1) identified-organization(3) dod(6) internet(1)\n         security(5) mechanisms(5) pkix(7) id-mod(0)\n         id-mod-pkix1-explicit-02(51) }\n\nOLD:\n\n   EXTENSION, ATTRIBUTE, AttributeSet{}, SingleAttribute{}\n     FROM PKIX-CommonTypes-2009 -- from [RFC5912]\n       { iso(1) identified-organization(3) dod(6) internet(1) security(\\\n                                                                      5)\n       mechanisms(5) pkix(7) id-mod(0) id-mod-pkixCommon-02(57) }\n\nNEW:\n\n   EXTENSION, ATTRIBUTE, AttributeSet{}, SingleAttribute{}\n     FROM PKIX-CommonTypes-2009 -- from [RFC5912]\n       { iso(1) identified-organization(3) dod(6) internet(1)\n         security(5) mechanisms(5) pkix(7) id-mod(0)\n         id-mod-pkixCommon-02(57) }\n\nOLD:\n\n   AttestationResultBundle ::= SEQUENCE SIZE (1..MAX) OF \\\n                                                       AttestationResult\n\nNEW:\n\n   AttestationResultBundle ::= SEQUENCE SIZE (1..MAX)\n                                  OF AttestationResult\n\nSimilar changes can be made in B.1 and B.2.\n\nIn Appendix C, it is unusual for an author to be acknowledged.\n\nRuss",
       "createdAt": "2025-01-30T17:48:16Z",
-      "updatedAt": "2025-02-01T22:56:32Z",
+      "updatedAt": "2025-02-02T03:40:19Z",
       "closedAt": null,
       "comments": [
         {
@@ -2242,9 +2249,9 @@
         {
           "author": "ounsworth",
           "authorAssociation": "CONTRIBUTOR",
-          "body": "@hannestschofenig You have this in the IANA Considerations section:\n\n> - Decimal: IANA Assigned -  This was early-allocated as `60` so that we could generate the sample data.\n> - Description: id-aa-ar\n\nThat is untrue, as per Russ' comment above, { 60 } is already allocated for something else.\nhttps://www.iana.org/assignments/smi-numbers/smi-numbers.xhtml#security-smime-2\n\nDo we actually have any samples that use `id-aa-ar` (and therefore would need early allocation), or was this just copy and pasted from above?",
+          "body": "@hannestschofenig You have this in the IANA Considerations section:\n\n> - Decimal: IANA Assigned -  This was early-allocated as `60` so that we could generate the sample data.\n> - Description: id-aa-ar\n\nThat is untrue, as per Russ' comment above, { 60 } is already allocated for something else.\nhttps://www.iana.org/assignments/smi-numbers/smi-numbers.xhtml#security-smime-2\n\nDo we actually have any samples that use `id-aa-ar` (and therefore would need early allocation), or was this just copy and pasted from above? I've removed this and changed the OID to `TBD2`. If that was important, you'll need to put it back.",
           "createdAt": "2025-02-01T22:56:13Z",
-          "updatedAt": "2025-02-01T22:56:32Z"
+          "updatedAt": "2025-02-02T03:39:43Z"
         }
       ]
     }

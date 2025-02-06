@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-02-04T00:59:37.284512+00:00",
+  "timestamp": "2025-02-06T01:00:33.341967+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -2254,6 +2254,22 @@
           "updatedAt": "2025-02-02T03:39:43Z"
         }
       ]
+    },
+    {
+      "number": 178,
+      "id": "I_kwDOJ3IIN86ovV4U",
+      "title": "id-aa-ar should be under id-aa",
+      "url": "https://github.com/lamps-wg/csr-attestation/issues/178",
+      "state": "OPEN",
+      "author": "ounsworth",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Russ:\n\n> Question:\n>\n>id-aa-ar OBJECT IDENTIFIER ::= { id-ata (TBD2) }\n>\n> Why should this be a arc under id-aa?\n",
+      "createdAt": "2025-02-04T18:18:56Z",
+      "updatedAt": "2025-02-04T18:18:56Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [

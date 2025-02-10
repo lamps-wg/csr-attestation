@@ -274,8 +274,8 @@ Result, which is subsequently included in the CSR.
    |     | Attestation
    |     | Result
    |     v
-.------------.             .-----------------.              .------.
-|            +------------>| Registration    |------------->|      |
+.--------|---.             .-----------------.              .------.
+|        +-->+------------>| Registration    |------------->|      |
 | End        | Attestation | Authority       | Attestation  |  CA  |
 | Entity     | Result in   |                 | Result in    | (RP) |
 | (Attester) | CSR         | (Relying Party) | CSR          |      |
@@ -322,16 +322,16 @@ or the CRMF extension MUST only be included once in a CSR.
  |       or          |
  | CRMF Extension    |
  +--------+----------+
-       1  |
-          |                 1..*  +-------------------------+
-          |         +-------------+ CertificateChoices      |
-          |         |             +-------------------------+
-          |         |             | Certificate OR          |
-          |         |             | OtherCertificateFormat  |
-       1  |         |             +-------------------------+
-          |       1 |
- +--------+---------+-+ 1         1..*  +-------------------+
- |  EvidenceBundle    +-----------------+ EvidenceStatement |
+       1  ^
+          |                1..n  +-------------------------+
+          |        +------------>| CertificateChoices      |
+          |        |             +-------------------------+
+          |        |             | Certificate OR          |
+          |        |             | OtherCertificateFormat  |
+       1  |        |             +-------------------------+
+          v      1 v
+ +--------------------+ 1         1..n  +-------------------+
+ |  EvidenceBundle    |<--------------->| EvidenceStatement |
  +--------------------+                 +-------------------+
                                         | Type              |
                                         | Statement         |
@@ -413,16 +413,16 @@ one or more AttestationResult structures.
 | PKCS#10 Attribute |
 |       or          |
 | CRMF Extension    |
-+--------+----------+
-      1  |                        +-------------------+
-         |                 1..*   + AttestationResult |
-         |         +------------- +-------------------+
++-------------------+
+      1  ^                        +-------------------+
+         |                 1..n   | AttestationResult |
+         |         +------------->+-------------------+
          |         |              | Type              |
          |         |              | Result            |
          |         |              |                   |
       1  |         |              +-------------------+
-         |       1 |
-+--------+---------+------+
+         v       1 v
++-------------------------+
 | AttestationResultBundle |
 +-------------------------+
 ~~~

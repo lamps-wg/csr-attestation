@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-02-09T01:03:47.367114+00:00",
+  "timestamp": "2025-02-11T01:00:31.260208+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -8812,6 +8812,32 @@
           "comments": []
         }
       ]
+    },
+    {
+      "number": 179,
+      "id": "PR_kwDOJ3IIN86KoVpd",
+      "title": "Figure Update",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/179",
+      "state": "OPEN",
+      "author": "hannestschofenig",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-02-10T11:42:19Z",
+      "updatedAt": "2025-02-10T11:42:19Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "52f64670616e2292eeab457232fa64a768fd4a1a",
+      "headRepository": "lamps-wg/csr-attestation",
+      "headRefName": "hannestschofenig-patch-2",
+      "headRefOid": "c572d03a8e98fcb2d742bcd1aa290ffe011bb8ea",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }

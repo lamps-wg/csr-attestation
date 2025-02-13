@@ -49,7 +49,7 @@ AttestationResultSet ATTESTATION-RESULT ::= {
 EvidenceStatement ::= SEQUENCE {
    type   EVIDENCE-STATEMENT.&id({EvidenceStatementSet}),
    stmt   EVIDENCE-STATEMENT.&Type({EvidenceStatementSet}{@type}),
-   hint   UTF8String OPTIONAL
+   hint   IA5String OPTIONAL
 }
 
 AttestationResult ::= SEQUENCE {

@@ -70,6 +70,7 @@ normative:
   RFC4211:
   RFC2986:
   RFC5280:
+  RFC3986:
 
 informative:
   RFC8126:

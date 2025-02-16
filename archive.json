@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-02-13T01:00:59.025252+00:00",
+  "timestamp": "2025-02-16T01:05:43.350674+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -8838,6 +8838,46 @@
       "mergeCommit": null,
       "comments": [],
       "reviews": []
+    },
+    {
+      "number": 180,
+      "id": "PR_kwDOJ3IIN86LH0E3",
+      "title": "Updated Hint Text",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/180",
+      "state": "OPEN",
+      "author": "hannestschofenig",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Aligned it with server name from the IETF Privacy Pass architecture.",
+      "createdAt": "2025-02-13T15:18:08Z",
+      "updatedAt": "2025-02-13T18:39:16Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "52f64670616e2292eeab457232fa64a768fd4a1a",
+      "headRepository": "lamps-wg/csr-attestation",
+      "headRefName": "hannestschofenig-patch-3",
+      "headRefOid": "5079ca567fda6b0a1d1372d3cc816364ff839120",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJ3IIN86b6-sI",
+          "commit": {
+            "abbreviatedOid": "5079ca5"
+          },
+          "author": "nedmsmith",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "LGTM",
+          "createdAt": "2025-02-13T18:39:16Z",
+          "updatedAt": "2025-02-13T18:39:16Z",
+          "comments": []
+        }
+      ]
     }
   ]
 }

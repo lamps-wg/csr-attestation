@@ -569,11 +569,11 @@ By the nature of the PKIX ASN.1 classes {{RFC5912}}, there are multiple ways to 
 
 ##  Object Identifiers
 
-This document defines the arc depicted in {{code-ar-arc}}.
+This document defines the OID depicted in {{code-ar-arc}} as an additional CSR Attribute (PKCS#10) or Extension (CRMF) to carry Attestation Results in a CSR.
 
 ~~~
 -- Arc for Attestation Result types
-id-aa-ar OBJECT IDENTIFIER ::= { id-ata (TBD2) }
+id-aa-ar OBJECT IDENTIFIER ::= { id-aa (TBD2) }
 ~~~
 {: #code-ar-arc title="New OID Arc for PKIX Attestation Result Formats"}
 
@@ -618,8 +618,6 @@ AttestationResultBundle ::= SEQUENCE SIZE (1..MAX) OF AttestationResult
 ~~~
 
 ~~~
-id-aa-ar OBJECT IDENTIFIER ::= { id-ata 60 }
-
 -- For PKCS#10
 attr-ar ATTRIBUTE ::= {
   TYPE AttestationResultBundle

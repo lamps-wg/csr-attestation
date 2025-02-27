@@ -516,6 +516,12 @@ include a "userinfo" portion of an authority.  For example, a valid
 server name might be "verifier.example.com" or
 "verifier.example.com:8443", but not "verifier@example.com".
 
+Relying Parties SHOULD NOT connect to a host name provided in the hint,
+especially if the verifier has no previous trust relationship with that
+host name, instead this SHOULD be used only as a lookup string for
+determining between a list of Verifiers that the Relying Party is
+pre-configured to use.
+
 In a typical usage scenario, the Relying Party is pre-configured with
 a list of trusted Verifiers and the corresponding hint values can be used to look
 up appropriate Verifier. The Relying Party is also configured with a trust

@@ -544,7 +544,7 @@ Evidence signer key back to an agreed upon trust anchor. No specific order of th
 This specification places no restriction on mixing certificate types within the `certs` field. For example a non-X.509 Evidence signer certificate MAY chain to a trust anchor via a chain of X.509 certificates. It is up to the Attester and its Verifier to agree on supported certificate formats.
 
 ~~~
-id-aa-evidence OBJECT IDENTIFIER ::= { id-ata 59 }
+id-aa-evidence OBJECT IDENTIFIER ::= { id-aa 59 }
 
 -- For PKCS#10
 attr-evidence ATTRIBUTE ::= {
@@ -685,11 +685,17 @@ S/MIME Attributes" to identify two attributes defined within.
 
 ##  Module Registration - SMI Security for PKIX Module Identifier
 
+IANA is asked to register the following within the registry id-mod
+SMI Security for PKIX Module Identifier (1.3.6.1.5.5.7.0).
+
 -  Decimal: IANA Assigned - **Replace TBDMOD**
 -  Description: CSR-ATTESTATION-2023 - id-mod-pkix-attest-01
 -  References: This Document
 
 ##  Object Identifier Registrations - SMI Security for S/MIME Attributes
+
+IANA is asked to register the following within the registry id-aa
+SMI Security for S/MIME Attributes (1.2.840.113549.1.9.16.2).
 
 - Evidence Statement
 - Decimal: IANA Assigned - This was early-allocated as `59` so that we could generate the sample data.

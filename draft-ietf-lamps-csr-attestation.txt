@@ -5,14 +5,14 @@
 Network Working Group                                       M. Ounsworth
 Internet-Draft                                                   Entrust
 Intended status: Standards Track                           H. Tschofenig
-Expires: 6 August 2025                                           Siemens
+Expires: 31 August 2025                                          Siemens
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                               M. Wiseman
                                                          Beyond Identity
                                                                 N. Smith
                                                        Intel Corporation
-                                                         2 February 2025
+                                                        27 February 2025
 
 
      Use of Remote Attestation with Certification Signing Requests
@@ -65,7 +65,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 6 August 2025.
+   This Internet-Draft will expire on 31 August 2025.
 
 Copyright Notice
 
@@ -344,8 +344,8 @@ Table of Contents
       |     | Attestation
       |     | Result
       |     v
-   .------------.             .-----------------.              .------.
-   |            +------------>| Registration    |------------->|      |
+   .--------|---.             .-----------------.              .------.
+   |        +-->+------------>| Registration    |------------->|      |
    | End        | Attestation | Authority       | Attestation  |  CA  |
    | Entity     | Result in   |                 | Result in    | (RP) |
    | (Attester) | CSR         | (Relying Party) | CSR          |      |
@@ -395,16 +395,16 @@ Table of Contents
     |       or          |
     | CRMF Extension    |
     +--------+----------+
-          1  |
-             |                 1..*  +-------------------------+
-             |         +-------------+ CertificateChoices      |
-             |         |             +-------------------------+
-             |         |             | Certificate OR          |
-             |         |             | OtherCertificateFormat  |
-          1  |         |             +-------------------------+
-             |       1 |
-    +--------+---------+-+ 1         1..*  +-------------------+
-    |  EvidenceBundle    +-----------------+ EvidenceStatement |
+          1  ^
+             |                1..n  +-------------------------+
+             |        +------------>| CertificateChoices      |
+             |        |             +-------------------------+
+             |        |             | Certificate OR          |
+             |        |             | OtherCertificateFormat  |
+          1  |        |             +-------------------------+
+             v      1 v
+    +--------------------+ 1         1..n  +-------------------+
+    |  EvidenceBundle    |<--------------->| EvidenceStatement |
     +--------------------+                 +-------------------+
                                            | Type              |
                                            | Statement         |
@@ -489,16 +489,16 @@ Table of Contents
    | PKCS#10 Attribute |
    |       or          |
    | CRMF Extension    |
-   +--------+----------+
-         1  |                        +-------------------+
-            |                 1..*   + AttestationResult |
-            |         +------------- +-------------------+
+   +-------------------+
+         1  ^                        +-------------------+
+            |                 1..n   | AttestationResult |
+            |         +------------->+-------------------+
             |         |              | Type              |
             |         |              | Result            |
             |         |              |                   |
          1  |         |              +-------------------+
-            |       1 |
-   +--------+---------+------+
+            v       1 v
+   +-------------------------+
    | AttestationResultBundle |
    +-------------------------+
 
@@ -1271,9 +1271,9 @@ Table of Contents
               Voit, E., Birkholz, H., Hardjono, T., Fossati, T., and V.
               Scarlata, "Attestation Results for Secure Interactions",
               Work in Progress, Internet-Draft, draft-ietf-rats-ar4si-
-              07, 2 September 2024,
+              08, 6 February 2025,
               <https://datatracker.ietf.org/doc/html/draft-ietf-rats-
-              ar4si-07>.
+              ar4si-08>.
 
    [I-D.ietf-rats-daa]
               Birkholz, H., Newton, C., Chen, L., and D. Thaler, "Direct

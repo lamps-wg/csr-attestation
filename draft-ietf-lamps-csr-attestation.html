@@ -16,7 +16,7 @@
 Attestation Results in Certificate Signing Requests (CSRs), such as PKCS#10 or Certificate Request Message Format (CRMF) payloads. This provides an elegant and automatable mechanism for transporting Evidence to a Certification Authority. 
        Including Evidence and Attestation Results along with a CSR can help to improve the assessment of the security posture for the private key, and can help the Certification Authority to assess whether it satisfies the requested certificate profile. 
     " name="description">
-<meta content="xml2rfc 3.25.0" name="generator">
+<meta content="xml2rfc 3.27.0" name="generator">
 <meta content="PKI" name="keyword">
 <meta content="PKCS#10" name="keyword">
 <meta content="CRMF" name="keyword">
@@ -25,8 +25,8 @@ Attestation Results in Certificate Signing Requests (CSRs), such as PKCS#10 or C
 <meta content="Certificate Signing Requests" name="keyword">
 <meta content="draft-ietf-lamps-csr-attestation-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.25.0
-    Python 3.12.8
+  xml2rfc 3.27.0
+    Python 3.12.9
     ConfigArgParse 1.7
     google-i18n-address 3.1.1
     intervaltree 3.1.0
@@ -447,7 +447,7 @@ dl {
     margin-bottom: 0;
   }
 }
-dl > dt {
+dl:not(.dlNewline) > dt {
   float: left;
   margin-right: 2ch;
   min-width: 8ch;
@@ -1060,7 +1060,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Ounsworth, et al.</td>
-<td class="center">Expires 6 August 2025</td>
+<td class="center">Expires 31 August 2025</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1073,12 +1073,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-lamps-csr-attestation-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2025-02-02" class="published">2 February 2025</time>
+<time datetime="2025-02-27" class="published">27 February 2025</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2025-08-06">6 August 2025</time></dd>
+<dd class="expires"><time datetime="2025-08-31">31 August 2025</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1142,7 +1142,7 @@ Attestation Results in Certificate Signing Requests (CSRs), such as PKCS#10 or C
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 6 August 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 31 August 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1537,7 +1537,7 @@ Result, which is subsequently included in the CSR.<a href="#section-3-8" class="
 <svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="256" width="552" viewBox="0 0 552 256" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
               <path d="M 8,160 L 8,240" fill="none" stroke="black"></path>
               <path d="M 32,48 L 32,152" fill="none" stroke="black"></path>
-              <path d="M 80,80 L 80,152" fill="none" stroke="black"></path>
+              <path d="M 80,80 L 80,176" fill="none" stroke="black"></path>
               <path d="M 112,160 L 112,240" fill="none" stroke="black"></path>
               <path d="M 216,32 L 216,96" fill="none" stroke="black"></path>
               <path d="M 224,160 L 224,240" fill="none" stroke="black"></path>
@@ -1549,10 +1549,11 @@ Result, which is subsequently included in the CSR.<a href="#section-3-8" class="
               <path d="M 32,48 L 208,48" fill="none" stroke="black"></path>
               <path d="M 80,80 L 208,80" fill="none" stroke="black"></path>
               <path d="M 216,96 L 360,96" fill="none" stroke="black"></path>
-              <path d="M 8,160 L 112,160" fill="none" stroke="black"></path>
+              <path d="M 8,160 L 72,160" fill="none" stroke="black"></path>
+              <path d="M 88,160 L 112,160" fill="none" stroke="black"></path>
               <path d="M 224,160 L 368,160" fill="none" stroke="black"></path>
               <path d="M 488,160 L 544,160" fill="none" stroke="black"></path>
-              <path d="M 112,176 L 216,176" fill="none" stroke="black"></path>
+              <path d="M 80,176 L 216,176" fill="none" stroke="black"></path>
               <path d="M 376,176 L 480,176" fill="none" stroke="black"></path>
               <path d="M 8,240 L 112,240" fill="none" stroke="black"></path>
               <path d="M 224,240 L 368,240" fill="none" stroke="black"></path>
@@ -1560,6 +1561,7 @@ Result, which is subsequently included in the CSR.<a href="#section-3-8" class="
               <polygon class="arrowhead" points="488,176 476,170.4 476,181.6" fill="black" transform="rotate(0,480,176)"></polygon>
               <polygon class="arrowhead" points="224,176 212,170.4 212,181.6" fill="black" transform="rotate(0,216,176)"></polygon>
               <polygon class="arrowhead" points="216,48 204,42.4 204,53.6" fill="black" transform="rotate(0,208,48)"></polygon>
+              <polygon class="arrowhead" points="112,176 100,170.4 100,181.6" fill="black" transform="rotate(0,104,176)"></polygon>
               <polygon class="arrowhead" points="88,152 76,146.4 76,157.6" fill="black" transform="rotate(90,80,152)"></polygon>
               <g class="text">
                 <text x="60" y="36">Evidence</text>
@@ -1639,28 +1641,32 @@ or the CRMF extension <span class="bcp14">MUST</span> only be included once in a
 <svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="368" width="488" viewBox="0 0 488 368" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
                 <path d="M 8,32 L 8,96" fill="none" stroke="black"></path>
                 <path d="M 8,240 L 8,272" fill="none" stroke="black"></path>
-                <path d="M 80,96 L 80,240" fill="none" stroke="black"></path>
-                <path d="M 160,144 L 160,240" fill="none" stroke="black"></path>
+                <path d="M 80,104 L 80,232" fill="none" stroke="black"></path>
+                <path d="M 152,144 L 152,232" fill="none" stroke="black"></path>
                 <path d="M 168,32 L 168,96" fill="none" stroke="black"></path>
                 <path d="M 176,240 L 176,272" fill="none" stroke="black"></path>
-                <path d="M 272,128 L 272,208" fill="none" stroke="black"></path>
+                <path d="M 264,128 L 264,208" fill="none" stroke="black"></path>
                 <path d="M 320,240 L 320,336" fill="none" stroke="black"></path>
-                <path d="M 480,128 L 480,208" fill="none" stroke="black"></path>
+                <path d="M 472,128 L 472,208" fill="none" stroke="black"></path>
                 <path d="M 480,240 L 480,336" fill="none" stroke="black"></path>
                 <path d="M 8,32 L 168,32" fill="none" stroke="black"></path>
                 <path d="M 8,96 L 168,96" fill="none" stroke="black"></path>
-                <path d="M 272,128 L 480,128" fill="none" stroke="black"></path>
-                <path d="M 160,144 L 272,144" fill="none" stroke="black"></path>
-                <path d="M 272,160 L 480,160" fill="none" stroke="black"></path>
-                <path d="M 272,208 L 480,208" fill="none" stroke="black"></path>
+                <path d="M 264,128 L 472,128" fill="none" stroke="black"></path>
+                <path d="M 152,144 L 256,144" fill="none" stroke="black"></path>
+                <path d="M 264,160 L 472,160" fill="none" stroke="black"></path>
+                <path d="M 264,208 L 472,208" fill="none" stroke="black"></path>
                 <path d="M 8,240 L 176,240" fill="none" stroke="black"></path>
                 <path d="M 320,240 L 480,240" fill="none" stroke="black"></path>
-                <path d="M 176,256 L 320,256" fill="none" stroke="black"></path>
+                <path d="M 184,256 L 312,256" fill="none" stroke="black"></path>
                 <path d="M 8,272 L 176,272" fill="none" stroke="black"></path>
                 <path d="M 320,272 L 480,272" fill="none" stroke="black"></path>
                 <path d="M 320,336 L 480,336" fill="none" stroke="black"></path>
-                <circle cx="248" cy="128" r="6" class="closeddot" fill="black"></circle>
-                <circle cx="296" cy="240" r="6" class="closeddot" fill="black"></circle>
+                <polygon class="arrowhead" points="320,256 308,250.4 308,261.6" fill="black" transform="rotate(0,312,256)"></polygon>
+                <polygon class="arrowhead" points="264,144 252,138.4 252,149.6" fill="black" transform="rotate(0,256,144)"></polygon>
+                <polygon class="arrowhead" points="192,256 180,250.4 180,261.6" fill="black" transform="rotate(180,184,256)"></polygon>
+                <polygon class="arrowhead" points="160,232 148,226.4 148,237.6" fill="black" transform="rotate(90,152,232)"></polygon>
+                <polygon class="arrowhead" points="88,232 76,226.4 76,237.6" fill="black" transform="rotate(90,80,232)"></polygon>
+                <polygon class="arrowhead" points="88,104 76,98.4 76,109.6" fill="black" transform="rotate(270,80,104)"></polygon>
                 <g class="text">
                   <text x="48" y="52">PKCS#10</text>
                   <text x="120" y="52">Attribute</text>
@@ -1668,15 +1674,15 @@ or the CRMF extension <span class="bcp14">MUST</span> only be included once in a
                   <text x="36" y="84">CRMF</text>
                   <text x="96" y="84">Extension</text>
                   <text x="56" y="116">1</text>
-                  <text x="232" y="132">1..</text>
-                  <text x="356" y="148">CertificateChoices</text>
-                  <text x="328" y="180">Certificate</text>
-                  <text x="388" y="180">OR</text>
-                  <text x="372" y="196">OtherCertificateFormat</text>
+                  <text x="228" y="132">1..n</text>
+                  <text x="348" y="148">CertificateChoices</text>
+                  <text x="320" y="180">Certificate</text>
+                  <text x="380" y="180">OR</text>
+                  <text x="364" y="196">OtherCertificateFormat</text>
                   <text x="56" y="212">1</text>
-                  <text x="144" y="228">1</text>
+                  <text x="136" y="228">1</text>
                   <text x="192" y="244">1</text>
-                  <text x="280" y="244">1..</text>
+                  <text x="284" y="244">1..n</text>
                   <text x="84" y="260">EvidenceBundle</text>
                   <text x="400" y="260">EvidenceStatement</text>
                   <text x="348" y="292">Type</text>
@@ -1832,8 +1838,8 @@ one or more AttestationResult structures.<a href="#section-4.2-1" class="pilcrow
 <svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="288" width="448" viewBox="0 0 448 288" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
                 <path d="M 8,32 L 8,96" fill="none" stroke="black"></path>
                 <path d="M 8,240 L 8,272" fill="none" stroke="black"></path>
-                <path d="M 80,96 L 80,240" fill="none" stroke="black"></path>
-                <path d="M 160,144 L 160,240" fill="none" stroke="black"></path>
+                <path d="M 80,104 L 80,232" fill="none" stroke="black"></path>
+                <path d="M 160,144 L 160,232" fill="none" stroke="black"></path>
                 <path d="M 168,32 L 168,96" fill="none" stroke="black"></path>
                 <path d="M 216,240 L 216,272" fill="none" stroke="black"></path>
                 <path d="M 280,112 L 280,208" fill="none" stroke="black"></path>
@@ -1841,12 +1847,14 @@ one or more AttestationResult structures.<a href="#section-4.2-1" class="pilcrow
                 <path d="M 8,32 L 168,32" fill="none" stroke="black"></path>
                 <path d="M 8,96 L 168,96" fill="none" stroke="black"></path>
                 <path d="M 280,112 L 440,112" fill="none" stroke="black"></path>
-                <path d="M 160,144 L 264,144" fill="none" stroke="black"></path>
-                <path d="M 280,144 L 440,144" fill="none" stroke="black"></path>
+                <path d="M 160,144 L 440,144" fill="none" stroke="black"></path>
                 <path d="M 280,208 L 440,208" fill="none" stroke="black"></path>
                 <path d="M 8,240 L 216,240" fill="none" stroke="black"></path>
                 <path d="M 8,272 L 216,272" fill="none" stroke="black"></path>
-                <circle cx="248" cy="128" r="6" class="closeddot" fill="black"></circle>
+                <polygon class="arrowhead" points="280,144 268,138.4 268,149.6" fill="black" transform="rotate(0,272,144)"></polygon>
+                <polygon class="arrowhead" points="168,232 156,226.4 156,237.6" fill="black" transform="rotate(90,160,232)"></polygon>
+                <polygon class="arrowhead" points="88,232 76,226.4 76,237.6" fill="black" transform="rotate(90,80,232)"></polygon>
+                <polygon class="arrowhead" points="88,104 76,98.4 76,109.6" fill="black" transform="rotate(270,80,104)"></polygon>
                 <g class="text">
                   <text x="48" y="52">PKCS#10</text>
                   <text x="120" y="52">Attribute</text>
@@ -1854,7 +1862,7 @@ one or more AttestationResult structures.<a href="#section-4.2-1" class="pilcrow
                   <text x="36" y="84">CRMF</text>
                   <text x="96" y="84">Extension</text>
                   <text x="56" y="116">1</text>
-                  <text x="232" y="132">1..</text>
+                  <text x="236" y="132">1..n</text>
                   <text x="360" y="132">AttestationResult</text>
                   <text x="308" y="164">Type</text>
                   <text x="316" y="180">Result</text>
@@ -2781,7 +2789,7 @@ Implementers should also be cautious around <code>type</code> OID or <code>hint<
 <dd class="break"></dd>
 <dt id="I-D.ietf-rats-ar4si">[I-D.ietf-rats-ar4si]</dt>
         <dd>
-<span class="refAuthor">Voit, E.</span>, <span class="refAuthor">Birkholz, H.</span>, <span class="refAuthor">Hardjono, T.</span>, <span class="refAuthor">Fossati, T.</span>, and <span class="refAuthor">V. Scarlata</span>, <span class="refTitle">"Attestation Results for Secure Interactions"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-rats-ar4si-07</span>, <time datetime="2024-09-02" class="refDate">2 September 2024</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-rats-ar4si-07">https://datatracker.ietf.org/doc/html/draft-ietf-rats-ar4si-07</a>&gt;</span>. </dd>
+<span class="refAuthor">Voit, E.</span>, <span class="refAuthor">Birkholz, H.</span>, <span class="refAuthor">Hardjono, T.</span>, <span class="refAuthor">Fossati, T.</span>, and <span class="refAuthor">V. Scarlata</span>, <span class="refTitle">"Attestation Results for Secure Interactions"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-rats-ar4si-08</span>, <time datetime="2025-02-06" class="refDate">6 February 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-rats-ar4si-08">https://datatracker.ietf.org/doc/html/draft-ietf-rats-ar4si-08</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.ietf-rats-daa">[I-D.ietf-rats-daa]</dt>
         <dd>

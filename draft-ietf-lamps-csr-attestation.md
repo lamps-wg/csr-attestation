@@ -70,6 +70,7 @@ normative:
   RFC4211:
   RFC2986:
   RFC5280:
+  RFC3986:
 
 informative:
   RFC8126:
@@ -476,7 +477,7 @@ populate it with the formats that they wish to support.
 EvidenceStatement ::= SEQUENCE {
    type   EVIDENCE-STATEMENT.&id({EvidenceStatementSet}),
    stmt   EVIDENCE-STATEMENT.&Type({EvidenceStatementSet}{@type}),
-   hint   UTF8String OPTIONAL
+   hint   IA5String OPTIONAL
 }
 ~~~
 {: #code-EvidenceStatement title="Definition of EvidenceStatement"}
@@ -499,24 +500,34 @@ that multiple Verifiers are registered against the same type OID in which case t
 Relying Party will either require additional parsing of the evidence statement, or
 the Attester will be required to provide additional information.
 
-To simplify the task for the Relying Party an optional field, the hint, is available
-in the EvidenceStatement structure, as shown in {{code-EvidenceStatement}}. An
-Attester MAY include the hint to the EvidenceStatement and it MAY be processed
-by the Relying Party. The Relying Party MAY decide not to trust the information
-embedded in the hint or policy MAY override any information provided by the Attester
-via this hint.
+To simplify the task for the Relying Party to select an appropriate Verifier
+an optional field, the hint, is available in the EvidenceStatement structure,
+as shown in {{code-EvidenceStatement}}. An Attester MAY include the hint to
+the EvidenceStatement and it MAY be processed by the Relying Party. The
+Relying Party MAY decide not to trust the information embedded in the hint
+or policy MAY override any information provided by the Attester via this hint.
 
-When the Attester populates the hint, it MUST contain a fully qualified domain
-name (FQDN) which uniquely identifies a Verifier.
-The problem of mapping hint FQDNs to Verifiers, and the problem of FQDN collision
-is out of scope for this specification; it is assumed that Attester and Verifier
-makers can manage this appropriately on their own FQDN trees, however if this
-becomes problematic then a public registry may be needed.
+When the Attester populates the hint, it MUST contain a server name which
+uniquely identifies a Verifier. Server names are ASCII strings that
+contain a hostname and optional port, where the port is implied to be
+"443" if missing.  The names use the format of the authority portion
+of a URI as defined in Section 3.2 of {{RFC3986}}. The names MUST NOT
+include a "userinfo" portion of an authority.  For example, a valid
+server name might be "verifier.example.com" or
+"verifier.example.com:8443", but not "verifier@example.com".
+
+Relying Parties SHOULD NOT connect to a host name provided in the hint,
+especially if the verifier has no previous trust relationship with that
+host name, instead this SHOULD be used only as a lookup string for
+determining between a list of Verifiers that the Relying Party is
+pre-configured to use.
 
 In a typical usage scenario, the Relying Party is pre-configured with
 a list of trusted Verifiers and the corresponding hint values can be used to look
-up appropriate Verifier. Tricking an Relying Party into interacting with an unknown
-and untrusted Verifier must be avoided.
+up appropriate Verifier. The Relying Party is also configured with a trust
+anchor for each Verifier, which allows the Verifier to validate the signature
+protecting the Attestation Result. Tricking a Relying Party into interacting
+with an unknown and untrusted Verifier must be avoided.
 
 Usage of the hint field can be seen in the TPM2_attest example in
 {{appdx-tpm2}} where the type OID indicates the OID
@@ -941,13 +952,12 @@ The reason for this is that certificates are considered public information and t
 The certificate requester has consented to sharing this detailed device information with the CA but might not consent to having these details published.
 These privacy considerations are beyond the scope of this document and may require additional signaling mechanisms in the CSR to prevent unintended publication of sensitive information, so we leave it as "NOT RECOMMENDED". Often, the correct layer at which to address this is either in certificate profiles, a Certificate Practice Statement (CPS), or in the protocol or application that carries the CSR to the RA/CA where a flag can be added indicating whether the RA/CA should consider the evidence to be public or private.
 
-## Type OID and verifier hint
+## Type OID and Verifier Hint
 
-The `EvidenceStatement` includes both a `type` OID and a free form `hint` field with which the Attester can provide information to the Relying Party about which Verifier to invoke to parse a given piece of Evidence.
+The `EvidenceStatement` includes both a `type` OID and a `hint` field with which the Attester can provide information to the Relying Party about which Verifier to invoke to parse a given piece of Evidence.
 Care should be taken when processing these data since at the time they are used, they are not yet verified. In fact, they are protected by the CSR signature but not by the signature from the Attester and so could be maliciously replaced in some cases.
-The authors' intent is that the `type` OID and `hint` will allow an RP to select between Verifier with which it has pre-established trust relationships, such as Verifier libraries that have been compiled in to the RP application.
-As an example, the `hint` may take the form of an FQDN to uniquely identify a Verifier implementation, but the RP MUST NOT blindly make network calls to unknown domain names and trust the results.
-Implementers should also be cautious around `type` OID or `hint` values that cause a short-circuit in the verification logic, such as `None`, `Null`, `Debug`, empty CMW contents, or similar values that could cause the Evidence to appear to be valid when in fact it was not properly checked.
+The authors' intent is that the `type` OID and `hint` will allow an RP to select between Verifier with which it has pre-established trust relationships. The RP MUST NOT blindly make network calls to unknown domain names and trust the results.
+Implementers should also be cautious around `type` OID or `hint` values that cause a short-circuit in the verification logic, such as `None`, `Null`, or similar values that could cause the Evidence to appear to be valid when in fact it was not properly checked.
 
 ## Additional Security Considerations
 

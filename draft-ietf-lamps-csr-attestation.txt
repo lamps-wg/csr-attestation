@@ -646,7 +646,7 @@ Table of Contents
    certificates.  It is up to the Attester and its Verifier to agree on
    supported certificate formats.
 
-   id-aa-evidence OBJECT IDENTIFIER ::= { id-ata 59 }
+   id-aa-evidence OBJECT IDENTIFIER ::= { id-aa 59 }
 
    -- For PKCS#10
    attr-evidence ATTRIBUTE ::= {
@@ -683,10 +683,12 @@ Table of Contents
 
 6.1.  Object Identifiers
 
-   This document defines the arc depicted in Figure 12.
+   This document defines the OID depicted in Figure 12 as an additional
+   CSR Attribute (PKCS#10) or Extension (CRMF) to carry Attestation
+   Results in a CSR.
 
    -- Arc for Attestation Result types
-   id-aa-ar OBJECT IDENTIFIER ::= { id-ata (TBD2) }
+   id-aa-ar OBJECT IDENTIFIER ::= { id-aa (TBD2) }
 
          Figure 12: New OID Arc for PKIX Attestation Result Formats
 
@@ -726,8 +728,6 @@ Table of Contents
    of stmt.
 
  AttestationResultBundle ::= SEQUENCE SIZE (1..MAX) OF AttestationResult
-
-   id-aa-ar OBJECT IDENTIFIER ::= { id-ata 60 }
 
    -- For PKCS#10
    attr-ar ATTRIBUTE ::= {
@@ -798,6 +798,9 @@ Table of Contents
 
 7.1.  Module Registration - SMI Security for PKIX Module Identifier
 
+   IANA is asked to register the following within the registry id-mod
+   SMI Security for PKIX Module Identifier (1.3.6.1.5.5.7.0).
+
    *  Decimal: IANA Assigned - *Replace TBDMOD*
 
    *  Description: CSR-ATTESTATION-2023 - id-mod-pkix-attest-01
@@ -806,6 +809,9 @@ Table of Contents
 
 7.2.  Object Identifier Registrations - SMI Security for S/MIME
       Attributes
+
+   IANA is asked to register the following within the registry id-aa SMI
+   Security for S/MIME Attributes (1.2.840.113549.1.9.16.2).
 
    *  Evidence Statement
 
@@ -2016,7 +2022,7 @@ Appendix B.  ASN.1 Module
    id-aa-evidence OBJECT IDENTIFIER ::= { id-aa 59 }
 
    -- Arc for Attestation Result types
-   id-aa-ar OBJECT IDENTIFIER ::= { id-ata (TBD2) }
+   id-aa-ar OBJECT IDENTIFIER ::= { id-aa (TBD2) }
 
    -- For PKCS#10 (Evidence)
    attr-evidence ATTRIBUTE ::= {

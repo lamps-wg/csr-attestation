@@ -113,7 +113,7 @@ Table of Contents
      8.1.  Background Check Model Security Considerations
      8.2.  Freshness for the Background Check Model
      8.3.  Publishing Evidence in an X.509 Extension
-     8.4.  Type OID and verifier hint
+     8.4.  Type OID and Verifier Hint
      8.5.  Additional Security Considerations
    9.  References
      9.1.  Normative References
@@ -551,7 +551,7 @@ Table of Contents
    EvidenceStatement ::= SEQUENCE {
       type   EVIDENCE-STATEMENT.&id({EvidenceStatementSet}),
       stmt   EVIDENCE-STATEMENT.&Type({EvidenceStatementSet}{@type}),
-      hint   UTF8String OPTIONAL
+      hint   IA5String OPTIONAL
    }
 
                  Figure 10: Definition of EvidenceStatement
@@ -577,25 +577,36 @@ Table of Contents
    will either require additional parsing of the evidence statement, or
    the Attester will be required to provide additional information.
 
-   To simplify the task for the Relying Party an optional field, the
-   hint, is available in the EvidenceStatement structure, as shown in
-   Figure 10.  An Attester MAY include the hint to the EvidenceStatement
-   and it MAY be processed by the Relying Party.  The Relying Party MAY
-   decide not to trust the information embedded in the hint or policy
-   MAY override any information provided by the Attester via this hint.
+   To simplify the task for the Relying Party to select an appropriate
+   Verifier an optional field, the hint, is available in the
+   EvidenceStatement structure, as shown in Figure 10.  An Attester MAY
+   include the hint to the EvidenceStatement and it MAY be processed by
+   the Relying Party.  The Relying Party MAY decide not to trust the
+   information embedded in the hint or policy MAY override any
+   information provided by the Attester via this hint.
 
-   When the Attester populates the hint, it MUST contain a fully
-   qualified domain name (FQDN) which uniquely identifies a Verifier.
-   The problem of mapping hint FQDNs to Verifiers, and the problem of
-   FQDN collision is out of scope for this specification; it is assumed
-   that Attester and Verifier makers can manage this appropriately on
-   their own FQDN trees, however if this becomes problematic then a
-   public registry may be needed.
+   When the Attester populates the hint, it MUST contain a server name
+   which uniquely identifies a Verifier.  Server names are ASCII strings
+   that contain a hostname and optional port, where the port is implied
+   to be "443" if missing.  The names use the format of the authority
+   portion of a URI as defined in Section 3.2 of [RFC3986].  The names
+   MUST NOT include a "userinfo" portion of an authority.  For example,
+   a valid server name might be "verifier.example.com" or
+   "verifier.example.com:8443", but not "verifier@example.com".
+
+   Relying Parties SHOULD NOT connect to a host name provided in the
+   hint, especially if the verifier has no previous trust relationship
+   with that host name, instead this SHOULD be used only as a lookup
+   string for determining between a list of Verifiers that the Relying
+   Party is pre-configured to use.
 
    In a typical usage scenario, the Relying Party is pre-configured with
    a list of trusted Verifiers and the corresponding hint values can be
-   used to look up appropriate Verifier.  Tricking an Relying Party into
-   interacting with an unknown and untrusted Verifier must be avoided.
+   used to look up appropriate Verifier.  The Relying Party is also
+   configured with a trust anchor for each Verifier, which allows the
+   Verifier to validate the signature protecting the Attestation Result.
+   Tricking a Relying Party into interacting with an unknown and
+   untrusted Verifier must be avoided.
 
    Usage of the hint field can be seen in the TPM2_attest example in
    Appendix A.2 where the type OID indicates the OID id-TcgAttestCertify
@@ -1152,26 +1163,22 @@ Table of Contents
    RA/CA where a flag can be added indicating whether the RA/CA should
    consider the evidence to be public or private.
 
-8.4.  Type OID and verifier hint
+8.4.  Type OID and Verifier Hint
 
-   The EvidenceStatement includes both a type OID and a free form hint
-   field with which the Attester can provide information to the Relying
-   Party about which Verifier to invoke to parse a given piece of
-   Evidence.  Care should be taken when processing these data since at
-   the time they are used, they are not yet verified.  In fact, they are
-   protected by the CSR signature but not by the signature from the
-   Attester and so could be maliciously replaced in some cases.  The
-   authors' intent is that the type OID and hint will allow an RP to
-   select between Verifier with which it has pre-established trust
-   relationships, such as Verifier libraries that have been compiled in
-   to the RP application.  As an example, the hint may take the form of
-   an FQDN to uniquely identify a Verifier implementation, but the RP
-   MUST NOT blindly make network calls to unknown domain names and trust
-   the results.  Implementers should also be cautious around type OID or
+   The EvidenceStatement includes both a type OID and a hint field with
+   which the Attester can provide information to the Relying Party about
+   which Verifier to invoke to parse a given piece of Evidence.  Care
+   should be taken when processing these data since at the time they are
+   used, they are not yet verified.  In fact, they are protected by the
+   CSR signature but not by the signature from the Attester and so could
+   be maliciously replaced in some cases.  The authors' intent is that
+   the type OID and hint will allow an RP to select between Verifier
+   with which it has pre-established trust relationships.  The RP MUST
+   NOT blindly make network calls to unknown domain names and trust the
+   results.  Implementers should also be cautious around type OID or
    hint values that cause a short-circuit in the verification logic,
-   such as None, Null, Debug, empty CMW contents, or similar values that
-   could cause the Evidence to appear to be valid when in fact it was
-   not properly checked.
+   such as None, Null, or similar values that could cause the Evidence
+   to appear to be valid when in fact it was not properly checked.
 
 8.5.  Additional Security Considerations
 
@@ -1198,6 +1205,11 @@ Table of Contents
               Request Syntax Specification Version 1.7", RFC 2986,
               DOI 10.17487/RFC2986, November 2000,
               <https://www.rfc-editor.org/rfc/rfc2986>.
+
+   [RFC3986]  Berners-Lee, T., Fielding, R., and L. Masinter, "Uniform
+              Resource Identifier (URI): Generic Syntax", STD 66,
+              RFC 3986, DOI 10.17487/RFC3986, January 2005,
+              <https://www.rfc-editor.org/rfc/rfc3986>.
 
    [RFC4211]  Schaad, J., "Internet X.509 Public Key Infrastructure
               Certificate Request Message Format (CRMF)", RFC 4211,
@@ -1992,7 +2004,7 @@ Appendix B.  ASN.1 Module
    EvidenceStatement ::= SEQUENCE {
       type   EVIDENCE-STATEMENT.&id({EvidenceStatementSet}),
       stmt   EVIDENCE-STATEMENT.&Type({EvidenceStatementSet}{@type}),
-      hint   UTF8String OPTIONAL
+      hint   IA5String OPTIONAL
    }
 
    AttestationResult ::= SEQUENCE {

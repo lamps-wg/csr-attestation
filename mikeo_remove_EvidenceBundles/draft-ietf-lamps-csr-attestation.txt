@@ -2266,7 +2266,7 @@ B.2.  TCG DICE TcbInfo Example in CSR
                    // CONTEXT_SPECIFIC | type (09)
                    // type = 0x00000000
                    89 04 00 00 00 00
-                 // hint: UTF8STRING "DiceTcbInfo.example.com"
+                 // hint: IA5String "DiceTcbInfo.example.com"
                  0C 17 44 69 63 65 54 63 62 49 6e 66 6f
                  2e 65 78 61 6d 70 6c 65 2e 63 6f 6d
 
@@ -2278,7 +2278,7 @@ B.2.  TCG DICE TcbInfo Example in CSR
    60 86 48 01 65 03 04 02 01 04 20 00 00 00 00 00
    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
    00 00 00 00 00 00 00 00 00 00 00 88 04 00 00 00
-   00 89 04 00 00 00 00 0c 17 44 69 63 65 54 63 62
+   00 89 04 00 00 00 00 16 17 44 69 63 65 54 63 62
    49 6e 66 6f 2e 65 78 61 6d 70 6c 65 2e 63 6f 6d
 
 Appendix C.  Acknowledgments

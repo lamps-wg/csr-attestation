@@ -5,14 +5,14 @@
 Network Working Group                                       M. Ounsworth
 Internet-Draft                                                   Entrust
 Intended status: Standards Track                           H. Tschofenig
-Expires: 17 August 2025                                          Siemens
+Expires: 31 August 2025                                          Siemens
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                               M. Wiseman
                                                          Beyond Identity
                                                                 N. Smith
                                                        Intel Corporation
-                                                        13 February 2025
+                                                        27 February 2025
 
 
      Use of Remote Attestation with Certification Signing Requests
@@ -65,7 +65,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 17 August 2025.
+   This Internet-Draft will expire on 31 August 2025.
 
 Copyright Notice
 
@@ -593,6 +593,12 @@ Table of Contents
    MUST NOT include a "userinfo" portion of an authority.  For example,
    a valid server name might be "verifier.example.com" or
    "verifier.example.com:8443", but not "verifier@example.com".
+
+   Relying Parties SHOULD NOT connect to a host name provided in the
+   hint, especially if the verifier has no previous trust relationship
+   with that host name, instead this SHOULD be used only as a lookup
+   string for determining between a list of Verifiers that the Relying
+   Party is pre-configured to use.
 
    In a typical usage scenario, the Relying Party is pre-configured with
    a list of trusted Verifiers and the corresponding hint values can be

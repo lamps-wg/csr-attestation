@@ -61,7 +61,7 @@ AttestationResult ::= SEQUENCE {
 id-aa-evidence OBJECT IDENTIFIER ::= { id-aa 59 }
 
 -- Arc for Attestation Result types
-id-aa-ar OBJECT IDENTIFIER ::= { id-ata (TBD2) }
+id-aa-ar OBJECT IDENTIFIER ::= { id-aa (TBD2) }
 
 -- For PKCS#10 (Evidence)
 attr-evidence ATTRIBUTE ::= {

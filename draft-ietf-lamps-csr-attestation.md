@@ -555,7 +555,7 @@ Evidence signer key back to an agreed upon trust anchor. No specific order of th
 This specification places no restriction on mixing certificate types within the `certs` field. For example a non-X.509 Evidence signer certificate MAY chain to a trust anchor via a chain of X.509 certificates. It is up to the Attester and its Verifier to agree on supported certificate formats.
 
 ~~~
-id-aa-evidence OBJECT IDENTIFIER ::= { id-ata 59 }
+id-aa-evidence OBJECT IDENTIFIER ::= { id-aa 59 }
 
 -- For PKCS#10
 attr-evidence ATTRIBUTE ::= {
@@ -580,11 +580,11 @@ By the nature of the PKIX ASN.1 classes {{RFC5912}}, there are multiple ways to 
 
 ##  Object Identifiers
 
-This document defines the arc depicted in {{code-ar-arc}}.
+This document defines the OID depicted in {{code-ar-arc}} as an additional CSR Attribute (PKCS#10) or Extension (CRMF) to carry Attestation Results in a CSR.
 
 ~~~
 -- Arc for Attestation Result types
-id-aa-ar OBJECT IDENTIFIER ::= { id-ata (TBD2) }
+id-aa-ar OBJECT IDENTIFIER ::= { id-aa (TBD2) }
 ~~~
 {: #code-ar-arc title="New OID Arc for PKIX Attestation Result Formats"}
 
@@ -629,8 +629,6 @@ AttestationResultBundle ::= SEQUENCE SIZE (1..MAX) OF AttestationResult
 ~~~
 
 ~~~
-id-aa-ar OBJECT IDENTIFIER ::= { id-ata 60 }
-
 -- For PKCS#10
 attr-ar ATTRIBUTE ::= {
   TYPE AttestationResultBundle
@@ -698,11 +696,17 @@ S/MIME Attributes" to identify two attributes defined within.
 
 ##  Module Registration - SMI Security for PKIX Module Identifier
 
+IANA is asked to register the following within the registry id-mod
+SMI Security for PKIX Module Identifier (1.3.6.1.5.5.7.0).
+
 -  Decimal: IANA Assigned - **Replace TBDMOD**
 -  Description: CSR-ATTESTATION-2023 - id-mod-pkix-attest-01
 -  References: This Document
 
 ##  Object Identifier Registrations - SMI Security for S/MIME Attributes
+
+IANA is asked to register the following within the registry id-aa
+SMI Security for S/MIME Attributes (1.2.840.113549.1.9.16.2).
 
 - Evidence Statement
 - Decimal: IANA Assigned - This was early-allocated as `59` so that we could generate the sample data.

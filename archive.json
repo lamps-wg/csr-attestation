@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-02-27T01:02:21.160243+00:00",
+  "timestamp": "2025-03-02T01:06:14.487170+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -1497,9 +1497,17 @@
       "labels": [],
       "body": "Replace the TBD in:\r\n\r\n> Registration requests are evaluated using the criteria described in\r\nthe registration template below after a three-week review period on\r\nthe [[TBD]] mailing list",
       "createdAt": "2024-05-10T12:29:37Z",
-      "updatedAt": "2024-09-23T16:27:01Z",
+      "updatedAt": "2025-02-27T17:09:08Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "body": "We should talk to the chairs about this list (or to IANA).",
+          "createdAt": "2025-02-27T17:09:07Z",
+          "updatedAt": "2025-02-27T17:09:07Z"
+        }
+      ]
     },
     {
       "number": 124,
@@ -1811,7 +1819,7 @@
       "id": "I_kwDOJ3IIN86OFeto",
       "title": "Should the DICE CMW example have a complete ASN.1 Module?",
       "url": "https://github.com/lamps-wg/csr-attestation/issues/144",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "ounsworth",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [
@@ -1820,8 +1828,8 @@
       "labels": [],
       "body": "Feedback from Carl:\r\n\r\n> Section B.1\r\n> This should probably be presented as a standalone ASN.1 module that adds this definition instead of as a snip from an ASN.1 module.\r\n\r\nI will discuss with @nedmsmith .",
       "createdAt": "2024-07-01T13:03:45Z",
-      "updatedAt": "2024-09-26T18:20:23Z",
-      "closedAt": null,
+      "updatedAt": "2025-02-27T17:10:08Z",
+      "closedAt": "2025-02-27T17:10:07Z",
       "comments": [
         {
           "author": "nedmsmith",
@@ -1829,6 +1837,13 @@
           "body": "Fixed in PR #160",
           "createdAt": "2024-09-26T18:20:22Z",
           "updatedAt": "2024-09-26T18:20:22Z"
+        },
+        {
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Closed based on the PR from Ned.",
+          "createdAt": "2025-02-27T17:10:07Z",
+          "updatedAt": "2025-02-27T17:10:07Z"
         }
       ]
     },
@@ -1888,7 +1903,7 @@
       "id": "I_kwDOJ3IIN86O8Suj",
       "title": "More feedback on TPM appdx from MSJ",
       "url": "https://github.com/lamps-wg/csr-attestation/issues/151",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "ounsworth",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [
@@ -1897,9 +1912,24 @@
       "labels": [],
       "body": "See mail-list thread:\r\nhttps://mailarchive.ietf.org/arch/msg/spasm/mN2o2mP8mAKfQub6olWThF8ftMk/\r\n\r\n-----\r\n\r\nSo I still have issues with this section (and yes, I'm now working from \r\nthe -10 draft):\r\n\r\n1) There is no functional mapping from a SubjectPublicKeyInfo to a \r\nTPMT_PUBLIC  [f(spki)->tpmt_public], which means there is no guaranteed \r\nway to calculate the TPM2B_NAME \"name\" field in the attestation's \r\nTPMS_CERTIFY_INFO from the SPKI in the CSR.  You can however calculate \r\nthe TPM2B_NAME from a TPMT_PUBLIC object, and you can match a \r\nTPMT_PUBLIC to an SPKI allowing you to verify that the attestation is \r\nabout the public key in the CSR.   This makes the TPMT_PUBLIC mandatory \r\nto complete the attestation of a public key, not optional.   A \r\ndiscussion of how to map across this set of relationships rather than \r\ngoing into details of the various structures appears necessary or at \r\nleast pointers to the sections in the TPM documents.\r\n\r\n2) (Section A.2.5.5) There's a TPM2B_DATA qualifyingData argument to the \r\nTPM2_Certify command that can be used to provide nonce data.  To verify \r\nthe attestation, you need to know what nonce the TPM used to form it.   \r\nThere needs to be a field in Tcg-csr-tpm-certify to provide for the \r\ncarriage of this value.  If it's omitted, a standard value is provided \r\nat the time of the creation of the attestation.  \"qualifyingData\" is an \r\ninput used in all 6 of the TPM certify commands and should not be \r\nomitted from the example. It may be optional in the structure, but must \r\nnot be omitted if the attestation formation used qualifyingData.\r\n\r\n3) A.2.5.2 - \"This document will specifically define...\" seems to imply \r\nthat you can safely ignore the TPMV2 documents definition of TPMT_PUBLIC \r\nin favor of this documents definition- that seems strange.\r\n\r\n4) Same section.  If you're going to expand the TPMA_OBJECT structure, \r\nit might be useful to describe what a relying party might want to check \r\nhere.  E.g. generated on the TPM, not extractable, either a signing, key \r\nagreement or encrypting and not a restricted key.\r\n\r\n5) A.2.5.3 - You've chosen to carry the signature in the TPM way - it \r\ncould also be carried in a PKIX way.  Either is valid, the second might \r\nbe easier for a relying party to handle.\r\n\r\n6) Most of the A.2.5 section would be better if removed and replaced \r\nwith document references to the actual TPMV2 documents.\r\n\r\n7) A.2.6 - I'm assuming that the CA certificate in the CSR \r\nEvidenceBundle.certs is the CA certificate that signed the AK. I'm \r\nunclear why it's here unless its an intermediate CA subordinate to a \r\nwell known root of trust. (Looking at the asn1 dump, that doesn't seem \r\nto be the case).\r\n\r\n8) Some discussion of what information the verifier needs to give you an \r\nanswer might be useful.  (e.g afaict, a Verifier needs the CSR's key to \r\nbe certified, the TPMT_PUBLIC content octets, the signature content \r\noctets and the attestation content octets.  Or it needs to be able to \r\nparse ASN1 from the entire CSR.\r\n\r\nItem's 1 and 2 need to be fixed.  (3) may need to be fixed, or at least \r\nreworded.  Items 4-8 would add useful content, but are mostly a don't \r\ncare from my point of view.\r\n\r\nLater, Mike",
       "createdAt": "2024-07-09T13:04:27Z",
-      "updatedAt": "2024-08-26T16:42:53Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2025-03-01T00:57:33Z",
+      "closedAt": "2025-03-01T00:57:33Z",
+      "comments": [
+        {
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Asked Monty whether this issue can be closed",
+          "createdAt": "2025-02-27T17:07:03Z",
+          "updatedAt": "2025-02-27T17:07:03Z"
+        },
+        {
+          "author": "mwiseman-byid",
+          "authorAssociation": "COLLABORATOR",
+          "body": "We closed this via email and during IETF-121.",
+          "createdAt": "2025-03-01T00:57:30Z",
+          "updatedAt": "2025-03-01T00:57:30Z"
+        }
+      ]
     },
     {
       "number": 152,
@@ -1933,7 +1963,7 @@
       "id": "I_kwDOJ3IIN86V8T_s",
       "title": "Appendix B.1 and B.2 need some TLC",
       "url": "https://github.com/lamps-wg/csr-attestation/issues/155",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "thomas-fossati",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [
@@ -1942,8 +1972,8 @@
       "labels": [],
       "body": "@henkbirkholz asked me to look at B.1 and B.2.\r\n\r\nTwo observations:\r\n\r\n* The title is the same and a good percentage of the prose portion is repeated. It is not clear why both sections are needed.  (My guess is you wanted to have CMW and TCBInfo examples one alongside the other, but for some reason, you ended in this garbled situation.)\r\n* The example in B.2 is not a CMW, it's a DICE TCBInfo.  To be a CMW it should use OID [id-pe-cmw](https://www.iana.org/assignments/smi-numbers/smi-numbers.xhtml#smi-numbers-1.3.6.1.5.5.7.1), and the encoding defined in [Section 5 of CMW](https://www.ietf.org/archive/id/draft-ietf-rats-msg-wrap-08.html#section-5-8).\r\n\r\nIn conclusion:\r\n1. The title of B.2 should be \"TCG DiceTCBInfo in CSR\", and\r\n2. B.1 still needs some tender love and care.\r\n \r\nThis may be related to #144 ",
       "createdAt": "2024-09-10T07:19:23Z",
-      "updatedAt": "2024-09-26T17:57:54Z",
-      "closedAt": null,
+      "updatedAt": "2025-02-27T17:11:21Z",
+      "closedAt": "2025-02-27T17:11:21Z",
       "comments": [
         {
           "author": "henkbirkholz",
@@ -1972,6 +2002,13 @@
           "body": "Fixed in PR #160 ",
           "createdAt": "2024-09-26T17:57:52Z",
           "updatedAt": "2024-09-26T17:57:52Z"
+        },
+        {
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Close based on the PR from Ned.",
+          "createdAt": "2025-02-27T17:11:21Z",
+          "updatedAt": "2025-02-27T17:11:21Z"
         }
       ]
     },
@@ -2013,7 +2050,7 @@
       "id": "I_kwDOJ3IIN86W_xRs",
       "title": "hint: FQDN vs. URI vs. URN",
       "url": "https://github.com/lamps-wg/csr-attestation/issues/157",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "hannestschofenig",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -2022,16 +2059,24 @@
       "labels": [],
       "body": "There is still an open issue based on the discussions at this PR:\r\nhttps://github.com/lamps-wg/csr-attestation/pull/143",
       "createdAt": "2024-09-18T10:06:12Z",
-      "updatedAt": "2024-09-23T16:36:09Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2025-02-27T16:54:47Z",
+      "closedAt": "2025-02-27T16:54:46Z",
+      "comments": [
+        {
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Addressed with PR https://github.com/lamps-wg/csr-attestation/pull/180",
+          "createdAt": "2025-02-27T16:54:46Z",
+          "updatedAt": "2025-02-27T16:54:46Z"
+        }
+      ]
     },
     {
       "number": 158,
       "id": "I_kwDOJ3IIN86XlPxp",
       "title": "Add OID for CMW in the IANA Consideration Section",
       "url": "https://github.com/lamps-wg/csr-attestation/issues/158",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "hannestschofenig",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -2041,8 +2086,8 @@
       "labels": [],
       "body": "",
       "createdAt": "2024-09-23T16:23:40Z",
-      "updatedAt": "2024-09-26T18:19:36Z",
-      "closedAt": null,
+      "updatedAt": "2025-02-27T17:05:11Z",
+      "closedAt": "2025-02-27T17:05:10Z",
       "comments": [
         {
           "author": "hannestschofenig",
@@ -2057,6 +2102,13 @@
           "body": "Fixed in PR #160 ",
           "createdAt": "2024-09-26T18:19:34Z",
           "updatedAt": "2024-09-26T18:19:34Z"
+        },
+        {
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Based on PR #160 this issue can be closed.",
+          "createdAt": "2025-02-27T17:05:11Z",
+          "updatedAt": "2025-02-27T17:05:11Z"
         }
       ]
     },
@@ -2065,7 +2117,7 @@
       "id": "I_kwDOJ3IIN86XlVAL",
       "title": "DICE IANA Registry Contents",
       "url": "https://github.com/lamps-wg/csr-attestation/issues/159",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "hannestschofenig",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -2075,8 +2127,8 @@
       "labels": [],
       "body": "Change the description to match what is in the TCG registry.",
       "createdAt": "2024-09-23T16:35:22Z",
-      "updatedAt": "2024-09-26T17:57:20Z",
-      "closedAt": null,
+      "updatedAt": "2025-02-27T17:10:28Z",
+      "closedAt": "2025-02-27T17:10:26Z",
       "comments": [
         {
           "author": "nedmsmith",
@@ -2084,6 +2136,13 @@
           "body": "Fixed in PR #160 ",
           "createdAt": "2024-09-26T17:57:19Z",
           "updatedAt": "2024-09-26T17:57:19Z"
+        },
+        {
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Close based on the PR from Ned.",
+          "createdAt": "2025-02-27T17:10:27Z",
+          "updatedAt": "2025-02-27T17:10:27Z"
         }
       ]
     },
@@ -2116,7 +2175,7 @@
       "id": "I_kwDOJ3IIN86Z4SVV",
       "title": "CSR-ATTESTATION-WITH-DiceTcbInfo Example",
       "url": "https://github.com/lamps-wg/csr-attestation/issues/167",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "hannestschofenig",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -2125,8 +2184,8 @@
       "labels": [],
       "body": "Update the example based on the removed EvidenceBundle",
       "createdAt": "2024-10-11T15:37:32Z",
-      "updatedAt": "2024-12-04T16:06:08Z",
-      "closedAt": null,
+      "updatedAt": "2025-02-27T17:04:15Z",
+      "closedAt": "2025-02-27T17:04:14Z",
       "comments": [
         {
           "author": "tyb-dev",
@@ -2141,6 +2200,13 @@
           "body": "Correct.",
           "createdAt": "2024-12-04T16:06:06Z",
           "updatedAt": "2024-12-04T16:06:06Z"
+        },
+        {
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I checked the examples and they appear correct now.",
+          "createdAt": "2025-02-27T17:04:14Z",
+          "updatedAt": "2025-02-27T17:04:14Z"
         }
       ]
     },
@@ -2229,15 +2295,15 @@
       "id": "I_kwDOJ3IIN86oK_sq",
       "title": "Major issues from Russ",
       "url": "https://github.com/lamps-wg/csr-attestation/issues/177",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "ounsworth",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
-      "body": "Don't close until:\n\n- [ ] Hannes looks at the comment at the bottom.\n\n\n----\n\n\nI have serious problems with this document.\n\nThere is already an allocation for  id-aa-evidence, but it is now in id-ata.\n\nThe early assignment was made here: [https://www.iana.org/assignments/smi-numbers/smi-numbers.xhtml#security-smime-2](https://urldefense.com/v3/__https:/www.iana.org/assignments/smi-numbers/smi-numbers.xhtml*security-smime-2__;Iw!!FJ-Y8qCqXTj2!dez0Irbc1C_3H-5IEpwbHMBXSstWKfpjvD49_V5MapwMYd5FIjf47oVr7bw_ex2HanZVSUh6MIvSWhgqHwqjMjXZqPyS$)\n\nPLEASE change it back to:\n\n   id-aa-evidence OBJECT IDENTIFIER ::= { id-aa 59 }\n\nIn Section 7.2, there was no such early allocation request for:\n\n   id-aa-ar OBJECT IDENTIFIER ::= { id-ata 60 }\n\nAssuming this was to be allocated in the same arc as id-aa-evidence, PLEASE stop using 60. It is already allocated for something else.\n\nThere is a formatting problem in Appendix A.4.  I cannot figure it out; markdown went haywire.\n\nIn Appendix B, I am very uncomfortable with the OID assignments:\n\n    id-aa OBJECT IDENTIFIER ::= { 1 2 840 113549 1 9 16 2 }\n    -- IMPORTed FROM SecureMimeMessageV3dot1\n\n   id-ata OBJECT IDENTIFIER ::= { id-aa (TBD1) }\n\n   id-aa-evidence OBJECT IDENTIFIER ::= { id-ata 59 }\n\nThere is already an allocation for this OID.  Early assignment was made here:\n[https://www.iana.org/assignments/smi-numbers/smi-numbers.xhtml#security-smime-2](https://urldefense.com/v3/__https:/www.iana.org/assignments/smi-numbers/smi-numbers.xhtml*security-smime-2__;Iw!!FJ-Y8qCqXTj2!dez0Irbc1C_3H-5IEpwbHMBXSstWKfpjvD49_V5MapwMYd5FIjf47oVr7bw_ex2HanZVSUh6MIvSWhgqHwqjMjXZqPyS$)\n\nThis does not match that early assignment.  PLEASE change it back to:\n\n   id-aa-evidence OBJECT IDENTIFIER ::= { id-aa 59 }\n\nThis seems to be a muddling between id-aa-ar and id-aa-ata.  I think they are very different purposes, buy one is a arc within the other.\n\nIn Appendix B, there is '\\' line wrapping per RFC 8792.  Why?  There are three cases, and they are all easily avoided:\n\nOLD:\n\n   Certificate, id-pkix\n     FROM PKIX1Explicit-2009\n       { iso(1) identified-organization(3) dod(6) internet(1) security(\\\n                                                                      5)\n       mechanisms(5) pkix(7) id-mod(0) id-mod-pkix1-explicit-02(51) }\n\nNEW:\n\n   Certificate, id-pkix\n     FROM PKIX1Explicit-2009   -- from [RFC5912]\n       { iso(1) identified-organization(3) dod(6) internet(1)\n         security(5) mechanisms(5) pkix(7) id-mod(0)\n         id-mod-pkix1-explicit-02(51) }\n\nOLD:\n\n   EXTENSION, ATTRIBUTE, AttributeSet{}, SingleAttribute{}\n     FROM PKIX-CommonTypes-2009 -- from [RFC5912]\n       { iso(1) identified-organization(3) dod(6) internet(1) security(\\\n                                                                      5)\n       mechanisms(5) pkix(7) id-mod(0) id-mod-pkixCommon-02(57) }\n\nNEW:\n\n   EXTENSION, ATTRIBUTE, AttributeSet{}, SingleAttribute{}\n     FROM PKIX-CommonTypes-2009 -- from [RFC5912]\n       { iso(1) identified-organization(3) dod(6) internet(1)\n         security(5) mechanisms(5) pkix(7) id-mod(0)\n         id-mod-pkixCommon-02(57) }\n\nOLD:\n\n   AttestationResultBundle ::= SEQUENCE SIZE (1..MAX) OF \\\n                                                       AttestationResult\n\nNEW:\n\n   AttestationResultBundle ::= SEQUENCE SIZE (1..MAX)\n                                  OF AttestationResult\n\nSimilar changes can be made in B.1 and B.2.\n\nIn Appendix C, it is unusual for an author to be acknowledged.\n\nRuss",
+      "body": "Don't close until:\n\n- [x] Hannes looks at the comment at the bottom.\n- [ ] Check that the sample uses the correct OID for id-aa-evidence\n\n\n----\n\n\nI have serious problems with this document.\n\nThere is already an allocation for  id-aa-evidence, but it is now in id-ata.\n\nThe early assignment was made here: [https://www.iana.org/assignments/smi-numbers/smi-numbers.xhtml#security-smime-2](https://urldefense.com/v3/__https:/www.iana.org/assignments/smi-numbers/smi-numbers.xhtml*security-smime-2__;Iw!!FJ-Y8qCqXTj2!dez0Irbc1C_3H-5IEpwbHMBXSstWKfpjvD49_V5MapwMYd5FIjf47oVr7bw_ex2HanZVSUh6MIvSWhgqHwqjMjXZqPyS$)\n\nPLEASE change it back to:\n\n   id-aa-evidence OBJECT IDENTIFIER ::= { id-aa 59 }\n\nIn Section 7.2, there was no such early allocation request for:\n\n   id-aa-ar OBJECT IDENTIFIER ::= { id-ata 60 }\n\nAssuming this was to be allocated in the same arc as id-aa-evidence, PLEASE stop using 60. It is already allocated for something else.\n\nThere is a formatting problem in Appendix A.4.  I cannot figure it out; markdown went haywire.\n\nIn Appendix B, I am very uncomfortable with the OID assignments:\n\n    id-aa OBJECT IDENTIFIER ::= { 1 2 840 113549 1 9 16 2 }\n    -- IMPORTed FROM SecureMimeMessageV3dot1\n\n   id-ata OBJECT IDENTIFIER ::= { id-aa (TBD1) }\n\n   id-aa-evidence OBJECT IDENTIFIER ::= { id-ata 59 }\n\nThere is already an allocation for this OID.  Early assignment was made here:\n[https://www.iana.org/assignments/smi-numbers/smi-numbers.xhtml#security-smime-2](https://urldefense.com/v3/__https:/www.iana.org/assignments/smi-numbers/smi-numbers.xhtml*security-smime-2__;Iw!!FJ-Y8qCqXTj2!dez0Irbc1C_3H-5IEpwbHMBXSstWKfpjvD49_V5MapwMYd5FIjf47oVr7bw_ex2HanZVSUh6MIvSWhgqHwqjMjXZqPyS$)\n\nThis does not match that early assignment.  PLEASE change it back to:\n\n   id-aa-evidence OBJECT IDENTIFIER ::= { id-aa 59 }\n\nThis seems to be a muddling between id-aa-ar and id-aa-ata.  I think they are very different purposes, buy one is a arc within the other.\n\nIn Appendix B, there is '\\' line wrapping per RFC 8792.  Why?  There are three cases, and they are all easily avoided:\n\nOLD:\n\n   Certificate, id-pkix\n     FROM PKIX1Explicit-2009\n       { iso(1) identified-organization(3) dod(6) internet(1) security(\\\n                                                                      5)\n       mechanisms(5) pkix(7) id-mod(0) id-mod-pkix1-explicit-02(51) }\n\nNEW:\n\n   Certificate, id-pkix\n     FROM PKIX1Explicit-2009   -- from [RFC5912]\n       { iso(1) identified-organization(3) dod(6) internet(1)\n         security(5) mechanisms(5) pkix(7) id-mod(0)\n         id-mod-pkix1-explicit-02(51) }\n\nOLD:\n\n   EXTENSION, ATTRIBUTE, AttributeSet{}, SingleAttribute{}\n     FROM PKIX-CommonTypes-2009 -- from [RFC5912]\n       { iso(1) identified-organization(3) dod(6) internet(1) security(\\\n                                                                      5)\n       mechanisms(5) pkix(7) id-mod(0) id-mod-pkixCommon-02(57) }\n\nNEW:\n\n   EXTENSION, ATTRIBUTE, AttributeSet{}, SingleAttribute{}\n     FROM PKIX-CommonTypes-2009 -- from [RFC5912]\n       { iso(1) identified-organization(3) dod(6) internet(1)\n         security(5) mechanisms(5) pkix(7) id-mod(0)\n         id-mod-pkixCommon-02(57) }\n\nOLD:\n\n   AttestationResultBundle ::= SEQUENCE SIZE (1..MAX) OF \\\n                                                       AttestationResult\n\nNEW:\n\n   AttestationResultBundle ::= SEQUENCE SIZE (1..MAX)\n                                  OF AttestationResult\n\nSimilar changes can be made in B.1 and B.2.\n\nIn Appendix C, it is unusual for an author to be acknowledged.\n\nRuss",
       "createdAt": "2025-01-30T17:48:16Z",
-      "updatedAt": "2025-02-02T03:40:19Z",
-      "closedAt": null,
+      "updatedAt": "2025-02-27T17:50:19Z",
+      "closedAt": "2025-02-27T17:50:19Z",
       "comments": [
         {
           "author": "ounsworth",
@@ -2249,9 +2315,9 @@
         {
           "author": "ounsworth",
           "authorAssociation": "CONTRIBUTOR",
-          "body": "@hannestschofenig You have this in the IANA Considerations section:\n\n> - Decimal: IANA Assigned -  This was early-allocated as `60` so that we could generate the sample data.\n> - Description: id-aa-ar\n\nThat is untrue, as per Russ' comment above, { 60 } is already allocated for something else.\nhttps://www.iana.org/assignments/smi-numbers/smi-numbers.xhtml#security-smime-2\n\nDo we actually have any samples that use `id-aa-ar` (and therefore would need early allocation), or was this just copy and pasted from above? I've removed this and changed the OID to `TBD2`. If that was important, you'll need to put it back.",
+          "body": "@hannestschofenig You have this in the IANA Considerations section:\n\n> - Decimal: IANA Assigned -  This was early-allocated as `60` so that we could generate the sample data.\n> - Description: id-aa-ar\n\nThat is untrue, as per Russ' comment above, { 60 } is already allocated for something else.\nhttps://www.iana.org/assignments/smi-numbers/smi-numbers.xhtml#security-smime-2\n\nDo we actually have any samples that use `id-aa-ar` (and therefore would need early allocation), or was this just copy and pasted from above? I've removed this and changed the OID to `TBD2`. If that was important, you'll need to put it back.\n\n\nUPDATE: No samples depend on early allocation of this OID. We are good.",
           "createdAt": "2025-02-01T22:56:13Z",
-          "updatedAt": "2025-02-02T03:39:43Z"
+          "updatedAt": "2025-02-27T16:41:53Z"
         }
       ]
     },
@@ -2260,15 +2326,15 @@
       "id": "I_kwDOJ3IIN86ovV4U",
       "title": "id-aa-ar should be under id-aa",
       "url": "https://github.com/lamps-wg/csr-attestation/issues/178",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "ounsworth",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Russ:\n\n> Question:\n>\n>id-aa-ar OBJECT IDENTIFIER ::= { id-ata (TBD2) }\n>\n> Why should this be a arc under id-aa?\n",
       "createdAt": "2025-02-04T18:18:56Z",
-      "updatedAt": "2025-02-04T18:18:56Z",
-      "closedAt": null,
+      "updatedAt": "2025-02-27T17:50:19Z",
+      "closedAt": "2025-02-27T17:50:19Z",
       "comments": []
     }
   ],
@@ -8818,50 +8884,68 @@
       "id": "PR_kwDOJ3IIN86KoVpd",
       "title": "Figure Update",
       "url": "https://github.com/lamps-wg/csr-attestation/pull/179",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "hannestschofenig",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2025-02-10T11:42:19Z",
-      "updatedAt": "2025-02-10T11:42:19Z",
+      "updatedAt": "2025-02-27T12:44:17Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "52f64670616e2292eeab457232fa64a768fd4a1a",
       "headRepository": "lamps-wg/csr-attestation",
       "headRefName": "hannestschofenig-patch-2",
       "headRefOid": "c572d03a8e98fcb2d742bcd1aa290ffe011bb8ea",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2025-02-27T12:44:12Z",
+      "mergedAt": "2025-02-27T12:44:12Z",
+      "mergedBy": "ounsworth",
+      "mergeCommit": {
+        "oid": "3cc0b9f1033be17b948bd7142227c00d55ef9ffc"
+      },
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOJ3IIN86d0CQ5",
+          "commit": {
+            "abbreviatedOid": "c572d03"
+          },
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-02-27T12:44:01Z",
+          "updatedAt": "2025-02-27T12:44:01Z",
+          "comments": []
+        }
+      ]
     },
     {
       "number": 180,
       "id": "PR_kwDOJ3IIN86LH0E3",
       "title": "Updated Hint Text",
       "url": "https://github.com/lamps-wg/csr-attestation/pull/180",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "hannestschofenig",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Aligned it with server name from the IETF Privacy Pass architecture.",
       "createdAt": "2025-02-13T15:18:08Z",
-      "updatedAt": "2025-02-13T18:39:16Z",
+      "updatedAt": "2025-02-27T16:49:48Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "52f64670616e2292eeab457232fa64a768fd4a1a",
       "headRepository": "lamps-wg/csr-attestation",
       "headRefName": "hannestschofenig-patch-3",
-      "headRefOid": "5079ca567fda6b0a1d1372d3cc816364ff839120",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "20fc04dfd4f3b2da1e6e94722a36879d15dda2d1",
+      "closedAt": "2025-02-27T16:49:44Z",
+      "mergedAt": "2025-02-27T16:49:44Z",
+      "mergedBy": "hannestschofenig",
+      "mergeCommit": {
+        "oid": "c1790302662a237900e8f380027f58adb8f01d26"
+      },
       "comments": [],
       "reviews": [
         {
@@ -8875,6 +8959,132 @@
           "body": "LGTM",
           "createdAt": "2025-02-13T18:39:16Z",
           "updatedAt": "2025-02-13T18:39:16Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJ3IIN86d0FML",
+          "commit": {
+            "abbreviatedOid": "5079ca5"
+          },
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "CHANGES_REQUESTED",
+          "body": "",
+          "createdAt": "2025-02-27T12:49:03Z",
+          "updatedAt": "2025-02-27T12:49:08Z",
+          "comments": [
+            {
+              "originalPosition": 48,
+              "body": "I would add a sentence:\r\n\r\n\"Relying Parties SHOULD NOT connect to a host name provided in the hint, especially if the verifier has no previous trust relationship with that host name, instead this SHOULD be used only as a lookup string for determining between a list of Verifiers that the Relying Party is pre-configured to use.\"",
+              "createdAt": "2025-02-27T12:49:03Z",
+              "updatedAt": "2025-02-27T12:49:08Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 181,
+      "id": "PR_kwDOJ3IIN86M0sJ7",
+      "title": "fixed id-aa-ar",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/181",
+      "state": "MERGED",
+      "author": "ounsworth",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Closes #177 \r\nCloses #178",
+      "createdAt": "2025-02-27T16:14:15Z",
+      "updatedAt": "2025-02-27T17:50:22Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "3cc0b9f1033be17b948bd7142227c00d55ef9ffc",
+      "headRepository": "lamps-wg/csr-attestation",
+      "headRefName": "mikeo_178_id-aa-ar",
+      "headRefOid": "c93726875a25cf21103e689d9e69312085bbaa96",
+      "closedAt": "2025-02-27T17:50:18Z",
+      "mergedAt": "2025-02-27T17:50:18Z",
+      "mergedBy": "hannestschofenig",
+      "mergeCommit": {
+        "oid": "066d912c182dec1e8198b9bbe8403b3ba195ca14"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJ3IIN86d3Zdg",
+          "commit": {
+            "abbreviatedOid": "c937268"
+          },
+          "author": "nedmsmith",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "LGTM",
+          "createdAt": "2025-02-27T17:23:42Z",
+          "updatedAt": "2025-02-27T17:23:42Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 182,
+      "id": "PR_kwDOJ3IIN86M1RP0",
+      "title": "Removed EvidenceBundles from Ned's DICE example",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/182",
+      "state": "MERGED",
+      "author": "ounsworth",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-02-27T17:24:51Z",
+      "updatedAt": "2025-02-27T23:57:30Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "c1790302662a237900e8f380027f58adb8f01d26",
+      "headRepository": "lamps-wg/csr-attestation",
+      "headRefName": "mikeo_remove_EvidenceBundles",
+      "headRefOid": "0e6d66bd8564cc8fa9c9dda13b9c8b036ce0aa58",
+      "closedAt": "2025-02-27T23:57:00Z",
+      "mergedAt": "2025-02-27T23:57:00Z",
+      "mergedBy": "ounsworth",
+      "mergeCommit": {
+        "oid": "4d9cef238aa2bfb18cf206e80c94accc82b9e5ab"
+      },
+      "comments": [
+        {
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@nedmsmith Please check your updated examples because we (a) removed EvidenceBundles in an earlier draft version and (b) we also changed the datatype of Hint to IA5String.",
+          "createdAt": "2025-02-27T17:51:43Z",
+          "updatedAt": "2025-02-27T17:51:43Z"
+        },
+        {
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Warning: MikeO. changed the BER encoded string manually. ",
+          "createdAt": "2025-02-27T17:52:10Z",
+          "updatedAt": "2025-02-27T17:52:10Z"
+        },
+        {
+          "author": "nedmsmith",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Looks like Mike beat me to it.",
+          "createdAt": "2025-02-27T18:17:48Z",
+          "updatedAt": "2025-02-27T18:17:48Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJ3IIN86d34pt",
+          "commit": {
+            "abbreviatedOid": "0e6d66b"
+          },
+          "author": "nedmsmith",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "LGTM",
+          "createdAt": "2025-02-27T18:18:14Z",
+          "updatedAt": "2025-02-27T18:18:14Z",
           "comments": []
         }
       ]

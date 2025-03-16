@@ -738,10 +738,13 @@ Columns:
 -  Description: Begins with id-ata
 -  References: RFC or other document
 
-## Attestation Evidence OID Registry
+## Remote Attestation Formats OID Registry
 
-IANA is asked to create a registry that helps developers to find
-OID/Evidence mappings.
+IANA is asked to create a registry 
+with the name "Remote Attestation Formats OID Registry"
+that helps developers to find OID that could appear within
+an `EvidenceStatement`, and a link to where that evidence
+format is defined.
 
 Registration requests are evaluated using the criteria described in
 the registration template below after a three-week review period on
@@ -797,7 +800,7 @@ It lists entries for several evidence encoding OIDs including an entry for the C
 | 2 23 133 5 4 11  | tcg-dice-TcbFreshness        | {{TCGRegistry}}   |  TCG              |
 | 2 23 133 20 1    | tcg-attest-tpm-certify       | {{TCGRegistry}} |  TCG              |
 | 1 3 6 1 5 5 7 1 35 | id-pe-cmw                    | {{I-D.ietf-rats-msg-wrap}} | IETF     |
-{: #tab-ae-reg title="Initial Contents of the Attestation Evidence OID Registry"}
+{: #tab-ae-reg title="Initial Contents of the Remote Attestation Formats OID Registry"}
 
 The current registry values can be retrieved from the IANA online website.
 

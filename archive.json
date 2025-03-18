@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-03-16T01:08:58.888631+00:00",
+  "timestamp": "2025-03-18T01:04:17.980165+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -2336,6 +2336,44 @@
       "updatedAt": "2025-02-27T17:50:19Z",
       "closedAt": "2025-02-27T17:50:19Z",
       "comments": []
+    },
+    {
+      "number": 183,
+      "id": "I_kwDOJ3IIN86uNy86",
+      "title": "Russ feedback 3/14/25",
+      "url": "https://github.com/lamps-wg/csr-attestation/issues/183",
+      "state": "OPEN",
+      "author": "ounsworth",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "> Mike and Hannes:\n>\n>Three things:\n>\n>(1) The ASN.1 does not compile because there is an extra comma after \"CertificateChoices OPTIONAL\".\n>\n>(2) The id-aa-evidence and id-aa-ar are not arcs for the assignment of additional OIDs.  The way that you are using them, they are identifying specific attributes and specific extensions.  Those will have evidence statement or attestation result OIDs in them.\n>\n>(3) I am confused by the term \"Attestation Evidence\".  Maybe this was supposed to be changed to Attestation Results, but I am not sure.\n>\n>Are these things you want to discuss during WGLC?\n>\n>Russ\n",
+      "createdAt": "2025-03-16T08:00:00Z",
+      "updatedAt": "2025-03-16T08:34:47Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "About (1)\nThere are only 2 hits for \"CertificateChoices OPTIONAL\", and neither have a comma after them.\nThe module compiles for me (well, it complains about not being able to find the imported modules, but at least it does not complain about this)",
+          "createdAt": "2025-03-16T08:21:49Z",
+          "updatedAt": "2025-03-16T08:21:59Z"
+        },
+        {
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "About (2)\nYeah, the text describes them as ARCs, which is incorrect. That text needs to be changed.\n\nAlso, why are we even defining `id-ata`? We don't seem to use it at all ??\n\n\n\n",
+          "createdAt": "2025-03-16T08:31:47Z",
+          "updatedAt": "2025-03-16T08:31:47Z"
+        },
+        {
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "About (3)\n[25e8723](https://github.com/lamps-wg/csr-attestation/commit/25e8723ee0fc2b1a1892e3913b26b3493f8c6f82) Renames 'Attestation Evidence\" to \"Remote Attestation Formats\". Fixed.",
+          "createdAt": "2025-03-16T08:34:25Z",
+          "updatedAt": "2025-03-16T08:34:46Z"
+        }
+      ]
     }
   ],
   "pulls": [

@@ -580,7 +580,7 @@ By the nature of the PKIX ASN.1 classes {{RFC5912}}, there are multiple ways to 
 
 ##  Object Identifiers
 
-This document defines the OID depicted in {{code-ar-arc}} as an additional CSR Attribute (PKCS#10) or Extension (CRMF) to carry Attestation Results in a CSR.
+This document defines the OID depicted in {{code-ar-oid}} as an additional CSR Attribute (PKCS#10) or Extension (CRMF) to carry Attestation Results in a CSR.
 
 ~~~
 -- OID for Attestation Result types

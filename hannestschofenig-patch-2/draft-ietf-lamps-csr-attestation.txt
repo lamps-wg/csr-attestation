@@ -105,10 +105,9 @@ Table of Contents
            Identifier
      7.2.  Object Identifier Registrations - SMI Security for S/MIME
            Attributes
-     7.3.  "SMI Security for PKIX Evidence Statement Formats" Registry
-     7.4.  Attestation Evidence OID Registry
-       7.4.1.  Registration Template
-       7.4.2.  Initial Registry Contents
+     7.3.  Attestation Evidence OID Registry
+       7.3.1.  Registration Template
+       7.3.2.  Initial Registry Contents
    8.  Security Considerations
      8.1.  Background Check Model Security Considerations
      8.2.  Freshness for the Background Check Model
@@ -511,13 +510,6 @@ Table of Contents
    This document references id-pkix and id-aa, both defined in [RFC5911]
    and [RFC5912].
 
-   This document defines the arc depicted in Figure 8.
-
-   -- Arc for Evidence types
-   id-ata OBJECT IDENTIFIER ::= { id-aa (TBD1) }
-
-         Figure 8: New OID Arc for PKIX Evidence Statement Formats
-
 5.2.  Evidence Attribute and Extension
 
    By definition, attributes within a PKCS#10 CSR are typed as ATTRIBUTE
@@ -535,9 +527,9 @@ Table of Contents
       ... -- None defined in this document --
    }
 
-                Figure 9: Definition of EvidenceStatementSet
+                Figure 8: Definition of EvidenceStatementSet
 
-   The expression illustrated in Figure 9 maps ASN.1 Types for Evidence
+   The expression illustrated in Figure 8 maps ASN.1 Types for Evidence
    Statements to the OIDs that identify them.  These mappings are used
    to construct or parse EvidenceStatements.  Evidence Statements are
    typically defined in other IETF standards, other standards bodies, or
@@ -554,10 +546,10 @@ Table of Contents
       hint   IA5String OPTIONAL
    }
 
-                 Figure 10: Definition of EvidenceStatement
+                 Figure 9: Definition of EvidenceStatement
 
-   In Figure 10, type is an OID that indicates the format of the value
-   of stmt.
+   In Figure 9, type is an OID that indicates the format of the value of
+   stmt.
 
    Based on the responsibilities of the different roles in the RATS
    architecture, Relying Parties need to relay Evidence to Verifiers for
@@ -579,7 +571,7 @@ Table of Contents
 
    To simplify the task for the Relying Party to select an appropriate
    Verifier an optional field, the hint, is available in the
-   EvidenceStatement structure, as shown in Figure 10.  An Attester MAY
+   EvidenceStatement structure, as shown in Figure 9.  An Attester MAY
    include the hint to the EvidenceStatement and it MAY be processed by
    the Relying Party.  The Relying Party MAY decide not to trust the
    information embedded in the hint or policy MAY override any
@@ -661,9 +653,9 @@ Table of Contents
      IDENTIFIED BY id-aa-evidence
    }
 
-           Figure 11: Definitions of CSR attribute and extension
+           Figure 10: Definitions of CSR attribute and extension
 
-   The Extension variant illustrated in Figure 11 is intended only for
+   The Extension variant illustrated in Figure 10 is intended only for
    use within CRMF CSRs and is NOT RECOMMENDED to be used within X.509
    certificates due to the privacy implications of publishing Evidence
    about the end entity's hardware environment.  See Section 8.3 for
@@ -683,14 +675,14 @@ Table of Contents
 
 6.1.  Object Identifiers
 
-   This document defines the OID depicted in Figure 12 as an additional
+   This document defines the OID depicted in Figure 11 as an additional
    CSR Attribute (PKCS#10) or Extension (CRMF) to carry Attestation
    Results in a CSR.
 
-   -- Arc for Attestation Result types
+   -- OID for Attestation Result types
    id-aa-ar OBJECT IDENTIFIER ::= { id-aa (TBD2) }
 
-         Figure 12: New OID Arc for PKIX Attestation Result Formats
+           Figure 11: New OID for PKIX Attestation Result Formats
 
 6.2.  Attestation Result Attribute and Extension
 
@@ -704,9 +696,9 @@ Table of Contents
       ... -- None defined in this document --
    }
 
-               Figure 13: Definition of AttestationResultSet
+               Figure 12: Definition of AttestationResultSet
 
-   The expression illustrated in Figure 13 maps ASN.1 Types for
+   The expression illustrated in Figure 12 maps ASN.1 Types for
    Attestation Result to the OIDs that identify them.  These mappings
    are used to construct or parse AttestationResults.  Attestation
    Results are defined in other IETF standards (see
@@ -722,9 +714,9 @@ Table of Contents
       stmt   ATTESTATION-RESULT.&Type({AttestationResultSet}{@type}),
    }
 
-                 Figure 14: Definition of AttestationResult
+                 Figure 13: Definition of AttestationResult
 
-   In Figure 14, type is an OID that indicates the format of the value
+   In Figure 13, type is an OID that indicates the format of the value
    of stmt.
 
  AttestationResultBundle ::= SEQUENCE SIZE (1..MAX) OF AttestationResult
@@ -742,7 +734,7 @@ Table of Contents
      IDENTIFIED BY id-aa-ar
    }
 
-           Figure 15: Definitions of CSR attribute and extension
+           Figure 14: Definitions of CSR attribute and extension
 
 6.3.  Implementation Considerations
 
@@ -787,7 +779,7 @@ Table of Contents
                            |<-----------------|
                            |                  |
 
-       Figure 16: Example interaction between CSR generator and HSM.
+       Figure 15: Example interaction between CSR generator and HSM.
 
 7.  IANA Considerations
 
@@ -830,33 +822,7 @@ Table of Contents
 
    *  References: This Document
 
-7.3.  "SMI Security for PKIX Evidence Statement Formats" Registry
-
-   IANA is asked to create a registry for Evidence Statement Formats
-   within the SMI-numbers registry, allocating an assignment from id-
-   pkix ("SMI Security for PKIX" Registry) for the purpose.
-
-   *  Decimal: IANA Assigned - *replace TBD1*
-
-   *  Description: id-ata
-
-   *  References: This document
-
-   *  Initial contents: None
-
-   *  Registration Regime: Specification Required.  Document must
-      specify an EVIDENCE-STATEMENT or ATTESTATION-RESULT definition to
-      which this Object Identifier shall be bound.
-
-   Columns:
-
-   *  Decimal: The subcomponent under id-ata
-
-   *  Description: Begins with id-ata
-
-   *  References: RFC or other document
-
-7.4.  Attestation Evidence OID Registry
+7.3.  Attestation Evidence OID Registry
 
    IANA is asked to create a registry that helps developers to find OID/
    Evidence mappings.
@@ -876,7 +842,7 @@ Table of Contents
    and should direct all requests for registration to the review mailing
    list.
 
-7.4.1.  Registration Template
+7.3.1.  Registration Template
 
    The registry has the following columns:
 
@@ -897,7 +863,7 @@ Table of Contents
       third party requesting registration in this registry will also be
       the party that registered the OID.
 
-7.4.2.  Initial Registry Contents
+7.3.2.  Initial Registry Contents
 
    The initial registry contents is shown in the table below.  It lists
    entries for several evidence encoding OIDs including an entry for the
@@ -1026,9 +992,9 @@ Table of Contents
    prevent theft or misuse (including being non-exportable / non-
    recoverable), the Attesting Environment has to collect claims about
    this secure environment (or Target Environment, as shown in
-   Figure 17).
+   Figure 16).
 
-   Figure 17 shows the interaction inside an Attester.  The Attesting
+   Figure 16 shows the interaction inside an Attester.  The Attesting
    Environment, which is provisioned with an Attestation Key, retrieves
    claims about the Target Environment.  The Target Environment offers
    key generation, storage and usage, which it makes available to
@@ -1070,9 +1036,9 @@ Table of Contents
     |                                    |
     '------------------------------------'
 
-      Figure 17: Interaction between Attesting and Target Environment
+      Figure 16: Interaction between Attesting and Target Environment
 
-   Figure 17 places the CSR library outside the Attester, which is a
+   Figure 16 places the CSR library outside the Attester, which is a
    valid architecture for certificate enrollment.  The CSR library may
    also be located inside the trusted computing base.  Regardless of the
    placement of the CSR library, an Attesting Environment MUST be able

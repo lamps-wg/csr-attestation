@@ -537,7 +537,7 @@ id-TcgAttestCertify and the corresponding hint identifies the Verifier as
 ~~~
 EvidenceBundle ::= SEQUENCE {
    evidences SEQUENCE SIZE (1..MAX) OF EvidenceStatement,
-   certs SEQUENCE SIZE (1..MAX) OF CertificateChoices OPTIONAL
+   certs SEQUENCE SIZE (1..MAX) OF CertificateChoices OPTIONAL,
       -- CertificateChoices MUST only contain certificate or other,
       -- see Section 10.2.2 of [RFC5652]
 }

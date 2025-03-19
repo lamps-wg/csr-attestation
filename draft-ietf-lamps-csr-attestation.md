@@ -435,14 +435,6 @@ one or more AttestationResult structures.
 
 This document references `id-pkix` and `id-aa`, both defined in {{!RFC5911}} and {{!RFC5912}}.
 
-This document defines the OID depicted in {{code-ata-oid}}.
-
-~~~
--- OID for Evidence types
-id-ata OBJECT IDENTIFIER ::= { id-aa (TBD1) }
-~~~
-{: #code-ata-oid title="New OID for PKIX Evidence Statement Formats"}
-
 ## Evidence Attribute and Extension {#sec-evidenceAttr}
 
 By definition, attributes within a PKCS#10 CSR are
@@ -717,26 +709,6 @@ SMI Security for S/MIME Attributes (1.2.840.113549.1.9.16.2).
 - Decimal: IANA Assigned - - **Replace TBD2**
 - Description: id-aa-ar
 - References: This Document
-
-##  "SMI Security for PKIX Evidence Statement Formats" Registry
-
-IANA is asked to create a registry for Evidence Statement Formats within
-the SMI-numbers registry, allocating an assignment from id-pkix ("SMI
-Security for PKIX" Registry) for the purpose.
-
--  Decimal: IANA Assigned - **replace TBD1**
--  Description: id-ata
--  References: This document
--  Initial contents: None
--  Registration Regime: Specification Required.
-   Document must specify an EVIDENCE-STATEMENT or ATTESTATION-RESULT
-   definition to which this Object Identifier shall be bound.
-
-Columns:
-
--  Decimal: The subcomponent under id-ata
--  Description: Begins with id-ata
--  References: RFC or other document
 
 ## Attestation Evidence OID Registry
 

@@ -511,12 +511,12 @@ Table of Contents
    This document references id-pkix and id-aa, both defined in [RFC5911]
    and [RFC5912].
 
-   This document defines the arc depicted in Figure 8.
+   This document defines the OID depicted in Figure 8.
 
-   -- Arc for Evidence types
+   -- OID for Evidence types
    id-ata OBJECT IDENTIFIER ::= { id-aa (TBD1) }
 
-         Figure 8: New OID Arc for PKIX Evidence Statement Formats
+           Figure 8: New OID for PKIX Evidence Statement Formats
 
 5.2.  Evidence Attribute and Extension
 
@@ -687,10 +687,10 @@ Table of Contents
    CSR Attribute (PKCS#10) or Extension (CRMF) to carry Attestation
    Results in a CSR.
 
-   -- Arc for Attestation Result types
+   -- OID for Attestation Result types
    id-aa-ar OBJECT IDENTIFIER ::= { id-aa (TBD2) }
 
-         Figure 12: New OID Arc for PKIX Attestation Result Formats
+           Figure 12: New OID for PKIX Attestation Result Formats
 
 6.2.  Attestation Result Attribute and Extension
 

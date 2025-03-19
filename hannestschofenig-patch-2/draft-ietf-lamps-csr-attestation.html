@@ -16,7 +16,7 @@
 Attestation Results in Certificate Signing Requests (CSRs), such as PKCS#10 or Certificate Request Message Format (CRMF) payloads. This provides an elegant and automatable mechanism for transporting Evidence to a Certification Authority. 
        Including Evidence and Attestation Results along with a CSR can help to improve the assessment of the security posture for the private key, and can help the Certification Authority to assess whether it satisfies the requested certificate profile. 
     " name="description">
-<meta content="xml2rfc 3.26.0" name="generator">
+<meta content="xml2rfc 3.28.0" name="generator">
 <meta content="PKI" name="keyword">
 <meta content="PKCS#10" name="keyword">
 <meta content="CRMF" name="keyword">
@@ -25,12 +25,12 @@ Attestation Results in Certificate Signing Requests (CSRs), such as PKCS#10 or C
 <meta content="Certificate Signing Requests" name="keyword">
 <meta content="draft-ietf-lamps-csr-attestation-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.26.0
-    Python 3.12.8
+  xml2rfc 3.28.0
+    Python 3.12.9
     ConfigArgParse 1.7
     google-i18n-address 3.1.1
     intervaltree 3.1.0
-    Jinja2 3.1.5
+    Jinja2 3.1.6
     lxml 5.3.0
     platformdirs 4.3.6
     pycountry 24.6.1
@@ -447,7 +447,7 @@ dl {
     margin-bottom: 0;
   }
 }
-dl > dt {
+dl:not(.dlNewline) > dt {
   float: left;
   margin-right: 2ch;
   min-width: 8ch;
@@ -1056,11 +1056,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">Remote Attestation with CSRs</td>
-<td class="right">February 2025</td>
+<td class="right">March 2025</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Ounsworth, et al.</td>
-<td class="center">Expires 14 August 2025</td>
+<td class="center">Expires 20 September 2025</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1073,12 +1073,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-lamps-csr-attestation-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2025-02-10" class="published">10 February 2025</time>
+<time datetime="2025-03-19" class="published">19 March 2025</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2025-08-14">14 August 2025</time></dd>
+<dd class="expires"><time datetime="2025-09-20">20 September 2025</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1142,7 +1142,7 @@ Attestation Results in Certificate Signing Requests (CSRs), such as PKCS#10 or C
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 14 August 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 20 September 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1265,7 +1265,7 @@ Attestation Results in Certificate Signing Requests (CSRs), such as PKCS#10 or C
                 <p id="section-toc.1-1.8.2.3.1"><a href="#section-8.3" class="auto internal xref">8.3</a>.  <a href="#name-publishing-evidence-in-an-x" class="internal xref">Publishing Evidence in an X.509 Extension</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.4">
-                <p id="section-toc.1-1.8.2.4.1"><a href="#section-8.4" class="auto internal xref">8.4</a>.  <a href="#name-type-oid-and-verifier-hint" class="internal xref">Type OID and verifier hint</a></p>
+                <p id="section-toc.1-1.8.2.4.1"><a href="#section-8.4" class="auto internal xref">8.4</a>.  <a href="#name-type-oid-and-verifier-hint" class="internal xref">Type OID and Verifier Hint</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.5">
                 <p id="section-toc.1-1.8.2.5.1"><a href="#section-8.5" class="auto internal xref">8.5</a>.  <a href="#name-additional-security-conside" class="internal xref">Additional Security Considerations</a></p>
@@ -1950,7 +1950,7 @@ populate it with the formats that they wish to support.<a href="#section-5.2-4" 
 EvidenceStatement ::= SEQUENCE {
    type   EVIDENCE-STATEMENT.&amp;id({EvidenceStatementSet}),
    stmt   EVIDENCE-STATEMENT.&amp;Type({EvidenceStatementSet}{@type}),
-   hint   UTF8String OPTIONAL
+   hint   IA5String OPTIONAL
 }
 </pre>
 </div>
@@ -1973,49 +1973,58 @@ however since the type OID only identifies the general data format, it is possib
 that multiple Verifiers are registered against the same type OID in which case the
 Relying Party will either require additional parsing of the evidence statement, or
 the Attester will be required to provide additional information.<a href="#section-5.2-8" class="pilcrow">¶</a></p>
-<p id="section-5.2-9">To simplify the task for the Relying Party an optional field, the hint, is available
-in the EvidenceStatement structure, as shown in <a href="#code-EvidenceStatement" class="auto internal xref">Figure 10</a>. An
-Attester <span class="bcp14">MAY</span> include the hint to the EvidenceStatement and it <span class="bcp14">MAY</span> be processed
-by the Relying Party. The Relying Party <span class="bcp14">MAY</span> decide not to trust the information
-embedded in the hint or policy <span class="bcp14">MAY</span> override any information provided by the Attester
-via this hint.<a href="#section-5.2-9" class="pilcrow">¶</a></p>
-<p id="section-5.2-10">When the Attester populates the hint, it <span class="bcp14">MUST</span> contain a fully qualified domain
-name (FQDN) which uniquely identifies a Verifier.
-The problem of mapping hint FQDNs to Verifiers, and the problem of FQDN collision
-is out of scope for this specification; it is assumed that Attester and Verifier
-makers can manage this appropriately on their own FQDN trees, however if this
-becomes problematic then a public registry may be needed.<a href="#section-5.2-10" class="pilcrow">¶</a></p>
-<p id="section-5.2-11">In a typical usage scenario, the Relying Party is pre-configured with
+<p id="section-5.2-9">To simplify the task for the Relying Party to select an appropriate Verifier
+an optional field, the hint, is available in the EvidenceStatement structure,
+as shown in <a href="#code-EvidenceStatement" class="auto internal xref">Figure 10</a>. An Attester <span class="bcp14">MAY</span> include the hint to
+the EvidenceStatement and it <span class="bcp14">MAY</span> be processed by the Relying Party. The
+Relying Party <span class="bcp14">MAY</span> decide not to trust the information embedded in the hint
+or policy <span class="bcp14">MAY</span> override any information provided by the Attester via this hint.<a href="#section-5.2-9" class="pilcrow">¶</a></p>
+<p id="section-5.2-10">When the Attester populates the hint, it <span class="bcp14">MUST</span> contain a server name which
+uniquely identifies a Verifier. Server names are ASCII strings that
+contain a hostname and optional port, where the port is implied to be
+"443" if missing.  The names use the format of the authority portion
+of a URI as defined in Section 3.2 of <span>[<a href="#RFC3986" class="cite xref">RFC3986</a>]</span>. The names <span class="bcp14">MUST NOT</span>
+include a "userinfo" portion of an authority.  For example, a valid
+server name might be "verifier.example.com" or
+"verifier.example.com:8443", but not "verifier@example.com".<a href="#section-5.2-10" class="pilcrow">¶</a></p>
+<p id="section-5.2-11">Relying Parties <span class="bcp14">SHOULD NOT</span> connect to a host name provided in the hint,
+especially if the verifier has no previous trust relationship with that
+host name, instead this <span class="bcp14">SHOULD</span> be used only as a lookup string for
+determining between a list of Verifiers that the Relying Party is
+pre-configured to use.<a href="#section-5.2-11" class="pilcrow">¶</a></p>
+<p id="section-5.2-12">In a typical usage scenario, the Relying Party is pre-configured with
 a list of trusted Verifiers and the corresponding hint values can be used to look
-up appropriate Verifier. Tricking an Relying Party into interacting with an unknown
-and untrusted Verifier must be avoided.<a href="#section-5.2-11" class="pilcrow">¶</a></p>
-<p id="section-5.2-12">Usage of the hint field can be seen in the TPM2_attest example in
+up appropriate Verifier. The Relying Party is also configured with a trust
+anchor for each Verifier, which allows the Verifier to validate the signature
+protecting the Attestation Result. Tricking a Relying Party into interacting
+with an unknown and untrusted Verifier must be avoided.<a href="#section-5.2-12" class="pilcrow">¶</a></p>
+<p id="section-5.2-13">Usage of the hint field can be seen in the TPM2_attest example in
 <a href="#appdx-tpm2" class="auto internal xref">Appendix A.2</a> where the type OID indicates the OID
 id-TcgAttestCertify and the corresponding hint identifies the Verifier as
-"tpmverifier.example.com".<a href="#section-5.2-12" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="section-5.2-13">
+"tpmverifier.example.com".<a href="#section-5.2-13" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-5.2-14">
 <pre>
 EvidenceBundle ::= SEQUENCE {
    evidences SEQUENCE SIZE (1..MAX) OF EvidenceStatement,
-   certs SEQUENCE SIZE (1..MAX) OF CertificateChoices OPTIONAL
+   certs SEQUENCE SIZE (1..MAX) OF CertificateChoices OPTIONAL,
       -- CertificateChoices MUST only contain certificate or other,
       -- see Section 10.2.2 of [RFC5652]
 }
-</pre><a href="#section-5.2-13" class="pilcrow">¶</a>
+</pre><a href="#section-5.2-14" class="pilcrow">¶</a>
 </div>
-<p id="section-5.2-14">The CertificateChoices structure defined in <span>[<a href="#RFC6268" class="cite xref">RFC6268</a>]</span> allows for carrying certificates in the default X.509 <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span> format, or in other non-X.509 certificate formats. CertificateChoices <span class="bcp14">MUST</span> only contain certificate or other. CertificateChoices <span class="bcp14">MUST NOT</span> contain extendedCertificate, v1AttrCert, or v2AttrCert. Note that for non-ASN.1 certificate formats, the CertificateChoices <span class="bcp14">MUST</span> use <code>other [3]</code> with an <code>OtherCertificateFormat.Type</code> of <code>OCTET STRING</code>, and then can carry any binary data.<a href="#section-5.2-14" class="pilcrow">¶</a></p>
-<p id="section-5.2-15">The <code>certs</code> field contains a set of certificates that
+<p id="section-5.2-15">The CertificateChoices structure defined in <span>[<a href="#RFC6268" class="cite xref">RFC6268</a>]</span> allows for carrying certificates in the default X.509 <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span> format, or in other non-X.509 certificate formats. CertificateChoices <span class="bcp14">MUST</span> only contain certificate or other. CertificateChoices <span class="bcp14">MUST NOT</span> contain extendedCertificate, v1AttrCert, or v2AttrCert. Note that for non-ASN.1 certificate formats, the CertificateChoices <span class="bcp14">MUST</span> use <code>other [3]</code> with an <code>OtherCertificateFormat.Type</code> of <code>OCTET STRING</code>, and then can carry any binary data.<a href="#section-5.2-15" class="pilcrow">¶</a></p>
+<p id="section-5.2-16">The <code>certs</code> field contains a set of certificates that
 is intended to validate the contents of an Evidence statement
 contained in <code>evidences</code>, if required. For each Evidnece statement the set of certificates should contain
 the certificate that contains the public key needed to directly validate the
 Evidence statement. Additional certificates may be provided, for example, to chain the
-Evidence signer key back to an agreed upon trust anchor. No specific order of the certificates in <code>certs</code> <span class="bcp14">SHOULD</span> be expected because certificates contained in <code>certs</code> may be needed to validate different Evidence statements.<a href="#section-5.2-15" class="pilcrow">¶</a></p>
-<p id="section-5.2-16">This specification places no restriction on mixing certificate types within the <code>certs</code> field. For example a non-X.509 Evidence signer certificate <span class="bcp14">MAY</span> chain to a trust anchor via a chain of X.509 certificates. It is up to the Attester and its Verifier to agree on supported certificate formats.<a href="#section-5.2-16" class="pilcrow">¶</a></p>
+Evidence signer key back to an agreed upon trust anchor. No specific order of the certificates in <code>certs</code> <span class="bcp14">SHOULD</span> be expected because certificates contained in <code>certs</code> may be needed to validate different Evidence statements.<a href="#section-5.2-16" class="pilcrow">¶</a></p>
+<p id="section-5.2-17">This specification places no restriction on mixing certificate types within the <code>certs</code> field. For example a non-X.509 Evidence signer certificate <span class="bcp14">MAY</span> chain to a trust anchor via a chain of X.509 certificates. It is up to the Attester and its Verifier to agree on supported certificate formats.<a href="#section-5.2-17" class="pilcrow">¶</a></p>
 <span id="name-definitions-of-csr-attribut"></span><div id="code-extensions">
 <figure id="figure-11">
-          <div class="alignLeft art-text artwork" id="section-5.2-17.1">
+          <div class="alignLeft art-text artwork" id="section-5.2-18.1">
 <pre>
-id-aa-evidence OBJECT IDENTIFIER ::= { id-ata 59 }
+id-aa-evidence OBJECT IDENTIFIER ::= { id-aa 59 }
 
 -- For PKCS#10
 attr-evidence ATTRIBUTE ::= {
@@ -2035,8 +2044,8 @@ ext-evidence EXTENSION ::= {
 <a href="#name-definitions-of-csr-attribut" class="selfRef">Definitions of CSR attribute and extension</a>
           </figcaption></figure>
 </div>
-<p id="section-5.2-18">The Extension variant illustrated in <a href="#code-extensions" class="auto internal xref">Figure 11</a> is intended only for use within CRMF CSRs and is <span class="bcp14">NOT RECOMMENDED</span> to be used within X.509 certificates due to the privacy implications of publishing Evidence about the end entity's hardware environment. See <a href="#sec-con-publishing-x509" class="auto internal xref">Section 8.3</a> for more discussion.<a href="#section-5.2-18" class="pilcrow">¶</a></p>
-<p id="section-5.2-19">By the nature of the PKIX ASN.1 classes <span>[<a href="#RFC5912" class="cite xref">RFC5912</a>]</span>, there are multiple ways to convey multiple Evidence statements: by including multiple copies of <code>attr-evidence</code> or <code>ext-evidence</code>, multiple values within the attribute or extension, and finally, by including multiple <code>EvidenceStatement</code> structures within an <code>EvidenceBundle</code>. The latter is the preferred way to carry multiple Evidence statements. Implementations <span class="bcp14">MUST NOT</span> place multiple copies of <code>attr-evidence</code> into a PKCS#10 CSR due to the <code>COUNTS MAX 1</code> declaration. In a CRMF CSR, implementers <span class="bcp14">SHOULD NOT</span> place multiple copies of <code>ext-evidence</code>.<a href="#section-5.2-19" class="pilcrow">¶</a></p>
+<p id="section-5.2-19">The Extension variant illustrated in <a href="#code-extensions" class="auto internal xref">Figure 11</a> is intended only for use within CRMF CSRs and is <span class="bcp14">NOT RECOMMENDED</span> to be used within X.509 certificates due to the privacy implications of publishing Evidence about the end entity's hardware environment. See <a href="#sec-con-publishing-x509" class="auto internal xref">Section 8.3</a> for more discussion.<a href="#section-5.2-19" class="pilcrow">¶</a></p>
+<p id="section-5.2-20">By the nature of the PKIX ASN.1 classes <span>[<a href="#RFC5912" class="cite xref">RFC5912</a>]</span>, there are multiple ways to convey multiple Evidence statements: by including multiple copies of <code>attr-evidence</code> or <code>ext-evidence</code>, multiple values within the attribute or extension, and finally, by including multiple <code>EvidenceStatement</code> structures within an <code>EvidenceBundle</code>. The latter is the preferred way to carry multiple Evidence statements. Implementations <span class="bcp14">MUST NOT</span> place multiple copies of <code>attr-evidence</code> into a PKCS#10 CSR due to the <code>COUNTS MAX 1</code> declaration. In a CRMF CSR, implementers <span class="bcp14">SHOULD NOT</span> place multiple copies of <code>ext-evidence</code>.<a href="#section-5.2-20" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -2051,13 +2060,13 @@ ext-evidence EXTENSION ::= {
         <h3 id="name-object-identifiers-2">
 <a href="#section-6.1" class="section-number selfRef">6.1. </a><a href="#name-object-identifiers-2" class="section-name selfRef">Object Identifiers</a>
         </h3>
-<p id="section-6.1-1">This document defines the arc depicted in <a href="#code-ar-arc" class="auto internal xref">Figure 12</a>.<a href="#section-6.1-1" class="pilcrow">¶</a></p>
+<p id="section-6.1-1">This document defines the OID depicted in <a href="#code-ar-arc" class="auto internal xref">Figure 12</a> as an additional CSR Attribute (PKCS#10) or Extension (CRMF) to carry Attestation Results in a CSR.<a href="#section-6.1-1" class="pilcrow">¶</a></p>
 <span id="name-new-oid-arc-for-pkix-attest"></span><div id="code-ar-arc">
 <figure id="figure-12">
           <div class="alignLeft art-text artwork" id="section-6.1-2.1">
 <pre>
 -- Arc for Attestation Result types
-id-aa-ar OBJECT IDENTIFIER ::= { id-ata (TBD2) }
+id-aa-ar OBJECT IDENTIFIER ::= { id-aa (TBD2) }
 </pre>
 </div>
 <figcaption><a href="#figure-12" class="selfRef">Figure 12</a>:
@@ -2122,8 +2131,6 @@ AttestationResultBundle ::= SEQUENCE SIZE (1..MAX) OF AttestationResult
 <figure id="figure-15">
           <div class="alignLeft art-text artwork" id="section-6.2-8.1">
 <pre>
-id-aa-ar OBJECT IDENTIFIER ::= { id-ata 60 }
-
 -- For PKCS#10
 attr-ar ATTRIBUTE ::= {
   TYPE AttestationResultBundle
@@ -2227,15 +2234,17 @@ S/MIME Attributes" to identify two attributes defined within.<a href="#section-7
         <h3 id="name-module-registration-smi-sec">
 <a href="#section-7.1" class="section-number selfRef">7.1. </a><a href="#name-module-registration-smi-sec" class="section-name selfRef">Module Registration - SMI Security for PKIX Module Identifier</a>
         </h3>
+<p id="section-7.1-1">IANA is asked to register the following within the registry id-mod
+SMI Security for PKIX Module Identifier (1.3.6.1.5.5.7.0).<a href="#section-7.1-1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-7.1-1.1">
-            <p id="section-7.1-1.1.1">Decimal: IANA Assigned - <strong>Replace TBDMOD</strong><a href="#section-7.1-1.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-7.1-2.1">
+            <p id="section-7.1-2.1.1">Decimal: IANA Assigned - <strong>Replace TBDMOD</strong><a href="#section-7.1-2.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-7.1-1.2">
-            <p id="section-7.1-1.2.1">Description: CSR-ATTESTATION-2023 - id-mod-pkix-attest-01<a href="#section-7.1-1.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-7.1-2.2">
+            <p id="section-7.1-2.2.1">Description: CSR-ATTESTATION-2023 - id-mod-pkix-attest-01<a href="#section-7.1-2.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-7.1-1.3">
-            <p id="section-7.1-1.3.1">References: This Document<a href="#section-7.1-1.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-7.1-2.3">
+            <p id="section-7.1-2.3.1">References: This Document<a href="#section-7.1-2.3.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
@@ -2245,30 +2254,32 @@ S/MIME Attributes" to identify two attributes defined within.<a href="#section-7
         <h3 id="name-object-identifier-registrat">
 <a href="#section-7.2" class="section-number selfRef">7.2. </a><a href="#name-object-identifier-registrat" class="section-name selfRef">Object Identifier Registrations - SMI Security for S/MIME Attributes</a>
         </h3>
+<p id="section-7.2-1">IANA is asked to register the following within the registry id-aa
+SMI Security for S/MIME Attributes (1.2.840.113549.1.9.16.2).<a href="#section-7.2-1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-7.2-1.1">
-            <p id="section-7.2-1.1.1">Evidence Statement<a href="#section-7.2-1.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-7.2-2.1">
+            <p id="section-7.2-2.1.1">Evidence Statement<a href="#section-7.2-2.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-7.2-1.2">
-            <p id="section-7.2-1.2.1">Decimal: IANA Assigned - This was early-allocated as <code>59</code> so that we could generate the sample data.<a href="#section-7.2-1.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-7.2-2.2">
+            <p id="section-7.2-2.2.1">Decimal: IANA Assigned - This was early-allocated as <code>59</code> so that we could generate the sample data.<a href="#section-7.2-2.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-7.2-1.3">
-            <p id="section-7.2-1.3.1">Description: id-aa-evidence<a href="#section-7.2-1.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-7.2-2.3">
+            <p id="section-7.2-2.3.1">Description: id-aa-evidence<a href="#section-7.2-2.3.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-7.2-1.4">
-            <p id="section-7.2-1.4.1">References: This Document<a href="#section-7.2-1.4.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-7.2-2.4">
+            <p id="section-7.2-2.4.1">References: This Document<a href="#section-7.2-2.4.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-7.2-1.5">
-            <p id="section-7.2-1.5.1">Attestation Result<a href="#section-7.2-1.5.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-7.2-2.5">
+            <p id="section-7.2-2.5.1">Attestation Result<a href="#section-7.2-2.5.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-7.2-1.6">
-            <p id="section-7.2-1.6.1">Decimal: IANA Assigned - - <strong>Replace TBD2</strong><a href="#section-7.2-1.6.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-7.2-2.6">
+            <p id="section-7.2-2.6.1">Decimal: IANA Assigned - - <strong>Replace TBD2</strong><a href="#section-7.2-2.6.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-7.2-1.7">
-            <p id="section-7.2-1.7.1">Description: id-aa-ar<a href="#section-7.2-1.7.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-7.2-2.7">
+            <p id="section-7.2-2.7.1">Description: id-aa-ar<a href="#section-7.2-2.7.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-7.2-1.8">
-            <p id="section-7.2-1.8.1">References: This Document<a href="#section-7.2-1.8.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-7.2-2.8">
+            <p id="section-7.2-2.8.1">References: This Document<a href="#section-7.2-2.8.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
@@ -2696,13 +2707,12 @@ These privacy considerations are beyond the scope of this document and may requi
 <div id="type-oid-and-verifier-hint">
 <section id="section-8.4">
         <h3 id="name-type-oid-and-verifier-hint">
-<a href="#section-8.4" class="section-number selfRef">8.4. </a><a href="#name-type-oid-and-verifier-hint" class="section-name selfRef">Type OID and verifier hint</a>
+<a href="#section-8.4" class="section-number selfRef">8.4. </a><a href="#name-type-oid-and-verifier-hint" class="section-name selfRef">Type OID and Verifier Hint</a>
         </h3>
-<p id="section-8.4-1">The <code>EvidenceStatement</code> includes both a <code>type</code> OID and a free form <code>hint</code> field with which the Attester can provide information to the Relying Party about which Verifier to invoke to parse a given piece of Evidence.
+<p id="section-8.4-1">The <code>EvidenceStatement</code> includes both a <code>type</code> OID and a <code>hint</code> field with which the Attester can provide information to the Relying Party about which Verifier to invoke to parse a given piece of Evidence.
 Care should be taken when processing these data since at the time they are used, they are not yet verified. In fact, they are protected by the CSR signature but not by the signature from the Attester and so could be maliciously replaced in some cases.
-The authors' intent is that the <code>type</code> OID and <code>hint</code> will allow an RP to select between Verifier with which it has pre-established trust relationships, such as Verifier libraries that have been compiled in to the RP application.
-As an example, the <code>hint</code> may take the form of an FQDN to uniquely identify a Verifier implementation, but the RP <span class="bcp14">MUST NOT</span> blindly make network calls to unknown domain names and trust the results.
-Implementers should also be cautious around <code>type</code> OID or <code>hint</code> values that cause a short-circuit in the verification logic, such as <code>None</code>, <code>Null</code>, <code>Debug</code>, empty CMW contents, or similar values that could cause the Evidence to appear to be valid when in fact it was not properly checked.<a href="#section-8.4-1" class="pilcrow">¶</a></p>
+The authors' intent is that the <code>type</code> OID and <code>hint</code> will allow an RP to select between Verifier with which it has pre-established trust relationships. The RP <span class="bcp14">MUST NOT</span> blindly make network calls to unknown domain names and trust the results.
+Implementers should also be cautious around <code>type</code> OID or <code>hint</code> values that cause a short-circuit in the verification logic, such as <code>None</code>, <code>Null</code>, or similar values that could cause the Evidence to appear to be valid when in fact it was not properly checked.<a href="#section-8.4-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="additional-security-considerations">
@@ -2733,6 +2743,10 @@ Implementers should also be cautious around <code>type</code> OID or <code>hint<
 <dt id="RFC2986">[RFC2986]</dt>
         <dd>
 <span class="refAuthor">Nystrom, M.</span> and <span class="refAuthor">B. Kaliski</span>, <span class="refTitle">"PKCS #10: Certification Request Syntax Specification Version 1.7"</span>, <span class="seriesInfo">RFC 2986</span>, <span class="seriesInfo">DOI 10.17487/RFC2986</span>, <time datetime="2000-11" class="refDate">November 2000</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc2986">https://www.rfc-editor.org/rfc/rfc2986</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC3986">[RFC3986]</dt>
+        <dd>
+<span class="refAuthor">Berners-Lee, T.</span>, <span class="refAuthor">Fielding, R.</span>, and <span class="refAuthor">L. Masinter</span>, <span class="refTitle">"Uniform Resource Identifier (URI): Generic Syntax"</span>, <span class="seriesInfo">STD 66</span>, <span class="seriesInfo">RFC 3986</span>, <span class="seriesInfo">DOI 10.17487/RFC3986</span>, <time datetime="2005-01" class="refDate">January 2005</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc3986">https://www.rfc-editor.org/rfc/rfc3986</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC4211">[RFC4211]</dt>
         <dd>
@@ -2781,7 +2795,7 @@ Implementers should also be cautious around <code>type</code> OID or <code>hint<
 <dd class="break"></dd>
 <dt id="I-D.ffm-rats-cca-token">[I-D.ffm-rats-cca-token]</dt>
         <dd>
-<span class="refAuthor">Frost, S.</span>, <span class="refAuthor">Fossati, T.</span>, and <span class="refAuthor">G. Mandyam</span>, <span class="refTitle">"Arm's Confidential Compute Architecture Reference Attestation Token"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ffm-rats-cca-token-00</span>, <time datetime="2024-07-04" class="refDate">4 July 2024</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ffm-rats-cca-token-00">https://datatracker.ietf.org/doc/html/draft-ffm-rats-cca-token-00</a>&gt;</span>. </dd>
+<span class="refAuthor">Frost, S.</span>, <span class="refAuthor">Fossati, T.</span>, and <span class="refAuthor">G. Mandyam</span>, <span class="refTitle">"Arm's Confidential Compute Architecture Reference Attestation Token"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ffm-rats-cca-token-01</span>, <time datetime="2025-03-03" class="refDate">3 March 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ffm-rats-cca-token-01">https://datatracker.ietf.org/doc/html/draft-ffm-rats-cca-token-01</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.ietf-lamps-attestation-freshness">[I-D.ietf-lamps-attestation-freshness]</dt>
         <dd>
@@ -2793,11 +2807,11 @@ Implementers should also be cautious around <code>type</code> OID or <code>hint<
 <dd class="break"></dd>
 <dt id="I-D.ietf-rats-daa">[I-D.ietf-rats-daa]</dt>
         <dd>
-<span class="refAuthor">Birkholz, H.</span>, <span class="refAuthor">Newton, C.</span>, <span class="refAuthor">Chen, L.</span>, and <span class="refAuthor">D. Thaler</span>, <span class="refTitle">"Direct Anonymous Attestation for the Remote Attestation Procedures Architecture"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-rats-daa-06</span>, <time datetime="2024-09-05" class="refDate">5 September 2024</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-rats-daa-06">https://datatracker.ietf.org/doc/html/draft-ietf-rats-daa-06</a>&gt;</span>. </dd>
+<span class="refAuthor">Birkholz, H.</span>, <span class="refAuthor">Newton, C.</span>, <span class="refAuthor">Chen, L.</span>, and <span class="refAuthor">D. Thaler</span>, <span class="refTitle">"Direct Anonymous Attestation for the Remote Attestation Procedures Architecture"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-rats-daa-07</span>, <time datetime="2025-03-03" class="refDate">3 March 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-rats-daa-07">https://datatracker.ietf.org/doc/html/draft-ietf-rats-daa-07</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.ietf-rats-msg-wrap">[I-D.ietf-rats-msg-wrap]</dt>
         <dd>
-<span class="refAuthor">Birkholz, H.</span>, <span class="refAuthor">Smith, N.</span>, <span class="refAuthor">Fossati, T.</span>, <span class="refAuthor">Tschofenig, H.</span>, and <span class="refAuthor">D. Glaze</span>, <span class="refTitle">"RATS Conceptual Messages Wrapper (CMW)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-rats-msg-wrap-11</span>, <time datetime="2024-11-15" class="refDate">15 November 2024</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-rats-msg-wrap-11">https://datatracker.ietf.org/doc/html/draft-ietf-rats-msg-wrap-11</a>&gt;</span>. </dd>
+<span class="refAuthor">Birkholz, H.</span>, <span class="refAuthor">Smith, N.</span>, <span class="refAuthor">Fossati, T.</span>, <span class="refAuthor">Tschofenig, H.</span>, and <span class="refAuthor">D. Glaze</span>, <span class="refTitle">"RATS Conceptual Messages Wrapper (CMW)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-rats-msg-wrap-12</span>, <time datetime="2025-02-28" class="refDate">28 February 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-rats-msg-wrap-12">https://datatracker.ietf.org/doc/html/draft-ietf-rats-msg-wrap-12</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.ietf-rats-tpm-based-network-device-attest">[I-D.ietf-rats-tpm-based-network-device-attest]</dt>
         <dd>
@@ -3255,80 +3269,140 @@ CSR {
 <p id="appendix-A.2.6-5">This example does not demonstrate an EvidenceBundle that contains multiple EvidenceStatements sharing a certificate chain.<a href="#appendix-A.2.6-5" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="appendix-A.2.6-6">
 <pre>
+=============== NOTE: '\' line wrapping per RFC 8792 ================
+
 -----BEGIN CERTIFICATE REQUEST-----
-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
-k6F7pHkwdzELMAkGA1UEBhMCWloxETAPBgNVBAgMCFByb3ZpbmNlMREwDwYDVQQH
-DAhMb2NhbGl0eTETMBEGA1UECgwKaWV0Zi1sYW1wczEXMBUGA1UECwwOaWV0Zi1s
-YW1wcy1jc3IxFDASBgNVBAMMC3Rlc3Qtcm9vdENBghR5pP+xxKsc67pLOqPiIZSU
-4fgpzDAMBgNVHRMBAf8EAjAAMAsGA1UdDwQEAwIHgDAQBgNVHSUECTAHBgVngQUI
-AzAdBgNVHQ4EFgQUH4QfxvcmPg9x21uQW5cfGyfxbMcwDQYJKoZIhvcNAQELBQAD
-ggEBAC3Zz6B+u1H+72CG0j/s6lRPX/YP/DPjh5IIt9HdOJaWc5lsbCvgHSED7N/+
-voCfCRf7IU2Oh5+2q9+9N5ARinXPmrsPZNyLR8vWkb27/hl9OTi0Ly7DtJMtUJTR
-zq53dZc7kdTDNYpPnbIbanSOW3lSL5E173C8wyTsp/vQKteYTfmsDKw9hXHIU2eS
-eUpZmKcHShXlbDEEbTuYLJMDASKmMCmPjIgJrSX/18wEoAgo2BVjjzwfhoc2SLnQ
-dikvN6oa6Ee0zYRiImXpM7cuErC88jOr0quURA1U8fsQd8hYGRUk/6oPMXzIfZKs
-z/yzAUQ570+mkdd2iFVlqTCQ9eUwggN1MIICXQIUeaT/scSrHOu6Szqj4iGUlOH4
-KcwwDQYJKoZIhvcNAQELBQAwdzELMAkGA1UEBhMCWloxETAPBgNVBAgMCFByb3Zp
-bmNlMREwDwYDVQQHDAhMb2NhbGl0eTETMBEGA1UECgwKaWV0Zi1sYW1wczEXMBUG
-A1UECwwOaWV0Zi1sYW1wcy1jc3IxFDASBgNVBAMMC3Rlc3Qtcm9vdENBMB4XDTI0
-MTAyMTIwMTcwOFoXDTI0MTEyMDIwMTcwOFowdzELMAkGA1UEBhMCWloxETAPBgNV
-BAgMCFByb3ZpbmNlMREwDwYDVQQHDAhMb2NhbGl0eTETMBEGA1UECgwKaWV0Zi1s
-YW1wczEXMBUGA1UECwwOaWV0Zi1sYW1wcy1jc3IxFDASBgNVBAMMC3Rlc3Qtcm9v
-dENBMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAxPODF6ujxbdDWuXn
-zlqzYIO4rpQKolKfKbOFUCB6SjdA5XzArLTSYKD3ZXhqm7unFkmHC2HtqArq5jgv
-cQ2fzJeNGbcuyJYSwa9WJjJ5qY6gXEY+G7sFgZ5ZeEWGQ+zjrnuJh/PtlhJ2/R7w
-tdC82DAULaxnFjOS6Xm6pUB8RaZEtZ6HwfPUXYgeK9IRG2CbEs8jkoBQTrSKpdpC
-0myJrrS0PoTFClDpq61je7uQgU6b9IAOfXi1oX5NdYcfqxcPch4wqbkldKsjC/i7
-xMcem8hnb3WUvAmbsLP1I0Fx8nb0ug/T2ED5U9tPBXbKgeD72aU2L9GNs+ypE9Az
-bTB6cwIDAQABMA0GCSqGSIb3DQEBCwUAA4IBAQBFBMAGsP1xKq4R4bzbWnQ4K2H+
-rYNi8UEQzxN6BiANi9+8hbLHfx6gFZlz+QxwVyH6oQnNrsVVDVjEYH4/yvy7NdOx
-VitFfqOYwyaNeK5oXx1l5otOaObtwzB7RVQNSlipzEVW4RPsJmx/8F7yNLtdgooP
-U0QzUSqDcoKK36E4O3s85xfyNlEdJ2vJcJ/ZZx5QQlnhNTf5bWlr3U9x6DebeAqs
-+wvvepdaNzulHBXaKIqAgSx9N+Y22vj+vw8GO4L8HndDPMhdE/Ct1h1yygm65j6h
-aCmQRUTKzj49q6W4NHG7iPea+7bgMq7G4LRo9DSFEfMWOkQeVUSPPiTsaAahMAsG
-CSqGSIb3DQEBCwOCAQEA1aPYnm8suCRwMTC7kOdOjvVP2+2pHxsI5vnLfffFgsaN
-yoOz97t6bAmQXPQCEcjCQZqAynuJQITBbf5OowrNCOL8YRLaFu2zUS8H+XJUIU0I
-YSs3H8UyfeYo5VDKJClU/OcSzGgGm6J9JDQiHUuEFrqbpE19aSztpXrEH9YYP87A
-NyW9vxpLse2rpE4akcp+V+C958KJEoYQc9EfjvM3LqLmzp7pvyUalv21BbOweK8V
-IYVK7djq+LCmYwJwdKrOYWmrDyH8P+me8nPtk9BdcvW+sj2qu/opZmYEL4KAqAvi
-BW5TzPFUgQhmMalis/J4WY3Q0tvOMXRQQZCmO2N4Pg==
+MIINmzCCDIUCAQAwdTELMAkGA1UEBhMCWloxETAPBgNVBAgMCFByb3ZpbmNlMREwDwYD\
+                                                                  VQQ
+HDAhMb2NhbGl0eTETMBEGA1UECgwKaWV0Zi1sYW1wczEXMBUGA1UECwwOaWV0Zi1sYW1\
+                                                                  wcy
+1jc3IxEjAQBgNVBAMMCXRlc3Qta2V5MTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQ\
+                                                                  oCg
+gEBAN/RvsGNf32W6tIAU4QZgFPs98rPv4ed7QnB9aK/+x8u+\
+                                              1qhiTNpNC2me0FsQEDvToRO
+Ghkxtiift2RKPaVR2hyF05tthjNDnfDaMqvkNN24rmzTuVZE3Oz86zSWE+\
+                                                        Lk3ZfWHROVb5Z
+TME/VOZdYMAvwyi2fRHa/1cK9F/61WwIpY4qMlLsabSsSmyd8RJ+/\
+                                                   g3exfCeCYJ73Cu90F0
+wNtYOTxVN5o4ELvJdElT99QaC38TFvJ+yW94wQua2/4Lt6cx0I+\
+                                                 NVDFHLMELwFydVdZspqF
+dEGp4X+i59hjD4AFDPOyJJJiF84Zo7+Qf1tIbUCbFV+\
+                                         Rmvob7uCiOs8O3ZEL4kCAwEAAaCC
+CuEwggrdBgsqhkiG9w0BCRACOzGCCswwggrIMIIC2jCCAtYGBWeBBRQBMIICsgSBkf9U\
+                                                                  Q0e
+AFwAiAAs7ZAoM+pOXvuDS3cZXWSGXpKzEfn3C/\
+                                    aWh2zIlNmdIvQAEAP9VqgAAAAB96ovmAA
+AANwAAAAABIBUBEwAVSCIAIgALRsPuEbWtPA+\
+                                   cXiHVz6zdm6DfOYX8urrRWvLWAoEkW8MAI
+gALVNyWWGbUmLvXnu/\
+                dEowodTbdqKJlrhaYITil2pXo7ooEggEAhnwVHoLE43BfVyozOqnx
+9VfsdS7U4ZOP4pS04vrfGCLegjXEHjxcMyU3DcJtd7svjw5/IxnLXLD/\
+                                                      WXAe1H5XbOreOgY
+VejzMO16DPWBV2m7LOUvvwSsIRhHJaL5wUxfuLZoWY6Up7Q+\
+                                              gFtDvoHfRrKsbeMRoOWwQul
+Uok0PhZw0R4ZQyFrc4/rBr9kS9VpmtA+3IMuZ/qujraPqbC/zn1OE20+\
+                                                      AtiKU6L9kJUtlej
+f8RchWn4ffi4ugK4u7RvMQS/lGn+5G1IfVQY55iMKdlHa9nyzknQQBYopF2JP+\
+                                                            sntC2Zf65
+IasWyE7NWOsQSbyr6/\
+                OSLggeNf5gU8SrRfzaAgSCARYAAQALAAYAcgAAABAAEAgAAAAAAAE
+A39G+wY1/fZbq0gBThBmAU+z3ys+/h53tCcH1or/\
+                                      7Hy77WqGJM2k0LaZ7QWxAQO9OhE4aGT
+G2KJ+3ZEo9pVHaHIXTm22GM0Od8Noyq+\
+                              Q03biubNO5VkTc7PzrNJYT4uTdl9YdE5VvllMwT
+9U5l1gwC/DKLZ9Edr/Vwr0X/rVbAiljioyUuxptKxKbJ3xEn7+\
+                                                Dd7F8J4JgnvcK73QXTA21
+g5PFU3mjgQu8l0SVP31BoLfxMW8n7Jb3jBC5rb/\
+                                     gu3pzHQj41UMUcswQvAXJ1V1mymoV0Qa
+nhf6Ln2GMPgAUM87IkkmIXzhmjv5B/W0htQJsVX5Ga+\
+                                         hvu4KI6zw7dkQviRYXdHBtdmVyaW
+ZpZXIuZXhhbXBsZS5jb20wggfmMIIEaTCCA1GgAwIBAgIUfX4oc7u4KUbyz61VtQN5g2\
+                                                                  A2Q
+MQwDQYJKoZIhvcNAQELBQAwdzELMAkGA1UEBhMCWloxETAPBgNVBAgMCFByb3ZpbmNlM\
+                                                                  REw
+DwYDVQQHDAhMb2NhbGl0eTETMBEGA1UECgwKaWV0Zi1sYW1wczEXMBUGA1UECwwOaWV0\
+                                                                  Zi1
+sYW1wcy1jc3IxFDASBgNVBAMMC3Rlc3Qtcm9vdENBMB4XDTI0MTAyMTIwMTcxMloXDTI\
+                                                                  0MT
+EyMDIwMTcxMlowczELMAkGA1UEBhMCWloxETAPBgNVBAgMCFByb3ZpbmNlMREwDwYDVQ\
+                                                                  QHD
+AhMb2NhbGl0eTETMBEGA1UECgwKaWV0Zi1sYW1wczEXMBUGA1UECwwOaWV0Zi1sYW1wc\
+                                                                  y1j
+c3IxEDAOBgNVBAMMB3Rlc3QtYWswggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIB\
+                                                                  AQD
+XjF+XF1wsywJx5e5MT1Q1TD8deZqxkQYGZM9TpW+rvFjnRdSDP88MiLOPYcRIJQ+\
+                                                              efHvo81
+o6IL7n0U0TSmaP63gaMCkOLr2BgNpBHGkfSbN2b16usBrQcYQF+o9NU5Itt/\
+                                                          s7knvlhNiOb
+OeWRBgtNPXeikyHycYjcZgoGd/\
+                        UDvPRiRJ0pSruSBDeS1x0uoTsvep0JSRBUiKh8d7D0H3U
+CmZZzVPzVBS1Z/Vl3a3HOjUgoAvXIBzukh/\
+                                 5BKdQSh5hfRnXi5v6lJGroWFWvsHVF2PLoOC
+2oaIrLZ3UVa05K4wVT/wKbi0OcReufE9rK6CvmHEAUXi1cs+\
+                                              jynZfYaFDAgMBAAGjgfAwge
+0wgZ4GA1UdIwSBljCBk6F7pHkwdzELMAkGA1UEBhMCWloxETAPBgNVBAgMCFByb3Zpbm\
+                                                                  NlM
+REwDwYDVQQHDAhMb2NhbGl0eTETMBEGA1UECgwKaWV0Zi1sYW1wczEXMBUGA1UECwwOa\
+                                                                  WV0
+Zi1sYW1wcy1jc3IxFDASBgNVBAMMC3Rlc3Qtcm9vdENBghR5pP+\
+                                                 xxKsc67pLOqPiIZSU4fg
+pzDAMBgNVHRMBAf8EAjAAMAsGA1UdDwQEAwIHgDAQBgNVHSUECTAHBgVngQUIAzAdBgN\
+                                                                  VHQ
+4EFgQUH4QfxvcmPg9x21uQW5cfGyfxbMcwDQYJKoZIhvcNAQELBQADggEBAC3Zz6B+\
+                                                                u1H+7
+2CG0j/s6lRPX/YP/DPjh5IIt9HdOJaWc5lsbCvgHSED7N/+voCfCRf7IU2Oh5+2q9+\
+                                                                9N5AR
+inXPmrsPZNyLR8vWkb27/\
+                   hl9OTi0Ly7DtJMtUJTRzq53dZc7kdTDNYpPnbIbanSOW3lSL5E
+173C8wyTsp/\
+         vQKteYTfmsDKw9hXHIU2eSeUpZmKcHShXlbDEEbTuYLJMDASKmMCmPjIgJrS
+X/\
+18wEoAgo2BVjjzwfhoc2SLnQdikvN6oa6Ee0zYRiImXpM7cuErC88jOr0quURA1U8fsQd
+8hYGRUk/6oPMXzIfZKsz/yzAUQ570+mkdd2iFVlqTCQ9eUwggN1MIICXQIUeaT/\
+                                                             scSrHOu6
+Szqj4iGUlOH4KcwwDQYJKoZIhvcNAQELBQAwdzELMAkGA1UEBhMCWloxETAPBgNVBAgM\
+                                                                  CFB
+yb3ZpbmNlMREwDwYDVQQHDAhMb2NhbGl0eTETMBEGA1UECgwKaWV0Zi1sYW1wczEXMBU\
+                                                                  GA1
+UECwwOaWV0Zi1sYW1wcy1jc3IxFDASBgNVBAMMC3Rlc3Qtcm9vdENBMB4XDTI0MTAyMT\
+                                                                  IwM
+TcwOFoXDTI0MTEyMDIwMTcwOFowdzELMAkGA1UEBhMCWloxETAPBgNVBAgMCFByb3Zpb\
+                                                                  mNl
+MREwDwYDVQQHDAhMb2NhbGl0eTETMBEGA1UECgwKaWV0Zi1sYW1wczEXMBUGA1UECwwO\
+                                                                  aWV
+0Zi1sYW1wcy1jc3IxFDASBgNVBAMMC3Rlc3Qtcm9vdENBMIIBIjANBgkqhkiG9w0BAQE\
+                                                                  FAA
+OCAQ8AMIIBCgKCAQEAxPODF6ujxbdDWuXnzlqzYIO4rpQKolKfKbOFUCB6SjdA5XzArL\
+                                                                  TSY
+KD3ZXhqm7unFkmHC2HtqArq5jgvcQ2fzJeNGbcuyJYSwa9WJjJ5qY6gXEY+\
+                                                         G7sFgZ5ZeEWG
+Q+zjrnuJh/PtlhJ2/\
+               R7wtdC82DAULaxnFjOS6Xm6pUB8RaZEtZ6HwfPUXYgeK9IRG2CbEs8
+jkoBQTrSKpdpC0myJrrS0PoTFClDpq61je7uQgU6b9IAOfXi1oX5NdYcfqxcPch4wqbk\
+                                                                  ldK
+sjC/i7xMcem8hnb3WUvAmbsLP1I0Fx8nb0ug/T2ED5U9tPBXbKgeD72aU2L9GNs+\
+                                                              ypE9Azb
+TB6cwIDAQABMA0GCSqGSIb3DQEBCwUAA4IBAQBFBMAGsP1xKq4R4bzbWnQ4K2H+\
+                                                             rYNi8UEQ
+zxN6BiANi9+8hbLHfx6gFZlz+QxwVyH6oQnNrsVVDVjEYH4/\
+                                              yvy7NdOxVitFfqOYwyaNeK5
+oXx1l5otOaObtwzB7RVQNSlipzEVW4RPsJmx/\
+                                   8F7yNLtdgooPU0QzUSqDcoKK36E4O3s85x
+fyNlEdJ2vJcJ/ZZx5QQlnhNTf5bWlr3U9x6DebeAqs+wvvepdaNzulHBXaKIqAgSx9N+\
+                                                                  Y22
+vj+vw8GO4L8HndDPMhdE/Ct1h1yygm65j6haCmQRUTKzj49q6W4NHG7iPea+\
+                                                          7bgMq7G4LRo
+9DSFEfMWOkQeVUSPPiTsaAahMAsGCSqGSIb3DQEBCwOCAQEA1aPYnm8suCRwMTC7kOdO\
+                                                                  jvV
+P2+\
+ 2pHxsI5vnLfffFgsaNyoOz97t6bAmQXPQCEcjCQZqAynuJQITBbf5OowrNCOL8YRLaFu
+2zUS8H+XJUIU0IYSs3H8UyfeYo5VDKJClU/\
+                                 OcSzGgGm6J9JDQiHUuEFrqbpE19aSztpXrEH
+9YYP87ANyW9vxpLse2rpE4akcp+V+\
+                           C958KJEoYQc9EfjvM3LqLmzp7pvyUalv21BbOweK8V
+IYVK7djq+LCmYwJwdKrOYWmrDyH8P+me8nPtk9BdcvW+sj2qu/\
+                                                opZmYEL4KAqAviBW5TzPF
+UgQhmMalis/J4WY3Q0tvOMXRQQZCmO2N4Pg==
 -----END CERTIFICATE REQUEST-----
 </pre><a href="#appendix-A.2.6-6" class="pilcrow">¶</a>
 </div>
@@ -3571,7 +3645,7 @@ AttestationResultSet ATTESTATION-RESULT ::= {
 EvidenceStatement ::= SEQUENCE {
    type   EVIDENCE-STATEMENT.&amp;id({EvidenceStatementSet}),
    stmt   EVIDENCE-STATEMENT.&amp;Type({EvidenceStatementSet}{@type}),
-   hint   UTF8String OPTIONAL
+   hint   IA5String OPTIONAL
 }
 
 AttestationResult ::= SEQUENCE {
@@ -3583,7 +3657,7 @@ AttestationResult ::= SEQUENCE {
 id-aa-evidence OBJECT IDENTIFIER ::= { id-aa 59 }
 
 -- Arc for Attestation Result types
-id-aa-ar OBJECT IDENTIFIER ::= { id-ata (TBD2) }
+id-aa-ar OBJECT IDENTIFIER ::= { id-aa (TBD2) }
 
 -- For PKCS#10 (Evidence)
 attr-evidence ATTRIBUTE ::= {
@@ -3805,60 +3879,56 @@ A0 82 00 8E
     06 0B 2A 86 48 86 F7 0D 01 09 10 02 3B
       // SET -- This attribute
       31 79
-        // EvidenceBundles ::= SEQUENCE SIZE (1..MAX) OF
-                                                      EvidenceBundle
-        30 77
-          // EvidenceBundle ::= SEQUENCE
-          30 75
-            // EvidenceStatements ::= SEQUENCE SIZE (1..MAX)
-                                                OF EvidenceStatement
-            30 73
-              // EvidenceStatement ::= SEQUENCE
-              30 71
-                // type: OBJECT IDENTIFIER tcg-dice-TcbInfo
-                //                         (2.23.133.5.4.1)
-                06 06 67 81 05 05 04 01
-                // stmt: SEQUENCE
-                30 4E
-                  // CONTEXT_SPECIFIC | version (02)
-                  // version = ABCDEF123456
-                  82 0C 41 42 43 44 45 46 31 32 33 34 35 36
-                  // CONTEXT_SPECIFIC | svn (03)
-                  // svn = 4
-                  83 01 04
-                  // CONTEXT_SPECIFIC | CONSTRUCTED | fwids (06)
-                  A6 2F
-                  // SEQUENCE
-                  30 2D
-                    // OBJECT IDENTIFIER SHA256
-                    06 09 60 86 48 01 65 03 04 02 01
-                    // OCTET STRING
-                    // fwid = 0x0000....00
-                    04 20 00 00 00 00 00 00 00 00
-                    00 00 00 00 00 00 00 00
-                    00 00 00 00 00 00 00 00
-                    00 00 00 00 00 00 00 00
-                  // CONTEXT_SPECIFIC | vendorInfo (08)
-                  // vendor info = 0x00000000
-                  88 04 00 00 00 00
-                  // CONTEXT_SPECIFIC | type (09)
-                  // type = 0x00000000
-                  89 04 00 00 00 00
-                // hint: UTF8STRING "DiceTcbInfo.example.com"
-                0C 17 44 69 63 65 54 63 62 49 6e 66 6f
-                2e 65 78 61 6d 70 6c 65 2e 63 6f 6d
+        // EvidenceBundle ::= SEQUENCE
+        30 75
+          // EvidenceStatements ::= SEQUENCE SIZE (1..MAX)
+                                              OF EvidenceStatement
+          30 73
+            // EvidenceStatement ::= SEQUENCE
+            30 71
+              // type: OBJECT IDENTIFIER tcg-dice-TcbInfo
+              //                         (2.23.133.5.4.1)
+              06 06 67 81 05 05 04 01
+              // stmt: SEQUENCE
+              30 4E
+                // CONTEXT_SPECIFIC | version (02)
+                // version = ABCDEF123456
+                82 0C 41 42 43 44 45 46 31 32 33 34 35 36
+                // CONTEXT_SPECIFIC | svn (03)
+                // svn = 4
+                83 01 04
+                // CONTEXT_SPECIFIC | CONSTRUCTED | fwids (06)
+                A6 2F
+                // SEQUENCE
+                30 2D
+                  // OBJECT IDENTIFIER SHA256
+                  06 09 60 86 48 01 65 03 04 02 01
+                  // OCTET STRING
+                  // fwid = 0x0000....00
+                  04 20 00 00 00 00 00 00 00 00
+                  00 00 00 00 00 00 00 00
+                  00 00 00 00 00 00 00 00
+                  00 00 00 00 00 00 00 00
+                // CONTEXT_SPECIFIC | vendorInfo (08)
+                // vendor info = 0x00000000
+                88 04 00 00 00 00
+                // CONTEXT_SPECIFIC | type (09)
+                // type = 0x00000000
+                89 04 00 00 00 00
+              // hint: IA5String "DiceTcbInfo.example.com"
+              0C 17 44 69 63 65 54 63 62 49 6e 66 6f
+              2e 65 78 61 6d 70 6c 65 2e 63 6f 6d
 
 // BER only
-A0 82 00 8E 30 82 00 8A 06 0B 2A 86 48 86 F7 0D
-01 09 10 02 3B 30 7B 31 79 30 77 30 75 30 73 30
-71 06 06 67 81 05 05 04 01 30 4E 82 0C 41 42 43
-44 45 46 31 32 33 34 35 36 83 01 04 A6 2F 30 2D
-06 09 60 86 48 01 65 03 04 02 01 04 20 00 00 00
+a0 82 00 8c 30 82 00 88 06 0b 2a 86 48 86 f7 0d
+01 09 10 02 3b 30 79 31 77 30 75 30 73 30 71 06
+06 67 81 05 05 04 01 30 4e 82 0c 41 42 43 44 45
+46 31 32 33 34 35 36 83 01 04 a6 2f 30 2d 06 09
+60 86 48 01 65 03 04 02 01 04 20 00 00 00 00 00
 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 88 04 00
-00 00 00 89 04 00 00 00 00 0C 17 44 69 63 65 54
-63 62 49 6e 66 6f 2e 65 78 61 6d 70 6c 65 2e 63
-6f 6d
+00 00 00 00 00 00 00 00 00 00 00 88 04 00 00 00
+00 89 04 00 00 00 00 16 17 44 69 63 65 54 63 62
+49 6e 66 6f 2e 65 78 61 6d 70 6c 65 2e 63 6f 6d
 </pre><a href="#appendix-B.2-2" class="pilcrow">¶</a>
 </div>
 </section>

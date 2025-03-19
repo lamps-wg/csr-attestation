@@ -1237,16 +1237,13 @@ Attestation Results in Certificate Signing Requests (CSRs), such as PKCS#10 or C
                 <p id="section-toc.1-1.7.2.2.1"><a href="#section-7.2" class="auto internal xref">7.2</a>.  <a href="#name-object-identifier-registrat" class="internal xref">Object Identifier Registrations - SMI Security for S/MIME Attributes</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.3">
-                <p id="section-toc.1-1.7.2.3.1"><a href="#section-7.3" class="auto internal xref">7.3</a>.  <a href="#name-smi-security-for-pkix-evide" class="internal xref">"SMI Security for PKIX Evidence Statement Formats" Registry</a></p>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.4">
-                <p id="section-toc.1-1.7.2.4.1"><a href="#section-7.4" class="auto internal xref">7.4</a>.  <a href="#name-attestation-evidence-oid-re" class="internal xref">Attestation Evidence OID Registry</a></p>
+                <p id="section-toc.1-1.7.2.3.1"><a href="#section-7.3" class="auto internal xref">7.3</a>.  <a href="#name-attestation-evidence-oid-re" class="internal xref">Attestation Evidence OID Registry</a></p>
 <ul class="compact toc ulBare ulEmpty">
-<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.4.2.1">
-                    <p id="section-toc.1-1.7.2.4.2.1.1"><a href="#section-7.4.1" class="auto internal xref">7.4.1</a>.  <a href="#name-registration-template" class="internal xref">Registration Template</a></p>
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.3.2.1">
+                    <p id="section-toc.1-1.7.2.3.2.1.1"><a href="#section-7.3.1" class="auto internal xref">7.3.1</a>.  <a href="#name-registration-template" class="internal xref">Registration Template</a></p>
 </li>
-                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.4.2.2">
-                    <p id="section-toc.1-1.7.2.4.2.2.1"><a href="#section-7.4.2" class="auto internal xref">7.4.2</a>.  <a href="#name-initial-registry-contents" class="internal xref">Initial Registry Contents</a></p>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.3.2.2">
+                    <p id="section-toc.1-1.7.2.3.2.2.1"><a href="#section-7.3.2" class="auto internal xref">7.3.2</a>.  <a href="#name-initial-registry-contents" class="internal xref">Initial Registry Contents</a></p>
 </li>
                 </ul>
 </li>
@@ -1892,19 +1889,6 @@ one or more AttestationResult structures.<a href="#section-4.2-1" class="pilcrow
 <a href="#section-5.1" class="section-number selfRef">5.1. </a><a href="#name-object-identifiers" class="section-name selfRef">Object Identifiers</a>
         </h3>
 <p id="section-5.1-1">This document references <code>id-pkix</code> and <code>id-aa</code>, both defined in <span>[<a href="#RFC5911" class="cite xref">RFC5911</a>]</span> and <span>[<a href="#RFC5912" class="cite xref">RFC5912</a>]</span>.<a href="#section-5.1-1" class="pilcrow">¶</a></p>
-<p id="section-5.1-2">This document defines the OID depicted in <a href="#code-ata-oid" class="auto internal xref">Figure 8</a>.<a href="#section-5.1-2" class="pilcrow">¶</a></p>
-<span id="name-new-oid-for-pkix-evidence-s"></span><div id="code-ata-oid">
-<figure id="figure-8">
-          <div class="alignLeft art-text artwork" id="section-5.1-3.1">
-<pre>
--- OID for Evidence types
-id-ata OBJECT IDENTIFIER ::= { id-aa (TBD1) }
-</pre>
-</div>
-<figcaption><a href="#figure-8" class="selfRef">Figure 8</a>:
-<a href="#name-new-oid-for-pkix-evidence-s" class="selfRef">New OID for PKIX Evidence Statement Formats</a>
-          </figcaption></figure>
-</div>
 </section>
 </div>
 <div id="sec-evidenceAttr">
@@ -1921,7 +1905,7 @@ optional certificates for certification path building.
 This structure enables different Evidence statements to share a
 certification path without duplicating it in the attribute.<a href="#section-5.2-1" class="pilcrow">¶</a></p>
 <span id="name-definition-of-evidencestate"></span><div id="code-EvidenceStatementSet">
-<figure id="figure-9">
+<figure id="figure-8">
           <div class="alignLeft art-text artwork" id="section-5.2-2.1">
 <pre>
 EVIDENCE-STATEMENT ::= TYPE-IDENTIFIER
@@ -1931,11 +1915,11 @@ EvidenceStatementSet EVIDENCE-STATEMENT ::= {
 }
 </pre>
 </div>
-<figcaption><a href="#figure-9" class="selfRef">Figure 9</a>:
+<figcaption><a href="#figure-8" class="selfRef">Figure 8</a>:
 <a href="#name-definition-of-evidencestate" class="selfRef">Definition of EvidenceStatementSet</a>
           </figcaption></figure>
 </div>
-<p id="section-5.2-3">The expression illustrated in <a href="#code-EvidenceStatementSet" class="auto internal xref">Figure 9</a> maps ASN.1 Types
+<p id="section-5.2-3">The expression illustrated in <a href="#code-EvidenceStatementSet" class="auto internal xref">Figure 8</a> maps ASN.1 Types
 for Evidence Statements to the OIDs
 that identify them. These mappings are used to construct
 or parse EvidenceStatements. Evidence Statements are typically
@@ -1944,7 +1928,7 @@ or vendor proprietary formats along with corresponding OIDs that identify them.<
 <p id="section-5.2-4">This list is left unconstrained in this document. However, implementers can
 populate it with the formats that they wish to support.<a href="#section-5.2-4" class="pilcrow">¶</a></p>
 <span id="name-definition-of-evidencestatem"></span><div id="code-EvidenceStatement">
-<figure id="figure-10">
+<figure id="figure-9">
           <div class="alignLeft art-text artwork" id="section-5.2-5.1">
 <pre>
 EvidenceStatement ::= SEQUENCE {
@@ -1954,11 +1938,11 @@ EvidenceStatement ::= SEQUENCE {
 }
 </pre>
 </div>
-<figcaption><a href="#figure-10" class="selfRef">Figure 10</a>:
+<figcaption><a href="#figure-9" class="selfRef">Figure 9</a>:
 <a href="#name-definition-of-evidencestatem" class="selfRef">Definition of EvidenceStatement</a>
           </figcaption></figure>
 </div>
-<p id="section-5.2-6">In <a href="#code-EvidenceStatement" class="auto internal xref">Figure 10</a>, type is an OID that indicates the format of the value of stmt.<a href="#section-5.2-6" class="pilcrow">¶</a></p>
+<p id="section-5.2-6">In <a href="#code-EvidenceStatement" class="auto internal xref">Figure 9</a>, type is an OID that indicates the format of the value of stmt.<a href="#section-5.2-6" class="pilcrow">¶</a></p>
 <p id="section-5.2-7">Based on the responsibilities of the different roles in the RATS architecture,
 Relying Parties need to relay Evidence to Verifiers for evaluation and obtain
 an Attestation Result in return. Ideally, the Relying Party should select a Verifier
@@ -1975,7 +1959,7 @@ Relying Party will either require additional parsing of the evidence statement, 
 the Attester will be required to provide additional information.<a href="#section-5.2-8" class="pilcrow">¶</a></p>
 <p id="section-5.2-9">To simplify the task for the Relying Party to select an appropriate Verifier
 an optional field, the hint, is available in the EvidenceStatement structure,
-as shown in <a href="#code-EvidenceStatement" class="auto internal xref">Figure 10</a>. An Attester <span class="bcp14">MAY</span> include the hint to
+as shown in <a href="#code-EvidenceStatement" class="auto internal xref">Figure 9</a>. An Attester <span class="bcp14">MAY</span> include the hint to
 the EvidenceStatement and it <span class="bcp14">MAY</span> be processed by the Relying Party. The
 Relying Party <span class="bcp14">MAY</span> decide not to trust the information embedded in the hint
 or policy <span class="bcp14">MAY</span> override any information provided by the Attester via this hint.<a href="#section-5.2-9" class="pilcrow">¶</a></p>
@@ -2021,7 +2005,7 @@ Evidence statement. Additional certificates may be provided, for example, to cha
 Evidence signer key back to an agreed upon trust anchor. No specific order of the certificates in <code>certs</code> <span class="bcp14">SHOULD</span> be expected because certificates contained in <code>certs</code> may be needed to validate different Evidence statements.<a href="#section-5.2-16" class="pilcrow">¶</a></p>
 <p id="section-5.2-17">This specification places no restriction on mixing certificate types within the <code>certs</code> field. For example a non-X.509 Evidence signer certificate <span class="bcp14">MAY</span> chain to a trust anchor via a chain of X.509 certificates. It is up to the Attester and its Verifier to agree on supported certificate formats.<a href="#section-5.2-17" class="pilcrow">¶</a></p>
 <span id="name-definitions-of-csr-attribut"></span><div id="code-extensions">
-<figure id="figure-11">
+<figure id="figure-10">
           <div class="alignLeft art-text artwork" id="section-5.2-18.1">
 <pre>
 id-aa-evidence OBJECT IDENTIFIER ::= { id-aa 59 }
@@ -2040,11 +2024,11 @@ ext-evidence EXTENSION ::= {
 }
 </pre>
 </div>
-<figcaption><a href="#figure-11" class="selfRef">Figure 11</a>:
+<figcaption><a href="#figure-10" class="selfRef">Figure 10</a>:
 <a href="#name-definitions-of-csr-attribut" class="selfRef">Definitions of CSR attribute and extension</a>
           </figcaption></figure>
 </div>
-<p id="section-5.2-19">The Extension variant illustrated in <a href="#code-extensions" class="auto internal xref">Figure 11</a> is intended only for use within CRMF CSRs and is <span class="bcp14">NOT RECOMMENDED</span> to be used within X.509 certificates due to the privacy implications of publishing Evidence about the end entity's hardware environment. See <a href="#sec-con-publishing-x509" class="auto internal xref">Section 8.3</a> for more discussion.<a href="#section-5.2-19" class="pilcrow">¶</a></p>
+<p id="section-5.2-19">The Extension variant illustrated in <a href="#code-extensions" class="auto internal xref">Figure 10</a> is intended only for use within CRMF CSRs and is <span class="bcp14">NOT RECOMMENDED</span> to be used within X.509 certificates due to the privacy implications of publishing Evidence about the end entity's hardware environment. See <a href="#sec-con-publishing-x509" class="auto internal xref">Section 8.3</a> for more discussion.<a href="#section-5.2-19" class="pilcrow">¶</a></p>
 <p id="section-5.2-20">By the nature of the PKIX ASN.1 classes <span>[<a href="#RFC5912" class="cite xref">RFC5912</a>]</span>, there are multiple ways to convey multiple Evidence statements: by including multiple copies of <code>attr-evidence</code> or <code>ext-evidence</code>, multiple values within the attribute or extension, and finally, by including multiple <code>EvidenceStatement</code> structures within an <code>EvidenceBundle</code>. The latter is the preferred way to carry multiple Evidence statements. Implementations <span class="bcp14">MUST NOT</span> place multiple copies of <code>attr-evidence</code> into a PKCS#10 CSR due to the <code>COUNTS MAX 1</code> declaration. In a CRMF CSR, implementers <span class="bcp14">SHOULD NOT</span> place multiple copies of <code>ext-evidence</code>.<a href="#section-5.2-20" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -2060,16 +2044,16 @@ ext-evidence EXTENSION ::= {
         <h3 id="name-object-identifiers-2">
 <a href="#section-6.1" class="section-number selfRef">6.1. </a><a href="#name-object-identifiers-2" class="section-name selfRef">Object Identifiers</a>
         </h3>
-<p id="section-6.1-1">This document defines the OID depicted in <a href="#code-ar-oid" class="auto internal xref">Figure 12</a> as an additional CSR Attribute (PKCS#10) or Extension (CRMF) to carry Attestation Results in a CSR.<a href="#section-6.1-1" class="pilcrow">¶</a></p>
+<p id="section-6.1-1">This document defines the OID depicted in <a href="#code-ar-oid" class="auto internal xref">Figure 11</a> as an additional CSR Attribute (PKCS#10) or Extension (CRMF) to carry Attestation Results in a CSR.<a href="#section-6.1-1" class="pilcrow">¶</a></p>
 <span id="name-new-oid-for-pkix-attestatio"></span><div id="code-ar-oid">
-<figure id="figure-12">
+<figure id="figure-11">
           <div class="alignLeft art-text artwork" id="section-6.1-2.1">
 <pre>
 -- OID for Attestation Result types
 id-aa-ar OBJECT IDENTIFIER ::= { id-aa (TBD2) }
 </pre>
 </div>
-<figcaption><a href="#figure-12" class="selfRef">Figure 12</a>:
+<figcaption><a href="#figure-11" class="selfRef">Figure 11</a>:
 <a href="#name-new-oid-for-pkix-attestatio" class="selfRef">New OID for PKIX Attestation Result Formats</a>
           </figcaption></figure>
 </div>
@@ -2084,7 +2068,7 @@ id-aa-ar OBJECT IDENTIFIER ::= { id-aa (TBD2) }
 typed as ATTRIBUTE and within a CRMF CSR are typed as EXTENSION.
 This attribute definition contains one AttestationResultBundle structure.<a href="#section-6.2-1" class="pilcrow">¶</a></p>
 <span id="name-definition-of-attestationre"></span><div id="code-AttestationResultSet">
-<figure id="figure-13">
+<figure id="figure-12">
           <div class="alignLeft art-text artwork" id="section-6.2-2.1">
 <pre>
 ATTESTATION-RESULT ::= TYPE-IDENTIFIER
@@ -2094,11 +2078,11 @@ AttestationResultSet ATTESTATION-RESULT ::= {
 }
 </pre>
 </div>
-<figcaption><a href="#figure-13" class="selfRef">Figure 13</a>:
+<figcaption><a href="#figure-12" class="selfRef">Figure 12</a>:
 <a href="#name-definition-of-attestationre" class="selfRef">Definition of AttestationResultSet</a>
           </figcaption></figure>
 </div>
-<p id="section-6.2-3">The expression illustrated in <a href="#code-AttestationResultSet" class="auto internal xref">Figure 13</a>
+<p id="section-6.2-3">The expression illustrated in <a href="#code-AttestationResultSet" class="auto internal xref">Figure 12</a>
 maps ASN.1 Types for Attestation Result to the OIDs that identify them. These
 mappings are used to construct or parse AttestationResults. Attestation Results
 are defined in other IETF standards (see <span>[<a href="#I-D.ietf-rats-ar4si" class="cite xref">I-D.ietf-rats-ar4si</a>]</span>),
@@ -2107,7 +2091,7 @@ OIDs that identify them.<a href="#section-6.2-3" class="pilcrow">¶</a></p>
 <p id="section-6.2-4">This list is left unconstrained in this document. However, implementers can
 populate it with the formats that they wish to support.<a href="#section-6.2-4" class="pilcrow">¶</a></p>
 <span id="name-definition-of-attestationres"></span><div id="code-AttestationResult">
-<figure id="figure-14">
+<figure id="figure-13">
           <div class="alignLeft art-text artwork" id="section-6.2-5.1">
 <pre>
 AttestationResult ::= SEQUENCE {
@@ -2116,11 +2100,11 @@ AttestationResult ::= SEQUENCE {
 }
 </pre>
 </div>
-<figcaption><a href="#figure-14" class="selfRef">Figure 14</a>:
+<figcaption><a href="#figure-13" class="selfRef">Figure 13</a>:
 <a href="#name-definition-of-attestationres" class="selfRef">Definition of AttestationResult</a>
           </figcaption></figure>
 </div>
-<p id="section-6.2-6">In <a href="#code-AttestationResult" class="auto internal xref">Figure 14</a>, type is an OID that indicates the format of the
+<p id="section-6.2-6">In <a href="#code-AttestationResult" class="auto internal xref">Figure 13</a>, type is an OID that indicates the format of the
 value of stmt.<a href="#section-6.2-6" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="section-6.2-7">
 <pre>
@@ -2128,7 +2112,7 @@ AttestationResultBundle ::= SEQUENCE SIZE (1..MAX) OF AttestationResult
 </pre><a href="#section-6.2-7" class="pilcrow">¶</a>
 </div>
 <span id="name-definitions-of-csr-attribute"></span><div id="code-extensions-ar">
-<figure id="figure-15">
+<figure id="figure-14">
           <div class="alignLeft art-text artwork" id="section-6.2-8.1">
 <pre>
 -- For PKCS#10
@@ -2145,7 +2129,7 @@ ext-ar EXTENSION ::= {
 }
 </pre>
 </div>
-<figcaption><a href="#figure-15" class="selfRef">Figure 15</a>:
+<figcaption><a href="#figure-14" class="selfRef">Figure 14</a>:
 <a href="#name-definitions-of-csr-attribute" class="selfRef">Definitions of CSR attribute and extension</a>
           </figcaption></figure>
 </div>
@@ -2172,7 +2156,7 @@ a popular crypto library about a subject key stored on a PKCS#11 <span>[<a href=
 some cryptographic library is assembling a CSR by interacting with the HSM over some
 network protocol, then the interaction would conceptually be:<a href="#section-6.3-4" class="pilcrow">¶</a></p>
 <span id="name-example-interaction-between"></span><div id="fig-csr-client-p11">
-<figure id="figure-16">
+<figure id="figure-15">
           <div id="section-6.3-5.1">
             <div class="alignLeft art-svg artwork" id="section-6.3-5.1.1">
 <svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="320" width="384" viewBox="0 0 384 320" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
@@ -2212,7 +2196,7 @@ network protocol, then the interaction would conceptually be:<a href="#section-6
               </svg><a href="#section-6.3-5.1.1" class="pilcrow">¶</a>
 </div>
 </div>
-<figcaption><a href="#figure-16" class="selfRef">Figure 16</a>:
+<figcaption><a href="#figure-15" class="selfRef">Figure 15</a>:
 <a href="#name-example-interaction-between" class="selfRef">Example interaction between CSR generator and HSM.</a>
           </figcaption></figure>
 </div>
@@ -2284,104 +2268,63 @@ SMI Security for S/MIME Attributes (1.2.840.113549.1.9.16.2).<a href="#section-7
         </ul>
 </section>
 </div>
-<div id="smi-security-for-pkix-evidence-statement-formats-registry">
-<section id="section-7.3">
-        <h3 id="name-smi-security-for-pkix-evide">
-<a href="#section-7.3" class="section-number selfRef">7.3. </a><a href="#name-smi-security-for-pkix-evide" class="section-name selfRef">"SMI Security for PKIX Evidence Statement Formats" Registry</a>
-        </h3>
-<p id="section-7.3-1">IANA is asked to create a registry for Evidence Statement Formats within
-the SMI-numbers registry, allocating an assignment from id-pkix ("SMI
-Security for PKIX" Registry) for the purpose.<a href="#section-7.3-1" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-7.3-2.1">
-            <p id="section-7.3-2.1.1">Decimal: IANA Assigned - <strong>replace TBD1</strong><a href="#section-7.3-2.1.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-7.3-2.2">
-            <p id="section-7.3-2.2.1">Description: id-ata<a href="#section-7.3-2.2.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-7.3-2.3">
-            <p id="section-7.3-2.3.1">References: This document<a href="#section-7.3-2.3.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-7.3-2.4">
-            <p id="section-7.3-2.4.1">Initial contents: None<a href="#section-7.3-2.4.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-7.3-2.5">
-            <p id="section-7.3-2.5.1">Registration Regime: Specification Required.
-Document must specify an EVIDENCE-STATEMENT or ATTESTATION-RESULT
-definition to which this Object Identifier shall be bound.<a href="#section-7.3-2.5.1" class="pilcrow">¶</a></p>
-</li>
-        </ul>
-<p id="section-7.3-3">Columns:<a href="#section-7.3-3" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-7.3-4.1">
-            <p id="section-7.3-4.1.1">Decimal: The subcomponent under id-ata<a href="#section-7.3-4.1.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-7.3-4.2">
-            <p id="section-7.3-4.2.1">Description: Begins with id-ata<a href="#section-7.3-4.2.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-7.3-4.3">
-            <p id="section-7.3-4.3.1">References: RFC or other document<a href="#section-7.3-4.3.1" class="pilcrow">¶</a></p>
-</li>
-        </ul>
-</section>
-</div>
 <div id="attestation-evidence-oid-registry">
-<section id="section-7.4">
+<section id="section-7.3">
         <h3 id="name-attestation-evidence-oid-re">
-<a href="#section-7.4" class="section-number selfRef">7.4. </a><a href="#name-attestation-evidence-oid-re" class="section-name selfRef">Attestation Evidence OID Registry</a>
+<a href="#section-7.3" class="section-number selfRef">7.3. </a><a href="#name-attestation-evidence-oid-re" class="section-name selfRef">Attestation Evidence OID Registry</a>
         </h3>
-<p id="section-7.4-1">IANA is asked to create a registry that helps developers to find
-OID/Evidence mappings.<a href="#section-7.4-1" class="pilcrow">¶</a></p>
-<p id="section-7.4-2">Registration requests are evaluated using the criteria described in
+<p id="section-7.3-1">IANA is asked to create a registry that helps developers to find
+OID/Evidence mappings.<a href="#section-7.3-1" class="pilcrow">¶</a></p>
+<p id="section-7.3-2">Registration requests are evaluated using the criteria described in
 the registration template below after a three-week review period on
 the [[TBD]] mailing list, with the advice of one or more Designated
 Experts <span>[<a href="#RFC8126" class="cite xref">RFC8126</a>]</span>.  However, to allow for the allocation of values
 prior to publication, the Designated Experts may approve registration
-once they are satisfied that such a specification will be published.<a href="#section-7.4-2" class="pilcrow">¶</a></p>
-<p id="section-7.4-3">Registration requests sent to the mailing list for review should use
+once they are satisfied that such a specification will be published.<a href="#section-7.3-2" class="pilcrow">¶</a></p>
+<p id="section-7.3-3">Registration requests sent to the mailing list for review should use
 an appropriate subject (e.g., "Request to register attestation
-evidence: example").<a href="#section-7.4-3" class="pilcrow">¶</a></p>
-<p id="section-7.4-4">IANA must only accept registry updates from the Designated Experts
+evidence: example").<a href="#section-7.3-3" class="pilcrow">¶</a></p>
+<p id="section-7.3-4">IANA must only accept registry updates from the Designated Experts
 and should direct all requests for registration to the review mailing
-list.<a href="#section-7.4-4" class="pilcrow">¶</a></p>
+list.<a href="#section-7.3-4" class="pilcrow">¶</a></p>
 <div id="registration-template">
-<section id="section-7.4.1">
+<section id="section-7.3.1">
           <h4 id="name-registration-template">
-<a href="#section-7.4.1" class="section-number selfRef">7.4.1. </a><a href="#name-registration-template" class="section-name selfRef">Registration Template</a>
+<a href="#section-7.3.1" class="section-number selfRef">7.3.1. </a><a href="#name-registration-template" class="section-name selfRef">Registration Template</a>
           </h4>
-<p id="section-7.4.1-1">The registry has the following columns:<a href="#section-7.4.1-1" class="pilcrow">¶</a></p>
+<p id="section-7.3.1-1">The registry has the following columns:<a href="#section-7.3.1-1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-7.4.1-2.1">
-              <p id="section-7.4.1-2.1.1">OID: The OID number, which has already been allocated. IANA does
-not allocate OID numbers for use with this registry.<a href="#section-7.4.1-2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-7.3.1-2.1">
+              <p id="section-7.3.1-2.1.1">OID: The OID number, which has already been allocated. IANA does
+not allocate OID numbers for use with this registry.<a href="#section-7.3.1-2.1.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-7.4.1-2.2">
-              <p id="section-7.4.1-2.2.1">Description: Brief description of the use of the Evidence and the
-registration of the OID.<a href="#section-7.4.1-2.2.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-7.3.1-2.2">
+              <p id="section-7.3.1-2.2.1">Description: Brief description of the use of the Evidence and the
+registration of the OID.<a href="#section-7.3.1-2.2.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-7.4.1-2.3">
-              <p id="section-7.4.1-2.3.1">Reference(s): Reference to the document or documents that register
+            <li class="normal" id="section-7.3.1-2.3">
+              <p id="section-7.3.1-2.3.1">Reference(s): Reference to the document or documents that register
 the OID for use with a specific attestation technology, preferably
 including URIs that can be used to retrieve copies of the documents.
 An indication of the relevant sections may also be included but is not
-required.<a href="#section-7.4.1-2.3.1" class="pilcrow">¶</a></p>
+required.<a href="#section-7.3.1-2.3.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-7.4.1-2.4">
-              <p id="section-7.4.1-2.4.1">Change Controller: For Standards Track RFCs, list the "IESG".  For
+            <li class="normal" id="section-7.3.1-2.4">
+              <p id="section-7.3.1-2.4.1">Change Controller: For Standards Track RFCs, list the "IESG".  For
 others, give the name of the responsible party. In most cases the
 third party requesting registration in this registry will also be the
-party that registered the OID.<a href="#section-7.4.1-2.4.1" class="pilcrow">¶</a></p>
+party that registered the OID.<a href="#section-7.3.1-2.4.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
 </section>
 </div>
 <div id="initial-registry-contents">
-<section id="section-7.4.2">
+<section id="section-7.3.2">
           <h4 id="name-initial-registry-contents">
-<a href="#section-7.4.2" class="section-number selfRef">7.4.2. </a><a href="#name-initial-registry-contents" class="section-name selfRef">Initial Registry Contents</a>
+<a href="#section-7.3.2" class="section-number selfRef">7.3.2. </a><a href="#name-initial-registry-contents" class="section-name selfRef">Initial Registry Contents</a>
           </h4>
-<p id="section-7.4.2-1">The initial registry contents is shown in the table below.
-It lists entries for several evidence encoding OIDs including an entry for the Conceptual Message Wrapper (CMW) <span>[<a href="#I-D.ietf-rats-msg-wrap" class="cite xref">I-D.ietf-rats-msg-wrap</a>]</span>.<a href="#section-7.4.2-1" class="pilcrow">¶</a></p>
+<p id="section-7.3.2-1">The initial registry contents is shown in the table below.
+It lists entries for several evidence encoding OIDs including an entry for the Conceptual Message Wrapper (CMW) <span>[<a href="#I-D.ietf-rats-msg-wrap" class="cite xref">I-D.ietf-rats-msg-wrap</a>]</span>.<a href="#section-7.3.2-1" class="pilcrow">¶</a></p>
 <span id="name-initial-contents-of-the-att"></span><div id="tab-ae-reg">
 <table class="center" id="table-1">
             <caption>
@@ -2488,7 +2431,7 @@ It lists entries for several evidence encoding OIDs including an entry for the C
             </tbody>
           </table>
 </div>
-<p id="section-7.4.2-3">The current registry values can be retrieved from the IANA online website.<a href="#section-7.4.2-3" class="pilcrow">¶</a></p>
+<p id="section-7.3.2-3">The current registry values can be retrieved from the IANA online website.<a href="#section-7.3.2-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -2531,8 +2474,8 @@ key applied to sign the CSR is generated, and stored in a secure
 environment that has controls to prevent theft or misuse (including
 being non-exportable / non-recoverable), the Attesting Environment
 has to collect claims about this secure environment (or Target
-Environment, as shown in <a href="#fig-attester" class="auto internal xref">Figure 17</a>).<a href="#section-8.1-2" class="pilcrow">¶</a></p>
-<p id="section-8.1-3"><a href="#fig-attester" class="auto internal xref">Figure 17</a> shows the interaction inside an Attester. The
+Environment, as shown in <a href="#fig-attester" class="auto internal xref">Figure 16</a>).<a href="#section-8.1-2" class="pilcrow">¶</a></p>
+<p id="section-8.1-3"><a href="#fig-attester" class="auto internal xref">Figure 16</a> shows the interaction inside an Attester. The
 Attesting Environment, which is provisioned with an Attestation Key,
 retrieves claims about the Target Environment. The Target
 Environment offers key generation, storage and usage, which it
@@ -2540,7 +2483,7 @@ makes available to services. The Attesting Environment collects
 these claims about the Target Environment and signs them and
 exports Evidence for use in remote attestation via a CSR.<a href="#section-8.1-3" class="pilcrow">¶</a></p>
 <span id="name-interaction-between-attesti"></span><div id="fig-attester">
-<figure id="figure-17">
+<figure id="figure-16">
           <div id="section-8.1-4.1">
             <div class="alignLeft art-svg artwork" id="section-8.1-4.1.1">
 <svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="576" width="328" viewBox="0 0 328 576" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
@@ -2617,11 +2560,11 @@ exports Evidence for use in remote attestation via a CSR.<a href="#section-8.1-3
               </svg><a href="#section-8.1-4.1.1" class="pilcrow">¶</a>
 </div>
 </div>
-<figcaption><a href="#figure-17" class="selfRef">Figure 17</a>:
+<figcaption><a href="#figure-16" class="selfRef">Figure 16</a>:
 <a href="#name-interaction-between-attesti" class="selfRef">Interaction between Attesting and Target Environment</a>
           </figcaption></figure>
 </div>
-<p id="section-8.1-5"><a href="#fig-attester" class="auto internal xref">Figure 17</a> places the CSR library outside the Attester, which
+<p id="section-8.1-5"><a href="#fig-attester" class="auto internal xref">Figure 16</a> places the CSR library outside the Attester, which
 is a valid architecture for certificate enrollment.
 The CSR library may also be located
 inside the trusted computing base. Regardless of the placement
@@ -3626,9 +3569,6 @@ id-aa
     { iso(1) member-body(2) us(840) rsadsi(113549)
     pkcs(1) pkcs-9(9) smime(16) modules(0) msg-v3dot1(21) }
   ;
-
--- Branch for attestation statement types
-id-ata OBJECT IDENTIFIER ::= { id-aa (TBD1) }
 
 EVIDENCE-STATEMENT ::= TYPE-IDENTIFIER
 

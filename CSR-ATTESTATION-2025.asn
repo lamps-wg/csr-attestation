@@ -31,9 +31,6 @@ id-aa
     pkcs(1) pkcs-9(9) smime(16) modules(0) msg-v3dot1(21) }
   ;
 
--- Branch for attestation statement types
-id-ata OBJECT IDENTIFIER ::= { id-aa (TBD1) }
-
 EVIDENCE-STATEMENT ::= TYPE-IDENTIFIER
 
 EvidenceStatementSet EVIDENCE-STATEMENT ::= {

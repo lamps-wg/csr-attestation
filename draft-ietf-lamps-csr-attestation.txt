@@ -5,14 +5,14 @@
 Network Working Group                                       M. Ounsworth
 Internet-Draft                                                   Entrust
 Intended status: Standards Track                           H. Tschofenig
-Expires: 31 August 2025                                          Siemens
+Expires: 20 September 2025                                       Siemens
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                               M. Wiseman
                                                          Beyond Identity
                                                                 N. Smith
                                                        Intel Corporation
-                                                        27 February 2025
+                                                           19 March 2025
 
 
      Use of Remote Attestation with Certification Signing Requests
@@ -65,7 +65,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 31 August 2025.
+   This Internet-Draft will expire on 20 September 2025.
 
 Copyright Notice
 
@@ -615,7 +615,7 @@ Table of Contents
 
    EvidenceBundle ::= SEQUENCE {
       evidences SEQUENCE SIZE (1..MAX) OF EvidenceStatement,
-      certs SEQUENCE SIZE (1..MAX) OF CertificateChoices OPTIONAL
+      certs SEQUENCE SIZE (1..MAX) OF CertificateChoices OPTIONAL,
          -- CertificateChoices MUST only contain certificate or other,
          -- see Section 10.2.2 of [RFC5652]
    }
@@ -1271,9 +1271,9 @@ Table of Contents
               Frost, S., Fossati, T., and G. Mandyam, "Arm's
               Confidential Compute Architecture Reference Attestation
               Token", Work in Progress, Internet-Draft, draft-ffm-rats-
-              cca-token-00, 4 July 2024,
+              cca-token-01, 3 March 2025,
               <https://datatracker.ietf.org/doc/html/draft-ffm-rats-cca-
-              token-00>.
+              token-01>.
 
    [I-D.ietf-lamps-attestation-freshness]
               Tschofenig, H. and H. Brockhaus, "Nonce-based Freshness
@@ -1297,16 +1297,16 @@ Table of Contents
               Birkholz, H., Newton, C., Chen, L., and D. Thaler, "Direct
               Anonymous Attestation for the Remote Attestation
               Procedures Architecture", Work in Progress, Internet-
-              Draft, draft-ietf-rats-daa-06, 5 September 2024,
+              Draft, draft-ietf-rats-daa-07, 3 March 2025,
               <https://datatracker.ietf.org/doc/html/draft-ietf-rats-
-              daa-06>.
+              daa-07>.
 
    [I-D.ietf-rats-msg-wrap]
               Birkholz, H., Smith, N., Fossati, T., Tschofenig, H., and
               D. Glaze, "RATS Conceptual Messages Wrapper (CMW)", Work
-              in Progress, Internet-Draft, draft-ietf-rats-msg-wrap-11,
-              15 November 2024, <https://datatracker.ietf.org/doc/html/
-              draft-ietf-rats-msg-wrap-11>.
+              in Progress, Internet-Draft, draft-ietf-rats-msg-wrap-12,
+              28 February 2025, <https://datatracker.ietf.org/doc/html/
+              draft-ietf-rats-msg-wrap-12>.
 
    [I-D.ietf-rats-tpm-based-network-device-attest]
               Fedorkow, G., Voit, E., and J. Fitzgerald-McKay, "TPM-
@@ -2112,7 +2112,7 @@ Appendix B.  ASN.1 Module
 
    EvidenceBundle ::= SEQUENCE {
       evidences SEQUENCE SIZE (1..MAX) OF EvidenceStatement,
-      certs SEQUENCE SIZE (1..MAX) OF CertificateChoices OPTIONAL
+      certs SEQUENCE SIZE (1..MAX) OF CertificateChoices OPTIONAL,
          -- CertificateChoices MUST NOT contain the depreciated
          -- certificate structures or attribute certificates,
          -- see Section 10.2.2 of [RFC5652]

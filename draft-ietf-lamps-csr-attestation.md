@@ -435,13 +435,13 @@ one or more AttestationResult structures.
 
 This document references `id-pkix` and `id-aa`, both defined in {{!RFC5911}} and {{!RFC5912}}.
 
-This document defines the arc depicted in {{code-ata-arc}}.
+This document defines the OID depicted in {{code-ata-oid}}.
 
 ~~~
--- Arc for Evidence types
+-- OID for Evidence types
 id-ata OBJECT IDENTIFIER ::= { id-aa (TBD1) }
 ~~~
-{: #code-ata-arc title="New OID Arc for PKIX Evidence Statement Formats"}
+{: #code-ata-oid title="New OID for PKIX Evidence Statement Formats"}
 
 ## Evidence Attribute and Extension {#sec-evidenceAttr}
 
@@ -583,10 +583,10 @@ By the nature of the PKIX ASN.1 classes {{RFC5912}}, there are multiple ways to 
 This document defines the OID depicted in {{code-ar-arc}} as an additional CSR Attribute (PKCS#10) or Extension (CRMF) to carry Attestation Results in a CSR.
 
 ~~~
--- Arc for Attestation Result types
+-- OID for Attestation Result types
 id-aa-ar OBJECT IDENTIFIER ::= { id-aa (TBD2) }
 ~~~
-{: #code-ar-arc title="New OID Arc for PKIX Attestation Result Formats"}
+{: #code-ar-oid title="New OID for PKIX Attestation Result Formats"}
 
 ## Attestation Result Attribute and Extension {#sec-arAttr}
 

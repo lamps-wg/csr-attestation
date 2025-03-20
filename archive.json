@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-03-18T01:04:17.980165+00:00",
+  "timestamp": "2025-03-20T01:03:41.409434+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -2342,15 +2342,15 @@
       "id": "I_kwDOJ3IIN86uNy86",
       "title": "Russ feedback 3/14/25",
       "url": "https://github.com/lamps-wg/csr-attestation/issues/183",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "ounsworth",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "> Mike and Hannes:\n>\n>Three things:\n>\n>(1) The ASN.1 does not compile because there is an extra comma after \"CertificateChoices OPTIONAL\".\n>\n>(2) The id-aa-evidence and id-aa-ar are not arcs for the assignment of additional OIDs.  The way that you are using them, they are identifying specific attributes and specific extensions.  Those will have evidence statement or attestation result OIDs in them.\n>\n>(3) I am confused by the term \"Attestation Evidence\".  Maybe this was supposed to be changed to Attestation Results, but I am not sure.\n>\n>Are these things you want to discuss during WGLC?\n>\n>Russ\n",
       "createdAt": "2025-03-16T08:00:00Z",
-      "updatedAt": "2025-03-16T08:34:47Z",
-      "closedAt": null,
+      "updatedAt": "2025-03-19T10:59:32Z",
+      "closedAt": "2025-03-19T10:59:30Z",
       "comments": [
         {
           "author": "ounsworth",
@@ -2372,6 +2372,20 @@
           "body": "About (3)\n[25e8723](https://github.com/lamps-wg/csr-attestation/commit/25e8723ee0fc2b1a1892e3913b26b3493f8c6f82) Renames 'Attestation Evidence\" to \"Remote Attestation Formats\". Fixed.",
           "createdAt": "2025-03-16T08:34:25Z",
           "updatedAt": "2025-03-16T08:34:46Z"
+        },
+        {
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "body": "About (1): I fixed the issue in PR https://github.com/lamps-wg/csr-attestation/pull/184/",
+          "createdAt": "2025-03-19T08:59:56Z",
+          "updatedAt": "2025-03-19T08:59:56Z"
+        },
+        {
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "(2) fixed in #185 #186 ",
+          "createdAt": "2025-03-19T10:59:30Z",
+          "updatedAt": "2025-03-19T10:59:30Z"
         }
       ]
     }
@@ -9126,6 +9140,90 @@
           "comments": []
         }
       ]
+    },
+    {
+      "number": 184,
+      "id": "PR_kwDOJ3IIN86PO-BR",
+      "title": "Fixing ASN.1",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/184",
+      "state": "MERGED",
+      "author": "hannestschofenig",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-03-19T08:57:46Z",
+      "updatedAt": "2025-03-19T09:51:45Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "1661b9b88f46334639eacbeaa5f853eabe81bce4",
+      "headRepository": "lamps-wg/csr-attestation",
+      "headRefName": "hannestschofenig-patch-2",
+      "headRefOid": "04d43c3fd1770310e7953fb6059a1d41d97d57e9",
+      "closedAt": "2025-03-19T09:51:40Z",
+      "mergedAt": "2025-03-19T09:51:40Z",
+      "mergedBy": "hannestschofenig",
+      "mergeCommit": {
+        "oid": "a945914a655bb76539f2e6a5713e382f13e0f211"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 185,
+      "id": "PR_kwDOJ3IIN86PPk9K",
+      "title": "Replace ARC with OID",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/185",
+      "state": "MERGED",
+      "author": "hannestschofenig",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-03-19T09:51:12Z",
+      "updatedAt": "2025-03-19T09:54:06Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "1661b9b88f46334639eacbeaa5f853eabe81bce4",
+      "headRepository": "lamps-wg/csr-attestation",
+      "headRefName": "hannestschofenig-patch-3",
+      "headRefOid": "fc8571e43ac886b70f16494584a496a9059f9904",
+      "closedAt": "2025-03-19T09:54:02Z",
+      "mergedAt": "2025-03-19T09:54:02Z",
+      "mergedBy": "hannestschofenig",
+      "mergeCommit": {
+        "oid": "3c6f8951dfe14fbc43a2ed5fc3c536a753992e74"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 186,
+      "id": "PR_kwDOJ3IIN86PPxou",
+      "title": "Deleted ata",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/186",
+      "state": "MERGED",
+      "author": "hannestschofenig",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-03-19T10:08:17Z",
+      "updatedAt": "2025-03-19T10:10:52Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "3c6f8951dfe14fbc43a2ed5fc3c536a753992e74",
+      "headRepository": "lamps-wg/csr-attestation",
+      "headRefName": "hannestschofenig-patch-2",
+      "headRefOid": "6b9d0e4322bff87adb2caac918911dbf9acf3548",
+      "closedAt": "2025-03-19T10:10:47Z",
+      "mergedAt": "2025-03-19T10:10:47Z",
+      "mergedBy": "hannestschofenig",
+      "mergeCommit": {
+        "oid": "89caebbf622077938fa53dd6bcd79b7998f13e66"
+      },
+      "comments": [],
+      "reviews": []
     }
   ]
 }

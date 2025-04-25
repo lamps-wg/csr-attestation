@@ -429,6 +429,10 @@ one or more AttestationResult structures.
 ~~~
 {: #fig-info-model-ar title="Information Model for CSR Attestation Result Conveyance."}
 
+A Relying Party receiving a CSR containing an Attestation Result MUST use the Type information
+to parse the content. The Attestation Result encoding MUST provide information for the Relying
+Party to determine the Verifier, who created and protected the Attestation Result against modifications.
+
 # ASN.1 Elements for Evidence in CSR
 
 ##  Object Identifiers

@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-04-01T01:13:40.083999+00:00",
+  "timestamp": "2025-04-27T01:12:05.592778+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -2388,6 +2388,54 @@
           "updatedAt": "2025-03-19T10:59:30Z"
         }
       ]
+    },
+    {
+      "number": 187,
+      "id": "I_kwDOJ3IIN860AFWC",
+      "title": "Moving Section 6.3",
+      "url": "https://github.com/lamps-wg/csr-attestation/issues/187",
+      "state": "OPEN",
+      "author": "hannestschofenig",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Hendrik wrote:\n   \n  *   Section 6.3 seams to contain implementation considerations regarding obtaining an EvidenceStatement and generating a CSR, but Section 6 itself is on the AttestationResult ASN.1 structure. Would it make sense to move Section 6.3 one level up or to Section 5?\n\nHere is his full review:\nhttps://mailarchive.ietf.org/arch/msg/spasm/BI1zCRfLWdEN-ZBpVXJLDHgvJQA/",
+      "createdAt": "2025-04-25T12:26:02Z",
+      "updatedAt": "2025-04-25T12:26:02Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 188,
+      "id": "I_kwDOJ3IIN860AFXg",
+      "title": "AttestationResultBundle does not contain Hint",
+      "url": "https://github.com/lamps-wg/csr-attestation/issues/188",
+      "state": "OPEN",
+      "author": "hannestschofenig",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Hendrik wrote:\n\n  *   In Section 4.2, other than the EvidenceBundle, the AttestationResultBundle is defined in a way that it does not contain a CertificateChoices and no AttestationResult.Hint. I was missing some text how the CA can identify which Verifyer provided the Attestation Result and how it can verify the authenticity of the content. If this is expected that the CA knows this all based on the AttestationResult.Type, I missed the text stating this.\n  \nHere is his full review:\nhttps://mailarchive.ietf.org/arch/msg/spasm/BI1zCRfLWdEN-ZBpVXJLDHgvJQA/",
+      "createdAt": "2025-04-25T12:26:04Z",
+      "updatedAt": "2025-04-25T12:26:04Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 189,
+      "id": "I_kwDOJ3IIN860AFYz",
+      "title": "RA adds AttestationResultBundle to the CSR",
+      "url": "https://github.com/lamps-wg/csr-attestation/issues/189",
+      "state": "OPEN",
+      "author": "hannestschofenig",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Hendrik wrote:\n   \n  *   In Figure 1, the CSR sent by the EE contains an EvendenceBundle and the CSR forwarded by the RA contains an AttestationResultBundle. I was missing text how this can happen on an RA, specifically when using PKCS#10.\n\nHere is his full review:\nhttps://mailarchive.ietf.org/arch/msg/spasm/BI1zCRfLWdEN-ZBpVXJLDHgvJQA/",
+      "createdAt": "2025-04-25T12:26:06Z",
+      "updatedAt": "2025-04-25T12:26:06Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
@@ -9222,6 +9270,58 @@
       "mergeCommit": {
         "oid": "89caebbf622077938fa53dd6bcd79b7998f13e66"
       },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 190,
+      "id": "PR_kwDOJ3IIN86T6KMn",
+      "title": "Moving Section 6.3 into Section 5",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/190",
+      "state": "OPEN",
+      "author": "hannestschofenig",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Addressing comment from Hendrik - https://github.com/lamps-wg/csr-attestation/issues/187",
+      "createdAt": "2025-04-25T12:40:10Z",
+      "updatedAt": "2025-04-25T12:40:10Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "99e28367a69032aadcde85ce5ea1c83395b2e414",
+      "headRepository": "lamps-wg/csr-attestation",
+      "headRefName": "hannestschofenig-patch-2",
+      "headRefOid": "20aeaa9d785c674894047cdc55b73b8bc645cfeb",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 191,
+      "id": "PR_kwDOJ3IIN86T6Ozh",
+      "title": "Adding information about AttestationResultBundle Processing",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/191",
+      "state": "OPEN",
+      "author": "hannestschofenig",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "In response to https://github.com/lamps-wg/csr-attestation/issues/188",
+      "createdAt": "2025-04-25T12:49:31Z",
+      "updatedAt": "2025-04-25T12:49:31Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "99e28367a69032aadcde85ce5ea1c83395b2e414",
+      "headRepository": "lamps-wg/csr-attestation",
+      "headRefName": "hannestschofenig-patch-3",
+      "headRefOid": "41b6a307b4a080cd23450539210936861aaf1385",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
       "comments": [],
       "reviews": []
     }

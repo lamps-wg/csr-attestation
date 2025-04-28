@@ -241,7 +241,12 @@ CA, which extracts the Evidence and forwards it to a
 trusted Verifier. The RA receives back an Attestation Result, which it uses
 to decide whether this Evidence meets its policy for certificate issuance
 and if it does then the certificate request is forwarded to the CA for issuance.
-This diagram overlays PKI entities with RATS roles in parentheses.
+This diagram overlays PKI entities with RATS roles in parentheses. When the RA
+replaces the Evidence with the Attestation Result, the RA may need to re-sign the
+CSR since the digital signature provided by the end entity becames invalid
+due to this change. In many deployments, the RA and CA are co-located, and
+relaying the CSR from the RA to the CA requires communication between services,
+potentially within the same physical device.
 
 ~~~ aasvg
                           .-----------------.

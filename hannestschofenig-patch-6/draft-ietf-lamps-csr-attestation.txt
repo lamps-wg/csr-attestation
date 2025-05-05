@@ -5,14 +5,14 @@
 Network Working Group                                       M. Ounsworth
 Internet-Draft                                                   Entrust
 Intended status: Standards Track                           H. Tschofenig
-Expires: 30 October 2025                                         Siemens
+Expires: 6 November 2025                                         Siemens
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                               M. Wiseman
                                                          Beyond Identity
                                                                 N. Smith
                                                        Intel Corporation
-                                                           28 April 2025
+                                                              5 May 2025
 
 
      Use of Remote Attestation with Certification Signing Requests
@@ -65,7 +65,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 30 October 2025.
+   This Internet-Draft will expire on 6 November 2025.
 
 Copyright Notice
 
@@ -99,24 +99,27 @@ Table of Contents
    6.  ASN.1 Elements for Attestation Result in CSR
      6.1.  Object Identifiers
      6.2.  Attestation Result Attribute and Extension
-     6.3.  Implementation Considerations
-   7.  IANA Considerations
-     7.1.  Module Registration - SMI Security for PKIX Module
+   7.  Implementation Considerations
+     7.1.  Is the CSR constructed inside or outside the Attester?
+     7.2.  Separation of RA and CA roles with respect to Attestation
+           Results
+   8.  IANA Considerations
+     8.1.  Module Registration - SMI Security for PKIX Module
            Identifier
-     7.2.  Object Identifier Registrations - SMI Security for S/MIME
+     8.2.  Object Identifier Registrations - SMI Security for S/MIME
            Attributes
-     7.3.  Attestation Evidence OID Registry
-       7.3.1.  Registration Template
-       7.3.2.  Initial Registry Contents
-   8.  Security Considerations
-     8.1.  Background Check Model Security Considerations
-     8.2.  Freshness for the Background Check Model
-     8.3.  Publishing Evidence in an X.509 Extension
-     8.4.  Type OID and Verifier Hint
-     8.5.  Additional Security Considerations
-   9.  References
-     9.1.  Normative References
-     9.2.  Informative References
+     8.3.  Attestation Evidence OID Registry
+       8.3.1.  Registration Template
+       8.3.2.  Initial Registry Contents
+   9.  Security Considerations
+     9.1.  Background Check Model Security Considerations
+     9.2.  Freshness for the Background Check Model
+     9.3.  Publishing Evidence in an X.509 Extension
+     9.4.  Type OID and Verifier Hint
+     9.5.  Additional Security Considerations
+   10. References
+     10.1.  Normative References
+     10.2.  Informative References
    Appendix A.  Examples
      A.1.  Extending EvidenceStatementSet
      A.2.  TPM V2.0 Evidence in CSR
@@ -274,71 +277,43 @@ Table of Contents
 
    Figure 1 shows the high-level communication pattern of the RATS
    background check model where the Attester transmits the Evidence in
-   the CSR to the RA and the CA, which is subsequently forwarded to the
-   Verifier.  The Verifier appraises the received Evidence and computes
-   an Attestation Result, which is then processed by the RA/CA prior to
-   the certificate issuance.
+   the CSR to the Registration Authority (RA) and the Certification
+   Authority (CA), which is subsequently forwarded to the Verifier.  The
+   Verifier appraises the received Evidence and computes an Attestation
+   Result, which is then processed by the RA/CA prior to the certificate
+   issuance.  The RA and CA are depicted as separate entities with the
+   RA consuming the Attestation Results and deciding whether or not to
+   forward the certificate request to the CA, but since the
+   communication between RA and CA is out-of-scope, they can be
+   conceptualized as a single Relying Party entity for the purposes of
+   this specification.  This diagram overlays PKI entities with RATS
+   roles in parentheses.
+
+                               .-----------------.
+                               |                 | Compare Evidence
+                               |    (Verifier)   | against Appraisal
+                               |                 | Policy
+                               '------------+----'
+                                    ^       |
+                           Evidence |       | Attestation
+                                    |       | Result
+                                    |       v
+     .------------.            .----|------------.          .-----.
+     |            +----------->|----'            |--------->|     |
+     | End        | Evidence   | Registration    |          | CA  |
+     | Entity     | in CSR     | Authority RA    |          |     |
+     |            |            |                 |          |     |
+     | (Attester) |            | (Relying Party) |          |     |
+     '------------'            '-----------------'          '-----'
+
+      Figure 1: Example data flow demonstrating the architecture with
+                          Background Check Model.
 
    In addition to the background-check model, the RATS architecture also
    defines the passport model, as described in Section 5.2 of [RFC9334].
    In the passport model, the Attester transmits Evidence directly to
    the Verifier to obtain an Attestation Result, which is subsequently
    forwarded to the Relying Party.
-
-   The choice of model depends on various factors.  For instance, the
-   background-check model is preferred when direct real-time interaction
-   between the Attester and the Verifier is not feasible.
-
-   Note that the Verifier is a logical role that may be included in the
-   RA/CA product.  In this case, the Relying Party role and Verifier
-   role collapse into a single physical entity.  The Verifier
-   functionality can, however, also be kept separate from the RA
-   functionality.  For example, security concerns may require parsers of
-   Evidence formats to be logically or physically separated from the
-   core RA and CA functionality.
-
-   The interface by which the Relying Party passes Evidence to the
-   Verifier and receives back Attestation Results may be proprietary or
-   standardized, but in any case is out-of-scope for this document.
-   Like-wise, the interface between the Attester and the Verifier used
-   in the passport model is also out-of-scope for this document.
-
-   Figure 1 shows an example data flow where Evidence is included in a
-   CSR in the background-check model.  The CSR is parsed by the RA
-   component of a CA, which extracts the Evidence and forwards it to a
-   trusted Verifier.  The RA receives back an Attestation Result, which
-   it uses to decide whether this Evidence meets its policy for
-   certificate issuance and if it does then the certificate request is
-   forwarded to the CA for issuance.  This diagram overlays PKI entities
-   with RATS roles in parentheses.  When the RA replaces the Evidence
-   with the Attestation Result, the RA may need to re-sign the CSR since
-   the digital signature provided by the end entity becames invalid due
-   to this change.  In many deployments, the RA and CA are co-located,
-   and relaying the CSR from the RA to the CA requires communication
-   between services, potentially within the same physical device.
-
-                             .-----------------.
-                             |                 | Compare Evidence
-                             |    (Verifier)   | against Appraisal
-                             |                 | Policy
-                             '------------+----'
-                                  ^       |
-                         Evidence |       | Attestation
-                                  |       | Result
-                                  |       v
-   .------------.            .----|-------|----.                .-----.
-   |            +----------->|----'       '--->|--------------->|     |
-   | End        | Evidence   | Registration    | Attestation    | CA  |
-   | Entity     | in CSR     | Authority (RA)  | Result in      |(RP) |
-   | (Attester) |            | (Relying Party) | CSR            |     |
-   '------------'            '-----------------'                '-----'
-
-      Figure 1: Example data flow demonstrating the architecture with
-                          Background Check Model.
-
-   Figure 2 illustrates the passport model, where the Attester first
-   communicates with the Verifier to obtain the Attestation Result,
-   which is subsequently included in the CSR.
 
       Evidence               .-----------------.
       +--------------------->|                 | Compare Evidence
@@ -350,13 +325,23 @@ Table of Contents
       |     v
    .--------|---.             .-----------------.              .------.
    |        +-->+------------>| Registration    |------------->|      |
-   | End        | Attestation | Authority       | Attestation  |  CA  |
-   | Entity     | Result in   |                 | Result in    | (RP) |
-   | (Attester) | CSR         | (Relying Party) | CSR          |      |
+   | End        | Attestation | Authority RA    |              |  CA  |
+   | Entity     | Result in   |                 |              |      |
+   | (Attester) | CSR         | (Relying Party) |              |      |
    '------------'             '-----------------'              '------'
 
       Figure 2: Example data flow demonstrating the architecture with
                               Passport Model.
+
+   The choice of model depends on various factors.  For instance, the
+   background-check model is preferred when direct real-time interaction
+   between the Attester and the Verifier is not feasible.
+
+   The interface by which the Relying Party passes Evidence to the
+   Verifier and receives back Attestation Results may be proprietary or
+   standardized, but in any case is out-of-scope for this document.
+   Like-wise, the interface between the Attester and the Verifier used
+   in the passport model is also out-of-scope for this document.
 
    RFC 9334 [RFC9334] discusses different security and privacy aspects
    that need to be considered when developing and deploying a remote
@@ -663,7 +648,7 @@ Table of Contents
    The Extension variant illustrated in Figure 10 is intended only for
    use within CRMF CSRs and is NOT RECOMMENDED to be used within X.509
    certificates due to the privacy implications of publishing Evidence
-   about the end entity's hardware environment.  See Section 8.3 for
+   about the end entity's hardware environment.  See Section 9.3 for
    more discussion.
 
    By the nature of the PKIX ASN.1 classes [RFC5912], there are multiple
@@ -741,7 +726,9 @@ Table of Contents
 
            Figure 14: Definitions of CSR attribute and extension
 
-6.3.  Implementation Considerations
+7.  Implementation Considerations
+
+7.1.  Is the CSR constructed inside or outside the Attester?
 
    This specification is applicable both in cases where a CSR is
    constructed internally or externally to the Attesting Environment,
@@ -786,14 +773,50 @@ Table of Contents
 
        Figure 15: Example interaction between CSR generator and HSM.
 
-7.  IANA Considerations
+7.2.  Separation of RA and CA roles with respect to Attestation Results
+
+   As described in Section 3, CSRs MAY contain either Evidence or
+   Attestation Results (AR), and also the Registration Authority (RA)
+   and Certification Authority (CA) MAY be conceptualized as a single
+   Relying Party entity, or as separate entities.  There are some
+   implications here worth discussion.
+
+   In many cases, the Evidence contained within a CSR is intended to be
+   consumed by the RA and not to be placed into the issued certificate.
+   In some RA / CA architectures, it MAY be appropriate for the RA to
+   "consume" the Evidence and remove it from the CSR, re-signing the CSR
+   with an RA signing key.  The mechanics of doing this in a CRMF CSR
+   are more complex since an RA is not allowed to modify the certReq
+   field when a proof-of-possession popo field is present, so an
+   additional CRMF control could be required to indicate that the ext-
+   evidence or ext-ar extensions are not to be copied into the issued
+   certificate.  Such CRMF controls are not defined in this document.
+
+   In any case where the RA and CA roles are separated, and Evidence is
+   evaluated and consumed by the RA, the RA does at least implicitly
+   produce Attestation Results as defined in the RATS Architecture
+   [RFC9334].  For example, the decision to reject the Evidence and fail
+   back to the client, or to accept the Evidence and forward a request
+   to the CA could be viewed as a boolean Attestation Result.
+   Similarly, if acceptance or rejection of the Evidence controls the
+   presence or absence of a certain policy OID or other extension in the
+   issued certificate, this could also be viewed as an Attestation
+   Result.
+
+   Alternatively, the RA MAY place explicit Attestation Results into its
+   request to the CA; either for consumption by the CA or for inclusion
+   in the issued certificate.  The exact mechanisms for doing this are
+   out-of-scope for this document, but are areas for implementation
+   consideration and potential future standardization work.
+
+8.  IANA Considerations
 
    IANA is requested to open two new registries, allocate a value from
    the "SMI Security for PKIX Module Identifier" registry for the
    included ASN.1 module, and allocate values from "SMI Security for S/
    MIME Attributes" to identify two attributes defined within.
 
-7.1.  Module Registration - SMI Security for PKIX Module Identifier
+8.1.  Module Registration - SMI Security for PKIX Module Identifier
 
    IANA is asked to register the following within the registry id-mod
    SMI Security for PKIX Module Identifier (1.3.6.1.5.5.7.0).
@@ -804,7 +827,7 @@ Table of Contents
 
    *  References: This Document
 
-7.2.  Object Identifier Registrations - SMI Security for S/MIME
+8.2.  Object Identifier Registrations - SMI Security for S/MIME
       Attributes
 
    IANA is asked to register the following within the registry id-aa SMI
@@ -827,7 +850,7 @@ Table of Contents
 
    *  References: This Document
 
-7.3.  Attestation Evidence OID Registry
+8.3.  Attestation Evidence OID Registry
 
    IANA is asked to create a registry that helps developers to find OID/
    Evidence mappings.
@@ -847,7 +870,7 @@ Table of Contents
    and should direct all requests for registration to the review mailing
    list.
 
-7.3.1.  Registration Template
+8.3.1.  Registration Template
 
    The registry has the following columns:
 
@@ -868,7 +891,7 @@ Table of Contents
       third party requesting registration in this registry will also be
       the party that registered the OID.
 
-7.3.2.  Initial Registry Contents
+8.3.2.  Initial Registry Contents
 
    The initial registry contents is shown in the table below.  It lists
    entries for several evidence encoding OIDs including an entry for the
@@ -929,7 +952,7 @@ Table of Contents
    The current registry values can be retrieved from the IANA online
    website.
 
-8.  Security Considerations
+9.  Security Considerations
 
    In the RATS architecture, when Evidence or an Attestation Result is
    presented to a Relying Party (RP), the RP may learn detailed
@@ -946,7 +969,7 @@ Table of Contents
    revealed through remote attestation to such entities is generally
    less concerning than disclosure to application services.  The problem
    of copying Evidence by CAs into an X.509 certificate is discussed in
-   Section 8.3.
+   Section 9.3.
 
    These privacy risks can be mitigated using several approaches,
    including:
@@ -981,7 +1004,7 @@ Table of Contents
       [I-D.ietf-rats-daa] extends the RATS architecture with such a DAA
       scheme, significantly enhancing privacy.
 
-8.1.  Background Check Model Security Considerations
+9.1.  Background Check Model Security Considerations
 
    A PKCS#10 or CRMF Certification Request message typically consists of
    a distinguished name, a public key, and optionally a set of
@@ -1082,7 +1105,7 @@ Table of Contents
    out of scope for this document.  Whether to require the use of
    Evidence in a CSR is out-of-scope for this document.
 
-8.2.  Freshness for the Background Check Model
+9.2.  Freshness for the Background Check Model
 
    Evidence generated by an Attester generally needs to be fresh to
    provide value to the Verifier since the configuration on the device
@@ -1120,7 +1143,7 @@ Table of Contents
    passport model; however, the protocol between the Attester and the
    Verifier lies outside the scope of this specification.
 
-8.3.  Publishing Evidence in an X.509 Extension
+9.3.  Publishing Evidence in an X.509 Extension
 
    This document specifies an Extension for carrying Evidence in a CRMF
    Certificate Signing Request (CSR), but it is intentionally NOT
@@ -1140,7 +1163,7 @@ Table of Contents
    RA/CA where a flag can be added indicating whether the RA/CA should
    consider the evidence to be public or private.
 
-8.4.  Type OID and Verifier Hint
+9.4.  Type OID and Verifier Hint
 
    The EvidenceStatement includes both a type OID and a hint field with
    which the Attester can provide information to the Relying Party about
@@ -1157,7 +1180,7 @@ Table of Contents
    such as None, Null, or similar values that could cause the Evidence
    to appear to be valid when in fact it was not properly checked.
 
-8.5.  Additional Security Considerations
+9.5.  Additional Security Considerations
 
    In addition to the security considerations listed here, implementers
    should be familiar with the security considerations of the
@@ -1169,9 +1192,9 @@ Table of Contents
    be aware of any security considerations relating to the specific
    Evidence and Attestation Result formats being carried within the CSR.
 
-9.  References
+10.  References
 
-9.1.  Normative References
+10.1.  Normative References
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -1224,7 +1247,7 @@ Table of Contents
               Architecture", RFC 9334, DOI 10.17487/RFC9334, January
               2023, <https://www.rfc-editor.org/rfc/rfc9334>.
 
-9.2.  Informative References
+10.2.  Informative References
 
    [CSBR]     CA/Browser Forum, "Baseline Requirements for Code-Signing
               Certificates, v.3.7", February 2024,

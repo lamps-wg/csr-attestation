@@ -197,9 +197,9 @@ considers messages in the Certificate Request Message Format (CRMF) {{RFC4211}}
 to be "CSRs". In this document, the terms "CSR" and Certificate Request
 message are used interchangeably.
 
-This document, particularly
-
-is a RATS-aware entity that interacts with the Attester
+This document, particularly {{impl-presenter}}, requires a RATS-aware
+role that is not defined in the RATS Architecture [RFC9334]: the Presenter.
+The Presenter is a RATS-aware entity that interacts with the Attester
 to request the required Evidence or Attestation Results and then present it
 within the appropriate usage protocol in a format that the Relying Party
 will accept.

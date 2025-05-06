@@ -713,10 +713,13 @@ SMI Security for S/MIME Attributes (1.2.840.113549.1.9.16.2).
 ## Attestation Evidence OID Registry
 
 IANA is asked to create a registry that helps developers to find
-OID/Evidence mappings.
+OID/Evidence mappings that may be encountered in the wild, as well as
+a link to their specification document.
+This registry should follow the rules for
+"Specification Required" as laid out in [!RFC5226].
 
-Registration requests are evaluated using the criteria described in
-the registration template below after a three-week review period on
+Registration requests should be formatted as per
+the registration template below, and receive a three-week review period on
 the [[TBD]] mailing list, with the advice of one or more Designated
 Experts {{RFC8126}}.  However, to allow for the allocation of values
 prior to publication, the Designated Experts may approve registration
@@ -746,10 +749,16 @@ including URIs that can be used to retrieve copies of the documents.
 An indication of the relevant sections may also be included but is not
 required.
 
-- Change Controller: For Standards Track RFCs, list the "IESG".  For
-others, give the name of the responsible party. In most cases the
+- Change Controller: The entity that controls the listed data format.
+For data formats specified in Standards Track RFCs, list the "IESG".
+For others, give the name of the responsible party.
+This does not necessarily have to be a standards body, for example
+in the case of proprietary data formats the Reference may be to a company or a
+publicly-available reference implementation.  In most cases the
 third party requesting registration in this registry will also be the
-party that registered the OID.
+party that registered the OID. As the intention is for this regestry to be a
+helpful reference, rather than a normative list, a fair amount of
+discretion is left to the Designated Expert.
 
 ### Initial Registry Contents
 

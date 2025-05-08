@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-05-06T01:09:14.527947+00:00",
+  "timestamp": "2025-05-08T01:10:07.451428+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -2433,7 +2433,7 @@
       "labels": [],
       "body": "Hendrik wrote:\n   \n  *   In Figure 1, the CSR sent by the EE contains an EvendenceBundle and the CSR forwarded by the RA contains an AttestationResultBundle. I was missing text how this can happen on an RA, specifically when using PKCS#10.\n\nHere is his full review:\nhttps://mailarchive.ietf.org/arch/msg/spasm/BI1zCRfLWdEN-ZBpVXJLDHgvJQA/",
       "createdAt": "2025-04-25T12:26:06Z",
-      "updatedAt": "2025-05-05T20:20:03Z",
+      "updatedAt": "2025-05-07T10:06:22Z",
       "closedAt": null,
       "comments": [
         {
@@ -2484,6 +2484,20 @@
           "body": "During today's meeting, we asked how RA mode interacts with CRMF [RFC4211] style CSRs.\n\nCRMF CSRs are a bit structurally different from PKCS#10 CSRs:\n\n```\n   CertReqMsg ::= SEQUENCE {\n      certReq   CertRequest,\n      popo       ProofOfPossession  OPTIONAL,\n      -- content depends upon key type\n      regInfo   SEQUENCE SIZE(1..MAX) of AttributeTypeAndValue OPTIONAL\n   }\n\nHowever, inclusion of additional\n   certReq content by RAs can invalidate the popo field (depending on\n   the details of the POP method used).  Therefore, data intended for\n   certificate content MAY be provided in regInfo.\n```\n\nWhile with PKCS#10 it is common for the RA to consume the PoP signature and replace it with the RA's signature; in CRMF it is explicit that the signature is a PoP and anything the RA adds needs to go in the regInfo -- ie the RA is not allowed to modify the certReq.\n\nAt a quick glance, I don't see anything in RFC4211 describing how an RA would add a counter-signature, but presumably there exist CRMF extensions for this? Or maybe the intention is that the communication between RA and CA is \"backend\" and does not require explicit authentication / authorization / integrity protection at the CRMF layer? That would agree with `popo` being an optional field. Hendrik would know for sure.\n\nI think, in the end, for this CSR Attest draft we can simply say nothing about this.",
           "createdAt": "2025-05-05T20:18:10Z",
           "updatedAt": "2025-05-05T20:20:02Z"
+        },
+        {
+          "author": "HBrock",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "> While with PKCS#10 it is common for the RA to consume the PoP signature and replace it with the RA's signature; \n\nFrom how I understand PKCS#10, this statement is not correct. \nPKCS#10 always contains in the signature field of CertificationRequest a a signature of the certificationRequestInfo field as self-signature as PoP using the private key corresponding to the public key in subjectPKInfo, see Section 4.2 of [https://datatracker.ietf.org/doc/html/rfc2986](url).\nThe certificationRequestInfo field itself contains the subject, the subjectPKInfo and the attributes, see Section 4.1 of [https://datatracker.ietf.org/doc/html/rfc2986](url).\nIf the RA changes anything about the content of thee certificationRequestInfo field, the PoP is not valid anymore.\n\n> in CRMF it is explicit that the signature is a PoP and anything the RA adds needs to go in the regInfo -- ie the RA is not allowed to modify the certReq.\n\nRegarding CRMF the situation may be simpler, in case the RA uses the raVerified choice in the popo field of the CertReqMsg, see [https://datatracker.ietf.org/doc/html/rfc4211#section-4](url). This allows the CA to delegate the PoP validation to the RA. Specifically when the RA needs to change the content of the the certReq field the raVerified choice is handy.\nIn case the CA did not delegate the PoP validation to the RA, the RA could, depending on the certificate management protocol used, either put the original certReq containing the valid PoP into the regInfo field of the new certReqMsg (I guess this is how CMC is handling this case) or put the original  PKIMessage containing the valid PoP into the generalInfo field of the header of the new PKIMessage signed by the RA, see [https://datatracker.ietf.org/doc/html/draft-ietf-lamps-rfc4210bis-18#section-5.1.1.3](url).\n\n> At a quick glance, I don't see anything in RFC4211 describing how an RA would add a counter-signature, but presumably there exist CRMF extensions for this? Or maybe the intention is that the communication between RA and CA is \"backend\" and does not require explicit authentication / authorization / integrity protection at the CRMF layer? That would agree with popo being an optional field. Hendrik would know for sure.\n\nCRMF is a format and not a protocol. Therefore, it leaved this question to the certificate management protocol using CRMF.\nIn CMP we described this use case in [https://datatracker.ietf.org/doc/html/rfc9483#section-5.2.3](url) and [https://datatracker.ietf.org/doc/html/rfc9483#section-5.3.1](url).",
+          "createdAt": "2025-05-06T14:56:08Z",
+          "updatedAt": "2025-05-06T14:56:08Z"
+        },
+        {
+          "author": "mcr",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Hendrik Brockhaus ***@***.***> wrote:\n    > If the RA changes anything about the content of thee\n    > certificationRequestInfo field, the PoP is not valid anymore.\n\nYes, the RA is expected to have validated the PoP, and then indicate that to\nthe CA through the private relationship.\nI don't think I'm disagreeing with you, and I argued not to label that arc\nfor this exact reason.\n\n    > In case the CA did not delegate the PoP validation to the RA, the RA\n    > could, depending on the certificate management protocol used, either\n    > put the original certReq containing the valid PoP into the regInfo\n    > field of the new certReqMsg (I guess this is how CMC is handling this\n    > case) or put the original  PKIMessage containing the valid PoP into the\n    > generalInfo field of the header of the new PKIMessage signed by the RA,\n    > see\n    > [https://datatracker.ietf.org/doc/html/draft-ietf-lamps-rfc4210bis-18#section-5.1.1.3](url).\n\nCMC does this better than other choices.\nMost systems just have a private relationship/API between RA and CA.\nAs was mentioned on Monday's call, at some point the RA was a human you\npresented yourself to.\n\n\n",
+          "createdAt": "2025-05-07T10:06:20Z",
+          "updatedAt": "2025-05-07T10:06:20Z"
         }
       ]
     },
@@ -2499,9 +2513,17 @@
       "labels": [],
       "body": "1) The \"hint\" field and it's processing continues to be underspecified.  The body of the document actually refers to the non-normative examples in the appendix rather than giving a precise explanation of how to process the hint field.  The \"hint\" field, as defined, suggests that the verifier architecture being proposed is somewhat problematic in that there MUST be a separate process or server that's responsible for verifying the attestation, and that there may be multiple servers or processes that are responsible for verifying a specific attestation type (e.g. as identified by the \"type\" field in the evidence statement.)  How a CA should process a CSR for which an unknown hint is provided does not appear to be specified for example. Nor how to deal with multiple competing verifiers all claiming to be able to verify a given evidence type.  The document specifies how the hint is placed, but not how it should be processed.\n\n2) EVIDENCE-STATEMENT is defined using the TYPE-IDENTIFIER construct, but the instantiation of this (EvidenceStatement) has an optional field - the aforementioned \"hint\".  As a general matter, a better definition would include an argument indicating whether or not the \"hint\" field should or should not be populated for a given definition of EVIDENCE-STATEMENT.  See below.\n\n3) The \"hint\" field is defined as \"IA5String\" because the format of the field is an ASCII domain name and possibly a port number.  Unfortunately, that makes the field unusable for any other attestation type that may want to use the field for a meaning specific to its attestation type.  E.g. say an ASN1 structured field that gives additional - non-attester-signed information that may be used to map raw information in the attestation to something a PKIX system understands.\n\nNotes:\n\nThe current definition of the EVIDENCE-STATEMENT and its instantiation is:\n\n\nEVIDENCE-STATEMENT ::= TYPE-IDENTIFIER\n\nEvidenceStatementSet EVIDENCE-STATEMENT ::= {\n   ... -- None defined in this document --\n}\n\nEvidenceStatement ::= SEQUENCE {\n   type   EVIDENCE-STATEMENT.&id({EvidenceStatementSet}),\n   stmt   EVIDENCE-STATEMENT.&Type({EvidenceStatementSet}{@type}),\n   hint   IA5String OPTIONAL\n}\n\n\nSo defining a specific type of evidence statement would be \"MikesStatement EVIDENCE-STATEMENT ::= MikesASN1Structure IDENTIFIED BY id-mikes-statement\" where MikesASN1Structure would be defined elsewhere.\n\nConsidering (2) only, a better definition would be.  (Note that \"TYPE-IDENTIFIER\" is actually a well-known CLASS definition - there is no more complexity here in a CLASS definition than you would find using TYPE-IDENTIFIER)\n\nEVIDENCE-STATEMENT ::= CLASS {\n  &id              OBJECT IDENTIFIER UNIQUE,\n  &Type,\n  &hintPresent     ParamOptions DEFAULT required,\n} WITH SYNTAX {\n  &Type IDENTIFIED BY &id\n  [HINT IS &ancillaryPresent]\n}\n\nAllowing for \"MikesStatement EVIDENCE-STATEMENT ::= MikesASN1Structure IDENTIFIED BY id-mikes-statement HINT IS absent\".  And allowing the relying party to know whether or not the absence of a hint is an error.\n\n\nBut considering (2) and (3) - the more correct definition would be:\n\nEVIDENCE-STATEMENT ::= CLASS {\n  &id           OBJECT IDENTIFIER UNIQUE,\n  &Type,\n  &ancillaryPresent       ParamOptions DEFAULT absent,\n  &AncillaryType   DEFAULT OCTET STRING\n} WITH SYNTAX {\n  &Type IDENTIFIED BY &id\n  [ANCILLARY [TYPE &AncillaryType] IS &ancillaryPresent]\n\n}\n\nEvidenceStatementSet EVIDENCE-STATEMENT ::= {\n   ... -- None defined in this document --\n}\n\nEvidenceStatements ::= SEQUENCE SIZE (1..MAX) OF EvidenceStatement\n\nEvidenceStatement ::= SEQUENCE {\n   type   EVIDENCE-STATEMENT.&id({EvidenceStatementSet}),\n   stmt   EVIDENCE-STATEMENT.&Type({EvidenceStatementSet}{@type}),\n   ancillary   EVIDENCE-STATEMENT.&AncillaryType({EvidenceStatementSet}{@ancillaryType}) OPTIONAL\n}\n\n\nAllowing for \"MikesStatement EVIDENCE-STATEMENT ::= MikesASN1Structure IDENTIFIED BY id-mikes-statement ANCILLARY TYPE MikesAncillary IS required\"\n\nIf I want to allow the authors to not have to change their \"EVIDENCE-STATEMENT\" definitions, I would change ancillaryPresent to \"DEFAULT preferredPresent\"  (\"required\"?) and ancillary type to \"DEFAULT IA5String\".\n\nThis doesn't fix the overall problem with the \"hint\" field nor with the general \"requires an external verifier\" architecture implied by the way this is written, but does allow for important flexibility that's missing in the current definition.\n\n_______________________________  END Shepherd text\n\n\nNit:  If the \"hint\" field is restricted to a set of characters or even a pattern, then a Hint type should be defined consisting of \"IA5String (CONTAINING ...)\".  E.g. the ASN1 equivalent of BNF for the field.  This field is well-defined structure wise in the text, so the ASN1 should reflect that definition to allow for automated checking for processing units compiled from this ASN1.\n\nNit: EvidenceStatementSet - multiple places - has \"... -- None defined in this document --\" in its body.  Given that there appear to be at least two EVIDENCE-STATEMENT definitions in the body of this draft (both using real OIDs rather than example OIDs), perhaps this is incorrect?\n\nNit: The section 7.3.2 references for original registry contents are bogus as to all of the TCG/TPM references.   The references here should be to where specific EVIDENCE-STATEMENTs are defined, not to where the OIDs are mentioned.  If there are no defined EVIDENCE-STATEMENTS for a given OID, then delete the registration.\n\nNit: The section 7.3 IANA considerations for the registry definition should use the language from 5226 and should use one of the specific terms - e.g. \"Document Required\" or \"Standard Required\" etc.\n\nNit: Section7.3.2 again - \"Change Controller\".  This is a somewhat weird nomenclature.  I would note somewhere that this is actually the document controller, and that updates of the reference will only be accepted for changes to the definition which meet general ASN1 extensibility rules.  E.g. if there are no \"...\" in the structure definition, then there are no updates possible...  Perhaps instead there is a column indicating whether the base definition is meant to be extensible?\n\nNote that the definition I gave above for EVIDENCE-STATEMENT was mostly the same as my original definition of the ATTESTATION-STATEMENT in the pre-adoption draft, so this should not be a surprise to the authors.\n\nLater, Mike",
       "createdAt": "2025-05-04T18:13:39Z",
-      "updatedAt": "2025-05-04T18:13:39Z",
+      "updatedAt": "2025-05-06T16:50:48Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Proposed responses:\n\n\n1, 2, 3:\nYou've raised these objections already multiple times. The authors have discussed it multiple times, and we are happy with the current specification. It's insane to me how much this this draft has been delayed over a completely OPTIONAL part that is on purpose an under-specified hint.  If you don't want to use the hint in your application, fine. Maybe it will turn out to be useless and nobody uses it, also fine. \n\nSentences like this tell me that you fundamentally don't understand what we're trying do to with the hint:\n\n\"Allowing for \"MikesStatement EVIDENCE-STATEMENT ::= MikesASN1Structure IDENTIFIED BY id-mikes-statement HINT IS absent\". And allowing the relying party to know whether or not the absence of a hint is an error.\"\n\nIf your ASN.1 / OID already uniquely defines whether or not a hint should be present, then you probably don't need the hint because it's likely already fully-specified enough. The hint is a place for a proprietary Attester to communicate to the RP that this data would be easiest to parse with a given proprietary verifier instead of whatever default thing the RP would otherwise try. I can't imagine a case where absence of a hint would be an error; that just means that the RP doesn't get a hint to help with format-sniffing. The hint is intended to be completely non-normative in every possible way.\n\n\nWe're done spending time debating the hint. Done now.\n\n\n\n\nYou say:\n\n\"Nit: EvidenceStatementSet - multiple places - has \"... -- None defined in this document --\" in its body. Given that there appear to be at least two EVIDENCE-STATEMENT definitions in the body of this draft (both using real OIDs rather than example OIDs), perhaps this is incorrect?\"\n\nCan you please point to where you see that in the body? I see Appendix A.1. Extending EvidenceStatementSet, but I do not consider that to be in the body or normative enough to be worth including in the core ASN.1 definition.\n\n\n\nYou say:\n\n\"Nit: The section 7.3.2 references for original registry contents are bogus as to all of the TCG/TPM references. The references here should be to where specific EVIDENCE-STATEMENTs are defined, not to where the OIDs are mentioned. If there are no defined EVIDENCE-STATEMENTS for a given OID, then delete the registration.\"\n\nRespectfully disagree. This is a registry of \"OIDs you might see in the wild\". Whether or not a specification exists which does the trivial thing of defining an EVIDENCE-STATEMENTS for it is rather irrelevant.\n\nAlso, I take this comment to be non-constructive filibustering: EVIDENCE-STATEMENTS is defined in this document, which is not yet published, so how could there be any 3rd party specifications that use it? I take this comment to be a complicatedly-worded attempt to have us delete this section, and I don't appreciate it.\n\n\n\nYou say:\n\n\"Nit: The section 7.3 IANA considerations for the registry definition should use the language from 5226 and should use one of the specific terms - e.g. \"Document Required\" or \"Standard Required\" etc.\"\n\nUmm. \"Document Required\" is not defined in [RFC5226]. However \"Designated Expert\" is, so I believe that the current wording of this section already satisfies your comment. That said, on re-reading [RFC5226], \"Specification Required\" does more accurately cover the intention here, so I will change \"Designated Expert\" to \"Specification Required\". Thanks.\n\n \"Document controller\" vs \"Change controller\": I see where you're coming from, but since we want to allow for proprietary data formats to be listed here, I think ",
+          "createdAt": "2025-05-06T16:12:22Z",
+          "updatedAt": "2025-05-06T16:50:47Z"
+        }
+      ]
     }
   ],
   "pulls": [
@@ -9431,7 +9453,7 @@
       "labels": [],
       "body": "Here is the issue: \r\nhttps://github.com/lamps-wg/csr-attestation/issues/189\r\n",
       "createdAt": "2025-04-28T08:54:03Z",
-      "updatedAt": "2025-05-05T20:57:13Z",
+      "updatedAt": "2025-05-06T14:59:58Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "99e28367a69032aadcde85ce5ea1c83395b2e414",
@@ -9449,8 +9471,121 @@
           "body": "In the end I did some light re-structuring of Hannes' Architecture section, and I added an Implementation Consideration section about the separation of RA and CA roles with respect to Attestation Results.\r\n\r\nI would like reviews from @hannestschofenig , @nedmsmith , and @HBrock (to check accuracy of the CRMF statements).",
           "createdAt": "2025-05-05T20:56:52Z",
           "updatedAt": "2025-05-05T20:57:13Z"
+        },
+        {
+          "author": "HBrock",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "> I would like reviews from @hannestschofenig , @nedmsmith , and @HBrock (to check accuracy of the CRMF statements).\r\n\r\nI commented in #189",
+          "createdAt": "2025-05-06T14:59:57Z",
+          "updatedAt": "2025-05-06T14:59:57Z"
         }
       ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJ3IIN86n_ZWx",
+          "commit": {
+            "abbreviatedOid": "b2bb61e"
+          },
+          "author": "mcr",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-06T14:02:20Z",
+          "updatedAt": "2025-05-06T14:02:20Z",
+          "comments": [
+            {
+              "originalPosition": 15,
+              "body": "```suggestion\r\nissuance. \r\nThe RA and CA are depicted as separate entities with the RA\r\nconsuming the Attestation Results and deciding whether or not to forward\r\nthe certificate request to the CA.\r\nIn some deployments they are co-located roles.\r\nIn other deployments, the RA uses a proprietary interface into the CA.\r\nIn either case,\r\ncommunication between RA and CA is out-of-scope, they can be conceptualized\r\nas a single Relying Party entity for the purposes of this specification.\r\nThis diagram overlays PKI entities with RATS roles in parentheses.\r\n```",
+              "createdAt": "2025-05-06T14:02:20Z",
+              "updatedAt": "2025-05-06T14:02:20Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN86n_a2M",
+          "commit": {
+            "abbreviatedOid": "b2bb61e"
+          },
+          "author": "mcr",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-06T14:04:04Z",
+          "updatedAt": "2025-05-06T14:04:04Z",
+          "comments": [
+            {
+              "originalPosition": 154,
+              "body": "Are there cases where Evidence does go into the resulting certificate?\r\n(I didn't think so)",
+              "createdAt": "2025-05-06T14:04:04Z",
+              "updatedAt": "2025-05-06T14:04:04Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN86n_bNz",
+          "commit": {
+            "abbreviatedOid": "b2bb61e"
+          },
+          "author": "mcr",
+          "authorAssociation": "COLLABORATOR",
+          "state": "CHANGES_REQUESTED",
+          "body": "Some suggestions inline added.",
+          "createdAt": "2025-05-06T14:04:29Z",
+          "updatedAt": "2025-05-06T14:04:29Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 194,
+      "id": "PR_kwDOJ3IIN86VIXgq",
+      "title": "Updated Implementation Considerations to introduce the Presenter role",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/194",
+      "state": "OPEN",
+      "author": "ounsworth",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-05-06T15:44:24Z",
+      "updatedAt": "2025-05-06T15:48:34Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "99e28367a69032aadcde85ce5ea1c83395b2e414",
+      "headRepository": "lamps-wg/csr-attestation",
+      "headRefName": "mikeo_presenter",
+      "headRefOid": "500c0e27e0abc5135b8a238940e399a4d6dada33",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 195,
+      "id": "PR_kwDOJ3IIN86VJBP2",
+      "title": "Addressed Mike StJohns comments",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/195",
+      "state": "OPEN",
+      "author": "ounsworth",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Closes #193",
+      "createdAt": "2025-05-06T16:52:05Z",
+      "updatedAt": "2025-05-06T16:52:05Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "99e28367a69032aadcde85ce5ea1c83395b2e414",
+      "headRepository": "lamps-wg/csr-attestation",
+      "headRefName": "mikeo_193",
+      "headRefOid": "8cc8d36f838d8c9e02e7e736844341f8bab27d8e",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
       "reviews": []
     }
   ]

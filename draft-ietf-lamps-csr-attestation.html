@@ -1211,6 +1211,9 @@ Attestation Results in Certificate Signing Requests (CSRs), such as PKCS#10 or C
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.2">
                 <p id="section-toc.1-1.5.2.2.1"><a href="#section-5.2" class="auto internal xref">5.2</a>.  <a href="#name-evidence-attribute-and-exte" class="internal xref">Evidence Attribute and Extension</a></p>
 </li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.3">
+                <p id="section-toc.1-1.5.2.3.1"><a href="#section-5.3" class="auto internal xref">5.3</a>.  <a href="#name-implementation-consideratio" class="internal xref">Implementation Considerations</a></p>
+</li>
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6">
@@ -1221,9 +1224,6 @@ Attestation Results in Certificate Signing Requests (CSRs), such as PKCS#10 or C
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.2">
                 <p id="section-toc.1-1.6.2.2.1"><a href="#section-6.2" class="auto internal xref">6.2</a>.  <a href="#name-attestation-result-attribut" class="internal xref">Attestation Result Attribute and Extension</a></p>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.3">
-                <p id="section-toc.1-1.6.2.3.1"><a href="#section-6.3" class="auto internal xref">6.3</a>.  <a href="#name-implementation-consideratio" class="internal xref">Implementation Considerations</a></p>
 </li>
             </ul>
 </li>
@@ -2032,133 +2032,30 @@ ext-evidence EXTENSION ::= {
 <p id="section-5.2-20">By the nature of the PKIX ASN.1 classes <span>[<a href="#RFC5912" class="cite xref">RFC5912</a>]</span>, there are multiple ways to convey multiple Evidence statements: by including multiple copies of <code>attr-evidence</code> or <code>ext-evidence</code>, multiple values within the attribute or extension, and finally, by including multiple <code>EvidenceStatement</code> structures within an <code>EvidenceBundle</code>. The latter is the preferred way to carry multiple Evidence statements. Implementations <span class="bcp14">MUST NOT</span> place multiple copies of <code>attr-evidence</code> into a PKCS#10 CSR due to the <code>COUNTS MAX 1</code> declaration. In a CRMF CSR, implementers <span class="bcp14">SHOULD NOT</span> place multiple copies of <code>ext-evidence</code>.<a href="#section-5.2-20" class="pilcrow">¶</a></p>
 </section>
 </div>
-</section>
-</div>
-<div id="asn1-elements-for-attestation-result-in-csr">
-<section id="section-6">
-      <h2 id="name-asn1-elements-for-attestati">
-<a href="#section-6" class="section-number selfRef">6. </a><a href="#name-asn1-elements-for-attestati" class="section-name selfRef">ASN.1 Elements for Attestation Result in CSR</a>
-      </h2>
-<div id="object-identifiers-1">
-<section id="section-6.1">
-        <h3 id="name-object-identifiers-2">
-<a href="#section-6.1" class="section-number selfRef">6.1. </a><a href="#name-object-identifiers-2" class="section-name selfRef">Object Identifiers</a>
-        </h3>
-<p id="section-6.1-1">This document defines the OID depicted in <a href="#code-ar-oid" class="auto internal xref">Figure 11</a> as an additional CSR Attribute (PKCS#10) or Extension (CRMF) to carry Attestation Results in a CSR.<a href="#section-6.1-1" class="pilcrow">¶</a></p>
-<span id="name-new-oid-for-pkix-attestatio"></span><div id="code-ar-oid">
-<figure id="figure-11">
-          <div class="alignLeft art-text artwork" id="section-6.1-2.1">
-<pre>
--- OID for Attestation Result types
-id-aa-ar OBJECT IDENTIFIER ::= { id-aa (TBD2) }
-</pre>
-</div>
-<figcaption><a href="#figure-11" class="selfRef">Figure 11</a>:
-<a href="#name-new-oid-for-pkix-attestatio" class="selfRef">New OID for PKIX Attestation Result Formats</a>
-          </figcaption></figure>
-</div>
-</section>
-</div>
-<div id="sec-arAttr">
-<section id="section-6.2">
-        <h3 id="name-attestation-result-attribut">
-<a href="#section-6.2" class="section-number selfRef">6.2. </a><a href="#name-attestation-result-attribut" class="section-name selfRef">Attestation Result Attribute and Extension</a>
-        </h3>
-<p id="section-6.2-1">By definition, attributes within a PKCS#10 CSR are
-typed as ATTRIBUTE and within a CRMF CSR are typed as EXTENSION.
-This attribute definition contains one AttestationResultBundle structure.<a href="#section-6.2-1" class="pilcrow">¶</a></p>
-<span id="name-definition-of-attestationre"></span><div id="code-AttestationResultSet">
-<figure id="figure-12">
-          <div class="alignLeft art-text artwork" id="section-6.2-2.1">
-<pre>
-ATTESTATION-RESULT ::= TYPE-IDENTIFIER
-
-AttestationResultSet ATTESTATION-RESULT ::= {
-   ... -- None defined in this document --
-}
-</pre>
-</div>
-<figcaption><a href="#figure-12" class="selfRef">Figure 12</a>:
-<a href="#name-definition-of-attestationre" class="selfRef">Definition of AttestationResultSet</a>
-          </figcaption></figure>
-</div>
-<p id="section-6.2-3">The expression illustrated in <a href="#code-AttestationResultSet" class="auto internal xref">Figure 12</a>
-maps ASN.1 Types for Attestation Result to the OIDs that identify them. These
-mappings are used to construct or parse AttestationResults. Attestation Results
-are defined in other IETF standards (see <span>[<a href="#I-D.ietf-rats-ar4si" class="cite xref">I-D.ietf-rats-ar4si</a>]</span>),
-other standards bodies, or vendor proprietary formats along with corresponding
-OIDs that identify them.<a href="#section-6.2-3" class="pilcrow">¶</a></p>
-<p id="section-6.2-4">This list is left unconstrained in this document. However, implementers can
-populate it with the formats that they wish to support.<a href="#section-6.2-4" class="pilcrow">¶</a></p>
-<span id="name-definition-of-attestationres"></span><div id="code-AttestationResult">
-<figure id="figure-13">
-          <div class="alignLeft art-text artwork" id="section-6.2-5.1">
-<pre>
-AttestationResult ::= SEQUENCE {
-   type   ATTESTATION-RESULT.&amp;id({AttestationResultSet}),
-   stmt   ATTESTATION-RESULT.&amp;Type({AttestationResultSet}{@type}),
-}
-</pre>
-</div>
-<figcaption><a href="#figure-13" class="selfRef">Figure 13</a>:
-<a href="#name-definition-of-attestationres" class="selfRef">Definition of AttestationResult</a>
-          </figcaption></figure>
-</div>
-<p id="section-6.2-6">In <a href="#code-AttestationResult" class="auto internal xref">Figure 13</a>, type is an OID that indicates the format of the
-value of stmt.<a href="#section-6.2-6" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="section-6.2-7">
-<pre>
-AttestationResultBundle ::= SEQUENCE SIZE (1..MAX) OF AttestationResult
-</pre><a href="#section-6.2-7" class="pilcrow">¶</a>
-</div>
-<span id="name-definitions-of-csr-attribute"></span><div id="code-extensions-ar">
-<figure id="figure-14">
-          <div class="alignLeft art-text artwork" id="section-6.2-8.1">
-<pre>
--- For PKCS#10
-attr-ar ATTRIBUTE ::= {
-  TYPE AttestationResultBundle
-  COUNTS MAX 1
-  IDENTIFIED BY id-aa-ar
-}
-
--- For CRMF
-ext-ar EXTENSION ::= {
-  SYNTAX AttestationResultBundle
-  IDENTIFIED BY id-aa-ar
-}
-</pre>
-</div>
-<figcaption><a href="#figure-14" class="selfRef">Figure 14</a>:
-<a href="#name-definitions-of-csr-attribute" class="selfRef">Definitions of CSR attribute and extension</a>
-          </figcaption></figure>
-</div>
-</section>
-</div>
 <div id="implementation-considerations">
-<section id="section-6.3">
+<section id="section-5.3">
         <h3 id="name-implementation-consideratio">
-<a href="#section-6.3" class="section-number selfRef">6.3. </a><a href="#name-implementation-consideratio" class="section-name selfRef">Implementation Considerations</a>
+<a href="#section-5.3" class="section-number selfRef">5.3. </a><a href="#name-implementation-consideratio" class="section-name selfRef">Implementation Considerations</a>
         </h3>
-<p id="section-6.3-1">This specification is applicable both in cases where a CSR
+<p id="section-5.3-1">This specification is applicable both in cases where a CSR
 is constructed internally or externally to the Attesting Environment, from the
 point of view of the calling application. This section is particularly
-applicable to the background check model.<a href="#section-6.3-1" class="pilcrow">¶</a></p>
-<p id="section-6.3-2">Cases where the CSR is generated internally to the Attesting Environment
+applicable to the background check model.<a href="#section-5.3-1" class="pilcrow">¶</a></p>
+<p id="section-5.3-2">Cases where the CSR is generated internally to the Attesting Environment
 are straightforward: the Hardware Security Model (HSM) generates and embeds
-the Evidence and the corresponding certification paths when constructing the CSR.<a href="#section-6.3-2" class="pilcrow">¶</a></p>
-<p id="section-6.3-3">Cases where the CSR is generated externally may require extra communication
+the Evidence and the corresponding certification paths when constructing the CSR.<a href="#section-5.3-2" class="pilcrow">¶</a></p>
+<p id="section-5.3-3">Cases where the CSR is generated externally may require extra communication
 between the CSR generator and the Attesting Environment, first to obtain
 the necessary Evidence about the subject key, and then to use
 the subject key to sign the CSR; for example, a CSR generated by
-a popular crypto library about a subject key stored on a PKCS#11 <span>[<a href="#PKCS11" class="cite xref">PKCS11</a>]</span> device.<a href="#section-6.3-3" class="pilcrow">¶</a></p>
-<p id="section-6.3-4">As an example, assuming that the HSM is, or contains, the Attesting Environment and
+a popular crypto library about a subject key stored on a PKCS#11 <span>[<a href="#PKCS11" class="cite xref">PKCS11</a>]</span> device.<a href="#section-5.3-3" class="pilcrow">¶</a></p>
+<p id="section-5.3-4">As an example, assuming that the HSM is, or contains, the Attesting Environment and
 some cryptographic library is assembling a CSR by interacting with the HSM over some
-network protocol, then the interaction would conceptually be:<a href="#section-6.3-4" class="pilcrow">¶</a></p>
+network protocol, then the interaction would conceptually be:<a href="#section-5.3-4" class="pilcrow">¶</a></p>
 <span id="name-example-interaction-between"></span><div id="fig-csr-client-p11">
-<figure id="figure-15">
-          <div id="section-6.3-5.1">
-            <div class="alignLeft art-svg artwork" id="section-6.3-5.1.1">
+<figure id="figure-11">
+          <div id="section-5.3-5.1">
+            <div class="alignLeft art-svg artwork" id="section-5.3-5.1.1">
 <svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="320" width="384" viewBox="0 0 384 320" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
                 <path d="M 8,176 L 8,208" fill="none" stroke="black"></path>
                 <path d="M 160,32 L 160,80" fill="none" stroke="black"></path>
@@ -2193,11 +2090,114 @@ network protocol, then the interaction would conceptually be:<a href="#section-6
                   <text x="192" y="196">-</text>
                   <text x="248" y="244">sign(CSR)</text>
                 </g>
-              </svg><a href="#section-6.3-5.1.1" class="pilcrow">¶</a>
+              </svg><a href="#section-5.3-5.1.1" class="pilcrow">¶</a>
 </div>
+</div>
+<figcaption><a href="#figure-11" class="selfRef">Figure 11</a>:
+<a href="#name-example-interaction-between" class="selfRef">Example interaction between CSR generator and HSM.</a>
+          </figcaption></figure>
+</div>
+</section>
+</div>
+</section>
+</div>
+<div id="asn1-elements-for-attestation-result-in-csr">
+<section id="section-6">
+      <h2 id="name-asn1-elements-for-attestati">
+<a href="#section-6" class="section-number selfRef">6. </a><a href="#name-asn1-elements-for-attestati" class="section-name selfRef">ASN.1 Elements for Attestation Result in CSR</a>
+      </h2>
+<div id="object-identifiers-1">
+<section id="section-6.1">
+        <h3 id="name-object-identifiers-2">
+<a href="#section-6.1" class="section-number selfRef">6.1. </a><a href="#name-object-identifiers-2" class="section-name selfRef">Object Identifiers</a>
+        </h3>
+<p id="section-6.1-1">This document defines the OID depicted in <a href="#code-ar-oid" class="auto internal xref">Figure 12</a> as an additional CSR Attribute (PKCS#10) or Extension (CRMF) to carry Attestation Results in a CSR.<a href="#section-6.1-1" class="pilcrow">¶</a></p>
+<span id="name-new-oid-for-pkix-attestatio"></span><div id="code-ar-oid">
+<figure id="figure-12">
+          <div class="alignLeft art-text artwork" id="section-6.1-2.1">
+<pre>
+-- OID for Attestation Result types
+id-aa-ar OBJECT IDENTIFIER ::= { id-aa (TBD2) }
+</pre>
+</div>
+<figcaption><a href="#figure-12" class="selfRef">Figure 12</a>:
+<a href="#name-new-oid-for-pkix-attestatio" class="selfRef">New OID for PKIX Attestation Result Formats</a>
+          </figcaption></figure>
+</div>
+</section>
+</div>
+<div id="sec-arAttr">
+<section id="section-6.2">
+        <h3 id="name-attestation-result-attribut">
+<a href="#section-6.2" class="section-number selfRef">6.2. </a><a href="#name-attestation-result-attribut" class="section-name selfRef">Attestation Result Attribute and Extension</a>
+        </h3>
+<p id="section-6.2-1">By definition, attributes within a PKCS#10 CSR are
+typed as ATTRIBUTE and within a CRMF CSR are typed as EXTENSION.
+This attribute definition contains one AttestationResultBundle structure.<a href="#section-6.2-1" class="pilcrow">¶</a></p>
+<span id="name-definition-of-attestationre"></span><div id="code-AttestationResultSet">
+<figure id="figure-13">
+          <div class="alignLeft art-text artwork" id="section-6.2-2.1">
+<pre>
+ATTESTATION-RESULT ::= TYPE-IDENTIFIER
+
+AttestationResultSet ATTESTATION-RESULT ::= {
+   ... -- None defined in this document --
+}
+</pre>
+</div>
+<figcaption><a href="#figure-13" class="selfRef">Figure 13</a>:
+<a href="#name-definition-of-attestationre" class="selfRef">Definition of AttestationResultSet</a>
+          </figcaption></figure>
+</div>
+<p id="section-6.2-3">The expression illustrated in <a href="#code-AttestationResultSet" class="auto internal xref">Figure 13</a>
+maps ASN.1 Types for Attestation Result to the OIDs that identify them. These
+mappings are used to construct or parse AttestationResults. Attestation Results
+are defined in other IETF standards (see <span>[<a href="#I-D.ietf-rats-ar4si" class="cite xref">I-D.ietf-rats-ar4si</a>]</span>),
+other standards bodies, or vendor proprietary formats along with corresponding
+OIDs that identify them.<a href="#section-6.2-3" class="pilcrow">¶</a></p>
+<p id="section-6.2-4">This list is left unconstrained in this document. However, implementers can
+populate it with the formats that they wish to support.<a href="#section-6.2-4" class="pilcrow">¶</a></p>
+<span id="name-definition-of-attestationres"></span><div id="code-AttestationResult">
+<figure id="figure-14">
+          <div class="alignLeft art-text artwork" id="section-6.2-5.1">
+<pre>
+AttestationResult ::= SEQUENCE {
+   type   ATTESTATION-RESULT.&amp;id({AttestationResultSet}),
+   stmt   ATTESTATION-RESULT.&amp;Type({AttestationResultSet}{@type}),
+}
+</pre>
+</div>
+<figcaption><a href="#figure-14" class="selfRef">Figure 14</a>:
+<a href="#name-definition-of-attestationres" class="selfRef">Definition of AttestationResult</a>
+          </figcaption></figure>
+</div>
+<p id="section-6.2-6">In <a href="#code-AttestationResult" class="auto internal xref">Figure 14</a>, type is an OID that indicates the format of the
+value of stmt.<a href="#section-6.2-6" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-6.2-7">
+<pre>
+AttestationResultBundle ::= SEQUENCE SIZE (1..MAX) OF AttestationResult
+</pre><a href="#section-6.2-7" class="pilcrow">¶</a>
+</div>
+<span id="name-definitions-of-csr-attribute"></span><div id="code-extensions-ar">
+<figure id="figure-15">
+          <div class="alignLeft art-text artwork" id="section-6.2-8.1">
+<pre>
+-- For PKCS#10
+attr-ar ATTRIBUTE ::= {
+  TYPE AttestationResultBundle
+  COUNTS MAX 1
+  IDENTIFIED BY id-aa-ar
+}
+
+-- For CRMF
+ext-ar EXTENSION ::= {
+  SYNTAX AttestationResultBundle
+  IDENTIFIED BY id-aa-ar
+}
+</pre>
 </div>
 <figcaption><a href="#figure-15" class="selfRef">Figure 15</a>:
-<a href="#name-example-interaction-between" class="selfRef">Example interaction between CSR generator and HSM.</a>
+<a href="#name-definitions-of-csr-attribute" class="selfRef">Definitions of CSR attribute and extension</a>
           </figcaption></figure>
 </div>
 </section>

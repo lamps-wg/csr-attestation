@@ -96,10 +96,10 @@ Table of Contents
    5.  ASN.1 Elements for Evidence in CSR
      5.1.  Object Identifiers
      5.2.  Evidence Attribute and Extension
+     5.3.  Implementation Considerations
    6.  ASN.1 Elements for Attestation Result in CSR
      6.1.  Object Identifiers
      6.2.  Attestation Result Attribute and Extension
-     6.3.  Implementation Considerations
    7.  IANA Considerations
      7.1.  Module Registration - SMI Security for PKIX Module
            Identifier
@@ -671,72 +671,7 @@ Table of Contents
    a PKCS#10 CSR due to the COUNTS MAX 1 declaration.  In a CRMF CSR,
    implementers SHOULD NOT place multiple copies of ext-evidence.
 
-6.  ASN.1 Elements for Attestation Result in CSR
-
-6.1.  Object Identifiers
-
-   This document defines the OID depicted in Figure 11 as an additional
-   CSR Attribute (PKCS#10) or Extension (CRMF) to carry Attestation
-   Results in a CSR.
-
-   -- OID for Attestation Result types
-   id-aa-ar OBJECT IDENTIFIER ::= { id-aa (TBD2) }
-
-           Figure 11: New OID for PKIX Attestation Result Formats
-
-6.2.  Attestation Result Attribute and Extension
-
-   By definition, attributes within a PKCS#10 CSR are typed as ATTRIBUTE
-   and within a CRMF CSR are typed as EXTENSION.  This attribute
-   definition contains one AttestationResultBundle structure.
-
-   ATTESTATION-RESULT ::= TYPE-IDENTIFIER
-
-   AttestationResultSet ATTESTATION-RESULT ::= {
-      ... -- None defined in this document --
-   }
-
-               Figure 12: Definition of AttestationResultSet
-
-   The expression illustrated in Figure 12 maps ASN.1 Types for
-   Attestation Result to the OIDs that identify them.  These mappings
-   are used to construct or parse AttestationResults.  Attestation
-   Results are defined in other IETF standards (see
-   [I-D.ietf-rats-ar4si]), other standards bodies, or vendor proprietary
-   formats along with corresponding OIDs that identify them.
-
-   This list is left unconstrained in this document.  However,
-   implementers can populate it with the formats that they wish to
-   support.
-
-   AttestationResult ::= SEQUENCE {
-      type   ATTESTATION-RESULT.&id({AttestationResultSet}),
-      stmt   ATTESTATION-RESULT.&Type({AttestationResultSet}{@type}),
-   }
-
-                 Figure 13: Definition of AttestationResult
-
-   In Figure 13, type is an OID that indicates the format of the value
-   of stmt.
-
- AttestationResultBundle ::= SEQUENCE SIZE (1..MAX) OF AttestationResult
-
-   -- For PKCS#10
-   attr-ar ATTRIBUTE ::= {
-     TYPE AttestationResultBundle
-     COUNTS MAX 1
-     IDENTIFIED BY id-aa-ar
-   }
-
-   -- For CRMF
-   ext-ar EXTENSION ::= {
-     SYNTAX AttestationResultBundle
-     IDENTIFIED BY id-aa-ar
-   }
-
-           Figure 14: Definitions of CSR attribute and extension
-
-6.3.  Implementation Considerations
+5.3.  Implementation Considerations
 
    This specification is applicable both in cases where a CSR is
    constructed internally or externally to the Attesting Environment,
@@ -779,7 +714,72 @@ Table of Contents
                            |<-----------------|
                            |                  |
 
-       Figure 15: Example interaction between CSR generator and HSM.
+       Figure 11: Example interaction between CSR generator and HSM.
+
+6.  ASN.1 Elements for Attestation Result in CSR
+
+6.1.  Object Identifiers
+
+   This document defines the OID depicted in Figure 12 as an additional
+   CSR Attribute (PKCS#10) or Extension (CRMF) to carry Attestation
+   Results in a CSR.
+
+   -- OID for Attestation Result types
+   id-aa-ar OBJECT IDENTIFIER ::= { id-aa (TBD2) }
+
+           Figure 12: New OID for PKIX Attestation Result Formats
+
+6.2.  Attestation Result Attribute and Extension
+
+   By definition, attributes within a PKCS#10 CSR are typed as ATTRIBUTE
+   and within a CRMF CSR are typed as EXTENSION.  This attribute
+   definition contains one AttestationResultBundle structure.
+
+   ATTESTATION-RESULT ::= TYPE-IDENTIFIER
+
+   AttestationResultSet ATTESTATION-RESULT ::= {
+      ... -- None defined in this document --
+   }
+
+               Figure 13: Definition of AttestationResultSet
+
+   The expression illustrated in Figure 13 maps ASN.1 Types for
+   Attestation Result to the OIDs that identify them.  These mappings
+   are used to construct or parse AttestationResults.  Attestation
+   Results are defined in other IETF standards (see
+   [I-D.ietf-rats-ar4si]), other standards bodies, or vendor proprietary
+   formats along with corresponding OIDs that identify them.
+
+   This list is left unconstrained in this document.  However,
+   implementers can populate it with the formats that they wish to
+   support.
+
+   AttestationResult ::= SEQUENCE {
+      type   ATTESTATION-RESULT.&id({AttestationResultSet}),
+      stmt   ATTESTATION-RESULT.&Type({AttestationResultSet}{@type}),
+   }
+
+                 Figure 14: Definition of AttestationResult
+
+   In Figure 14, type is an OID that indicates the format of the value
+   of stmt.
+
+ AttestationResultBundle ::= SEQUENCE SIZE (1..MAX) OF AttestationResult
+
+   -- For PKCS#10
+   attr-ar ATTRIBUTE ::= {
+     TYPE AttestationResultBundle
+     COUNTS MAX 1
+     IDENTIFIED BY id-aa-ar
+   }
+
+   -- For CRMF
+   ext-ar EXTENSION ::= {
+     SYNTAX AttestationResultBundle
+     IDENTIFIED BY id-aa-ar
+   }
+
+           Figure 15: Definitions of CSR attribute and extension
 
 7.  IANA Considerations
 

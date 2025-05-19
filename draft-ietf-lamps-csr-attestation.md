@@ -40,6 +40,7 @@ author:
   -
     name: Hannes Tschofenig
     organization: Siemens
+    country: Germany
     email: Hannes.Tschofenig@gmx.net
   -
     name: Henk Birkholz
@@ -74,6 +75,7 @@ normative:
 
 informative:
   RFC8126:
+  RFC5226:
   I-D.ietf-rats-msg-wrap:
   I-D.bft-rats-kat:
   RFC7030:
@@ -752,7 +754,7 @@ IANA is asked to create a registry that helps developers to find
 OID/Evidence mappings that may be encountered in the wild, as well as
 a link to their specification document.
 This registry should follow the rules for
-"Specification Required" as laid out in [!RFC5226].
+"Specification Required" as laid out in {{RFC5226}}.
 
 Registration requests should be formatted as per
 the registration template below, and receive a three-week review period on

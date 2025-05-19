@@ -673,7 +673,7 @@ Attester and the Relying Party.
       | Hardware Security Module            |
       |                                     |
       | .------------------------------.    |
-      | | Attestation                  |    |
+      | | Attester                     |    |
       | | Service                      |    |
       | '------------------------------'    |
       |     ^    |                          |

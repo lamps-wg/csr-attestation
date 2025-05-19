@@ -210,9 +210,13 @@ CSR to the Registration Authority (RA) and the Certification Authority (CA),
 which is subsequently forwarded to the Verifier.
 The Verifier appraises the received Evidence and computes an Attestation
 Result, which is then processed by the RA/CA prior to the certificate
-issuance. The RA and CA are depicted as separate entities with the RA
+issuance. 
+The RA and CA are depicted as separate entities with the RA
 consuming the Attestation Results and deciding whether or not to forward
-the certificate request to the CA, but since the
+the certificate request to the CA.
+In some deployments they are co-located roles.
+In other deployments, the RA uses a proprietary interface into the CA.
+In either case,
 communication between RA and CA is out-of-scope, they can be conceptualized
 as a single Relying Party entity for the purposes of this specification.
 This diagram overlays PKI entities with RATS roles in parentheses.

@@ -659,7 +659,7 @@ the Evidence and the corresponding certification paths when constructing the CSR
 For cases where the CSR is generated externally we introduce
 a new role that is not covered by the RATS Architecture [RFC9334] called
 a "Presenter" which is a RATS-aware entity that interacts with the Attester
-to request the required Evidence or Attestation Results and then present it
+to request the required Evidence and then present it
 within the appropriate usage protocol in a format that the Relying Party
 will accept. Within the scope of this document the Presenter will typically be
 the crypto library constructing a CSR for a key stored within some underlying

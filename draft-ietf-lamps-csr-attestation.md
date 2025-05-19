@@ -212,7 +212,7 @@ CSR to the Registration Authority (RA) and the Certification Authority (CA),
 which is subsequently forwarded to the Verifier.
 The Verifier appraises the received Evidence and computes an Attestation
 Result, which is then processed by the RA/CA prior to the certificate
-issuance. 
+issuance.
 The RA and CA are depicted as separate entities with the RA
 consuming the Attestation Results and deciding whether or not to forward
 the certificate request to the CA.

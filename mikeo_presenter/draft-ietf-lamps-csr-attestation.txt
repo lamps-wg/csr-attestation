@@ -5,14 +5,14 @@
 Network Working Group                                       M. Ounsworth
 Internet-Draft                                                   Entrust
 Intended status: Standards Track                           H. Tschofenig
-Expires: 7 November 2025                                         Siemens
+Expires: 20 November 2025                                        Siemens
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                               M. Wiseman
                                                          Beyond Identity
                                                                 N. Smith
                                                        Intel Corporation
-                                                              6 May 2025
+                                                             19 May 2025
 
 
      Use of Remote Attestation with Certification Signing Requests
@@ -65,7 +65,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 7 November 2025.
+   This Internet-Draft will expire on 20 November 2025.
 
 Copyright Notice
 
@@ -777,7 +777,7 @@ Table of Contents
          | Hardware Security Module            |
          |                                     |
          | .------------------------------.    |
-         | | Attestation                  |    |
+         | | Attester                     |    |
          | | Service                      |    |
          | '------------------------------'    |
          |     ^    |                          |

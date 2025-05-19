@@ -5,14 +5,14 @@
 Network Working Group                                       M. Ounsworth
 Internet-Draft                                                   Entrust
 Intended status: Standards Track                           H. Tschofenig
-Expires: 6 November 2025                                         Siemens
+Expires: 20 November 2025                                        Siemens
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                               M. Wiseman
                                                          Beyond Identity
                                                                 N. Smith
                                                        Intel Corporation
-                                                              5 May 2025
+                                                             19 May 2025
 
 
      Use of Remote Attestation with Certification Signing Requests
@@ -65,7 +65,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 6 November 2025.
+   This Internet-Draft will expire on 20 November 2025.
 
 Copyright Notice
 
@@ -283,11 +283,12 @@ Table of Contents
    Result, which is then processed by the RA/CA prior to the certificate
    issuance.  The RA and CA are depicted as separate entities with the
    RA consuming the Attestation Results and deciding whether or not to
-   forward the certificate request to the CA, but since the
-   communication between RA and CA is out-of-scope, they can be
-   conceptualized as a single Relying Party entity for the purposes of
-   this specification.  This diagram overlays PKI entities with RATS
-   roles in parentheses.
+   forward the certificate request to the CA.  In some deployments they
+   are co-located roles.  In other deployments, the RA uses a
+   proprietary interface into the CA.  In either case, communication
+   between RA and CA is out-of-scope, they can be conceptualized as a
+   single Relying Party entity for the purposes of this specification.
+   This diagram overlays PKI entities with RATS roles in parentheses.
 
                                .-----------------.
                                |                 | Compare Evidence
@@ -492,6 +493,12 @@ Table of Contents
    +-------------------------+
 
      Figure 7: Information Model for CSR Attestation Result Conveyance.
+
+   A Relying Party receiving a CSR containing an Attestation Result MUST
+   use the Type information to parse the content.  The Attestation
+   Result encoding MUST provide information for the Relying Party to
+   determine the Verifier, who created and protected the Attestation
+   Result against modifications.
 
 5.  ASN.1 Elements for Evidence in CSR
 
@@ -853,14 +860,16 @@ Table of Contents
 8.3.  Attestation Evidence OID Registry
 
    IANA is asked to create a registry that helps developers to find OID/
-   Evidence mappings.
+   Evidence mappings that may be encountered in the wild, as well as a
+   link to their specification document.  This registry should follow
+   the rules for "Specification Required" as laid out in [RFC5226].
 
-   Registration requests are evaluated using the criteria described in
-   the registration template below after a three-week review period on
-   the [[TBD]] mailing list, with the advice of one or more Designated
-   Experts [RFC8126].  However, to allow for the allocation of values
-   prior to publication, the Designated Experts may approve registration
-   once they are satisfied that such a specification will be published.
+   Registration requests should be formatted as per the registration
+   template below, and receive a three-week review period on the [[TBD]]
+   mailing list, with the advice of one or more Designated Experts
+   [RFC8126].  However, to allow for the allocation of values prior to
+   publication, the Designated Experts may approve registration once
+   they are satisfied that such a specification will be published.
 
    Registration requests sent to the mailing list for review should use
    an appropriate subject (e.g., "Request to register attestation
@@ -886,10 +895,17 @@ Table of Contents
       documents.  An indication of the relevant sections may also be
       included but is not required.
 
-   *  Change Controller: For Standards Track RFCs, list the "IESG".  For
-      others, give the name of the responsible party.  In most cases the
-      third party requesting registration in this registry will also be
-      the party that registered the OID.
+   *  Change Controller: The entity that controls the listed data
+      format.  For data formats specified in Standards Track RFCs, list
+      the "IESG".  For others, give the name of the responsible party.
+      This does not necessarily have to be a standards body, for example
+      in the case of proprietary data formats the Reference may be to a
+      company or a publicly-available reference implementation.  In most
+      cases the third party requesting registration in this registry
+      will also be the party that registered the OID.  As the intention
+      is for this registry to be a helpful reference, rather than a
+      normative list, a fair amount of discretion is left to the
+      Designated Expert.
 
 8.3.2.  Initial Registry Contents
 
@@ -1322,6 +1338,11 @@ Table of Contents
               Specification Version 2.40", April 2015,
               <http://docs.oasis-open.org/pkcs11/pkcs11-base/v2.40/os/
               pkcs11-base-v2.40-os.html>.
+
+   [RFC5226]  Narten, T. and H. Alvestrand, "Guidelines for Writing an
+              IANA Considerations Section in RFCs", RFC 5226,
+              DOI 10.17487/RFC5226, May 2008,
+              <https://www.rfc-editor.org/rfc/rfc5226>.
 
    [RFC7030]  Pritikin, M., Ed., Yee, P., Ed., and D. Harkins, Ed.,
               "Enrollment over Secure Transport", RFC 7030,
@@ -2317,6 +2338,7 @@ Authors' Addresses
 
    Hannes Tschofenig
    Siemens
+   Germany
    Email: Hannes.Tschofenig@gmx.net
 
 

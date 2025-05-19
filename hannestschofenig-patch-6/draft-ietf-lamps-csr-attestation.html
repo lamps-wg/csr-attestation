@@ -32,7 +32,7 @@ Attestation Results in Certificate Signing Requests (CSRs), such as PKCS#10 or C
     intervaltree 3.1.0
     Jinja2 3.1.6
     lxml 5.3.0
-    platformdirs 4.3.7
+    platformdirs 4.3.8
     pycountry 24.6.1
     PyYAML 6.0.2
     requests 2.32.3
@@ -1060,7 +1060,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Ounsworth, et al.</td>
-<td class="center">Expires 6 November 2025</td>
+<td class="center">Expires 20 November 2025</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1073,12 +1073,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-lamps-csr-attestation-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2025-05-05" class="published">5 May 2025</time>
+<time datetime="2025-05-19" class="published">19 May 2025</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2025-11-06">6 November 2025</time></dd>
+<dd class="expires"><time datetime="2025-11-20">20 November 2025</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1142,7 +1142,7 @@ Attestation Results in Certificate Signing Requests (CSRs), such as PKCS#10 or C
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 6 November 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 20 November 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1436,9 +1436,13 @@ CSR to the Registration Authority (RA) and the Certification Authority (CA),
 which is subsequently forwarded to the Verifier.
 The Verifier appraises the received Evidence and computes an Attestation
 Result, which is then processed by the RA/CA prior to the certificate
-issuance. The RA and CA are depicted as separate entities with the RA
+issuance.
+The RA and CA are depicted as separate entities with the RA
 consuming the Attestation Results and deciding whether or not to forward
-the certificate request to the CA, but since the
+the certificate request to the CA.
+In some deployments they are co-located roles.
+In other deployments, the RA uses a proprietary interface into the CA.
+In either case,
 communication between RA and CA is out-of-scope, they can be conceptualized
 as a single Relying Party entity for the purposes of this specification.
 This diagram overlays PKI entities with RATS roles in parentheses.<a href="#section-3-1" class="pilcrow">¶</a></p>
@@ -1860,6 +1864,9 @@ one or more AttestationResult structures.<a href="#section-4.2-1" class="pilcrow
 <a href="#name-information-model-for-csr-a" class="selfRef">Information Model for CSR Attestation Result Conveyance.</a>
           </figcaption></figure>
 </div>
+<p id="section-4.2-3">A Relying Party receiving a CSR containing an Attestation Result <span class="bcp14">MUST</span> use the Type information
+to parse the content. The Attestation Result encoding <span class="bcp14">MUST</span> provide information for the Relying
+Party to determine the Verifier, who created and protected the Attestation Result against modifications.<a href="#section-4.2-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -2295,9 +2302,12 @@ SMI Security for S/MIME Attributes (1.2.840.113549.1.9.16.2).<a href="#section-8
 <a href="#section-8.3" class="section-number selfRef">8.3. </a><a href="#name-attestation-evidence-oid-re" class="section-name selfRef">Attestation Evidence OID Registry</a>
         </h3>
 <p id="section-8.3-1">IANA is asked to create a registry that helps developers to find
-OID/Evidence mappings.<a href="#section-8.3-1" class="pilcrow">¶</a></p>
-<p id="section-8.3-2">Registration requests are evaluated using the criteria described in
-the registration template below after a three-week review period on
+OID/Evidence mappings that may be encountered in the wild, as well as
+a link to their specification document.
+This registry should follow the rules for
+"Specification Required" as laid out in <span>[<a href="#RFC5226" class="cite xref">RFC5226</a>]</span>.<a href="#section-8.3-1" class="pilcrow">¶</a></p>
+<p id="section-8.3-2">Registration requests should be formatted as per
+the registration template below, and receive a three-week review period on
 the [[TBD]] mailing list, with the advice of one or more Designated
 Experts <span>[<a href="#RFC8126" class="cite xref">RFC8126</a>]</span>.  However, to allow for the allocation of values
 prior to publication, the Designated Experts may approve registration
@@ -2331,10 +2341,16 @@ An indication of the relevant sections may also be included but is not
 required.<a href="#section-8.3.1-2.3.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-8.3.1-2.4">
-              <p id="section-8.3.1-2.4.1">Change Controller: For Standards Track RFCs, list the "IESG".  For
-others, give the name of the responsible party. In most cases the
+              <p id="section-8.3.1-2.4.1">Change Controller: The entity that controls the listed data format.
+For data formats specified in Standards Track RFCs, list the "IESG".
+For others, give the name of the responsible party.
+This does not necessarily have to be a standards body, for example
+in the case of proprietary data formats the Reference may be to a company or a
+publicly-available reference implementation.  In most cases the
 third party requesting registration in this registry will also be the
-party that registered the OID.<a href="#section-8.3.1-2.4.1" class="pilcrow">¶</a></p>
+party that registered the OID. As the intention is for this registry to be a
+helpful reference, rather than a normative list, a fair amount of
+discretion is left to the Designated Expert.<a href="#section-8.3.1-2.4.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
 </section>
@@ -2788,6 +2804,10 @@ Implementers should also be cautious around <code>type</code> OID or <code>hint<
 <dt id="PKCS11">[PKCS11]</dt>
         <dd>
 <span class="refAuthor">OASIS</span>, <span class="refTitle">"PKCS #11 Cryptographic Token Interface Base Specification Version 2.40"</span>, <time datetime="2015-04" class="refDate">April 2015</time>, <span>&lt;<a href="http://docs.oasis-open.org/pkcs11/pkcs11-base/v2.40/os/pkcs11-base-v2.40-os.html">http://docs.oasis-open.org/pkcs11/pkcs11-base/v2.40/os/pkcs11-base-v2.40-os.html</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC5226">[RFC5226]</dt>
+        <dd>
+<span class="refAuthor">Narten, T.</span> and <span class="refAuthor">H. Alvestrand</span>, <span class="refTitle">"Guidelines for Writing an IANA Considerations Section in RFCs"</span>, <span class="seriesInfo">RFC 5226</span>, <span class="seriesInfo">DOI 10.17487/RFC5226</span>, <time datetime="2008-05" class="refDate">May 2008</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc5226">https://www.rfc-editor.org/rfc/rfc5226</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC7030">[RFC7030]</dt>
         <dd>
@@ -3879,6 +3899,7 @@ experience.<a href="#appendix-C-5" class="pilcrow">¶</a></p>
 <address class="vcard">
         <div dir="auto" class="left"><span class="fn nameRole">Hannes Tschofenig</span></div>
 <div dir="auto" class="left"><span class="org">Siemens</span></div>
+<div dir="auto" class="left"><span class="country-name">Germany</span></div>
 <div class="email">
 <span>Email:</span>
 <a href="mailto:Hannes.Tschofenig@gmx.net" class="email">Hannes.Tschofenig@gmx.net</a>

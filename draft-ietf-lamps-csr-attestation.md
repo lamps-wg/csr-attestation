@@ -756,7 +756,7 @@ This does not necessarily have to be a standards body, for example
 in the case of proprietary data formats the Reference may be to a company or a
 publicly-available reference implementation.  In most cases the
 third party requesting registration in this registry will also be the
-party that registered the OID. As the intention is for this regestry to be a
+party that registered the OID. As the intention is for this registry to be a
 helpful reference, rather than a normative list, a fair amount of
 discretion is left to the Designated Expert.
 

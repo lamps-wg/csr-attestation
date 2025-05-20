@@ -40,6 +40,7 @@ author:
   -
     name: Hannes Tschofenig
     organization: Siemens
+    country: Germany
     email: Hannes.Tschofenig@gmx.net
   -
     name: Henk Birkholz
@@ -74,6 +75,7 @@ normative:
 
 informative:
   RFC8126:
+  RFC5226:
   I-D.ietf-rats-msg-wrap:
   I-D.bft-rats-kat:
   RFC7030:
@@ -206,10 +208,42 @@ Environment.
 
 {{fig-arch-background}} shows the high-level communication pattern of the RATS
 background check model where the Attester transmits the Evidence in the
-CSR to the RA and the CA, which is subsequently forwarded to the Verifier.
+CSR to the Registration Authority (RA) and the Certification Authority (CA),
+which is subsequently forwarded to the Verifier.
 The Verifier appraises the received Evidence and computes an Attestation
 Result, which is then processed by the RA/CA prior to the certificate
 issuance.
+The RA and CA are depicted as separate entities with the RA
+consuming the Attestation Results and deciding whether or not to forward
+the certificate request to the CA.
+In some deployments they are co-located roles.
+In other deployments, the RA uses a proprietary interface into the CA.
+In either case,
+communication between RA and CA is out-of-scope, they can be conceptualized
+as a single Relying Party entity for the purposes of this specification.
+This diagram overlays PKI entities with RATS roles in parentheses.
+
+
+~~~ aasvg
+                            .-----------------.
+                            |                 | Compare Evidence
+                            |    (Verifier)   | against Appraisal
+                            |                 | Policy
+                            '------------+----'
+                                 ^       |
+                        Evidence |       | Attestation
+                                 |       | Result
+                                 |       v
+  .------------.            .----|------------.          .-----.
+  |            +----------->|----'            |--------->|     |
+  | End        | Evidence   | Registration    |          | CA  |
+  | Entity     | in CSR     | Authority RA    |          |     |
+  |            |            |                 |          |     |
+  | (Attester) |            | (Relying Party) |          |     |
+  '------------'            '-----------------'          '-----'
+~~~
+{: #fig-arch-background title="Example data flow demonstrating the architecture with Background Check Model."}
+
 
 In addition to the background-check model, the RATS architecture also
 defines the passport model, as described in {{Section 5.2 of RFC9334}}.
@@ -217,54 +251,6 @@ In the passport model, the Attester transmits Evidence directly to the
 Verifier to obtain an Attestation Result, which is subsequently forwarded
 to the Relying Party.
 
-The choice of model depends on various factors. For instance, the
-background-check model is preferred when direct real-time interaction
-between the Attester and the Verifier is not feasible.
-
-Note that the Verifier is a logical role that may be included in the
-RA/CA product. In this case, the Relying Party role and Verifier role collapse into a
-single physical entity. The Verifier functionality can, however,
-also be kept separate from the RA functionality. For example,
-security concerns may require parsers of Evidence formats to be logically
-or physically separated from the core RA and CA functionality.
-
-The interface
-by which the Relying Party passes Evidence to the Verifier and receives back
-Attestation Results may be proprietary or standardized, but in any case is
-out-of-scope for this document. Like-wise, the interface between the Attester
-and the Verifier used in the passport model is also out-of-scope for this
-document.
-
-{{fig-arch-background}} shows an example data flow where Evidence is included in a
-CSR in the background-check model. The CSR is parsed by the RA component of a
-CA, which extracts the Evidence and forwards it to a
-trusted Verifier. The RA receives back an Attestation Result, which it uses
-to decide whether this Evidence meets its policy for certificate issuance
-and if it does then the certificate request is forwarded to the CA for issuance.
-This diagram overlays PKI entities with RATS roles in parentheses.
-
-~~~ aasvg
-                          .-----------------.
-                          |                 | Compare Evidence
-                          |    (Verifier)   | against Appraisal
-                          |                 | Policy
-                          '------------+----'
-                               ^       |
-                      Evidence |       | Attestation
-                               |       | Result
-                               |       v
-.------------.            .----|-------|----.                .-----.
-|            +----------->|----'       '--->|--------------->|     |
-| End        | Evidence   | Registration    | Attestation    | CA  |
-| Entity     | in CSR     | Authority (RA)  | Result in      |(RP) |
-| (Attester) |            | (Relying Party) | CSR            |     |
-'------------'            '-----------------'                '-----'
-~~~
-{: #fig-arch-background title="Example data flow demonstrating the architecture with Background Check Model."}
-
-{{fig-arch-passport}} illustrates the passport model, where the
-Attester first communicates with the Verifier to obtain the Attestation
-Result, which is subsequently included in the CSR.
 
 ~~~ aasvg
    Evidence               .-----------------.
@@ -277,12 +263,29 @@ Result, which is subsequently included in the CSR.
    |     v
 .--------|---.             .-----------------.              .------.
 |        +-->+------------>| Registration    |------------->|      |
-| End        | Attestation | Authority       | Attestation  |  CA  |
-| Entity     | Result in   |                 | Result in    | (RP) |
-| (Attester) | CSR         | (Relying Party) | CSR          |      |
+| End        | Attestation | Authority RA    |              |  CA  |
+| Entity     | Result in   |                 |              |      |
+| (Attester) | CSR         | (Relying Party) |              |      |
 '------------'             '-----------------'              '------'
 ~~~
 {: #fig-arch-passport title="Example data flow demonstrating the architecture with Passport Model."}
+
+
+The choice of model depends on various factors. For instance, the
+background-check model is preferred when direct real-time interaction
+between the Attester and the Verifier is not feasible.
+
+The interface
+by which the Relying Party passes Evidence to the Verifier and receives back
+Attestation Results may be proprietary or standardized, but in any case is
+out-of-scope for this document. Like-wise, the interface between the Attester
+and the Verifier used in the passport model is also out-of-scope for this
+document.
+
+
+
+
+
 
 RFC 9334 {{RFC9334}} discusses different security and privacy aspects that need to be
 considered when developing and deploying a remote attestation solution. For example,
@@ -574,50 +577,6 @@ The Extension variant illustrated in {{code-extensions}} is intended only for us
 By the nature of the PKIX ASN.1 classes {{RFC5912}}, there are multiple ways to convey multiple Evidence statements: by including multiple copies of `attr-evidence` or `ext-evidence`, multiple values within the attribute or extension, and finally, by including multiple `EvidenceStatement` structures within an `EvidenceBundle`. The latter is the preferred way to carry multiple Evidence statements. Implementations MUST NOT place multiple copies of `attr-evidence` into a PKCS#10 CSR due to the `COUNTS MAX 1` declaration. In a CRMF CSR, implementers SHOULD NOT place multiple copies of `ext-evidence`.
 
 
-## Implementation Considerations
-
-This specification is applicable both in cases where a CSR
-is constructed internally or externally to the Attesting Environment, from the
-point of view of the calling application. This section is particularly
-applicable to the background check model.
-
-Cases where the CSR is generated internally to the Attesting Environment
-are straightforward: the Hardware Security Model (HSM) generates and embeds
-the Evidence and the corresponding certification paths when constructing the CSR.
-
-Cases where the CSR is generated externally may require extra communication
-between the CSR generator and the Attesting Environment, first to obtain
-the necessary Evidence about the subject key, and then to use
-the subject key to sign the CSR; for example, a CSR generated by
-a popular crypto library about a subject key stored on a PKCS#11 {{PKCS11}} device.
-
-As an example, assuming that the HSM is, or contains, the Attesting Environment and
-some cryptographic library is assembling a CSR by interacting with the HSM over some
-network protocol, then the interaction would conceptually be:
-
-~~~ aasvg
-                   +---------+          +-----+
-                   | Crypto  |          | HSM |
-                   | Library |          |     |
-                   +---------+          +-----+
-                        |                  |
-                        | getEvidence()    |
-                        |----------------->|
-                        |                  |
-                        |<-----------------|
-+---------------------+ |                  |
-| CSR = assembleCSR() |-|                  |
-+---------------------+ |                  |
-                        |                  |
-                        | sign(CSR)        |
-                        |----------------->|
-                        |                  |
-                        |<-----------------|
-                        |                  |
-~~~
-{: #fig-csr-client-p11 title="Example interaction between CSR generator and HSM."}
-
-
 # ASN.1 Elements for Attestation Result in CSR
 
 ##  Object Identifiers
@@ -686,6 +645,75 @@ ext-ar EXTENSION ::= {
 ~~~
 {: #code-extensions-ar title="Definitions of CSR attribute and extension"}
 
+# Implementation Considerations
+
+## Is the CSR constructed inside or outside the Attester?
+
+This specification is applicable both in cases where a CSR
+is constructed internally or externally to the Attesting Environment, from the
+point of view of the calling application. This section is particularly
+applicable to the background check model.
+
+Cases where the CSR is generated internally to the Attesting Environment
+are straightforward: the Hardware Security Model (HSM) generates and embeds
+the Evidence and the corresponding certification paths when constructing the CSR.
+
+Cases where the CSR is generated externally may require extra communication
+between the CSR generator and the Attesting Environment, first to obtain
+the necessary Evidence about the subject key, and then to use
+the subject key to sign the CSR; for example, a CSR generated by
+a popular crypto library about a subject key stored on a PKCS#11 {{PKCS11}} device.
+
+As an example, assuming that the HSM is, or contains, the Attesting Environment and
+some cryptographic library is assembling a CSR by interacting with the HSM over some
+network protocol, then the interaction would conceptually be:
+
+~~~ aasvg
+                   +---------+          +-----+
+                   | Crypto  |          | HSM |
+                   | Library |          |     |
+                   +---------+          +-----+
+                        |                  |
+                        | getEvidence()    |
+                        |----------------->|
+                        |                  |
+                        |<-----------------|
++---------------------+ |                  |
+| CSR = assembleCSR() |-|                  |
++---------------------+ |                  |
+                        |                  |
+                        | sign(CSR)        |
+                        |----------------->|
+                        |                  |
+                        |<-----------------|
+                        |                  |
+~~~
+{: #fig-csr-client-p11 title="Example interaction between CSR generator and HSM."}
+
+## Separation of RA and CA roles with respect to Attestation Results {#sec-impl-ar}
+
+As described in {{architecture}}, CSRs MAY contain either Evidence or Attestation Results (AR),
+and also the Registration Authority (RA) and Certification Authority (CA) MAY be conceptualized as
+a single Relying Party entity, or as separate entities. There are some implications here worth discussion.
+
+In many cases, the Evidence contained within a CSR is intended to be consumed by the RA and not
+to be placed into the issued certificate.
+In some RA / CA architectures, it MAY be appropriate for the RA to "consume" the Evidence
+and remove it from the CSR, re-signing the CSR with an RA signing key. A CRMF CSR also allows the RA
+to indicate that it verified the CSR without the need to re-signing the CSR.
+
+In any case where the RA and CA roles are separated, and Evidence is evaluated and consumed by the RA,
+the RA does at least implicitly produce Attestation Results as defined in the RATS Architecture [RFC9334].
+For example, the decision to reject the Evidence and fail back to the client, or to accept the Evidence and
+forward a request to the CA could be viewed as a boolean Attestation Result.
+Similarly, if acceptance or rejection of the Evidence controls the presence or absence of a certain policy OID
+or other extension in the issued certificate, this could also be viewed as an Attestation Result.
+
+Alternatively, the RA MAY place explicit Attestation Results into its request to the CA; either for consumption
+by the CA or for inclusion in the issued certificate.
+The exact mechanisms for doing this are out-of-scope for this document, but are areas for implementation
+consideration and potential future standardization work.
+
 # IANA Considerations
 
 IANA is requested to open two new registries, allocate a value
@@ -723,7 +751,7 @@ IANA is asked to create a registry that helps developers to find
 OID/Evidence mappings that may be encountered in the wild, as well as
 a link to their specification document.
 This registry should follow the rules for
-"Specification Required" as laid out in [!RFC5226].
+"Specification Required" as laid out in {{RFC5226}}.
 
 Registration requests should be formatted as per
 the registration template below, and receive a three-week review period on

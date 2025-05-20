@@ -699,11 +699,8 @@ a single Relying Party entity, or as separate entities. There are some implicati
 In many cases, the Evidence contained within a CSR is intended to be consumed by the RA and not
 to be placed into the issued certificate.
 In some RA / CA architectures, it MAY be appropriate for the RA to "consume" the Evidence
-and remove it from the CSR, re-signing the CSR with an RA signing key.
-The mechanics of doing this in a CRMF CSR are more complex since an RA is not allowed to modify
-the `certReq` field when a proof-of-possession `popo` field is present, so an additional CRMF control
-could be required to indicate that the `ext-evidence` or `ext-ar` extensions are not to be copied
-into the issued certificate. Such CRMF controls are not defined in this document.
+and remove it from the CSR, re-signing the CSR with an RA signing key. A CRMF CSR also allows the RA
+to indicate that it verified the CSR without the need to re-signing the CSR.
 
 In any case where the RA and CA roles are separated, and Evidence is evaluated and consumed by the RA,
 the RA does at least implicitly produce Attestation Results as defined in the RATS Architecture [RFC9334].

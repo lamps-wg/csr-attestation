@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-05-08T01:10:07.451428+00:00",
+  "timestamp": "2025-05-20T01:11:12.475437+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -2394,15 +2394,15 @@
       "id": "I_kwDOJ3IIN860AFWC",
       "title": "Moving Section 6.3",
       "url": "https://github.com/lamps-wg/csr-attestation/issues/187",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "hannestschofenig",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Hendrik wrote:\n   \n  *   Section 6.3 seams to contain implementation considerations regarding obtaining an EvidenceStatement and generating a CSR, but Section 6 itself is on the AttestationResult ASN.1 structure. Would it make sense to move Section 6.3 one level up or to Section 5?\n\nHere is his full review:\nhttps://mailarchive.ietf.org/arch/msg/spasm/BI1zCRfLWdEN-ZBpVXJLDHgvJQA/",
       "createdAt": "2025-04-25T12:26:02Z",
-      "updatedAt": "2025-04-25T12:26:02Z",
-      "closedAt": null,
+      "updatedAt": "2025-05-19T18:03:47Z",
+      "closedAt": "2025-05-19T18:03:47Z",
       "comments": []
     },
     {
@@ -2410,15 +2410,15 @@
       "id": "I_kwDOJ3IIN860AFXg",
       "title": "AttestationResultBundle does not contain Hint",
       "url": "https://github.com/lamps-wg/csr-attestation/issues/188",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "hannestschofenig",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Hendrik wrote:\n\n  *   In Section 4.2, other than the EvidenceBundle, the AttestationResultBundle is defined in a way that it does not contain a CertificateChoices and no AttestationResult.Hint. I was missing some text how the CA can identify which Verifyer provided the Attestation Result and how it can verify the authenticity of the content. If this is expected that the CA knows this all based on the AttestationResult.Type, I missed the text stating this.\n  \nHere is his full review:\nhttps://mailarchive.ietf.org/arch/msg/spasm/BI1zCRfLWdEN-ZBpVXJLDHgvJQA/",
       "createdAt": "2025-04-25T12:26:04Z",
-      "updatedAt": "2025-04-25T12:26:04Z",
-      "closedAt": null,
+      "updatedAt": "2025-05-19T18:03:54Z",
+      "closedAt": "2025-05-19T18:03:54Z",
       "comments": []
     },
     {
@@ -2506,15 +2506,15 @@
       "id": "I_kwDOJ3IIN861Fp5W",
       "title": "Mike StJohns WGLC comments",
       "url": "https://github.com/lamps-wg/csr-attestation/issues/193",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "ounsworth",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "1) The \"hint\" field and it's processing continues to be underspecified.  The body of the document actually refers to the non-normative examples in the appendix rather than giving a precise explanation of how to process the hint field.  The \"hint\" field, as defined, suggests that the verifier architecture being proposed is somewhat problematic in that there MUST be a separate process or server that's responsible for verifying the attestation, and that there may be multiple servers or processes that are responsible for verifying a specific attestation type (e.g. as identified by the \"type\" field in the evidence statement.)  How a CA should process a CSR for which an unknown hint is provided does not appear to be specified for example. Nor how to deal with multiple competing verifiers all claiming to be able to verify a given evidence type.  The document specifies how the hint is placed, but not how it should be processed.\n\n2) EVIDENCE-STATEMENT is defined using the TYPE-IDENTIFIER construct, but the instantiation of this (EvidenceStatement) has an optional field - the aforementioned \"hint\".  As a general matter, a better definition would include an argument indicating whether or not the \"hint\" field should or should not be populated for a given definition of EVIDENCE-STATEMENT.  See below.\n\n3) The \"hint\" field is defined as \"IA5String\" because the format of the field is an ASCII domain name and possibly a port number.  Unfortunately, that makes the field unusable for any other attestation type that may want to use the field for a meaning specific to its attestation type.  E.g. say an ASN1 structured field that gives additional - non-attester-signed information that may be used to map raw information in the attestation to something a PKIX system understands.\n\nNotes:\n\nThe current definition of the EVIDENCE-STATEMENT and its instantiation is:\n\n\nEVIDENCE-STATEMENT ::= TYPE-IDENTIFIER\n\nEvidenceStatementSet EVIDENCE-STATEMENT ::= {\n   ... -- None defined in this document --\n}\n\nEvidenceStatement ::= SEQUENCE {\n   type   EVIDENCE-STATEMENT.&id({EvidenceStatementSet}),\n   stmt   EVIDENCE-STATEMENT.&Type({EvidenceStatementSet}{@type}),\n   hint   IA5String OPTIONAL\n}\n\n\nSo defining a specific type of evidence statement would be \"MikesStatement EVIDENCE-STATEMENT ::= MikesASN1Structure IDENTIFIED BY id-mikes-statement\" where MikesASN1Structure would be defined elsewhere.\n\nConsidering (2) only, a better definition would be.  (Note that \"TYPE-IDENTIFIER\" is actually a well-known CLASS definition - there is no more complexity here in a CLASS definition than you would find using TYPE-IDENTIFIER)\n\nEVIDENCE-STATEMENT ::= CLASS {\n  &id              OBJECT IDENTIFIER UNIQUE,\n  &Type,\n  &hintPresent     ParamOptions DEFAULT required,\n} WITH SYNTAX {\n  &Type IDENTIFIED BY &id\n  [HINT IS &ancillaryPresent]\n}\n\nAllowing for \"MikesStatement EVIDENCE-STATEMENT ::= MikesASN1Structure IDENTIFIED BY id-mikes-statement HINT IS absent\".  And allowing the relying party to know whether or not the absence of a hint is an error.\n\n\nBut considering (2) and (3) - the more correct definition would be:\n\nEVIDENCE-STATEMENT ::= CLASS {\n  &id           OBJECT IDENTIFIER UNIQUE,\n  &Type,\n  &ancillaryPresent       ParamOptions DEFAULT absent,\n  &AncillaryType   DEFAULT OCTET STRING\n} WITH SYNTAX {\n  &Type IDENTIFIED BY &id\n  [ANCILLARY [TYPE &AncillaryType] IS &ancillaryPresent]\n\n}\n\nEvidenceStatementSet EVIDENCE-STATEMENT ::= {\n   ... -- None defined in this document --\n}\n\nEvidenceStatements ::= SEQUENCE SIZE (1..MAX) OF EvidenceStatement\n\nEvidenceStatement ::= SEQUENCE {\n   type   EVIDENCE-STATEMENT.&id({EvidenceStatementSet}),\n   stmt   EVIDENCE-STATEMENT.&Type({EvidenceStatementSet}{@type}),\n   ancillary   EVIDENCE-STATEMENT.&AncillaryType({EvidenceStatementSet}{@ancillaryType}) OPTIONAL\n}\n\n\nAllowing for \"MikesStatement EVIDENCE-STATEMENT ::= MikesASN1Structure IDENTIFIED BY id-mikes-statement ANCILLARY TYPE MikesAncillary IS required\"\n\nIf I want to allow the authors to not have to change their \"EVIDENCE-STATEMENT\" definitions, I would change ancillaryPresent to \"DEFAULT preferredPresent\"  (\"required\"?) and ancillary type to \"DEFAULT IA5String\".\n\nThis doesn't fix the overall problem with the \"hint\" field nor with the general \"requires an external verifier\" architecture implied by the way this is written, but does allow for important flexibility that's missing in the current definition.\n\n_______________________________  END Shepherd text\n\n\nNit:  If the \"hint\" field is restricted to a set of characters or even a pattern, then a Hint type should be defined consisting of \"IA5String (CONTAINING ...)\".  E.g. the ASN1 equivalent of BNF for the field.  This field is well-defined structure wise in the text, so the ASN1 should reflect that definition to allow for automated checking for processing units compiled from this ASN1.\n\nNit: EvidenceStatementSet - multiple places - has \"... -- None defined in this document --\" in its body.  Given that there appear to be at least two EVIDENCE-STATEMENT definitions in the body of this draft (both using real OIDs rather than example OIDs), perhaps this is incorrect?\n\nNit: The section 7.3.2 references for original registry contents are bogus as to all of the TCG/TPM references.   The references here should be to where specific EVIDENCE-STATEMENTs are defined, not to where the OIDs are mentioned.  If there are no defined EVIDENCE-STATEMENTS for a given OID, then delete the registration.\n\nNit: The section 7.3 IANA considerations for the registry definition should use the language from 5226 and should use one of the specific terms - e.g. \"Document Required\" or \"Standard Required\" etc.\n\nNit: Section7.3.2 again - \"Change Controller\".  This is a somewhat weird nomenclature.  I would note somewhere that this is actually the document controller, and that updates of the reference will only be accepted for changes to the definition which meet general ASN1 extensibility rules.  E.g. if there are no \"...\" in the structure definition, then there are no updates possible...  Perhaps instead there is a column indicating whether the base definition is meant to be extensible?\n\nNote that the definition I gave above for EVIDENCE-STATEMENT was mostly the same as my original definition of the ATTESTATION-STATEMENT in the pre-adoption draft, so this should not be a surprise to the authors.\n\nLater, Mike",
       "createdAt": "2025-05-04T18:13:39Z",
-      "updatedAt": "2025-05-06T16:50:48Z",
-      "closedAt": null,
+      "updatedAt": "2025-05-19T17:10:10Z",
+      "closedAt": "2025-05-19T17:10:10Z",
       "comments": [
         {
           "author": "ounsworth",
@@ -9366,24 +9366,26 @@
       "id": "PR_kwDOJ3IIN86T6KMn",
       "title": "Moving Section 6.3 into Section 5",
       "url": "https://github.com/lamps-wg/csr-attestation/pull/190",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "hannestschofenig",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Addressing comment from Hendrik - https://github.com/lamps-wg/csr-attestation/issues/187",
       "createdAt": "2025-04-25T12:40:10Z",
-      "updatedAt": "2025-05-05T20:59:56Z",
+      "updatedAt": "2025-05-19T17:11:19Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "99e28367a69032aadcde85ce5ea1c83395b2e414",
       "headRepository": "lamps-wg/csr-attestation",
       "headRefName": "hannestschofenig-patch-2",
       "headRefOid": "20aeaa9d785c674894047cdc55b73b8bc645cfeb",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2025-05-19T17:11:17Z",
+      "mergedAt": "2025-05-19T17:11:17Z",
+      "mergedBy": "hannestschofenig",
+      "mergeCommit": {
+        "oid": "311fde7e882bee73ddd67f81fd47ea0230da4c78"
+      },
       "comments": [],
       "reviews": [
         {
@@ -9406,24 +9408,26 @@
       "id": "PR_kwDOJ3IIN86T6Ozh",
       "title": "Adding information about AttestationResultBundle Processing",
       "url": "https://github.com/lamps-wg/csr-attestation/pull/191",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "hannestschofenig",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "In response to https://github.com/lamps-wg/csr-attestation/issues/188",
       "createdAt": "2025-04-25T12:49:31Z",
-      "updatedAt": "2025-05-05T20:57:57Z",
+      "updatedAt": "2025-05-19T17:11:42Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "99e28367a69032aadcde85ce5ea1c83395b2e414",
       "headRepository": "lamps-wg/csr-attestation",
       "headRefName": "hannestschofenig-patch-3",
       "headRefOid": "41b6a307b4a080cd23450539210936861aaf1385",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2025-05-19T17:11:40Z",
+      "mergedAt": "2025-05-19T17:11:40Z",
+      "mergedBy": "hannestschofenig",
+      "mergeCommit": {
+        "oid": "8632daa0868e10116d4a44866369b39dc8bd6a10"
+      },
       "comments": [],
       "reviews": [
         {
@@ -9453,13 +9457,13 @@
       "labels": [],
       "body": "Here is the issue: \r\nhttps://github.com/lamps-wg/csr-attestation/issues/189\r\n",
       "createdAt": "2025-04-28T08:54:03Z",
-      "updatedAt": "2025-05-06T14:59:58Z",
+      "updatedAt": "2025-05-19T18:16:32Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
-      "baseRefOid": "99e28367a69032aadcde85ce5ea1c83395b2e414",
+      "baseRefOid": "8632daa0868e10116d4a44866369b39dc8bd6a10",
       "headRepository": "lamps-wg/csr-attestation",
       "headRefName": "hannestschofenig-patch-6",
-      "headRefOid": "b2bb61e7fa539b59ed50694733bb00feea9a9c05",
+      "headRefOid": "94c8fd027bf0c8332d219c43c88dfbaa258a6495",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -9533,6 +9537,52 @@
           "createdAt": "2025-05-06T14:04:29Z",
           "updatedAt": "2025-05-06T14:04:29Z",
           "comments": []
+        },
+        {
+          "id": "PRR_kwDOJ3IIN86p9nK5",
+          "commit": {
+            "abbreviatedOid": "b2bb61e"
+          },
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-19T17:13:10Z",
+          "updatedAt": "2025-05-19T17:13:10Z",
+          "comments": [
+            {
+              "originalPosition": 154,
+              "body": "I do not think so either. This would be a bit too verbose IMHO and could cause all sorts of privacy challenges.",
+              "createdAt": "2025-05-19T17:13:10Z",
+              "updatedAt": "2025-05-19T17:13:10Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN86p9tYA",
+          "commit": {
+            "abbreviatedOid": "47df17b"
+          },
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "We discussed the content of the PR in several meetings and it is acceptable. Monty will provide further wording improvements in a separate PR.",
+          "createdAt": "2025-05-19T17:19:40Z",
+          "updatedAt": "2025-05-19T17:19:40Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJ3IIN86p-KkE",
+          "commit": {
+            "abbreviatedOid": "94c8fd0"
+          },
+          "author": "nedmsmith",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "LGTM",
+          "createdAt": "2025-05-19T18:16:32Z",
+          "updatedAt": "2025-05-19T18:16:32Z",
+          "comments": []
         }
       ]
     },
@@ -9548,45 +9598,158 @@
       "labels": [],
       "body": "",
       "createdAt": "2025-05-06T15:44:24Z",
-      "updatedAt": "2025-05-06T15:48:34Z",
+      "updatedAt": "2025-05-19T17:12:37Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "99e28367a69032aadcde85ce5ea1c83395b2e414",
       "headRepository": "lamps-wg/csr-attestation",
       "headRefName": "mikeo_presenter",
-      "headRefOid": "500c0e27e0abc5135b8a238940e399a4d6dada33",
+      "headRefOid": "bf3f63d0e8e8dc924b25fa47df93afd74ac3ff6a",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
-      "reviews": []
+      "comments": [
+        {
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "body": "We had a discussion about this PR during the conference call on the 19th of May and Ned, Henk, Monty and I could not agree on the interpretation of the figure. Hence, this PR needs to be revised.",
+          "createdAt": "2025-05-19T17:12:36Z",
+          "updatedAt": "2025-05-19T17:12:36Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJ3IIN86p9Q9z",
+          "commit": {
+            "abbreviatedOid": "500c0e2"
+          },
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-19T16:34:52Z",
+          "updatedAt": "2025-05-19T16:34:53Z",
+          "comments": [
+            {
+              "originalPosition": 53,
+              "body": "```suggestion\r\n      | | Attester                     |    |\r\n```",
+              "createdAt": "2025-05-19T16:34:53Z",
+              "updatedAt": "2025-05-19T16:34:53Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN86p9RRN",
+          "commit": {
+            "abbreviatedOid": "b5fccd8"
+          },
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-19T16:35:17Z",
+          "updatedAt": "2025-05-19T16:35:18Z",
+          "comments": [
+            {
+              "originalPosition": 54,
+              "body": "```suggestion\r\n      | |                              |    |\r\n```",
+              "createdAt": "2025-05-19T16:35:17Z",
+              "updatedAt": "2025-05-19T16:35:18Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN86p9Rz1",
+          "commit": {
+            "abbreviatedOid": "d778721"
+          },
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-19T16:36:16Z",
+          "updatedAt": "2025-05-19T16:36:17Z",
+          "comments": [
+            {
+              "originalPosition": 39,
+              "body": "```suggestion\r\nto request the required Evidence and then present it\r\n```",
+              "createdAt": "2025-05-19T16:36:17Z",
+              "updatedAt": "2025-05-19T16:36:17Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN86p9d1w",
+          "commit": {
+            "abbreviatedOid": "bf3f63d"
+          },
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "state": "CHANGES_REQUESTED",
+          "body": "I am unable to follow the data flow, I am afraid.",
+          "createdAt": "2025-05-19T16:57:42Z",
+          "updatedAt": "2025-05-19T16:57:42Z",
+          "comments": []
+        }
+      ]
     },
     {
       "number": 195,
       "id": "PR_kwDOJ3IIN86VJBP2",
       "title": "Addressed Mike StJohns comments",
       "url": "https://github.com/lamps-wg/csr-attestation/pull/195",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "ounsworth",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Closes #193",
       "createdAt": "2025-05-06T16:52:05Z",
-      "updatedAt": "2025-05-06T16:52:05Z",
+      "updatedAt": "2025-05-19T17:10:11Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "99e28367a69032aadcde85ce5ea1c83395b2e414",
       "headRepository": "lamps-wg/csr-attestation",
       "headRefName": "mikeo_193",
-      "headRefOid": "8cc8d36f838d8c9e02e7e736844341f8bab27d8e",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
-      "comments": [],
-      "reviews": []
+      "headRefOid": "245335ab3341639dd7ff0ad0a48cd34b3e177a0a",
+      "closedAt": "2025-05-19T17:10:09Z",
+      "mergedAt": "2025-05-19T17:10:09Z",
+      "mergedBy": "hannestschofenig",
+      "mergeCommit": {
+        "oid": "afa2827195ce0bc125f93ef93e275375448e9c21"
+      },
+      "comments": [
+        {
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "body": "We reviewed this PR in the conference call on the 19th of May and we were happy with the proposed text.",
+          "createdAt": "2025-05-19T17:10:07Z",
+          "updatedAt": "2025-05-19T17:10:07Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJ3IIN86p9kvS",
+          "commit": {
+            "abbreviatedOid": "8cc8d36"
+          },
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-19T17:09:26Z",
+          "updatedAt": "2025-05-19T17:09:26Z",
+          "comments": [
+            {
+              "originalPosition": 31,
+              "body": "```suggestion\r\nparty that registered the OID. As the intention is for this registry to be a\r\n```",
+              "createdAt": "2025-05-19T17:09:26Z",
+              "updatedAt": "2025-05-19T17:09:26Z"
+            }
+          ]
+        }
+      ]
     }
   ]
 }

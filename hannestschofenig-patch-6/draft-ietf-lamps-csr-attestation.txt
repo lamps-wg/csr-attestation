@@ -5,14 +5,14 @@
 Network Working Group                                       M. Ounsworth
 Internet-Draft                                                   Entrust
 Intended status: Standards Track                           H. Tschofenig
-Expires: 20 November 2025                                        Siemens
+Expires: 21 November 2025                                        Siemens
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                               M. Wiseman
                                                          Beyond Identity
                                                                 N. Smith
                                                        Intel Corporation
-                                                             19 May 2025
+                                                             20 May 2025
 
 
      Use of Remote Attestation with Certification Signing Requests
@@ -65,7 +65,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 20 November 2025.
+   This Internet-Draft will expire on 21 November 2025.
 
 Copyright Notice
 
@@ -792,12 +792,8 @@ Table of Contents
    consumed by the RA and not to be placed into the issued certificate.
    In some RA / CA architectures, it MAY be appropriate for the RA to
    "consume" the Evidence and remove it from the CSR, re-signing the CSR
-   with an RA signing key.  The mechanics of doing this in a CRMF CSR
-   are more complex since an RA is not allowed to modify the certReq
-   field when a proof-of-possession popo field is present, so an
-   additional CRMF control could be required to indicate that the ext-
-   evidence or ext-ar extensions are not to be copied into the issued
-   certificate.  Such CRMF controls are not defined in this document.
+   with an RA signing key.  A CRMF CSR also allows the RA to indicate
+   that it verified the CSR without the need to re-signing the CSR.
 
    In any case where the RA and CA roles are separated, and Evidence is
    evaluated and consumed by the RA, the RA does at least implicitly

@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-05-20T01:11:12.475437+00:00",
+  "timestamp": "2025-05-22T01:10:30.107038+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -2426,15 +2426,15 @@
       "id": "I_kwDOJ3IIN860AFYz",
       "title": "RA adds AttestationResultBundle to the CSR",
       "url": "https://github.com/lamps-wg/csr-attestation/issues/189",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "hannestschofenig",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Hendrik wrote:\n   \n  *   In Figure 1, the CSR sent by the EE contains an EvendenceBundle and the CSR forwarded by the RA contains an AttestationResultBundle. I was missing text how this can happen on an RA, specifically when using PKCS#10.\n\nHere is his full review:\nhttps://mailarchive.ietf.org/arch/msg/spasm/BI1zCRfLWdEN-ZBpVXJLDHgvJQA/",
       "createdAt": "2025-04-25T12:26:06Z",
-      "updatedAt": "2025-05-07T10:06:22Z",
-      "closedAt": null,
+      "updatedAt": "2025-05-20T19:25:25Z",
+      "closedAt": "2025-05-20T19:25:25Z",
       "comments": [
         {
           "author": "ounsworth",
@@ -9450,24 +9450,26 @@
       "id": "PR_kwDOJ3IIN86UIQP3",
       "title": "Clarification regarding RA replacing Evidence with Attestation Result",
       "url": "https://github.com/lamps-wg/csr-attestation/pull/192",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "hannestschofenig",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Here is the issue: \r\nhttps://github.com/lamps-wg/csr-attestation/issues/189\r\n",
       "createdAt": "2025-04-28T08:54:03Z",
-      "updatedAt": "2025-05-19T18:16:32Z",
+      "updatedAt": "2025-05-20T19:25:04Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "8632daa0868e10116d4a44866369b39dc8bd6a10",
       "headRepository": "lamps-wg/csr-attestation",
       "headRefName": "hannestschofenig-patch-6",
-      "headRefOid": "94c8fd027bf0c8332d219c43c88dfbaa258a6495",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "747a266a919d8455bf9312c24014772824a54bda",
+      "closedAt": "2025-05-20T19:25:04Z",
+      "mergedAt": "2025-05-20T19:25:04Z",
+      "mergedBy": "hannestschofenig",
+      "mergeCommit": {
+        "oid": "ebca3b208979d6a3a1eaa865b61f9a2030ed46e5"
+      },
       "comments": [
         {
           "author": "ounsworth",
@@ -9583,6 +9585,46 @@
           "createdAt": "2025-05-19T18:16:32Z",
           "updatedAt": "2025-05-19T18:16:32Z",
           "comments": []
+        },
+        {
+          "id": "PRR_kwDOJ3IIN86qC1S3",
+          "commit": {
+            "abbreviatedOid": "94c8fd0"
+          },
+          "author": "HBrock",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-20T06:44:02Z",
+          "updatedAt": "2025-05-20T06:44:02Z",
+          "comments": [
+            {
+              "originalPosition": 262,
+              "body": "I think this sentence is wrong.\r\nCRMF can use for the ProofOfPossession choice raVerified. This can easily be done by an RA.\r\nInstead PKCS#10 requires a self-signature as proof-of-possession which can only be provided by the end entity holding the private key and not by the RA.",
+              "createdAt": "2025-05-20T06:44:02Z",
+              "updatedAt": "2025-05-20T06:48:44Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN86qMRi7",
+          "commit": {
+            "abbreviatedOid": "94c8fd0"
+          },
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-20T19:24:41Z",
+          "updatedAt": "2025-05-20T19:24:41Z",
+          "comments": [
+            {
+              "originalPosition": 262,
+              "body": "I simplified the paragraph based on your input",
+              "createdAt": "2025-05-20T19:24:41Z",
+              "updatedAt": "2025-05-20T19:24:41Z"
+            }
+          ]
         }
       ]
     },

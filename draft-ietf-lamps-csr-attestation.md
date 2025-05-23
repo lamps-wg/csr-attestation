@@ -54,9 +54,9 @@ author:
   -
     ins: M. Wiseman
     name: Monty Wiseman
-    org: Beyond Identity
+    org:
     country: USA
-    email: monty.wiseman@beyondidentity.com
+    email: montywiseman32@gmail.com
   -
     ins: N. Smith
     name: Ned Smith

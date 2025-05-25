@@ -5,14 +5,14 @@
 Network Working Group                                       M. Ounsworth
 Internet-Draft                                                   Entrust
 Intended status: Standards Track                           H. Tschofenig
-Expires: 21 November 2025                                        Siemens
+Expires: 26 November 2025                                        Siemens
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                               M. Wiseman
-                                                         Beyond Identity
+                                                                        
                                                                 N. Smith
                                                        Intel Corporation
-                                                             20 May 2025
+                                                             25 May 2025
 
 
      Use of Remote Attestation with Certification Signing Requests
@@ -65,7 +65,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 21 November 2025.
+   This Internet-Draft will expire on 26 November 2025.
 
 Copyright Notice
 
@@ -1310,9 +1310,9 @@ Table of Contents
    [I-D.ietf-rats-msg-wrap]
               Birkholz, H., Smith, N., Fossati, T., Tschofenig, H., and
               D. Glaze, "RATS Conceptual Messages Wrapper (CMW)", Work
-              in Progress, Internet-Draft, draft-ietf-rats-msg-wrap-13,
-              15 April 2025, <https://datatracker.ietf.org/doc/html/
-              draft-ietf-rats-msg-wrap-13>.
+              in Progress, Internet-Draft, draft-ietf-rats-msg-wrap-14,
+              21 May 2025, <https://datatracker.ietf.org/doc/html/draft-
+              ietf-rats-msg-wrap-14>.
 
    [I-D.ietf-rats-tpm-based-network-device-attest]
               Fedorkow, G., Voit, E., and J. Fitzgerald-McKay, "TPM-
@@ -2347,9 +2347,8 @@ Authors' Addresses
 
 
    Monty Wiseman
-   Beyond Identity
    United States of America
-   Email: monty.wiseman@beyondidentity.com
+   Email: montywiseman32@gmail.com
 
 
    Ned Smith

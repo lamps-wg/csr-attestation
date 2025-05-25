@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-05-22T01:10:30.107038+00:00",
+  "timestamp": "2025-05-25T01:16:51.011330+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -9792,6 +9792,32 @@
           ]
         }
       ]
+    },
+    {
+      "number": 196,
+      "id": "PR_kwDOJ3IIN86XaudQ",
+      "title": "Changed Monty's Affiliation",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/196",
+      "state": "OPEN",
+      "author": "hannestschofenig",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-05-23T16:38:49Z",
+      "updatedAt": "2025-05-23T16:38:49Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "ebca3b208979d6a3a1eaa865b61f9a2030ed46e5",
+      "headRepository": "lamps-wg/csr-attestation",
+      "headRefName": "hannestschofenig-patch-2",
+      "headRefOid": "fed069c23b67a52b8f51c4827b2b6d118872c84e",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }

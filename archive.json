@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-05-25T01:16:51.011330+00:00",
+  "timestamp": "2025-05-27T01:09:55.757818+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -9633,21 +9633,21 @@
       "id": "PR_kwDOJ3IIN86VIXgq",
       "title": "Updated Implementation Considerations to introduce the Presenter role",
       "url": "https://github.com/lamps-wg/csr-attestation/pull/194",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "ounsworth",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2025-05-06T15:44:24Z",
-      "updatedAt": "2025-05-19T17:12:37Z",
+      "updatedAt": "2025-05-26T01:34:03Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "99e28367a69032aadcde85ce5ea1c83395b2e414",
       "headRepository": "lamps-wg/csr-attestation",
       "headRefName": "mikeo_presenter",
       "headRefOid": "bf3f63d0e8e8dc924b25fa47df93afd74ac3ff6a",
-      "closedAt": null,
+      "closedAt": "2025-05-26T01:34:03Z",
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
@@ -9658,6 +9658,13 @@
           "body": "We had a discussion about this PR during the conference call on the 19th of May and Ned, Henk, Monty and I could not agree on the interpretation of the figure. Hence, this PR needs to be revised.",
           "createdAt": "2025-05-19T17:12:36Z",
           "updatedAt": "2025-05-19T17:12:36Z"
+        },
+        {
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "I still like this content, but it seems that the group does not, and introducing the term \"Presenter\" is more trouble than it's worth.\r\n\r\nThat's fine, I am closing this PR.",
+          "createdAt": "2025-05-26T01:34:03Z",
+          "updatedAt": "2025-05-26T01:34:03Z"
         }
       ],
       "reviews": [
@@ -9798,24 +9805,26 @@
       "id": "PR_kwDOJ3IIN86XaudQ",
       "title": "Changed Monty's Affiliation",
       "url": "https://github.com/lamps-wg/csr-attestation/pull/196",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "hannestschofenig",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2025-05-23T16:38:49Z",
-      "updatedAt": "2025-05-23T16:38:49Z",
+      "updatedAt": "2025-05-25T08:19:13Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "ebca3b208979d6a3a1eaa865b61f9a2030ed46e5",
       "headRepository": "lamps-wg/csr-attestation",
       "headRefName": "hannestschofenig-patch-2",
       "headRefOid": "fed069c23b67a52b8f51c4827b2b6d118872c84e",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2025-05-25T08:19:09Z",
+      "mergedAt": "2025-05-25T08:19:09Z",
+      "mergedBy": "hannestschofenig",
+      "mergeCommit": {
+        "oid": "83b007defa5c25244016316b9db38e98458ff342"
+      },
       "comments": [],
       "reviews": []
     }

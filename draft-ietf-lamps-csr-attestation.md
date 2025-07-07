@@ -56,7 +56,7 @@ author:
     name: Monty Wiseman
     org:
     country: USA
-    email: montywiseman32@gmail.com
+    email: mwiseman32@acm.org
   -
     ins: N. Smith
     name: Ned Smith

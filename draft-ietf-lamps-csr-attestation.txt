@@ -5,14 +5,14 @@
 Network Working Group                                       M. Ounsworth
 Internet-Draft                                                   Entrust
 Intended status: Standards Track                           H. Tschofenig
-Expires: 26 November 2025                                        Siemens
+Expires: 8 January 2026                                          Siemens
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                               M. Wiseman
                                                                         
                                                                 N. Smith
                                                        Intel Corporation
-                                                             25 May 2025
+                                                             7 July 2025
 
 
      Use of Remote Attestation with Certification Signing Requests
@@ -65,7 +65,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 26 November 2025.
+   This Internet-Draft will expire on 8 January 2026.
 
 Copyright Notice
 
@@ -1157,11 +1157,12 @@ Table of Contents
 
 9.3.  Publishing Evidence in an X.509 Extension
 
-   This document specifies an Extension for carrying Evidence in a CRMF
-   Certificate Signing Request (CSR), but it is intentionally NOT
-   RECOMMENDED for a CA to copy the ext-evidence extension into the
-   published certificate.  The reason for this is that certificates are
-   considered public information and the Evidence might contain detailed
+   This document specifies an Extension for carrying Evidence in a
+   PKCS#10 or CRMF Certificate Signing Request (CSR), but it is
+   intentionally NOT RECOMMENDED for a CA to copy the attr-evidence for
+   PKCS#10 or ext-evidence extension for CRMF into the published
+   certificate.  The reason for this is that certificates are considered
+   public information and the Evidence might contain detailed
    information about hardware and patch levels of the device on which
    the private key resides.  The certificate requester has consented to
    sharing this detailed device information with the CA but might not
@@ -1287,9 +1288,9 @@ Table of Contents
               (CSRs) for the Certification Management Protocol (CMP) and
               for Enrollment over Secure Transport (EST)", Work in
               Progress, Internet-Draft, draft-ietf-lamps-attestation-
-              freshness-03, 5 November 2024,
+              freshness-04, 7 July 2025,
               <https://datatracker.ietf.org/doc/html/draft-ietf-lamps-
-              attestation-freshness-03>.
+              attestation-freshness-04>.
 
    [I-D.ietf-rats-ar4si]
               Voit, E., Birkholz, H., Hardjono, T., Fossati, T., and V.
@@ -1310,9 +1311,9 @@ Table of Contents
    [I-D.ietf-rats-msg-wrap]
               Birkholz, H., Smith, N., Fossati, T., Tschofenig, H., and
               D. Glaze, "RATS Conceptual Messages Wrapper (CMW)", Work
-              in Progress, Internet-Draft, draft-ietf-rats-msg-wrap-14,
-              21 May 2025, <https://datatracker.ietf.org/doc/html/draft-
-              ietf-rats-msg-wrap-14>.
+              in Progress, Internet-Draft, draft-ietf-rats-msg-wrap-16,
+              3 July 2025, <https://datatracker.ietf.org/doc/html/draft-
+              ietf-rats-msg-wrap-16>.
 
    [I-D.ietf-rats-tpm-based-network-device-attest]
               Fedorkow, G., Voit, E., and J. Fitzgerald-McKay, "TPM-
@@ -2348,7 +2349,7 @@ Authors' Addresses
 
    Monty Wiseman
    United States of America
-   Email: montywiseman32@gmail.com
+   Email: mwiseman32@acm.org
 
 
    Ned Smith

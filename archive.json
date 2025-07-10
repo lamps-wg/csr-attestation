@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-07-08T01:13:42.705099+00:00",
+  "timestamp": "2025-07-10T01:14:24.817347+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -2524,6 +2524,46 @@
           "updatedAt": "2025-05-06T16:50:47Z"
         }
       ]
+    },
+    {
+      "number": 198,
+      "id": "I_kwDOJ3IIN86_h41Q",
+      "title": "AttestationResults section is incomplete",
+      "url": "https://github.com/lamps-wg/csr-attestation/issues/198",
+      "state": "OPEN",
+      "author": "ounsworth",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "See point #5 in this email:\n\nhttps://mailarchive.ietf.org/arch/msg/spasm/4QlObAE9PYVJNlYwDcnGyPhUGsY/",
+      "createdAt": "2025-07-08T17:53:28Z",
+      "updatedAt": "2025-07-09T19:56:47Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Specifically that\n\n```\nAttestationResultBundle ::= SEQUENCE SIZE (1..MAX) OF AttestationResult\n```\n\nhas no way to provide the cert chain needed to verify the AR.\n\nShould the AttestationResultsBundle not mirror:\n\n```\nEvidenceBundle ::= SEQUENCE {\n   evidences SEQUENCE SIZE (1..MAX) OF EvidenceStatement,\n   certs SEQUENCE SIZE (1..MAX) OF CertificateChoices OPTIONAL,\n      -- CertificateChoices MUST only contain certificate or other,\n      -- see Section 10.2.2 of [RFC5652]\n}\n```\n?",
+          "createdAt": "2025-07-09T19:56:47Z",
+          "updatedAt": "2025-07-09T19:56:47Z"
+        }
+      ]
+    },
+    {
+      "number": 199,
+      "id": "I_kwDOJ3IIN86_j6DR",
+      "title": "IANA registry should list ASN.1 class",
+      "url": "https://github.com/lamps-wg/csr-attestation/issues/199",
+      "state": "OPEN",
+      "author": "ounsworth",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "From MSJ\n\nIn addition to pointing to the spec where a given OID is defined, the table should also list the ASN.1 class that is expected so that the table fully specifies the EVIDENCE-STATEMENT ::= TYPE-IDENTIFIER.[](url)",
+      "createdAt": "2025-07-08T21:54:02Z",
+      "updatedAt": "2025-07-08T21:54:02Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [

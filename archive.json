@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-07-10T01:14:24.817347+00:00",
+  "timestamp": "2025-08-12T01:11:59.520504+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -2562,6 +2562,22 @@
       "body": "From MSJ\n\nIn addition to pointing to the spec where a given OID is defined, the table should also list the ASN.1 class that is expected so that the table fully specifies the EVIDENCE-STATEMENT ::= TYPE-IDENTIFIER.[](url)",
       "createdAt": "2025-07-08T21:54:02Z",
       "updatedAt": "2025-07-08T21:54:02Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 200,
+      "id": "I_kwDOJ3IIN87FV6SV",
+      "title": "How do we handle Endorsements?",
+      "url": "https://github.com/lamps-wg/csr-attestation/issues/200",
+      "state": "OPEN",
+      "author": "ounsworth",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Endorsements logically would go with Evidence. We should add some text to section 5.2 that \"Endorsements\" can be considered \"Evidence\" for the purposes of carrying them in the data structures in this document.",
+      "createdAt": "2025-08-11T16:52:04Z",
+      "updatedAt": "2025-08-11T16:52:04Z",
       "closedAt": null,
       "comments": []
     }

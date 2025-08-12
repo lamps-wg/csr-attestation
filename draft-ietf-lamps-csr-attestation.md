@@ -579,6 +579,8 @@ By the nature of the PKIX ASN.1 classes {{RFC5912}}, there are multiple ways to 
 
 # ASN.1 Elements for Attestation Result in CSR
 
+When operating according to the RATS Passport Model, as depicted in {{fig-arch-passport}}, the CSR sent to the CA / RA will contain Attestation Results in place of Evidence or Endorsements. In order to clearly differentiate Background Check and Passport Model use cases, this section registers a different top-level CSR Attribute (PKCS#10) and Extension (CRMF) for carrying Attestation Results, which are syntactically identical to those for carrying Evidence and Endorsements.
+
 ##  Object Identifiers
 
 This document defines the OID depicted in {{code-ar-oid}} as an additional CSR Attribute (PKCS#10) or Extension (CRMF) to carry Attestation Results in a CSR.
@@ -626,7 +628,12 @@ In {{code-AttestationResult}}, type is an OID that indicates the format of the
 value of stmt.
 
 ~~~
-AttestationResultBundle ::= SEQUENCE SIZE (1..MAX) OF AttestationResult
+EvidenceBundle ::= SEQUENCE {
+   results SEQUENCE SIZE (1..MAX) OF AttestationResult,
+   certs SEQUENCE SIZE (1..MAX) OF CertificateChoices OPTIONAL,
+      -- CertificateChoices MUST only contain certificate or other,
+      -- see Section 10.2.2 of [RFC5652]
+}
 ~~~
 
 ~~~

@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-08-12T01:11:59.520504+00:00",
+  "timestamp": "2025-08-14T01:13:50.744618+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -1936,7 +1936,7 @@
       "id": "I_kwDOJ3IIN86QRmSU",
       "title": "Provide test vectors that exercise all functionality of the draft",
       "url": "https://github.com/lamps-wg/csr-attestation/issues/152",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "ounsworth",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [
@@ -1946,8 +1946,8 @@
       "labels": [],
       "body": "We should provide test data for multiple EvidenceBundles and multiple EvidenceStatements. For completeness, we should provide samples of each of the 4 cases in Section 4.2:\r\n\r\n4.2.1. Case 1 - Single Evidence Bundle\r\n4.2.2. Case 2 - Single Evidence Bundle with Certificate Chain\r\n4.2.3. Case 3 - Multiple Evidence Bundles each with Complete Certificate Chains\r\n4.2.4. Case 4 - Multiple Evidence Bundles with Certificate Transmission Optimization\r\n\r\nThe actual evidence payload can be a stub, like a JWS with the content being the string \"Evidence\"; the point is to provide test vectors that exercise all functionality of the draft.",
       "createdAt": "2024-07-20T03:35:53Z",
-      "updatedAt": "2024-12-02T17:23:54Z",
-      "closedAt": null,
+      "updatedAt": "2025-08-12T17:20:32Z",
+      "closedAt": "2025-08-12T17:20:32Z",
       "comments": [
         {
           "author": "ounsworth",
@@ -1955,6 +1955,13 @@
           "body": "We have the Informative Reference:\r\n\r\n```\r\n[SampleData]\r\n\"CSR Attestation Sample Data\", n.d., <https://github.com/lamps-wg/csr-attestation-examples>.\r\n```\r\n\r\nwhich allows us to continue producing samples at hackathons after this is published as RFC.",
           "createdAt": "2024-09-09T16:44:37Z",
           "updatedAt": "2024-09-09T16:44:37Z"
+        },
+        {
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "I am going to close this as \"Won't Do\".",
+          "createdAt": "2025-08-12T17:20:32Z",
+          "updatedAt": "2025-08-12T17:20:32Z"
         }
       ]
     },
@@ -9918,6 +9925,32 @@
           "updatedAt": "2025-07-07T21:00:01Z"
         }
       ],
+      "reviews": []
+    },
+    {
+      "number": 201,
+      "id": "PR_kwDOJ3IIN86jWosp",
+      "title": "Aligned AR and Evidence ASN.1",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/201",
+      "state": "OPEN",
+      "author": "ounsworth",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Closes #198 \r\nCloses #200 \r\n\r\nTODO before merging:\r\n\r\n- [x] Check if the AR examples appendix needs to be updated.\r\n  - Wait, we don't have an AR example, solves that problem, I guess.\r\n- [x] Add the fix for #200 to the same PR (since it's a related change)",
+      "createdAt": "2025-08-12T21:03:49Z",
+      "updatedAt": "2025-08-13T02:28:19Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "2eb1841ff39849ae7f1bb1b8fecf8fd57f18dc9a",
+      "headRepository": "lamps-wg/csr-attestation",
+      "headRefName": "mikeo_ar_alignment",
+      "headRefOid": "4b1fee27e9dfda6938d89a58b6056b24b43f66a8",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
       "reviews": []
     }
   ]

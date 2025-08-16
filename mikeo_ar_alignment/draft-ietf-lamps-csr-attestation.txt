@@ -5,14 +5,14 @@
 Network Working Group                                       M. Ounsworth
 Internet-Draft                                                   Entrust
 Intended status: Standards Track                           H. Tschofenig
-Expires: 14 February 2026                                        Siemens
+Expires: 17 February 2026                                        Siemens
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                               M. Wiseman
                                                                         
                                                                 N. Smith
                                                        Intel Corporation
-                                                          13 August 2025
+                                                          16 August 2025
 
 
      Use of Remote Attestation with Certification Signing Requests
@@ -65,7 +65,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 14 February 2026.
+   This Internet-Draft will expire on 17 February 2026.
 
 Copyright Notice
 
@@ -174,14 +174,13 @@ Table of Contents
    natural fit to enforce via remote attestation.
 
    This specification defines an attribute and an extension that allow
-   for conveyance of Evidence Endorsements and a separate attribute and
-   extension for the conveyance of Attestation Results in Certificate
-   Signing Requests (CSRs), such as PKCS#10 [RFC2986] or Certificate
-   Request Message Format (CRMF) [RFC4211] payloads.  This CSR extension
-   satisfies CA/B Forum's CSBR [CSBR] requirements for key protection
-   assurance, provided that the CSR carries attestation data that the RA
-   / CA can parse to obtain the assurance that it needs to satisfy its
-   certificate issuance policies.
+   for conveyance of Evidence, Endorsements and Attestation Results in
+   Certificate Signing Requests (CSRs), such as PKCS#10 [RFC2986] or
+   Certificate Request Message Format (CRMF) [RFC4211] payloads.  This
+   CSR extension satisfies CA/B Forum's CSBR [CSBR] requirements for key
+   protection assurance, provided that the CSR carries attestation data
+   that the RA / CA can parse to obtain the assurance that it needs to
+   satisfy its certificate issuance policies.
 
    As outlined in the IETF RATS architecture [RFC9334], an Attester
    (typically a device) produces a signed collection of Claims that
@@ -1323,9 +1322,9 @@ Table of Contents
               Voit, E., Birkholz, H., Hardjono, T., Fossati, T., and V.
               Scarlata, "Attestation Results for Secure Interactions",
               Work in Progress, Internet-Draft, draft-ietf-rats-ar4si-
-              08, 6 February 2025,
+              09, 15 August 2025,
               <https://datatracker.ietf.org/doc/html/draft-ietf-rats-
-              ar4si-08>.
+              ar4si-09>.
 
    [I-D.ietf-rats-daa]
               Birkholz, H., Newton, C., Chen, L., and D. Thaler, "Direct

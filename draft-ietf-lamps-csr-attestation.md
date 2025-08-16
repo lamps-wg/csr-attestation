@@ -141,7 +141,7 @@ Alternatively, the attester might have a direct connection to a Verifier to whic
 At the time of writing, the most pressing example of the need for remote attestation in certificate enrollment is the Code-Signing Baseline Requirements (CSBR) document maintained by the CA/Browser Forum {{CSBR}}, which requires compliant CAs to "ensure that a Subscriber’s Private Key is generated, stored,
 and used in a secure environment that has controls to prevent theft or misuse", which is a natural fit to enforce via remote attestation.
 
-This specification defines an attribute and an extension that allow for conveyance of Evidence Endorsements and a separate attribute and extension for the conveyance of Attestation Results in Certificate Signing Requests (CSRs), such as PKCS#10 {{RFC2986}} or Certificate Request Message Format (CRMF) {{RFC4211}} payloads.
+This specification defines an attribute and an extension that allow for conveyance of Evidence, Endorsements and Attestation Results in Certificate Signing Requests (CSRs), such as PKCS#10 {{RFC2986}} or Certificate Request Message Format (CRMF) {{RFC4211}} payloads.
 This CSR extension satisfies CA/B Forum's CSBR {{CSBR}} requirements for key protection assurance, provided that the CSR carries attestation data that the RA / CA can parse to obtain the assurance that it needs to satisfy its certificate issuance policies.
 
 As outlined in the IETF RATS architecture {{RFC9334}}, an Attester (typically a device) produces a signed collection of Claims that constitute Evidence about its running environment(s).

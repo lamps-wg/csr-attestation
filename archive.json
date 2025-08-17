@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-08-14T01:13:50.744618+00:00",
+  "timestamp": "2025-08-17T01:18:45.991175+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -9939,19 +9939,40 @@
       "labels": [],
       "body": "Closes #198 \r\nCloses #200 \r\n\r\nTODO before merging:\r\n\r\n- [x] Check if the AR examples appendix needs to be updated.\r\n  - Wait, we don't have an AR example, solves that problem, I guess.\r\n- [x] Add the fix for #200 to the same PR (since it's a related change)",
       "createdAt": "2025-08-12T21:03:49Z",
-      "updatedAt": "2025-08-13T02:28:19Z",
+      "updatedAt": "2025-08-16T14:56:27Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "2eb1841ff39849ae7f1bb1b8fecf8fd57f18dc9a",
       "headRepository": "lamps-wg/csr-attestation",
       "headRefName": "mikeo_ar_alignment",
-      "headRefOid": "4b1fee27e9dfda6938d89a58b6056b24b43f66a8",
+      "headRefOid": "caeb4ef97f72ec6986113a4ca8e5b8c12301c9d4",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOJ3IIN866MUjq",
+          "commit": {
+            "abbreviatedOid": "4b1fee2"
+          },
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-08-15T12:55:49Z",
+          "updatedAt": "2025-08-15T12:55:49Z",
+          "comments": [
+            {
+              "originalPosition": 35,
+              "body": "```suggestion\r\nThis specification defines an attribute and an extension that allow for conveyance of Evidence, Endorsements and Attestation Results in Certificate Signing Requests (CSRs), such as PKCS#10 {{RFC2986}} or Certificate Request Message Format (CRMF) {{RFC4211}} payloads.\r\n```",
+              "createdAt": "2025-08-15T12:55:49Z",
+              "updatedAt": "2025-08-15T12:55:49Z"
+            }
+          ]
+        }
+      ]
     }
   ]
 }

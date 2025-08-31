@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-08-26T01:09:31.632608+00:00",
+  "timestamp": "2025-08-31T01:11:04.342112+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -9946,7 +9946,7 @@
       "labels": [],
       "body": "Closes #198 \r\nCloses #200 \r\n\r\nTODO before merging:\r\n\r\n- [x] Check if the AR examples appendix needs to be updated.\r\n  - Wait, we don't have an AR example, solves that problem, I guess.\r\n- [x] Add the fix for #200 to the same PR (since it's a related change)",
       "createdAt": "2025-08-12T21:03:49Z",
-      "updatedAt": "2025-08-16T14:56:27Z",
+      "updatedAt": "2025-08-28T16:15:19Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "2eb1841ff39849ae7f1bb1b8fecf8fd57f18dc9a",
@@ -9978,6 +9978,299 @@
               "updatedAt": "2025-08-15T12:55:49Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN868rKBB",
+          "commit": {
+            "abbreviatedOid": "caeb4ef"
+          },
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-08-28T15:30:21Z",
+          "updatedAt": "2025-08-28T15:30:21Z",
+          "comments": [
+            {
+              "originalPosition": 28,
+              "body": "```suggestion\r\nAlternatively, the Attester might have a direct connection to a Verifier to which it presents its Evidence and Endorsements, and receives back an Attestation Result signed by the Verifier which it can include directly in the CSR and save the RA / CA from needing a local Verifier. This is referred to as the RATS Passport Model, and is illustrated in {{fig-arch-passport}}.\r\n```",
+              "createdAt": "2025-08-28T15:30:21Z",
+              "updatedAt": "2025-08-28T15:30:21Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN868rQej",
+          "commit": {
+            "abbreviatedOid": "caeb4ef"
+          },
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-08-28T15:37:36Z",
+          "updatedAt": "2025-08-28T15:37:36Z",
+          "comments": [
+            {
+              "originalPosition": 57,
+              "body": "Regarding the explaination of the endorsement we could just refer to the definition in the RATS architecture draft, which says:\r\n\r\n\"\r\nA secure statement that an Endorser vouches for the\r\nintegrity of an Attester's various capabilities, such as Claims\r\ncollection and Evidence signing.\r\n\"\r\n\r\nI am also wondering whether we should mention the incorrect use of terminology by some companies. I have not seen anyone referring to the Attestation Key as an Endorsement. The RATS architecture RFC is, however, unclear on the use of the CA certificate that is the root of the chain of the AK certificate. Figure 1 in RFC 9334, for example, does not mention these Trust Anchors, which obviously need to be provisioned to the Verifier to have a working solution.",
+              "createdAt": "2025-08-28T15:37:36Z",
+              "updatedAt": "2025-08-28T15:37:36Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN868rRoQ",
+          "commit": {
+            "abbreviatedOid": "caeb4ef"
+          },
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-08-28T15:39:00Z",
+          "updatedAt": "2025-08-28T15:39:00Z",
+          "comments": [
+            {
+              "originalPosition": 187,
+              "body": "I believe this should rather say\r\n\r\nAttestationResultBundle ::= SEQUENCE ....\r\n\r\nOR\r\n\r\nChange the results-definition from AttestationResult to something else.",
+              "createdAt": "2025-08-28T15:39:00Z",
+              "updatedAt": "2025-08-28T15:42:25Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN868rhS4",
+          "commit": {
+            "abbreviatedOid": "caeb4ef"
+          },
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-08-28T15:58:36Z",
+          "updatedAt": "2025-08-28T15:58:36Z",
+          "comments": [
+            {
+              "originalPosition": 7,
+              "body": "```suggestion\r\nThis specification defines an attribute and an extension that allow for conveyance of RATS conceptual messages (see {{Section 8 of RFC9334}}, such as Evidence, Endorsements and\r\nAttestation Results, in Certificate Signing Requests (CSRs), such as PKCS#10 or Certificate Request Message Format (CRMF) payloads. This provides an elegant and automatable mechanism for transporting attestation data to a Certification Authority.\r\n```",
+              "createdAt": "2025-08-28T15:58:36Z",
+              "updatedAt": "2025-08-28T15:58:37Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN868rij8",
+          "commit": {
+            "abbreviatedOid": "caeb4ef"
+          },
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-08-28T16:00:06Z",
+          "updatedAt": "2025-08-28T16:00:07Z",
+          "comments": [
+            {
+              "originalPosition": 18,
+              "body": "```suggestion\r\nWhen requesting a certificate from a Certification Authority (CA), a PKI end entity may wish to include RATS conceptual messages (see {{Section 8 of RFC9334}}, such as Evidence, Endorsements and\r\nAttestation Results, of the security properties of its environments in which the private keys are stored in that request.\r\n```",
+              "createdAt": "2025-08-28T16:00:06Z",
+              "updatedAt": "2025-08-28T16:00:07Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN868rj40",
+          "commit": {
+            "abbreviatedOid": "caeb4ef"
+          },
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-08-28T16:01:24Z",
+          "updatedAt": "2025-08-28T16:01:25Z",
+          "comments": [
+            {
+              "originalPosition": 35,
+              "body": "```suggestion\r\nThis specification defines an attribute and an extension that allow for conveyance of Evidence, Endorsements, and Attestation Results in Certificate Signing Requests (CSRs), such as PKCS#10 {{RFC2986}} or Certificate Request Message Format (CRMF) {{RFC4211}} payloads.\r\n```",
+              "createdAt": "2025-08-28T16:01:24Z",
+              "updatedAt": "2025-08-28T16:01:25Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN868rlat",
+          "commit": {
+            "abbreviatedOid": "caeb4ef"
+          },
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-08-28T16:03:26Z",
+          "updatedAt": "2025-08-28T16:03:27Z",
+          "comments": [
+            {
+              "originalPosition": 41,
+              "body": "```suggestion\r\nThe terms \"attestation\" or \"remote attestation\" are not explicitly defined in RFC 9334 but the activity of \"attestation\" is clarified in {{?RFC9683}}.\r\n```",
+              "createdAt": "2025-08-28T16:03:26Z",
+              "updatedAt": "2025-08-28T16:03:27Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN868rpZJ",
+          "commit": {
+            "abbreviatedOid": "caeb4ef"
+          },
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-08-28T16:08:36Z",
+          "updatedAt": "2025-08-28T16:08:36Z",
+          "comments": [
+            {
+              "originalPosition": 57,
+              "body": "I assume that Trust Anchors are a minimal Endorsement, based on [Endorsing Verification Keys](https://www.ietf.org/archive/id/draft-ietf-rats-endorsements-07.html#name-endorsing-verification-keys).",
+              "createdAt": "2025-08-28T16:08:36Z",
+              "updatedAt": "2025-08-28T16:08:36Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN868rqPD",
+          "commit": {
+            "abbreviatedOid": "caeb4ef"
+          },
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-08-28T16:09:29Z",
+          "updatedAt": "2025-08-28T16:09:29Z",
+          "comments": [
+            {
+              "originalPosition": 73,
+              "body": "```suggestion\r\nLike-wise, a CSR may also contain one or more Attestation Result payloads.\r\n```",
+              "createdAt": "2025-08-28T16:09:29Z",
+              "updatedAt": "2025-08-28T16:09:29Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN868rqp0",
+          "commit": {
+            "abbreviatedOid": "caeb4ef"
+          },
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-08-28T16:09:59Z",
+          "updatedAt": "2025-08-28T16:09:59Z",
+          "comments": [
+            {
+              "originalPosition": 82,
+              "body": "```suggestion\r\nlimited to the conveyance of Evidence, Endorsements, and Attestation Results within CSRs. The exact format of the\r\n```",
+              "createdAt": "2025-08-28T16:09:59Z",
+              "updatedAt": "2025-08-28T16:09:59Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN868rsDa",
+          "commit": {
+            "abbreviatedOid": "caeb4ef"
+          },
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-08-28T16:11:50Z",
+          "updatedAt": "2025-08-28T16:11:50Z",
+          "comments": [
+            {
+              "originalPosition": 103,
+              "body": "Maybe re-arrangement of the ascii art is better than Endorsmts?",
+              "createdAt": "2025-08-28T16:11:50Z",
+              "updatedAt": "2025-08-28T16:11:50Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN868rspK",
+          "commit": {
+            "abbreviatedOid": "caeb4ef"
+          },
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-08-28T16:12:41Z",
+          "updatedAt": "2025-08-28T16:12:41Z",
+          "comments": [
+            {
+              "originalPosition": 158,
+              "body": "\"verify\" means signature checking here?",
+              "createdAt": "2025-08-28T16:12:41Z",
+              "updatedAt": "2025-08-28T16:12:41Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN868rtTw",
+          "commit": {
+            "abbreviatedOid": "caeb4ef"
+          },
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-08-28T16:13:31Z",
+          "updatedAt": "2025-08-28T16:13:31Z",
+          "comments": [
+            {
+              "originalPosition": 168,
+              "body": "```suggestion\r\nEvidence and Endorsements are considered interchangeable since they are both signed data objects with a certification path that needs to be validated by a Verifier, so for the\r\n```",
+              "createdAt": "2025-08-28T16:13:31Z",
+              "updatedAt": "2025-08-28T16:13:31Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN868rt3P",
+          "commit": {
+            "abbreviatedOid": "caeb4ef"
+          },
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-08-28T16:14:07Z",
+          "updatedAt": "2025-08-28T16:14:08Z",
+          "comments": [
+            {
+              "originalPosition": 169,
+              "body": "```suggestion\r\nremainder of this document, the term \"Evidence\" will be used to refer to both types of RATS conceptual messages.\r\n```",
+              "createdAt": "2025-08-28T16:14:08Z",
+              "updatedAt": "2025-08-28T16:14:08Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN868rut8",
+          "commit": {
+            "abbreviatedOid": "caeb4ef"
+          },
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "state": "CHANGES_REQUESTED",
+          "body": "see suggested changes",
+          "createdAt": "2025-08-28T16:15:19Z",
+          "updatedAt": "2025-08-28T16:15:19Z",
+          "comments": []
         }
       ]
     }

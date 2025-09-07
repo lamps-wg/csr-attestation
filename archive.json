@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-08-31T01:11:04.342112+00:00",
+  "timestamp": "2025-09-07T01:10:04.887248+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -9946,7 +9946,7 @@
       "labels": [],
       "body": "Closes #198 \r\nCloses #200 \r\n\r\nTODO before merging:\r\n\r\n- [x] Check if the AR examples appendix needs to be updated.\r\n  - Wait, we don't have an AR example, solves that problem, I guess.\r\n- [x] Add the fix for #200 to the same PR (since it's a related change)",
       "createdAt": "2025-08-12T21:03:49Z",
-      "updatedAt": "2025-08-28T16:15:19Z",
+      "updatedAt": "2025-09-06T13:11:51Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "2eb1841ff39849ae7f1bb1b8fecf8fd57f18dc9a",
@@ -10271,6 +10271,46 @@
           "createdAt": "2025-08-28T16:15:19Z",
           "updatedAt": "2025-08-28T16:15:19Z",
           "comments": []
+        },
+        {
+          "id": "PRR_kwDOJ3IIN86-SjiQ",
+          "commit": {
+            "abbreviatedOid": "caeb4ef"
+          },
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-06T12:24:24Z",
+          "updatedAt": "2025-09-06T12:24:24Z",
+          "comments": [
+            {
+              "originalPosition": 57,
+              "body": "Question: In this scenario is it envisioned that the device transmits the trust anchors to the Verifier?\r\n\r\nIf yes, this appears to be a serious security issue. If no, then the proposed text needs to be changed.",
+              "createdAt": "2025-09-06T12:24:24Z",
+              "updatedAt": "2025-09-06T12:24:24Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN86-TKvX",
+          "commit": {
+            "abbreviatedOid": "caeb4ef"
+          },
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-06T13:11:51Z",
+          "updatedAt": "2025-09-06T13:11:51Z",
+          "comments": [
+            {
+              "originalPosition": 168,
+              "body": "The term \"certificate chain\" is correct here since that is what is conveyed in the attested CSR.",
+              "createdAt": "2025-09-06T13:11:51Z",
+              "updatedAt": "2025-09-06T13:11:51Z"
+            }
+          ]
         }
       ]
     }

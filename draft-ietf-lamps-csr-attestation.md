@@ -129,23 +129,23 @@ Including Evidence, Endorsements and Attestation Results along with a CSR can he
 
 # Introduction
 
-When requesting a certificate from a Certification Authority (CA), a PKI end entity may wish to include attestation data (typically Evidence, Endorsements and
-Attestation Results) of the security properties of its environments in which the private keys are stored in that request.
+When requesting a certificate from a Certification Authority (CA), a PKI end entity may wish to include RATS conceptual messages (see {{Section 8 of RFC9334}}, such as Evidence, Endorsements and
+Attestation Results, of the security properties of its environments in which the private keys are stored in that request.
 
 Evidence and Endorsements are appraised by Verifiers, which typically produces Attestation Results that serve as input for validating incoming certificate requests against specified certificate policies.
 Verifiers are associated with Registration Authorities (RAs) or CAs and function as logical entities responsible for processing Evidence and Endorsements in order to produce Attestation Results.
 As remote attestation technology matures, it is natural for a Certification Authority to rely on remote attestation data for proof that the requesting entity is in a state that matches the certificate profile. This is referred to as the RATS Background Check Model, and is illustrated in {{fig-arch-background}}.
 
-Alternatively, the attester might have a direct connection to a Verifier to which it presents its Evidence and Endorsements, and receives back an Attestation Result signed by the Verifier which it can include directly in the CSR and save the RA / CA from needing a local Verifier. This is referred to as the RATS Passport Model, and is illustrated in {{fig-arch-passport}}.
+Alternatively, the Attester might have a direct connection to a Verifier to which it presents its Evidence and Endorsements, and receives back an Attestation Result signed by the Verifier which it can include directly in the CSR and save the RA / CA from needing a local Verifier. This is referred to as the RATS Passport Model, and is illustrated in {{fig-arch-passport}}.
 
 At the time of writing, the most pressing example of the need for remote attestation in certificate enrollment is the Code-Signing Baseline Requirements (CSBR) document maintained by the CA/Browser Forum {{CSBR}}, which requires compliant CAs to "ensure that a Subscriber’s Private Key is generated, stored,
 and used in a secure environment that has controls to prevent theft or misuse", which is a natural fit to enforce via remote attestation.
 
-This specification defines an attribute and an extension that allow for conveyance of Evidence, Endorsements and Attestation Results in Certificate Signing Requests (CSRs), such as PKCS#10 {{RFC2986}} or Certificate Request Message Format (CRMF) {{RFC4211}} payloads.
+This specification defines an attribute and an extension that allow for conveyance of Evidence, Endorsements, and Attestation Results in Certificate Signing Requests (CSRs), such as PKCS#10 {{RFC2986}} or Certificate Request Message Format (CRMF) {{RFC4211}} payloads.
 This CSR extension satisfies CA/B Forum's CSBR {{CSBR}} requirements for key protection assurance, provided that the CSR carries attestation data that the RA / CA can parse to obtain the assurance that it needs to satisfy its certificate issuance policies.
 
 As outlined in the IETF RATS architecture {{RFC9334}}, an Attester (typically a device) produces a signed collection of Claims that constitute Evidence about its running environment(s).
-The term "attestation" or "remote attestation" is not explicitly defined in RFC 9334 but was later clarified in {{?I-D.ietf-rats-tpm-based-network-device-attest}}.
+The terms "attestation" or "remote attestation" are not explicitly defined in RFC 9334 but the activity of "attestation" is clarified in {{?RFC9683}}.
 It refers to the process of generating and evaluating remote attestation Evidence and Endorsements.
 
 This document relies on {{architecture}} as the foundation for how the various roles within the RATS architecture correspond to a certificate requester and a CA/RA.
@@ -163,13 +163,13 @@ asserting the storage properties of a private key, Evidence
 asserting firmware version and other general properties
 of the device, Evidence signed using different cryptographic
 algorithms, or Endorsements provided by the device manufacturer.
-Like-wise a CSR may also contain one or more Attestation Result payloads.
+Like-wise, a CSR may also contain one or more Attestation Result payloads.
 
 With these attributes, additional
 information is available to an RA or CA, which may be used
 to decide whether to issue a certificate and what certificate profile
 to apply. The scope of this document is, however,
-limited to the conveyance of Evidence, Endorsements, and Attestation Results within CSR. The exact format of the
+limited to the conveyance of Evidence, Endorsements, and Attestation Results within CSRs. The exact format of the
 Evidence, Endorsements, and Attestation Results being conveyed is out of scope of this document as they are defined in various standard and proprietary specifications.
 
 # Conventions and Definitions
@@ -302,7 +302,7 @@ from the Attester to the Relying Party via existing CSR messages.
 ## Model for Evidence and Endorsements in CSR
 
 To support a number of different use cases for the transmission of
-Evidence, Endorsements and certificate chains needed to verify them in a CSR the structure
+Evidence, Endorsements and certificate chains needed to cryptographically validate them in a CSR the structure
 shown in {{fig-info-model}} is used.
 
 On a high-level, the structure is composed as follows:
@@ -312,7 +312,7 @@ EvidenceStatement structures as well as one or more
 CertificateChoices which enable to carry various format of
 certificates. For the purpose of conveyance within these structures,
 Evidence and Endorsements are considered interchangeable since they are both signed data objects with a certificate chain that needs to be validated by a Verifier, so for the
-remainder of this document, the term "Evidence" will be used to refer to both types of remote attestation messages.
+remainder of this document, the term "Evidence" will be used to refer to both types of RATS conceptual messages.
 
 Note: Since an extension must only be included once in a certificate
 see {{Section 4.2 of RFC5280}}, this PKCS#10 attribute

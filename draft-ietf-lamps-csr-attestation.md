@@ -120,8 +120,8 @@ informative:
 
 A PKI end entity requesting a certificate from a Certification Authority (CA) may wish to offer trustworthy claims about the platform generating the certification request and the environment associated with the corresponding private key, such as whether the private key resides on a hardware security module.
 
-This specification defines an attribute and an extension that allow for conveyance of remote attestation data (typically Evidence, Endorsements and
-Attestation Results) in Certificate Signing Requests (CSRs), such as PKCS#10 or Certificate Request Message Format (CRMF) payloads. This provides an elegant and automatable mechanism for transporting attestation data to a Certification Authority.
+This specification defines an attribute and an extension that allow for conveyance of RATS conceptual messages (see {{Section 8 of RFC9334}}, such as Evidence, Endorsements and
+Attestation Results, in Certificate Signing Requests (CSRs), such as PKCS#10 or Certificate Request Message Format (CRMF) payloads. This provides an elegant and automatable mechanism for transporting attestation data to a Certification Authority.
 
 Including Evidence, Endorsements and Attestation Results along with a CSR can help to improve the assessment of the security posture for the private key, and can help the Certification Authority to assess whether it satisfies the requested certificate profile.
 

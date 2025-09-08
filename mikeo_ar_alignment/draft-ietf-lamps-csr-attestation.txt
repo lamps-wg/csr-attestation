@@ -5,14 +5,14 @@
 Network Working Group                                       M. Ounsworth
 Internet-Draft                                                   Entrust
 Intended status: Standards Track                           H. Tschofenig
-Expires: 17 February 2026                                        Siemens
+Expires: 12 March 2026                                           Siemens
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                               M. Wiseman
                                                                         
                                                                 N. Smith
                                                        Intel Corporation
-                                                          16 August 2025
+                                                        8 September 2025
 
 
      Use of Remote Attestation with Certification Signing Requests
@@ -27,11 +27,12 @@ Abstract
    private key resides on a hardware security module.
 
    This specification defines an attribute and an extension that allow
-   for conveyance of remote attestation data (typically Evidence,
-   Endorsements and Attestation Results) in Certificate Signing Requests
-   (CSRs), such as PKCS#10 or Certificate Request Message Format (CRMF)
-   payloads.  This provides an elegant and automatable mechanism for
-   transporting attestation data to a Certification Authority.
+   for conveyance of RATS conceptual messages (see Section 8 of
+   [RFC9334], such as Evidence, Endorsements and Attestation Results, in
+   Certificate Signing Requests (CSRs), such as PKCS#10 or Certificate
+   Request Message Format (CRMF) payloads.  This provides an elegant and
+   automatable mechanism for transporting attestation data to a
+   Certification Authority.
 
    Including Evidence, Endorsements and Attestation Results along with a
    CSR can help to improve the assessment of the security posture for
@@ -65,7 +66,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 17 February 2026.
+   This Internet-Draft will expire on 12 March 2026.
 
 Copyright Notice
 
@@ -1304,9 +1305,9 @@ Table of Contents
               Frost, S., Fossati, T., and G. Mandyam, "Arm's
               Confidential Compute Architecture Reference Attestation
               Token", Work in Progress, Internet-Draft, draft-ffm-rats-
-              cca-token-01, 3 March 2025,
+              cca-token-02, 2 September 2025,
               <https://datatracker.ietf.org/doc/html/draft-ffm-rats-cca-
-              token-01>.
+              token-02>.
 
    [I-D.ietf-lamps-attestation-freshness]
               Tschofenig, H. and H. Brockhaus, "Nonce-based Freshness
@@ -1327,12 +1328,12 @@ Table of Contents
               ar4si-09>.
 
    [I-D.ietf-rats-daa]
-              Birkholz, H., Newton, C., Chen, L., and D. Thaler, "Direct
-              Anonymous Attestation for the Remote Attestation
-              Procedures Architecture", Work in Progress, Internet-
-              Draft, draft-ietf-rats-daa-07, 3 March 2025,
+              Birkholz, H., Newton, C., Chen, L., Giannetsos, T., and D.
+              Thaler, "Direct Anonymous Attestation for the Remote
+              Attestation Procedures Architecture", Work in Progress,
+              Internet-Draft, draft-ietf-rats-daa-08, 3 September 2025,
               <https://datatracker.ietf.org/doc/html/draft-ietf-rats-
-              daa-07>.
+              daa-08>.
 
    [I-D.ietf-rats-msg-wrap]
               Birkholz, H., Smith, N., Fossati, T., Tschofenig, H., and

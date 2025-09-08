@@ -1350,18 +1350,18 @@ Attestation Results, in Certificate Signing Requests (CSRs), such as PKCS#10 or 
       <h2 id="name-introduction">
 <a href="#section-1" class="section-number selfRef">1. </a><a href="#name-introduction" class="section-name selfRef">Introduction</a>
       </h2>
-<p id="section-1-1">When requesting a certificate from a Certification Authority (CA), a PKI end entity may wish to include attestation data (typically Evidence, Endorsements and
-Attestation Results) of the security properties of its environments in which the private keys are stored in that request.<a href="#section-1-1" class="pilcrow">¶</a></p>
+<p id="section-1-1">When requesting a certificate from a Certification Authority (CA), a PKI end entity may wish to include RATS conceptual messages (see <span><a href="https://rfc-editor.org/rfc/rfc9334#section-8" class="relref">Section 8</a> of [<a href="#RFC9334" class="cite xref">RFC9334</a>]</span>, such as Evidence, Endorsements and
+Attestation Results, of the security properties of its environments in which the private keys are stored in that request.<a href="#section-1-1" class="pilcrow">¶</a></p>
 <p id="section-1-2">Evidence and Endorsements are appraised by Verifiers, which typically produces Attestation Results that serve as input for validating incoming certificate requests against specified certificate policies.
 Verifiers are associated with Registration Authorities (RAs) or CAs and function as logical entities responsible for processing Evidence and Endorsements in order to produce Attestation Results.
 As remote attestation technology matures, it is natural for a Certification Authority to rely on remote attestation data for proof that the requesting entity is in a state that matches the certificate profile. This is referred to as the RATS Background Check Model, and is illustrated in <a href="#fig-arch-background" class="auto internal xref">Figure 1</a>.<a href="#section-1-2" class="pilcrow">¶</a></p>
-<p id="section-1-3">Alternatively, the attester might have a direct connection to a Verifier to which it presents its Evidence and Endorsements, and receives back an Attestation Result signed by the Verifier which it can include directly in the CSR and save the RA / CA from needing a local Verifier. This is referred to as the RATS Passport Model, and is illustrated in <a href="#fig-arch-passport" class="auto internal xref">Figure 2</a>.<a href="#section-1-3" class="pilcrow">¶</a></p>
+<p id="section-1-3">Alternatively, the Attester might have a direct connection to a Verifier to which it presents its Evidence and Endorsements, and receives back an Attestation Result signed by the Verifier which it can include directly in the CSR and save the RA / CA from needing a local Verifier. This is referred to as the RATS Passport Model, and is illustrated in <a href="#fig-arch-passport" class="auto internal xref">Figure 2</a>.<a href="#section-1-3" class="pilcrow">¶</a></p>
 <p id="section-1-4">At the time of writing, the most pressing example of the need for remote attestation in certificate enrollment is the Code-Signing Baseline Requirements (CSBR) document maintained by the CA/Browser Forum <span>[<a href="#CSBR" class="cite xref">CSBR</a>]</span>, which requires compliant CAs to "ensure that a Subscriber’s Private Key is generated, stored,
 and used in a secure environment that has controls to prevent theft or misuse", which is a natural fit to enforce via remote attestation.<a href="#section-1-4" class="pilcrow">¶</a></p>
-<p id="section-1-5">This specification defines an attribute and an extension that allow for conveyance of Evidence, Endorsements and Attestation Results in Certificate Signing Requests (CSRs), such as PKCS#10 <span>[<a href="#RFC2986" class="cite xref">RFC2986</a>]</span> or Certificate Request Message Format (CRMF) <span>[<a href="#RFC4211" class="cite xref">RFC4211</a>]</span> payloads.
+<p id="section-1-5">This specification defines an attribute and an extension that allow for conveyance of Evidence, Endorsements, and Attestation Results in Certificate Signing Requests (CSRs), such as PKCS#10 <span>[<a href="#RFC2986" class="cite xref">RFC2986</a>]</span> or Certificate Request Message Format (CRMF) <span>[<a href="#RFC4211" class="cite xref">RFC4211</a>]</span> payloads.
 This CSR extension satisfies CA/B Forum's CSBR <span>[<a href="#CSBR" class="cite xref">CSBR</a>]</span> requirements for key protection assurance, provided that the CSR carries attestation data that the RA / CA can parse to obtain the assurance that it needs to satisfy its certificate issuance policies.<a href="#section-1-5" class="pilcrow">¶</a></p>
 <p id="section-1-6">As outlined in the IETF RATS architecture <span>[<a href="#RFC9334" class="cite xref">RFC9334</a>]</span>, an Attester (typically a device) produces a signed collection of Claims that constitute Evidence about its running environment(s).
-The term "attestation" or "remote attestation" is not explicitly defined in RFC 9334 but was later clarified in <span>[<a href="#I-D.ietf-rats-tpm-based-network-device-attest" class="cite xref">I-D.ietf-rats-tpm-based-network-device-attest</a>]</span>.
+The terms "attestation" or "remote attestation" are not explicitly defined in RFC 9334 but the activity of "attestation" is clarified in <span>[<a href="#RFC9683" class="cite xref">RFC9683</a>]</span>.
 It refers to the process of generating and evaluating remote attestation Evidence and Endorsements.<a href="#section-1-6" class="pilcrow">¶</a></p>
 <p id="section-1-7">This document relies on <a href="#architecture" class="auto internal xref">Section 3</a> as the foundation for how the various roles within the RATS architecture correspond to a certificate requester and a CA/RA.<a href="#section-1-7" class="pilcrow">¶</a></p>
 <p id="section-1-8">Several standard and proprietary remote attestation technologies are in use at the time of writing. This specification thereby is intended to be as technology-agnostic as is feasible with respect to implemented remote attestation technologies. Hence, this specification focuses on (1) the conveyance of Evidence, Endorsements, and Attestation Results via CSRs while making minimal assumptions about content or format of the transported payload and (2) the conveyance of sets of certificates used for validation of Evidence, Endorsements, and Attestation Results.<a href="#section-1-8" class="pilcrow">¶</a></p>
@@ -1379,12 +1379,12 @@ asserting the storage properties of a private key, Evidence
 asserting firmware version and other general properties
 of the device, Evidence signed using different cryptographic
 algorithms, or Endorsements provided by the device manufacturer.
-Like-wise a CSR may also contain one or more Attestation Result payloads.<a href="#section-1-11" class="pilcrow">¶</a></p>
+Like-wise, a CSR may also contain one or more Attestation Result payloads.<a href="#section-1-11" class="pilcrow">¶</a></p>
 <p id="section-1-12">With these attributes, additional
 information is available to an RA or CA, which may be used
 to decide whether to issue a certificate and what certificate profile
 to apply. The scope of this document is, however,
-limited to the conveyance of Evidence, Endorsements, and Attestation Results within CSR. The exact format of the
+limited to the conveyance of Evidence, Endorsements, and Attestation Results within CSRs. The exact format of the
 Evidence, Endorsements, and Attestation Results being conveyed is out of scope of this document as they are defined in various standard and proprietary specifications.<a href="#section-1-12" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -1612,7 +1612,7 @@ from the Attester to the Relying Party via existing CSR messages.<a href="#secti
 <a href="#section-4.1" class="section-number selfRef">4.1. </a><a href="#name-model-for-evidence-and-endo" class="section-name selfRef">Model for Evidence and Endorsements in CSR</a>
         </h3>
 <p id="section-4.1-1">To support a number of different use cases for the transmission of
-Evidence, Endorsements and certificate chains needed to verify them in a CSR the structure
+Evidence, Endorsements and certificate chains needed to cryptographically validate them in a CSR the structure
 shown in <a href="#fig-info-model" class="auto internal xref">Figure 3</a> is used.<a href="#section-4.1-1" class="pilcrow">¶</a></p>
 <p id="section-4.1-2">On a high-level, the structure is composed as follows:
 A PKCS#10 attribute or a CRMF extension contains one
@@ -1621,7 +1621,7 @@ EvidenceStatement structures as well as one or more
 CertificateChoices which enable to carry various format of
 certificates. For the purpose of conveyance within these structures,
 Evidence and Endorsements are considered interchangeable since they are both signed data objects with a certificate chain that needs to be validated by a Verifier, so for the
-remainder of this document, the term "Evidence" will be used to refer to both types of remote attestation messages.<a href="#section-4.1-2" class="pilcrow">¶</a></p>
+remainder of this document, the term "Evidence" will be used to refer to both types of RATS conceptual messages.<a href="#section-4.1-2" class="pilcrow">¶</a></p>
 <p id="section-4.1-3">Note: Since an extension must only be included once in a certificate
 see <span><a href="https://rfc-editor.org/rfc/rfc5280#section-4.2" class="relref">Section 4.2</a> of [<a href="#RFC5280" class="cite xref">RFC5280</a>]</span>, this PKCS#10 attribute
 or the CRMF extension <span class="bcp14">MUST</span> only be included once in a CSR.<a href="#section-4.1-3" class="pilcrow">¶</a></p>
@@ -2800,10 +2800,6 @@ Implementers should also be cautious around <code>type</code> OID or <code>hint<
         <dd>
 <span class="refAuthor">Birkholz, H.</span>, <span class="refAuthor">Smith, N.</span>, <span class="refAuthor">Fossati, T.</span>, <span class="refAuthor">Tschofenig, H.</span>, and <span class="refAuthor">D. Glaze</span>, <span class="refTitle">"RATS Conceptual Messages Wrapper (CMW)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-rats-msg-wrap-17</span>, <time datetime="2025-08-12" class="refDate">12 August 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-rats-msg-wrap-17">https://datatracker.ietf.org/doc/html/draft-ietf-rats-msg-wrap-17</a>&gt;</span>. </dd>
 <dd class="break"></dd>
-<dt id="I-D.ietf-rats-tpm-based-network-device-attest">[I-D.ietf-rats-tpm-based-network-device-attest]</dt>
-        <dd>
-<span class="refAuthor">Fedorkow, G.</span>, <span class="refAuthor">Voit, E.</span>, and <span class="refAuthor">J. Fitzgerald-McKay</span>, <span class="refTitle">"TPM-based Network Device Remote Integrity Verification"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-rats-tpm-based-network-device-attest-14</span>, <time datetime="2022-03-22" class="refDate">22 March 2022</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-rats-tpm-based-network-device-attest-14">https://datatracker.ietf.org/doc/html/draft-ietf-rats-tpm-based-network-device-attest-14</a>&gt;</span>. </dd>
-<dd class="break"></dd>
 <dt id="I-D.tschofenig-rats-psa-token">[I-D.tschofenig-rats-psa-token]</dt>
         <dd>
 <span class="refAuthor">Tschofenig, H.</span>, <span class="refAuthor">Frost, S.</span>, <span class="refAuthor">Brossard, M.</span>, <span class="refAuthor">Shaw, A. L.</span>, and <span class="refAuthor">T. Fossati</span>, <span class="refTitle">"Arm's Platform Security Architecture (PSA) Attestation Token"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-tschofenig-rats-psa-token-24</span>, <time datetime="2024-09-23" class="refDate">23 September 2024</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-tschofenig-rats-psa-token-24">https://datatracker.ietf.org/doc/html/draft-tschofenig-rats-psa-token-24</a>&gt;</span>. </dd>
@@ -2823,6 +2819,10 @@ Implementers should also be cautious around <code>type</code> OID or <code>hint<
 <dt id="RFC8126">[RFC8126]</dt>
         <dd>
 <span class="refAuthor">Cotton, M.</span>, <span class="refAuthor">Leiba, B.</span>, and <span class="refAuthor">T. Narten</span>, <span class="refTitle">"Guidelines for Writing an IANA Considerations Section in RFCs"</span>, <span class="seriesInfo">BCP 26</span>, <span class="seriesInfo">RFC 8126</span>, <span class="seriesInfo">DOI 10.17487/RFC8126</span>, <time datetime="2017-06" class="refDate">June 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8126">https://www.rfc-editor.org/rfc/rfc8126</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC9683">[RFC9683]</dt>
+        <dd>
+<span class="refAuthor">Fedorkow, G. C., Ed.</span>, <span class="refAuthor">Voit, E.</span>, and <span class="refAuthor">J. Fitzgerald-McKay</span>, <span class="refTitle">"Remote Integrity Verification of Network Devices Containing Trusted Platform Modules"</span>, <span class="seriesInfo">RFC 9683</span>, <span class="seriesInfo">DOI 10.17487/RFC9683</span>, <time datetime="2024-12" class="refDate">December 2024</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9683">https://www.rfc-editor.org/rfc/rfc9683</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="SampleData">[SampleData]</dt>
         <dd>

@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-09-07T01:10:04.887248+00:00",
+  "timestamp": "2025-09-09T01:06:03.810449+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -2592,6 +2592,40 @@
       "body": "Endorsements logically would go with Evidence. We should add some text to section 5.2 that \"Endorsements\" can be considered \"Evidence\" for the purposes of carrying them in the data structures in this document.",
       "createdAt": "2025-08-11T16:52:04Z",
       "updatedAt": "2025-08-11T16:52:04Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 202,
+      "id": "I_kwDOJ3IIN87KWiv8",
+      "title": "Add an explanation of Upper Case entities",
+      "url": "https://github.com/lamps-wg/csr-attestation/issues/202",
+      "state": "OPEN",
+      "author": "ounsworth",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "The sentence in Section 2. Conventions and Definitions that defines all the RATS terminology should have a half-sentence added to the end:\n\n> ... to help disambiguate X.509 and RATS terminology, this document presents RATS terminology in upper case.\n\n... or something similar.",
+      "createdAt": "2025-09-08T16:36:38Z",
+      "updatedAt": "2025-09-08T16:36:38Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 203,
+      "id": "I_kwDOJ3IIN87KWzKQ",
+      "title": "Informative Reference to RATS Endorsemen I-D",
+      "url": "https://github.com/lamps-wg/csr-attestation/issues/203",
+      "state": "OPEN",
+      "author": "henkbirkholz",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "henkbirkholz"
+      ],
+      "labels": [],
+      "body": "I assume that Trust Anchors are a minimal Endorsement, based on [Endorsing Verification Keys](https://www.ietf.org/archive/id/draft-ietf-rats-endorsements-07.html#name-endorsing-verification-keys).\r\n\r\n_Originally posted by @henkbirkholz in https://github.com/lamps-wg/csr-attestation/pull/201#discussion_r2307890113_\r\n            ",
+      "createdAt": "2025-09-08T17:02:18Z",
+      "updatedAt": "2025-09-08T17:04:07Z",
       "closedAt": null,
       "comments": []
     }
@@ -9946,13 +9980,13 @@
       "labels": [],
       "body": "Closes #198 \r\nCloses #200 \r\n\r\nTODO before merging:\r\n\r\n- [x] Check if the AR examples appendix needs to be updated.\r\n  - Wait, we don't have an AR example, solves that problem, I guess.\r\n- [x] Add the fix for #200 to the same PR (since it's a related change)",
       "createdAt": "2025-08-12T21:03:49Z",
-      "updatedAt": "2025-09-06T13:11:51Z",
+      "updatedAt": "2025-09-08T17:02:14Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "2eb1841ff39849ae7f1bb1b8fecf8fd57f18dc9a",
       "headRepository": "lamps-wg/csr-attestation",
       "headRefName": "mikeo_ar_alignment",
-      "headRefOid": "caeb4ef97f72ec6986113a4ca8e5b8c12301c9d4",
+      "headRefOid": "ff23ce3c25b5221992defd728ff943b7557b71c4",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -10309,6 +10343,46 @@
               "body": "The term \"certificate chain\" is correct here since that is what is conveyed in the attested CSR.",
               "createdAt": "2025-09-06T13:11:51Z",
               "updatedAt": "2025-09-06T13:11:51Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN86-k7sM",
+          "commit": {
+            "abbreviatedOid": "f8b86c1"
+          },
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-08T16:55:22Z",
+          "updatedAt": "2025-09-08T16:55:22Z",
+          "comments": [
+            {
+              "originalPosition": 57,
+              "body": "My intended purpose of this new text is to clarify that if you are transmitting a chain of certificates in order to verify the Evidence, then that belongs in `EvidenceBundle.certs` field, not in a separate Endorsement object; even if some standards will refer to these certs an \"Endorsement\"\r\n\r\nThe text that I wrote is not clear and should be improved.",
+              "createdAt": "2025-09-08T16:55:22Z",
+              "updatedAt": "2025-09-08T16:55:22Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN86-k_rh",
+          "commit": {
+            "abbreviatedOid": "f8b86c1"
+          },
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-08T17:01:07Z",
+          "updatedAt": "2025-09-08T17:01:07Z",
+          "comments": [
+            {
+              "originalPosition": 158,
+              "body": "```suggestion\r\nEvidence, Endorsements and certificate chains needed to cryptographically validate them in a CSR the structure\r\n```",
+              "createdAt": "2025-09-08T17:01:07Z",
+              "updatedAt": "2025-09-08T17:01:07Z"
             }
           ]
         }

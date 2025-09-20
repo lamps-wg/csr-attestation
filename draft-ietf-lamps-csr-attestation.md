@@ -152,7 +152,8 @@ This document relies on {{architecture}} as the foundation for how the various r
 
 Several standard and proprietary remote attestation technologies are in use at the time of writing. This specification thereby is intended to be as technology-agnostic as is feasible with respect to implemented remote attestation technologies. Hence, this specification focuses on (1) the conveyance of Evidence, Endorsements, and Attestation Results via CSRs while making minimal assumptions about content or format of the transported payload and (2) the conveyance of sets of certificates used for validation of Evidence, Endorsements, and Attestation Results.
 
-The certificates typically contain one or more certification paths rooted in a device manufacturer trust anchor and the end entity certificate being on the device in question. The end entity certificate is associated with key material that takes on the role of an Attestation Key and is used to sign Evidence originating from the Attester. Some remote attestation technologies consider the Attestation Key and its corresponding certificate chain to be Endorsements of the Attestation Key. For the purposes of this document, this is considered to be the certificate chain, and the word "Endorsement" is reserved to refer to a complete set of Claims about the target environment, signed by a 2nd or 3rd party.
+The certificates typically contain one or more certification paths rooted in a device manufacturer trust anchor and the end entity certificate being on the device in question. The end entity certificate is associated with key material that takes on the role of an Attestation Key and is used to sign Evidence originating from the Attester. In some interpretations of the RATS Architecture {{RFC9334}}, the Attestation Key Certificate and its corresponding certificate chain are considered to be Endorsements of the Attestation Key. In this specification, all data fields intended for carryng a signed object, Evidence, Endorsement, or AttestationResult, is accompanied by a Certs field for carrying any certificate(s) needed to validate the signed object. For the purposes of this specification, a certificate chain provided for the purposes of validating another signed object is not considered to be an Endorsement in and of itself. Here, the term "Endorsement" means a signed object containing data about the target environment which may or may not be accompanied by a certificate chain.
+
 
 - Evidence and Endorsements are placed into an EvidenceStatement along with an OID to identify its type and optionally a hint to the Relying Party about which Verifier (software package, a microservice or some other service) will be capable of parsing it. A set of EvidenceStatement structures may be grouped together along with the set of CertificateChoice structures needed to validate them to form a EvidenceBundle.
 
@@ -225,17 +226,17 @@ This diagram overlays PKI entities with RATS roles in parentheses.
                             |    (Verifier)   | against Appraisal
                             |                 | Policy
                             '------------+----'
-                                 ^       |
-                      Evidence / |       | Attestation
-                      Endorsmts  |       | Result
-                                 |       v
-  .------------.            .----|------------.          .-----.
-  |            +----------->|----'            |--------->|     |
-  | End        | Evidence / | Registration    |          | CA  |
-  | Entity     | Endorsmts  | Authority RA    |          |     |
-  |            | in CSR     |                 |          |     |
-  | (Attester) |            | (Relying Party) |          |     |
-  '------------'            '-----------------'          '-----'
+                                  ^      |
+                       Evidence / |      | Attestation
+                    Endorsements  |      | Result
+                                  |      v
+  .------------.               .--|--------------.       .-----.
+  |            +-------------->|----'            |------>|     |
+  | End        | Evidence /    | Registration    |       | CA  |
+  | Entity     | Endorsements  | Authority RA    |       |     |
+  |            | in CSR        |                 |       |     |
+  | (Attester) |               | (Relying Party) |       |     |
+  '------------'               '-----------------'       '-----'
 ~~~
 {: #fig-arch-background title="Example data flow demonstrating the architecture with Background Check Model."}
 
@@ -302,7 +303,7 @@ from the Attester to the Relying Party via existing CSR messages.
 ## Model for Evidence and Endorsements in CSR
 
 To support a number of different use cases for the transmission of
-Evidence, Endorsements and certificate chains needed to verify them in a CSR the structure
+Evidence, Endorsements and certificate chains needed to validate them in a CSR the structure
 shown in {{fig-info-model}} is used.
 
 On a high-level, the structure is composed as follows:
@@ -626,7 +627,7 @@ In {{code-AttestationResult}}, type is an OID that indicates the format of the
 value of stmt.
 
 ~~~
-EvidenceBundle ::= SEQUENCE {
+AttestationResultBundle ::= SEQUENCE {
    results SEQUENCE SIZE (1..MAX) OF AttestationResult,
    certs SEQUENCE SIZE (1..MAX) OF CertificateChoices OPTIONAL,
       -- CertificateChoices MUST only contain certificate or other,

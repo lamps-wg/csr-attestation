@@ -16,7 +16,7 @@
 Attestation Results, in Certificate Signing Requests (CSRs), such as PKCS#10 or Certificate Request Message Format (CRMF) payloads. This provides an elegant and automatable mechanism for transporting attestation data to a Certification Authority. 
        Including Evidence, Endorsements and Attestation Results along with a CSR can help to improve the assessment of the security posture for the private key, and can help the Certification Authority to assess whether it satisfies the requested certificate profile. 
     " name="description">
-<meta content="xml2rfc 3.30.1" name="generator">
+<meta content="xml2rfc 3.30.2" name="generator">
 <meta content="PKI" name="keyword">
 <meta content="PKCS#10" name="keyword">
 <meta content="CRMF" name="keyword">
@@ -25,7 +25,7 @@ Attestation Results, in Certificate Signing Requests (CSRs), such as PKCS#10 or 
 <meta content="Certificate Signing Requests" name="keyword">
 <meta content="draft-ietf-lamps-csr-attestation-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.30.1
+  xml2rfc 3.30.2
     Python 3.12.11
     ConfigArgParse 1.7
     google-i18n-address 3.1.1
@@ -1060,7 +1060,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Ounsworth, et al.</td>
-<td class="center">Expires 12 March 2026</td>
+<td class="center">Expires 24 March 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1073,12 +1073,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-lamps-csr-attestation-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2025-09-08" class="published">8 September 2025</time>
+<time datetime="2025-09-20" class="published">20 September 2025</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-03-12">12 March 2026</time></dd>
+<dd class="expires"><time datetime="2026-03-24">24 March 2026</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1141,7 +1141,7 @@ Attestation Results, in Certificate Signing Requests (CSRs), such as PKCS#10 or 
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 12 March 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 24 March 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1365,7 +1365,7 @@ The terms "attestation" or "remote attestation" are not explicitly defined in RF
 It refers to the process of generating and evaluating remote attestation Evidence and Endorsements.<a href="#section-1-6" class="pilcrow">¶</a></p>
 <p id="section-1-7">This document relies on <a href="#architecture" class="auto internal xref">Section 3</a> as the foundation for how the various roles within the RATS architecture correspond to a certificate requester and a CA/RA.<a href="#section-1-7" class="pilcrow">¶</a></p>
 <p id="section-1-8">Several standard and proprietary remote attestation technologies are in use at the time of writing. This specification thereby is intended to be as technology-agnostic as is feasible with respect to implemented remote attestation technologies. Hence, this specification focuses on (1) the conveyance of Evidence, Endorsements, and Attestation Results via CSRs while making minimal assumptions about content or format of the transported payload and (2) the conveyance of sets of certificates used for validation of Evidence, Endorsements, and Attestation Results.<a href="#section-1-8" class="pilcrow">¶</a></p>
-<p id="section-1-9">The certificates typically contain one or more certification paths rooted in a device manufacturer trust anchor and the end entity certificate being on the device in question. The end entity certificate is associated with key material that takes on the role of an Attestation Key and is used to sign Evidence originating from the Attester. Some remote attestation technologies consider the Attestation Key and its corresponding certificate chain to be Endorsements of the Attestation Key. For the purposes of this document, this is considered to be the certificate chain, and the word "Endorsement" is reserved to refer to a complete set of Claims about the target environment, signed by a 2nd or 3rd party.<a href="#section-1-9" class="pilcrow">¶</a></p>
+<p id="section-1-9">The certificates typically contain one or more certification paths rooted in a device manufacturer trust anchor and the end entity certificate being on the device in question. The end entity certificate is associated with key material that takes on the role of an Attestation Key and is used to sign Evidence originating from the Attester. In some interpretations of the RATS Architecture <span>[<a href="#RFC9334" class="cite xref">RFC9334</a>]</span>, the Attestation Key Certificate and its corresponding certificate chain are considered to be Endorsements of the Attestation Key. In this specification, all data fields intended for carryng a signed object, Evidence, Endorsement, or AttestationResult, is accompanied by a Certs field for carrying any certificate(s) needed to validate the signed object. For the purposes of this specification, a certificate chain provided for the purposes of validating another signed object is not considered to be an Endorsement in and of itself. Here, the term "Endorsement" means a signed object containing data about the target environment which may or may not be accompanied by a certificate chain.<a href="#section-1-9" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-1-10.1">
           <p id="section-1-10.1.1">Evidence and Endorsements are placed into an EvidenceStatement along with an OID to identify its type and optionally a hint to the Relying Party about which Verifier (software package, a microservice or some other service) will be capable of parsing it. A set of EvidenceStatement structures may be grouped together along with the set of CertificateChoice structures needed to validate them to form a EvidenceBundle.<a href="#section-1-10.1.1" class="pilcrow">¶</a></p>
@@ -1448,29 +1448,29 @@ This diagram overlays PKI entities with RATS roles in parentheses.<a href="#sect
               <path d="M 8,176 L 8,272" fill="none" stroke="black"></path>
               <path d="M 112,176 L 112,272" fill="none" stroke="black"></path>
               <path d="M 216,32 L 216,96" fill="none" stroke="black"></path>
-              <path d="M 216,176 L 216,272" fill="none" stroke="black"></path>
-              <path d="M 256,104 L 256,192" fill="none" stroke="black"></path>
+              <path d="M 240,176 L 240,272" fill="none" stroke="black"></path>
+              <path d="M 264,104 L 264,184" fill="none" stroke="black"></path>
               <path d="M 320,96 L 320,168" fill="none" stroke="black"></path>
               <path d="M 360,32 L 360,96" fill="none" stroke="black"></path>
-              <path d="M 360,176 L 360,272" fill="none" stroke="black"></path>
+              <path d="M 384,176 L 384,272" fill="none" stroke="black"></path>
               <path d="M 448,176 L 448,272" fill="none" stroke="black"></path>
               <path d="M 496,176 L 496,272" fill="none" stroke="black"></path>
               <path d="M 216,32 L 360,32" fill="none" stroke="black"></path>
               <path d="M 216,96 L 360,96" fill="none" stroke="black"></path>
               <path d="M 8,176 L 112,176" fill="none" stroke="black"></path>
-              <path d="M 216,176 L 248,176" fill="none" stroke="black"></path>
-              <path d="M 264,176 L 360,176" fill="none" stroke="black"></path>
+              <path d="M 240,176 L 256,176" fill="none" stroke="black"></path>
+              <path d="M 272,176 L 384,176" fill="none" stroke="black"></path>
               <path d="M 448,176 L 496,176" fill="none" stroke="black"></path>
-              <path d="M 112,192 L 208,192" fill="none" stroke="black"></path>
-              <path d="M 224,192 L 256,192" fill="none" stroke="black"></path>
-              <path d="M 368,192 L 440,192" fill="none" stroke="black"></path>
+              <path d="M 112,192 L 232,192" fill="none" stroke="black"></path>
+              <path d="M 248,192 L 280,192" fill="none" stroke="black"></path>
+              <path d="M 392,192 L 440,192" fill="none" stroke="black"></path>
               <path d="M 8,272 L 112,272" fill="none" stroke="black"></path>
-              <path d="M 216,272 L 360,272" fill="none" stroke="black"></path>
+              <path d="M 240,272 L 384,272" fill="none" stroke="black"></path>
               <path d="M 448,272 L 496,272" fill="none" stroke="black"></path>
               <polygon class="arrowhead" points="448,192 436,186.4 436,197.6" fill="black" transform="rotate(0,440,192)"></polygon>
               <polygon class="arrowhead" points="328,168 316,162.4 316,173.6" fill="black" transform="rotate(90,320,168)"></polygon>
-              <polygon class="arrowhead" points="264,104 252,98.4 252,109.6" fill="black" transform="rotate(270,256,104)"></polygon>
-              <polygon class="arrowhead" points="216,192 204,186.4 204,197.6" fill="black" transform="rotate(0,208,192)"></polygon>
+              <polygon class="arrowhead" points="272,104 260,98.4 260,109.6" fill="black" transform="rotate(270,264,104)"></polygon>
+              <polygon class="arrowhead" points="240,192 228,186.4 228,197.6" fill="black" transform="rotate(0,232,192)"></polygon>
               <g class="text">
                 <text x="400" y="52">Compare</text>
                 <text x="468" y="52">Evidence</text>
@@ -1478,25 +1478,25 @@ This diagram overlays PKI entities with RATS roles in parentheses.<a href="#sect
                 <text x="400" y="68">against</text>
                 <text x="472" y="68">Appraisal</text>
                 <text x="396" y="84">Policy</text>
-                <text x="196" y="132">Evidence</text>
-                <text x="240" y="132">/</text>
+                <text x="204" y="132">Evidence</text>
+                <text x="248" y="132">/</text>
                 <text x="376" y="132">Attestation</text>
-                <text x="200" y="148">Endorsmts</text>
+                <text x="196" y="148">Endorsements</text>
                 <text x="356" y="148">Result</text>
                 <text x="32" y="212">End</text>
                 <text x="156" y="212">Evidence</text>
                 <text x="200" y="212">/</text>
-                <text x="276" y="212">Registration</text>
+                <text x="300" y="212">Registration</text>
                 <text x="468" y="212">CA</text>
                 <text x="44" y="228">Entity</text>
-                <text x="160" y="228">Endorsmts</text>
-                <text x="264" y="228">Authority</text>
-                <text x="316" y="228">RA</text>
+                <text x="172" y="228">Endorsements</text>
+                <text x="288" y="228">Authority</text>
+                <text x="340" y="228">RA</text>
                 <text x="132" y="244">in</text>
                 <text x="160" y="244">CSR</text>
                 <text x="60" y="260">(Attester)</text>
-                <text x="260" y="260">(Relying</text>
-                <text x="324" y="260">Party)</text>
+                <text x="284" y="260">(Relying</text>
+                <text x="348" y="260">Party)</text>
               </g>
             </svg><a href="#section-3-2.1.1" class="pilcrow">¶</a>
 </div>
@@ -1612,7 +1612,7 @@ from the Attester to the Relying Party via existing CSR messages.<a href="#secti
 <a href="#section-4.1" class="section-number selfRef">4.1. </a><a href="#name-model-for-evidence-and-endo" class="section-name selfRef">Model for Evidence and Endorsements in CSR</a>
         </h3>
 <p id="section-4.1-1">To support a number of different use cases for the transmission of
-Evidence, Endorsements and certificate chains needed to cryptographically validate them in a CSR the structure
+Evidence, Endorsements and certificate chains needed to validate them in a CSR the structure
 shown in <a href="#fig-info-model" class="auto internal xref">Figure 3</a> is used.<a href="#section-4.1-1" class="pilcrow">¶</a></p>
 <p id="section-4.1-2">On a high-level, the structure is composed as follows:
 A PKCS#10 attribute or a CRMF extension contains one
@@ -2106,7 +2106,7 @@ AttestationResult ::= SEQUENCE {
 value of stmt.<a href="#section-6.2-6" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="section-6.2-7">
 <pre>
-EvidenceBundle ::= SEQUENCE {
+AttestationResultBundle ::= SEQUENCE {
    results SEQUENCE SIZE (1..MAX) OF AttestationResult,
    certs SEQUENCE SIZE (1..MAX) OF CertificateChoices OPTIONAL,
       -- CertificateChoices MUST only contain certificate or other,

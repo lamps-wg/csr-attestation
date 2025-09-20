@@ -5,14 +5,14 @@
 Network Working Group                                       M. Ounsworth
 Internet-Draft                                                   Entrust
 Intended status: Standards Track                           H. Tschofenig
-Expires: 12 March 2026                                           Siemens
+Expires: 24 March 2026                                           Siemens
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                               M. Wiseman
                                                                         
                                                                 N. Smith
                                                        Intel Corporation
-                                                        8 September 2025
+                                                       20 September 2025
 
 
      Use of Remote Attestation with Certification Signing Requests
@@ -66,7 +66,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 12 March 2026.
+   This Internet-Draft will expire on 24 March 2026.
 
 Copyright Notice
 
@@ -210,12 +210,18 @@ Table of Contents
    certificate being on the device in question.  The end entity
    certificate is associated with key material that takes on the role of
    an Attestation Key and is used to sign Evidence originating from the
-   Attester.  Some remote attestation technologies consider the
-   Attestation Key and its corresponding certificate chain to be
-   Endorsements of the Attestation Key. For the purposes of this
-   document, this is considered to be the certificate chain, and the
-   word "Endorsement" is reserved to refer to a complete set of Claims
-   about the target environment, signed by a 2nd or 3rd party.
+   Attester.  In some interpretations of the RATS Architecture
+   [RFC9334], the Attestation Key Certificate and its corresponding
+   certificate chain are considered to be Endorsements of the
+   Attestation Key. In this specification, all data fields intended for
+   carryng a signed object, Evidence, Endorsement, or AttestationResult,
+   is accompanied by a Certs field for carrying any certificate(s)
+   needed to validate the signed object.  For the purposes of this
+   specification, a certificate chain provided for the purposes of
+   validating another signed object is not considered to be an
+   Endorsement in and of itself.  Here, the term "Endorsement" means a
+   signed object containing data about the target environment which may
+   or may not be accompanied by a certificate chain.
 
    *  Evidence and Endorsements are placed into an EvidenceStatement
       along with an OID to identify its type and optionally a hint to
@@ -300,17 +306,17 @@ Table of Contents
                                |    (Verifier)   | against Appraisal
                                |                 | Policy
                                '------------+----'
-                                    ^       |
-                         Evidence / |       | Attestation
-                         Endorsmts  |       | Result
-                                    |       v
-     .------------.            .----|------------.          .-----.
-     |            +----------->|----'            |--------->|     |
-     | End        | Evidence / | Registration    |          | CA  |
-     | Entity     | Endorsmts  | Authority RA    |          |     |
-     |            | in CSR     |                 |          |     |
-     | (Attester) |            | (Relying Party) |          |     |
-     '------------'            '-----------------'          '-----'
+                                     ^      |
+                          Evidence / |      | Attestation
+                       Endorsements  |      | Result
+                                     |      v
+     .------------.               .--|--------------.       .-----.
+     |            +-------------->|----'            |------>|     |
+     | End        | Evidence /    | Registration    |       | CA  |
+     | Entity     | Endorsements  | Authority RA    |       |     |
+     |            | in CSR        |                 |       |     |
+     | (Attester) |               | (Relying Party) |       |     |
+     '------------'               '-----------------'       '-----'
 
       Figure 1: Example data flow demonstrating the architecture with
                           Background Check Model.
@@ -374,9 +380,8 @@ Table of Contents
 4.1.  Model for Evidence and Endorsements in CSR
 
    To support a number of different use cases for the transmission of
-   Evidence, Endorsements and certificate chains needed to
-   cryptographically validate them in a CSR the structure shown in
-   Figure 3 is used.
+   Evidence, Endorsements and certificate chains needed to validate them
+   in a CSR the structure shown in Figure 3 is used.
 
    On a high-level, the structure is composed as follows: A PKCS#10
    attribute or a CRMF extension contains one EvidenceBundle structure.
@@ -738,7 +743,7 @@ Table of Contents
    In Figure 13, type is an OID that indicates the format of the value
    of stmt.
 
-   EvidenceBundle ::= SEQUENCE {
+   AttestationResultBundle ::= SEQUENCE {
       results SEQUENCE SIZE (1..MAX) OF AttestationResult,
       certs SEQUENCE SIZE (1..MAX) OF CertificateChoices OPTIONAL,
          -- CertificateChoices MUST only contain certificate or other,

@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-09-09T01:06:03.810449+00:00",
+  "timestamp": "2025-09-21T01:11:02.141515+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -2544,7 +2544,7 @@
       "labels": [],
       "body": "See point #5 in this email:\n\nhttps://mailarchive.ietf.org/arch/msg/spasm/4QlObAE9PYVJNlYwDcnGyPhUGsY/",
       "createdAt": "2025-07-08T17:53:28Z",
-      "updatedAt": "2025-08-25T16:35:35Z",
+      "updatedAt": "2025-09-20T20:00:57Z",
       "closedAt": null,
       "comments": [
         {
@@ -2560,6 +2560,13 @@
           "body": "I think you need to remove the AttestationResults text and ASN1.  Basically, it's fine to sort of let the attester to verifier be many different types (e.g. TPM, conceptual wrappers, etc) and depend on a third party to provide Verifiers, but you can't really do that with the Verifier to CA/RA link.\n\nAn attestation result IMHO needs to be a concrete, standard result with perhaps a few different optional components.  It needs to be signed by a verifier, and it should be understandable by the CA/RA.  E.g. it needs to be PKIX from top to bottom with no opaque fields. \n\nAs a minimum, the AttestationResult is going to need to look something like:\n\nSignedAttestationResult ::= SIGNED {AttestationResult}\n\nAttestationResult ::= SEQUENCE {\n      keyLink CHOICE {  -- The attestation must be cryptographicly associated with the key being bound to a certiicate\n            keyId SEQUENCE {    \n                  hashType OBJECT IDENTIFIER,\n                  hash OCTET STRING },\n            key  SubjectPublicKeyInfo }\n      keyInfo  KeyAttrs,\n      entityInfo EntityAttrs,\n      verifierInfo VerifierAttrs }\n\nThe first part of this is just linking the attestation result to the key being certified.  The CA/RA needs to verify what the Verifier is talking about in a secure manner.  \n\nThe next part is the translation of the various EvidenceStatements into something the CA/RA can use to determine whether or not to issue a certificate.\n\nKeyAttrs is probably a BIT STRING representing standard key attributes (e.g. generated in hardware, not extractable, etc), followed by an optional SEQUENCE of CHOICE of either OID or SingleAttribute.  That second part is mostly extensions of the first part and provides for non BOOLEAN attributes if necessary.  It's possible this just reduces to a sequence of OID that represents the policies the key meets.\n\nEntityAttrs is probably similar to KeyAttrs - but describes the entity containing the key/attesting the key.  Things like hardware version, device type, firmware version/date.  \n\nI think that ALL of that is way past the scope of this document and, if kept, won't be able to progress.   It's currently a kitchen sink sitting on a couple of saw horses with neither the water hooked up to the faucets nor the drain hooked to the drain hole.\n\n",
           "createdAt": "2025-08-25T16:35:34Z",
           "updatedAt": "2025-08-25T16:35:34Z"
+        },
+        {
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Closed by #201 ",
+          "createdAt": "2025-09-20T20:00:57Z",
+          "updatedAt": "2025-09-20T20:00:57Z"
         }
       ]
     },
@@ -2584,15 +2591,15 @@
       "id": "I_kwDOJ3IIN87FV6SV",
       "title": "How do we handle Endorsements?",
       "url": "https://github.com/lamps-wg/csr-attestation/issues/200",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "ounsworth",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Endorsements logically would go with Evidence. We should add some text to section 5.2 that \"Endorsements\" can be considered \"Evidence\" for the purposes of carrying them in the data structures in this document.",
       "createdAt": "2025-08-11T16:52:04Z",
-      "updatedAt": "2025-08-11T16:52:04Z",
-      "closedAt": null,
+      "updatedAt": "2025-09-20T20:00:14Z",
+      "closedAt": "2025-09-20T20:00:14Z",
       "comments": []
     },
     {
@@ -9980,13 +9987,13 @@
       "labels": [],
       "body": "Closes #198 \r\nCloses #200 \r\n\r\nTODO before merging:\r\n\r\n- [x] Check if the AR examples appendix needs to be updated.\r\n  - Wait, we don't have an AR example, solves that problem, I guess.\r\n- [x] Add the fix for #200 to the same PR (since it's a related change)",
       "createdAt": "2025-08-12T21:03:49Z",
-      "updatedAt": "2025-09-08T17:02:14Z",
+      "updatedAt": "2025-09-20T16:46:48Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "2eb1841ff39849ae7f1bb1b8fecf8fd57f18dc9a",
       "headRepository": "lamps-wg/csr-attestation",
       "headRefName": "mikeo_ar_alignment",
-      "headRefOid": "ff23ce3c25b5221992defd728ff943b7557b71c4",
+      "headRefOid": "adcd2110e4d34aa6d83dbfc32607bffd0dec0dd1",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -10383,6 +10390,66 @@
               "body": "```suggestion\r\nEvidence, Endorsements and certificate chains needed to cryptographically validate them in a CSR the structure\r\n```",
               "createdAt": "2025-09-08T17:01:07Z",
               "updatedAt": "2025-09-08T17:01:07Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN87Bqb8I",
+          "commit": {
+            "abbreviatedOid": "caeb4ef"
+          },
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-20T16:37:21Z",
+          "updatedAt": "2025-09-20T16:37:21Z",
+          "comments": [
+            {
+              "originalPosition": 57,
+              "body": "New text:\r\n\r\n> In some interpretations of the RATS Architecture {{RFC9334}}, the Attestation Key Certificate and its corresponding certificate chain are considered to be Endorsements of the Attestation Key. In this specification, all data fields intended for carryng a signed object, Evidence, Endorsement, or AttestationResult, is accompanied by a Certs field for carrying any certificate(s) needed to validate the signed object. For the purposes of this specification, a certificate chain provided for the purposes of validating another signed object is not considered to be an Endorsement in and of itself. Here, the term \"Endorsement\" means a signed object containing data about the target environment which may or may not be accompanied by a certificate chain.",
+              "createdAt": "2025-09-20T16:37:21Z",
+              "updatedAt": "2025-09-20T16:39:23Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN87BqcG_",
+          "commit": {
+            "abbreviatedOid": "caeb4ef"
+          },
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-20T16:40:08Z",
+          "updatedAt": "2025-09-20T16:40:09Z",
+          "comments": [
+            {
+              "originalPosition": 187,
+              "body": "oops. Copy&Paste error.",
+              "createdAt": "2025-09-20T16:40:08Z",
+              "updatedAt": "2025-09-20T16:40:09Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN87BqcRN",
+          "commit": {
+            "abbreviatedOid": "caeb4ef"
+          },
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-20T16:42:57Z",
+          "updatedAt": "2025-09-20T16:42:57Z",
+          "comments": [
+            {
+              "originalPosition": 158,
+              "body": "I changed this to \"validate\".\r\nI also CTRL+F'd for the other uses of \"verify\", and I think the other ones are ok.",
+              "createdAt": "2025-09-20T16:42:57Z",
+              "updatedAt": "2025-09-20T16:42:57Z"
             }
           ]
         }

@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-09-21T01:11:02.141515+00:00",
+  "timestamp": "2025-09-23T01:04:12.372099+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -2582,9 +2582,17 @@
       "labels": [],
       "body": "From MSJ\n\nIn addition to pointing to the spec where a given OID is defined, the table should also list the ASN.1 class that is expected so that the table fully specifies the EVIDENCE-STATEMENT ::= TYPE-IDENTIFIER.[](url)",
       "createdAt": "2025-07-08T21:54:02Z",
-      "updatedAt": "2025-07-08T21:54:02Z",
+      "updatedAt": "2025-09-22T16:57:21Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "I looked at all the TCG OID references, and they just go to a TCG registry, but from there it doesn't link to the actual spec where the actual (ASN.1) data format is defined, so to me this is useless.\n\nI will go ahead and re-structure this IANA Registry to that is a clear mapping to be able to build EVIDENCE-STATEMENT ::= TYPE-IDENTIFIER objects, and I'll delete any rows where I can't find the mapping.",
+          "createdAt": "2025-09-22T16:57:21Z",
+          "updatedAt": "2025-09-22T16:57:21Z"
+        }
+      ]
     },
     {
       "number": 200,
@@ -9987,7 +9995,7 @@
       "labels": [],
       "body": "Closes #198 \r\nCloses #200 \r\n\r\nTODO before merging:\r\n\r\n- [x] Check if the AR examples appendix needs to be updated.\r\n  - Wait, we don't have an AR example, solves that problem, I guess.\r\n- [x] Add the fix for #200 to the same PR (since it's a related change)",
       "createdAt": "2025-08-12T21:03:49Z",
-      "updatedAt": "2025-09-20T16:46:48Z",
+      "updatedAt": "2025-09-22T08:21:35Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "2eb1841ff39849ae7f1bb1b8fecf8fd57f18dc9a",
@@ -10452,6 +10460,19 @@
               "updatedAt": "2025-09-20T16:42:57Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN87ByEeD",
+          "commit": {
+            "abbreviatedOid": "adcd211"
+          },
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-09-22T08:21:35Z",
+          "updatedAt": "2025-09-22T08:21:35Z",
+          "comments": []
         }
       ]
     }

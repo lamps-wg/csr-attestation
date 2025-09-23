@@ -83,6 +83,8 @@ informative:
   I-D.ietf-lamps-attestation-freshness:
   I-D.tschofenig-rats-psa-token:
   I-D.ffm-rats-cca-token:
+  I-D.ietf-rats-endorsements:
+  I-D.ietf-rats-ar4si:
   TPM20:
     author:
       org: Trusted Computing Group
@@ -129,8 +131,8 @@ Including Evidence, Endorsements and Attestation Results along with a CSR can he
 
 # Introduction
 
-When requesting a certificate from a Certification Authority (CA), a PKI end entity may wish to include RATS conceptual messages (see {{Section 8 of RFC9334}}, such as Evidence, Endorsements and
-Attestation Results, of the security properties of its environments in which the private keys are stored in that request.
+When requesting a certificate from a Certification Authority (CA), a PKI end entity may wish to include RATS conceptual messages (see {{Section 8 of RFC9334}}, such as Evidence, Endorsements {{I-D.ietf-rats-endorsements}} and
+Attestation Results {{I-D.ietf-rats-ar4si}}, of the security properties of its environments in which the private keys are stored in that request.
 
 Evidence and Endorsements are appraised by Verifiers, which typically produces Attestation Results that serve as input for validating incoming certificate requests against specified certificate policies.
 Verifiers are associated with Registration Authorities (RAs) or CAs and function as logical entities responsible for processing Evidence and Endorsements in order to produce Attestation Results.

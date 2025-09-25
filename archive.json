@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-09-23T01:04:12.372099+00:00",
+  "timestamp": "2025-09-25T01:05:25.821566+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -2640,7 +2640,40 @@
       "labels": [],
       "body": "I assume that Trust Anchors are a minimal Endorsement, based on [Endorsing Verification Keys](https://www.ietf.org/archive/id/draft-ietf-rats-endorsements-07.html#name-endorsing-verification-keys).\r\n\r\n_Originally posted by @henkbirkholz in https://github.com/lamps-wg/csr-attestation/pull/201#discussion_r2307890113_\r\n            ",
       "createdAt": "2025-09-08T17:02:18Z",
-      "updatedAt": "2025-09-08T17:04:07Z",
+      "updatedAt": "2025-09-23T14:06:06Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "No. I don't think, for the purposes of this document, we want to keep \"Endorsements\" and \"certificate chains\" as distinct concepts.\n\nI have actually clarified this in PR #201 which adds the following text:\n\n> For the purposes of this specification, a certificate chain provided for the purposes of validating another signed object is not considered to be an Endorsement in and of itself. Here, the term \"Endorsement\" means a signed object containing data about the target environment which may or may not be accompanied by a certificate chain.\n\nIf you want to add a sentence somewhere so that you can reference ",
+          "createdAt": "2025-09-23T14:05:25Z",
+          "updatedAt": "2025-09-23T14:05:25Z"
+        },
+        {
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "I added Informative refs to I-D.ietf-rats-endorsements and I-D.ietf-rats-ar4si to #201, which I think closes this ticket?",
+          "createdAt": "2025-09-23T14:06:06Z",
+          "updatedAt": "2025-09-23T14:06:06Z"
+        }
+      ]
+    },
+    {
+      "number": 206,
+      "id": "I_kwDOJ3IIN87NXY7W",
+      "title": "Monty to adjust the TPM appdx to MSJ's satisfaction",
+      "url": "https://github.com/lamps-wg/csr-attestation/issues/206",
+      "state": "OPEN",
+      "author": "ounsworth",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [
+        "mwiseman-byid"
+      ],
+      "labels": [],
+      "body": "I have not been party to the discussions between Monty and MSJ, but my understanding is that the core issue is that while the TPM appendix is great, and reperesents good work and hackathon running code effort, it defines a bunch of ASN.1 required for carrying TPM data in a CSR, but it does so in a non-normative example. Which means that there remains no normative way to carry this data, which is causing confusion.",
+      "createdAt": "2025-09-23T14:09:09Z",
+      "updatedAt": "2025-09-23T14:09:09Z",
       "closedAt": null,
       "comments": []
     }
@@ -9986,22 +10019,22 @@
     {
       "number": 201,
       "id": "PR_kwDOJ3IIN86jWosp",
-      "title": "Aligned AR and Evidence ASN.1",
+      "title": "Aligned AR and Evidence ASN.1, added text about Endorsements",
       "url": "https://github.com/lamps-wg/csr-attestation/pull/201",
       "state": "OPEN",
       "author": "ounsworth",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
-      "body": "Closes #198 \r\nCloses #200 \r\n\r\nTODO before merging:\r\n\r\n- [x] Check if the AR examples appendix needs to be updated.\r\n  - Wait, we don't have an AR example, solves that problem, I guess.\r\n- [x] Add the fix for #200 to the same PR (since it's a related change)",
+      "body": "Closes #198 \r\nCloses #200\r\nCloses #203 \r\n\r\nTODO before merging:\r\n\r\n- [x] Check if the AR examples appendix needs to be updated.\r\n  - Wait, we don't have an AR example, solves that problem, I guess.\r\n- [x] Add the fix for #200 to the same PR (since it's a related change)",
       "createdAt": "2025-08-12T21:03:49Z",
-      "updatedAt": "2025-09-22T08:21:35Z",
+      "updatedAt": "2025-09-23T22:41:18Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "2eb1841ff39849ae7f1bb1b8fecf8fd57f18dc9a",
       "headRepository": "lamps-wg/csr-attestation",
       "headRefName": "mikeo_ar_alignment",
-      "headRefOid": "adcd2110e4d34aa6d83dbfc32607bffd0dec0dd1",
+      "headRefOid": "7867162ae1e62c26a9c19f97cc8e5dbca9605ae9",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -10472,6 +10505,119 @@
           "body": "",
           "createdAt": "2025-09-22T08:21:35Z",
           "updatedAt": "2025-09-22T08:21:35Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJ3IIN87CTCjf",
+          "commit": {
+            "abbreviatedOid": "7867162"
+          },
+          "author": "nedmsmith",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "See comments inline.",
+          "createdAt": "2025-09-23T22:29:15Z",
+          "updatedAt": "2025-09-23T22:41:18Z",
+          "comments": [
+            {
+              "originalPosition": 65,
+              "body": "This is a wall of text - which makes it difficult to single out the line I want to comment on. \r\n\r\nSomewhere in the middle of the wall there is a use of \"Certs\" that seems to have specific context but it isn't clear what context that is - i.e., uppercase C and abbreviation of \"certificate\" perhaps? A reference to a section within this spec that defines \"Certs\" in greater detail perhaps?",
+              "createdAt": "2025-09-23T22:29:15Z",
+              "updatedAt": "2025-09-23T22:41:18Z"
+            },
+            {
+              "originalPosition": 72,
+              "body": "```suggestion\r\n- Evidence and Endorsements are placed into an EvidenceStatement along with an OID to identify its type and optionally a hint to the Relying Party about which Verifier (software package, a microservice or some other service) will be capable of parsing it. A set of EvidenceStatement structures may be grouped together along with the set of CertificateChoice structures needed to validate them to form a EvidenceBundle. See {{sec-evidenceAttr}}.\r\n\r\n```",
+              "createdAt": "2025-09-23T22:38:47Z",
+              "updatedAt": "2025-09-23T22:41:18Z"
+            },
+            {
+              "originalPosition": 82,
+              "body": "```suggestion\r\nLike-wise, a CSR may also contain one or more Attestation Result payloads. See {{sec-arAttr}}.\r\n```",
+              "createdAt": "2025-09-23T22:39:55Z",
+              "updatedAt": "2025-09-23T22:41:18Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 204,
+      "id": "PR_kwDOJ3IIN86qEBO4",
+      "title": "Added a Type column to the Attestation Evidence OID Registry",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/204",
+      "state": "OPEN",
+      "author": "ounsworth",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Closes #199 ",
+      "createdAt": "2025-09-23T12:28:55Z",
+      "updatedAt": "2025-09-23T20:28:17Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "2eb1841ff39849ae7f1bb1b8fecf8fd57f18dc9a",
+      "headRepository": "lamps-wg/csr-attestation",
+      "headRefName": "mikeo_type_column",
+      "headRefOid": "4438c88bf168c9e1ab9cfa50187b1d1e45498340",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Note that I removed all the TCG references because the provided link to the TCG OID Registry did not provide me enough information to be able to figure out what the corresponding ASN.1 Type is.\r\n\r\nPerhaps Ned or Monty can fill this in?",
+          "createdAt": "2025-09-23T12:29:46Z",
+          "updatedAt": "2025-09-23T12:29:46Z"
+        },
+        {
+          "author": "nedmsmith",
+          "authorAssociation": "COLLABORATOR",
+          "body": "The dice OIDs are normatively defined in the DICE Attestation Architecture which is already cited by this draft as \"TCGDICE1.1\".  The OID table entries were originally cited to this reference and a subsequent PR changed them to the TCG Registry. Possibly, it make sense to revert back to the original citing and move \"TCGDICE1.1\" to the normative section?\r\nNote: There is a more recent TCG document (v1.2) which should probably be used instead of v1.1.",
+          "createdAt": "2025-09-23T18:52:51Z",
+          "updatedAt": "2025-09-23T18:53:55Z"
+        }
+      ],
+      "reviews": []
+    },
+    {
+      "number": 205,
+      "id": "PR_kwDOJ3IIN86qEzGz",
+      "title": "Normalized capitalization: RATS terms are capitalized, PKI terms are not",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/205",
+      "state": "OPEN",
+      "author": "ounsworth",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Closes #202 ",
+      "createdAt": "2025-09-23T13:34:06Z",
+      "updatedAt": "2025-09-23T22:42:37Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "2eb1841ff39849ae7f1bb1b8fecf8fd57f18dc9a",
+      "headRepository": "lamps-wg/csr-attestation",
+      "headRefName": "mikeo_capitalization",
+      "headRefOid": "896be2644eab603a6e4d750702ca0c72d151cac9",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJ3IIN87CTMF4",
+          "commit": {
+            "abbreviatedOid": "896be26"
+          },
+          "author": "nedmsmith",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "LGTM",
+          "createdAt": "2025-09-23T22:42:37Z",
+          "updatedAt": "2025-09-23T22:42:37Z",
           "comments": []
         }
       ]

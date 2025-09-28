@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-09-25T01:05:25.821566+00:00",
+  "timestamp": "2025-09-28T01:12:02.653564+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -10594,7 +10594,7 @@
       "labels": [],
       "body": "Closes #202 ",
       "createdAt": "2025-09-23T13:34:06Z",
-      "updatedAt": "2025-09-23T22:42:37Z",
+      "updatedAt": "2025-09-27T16:13:00Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "2eb1841ff39849ae7f1bb1b8fecf8fd57f18dc9a",
@@ -10605,7 +10605,15 @@
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
+      "comments": [
+        {
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Thanks a lot for the work on this editorial clean-up, Mike.\r\n\r\nI have made a few wording suggestions, as I was reading through your changes. Sorry that many of the changes I propose are actually not directly in response to your edits but are things that I noticed as I was reading the text again.",
+          "createdAt": "2025-09-27T16:13:00Z",
+          "updatedAt": "2025-09-27T16:13:00Z"
+        }
+      ],
       "reviews": [
         {
           "id": "PRR_kwDOJ3IIN87CTMF4",
@@ -10619,6 +10627,226 @@
           "createdAt": "2025-09-23T22:42:37Z",
           "updatedAt": "2025-09-23T22:42:37Z",
           "comments": []
+        },
+        {
+          "id": "PRR_kwDOJ3IIN87DNIv3",
+          "commit": {
+            "abbreviatedOid": "896be26"
+          },
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-27T15:57:46Z",
+          "updatedAt": "2025-09-27T15:57:46Z",
+          "comments": [
+            {
+              "originalPosition": 10,
+              "body": "```suggestion\r\nSince this document combines terminology from two domains - Remote Attestation (RATS) and X.509 PKI - it follows a naming convention to avoid ambiguity. RATS terminology is written in uppercase (e.g., Verifier), while X.509/PKI terminology is written in lowercase (e.g., certification authority (CA)). This distinction clarifies terms that exist in both domains; for instance, a Verifier refers to the RATS entity that processes Evidence, whereas a verifier refers to the PKI entity that validates certificates.\r\n```",
+              "createdAt": "2025-09-27T15:57:46Z",
+              "updatedAt": "2025-09-27T15:57:47Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN87DNI0W",
+          "commit": {
+            "abbreviatedOid": "896be26"
+          },
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-27T15:58:53Z",
+          "updatedAt": "2025-09-27T15:58:53Z",
+          "comments": [
+            {
+              "originalPosition": 11,
+              "body": "```suggestion\r\nThis convention is distinct from camel-case identifiers like \"EvidenceStatement\", which denote ASN.1 types.\r\n```",
+              "createdAt": "2025-09-27T15:58:53Z",
+              "updatedAt": "2025-09-27T15:58:53Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN87DNI-8",
+          "commit": {
+            "abbreviatedOid": "896be26"
+          },
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-27T16:01:37Z",
+          "updatedAt": "2025-09-27T16:01:37Z",
+          "comments": [
+            {
+              "originalPosition": 72,
+              "body": "```suggestion\r\nIn the RATS architecture, RPs are typically application services that consume remote attestation, rather than PKI-style RAs or CAs. Devices already place substantial trust in RA/CA infrastructure, so additional information disclosed through remote attestation to these entities is generally less sensitive than disclosure to application services. The issue of CAs embedding Evidence into X.509 certificates is discussed in {{sec-con-publishing-x509}}.\r\n```",
+              "createdAt": "2025-09-27T16:01:37Z",
+              "updatedAt": "2025-09-27T16:01:37Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN87DNJNV",
+          "commit": {
+            "abbreviatedOid": "896be26"
+          },
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-27T16:04:53Z",
+          "updatedAt": "2025-09-27T16:04:54Z",
+          "comments": [
+            {
+              "originalPosition": 77,
+              "body": "```suggestion\r\n- Shared Attestation Keys: A manufacturer may provision all devices in a product family with the same attestation key. This enables anonymity by making devices indistinguishable from one another, but it also prevents revocation of a single device's key if compromised. To preserve privacy in such cases, Evidence must avoid embedding uniquely identifying information, as this would negate the benefits of shared keys.\r\n```",
+              "createdAt": "2025-09-27T16:04:53Z",
+              "updatedAt": "2025-09-27T16:04:54Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN87DNJSZ",
+          "commit": {
+            "abbreviatedOid": "896be26"
+          },
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-27T16:06:06Z",
+          "updatedAt": "2025-09-27T16:06:06Z",
+          "comments": [
+            {
+              "originalPosition": 82,
+              "body": "```suggestion\r\n- Anonymous Attestation Mechanisms: Direct Anonymous Attestation (DAA) and related cryptographic schemes enable devices to produce attestation signatures that are verifiable against a root key, but unlinkable across different uses. This prevents a verifier from using repeated attestations with the same key as a global correlation handle to track devices. {{I-D.ietf-rats-daa}} extends the RATS architecture with such a DAA scheme, thereby enhancing privacy.\r\n```",
+              "createdAt": "2025-09-27T16:06:06Z",
+              "updatedAt": "2025-09-27T16:06:06Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN87DNJiJ",
+          "commit": {
+            "abbreviatedOid": "896be26"
+          },
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-27T16:08:18Z",
+          "updatedAt": "2025-09-27T16:08:19Z",
+          "comments": [
+            {
+              "originalPosition": 91,
+              "body": "```suggestion\r\nIn general, because an Attestation Key is intended solely for signing Evidence,\r\n```",
+              "createdAt": "2025-09-27T16:08:19Z",
+              "updatedAt": "2025-09-27T16:08:59Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN87DNJr6",
+          "commit": {
+            "abbreviatedOid": "896be26"
+          },
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-27T16:09:28Z",
+          "updatedAt": "2025-09-27T16:09:28Z",
+          "comments": [
+            {
+              "originalPosition": 92,
+              "body": "```suggestion\r\n the private key used to sign a CSR SHOULD be distinct from the\r\n```",
+              "createdAt": "2025-09-27T16:09:28Z",
+              "updatedAt": "2025-09-27T16:09:28Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN87DNJvN",
+          "commit": {
+            "abbreviatedOid": "896be26"
+          },
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-27T16:10:06Z",
+          "updatedAt": "2025-09-27T16:10:06Z",
+          "comments": [
+            {
+              "originalPosition": 93,
+              "body": "```suggestion\r\nAttestation Key used to sign Evidence about the Target\r\n```",
+              "createdAt": "2025-09-27T16:10:06Z",
+              "updatedAt": "2025-09-27T16:10:07Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN87DNJ_G",
+          "commit": {
+            "abbreviatedOid": "896be26"
+          },
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-27T16:10:40Z",
+          "updatedAt": "2025-09-27T16:10:40Z",
+          "comments": [
+            {
+              "originalPosition": 94,
+              "body": "```suggestion\r\n Environment. Exceptions MAY be allowed when CSRs and Evidence are both part of the process\r\n```",
+              "createdAt": "2025-09-27T16:10:40Z",
+              "updatedAt": "2025-09-27T16:10:40Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN87DNKCG",
+          "commit": {
+            "abbreviatedOid": "896be26"
+          },
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-27T16:10:50Z",
+          "updatedAt": "2025-09-27T16:10:50Z",
+          "comments": [
+            {
+              "originalPosition": 95,
+              "body": "```suggestion\r\nof bootstrapping the Attestation Key.\r\n```",
+              "createdAt": "2025-09-27T16:10:50Z",
+              "updatedAt": "2025-09-27T16:10:50Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN87DNKZG",
+          "commit": {
+            "abbreviatedOid": "896be26"
+          },
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-27T16:11:37Z",
+          "updatedAt": "2025-09-27T16:11:37Z",
+          "comments": [
+            {
+              "originalPosition": 119,
+              "body": "```suggestion\r\nIn the case of hardware security modules (HSM), the definition of \"freshness\" is somewhat ambiguous in the context\r\n```",
+              "createdAt": "2025-09-27T16:11:37Z",
+              "updatedAt": "2025-09-27T16:11:37Z"
+            }
+          ]
         }
       ]
     }

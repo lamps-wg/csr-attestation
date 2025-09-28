@@ -86,12 +86,11 @@ ext-ar EXTENSION ::= {
   IDENTIFIED BY id-aa-ar
 }
 
+LimitedCertChoices ::= CertificateChoices (WITH COMPONENTS {certificate, other})
+
 EvidenceBundle ::= SEQUENCE {
    evidences SEQUENCE SIZE (1..MAX) OF EvidenceStatement,
-   certs SEQUENCE SIZE (1..MAX) OF CertificateChoices OPTIONAL,
-      -- CertificateChoices MUST NOT contain the depreciated
-      -- certificate structures or attribute certificates,
-      -- see Section 10.2.2 of [RFC5652]
+   certs SEQUENCE SIZE (1..MAX) OF LimitedCertChoices OPTIONAL
 }
 
 AttestationResultBundle ::= SEQUENCE SIZE (1..MAX) 

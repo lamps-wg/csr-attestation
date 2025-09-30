@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-09-28T01:12:02.653564+00:00",
+  "timestamp": "2025-09-30T01:06:23.992015+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -10028,7 +10028,7 @@
       "labels": [],
       "body": "Closes #198 \r\nCloses #200\r\nCloses #203 \r\n\r\nTODO before merging:\r\n\r\n- [x] Check if the AR examples appendix needs to be updated.\r\n  - Wait, we don't have an AR example, solves that problem, I guess.\r\n- [x] Add the fix for #200 to the same PR (since it's a related change)",
       "createdAt": "2025-08-12T21:03:49Z",
-      "updatedAt": "2025-09-23T22:41:18Z",
+      "updatedAt": "2025-09-28T23:37:08Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "2eb1841ff39849ae7f1bb1b8fecf8fd57f18dc9a",
@@ -10538,6 +10538,26 @@
               "updatedAt": "2025-09-23T22:41:18Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN87DWvMN",
+          "commit": {
+            "abbreviatedOid": "7867162"
+          },
+          "author": "mstjohns",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-28T23:37:07Z",
+          "updatedAt": "2025-09-28T23:37:08Z",
+          "comments": [
+            {
+              "originalPosition": 82,
+              "body": "Question:  Who has to interpret the Attestation Result payload?  Unlike the Evidence (and apparently Endorsement), I believe an AR needs to be something that the CA can interpret as it is a signed result from a Verifier.\r\n\r\nYou need ONE and only one format for an AttestationResult, not one per Verifier type.    I would recommend either removing AttestationResult and its ilk from the document - OR - actually designing a single format for an AttestationResult.  Given that ARs are creeping features and not part of the original adoption approval, and no one has even taking a swing at a single AR format,  the former is more likely to get through WG last call.",
+              "createdAt": "2025-09-28T23:37:07Z",
+              "updatedAt": "2025-09-28T23:37:08Z"
+            }
+          ]
         }
       ]
     },
@@ -10553,7 +10573,7 @@
       "labels": [],
       "body": "Closes #199 ",
       "createdAt": "2025-09-23T12:28:55Z",
-      "updatedAt": "2025-09-23T20:28:17Z",
+      "updatedAt": "2025-09-28T23:59:26Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "2eb1841ff39849ae7f1bb1b8fecf8fd57f18dc9a",
@@ -10578,6 +10598,13 @@
           "body": "The dice OIDs are normatively defined in the DICE Attestation Architecture which is already cited by this draft as \"TCGDICE1.1\".  The OID table entries were originally cited to this reference and a subsequent PR changed them to the TCG Registry. Possibly, it make sense to revert back to the original citing and move \"TCGDICE1.1\" to the normative section?\r\nNote: There is a more recent TCG document (v1.2) which should probably be used instead of v1.1.",
           "createdAt": "2025-09-23T18:52:51Z",
           "updatedAt": "2025-09-23T18:53:55Z"
+        },
+        {
+          "author": "mstjohns",
+          "authorAssociation": "NONE",
+          "body": "Not quite.   The Type column should reference the CLASS name - e.g. EVIDENCE-STATEMENT, not Evidence.  What you want here is to be able to go to the referenced document and look for an <name> EVIDENCE-STATEMENT ::= { <whatever> IDENTIFIED BY <oid> }.\r\n\r\nSo \"OID | Name | Type | Docref | Maintainer (optional)\"\r\n\r\nCMW isn't actually a CLASS.  If you mean to use it as an EVIDENCE-STATEMENT then declare it as such and reference it here.\r\n\r\nid-pe-cmw EVIDENCE-STATEMENT ::= { CMW IDENTIFIED BY <oid>}\r\n\r\nwould map to \r\n1 3 6 1 5 5 7 1 35  | id-pe-cmw | EVIDENCE-STATEMENT | id-rats-msg-ref | IETF\r\n\r\nand id-rats-msg-ref would have the EVIDENCE-STATEMENT defined there.\r\n\r\nditto for things like ATTRIBUTE definitions etc.\r\n\r\n\r\n",
+          "createdAt": "2025-09-28T23:59:26Z",
+          "updatedAt": "2025-09-28T23:59:26Z"
         }
       ],
       "reviews": []
@@ -10594,7 +10621,7 @@
       "labels": [],
       "body": "Closes #202 ",
       "createdAt": "2025-09-23T13:34:06Z",
-      "updatedAt": "2025-09-27T16:13:00Z",
+      "updatedAt": "2025-09-28T22:05:29Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "2eb1841ff39849ae7f1bb1b8fecf8fd57f18dc9a",
@@ -10847,8 +10874,74 @@
               "updatedAt": "2025-09-27T16:11:37Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN87DWb6j",
+          "commit": {
+            "abbreviatedOid": "896be26"
+          },
+          "author": "nedmsmith",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-28T22:00:51Z",
+          "updatedAt": "2025-09-28T22:00:51Z",
+          "comments": [
+            {
+              "originalPosition": 82,
+              "body": "Group signing keys don't have to be \"root\" keys to be effective against correlation attacks if the ca community is large enough. ",
+              "createdAt": "2025-09-28T22:00:51Z",
+              "updatedAt": "2025-09-28T22:00:51Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN87DWdHW",
+          "commit": {
+            "abbreviatedOid": "896be26"
+          },
+          "author": "nedmsmith",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-28T22:05:29Z",
+          "updatedAt": "2025-09-28T22:05:29Z",
+          "comments": [
+            {
+              "originalPosition": 119,
+              "body": "I don't think the definition of freshness is ambiguous, rather that freshness may be imprecise.",
+              "createdAt": "2025-09-28T22:05:29Z",
+              "updatedAt": "2025-09-28T22:05:29Z"
+            }
+          ]
         }
       ]
+    },
+    {
+      "number": 207,
+      "id": "PR_kwDOJ3IIN86q-w3J",
+      "title": "Update CSR-ATTESTATION-2025.asn - Update the use of CertificateChoices to a properly constrained ASN1 2002 definition.",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/207",
+      "state": "OPEN",
+      "author": "mstjohns",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "This updates the ASN1 module to use the proper ASN1 2002 constraints language to limit CertificateChoices to \"certificate\" and \"other\".  LimitedCertChoices maps exactly to the requirements in the removed comment text.",
+      "createdAt": "2025-09-28T23:48:17Z",
+      "updatedAt": "2025-09-28T23:48:17Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "2eb1841ff39849ae7f1bb1b8fecf8fd57f18dc9a",
+      "headRepository": "mstjohns/csr-attestation",
+      "headRefName": "patch-1",
+      "headRefOid": "db2e873820f3b344953a08c448e451478d47442e",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }

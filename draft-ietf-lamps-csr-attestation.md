@@ -804,18 +804,19 @@ discretion is left to the Designated Expert.
 The initial registry contents is shown in the table below.
 It lists entries for several evidence encoding OIDs including an entry for the Conceptual Message Wrapper (CMW) {{I-D.ietf-rats-msg-wrap}}.
 
-| OID                | Type       | Description                  | Reference(s)               | Change Controller |
-|------------------  |----------  |----------------------------  |-------------------------   |-----------------  |
-| 1 3 6 1 5 5 7 1 35 | CMW        | id-pe-cmw                    | {{I-D.ietf-rats-msg-wrap}} | IETF              |
-| 2 23 133 5 4 1     | Evidence   | tcg-dice-TcbInfo             | {{TCGDICE1.2}}             | TCG               |
-| 2 23 133 5 4 3     | URI        | tcg-dice-endorsement-manifest-uri | {{TCGDICE1.2}}        | TCG               |
-| 2 23 133 5 4 4     | Evidence.  | tcg-dice-Ueid                | {{TCGDICE1.2}}             | TCG               |
-| 2 23 133 5 4 5     | Evidence   | tcg-dice-MultiTcbInfo        | {{TCGDICE1.2}}             | TCG               |
-| 2 23 133 5 4 6     | Evidence   | tcg-dice-UCCS-evidence       | {{TCGDICE1.2}}             | TCG               |
-| 2 23 133 5 4 7     | Evidence   | tcg-dice-manifest-evidence   | {{TCGDICE1.2}}             | TCG               |
-| 2 23 133 5 4 8     | Evidence   | tcg-dice-MultiTcbInfoComp    | {{TCGDICE1.2}}             | TCG               |
-| 2 23 133 5 4 9     | CMW        | tcg-dice-conceptual-message-wrapper | {{TCGDICE1.2}}      | TCG               |
-| 2 23 133 5 4 11    | Nonce      | tcg-dice-TcbFreshness        | {{TCGDICE1.2}}             | TCG               |
+| OID                | Type       | Description                  | Reference(s)               | Change     |
+|                    |            |                              |                            | Controller |
+|------------------  |----------  |----------------------------  |-------------------------   |----------  |
+| 1 3 6 1 5 5 7 1 35 | CMW        | id-pe-cmw                    | {{I-D.ietf-rats-msg-wrap}} | IETF       |
+| 2 23 133 5 4 1     | Evidence   | tcg-dice-TcbInfo             | {{TCGDICE1.2}}             | TCG        |
+| 2 23 133 5 4 3     | URI        | tcg-dice-endorsement-manifest-uri | {{TCGDICE1.2}}        | TCG        |
+| 2 23 133 5 4 4     | Evidence.  | tcg-dice-Ueid                | {{TCGDICE1.2}}             | TCG        |
+| 2 23 133 5 4 5     | Evidence   | tcg-dice-MultiTcbInfo        | {{TCGDICE1.2}}             | TCG        |
+| 2 23 133 5 4 6     | Evidence   | tcg-dice-UCCS-evidence       | {{TCGDICE1.2}}             | TCG        |
+| 2 23 133 5 4 7     | Evidence   | tcg-dice-manifest-evidence   | {{TCGDICE1.2}}             | TCG        |
+| 2 23 133 5 4 8     | Evidence   | tcg-dice-MultiTcbInfoComp    | {{TCGDICE1.2}}             | TCG        |
+| 2 23 133 5 4 9     | CMW        | tcg-dice-conceptual-message-wrapper | {{TCGDICE1.2}}      | TCG        |
+| 2 23 133 5 4 11    | Nonce      | tcg-dice-TcbFreshness        | {{TCGDICE1.2}}             | TCG        |
 {: #tab-ae-reg title="Initial Contents of the Attestation Evidence OID Registry"}
 
 The current registry values can be retrieved from the IANA online website.

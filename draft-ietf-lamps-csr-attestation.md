@@ -816,7 +816,7 @@ It lists entries for several OIDs including an entry for the Conceptual Message 
 | 2 23 133 5 4 8     | Evidence | tcg-dice-MultiTcbInfoComp           |
 | 2 23 133 5 4 9     | CMW      | tcg-dice-conceptual-message-wrapper |
 | 2 23 133 5 4 11    | Nonce    | tcg-dice-TcbFreshness               |
-{: #tab-ae-reg title="RATS Conceptual Message OID Registry: OID, Type, Description"}
+{: #tab-ae-reg1 title="RATS Conceptual Message OID Registry: OID, Type, Description"}
 
 
 | OID                | Reference(s)               | Change Controller |

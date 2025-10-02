@@ -831,7 +831,7 @@ It lists entries for several OIDs including an entry for the Conceptual Message 
 | 2 23 133 5 4 8     | {{TCGDICE1.2}}             | TCG               |
 | 2 23 133 5 4 9     | {{TCGDICE1.2}}             | TCG               |
 | 2 23 133 5 4 11    | {{TCGDICE1.2}}             | TCG               |
-{: #tab-ae-reg title="RATS Conceptual Message OID Registry: OID, Reference(s), Change Controller"}
+{: #tab-ae-reg2 title="RATS Conceptual Message OID Registry: OID, Reference(s), Change Controller"}
 
 The current registry values can be retrieved from the IANA online website.
 

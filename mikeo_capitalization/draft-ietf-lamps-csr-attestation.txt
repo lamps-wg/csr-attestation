@@ -280,9 +280,9 @@ Table of Contents
    certification authority (CA)).  This distinction clarifies terms that
    exist in both domains; for instance, a Verifier refers to the RATS
    entity that processes Evidence, whereas a verifier refers to the PKI
-   entity that validates certificates.  This is not to be confused with
-   camel-case words such as "EvidenceStatement" which refer to an ASN.1
-   type.
+   entity that validates certificates.  This convention is distinct from
+   camel-case identifiers like "EvidenceStatement", which denote ASN.1
+   types.
 
 3.  Architecture
 

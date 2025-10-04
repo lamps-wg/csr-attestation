@@ -954,7 +954,8 @@ Evidence-carrying-CSRs, MUST consider what notion of freshness is
 appropriate and available in-context; thus the issue of freshness is
 left up to the discretion of protocol designers and implementers.
 
-In the case of hardware security modules (HSM), the definition of "fresh" is somewhat ambiguous in the context
+In the case of hardware security modules (HSM), the
+semantics of "freshness" are somewhat ambiguous in the context
 of CSRs, especially considering that non-automated certificate enrollments
 are often asynchronous, and considering the common practice of re-using the
 same CSR for multiple certificate renewals across the lifetime of a key.

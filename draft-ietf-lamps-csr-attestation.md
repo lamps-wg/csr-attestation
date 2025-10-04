@@ -83,6 +83,8 @@ informative:
   I-D.ietf-lamps-attestation-freshness:
   I-D.tschofenig-rats-psa-token:
   I-D.ffm-rats-cca-token:
+  I-D.ietf-rats-endorsements:
+  I-D.ietf-rats-ar4si:
   TPM20:
     author:
       org: Trusted Computing Group
@@ -120,62 +122,59 @@ informative:
 
 A PKI end entity requesting a certificate from a Certification Authority (CA) may wish to offer trustworthy claims about the platform generating the certification request and the environment associated with the corresponding private key, such as whether the private key resides on a hardware security module.
 
-This specification defines an attribute and an extension that allow for conveyance of Evidence and
-Attestation Results in Certificate Signing Requests (CSRs), such as PKCS#10 or Certificate Request Message Format (CRMF) payloads. This provides an elegant and automatable mechanism for transporting Evidence to a Certification Authority.
+This specification defines an attribute and an extension that allow for conveyance of RATS conceptual messages (see {{Section 8 of RFC9334}}, such as Evidence, Endorsements and
+Attestation Results, in Certificate Signing Requests (CSRs), such as PKCS#10 or Certificate Request Message Format (CRMF) payloads. This provides an elegant and automatable mechanism for transporting attestation data to a Certification Authority.
 
-Including Evidence and Attestation Results along with a CSR can help to improve the assessment of the security posture for the private key, and can help the Certification Authority to assess whether it satisfies the requested certificate profile.
+Including Evidence, Endorsements and Attestation Results along with a CSR can help to improve the assessment of the security posture for the private key, and can help the Certification Authority to assess whether it satisfies the requested certificate profile.
 
 --- middle
 
 # Introduction
 
-When requesting a certificate from a Certification Authority (CA), a PKI end entity may wish to include Evidence or Attestation Results of the security properties of its environments in which the private keys are stored in that request.
+When requesting a certificate from a Certification Authority (CA), a PKI end entity may wish to include RATS conceptual messages (see {{Section 8 of RFC9334}}, such as Evidence, Endorsements {{I-D.ietf-rats-endorsements}} and
+Attestation Results {{I-D.ietf-rats-ar4si}}, of the security properties of its environments in which the private keys are stored in that request.
 
-Evidence are appraised by Verifiers, which typically produces Attestation Results that serve as input for validating incoming certificate requests against specified certificate policies.
-Verifiers are associated with Registration Authorities (RAs) or CAs and function as logical entities responsible for processing Evidence and producing Attestation Results.
-As remote attestation technology matures, it is natural for a Certification Authority to want proof that the requesting entity is in a state that matches the certificate profile.
-At the time of writing, the most notable example is the Code-Signing Baseline Requirements (CSBR) document maintained by the CA/Browser Forum {{CSBR}}, which requires compliant CAs to "ensure that a Subscriber’s Private Key is generated, stored,
+Evidence and Endorsements are appraised by Verifiers, which typically produces Attestation Results that serve as input for validating incoming certificate requests against specified certificate policies.
+Verifiers are associated with Registration Authorities (RAs) or CAs and function as logical entities responsible for processing Evidence and Endorsements in order to produce Attestation Results.
+As remote attestation technology matures, it is natural for a Certification Authority to rely on remote attestation data for proof that the requesting entity is in a state that matches the certificate profile. This is referred to as the RATS Background Check Model, and is illustrated in {{fig-arch-background}}.
+
+Alternatively, the Attester might have a direct connection to a Verifier to which it presents its Evidence and Endorsements, and receives back an Attestation Result signed by the Verifier which it can include directly in the CSR and save the RA / CA from needing a local Verifier. This is referred to as the RATS Passport Model, and is illustrated in {{fig-arch-passport}}.
+
+At the time of writing, the most pressing example of the need for remote attestation in certificate enrollment is the Code-Signing Baseline Requirements (CSBR) document maintained by the CA/Browser Forum {{CSBR}}, which requires compliant CAs to "ensure that a Subscriber’s Private Key is generated, stored,
 and used in a secure environment that has controls to prevent theft or misuse", which is a natural fit to enforce via remote attestation.
 
-This specification defines an attribute and an extension that allow for conveyance of Evidence and Attestation Results in Certificate Signing Requests (CSRs), such as PKCS#10 {{RFC2986}} or Certificate Request Message Format (CRMF) {{RFC4211}} payloads.
-This CSR extension satisfies CA/B Forum's CSBR {{CSBR}} requirements for key protection assurance.
+This specification defines an attribute and an extension that allow for conveyance of Evidence, Endorsements, and Attestation Results in Certificate Signing Requests (CSRs), such as PKCS#10 {{RFC2986}} or Certificate Request Message Format (CRMF) {{RFC4211}} payloads.
+This CSR extension satisfies CA/B Forum's CSBR {{CSBR}} requirements for key protection assurance, provided that the CSR carries attestation data that the RA / CA can parse to obtain the assurance that it needs to satisfy its certificate issuance policies.
 
 As outlined in the IETF RATS architecture {{RFC9334}}, an Attester (typically a device) produces a signed collection of Claims that constitute Evidence about its running environment(s).
-The term "attestation" is not explicitly defined in RFC 9334 but was later clarified in {{?I-D.ietf-rats-tpm-based-network-device-attest}}.
-It refers to the process of generating and evaluating remote attestation Evidence.
+The terms "attestation" or "remote attestation" are not explicitly defined in RFC 9334 but the activity of "attestation" is clarified in {{?RFC9683}}.
+It refers to the process of generating and evaluating remote attestation Evidence and Endorsements.
 
-After the Verifier appraises the Evidence, it generates a new structure called an Attestation Result.
-A Relying Party utilizes Attestation Results to inform risk or policy-based decisions that consider trustworthiness of the attested entity.
 This document relies on {{architecture}} as the foundation for how the various roles within the RATS architecture correspond to a certificate requester and a CA/RA.
 
-The IETF RATS architecture {{RFC9334}} defines two communication patterns: the _background-check model_ and the _passport model_.
-In the background-check model, the Relying Party receives Evidence in the CSR from the Attester and must interact with a Verifier service directly to obtain Attestation Results.
-In contrast, the passport model requires the Attester to first interact with the Verifier service to obtain an Attestation Result token that is then relayed to the Relying Party.
-This specification defines both communication patterns.
+Several standard and proprietary remote attestation technologies are in use at the time of writing. This specification thereby is intended to be as technology-agnostic as is feasible with respect to implemented remote attestation technologies. Hence, this specification focuses on (1) the conveyance of Evidence, Endorsements, and Attestation Results via CSRs while making minimal assumptions about content or format of the transported payload and (2) the conveyance of sets of certificates used for validation of Evidence, Endorsements, and Attestation Results.
 
-Several standard and proprietary remote attestation technologies are in use. This specification thereby is intended to be as technology-agnostic as it is feasible with respect to implemented remote attestation technologies. Hence, this specification focuses on (1) the conveyance of Evidence and Attestation Results via CSRs while making minimal assumptions about content or format of the transported payload and (2) the conveyance of sets of certificates used for validation of Evidence.
+The `certs` field of the `EvidenceBundle` typically contain one or more certification paths rooted in a device manufacturer trust anchor and the end entity certificate being on the device in question. The end entity certificate is associated with key material that takes on the role of an Attestation Key and is used to sign Evidence originating from the Attester. In some interpretations of the RATS Architecture {{RFC9334}}, the Attestation Key Certificate and its corresponding certificate chain are considered to be Endorsements of the Attestation Key. The `certs` field of the `AttestationResultsBundle` behaves similarly but the end entity certificate will correspond to a Verifier.
+For the purposes of this specification, a certificate chain provided for the purposes of validating another signed object is not considered to be an Endorsement in and of itself. Here, the term "Endorsement" means a signed object containing data about the target environment which may or may not be accompanied by a certificate chain.
 
-The certificates typically contain one or more certification paths rooted in a device manufacturer trust anchor and the end entity certificate being on the device in question. The end entity certificate is associated with key material that takes on the role of an Attestation Key and is used as Evidence originating from the Attester.
 
-This document specifies a CSR Attribute (or Extension for Certificate Request Message Format (CRMF) CSRs) for carrying Evidence and Attestation Results.
+- Evidence and Endorsements are placed into an EvidenceStatement along with an OID to identify its type and optionally a hint to the Relying Party about which Verifier (software package, a microservice or some other service) will be capable of parsing it. A set of EvidenceStatement structures may be grouped together along with the set of CertificateChoice structures needed to validate them to form a EvidenceBundle. See {{sec-evidenceAttr}}.
 
-- Evidence is placed into an EvidenceStatement along with an OID to identify its type and optionally a hint to the Relying Party about which Verifier (software package, a microservice or some other service) will be capable of parsing it. A set of EvidenceStatement structures may be grouped together along with the set of CertificateChoice structures needed to validate them to form a EvidenceBundle.
-
-- Attestation Results are carried in the AttestationResult along with an OID to identify its type. A set of AttestationResult structures may be grouped together to form an AttestationResultBundle.
+- Attestation Results are carried in the AttestationResult along with an OID to identify its type. A set of AttestationResult structures may be grouped together to form an AttestationResultBundle. See {{sec-arAttr}}.
 
 A CSR may contain one or more Evidence payloads. For example Evidence
 asserting the storage properties of a private key, Evidence
 asserting firmware version and other general properties
-of the device, or Evidence signed using different cryptographic
-algorithms. Like-wise a CSR may also contain one or more Attestation Result payloads.
+of the device, Evidence signed using different cryptographic
+algorithms, or Endorsements provided by the device manufacturer.
+Like-wise, a CSR may also contain one or more Attestation Result payloads.
 
 With these attributes, additional
 information is available to an RA or CA, which may be used
 to decide whether to issue a certificate and what certificate profile
 to apply. The scope of this document is, however,
-limited to the conveyance of Evidence and Attestation Results within CSR. The exact format of the
-Evidence and Attestation Results being conveyed is defined in various standard and proprietary
-specifications.
+limited to the conveyance of Evidence, Endorsements, and Attestation Results within CSRs. The exact format of the
+Evidence, Endorsements, and Attestation Results being conveyed is out of scope of this document as they are defined in various standard and proprietary specifications.
 
 # Conventions and Definitions
 
@@ -183,7 +182,7 @@ specifications.
 
 This document re-uses the terms defined in {{RFC9334}} related to remote
 attestation. Readers of this document are assumed to be familiar with
-the following terms: Evidence, Claim, Attestation Result (AR), Attester,
+the following terms: Evidence, Endorsement, Claim, Attestation Result (AR), Attester,
 Verifier, Target Environment, Attesting Environment, Composite Device,
 Lead Attester, Attestation Key, and Relying Party (RP).
 
@@ -230,17 +229,17 @@ This diagram overlays PKI entities with RATS roles in parentheses.
                             |    (Verifier)   | against Appraisal
                             |                 | Policy
                             '------------+----'
-                                 ^       |
-                        Evidence |       | Attestation
-                                 |       | Result
-                                 |       v
-  .------------.            .----|------------.          .-----.
-  |            +----------->|----'            |--------->|     |
-  | End        | Evidence   | Registration    |          | CA  |
-  | Entity     | in CSR     | Authority RA    |          |     |
-  |            |            |                 |          |     |
-  | (Attester) |            | (Relying Party) |          |     |
-  '------------'            '-----------------'          '-----'
+                                  ^      |
+                       Evidence / |      | Attestation
+                    Endorsements  |      | Result
+                                  |      v
+  .------------.               .--|--------------.       .-----.
+  |            +-------------->|----'            |------>|     |
+  | End        | Evidence /    | Registration    |       | CA  |
+  | Entity     | Endorsements  | Authority RA    |       |     |
+  |            | in CSR        |                 |       |     |
+  | (Attester) |               | (Relying Party) |       |     |
+  '------------'               '-----------------'       '-----'
 ~~~
 {: #fig-arch-background title="Example data flow demonstrating the architecture with Background Check Model."}
 
@@ -253,11 +252,12 @@ to the Relying Party.
 
 
 ~~~ aasvg
-   Evidence               .-----------------.
-   +--------------------->|                 | Compare Evidence
-   |                      |   (Verifier)    | against Appraisal
-   |     +----------------|                 | Policy
-   |     |                '-----------------'
+   Evidence /
+   Endorsements           .-----------------.
+   +--------------------->|                 | Compare Evidence /
+   |                      |   (Verifier)    | Endorsements
+   |     +----------------|                 | against Appraisal
+   |     |                '-----------------' Policy
    |     | Attestation
    |     | Result
    |     v
@@ -276,7 +276,7 @@ background-check model is preferred when direct real-time interaction
 between the Attester and the Verifier is not feasible.
 
 The interface
-by which the Relying Party passes Evidence to the Verifier and receives back
+by which the Relying Party passes Evidence and Endorsements to the Verifier and receives back
 Attestation Results may be proprietary or standardized, but in any case is
 out-of-scope for this document. Like-wise, the interface between the Attester
 and the Verifier used in the passport model is also out-of-scope for this
@@ -298,15 +298,15 @@ originated from outside the device. This aspect is described in {{Section 12 of 
 Most of these aspects are, however, outside the scope of this specification but relevant
 for use with a given attestation technology.
 
-The focus of this specification is on the transport of Evidence and Attesation Results
+The focus of this specification is on the transport of Evidence, Endorsements, and Attesation Results
 from the Attester to the Relying Party via existing CSR messages.
 
 # Information Model
 
-## Model for Evidence in CSR
+## Model for Evidence and Endorsements in CSR
 
 To support a number of different use cases for the transmission of
-Evidence and certificate chains in a CSR the structure
+Evidence, Endorsements and certificate chains needed to validate them in a CSR the structure
 shown in {{fig-info-model}} is used.
 
 On a high-level, the structure is composed as follows:
@@ -314,7 +314,9 @@ A PKCS#10 attribute or a CRMF extension contains one
 EvidenceBundle structure. The EvidenceBundle contains one or more
 EvidenceStatement structures as well as one or more
 CertificateChoices which enable to carry various format of
-certificates.
+certificates. For the purpose of conveyance within these structures,
+Evidence and Endorsements are considered interchangeable since they are both signed data objects with a certificate chain that needs to be validated by a Verifier, so for the
+remainder of this document, the term "Evidence" will be used to refer to both types of RATS conceptual messages.
 
 Note: Since an extension must only be included once in a certificate
 see {{Section 4.2 of RFC5280}}, this PKCS#10 attribute
@@ -579,6 +581,8 @@ By the nature of the PKIX ASN.1 classes {{RFC5912}}, there are multiple ways to 
 
 # ASN.1 Elements for Attestation Result in CSR
 
+When operating according to the RATS Passport Model, as depicted in {{fig-arch-passport}}, the CSR sent to the CA / RA will contain Attestation Results in place of Evidence or Endorsements. In order to clearly differentiate Background Check and Passport Model use cases, this section registers a different top-level CSR Attribute (PKCS#10) and Extension (CRMF) for carrying Attestation Results, which are syntactically identical to those for carrying Evidence and Endorsements.
+
 ##  Object Identifiers
 
 This document defines the OID depicted in {{code-ar-oid}} as an additional CSR Attribute (PKCS#10) or Extension (CRMF) to carry Attestation Results in a CSR.
@@ -626,7 +630,12 @@ In {{code-AttestationResult}}, type is an OID that indicates the format of the
 value of stmt.
 
 ~~~
-AttestationResultBundle ::= SEQUENCE SIZE (1..MAX) OF AttestationResult
+AttestationResultBundle ::= SEQUENCE {
+   results SEQUENCE SIZE (1..MAX) OF AttestationResult,
+   certs SEQUENCE SIZE (1..MAX) OF CertificateChoices OPTIONAL,
+      -- CertificateChoices MUST only contain certificate or other,
+      -- see Section 10.2.2 of [RFC5652]
+}
 ~~~
 
 ~~~

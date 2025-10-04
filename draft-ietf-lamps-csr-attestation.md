@@ -839,7 +839,7 @@ These privacy risks can be mitigated using several approaches, including:
 A PKCS#10 or CRMF certification request typically consists of a
 distinguished name, a public key, and optionally a set of attributes,
 collectively signed by the entity requesting certification.
-In general usage, since Attestation Key SHOULD be used only for signing attestations,
+In general, because an Attestation Key is intended solely for signing Evidence,
 the private key used to sign the CSR SHOULD be different from the
 Attesting Key utilized to sign Evidence about the Target
 Environment, though exceptions MAY be made where CSRs and Evidence are involved in

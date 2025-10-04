@@ -102,12 +102,12 @@ informative:
     title: "TCG OID Registry"
     target: https://trustedcomputinggroup.org/resource/tcg-oid-registry/
     date: October, 2024
-  TCGDICE1.1:
+  TCGDICE1.2:
     author:
       org: "Trusted Computing Group"
     title: "DICE Attestation Architecture"
-    target: https://trustedcomputinggroup.org/wp-content/uploads/DICE-Attestation-Architecture-Version-1.1-Revision-18_pub.pdf
-    date: January, 2024
+    target: https://trustedcomputinggroup.org/wp-content/uploads/DICE-Attestation-Architecture-v1.2_pub.pdf
+    date: April, 2025
   PKCS11:
     author:
       org: OASIS
@@ -443,7 +443,7 @@ Party to determine the Verifier, who created and protected the Attestation Resul
 
 ##  Object Identifiers
 
-This document references `id-pkix` and `id-aa`, both defined in {{!RFC5911}} and {{!RFC5912}}.
+This document references `id-pkix` and `id-aa`, both defined in {{!RFC5911}} and {{RFC5912}}.
 
 ## Evidence Attribute and Extension {#sec-evidenceAttr}
 
@@ -762,9 +762,11 @@ a link to their specification document.
 This registry should follow the rules for
 "Specification Required" as laid out in {{RFC5226}}.
 
+Each row corresponds to an OID and ASN.1 type that could appear in a `EvidenceStatement` or `AttestationResult`.
+
 Registration requests should be formatted as per
 the registration template below, and receive a three-week review period on
-the [[TBD]] mailing list, with the advice of one or more Designated
+the [spasm] mailing list, with the advice of one or more Designated
 Experts {{RFC8126}}.  However, to allow for the allocation of values
 prior to publication, the Designated Experts may approve registration
 once they are satisfied that such a specification will be published.
@@ -784,11 +786,13 @@ The registry has the following columns:
 - OID: The OID number, which has already been allocated. IANA does
 not allocate OID numbers for use with this registry.
 
+- Type: The ASN.1 type corresponding to the given OID.
+
 - Description: Brief description of the use of the Evidence and the
 registration of the OID.
 
 - Reference(s): Reference to the document or documents that register
-the OID for use with a specific attestation technology, preferably
+the OID and define the ASN.1 type for use with a specific attestation technology, preferably
 including URIs that can be used to retrieve copies of the documents.
 An indication of the relevant sections may also be included but is not
 required.
@@ -809,22 +813,15 @@ discretion is left to the Designated Expert.
 The initial registry contents is shown in the table below.
 It lists entries for several evidence encoding OIDs including an entry for the Conceptual Message Wrapper (CMW) {{I-D.ietf-rats-msg-wrap}}.
 
-| OID              | Description                  | Reference(s)     | Change Controller |
-|------------------|------------------------------|----------------  |-------------------|
-| 2 23 133 5 4 1   | tcg-dice-TcbInfo             | {{TCGRegistry}}   |  TCG              |
-| 2 23 133 5 4 3   | tcg-dice-endorsement-manifest-uri | {{TCGRegistry}}   |  TCG         |
-| 2 23 133 5 4 4   | tcg-dice-Ueid                | {{TCGRegistry}}   |  TCG              |
-| 2 23 133 5 4 5   | tcg-dice-MultiTcbInfo        | {{TCGRegistry}}   |  TCG              |
-| 2 23 133 5 4 6   | tcg-dice-UCCS-evidence       | {{TCGRegistry}}   |  TCG              |
-| 2 23 133 5 4 7   | tcg-dice-manifest-evidence   | {{TCGRegistry}}   |  TCG              |
-| 2 23 133 5 4 8   | tcg-dice-MultiTcbInfoComp    | {{TCGRegistry}}   |  TCG              |
-| 2 23 133 5 4 9   | tcg-dice-conceptual-message-wrapper | {{TCGRegistry}}   |  TCG       |
-| 2 23 133 5 4 11  | tcg-dice-TcbFreshness        | {{TCGRegistry}}   |  TCG              |
-| 2 23 133 20 1    | tcg-attest-tpm-certify       | {{TCGRegistry}} |  TCG              |
-| 1 3 6 1 5 5 7 1 35 | id-pe-cmw                    | {{I-D.ietf-rats-msg-wrap}} | IETF     |
+| OID                | Type       | Description                  | Reference(s)               | Change     |
+|                    |            |                              |                            | Controller |
+|------------------  |----------  |----------------------------  |-------------------------   |----------  |
+| 1 3 6 1 5 5 7 1 35 | CMW        | id-pe-cmw                    | {{I-D.ietf-rats-msg-wrap}} | IETF       |
 {: #tab-ae-reg title="Initial Contents of the Attestation Evidence OID Registry"}
 
 The current registry values can be retrieved from the IANA online website.
+
+[spasm]: mailto:spasm@ietf.org
 
 # Security Considerations
 
@@ -1444,7 +1441,7 @@ EvidenceBundle
 ## TCG DICE Example in ASN.1
 
 This section gives an example of extending the ASN.1 module above to carry an existing ASN.1-based Evidence Statement.
-The example used is the Trusted Computing Group DICE Attestation Conceptual Message Wrapper, as defined in {{TCGDICE1.1}}.
+The example used is the Trusted Computing Group DICE Attestation Conceptual Message Wrapper, as defined in {{TCGDICE1.2}}.
 
 ~~~
 {::include-fold CSR-ATTESTATION-WITH-DICE-CMW.asn}
@@ -1453,7 +1450,7 @@ The example used is the Trusted Computing Group DICE Attestation Conceptual Mess
 ## TCG DICE TcbInfo Example in CSR
 
 This section gives an example of extending the ASN.1 module above to carry an existing ASN.1-based evidence statement.
-The example used is the Trusted Computing Group DiceTcbInfo, as defined in {{TCGDICE1.1}}.
+The example used is the Trusted Computing Group DiceTcbInfo, as defined in {{TCGDICE1.2}}.
 
 ~~~
 {::include-fold CSR-ATTESTATION-WITH-DiceTcbInfo.txt}

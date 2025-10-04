@@ -204,7 +204,7 @@ combination of hardware and software designed to protect keys from unauthorized
 access. Other commonly used terms include Secure Element and Trusted Execution
 Environment.
 
-Since this document is blending terminology from two domains: Remote Attestation, and X.509 PKI, by convention this document presents RATS terminology in upper case such as "Verifier", and X.509 / PKI terminology in lower case such as "certification authority (CA)". This convention should help to disambiguate terms that are common between the two domains; for example a "Verifier" refers to a RATS entity that acts on Evidence, whereas a "verifier" is a PKI entity that acts on certificates.
+Since this document combines terminology from two domains - Remote Attestation (RATS) and X.509 PKI - it follows a naming convention to avoid ambiguity. RATS terminology is written in uppercase (e.g., Verifier), while X.509/PKI terminology is written in lowercase (e.g., certification authority (CA)). This distinction clarifies terms that exist in both domains; for instance, a Verifier refers to the RATS entity that processes Evidence, whereas a verifier refers to the PKI entity that validates certificates.
 This is not to be confused with camel-case words such as "EvidenceStatement" which refer to an ASN.1 type.
 
 # Architecture {#architecture}

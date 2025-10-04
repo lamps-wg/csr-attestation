@@ -5,14 +5,14 @@
 Network Working Group                                       M. Ounsworth
 Internet-Draft                                                   Entrust
 Intended status: Standards Track                           H. Tschofenig
-Expires: 27 March 2026                                           Siemens
+Expires: 7 April 2026                                            Siemens
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                               M. Wiseman
                                                                         
                                                                 N. Smith
                                                        Intel Corporation
-                                                       23 September 2025
+                                                          4 October 2025
 
 
      Use of Remote Attestation with Certification Signing Requests
@@ -65,7 +65,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 27 March 2026.
+   This Internet-Draft will expire on 7 April 2026.
 
 Copyright Notice
 
@@ -273,15 +273,16 @@ Table of Contents
    keys from unauthorized access.  Other commonly used terms include
    Secure Element and Trusted Execution Environment.
 
-   Since this document is blending terminology from two domains: Remote
-   Attestation, and X.509 PKI, by convention this document presents RATS
-   terminology in upper case such as "Verifier", and X.509 / PKI
-   terminology in lower case such as "certification authority (CA)".
-   This convention should help to disambiguate terms that are common
-   between the two domains; for example a "Verifier" refers to a RATS
-   entity that acts on Evidence, whereas a "verifier" is a PKI entity
-   that acts on certificates.  This is not to be confused with camel-
-   case words such as "EvidenceStatement" which refer to an ASN.1 type.
+   Since this document combines terminology from two domains - Remote
+   Attestation (RATS) and X.509 PKI - it follows a naming convention to
+   avoid ambiguity.  RATS terminology is written in uppercase (e.g.,
+   Verifier), while X.509/PKI terminology is written in lowercase (e.g.,
+   certification authority (CA)).  This distinction clarifies terms that
+   exist in both domains; for instance, a Verifier refers to the RATS
+   entity that processes Evidence, whereas a verifier refers to the PKI
+   entity that validates certificates.  This is not to be confused with
+   camel-case words such as "EvidenceStatement" which refer to an ASN.1
+   type.
 
 3.  Architecture
 
@@ -1322,9 +1323,9 @@ Table of Contents
    [I-D.ietf-rats-msg-wrap]
               Birkholz, H., Smith, N., Fossati, T., Tschofenig, H., and
               D. Glaze, "RATS Conceptual Messages Wrapper (CMW)", Work
-              in Progress, Internet-Draft, draft-ietf-rats-msg-wrap-17,
-              12 August 2025, <https://datatracker.ietf.org/doc/html/
-              draft-ietf-rats-msg-wrap-17>.
+              in Progress, Internet-Draft, draft-ietf-rats-msg-wrap-18,
+              29 September 2025, <https://datatracker.ietf.org/doc/html/
+              draft-ietf-rats-msg-wrap-18>.
 
    [I-D.ietf-rats-tpm-based-network-device-attest]
               Fedorkow, G., Voit, E., and J. Fitzgerald-McKay, "TPM-

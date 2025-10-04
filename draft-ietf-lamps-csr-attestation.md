@@ -205,7 +205,7 @@ access. Other commonly used terms include Secure Element and Trusted Execution
 Environment.
 
 Since this document combines terminology from two domains - Remote Attestation (RATS) and X.509 PKI - it follows a naming convention to avoid ambiguity. RATS terminology is written in uppercase (e.g., Verifier), while X.509/PKI terminology is written in lowercase (e.g., certification authority (CA)). This distinction clarifies terms that exist in both domains; for instance, a Verifier refers to the RATS entity that processes Evidence, whereas a verifier refers to the PKI entity that validates certificates.
-This is not to be confused with camel-case words such as "EvidenceStatement" which refer to an ASN.1 type.
+This convention is distinct from camel-case identifiers like "EvidenceStatement", which denote ASN.1 types.
 
 # Architecture {#architecture}
 

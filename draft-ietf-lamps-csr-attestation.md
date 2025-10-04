@@ -824,7 +824,7 @@ The current registry values can be retrieved from the IANA online website.
 
 In the RATS architecture, when Evidence or an Attestation Result is presented to a Relying Party (RP), the RP may learn detailed information about the Attester unless that information has been redacted or encrypted. Consequently, a certain amount of trust must be placed in the RP, which raises potential privacy concerns because an RP could be used to track devices. This observation is noted in Section 11 of {{RFC9334}}.
 
-Typically, the RPs considered in the RATS architecture are application services that use remote attestation, rather than PKI-style RAs or CAs. Devices inherently place significant trust in RA/CA infrastructure elements, and therefore any additional information revealed through remote attestation to such entities is generally less concerning than disclosure to application services. The problem of copying Evidence by CAs into an X.509 certificate is discussed in {{sec-con-publishing-x509}}.
+In the RATS architecture, RPs are typically application services that consume remote attestation, rather than PKI-style RAs or CAs. Devices already place substantial trust in RA/CA infrastructure, so additional information disclosed through remote attestation to these entities is generally less sensitive than disclosure to application services. The issue of CAs embedding Evidence into X.509 certificates is discussed in {{sec-con-publishing-x509}}.
 
 These privacy risks can be mitigated using several approaches, including:
 

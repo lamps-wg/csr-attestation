@@ -828,7 +828,7 @@ In the RATS architecture, RPs are typically application services that consume re
 
 These privacy risks can be mitigated using several approaches, including:
 
-- Shared Attestation Keys: A manufacturer of devices may provision all devices with the same attestation key(s), or share a common attestation key across devices of the same product family. This approach anonymizes individual devices by making them indistinguishable from others using the same key(s). However, it also means losing the ability to revoke a single attestation key if a specific device is compromised. Care must be taken to avoid embedding uniquely identifying information in the Evidence, as that would reduce the privacy benefits of using remote attestation with shared attestation keys.
+- Shared Attestation Keys: A manufacturer may provision all devices in a product family with the same attestation key. This enables anonymity by making devices indistinguishable from one another, but it also prevents revocation of a single device's key if compromised. To preserve privacy in such cases, Evidence must avoid embedding uniquely identifying information, as this would negate the benefits of shared keys.
 
 - Per-Use Attestation Keys: Devices may be designed to dynamically generate distinct attestation keys (and request the corresponding certificates) for each use case, device, or session. This is analogous to the Privacy CA model, in which a device is initially provisioned with an attestation key and certificate; then, in conjunction with a privacy-preserving CA, it can obtain unique keys and certificates as needed. This strategy reduces the potential for tracking while maintaining strong security assurances. This is the model described in this document.
 

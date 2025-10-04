@@ -2314,18 +2314,19 @@ OID/Evidence mappings that may be encountered in the wild, as well as
 a link to their specification document.
 This registry should follow the rules for
 "Specification Required" as laid out in <span>[<a href="#RFC5226" class="cite xref">RFC5226</a>]</span>.<a href="#section-8.3-1" class="pilcrow">¶</a></p>
-<p id="section-8.3-2">Registration requests should be formatted as per
+<p id="section-8.3-2">Each row corresponds to an OID and ASN.1 type that could appear in a <code>EvidenceStatement</code> or <code>AttestationResult</code>.<a href="#section-8.3-2" class="pilcrow">¶</a></p>
+<p id="section-8.3-3">Registration requests should be formatted as per
 the registration template below, and receive a three-week review period on
-the [[TBD]] mailing list, with the advice of one or more Designated
+the <a href="mailto:spasm@ietf.org">spasm</a> mailing list, with the advice of one or more Designated
 Experts <span>[<a href="#RFC8126" class="cite xref">RFC8126</a>]</span>.  However, to allow for the allocation of values
 prior to publication, the Designated Experts may approve registration
-once they are satisfied that such a specification will be published.<a href="#section-8.3-2" class="pilcrow">¶</a></p>
-<p id="section-8.3-3">Registration requests sent to the mailing list for review should use
+once they are satisfied that such a specification will be published.<a href="#section-8.3-3" class="pilcrow">¶</a></p>
+<p id="section-8.3-4">Registration requests sent to the mailing list for review should use
 an appropriate subject (e.g., "Request to register attestation
-evidence: example").<a href="#section-8.3-3" class="pilcrow">¶</a></p>
-<p id="section-8.3-4">IANA must only accept registry updates from the Designated Experts
+evidence: example").<a href="#section-8.3-4" class="pilcrow">¶</a></p>
+<p id="section-8.3-5">IANA must only accept registry updates from the Designated Experts
 and should direct all requests for registration to the review mailing
-list.<a href="#section-8.3-4" class="pilcrow">¶</a></p>
+list.<a href="#section-8.3-5" class="pilcrow">¶</a></p>
 <div id="registration-template">
 <section id="section-8.3.1">
           <h4 id="name-registration-template">
@@ -2338,18 +2339,21 @@ list.<a href="#section-8.3-4" class="pilcrow">¶</a></p>
 not allocate OID numbers for use with this registry.<a href="#section-8.3.1-2.1.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-8.3.1-2.2">
-              <p id="section-8.3.1-2.2.1">Description: Brief description of the use of the Evidence and the
-registration of the OID.<a href="#section-8.3.1-2.2.1" class="pilcrow">¶</a></p>
+              <p id="section-8.3.1-2.2.1">Type: The ASN.1 type corresponding to the given OID.<a href="#section-8.3.1-2.2.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-8.3.1-2.3">
-              <p id="section-8.3.1-2.3.1">Reference(s): Reference to the document or documents that register
-the OID for use with a specific attestation technology, preferably
-including URIs that can be used to retrieve copies of the documents.
-An indication of the relevant sections may also be included but is not
-required.<a href="#section-8.3.1-2.3.1" class="pilcrow">¶</a></p>
+              <p id="section-8.3.1-2.3.1">Description: Brief description of the use of the Evidence and the
+registration of the OID.<a href="#section-8.3.1-2.3.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-8.3.1-2.4">
-              <p id="section-8.3.1-2.4.1">Change Controller: The entity that controls the listed data format.
+              <p id="section-8.3.1-2.4.1">Reference(s): Reference to the document or documents that register
+the OID and define the ASN.1 type for use with a specific attestation technology, preferably
+including URIs that can be used to retrieve copies of the documents.
+An indication of the relevant sections may also be included but is not
+required.<a href="#section-8.3.1-2.4.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-8.3.1-2.5">
+              <p id="section-8.3.1-2.5.1">Change Controller: The entity that controls the listed data format.
 For data formats specified in Standards Track RFCs, list the "IESG".
 For others, give the name of the responsible party.
 This does not necessarily have to be a standards body, for example
@@ -2358,7 +2362,7 @@ publicly-available reference implementation.  In most cases the
 third party requesting registration in this registry will also be the
 party that registered the OID. As the intention is for this registry to be a
 helpful reference, rather than a normative list, a fair amount of
-discretion is left to the Designated Expert.<a href="#section-8.3.1-2.4.1" class="pilcrow">¶</a></p>
+discretion is left to the Designated Expert.<a href="#section-8.3.1-2.5.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
 </section>
@@ -2379,94 +2383,23 @@ It lists entries for several evidence encoding OIDs including an entry for the C
 <thead>
               <tr>
                 <th class="text-left" rowspan="1" colspan="1">OID</th>
+                <th class="text-left" rowspan="1" colspan="1">Type</th>
                 <th class="text-left" rowspan="1" colspan="1">Description</th>
                 <th class="text-left" rowspan="1" colspan="1">Reference(s)</th>
-                <th class="text-left" rowspan="1" colspan="1">Change Controller</th>
+                <th class="text-left" rowspan="1" colspan="1">Change</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td class="text-left" rowspan="1" colspan="1">2 23 133 5 4 1</td>
-                <td class="text-left" rowspan="1" colspan="1">tcg-dice-TcbInfo</td>
-                <td class="text-left" rowspan="1" colspan="1">
-                  <span>[<a href="#TCGRegistry" class="cite xref">TCGRegistry</a>]</span>
-</td>
-                <td class="text-left" rowspan="1" colspan="1">TCG</td>
-              </tr>
-              <tr>
-                <td class="text-left" rowspan="1" colspan="1">2 23 133 5 4 3</td>
-                <td class="text-left" rowspan="1" colspan="1">tcg-dice-endorsement-manifest-uri</td>
-                <td class="text-left" rowspan="1" colspan="1">
-                  <span>[<a href="#TCGRegistry" class="cite xref">TCGRegistry</a>]</span>
-</td>
-                <td class="text-left" rowspan="1" colspan="1">TCG</td>
-              </tr>
-              <tr>
-                <td class="text-left" rowspan="1" colspan="1">2 23 133 5 4 4</td>
-                <td class="text-left" rowspan="1" colspan="1">tcg-dice-Ueid</td>
-                <td class="text-left" rowspan="1" colspan="1">
-                  <span>[<a href="#TCGRegistry" class="cite xref">TCGRegistry</a>]</span>
-</td>
-                <td class="text-left" rowspan="1" colspan="1">TCG</td>
-              </tr>
-              <tr>
-                <td class="text-left" rowspan="1" colspan="1">2 23 133 5 4 5</td>
-                <td class="text-left" rowspan="1" colspan="1">tcg-dice-MultiTcbInfo</td>
-                <td class="text-left" rowspan="1" colspan="1">
-                  <span>[<a href="#TCGRegistry" class="cite xref">TCGRegistry</a>]</span>
-</td>
-                <td class="text-left" rowspan="1" colspan="1">TCG</td>
-              </tr>
-              <tr>
-                <td class="text-left" rowspan="1" colspan="1">2 23 133 5 4 6</td>
-                <td class="text-left" rowspan="1" colspan="1">tcg-dice-UCCS-evidence</td>
-                <td class="text-left" rowspan="1" colspan="1">
-                  <span>[<a href="#TCGRegistry" class="cite xref">TCGRegistry</a>]</span>
-</td>
-                <td class="text-left" rowspan="1" colspan="1">TCG</td>
-              </tr>
-              <tr>
-                <td class="text-left" rowspan="1" colspan="1">2 23 133 5 4 7</td>
-                <td class="text-left" rowspan="1" colspan="1">tcg-dice-manifest-evidence</td>
-                <td class="text-left" rowspan="1" colspan="1">
-                  <span>[<a href="#TCGRegistry" class="cite xref">TCGRegistry</a>]</span>
-</td>
-                <td class="text-left" rowspan="1" colspan="1">TCG</td>
-              </tr>
-              <tr>
-                <td class="text-left" rowspan="1" colspan="1">2 23 133 5 4 8</td>
-                <td class="text-left" rowspan="1" colspan="1">tcg-dice-MultiTcbInfoComp</td>
-                <td class="text-left" rowspan="1" colspan="1">
-                  <span>[<a href="#TCGRegistry" class="cite xref">TCGRegistry</a>]</span>
-</td>
-                <td class="text-left" rowspan="1" colspan="1">TCG</td>
-              </tr>
-              <tr>
-                <td class="text-left" rowspan="1" colspan="1">2 23 133 5 4 9</td>
-                <td class="text-left" rowspan="1" colspan="1">tcg-dice-conceptual-message-wrapper</td>
-                <td class="text-left" rowspan="1" colspan="1">
-                  <span>[<a href="#TCGRegistry" class="cite xref">TCGRegistry</a>]</span>
-</td>
-                <td class="text-left" rowspan="1" colspan="1">TCG</td>
-              </tr>
-              <tr>
-                <td class="text-left" rowspan="1" colspan="1">2 23 133 5 4 11</td>
-                <td class="text-left" rowspan="1" colspan="1">tcg-dice-TcbFreshness</td>
-                <td class="text-left" rowspan="1" colspan="1">
-                  <span>[<a href="#TCGRegistry" class="cite xref">TCGRegistry</a>]</span>
-</td>
-                <td class="text-left" rowspan="1" colspan="1">TCG</td>
-              </tr>
-              <tr>
-                <td class="text-left" rowspan="1" colspan="1">2 23 133 20 1</td>
-                <td class="text-left" rowspan="1" colspan="1">tcg-attest-tpm-certify</td>
-                <td class="text-left" rowspan="1" colspan="1">
-                  <span>[<a href="#TCGRegistry" class="cite xref">TCGRegistry</a>]</span>
-</td>
-                <td class="text-left" rowspan="1" colspan="1">TCG</td>
+                <td class="text-left" rowspan="1" colspan="1"> </td>
+                <td class="text-left" rowspan="1" colspan="1"> </td>
+                <td class="text-left" rowspan="1" colspan="1"> </td>
+                <td class="text-left" rowspan="1" colspan="1"> </td>
+                <td class="text-left" rowspan="1" colspan="1">Controller</td>
               </tr>
               <tr>
                 <td class="text-left" rowspan="1" colspan="1">1 3 6 1 5 5 7 1 35</td>
+                <td class="text-left" rowspan="1" colspan="1">CMW</td>
                 <td class="text-left" rowspan="1" colspan="1">id-pe-cmw</td>
                 <td class="text-left" rowspan="1" colspan="1">
                   <span>[<a href="#I-D.ietf-rats-msg-wrap" class="cite xref">I-D.ietf-rats-msg-wrap</a>]</span>
@@ -2833,9 +2766,9 @@ Implementers should also be cautious around <code>type</code> OID or <code>hint<
         <dd>
 <span class="refTitle">"CSR Attestation Sample Data"</span>, <span>n.d.</span>, <span>&lt;<a href="https://github.com/lamps-wg/csr-attestation-examples">https://github.com/lamps-wg/csr-attestation-examples</a>&gt;</span>. </dd>
 <dd class="break"></dd>
-<dt id="TCGDICE1.1">[TCGDICE1.1]</dt>
+<dt id="TCGDICE1.2">[TCGDICE1.2]</dt>
         <dd>
-<span class="refAuthor">Trusted Computing Group</span>, <span class="refTitle">"DICE Attestation Architecture"</span>, <time datetime="2024-01" class="refDate">January 2024</time>, <span>&lt;<a href="https://trustedcomputinggroup.org/wp-content/uploads/DICE-Attestation-Architecture-Version-1.1-Revision-18_pub.pdf">https://trustedcomputinggroup.org/wp-content/uploads/DICE-Attestation-Architecture-Version-1.1-Revision-18_pub.pdf</a>&gt;</span>. </dd>
+<span class="refAuthor">Trusted Computing Group</span>, <span class="refTitle">"DICE Attestation Architecture"</span>, <time datetime="2025-04" class="refDate">April 2025</time>, <span>&lt;<a href="https://trustedcomputinggroup.org/wp-content/uploads/DICE-Attestation-Architecture-v1.2_pub.pdf">https://trustedcomputinggroup.org/wp-content/uploads/DICE-Attestation-Architecture-v1.2_pub.pdf</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="TCGRegistry">[TCGRegistry]</dt>
         <dd>
@@ -3638,7 +3571,7 @@ END
 <a href="#appendix-B.1" class="section-number selfRef">B.1. </a><a href="#name-tcg-dice-example-in-asn1" class="section-name selfRef">TCG DICE Example in ASN.1</a>
         </h3>
 <p id="appendix-B.1-1">This section gives an example of extending the ASN.1 module above to carry an existing ASN.1-based Evidence Statement.
-The example used is the Trusted Computing Group DICE Attestation Conceptual Message Wrapper, as defined in <span>[<a href="#TCGDICE1.1" class="cite xref">TCGDICE1.1</a>]</span>.<a href="#appendix-B.1-1" class="pilcrow">¶</a></p>
+The example used is the Trusted Computing Group DICE Attestation Conceptual Message Wrapper, as defined in <span>[<a href="#TCGDICE1.2" class="cite xref">TCGDICE1.2</a>]</span>.<a href="#appendix-B.1-1" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="appendix-B.1-2">
 <pre>
 CsrAttestationDiceExample DEFINITIONS IMPLICIT TAGS ::= BEGIN
@@ -3801,7 +3734,7 @@ END
 <a href="#appendix-B.2" class="section-number selfRef">B.2. </a><a href="#name-tcg-dice-tcbinfo-example-in" class="section-name selfRef">TCG DICE TcbInfo Example in CSR</a>
         </h3>
 <p id="appendix-B.2-1">This section gives an example of extending the ASN.1 module above to carry an existing ASN.1-based evidence statement.
-The example used is the Trusted Computing Group DiceTcbInfo, as defined in <span>[<a href="#TCGDICE1.1" class="cite xref">TCGDICE1.1</a>]</span>.<a href="#appendix-B.2-1" class="pilcrow">¶</a></p>
+The example used is the Trusted Computing Group DiceTcbInfo, as defined in <span>[<a href="#TCGDICE1.2" class="cite xref">TCGDICE1.2</a>]</span>.<a href="#appendix-B.2-1" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="appendix-B.2-2">
 <pre>
 ﻿// SET of CSR Attributes

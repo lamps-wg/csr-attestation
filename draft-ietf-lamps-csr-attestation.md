@@ -843,7 +843,7 @@ In general, because an Attestation Key is intended solely for signing Evidence,
  the private key used to sign a CSR SHOULD be distinct from the
 Attestation Key used to sign Evidence about the Target
  Environment. Exceptions MAY be allowed when CSRs and Evidence are both part of the process
-bootstrapping the Attesting Key.
+of bootstrapping the Attestation Key.
 
 To demonstrate that the private
 key applied to sign the CSR is generated, and stored in a secure

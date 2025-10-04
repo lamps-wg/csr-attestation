@@ -5,14 +5,14 @@
 Network Working Group                                       M. Ounsworth
 Internet-Draft                                                   Entrust
 Intended status: Standards Track                           H. Tschofenig
-Expires: 5 April 2026                                            Siemens
+Expires: 7 April 2026                                            Siemens
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                               M. Wiseman
                                                                         
                                                                 N. Smith
                                                        Intel Corporation
-                                                          2 October 2025
+                                                          4 October 2025
 
 
      Use of Remote Attestation with Certification Signing Requests
@@ -65,7 +65,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 5 April 2026.
+   This Internet-Draft will expire on 7 April 2026.
 
 Copyright Notice
 
@@ -915,71 +915,17 @@ Table of Contents
    entries for several evidence encoding OIDs including an entry for the
    Conceptual Message Wrapper (CMW) [I-D.ietf-rats-msg-wrap].
 
-   +===+=========+================+========================+==========+
-   |OID|Type     |Description     |Reference(s)            |Change    |
-   +===+=========+================+========================+==========+
-   |   |         |                |                        |Controller|
-   +---+---------+----------------+------------------------+----------+
-   |1 3|CMW      |id-pe-cmw       |[I-D.ietf-rats-msg-wrap]|IETF      |
-   |6 1|         |                |                        |          |
-   |5 5|         |                |                        |          |
-   |7 1|         |                |                        |          |
-   |35 |         |                |                        |          |
-   +---+---------+----------------+------------------------+----------+
-   |2  |Evidence |tcg-dice-TcbInfo|[TCGDICE1.2]            |TCG       |
-   |23 |         |                |                        |          |
-   |133|         |                |                        |          |
-   |5 4|         |                |                        |          |
-   |1  |         |                |                        |          |
-   +---+---------+----------------+------------------------+----------+
-   |2  |URI      |tcg-dice-       |[TCGDICE1.2]            |TCG       |
-   |23 |         |endorsement-    |                        |          |
-   |133|         |manifest-uri    |                        |          |
-   |5 4|         |                |                        |          |
-   |3  |         |                |                        |          |
-   +---+---------+----------------+------------------------+----------+
-   |2  |Evidence.|tcg-dice-Ueid   |[TCGDICE1.2]            |TCG       |
-   |23 |         |                |                        |          |
-   |133|         |                |                        |          |
-   |5 4|         |                |                        |          |
-   |4  |         |                |                        |          |
-   +---+---------+----------------+------------------------+----------+
-   |2  |Evidence |tcg-dice-       |[TCGDICE1.2]            |TCG       |
-   |23 |         |MultiTcbInfo    |                        |          |
-   |133|         |                |                        |          |
-   |5 4|         |                |                        |          |
-   |5  |         |                |                        |          |
-   +---+---------+----------------+------------------------+----------+
-   |2  |Evidence |tcg-dice-UCCS-  |[TCGDICE1.2]            |TCG       |
-   |23 |         |evidence        |                        |          |
-   |133|         |                |                        |          |
-   |5 4|         |                |                        |          |
-   |6  |         |                |                        |          |
-   +---+---------+----------------+------------------------+----------+
-   |2  |Evidence |tcg-dice-       |[TCGDICE1.2]            |TCG       |
-   |23 |         |manifest-       |                        |          |
-   |133|         |evidence        |                        |          |
-   |5 4|         |                |                        |          |
-   |7  |         |                |                        |          |
-   +---+---------+----------------+------------------------+----------+
-   |2  |Evidence |tcg-dice-       |[TCGDICE1.2]            |TCG       |
-   |23 |         |MultiTcbInfoComp|                        |          |
-   |133|         |                |                        |          |
-   |5 4|         |                |                        |          |
-   |8  |         |                |                        |          |
-   +---+---------+----------------+------------------------+----------+
-   |2  |CMW      |tcg-dice-       |[TCGDICE1.2]            |TCG       |
-   |23 |         |conceptual-     |                        |          |
-   |133|         |message-wrapper |                        |          |
-   |5 4|         |                |                        |          |
-   |9  |         |                |                        |          |
-   +---+---------+----------------+------------------------+----------+
-   |2  |Nonce    |tcg-dice-       |[TCGDICE1.2]            |TCG       |
-   |23 |         |TcbFreshness    |                        |          |
-   |133|         |                |                        |          |
-   |5 4|         |                |                        |          |
-   |11 |         |                |                        |          |
-   +---+---------+----------------+------------------------+----------+
+   +=====+======+=============+==========================+============+
+   | OID | Type | Description | Reference(s)             | Change     |
+   +=====+======+=============+==========================+============+
+   |     |      |             |                          | Controller |
+   +-----+------+-------------+--------------------------+------------+
+   | 1 3 | CMW  | id-pe-cmw   | [I-D.ietf-rats-msg-wrap] | IETF       |
+   | 6 1 |      |             |                          |            |
+   | 5 5 |      |             |                          |            |
+   | 7 1 |      |             |                          |            |
+   | 35  |      |             |                          |            |
+   +-----+------+-------------+--------------------------+------------+
 
     Table 1: Initial Contents of the Attestation Evidence OID Registry
 

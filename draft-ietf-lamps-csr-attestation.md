@@ -832,7 +832,7 @@ These privacy risks can be mitigated using several approaches, including:
 
 - Per-Use Attestation Keys: Devices may be designed to dynamically generate distinct attestation keys (and request the corresponding certificates) for each use case, device, or session. This is analogous to the Privacy CA model, in which a device is initially provisioned with an attestation key and certificate; then, in conjunction with a privacy-preserving CA, it can obtain unique keys and certificates as needed. This strategy reduces the potential for tracking while maintaining strong security assurances. This is the model described in this document.
 
-- Anonymous Attestation Mechanisms: Direct Anonymous Attestation (DAA) or similar cryptographic methods can be employed to generate blinded attestation signatures. In these schemes, the verifier can validate the attestation using a root key but does not gain a global correlation handle. Thus, repeated use of the same attestation key cannot be exploited to track devices. {{I-D.ietf-rats-daa}} extends the RATS architecture with such a DAA scheme, significantly enhancing privacy.
+- Anonymous Attestation Mechanisms: Direct Anonymous Attestation (DAA) and related cryptographic schemes enable devices to produce attestation signatures that are verifiable against a root key, but unlinkable across different uses. This prevents a verifier from using repeated attestations with the same key as a global correlation handle to track devices. {{I-D.ietf-rats-daa}} extends the RATS architecture with such a DAA scheme, thereby enhancing privacy.
 
 ## Background Check Model Security Considerations
 

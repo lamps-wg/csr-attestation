@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-09-30T01:06:23.992015+00:00",
+  "timestamp": "2025-10-05T01:11:20.975820+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -2537,15 +2537,15 @@
       "id": "I_kwDOJ3IIN86_h41Q",
       "title": "AttestationResults section is incomplete",
       "url": "https://github.com/lamps-wg/csr-attestation/issues/198",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "ounsworth",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "See point #5 in this email:\n\nhttps://mailarchive.ietf.org/arch/msg/spasm/4QlObAE9PYVJNlYwDcnGyPhUGsY/",
       "createdAt": "2025-07-08T17:53:28Z",
-      "updatedAt": "2025-09-20T20:00:57Z",
-      "closedAt": null,
+      "updatedAt": "2025-10-04T21:42:14Z",
+      "closedAt": "2025-10-04T21:42:14Z",
       "comments": [
         {
           "author": "ounsworth",
@@ -2575,15 +2575,15 @@
       "id": "I_kwDOJ3IIN86_j6DR",
       "title": "IANA registry should list ASN.1 class",
       "url": "https://github.com/lamps-wg/csr-attestation/issues/199",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "ounsworth",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "From MSJ\n\nIn addition to pointing to the spec where a given OID is defined, the table should also list the ASN.1 class that is expected so that the table fully specifies the EVIDENCE-STATEMENT ::= TYPE-IDENTIFIER.[](url)",
       "createdAt": "2025-07-08T21:54:02Z",
-      "updatedAt": "2025-09-22T16:57:21Z",
-      "closedAt": null,
+      "updatedAt": "2025-10-04T22:16:39Z",
+      "closedAt": "2025-10-04T22:16:39Z",
       "comments": [
         {
           "author": "ounsworth",
@@ -2615,15 +2615,15 @@
       "id": "I_kwDOJ3IIN87KWiv8",
       "title": "Add an explanation of Upper Case entities",
       "url": "https://github.com/lamps-wg/csr-attestation/issues/202",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "ounsworth",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "The sentence in Section 2. Conventions and Definitions that defines all the RATS terminology should have a half-sentence added to the end:\n\n> ... to help disambiguate X.509 and RATS terminology, this document presents RATS terminology in upper case.\n\n... or something similar.",
       "createdAt": "2025-09-08T16:36:38Z",
-      "updatedAt": "2025-09-08T16:36:38Z",
-      "closedAt": null,
+      "updatedAt": "2025-10-05T00:58:39Z",
+      "closedAt": "2025-10-05T00:58:39Z",
       "comments": []
     },
     {
@@ -2631,7 +2631,7 @@
       "id": "I_kwDOJ3IIN87KWzKQ",
       "title": "Informative Reference to RATS Endorsemen I-D",
       "url": "https://github.com/lamps-wg/csr-attestation/issues/203",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "henkbirkholz",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -2640,8 +2640,8 @@
       "labels": [],
       "body": "I assume that Trust Anchors are a minimal Endorsement, based on [Endorsing Verification Keys](https://www.ietf.org/archive/id/draft-ietf-rats-endorsements-07.html#name-endorsing-verification-keys).\r\n\r\n_Originally posted by @henkbirkholz in https://github.com/lamps-wg/csr-attestation/pull/201#discussion_r2307890113_\r\n            ",
       "createdAt": "2025-09-08T17:02:18Z",
-      "updatedAt": "2025-09-23T14:06:06Z",
-      "closedAt": null,
+      "updatedAt": "2025-10-04T21:42:14Z",
+      "closedAt": "2025-10-04T21:42:14Z",
       "comments": [
         {
           "author": "ounsworth",
@@ -10021,25 +10021,35 @@
       "id": "PR_kwDOJ3IIN86jWosp",
       "title": "Aligned AR and Evidence ASN.1, added text about Endorsements",
       "url": "https://github.com/lamps-wg/csr-attestation/pull/201",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "ounsworth",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Closes #198 \r\nCloses #200\r\nCloses #203 \r\n\r\nTODO before merging:\r\n\r\n- [x] Check if the AR examples appendix needs to be updated.\r\n  - Wait, we don't have an AR example, solves that problem, I guess.\r\n- [x] Add the fix for #200 to the same PR (since it's a related change)",
       "createdAt": "2025-08-12T21:03:49Z",
-      "updatedAt": "2025-09-28T23:37:08Z",
+      "updatedAt": "2025-10-04T21:42:16Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "2eb1841ff39849ae7f1bb1b8fecf8fd57f18dc9a",
       "headRepository": "lamps-wg/csr-attestation",
       "headRefName": "mikeo_ar_alignment",
-      "headRefOid": "7867162ae1e62c26a9c19f97cc8e5dbca9605ae9",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
-      "comments": [],
+      "headRefOid": "83fe78d3a8bd3f2335f681b5856bec94f5c1c721",
+      "closedAt": "2025-10-04T21:42:13Z",
+      "mergedAt": "2025-10-04T21:42:13Z",
+      "mergedBy": "ounsworth",
+      "mergeCommit": {
+        "oid": "8ff9294e0db9a2625b4a35812046816200b765d1"
+      },
+      "comments": [
+        {
+          "author": "mstjohns",
+          "authorAssociation": "NONE",
+          "body": "Hi Mike,\r\n\r\nI am going to disagree.\r\n\r\nThe purpose of this document has always been \"carry whatever attestation data you want, so long as you have an OID for it, and that data can stuff itself into a byte string\".\r\n\r\nIt has always been true of this draft that what that data is, and how to parse it is out of scope of this draft. It has always been true that as soon as you can carry a RATS CMW, then you can carry both Evidence and AttestationResults. This is not new functionality in the draft; all we have done is add a separate CSR attr for AR so that the CA can more easily tell whether it is in the Background Check or Passport model. This is not adding a thing that this draft couldn't do before, just making it clearer.\r\n\r\nIt my opinion, this draft is a simple payload-agnostic wrapper, but you keep trying to drag the payload format into scope, which, yes, introduces an enormous of scope creep. Please stop trying to make this draft be responsible for what the payload is, and how the RA/CA is supposed to parse it. Those are, of course, valid implementation concerns, but to use your language, they are enormous feature creep for this draft. Please stop suggesting it.\r\n\r\nAlso, I'm about to remove the entire TPM appendix. I have come to the opinion that the TPM community needs to figure out how to serialize the relevant TPM data into a single byte string, and that this draft is not the place to do that.\r\n\r\n---\r\nMike Ounsworth\r\n\r\n________________________________\r\nFrom: Michael StJohns ***@***.***>\r\nSent: Saturday, October 4, 2025 2:28:30 p.m.\r\nTo: ***@***.*** ***@***.***>\r\nCc: ***@***.*** ***@***.***>\r\nSubject: [EXTERNAL] [lamps] Re: [lamps-wg/csr-attestation] Aligned AR and Evidence ASN.1, added text about Endorsements (PR #201)\r\n\r\nApologies to the LAMPS list, but I wanted to use this to ask a general question about the scope of a given WG adoption for a draft. AFAICT and IMO, the referenced document is experiencing large feature creep over the original purpose. How much\r\n\r\nApologies to the LAMPS list, but I wanted to use this to ask a general question about the scope of a given WG adoption for a draft.  AFAICT and IMO, the referenced document is experiencing large feature creep over the original purpose.  How much is too much?\r\n/msj/\r\n\r\nHi Mike -\r\n\r\nSorry - you've missed the point.\r\n\r\nTL:dr; Evidence statements are, by their nature, polymorphic in that the origination points and technical schemes for them vary widely, and the means of interpreting them is specific to each type (e.g ASN1 open types are appropriate).  Attestation results - if done properly - should not be polymorphic in the main as they are a conveyance of a result to an RA/CA.  ARs MAY contain additional data over the basic mandatory info.\r\n\r\nIn model espoused in the document, Evidence statements are interpreted by Verifiers who in turn provide the results to an RA or CA.  But the document lacks any specificity on *what* the verifier may say to a CA/RA.  The document (since about March?) now maps the Verifier output PDU  (the verified result) to a Attestation Result.  AND it leaves the form of the Attestation Result as exercise for an implementer.   Prior versions of this document did not have Attestation Results and instead left the RA/CA to Verifier protocol as an exercise for the implementer.   This didn't worry me as I could always ignore the architecture and just read and verify the Evidence directly as *most* forms of that are already documented.  If I'm a CA/RA I now have to know how to interpret the Verifier result expressed as an AR..... and....??????????????????\r\n\r\n\r\nEvidence statements differ (critically) from Attestation Results in that the latter MUST be able to be interpreted by the RA/CA.  That implies a SINGLE signable PKIX-based format that the RA/CA can verify using normal PKIX processes, and then extract a few gems out of it like \"the related key was generated in hardware\", \"the hardware was a tpm v2\", \"the key is not extractable\", \"the key can only sign (or can only do key agreement or key encaps)\", and a mechanism to relate the attestation result to a specific public key - e.g. through a hash or something.   I can see this being mostly a list of signed ATTRIBUTE with some mandatory ones in each.  It helps no one to do yet another indirection.  <irony> I'm waiting for the next iteration where there's an AttestationInterpreter plugin for the RA/CA and where plugin API is polymorphic as well.</irony>\r\n\r\nCalling it the wild west does nothing to advance your cause here and you don't even try to make a case for why an Attestation Result needs to be open typed either here or in the document.\r\n\r\nBest approach - remove Attestation Results from this document and revert to your old language.  If you want to do Attestation Results, open up another document so this one can progress without the feature creep.   IMHO - This is a blocker without either the removal of the AR languge or the addition of a minimum non-open-type specification for AR.\r\n\r\nLater, Mike\r\n\r\n\r\n\r\n\r\nOn 10/4/2025 09:32, Mike Ounsworth wrote:\r\n\r\n@ounsworth commented on this pull request.\r\n\r\n________________________________\r\n\r\nIn draft-ietf-lamps-csr-attestation.md<https://urldefense.com/v3/__https://github.com/lamps-wg/csr-attestation/pull/201*discussion_r2404046215__;Iw!!FJ-Y8qCqXTj2!c64tOZcr1ti5rBFk7WG9BHFfnJEIkcTMy9c6tS7NvYxTUX5PtWRRQ9CbBgYQiWKB_8S8fG6r8WM0k7v7_R7MZz6rEz8$>:\r\n\r\n>\r\n - Attestation Results are carried in the AttestationResult along with an OID to identify its type. A set of AttestationResult structures may be grouped together to form an AttestationResultBundle.\r\n\r\n A CSR may contain one or more Evidence payloads. For example Evidence\r\n asserting the storage properties of a private key, Evidence\r\n asserting firmware version and other general properties\r\n-of the device, or Evidence signed using different cryptographic\r\n-algorithms. Like-wise a CSR may also contain one or more Attestation Result payloads.\r\n+of the device, Evidence signed using different cryptographic\r\n+algorithms, or Endorsements provided by the device manufacturer.\r\n+Like-wise, a CSR may also contain one or more Attestation Result payloads.\r\n\r\n\r\nDisagree.\r\nI agree that AR formats -- much like Evidence formats -- are currently a Wild Wild West, but I disagree that that should prevent this document from specifying, generically, how to carry an AR, or that this document should pick a single format.\r\n\r\nThis document just specifies a generic envelope. Regardless, implementers of attesters will need to do some interop testing with CAs. The goal of this document has never been to fully solve interop for all of attestation. So I disagree with this suggestion.\r\n\r\n\u2014\r\nReply to this email directly, view it on GitHub<https://urldefense.com/v3/__https://github.com/lamps-wg/csr-attestation/pull/201*discussion_r2404046215__;Iw!!FJ-Y8qCqXTj2!c64tOZcr1ti5rBFk7WG9BHFfnJEIkcTMy9c6tS7NvYxTUX5PtWRRQ9CbBgYQiWKB_8S8fG6r8WM0k7v7_R7MZz6rEz8$>, or unsubscribe<https://urldefense.com/v3/__https://github.com/notifications/unsubscribe-auth/AB5TYEPG2P3XSAT446UTC733V7R75AVCNFSM6AAAAACDXVQXDKVHI2DSMVQWIX3LMV43YUDVNRWFEZLROVSXG5CSMV3GSZLXHMZTGMBRHE2TSMBWGY__;!!FJ-Y8qCqXTj2!c64tOZcr1ti5rBFk7WG9BHFfnJEIkcTMy9c6tS7NvYxTUX5PtWRRQ9CbBgYQiWKB_8S8fG6r8WM0k7v7_R7MN-CIIEc$>.\r\nYou are receiving this because you commented.Message ID: ***@***.***>\r\n\r\n\r\nAny email and files/attachments transmitted with it are intended solely for the use of the individual or entity to whom they are addressed. If this message has been sent to you in error, you must not copy, distribute or disclose of the information it contains. Please notify Entrust immediately and delete the message from your system.\r\n\r\n",
+          "createdAt": "2025-10-04T19:43:47Z",
+          "updatedAt": "2025-10-04T19:43:47Z"
+        }
+      ],
       "reviews": [
         {
           "id": "PRR_kwDOJ3IIN866MUjq",
@@ -10558,6 +10568,46 @@
               "updatedAt": "2025-09-28T23:37:08Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN87Ez-Wa",
+          "commit": {
+            "abbreviatedOid": "7867162"
+          },
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-10-04T15:31:52Z",
+          "updatedAt": "2025-10-04T15:31:52Z",
+          "comments": [
+            {
+              "originalPosition": 82,
+              "body": "Disagree.\r\nI agree that AR formats -- much like Evidence formats -- are currently a Wild Wild West, but I disagree that  that should prevent this document from specifying, generically, how to carry an AR, or that this document should pick a single format.\r\n\r\nThis document just specifies a generic envelope. Regardless, implementers of attesters will need to do some interop testing with CAs. The goal of this document has never been to fully solve interop for all of attestation. So I disagree with this suggestion.",
+              "createdAt": "2025-10-04T15:31:52Z",
+              "updatedAt": "2025-10-04T15:31:53Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN87E0c-K",
+          "commit": {
+            "abbreviatedOid": "7867162"
+          },
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-10-04T21:38:34Z",
+          "updatedAt": "2025-10-04T21:38:34Z",
+          "comments": [
+            {
+              "originalPosition": 65,
+              "body": "I touched that up a little and deleted the sentence in question, because I agree it was unnecessary and confusing.",
+              "createdAt": "2025-10-04T21:38:34Z",
+              "updatedAt": "2025-10-04T21:38:34Z"
+            }
+          ]
         }
       ]
     },
@@ -10566,24 +10616,26 @@
       "id": "PR_kwDOJ3IIN86qEBO4",
       "title": "Added a Type column to the Attestation Evidence OID Registry",
       "url": "https://github.com/lamps-wg/csr-attestation/pull/204",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "ounsworth",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Closes #199 ",
       "createdAt": "2025-09-23T12:28:55Z",
-      "updatedAt": "2025-09-28T23:59:26Z",
+      "updatedAt": "2025-10-04T22:16:44Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "2eb1841ff39849ae7f1bb1b8fecf8fd57f18dc9a",
       "headRepository": "lamps-wg/csr-attestation",
       "headRefName": "mikeo_type_column",
-      "headRefOid": "4438c88bf168c9e1ab9cfa50187b1d1e45498340",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "89044d2c28e8392bb0d63d5a16fb4e83d96c61bf",
+      "closedAt": "2025-10-04T22:16:38Z",
+      "mergedAt": "2025-10-04T22:16:38Z",
+      "mergedBy": "ounsworth",
+      "mergeCommit": {
+        "oid": "82217a90326b738d7b86360143ea6230c0ac6f50"
+      },
       "comments": [
         {
           "author": "ounsworth",
@@ -10605,6 +10657,41 @@
           "body": "Not quite.   The Type column should reference the CLASS name - e.g. EVIDENCE-STATEMENT, not Evidence.  What you want here is to be able to go to the referenced document and look for an <name> EVIDENCE-STATEMENT ::= { <whatever> IDENTIFIED BY <oid> }.\r\n\r\nSo \"OID | Name | Type | Docref | Maintainer (optional)\"\r\n\r\nCMW isn't actually a CLASS.  If you mean to use it as an EVIDENCE-STATEMENT then declare it as such and reference it here.\r\n\r\nid-pe-cmw EVIDENCE-STATEMENT ::= { CMW IDENTIFIED BY <oid>}\r\n\r\nwould map to \r\n1 3 6 1 5 5 7 1 35  | id-pe-cmw | EVIDENCE-STATEMENT | id-rats-msg-ref | IETF\r\n\r\nand id-rats-msg-ref would have the EVIDENCE-STATEMENT defined there.\r\n\r\nditto for things like ATTRIBUTE definitions etc.\r\n\r\n\r\n",
           "createdAt": "2025-09-28T23:59:26Z",
           "updatedAt": "2025-09-28T23:59:26Z"
+        },
+        {
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "@nedmsmith \"Evidence\" is not an ASN.1 class. and it certainly does not make sense for every DICE object to use the same ASN.1 class.\r\n\r\nI looked at the ASN.1 module for {{TGCDICE1.2}} and I see this:\r\n\r\n```\r\nUccsEvidence ::= SEQUENCE {\r\nuccs OCTET STRING\r\n}\r\n```\r\n\r\nbut I don't see one called `Evidence`. Nor do I see an ASN.1 type called `URI` or `Nonce`, or `CMW` (yes, there is an ASN.1 type called `CMW` defined in draft-ietf-rats-msg-wrap, but if this row is referencing definitions from both draft-ietf-rats-msg-wrap and TGCDICE1.2, then that should be made clear with multiple listings in the `Reference(s)` column.\r\n\r\nI am going to re-remove all the TCG rows that do not correctly reference an ASN.1 definition under the Type column, but feel free to open a new PR that adds them back.",
+          "createdAt": "2025-10-04T21:45:36Z",
+          "updatedAt": "2025-10-04T21:58:04Z"
+        },
+        {
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "@mstjohns in draft-ietf-rats-msg-wrap, `CMW` is actually an ASN.1 type:\r\n\r\n```\r\nCMW ::= CHOICE {\r\n    json UTF8String,\r\n    cbor OCTET STRING\r\n}\r\n```\r\n\r\nSo I think that row is correct. ",
+          "createdAt": "2025-10-04T21:54:17Z",
+          "updatedAt": "2025-10-04T21:54:17Z"
+        },
+        {
+          "author": "mstjohns",
+          "authorAssociation": "NONE",
+          "body": " This should be a class, not an object.  E.g. the ATTRIBUTE definition that\r\nincludes the CMW as the open type.\r\n\r\nAn OID can be used for multiple open types, e.g. EXTENSION and ATTRIBUTE\r\ncould use the same OID to refer to CMW.\r\n\r\nBy the way, see my last call comments on the CMW definition please.\r\n\r\nMike\r\n\r\nOn Sat, Oct 4, 2025 at 17:54 Mike Ounsworth ***@***.***>\r\nwrote:\r\n\r\n> *ounsworth* left a comment (lamps-wg/csr-attestation#204)\r\n> <https://github.com/lamps-wg/csr-attestation/pull/204#issuecomment-3368561561>\r\n>\r\n> @mstjohns <https://github.com/mstjohns> in draft-ietf-rats-msg-wrap, CMW\r\n> is actually an ASN.1 type:\r\n>\r\n> CMW ::= CHOICE {\r\n>     json UTF8String,\r\n>     cbor OCTET STRING\r\n> }\r\n>\r\n> So I think that row is correct.\r\n>\r\n> \u2014\r\n> Reply to this email directly, view it on GitHub\r\n> <https://github.com/lamps-wg/csr-attestation/pull/204#issuecomment-3368561561>,\r\n> or unsubscribe\r\n> <https://github.com/notifications/unsubscribe-auth/AB5TYEIEJQTLKOFAEEK4ABT3WA6Z5AVCNFSM6AAAAACHIO6WHWVHI2DSMVQWIX3LMV43OSLTON2WKQ3PNVWWK3TUHMZTGNRYGU3DCNJWGE>\r\n> .\r\n> You are receiving this because you were mentioned.Message ID:\r\n> ***@***.***>\r\n>\r\n",
+          "createdAt": "2025-10-04T21:58:54Z",
+          "updatedAt": "2025-10-04T21:58:54Z"
+        },
+        {
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "> This should be a class, not an object. E.g. the ATTRIBUTE definition that includes the CMW as the open type. An OID can be used for multiple open types, e.g. EXTENSION and ATTRIBUTE could use the same OID to refer to CMW. By the way, see my last call comments on the CMW definition please. Mike\r\n\r\nWhy?\r\n\r\nI understand that the purpose here is to give enough info to be able to populate a TYPE-IDENTIFIER, which needs a Type (not a CLASS), and an OID.",
+          "createdAt": "2025-10-04T22:08:46Z",
+          "updatedAt": "2025-10-04T22:09:04Z"
+        },
+        {
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "@mstjohns \r\n\r\n> By the way, see my last call comments on the CMW definition please. \r\n\r\nSorry, I don't know what you're referring to. Can you please provide a link?\r\nAlso, if you have comments about a definition in draft-ietf-rats-msg-wrap, why are you litigating that on this draft?",
+          "createdAt": "2025-10-04T22:15:12Z",
+          "updatedAt": "2025-10-04T22:15:12Z"
         }
       ],
       "reviews": []
@@ -10614,24 +10701,26 @@
       "id": "PR_kwDOJ3IIN86qEzGz",
       "title": "Normalized capitalization: RATS terms are capitalized, PKI terms are not",
       "url": "https://github.com/lamps-wg/csr-attestation/pull/205",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "ounsworth",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Closes #202 ",
       "createdAt": "2025-09-23T13:34:06Z",
-      "updatedAt": "2025-09-28T22:05:29Z",
+      "updatedAt": "2025-10-05T00:58:44Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
-      "baseRefOid": "2eb1841ff39849ae7f1bb1b8fecf8fd57f18dc9a",
+      "baseRefOid": "82217a90326b738d7b86360143ea6230c0ac6f50",
       "headRepository": "lamps-wg/csr-attestation",
       "headRefName": "mikeo_capitalization",
-      "headRefOid": "896be2644eab603a6e4d750702ca0c72d151cac9",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "12b318d888e54f377bde665b3b259712140f5801",
+      "closedAt": "2025-10-05T00:58:37Z",
+      "mergedAt": "2025-10-05T00:58:37Z",
+      "mergedBy": "ounsworth",
+      "mergeCommit": {
+        "oid": "56fde18c63d0f2df9b7db12e989c0b3203036fbb"
+      },
       "comments": [
         {
           "author": "hannestschofenig",
@@ -10942,6 +11031,107 @@
       "mergeCommit": null,
       "comments": [],
       "reviews": []
+    },
+    {
+      "number": 208,
+      "id": "PR_kwDOJ3IIN86rzYlP",
+      "title": "Updated IANA Table",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/208",
+      "state": "OPEN",
+      "author": "hannestschofenig",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "I split the table into two since a single table does not fit on the page width limit.",
+      "createdAt": "2025-10-02T16:41:09Z",
+      "updatedAt": "2025-10-05T01:01:35Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "82217a90326b738d7b86360143ea6230c0ac6f50",
+      "headRepository": "lamps-wg/csr-attestation",
+      "headRefName": "hannestschofenig-patch-2",
+      "headRefOid": "c6407dc236da43a50609156ef6202c0de7285c3e",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "This conflicts with #204 .\r\n\r\nI think I will instead turn the table into a bullet list, which I think is the norm when the IANA registry has many columns.\r\n\r\nBecause of the conflict, I will close this PR and start again from Main.",
+          "createdAt": "2025-10-05T01:01:07Z",
+          "updatedAt": "2025-10-05T01:01:35Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJ3IIN87EbM9p",
+          "commit": {
+            "abbreviatedOid": "06b8701"
+          },
+          "author": "seanturner",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-10-02T16:42:10Z",
+          "updatedAt": "2025-10-02T16:42:10Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJ3IIN87EbNGo",
+          "commit": {
+            "abbreviatedOid": "06b8701"
+          },
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-10-02T16:42:23Z",
+          "updatedAt": "2025-10-02T16:42:24Z",
+          "comments": [
+            {
+              "originalPosition": 36,
+              "body": "```suggestion\r\n{: #tab-ae-reg1 title=\"RATS Conceptual Message OID Registry: OID, Type, Description\"}\r\n```",
+              "createdAt": "2025-10-02T16:42:24Z",
+              "updatedAt": "2025-10-02T16:42:24Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN87EbNQM",
+          "commit": {
+            "abbreviatedOid": "5148639"
+          },
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-10-02T16:42:36Z",
+          "updatedAt": "2025-10-02T16:42:36Z",
+          "comments": [
+            {
+              "originalPosition": 51,
+              "body": "```suggestion\r\n{: #tab-ae-reg2 title=\"RATS Conceptual Message OID Registry: OID, Reference(s), Change Controller\"}\r\n```",
+              "createdAt": "2025-10-02T16:42:36Z",
+              "updatedAt": "2025-10-02T16:42:37Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN87EcnD_",
+          "commit": {
+            "abbreviatedOid": "c6407dc"
+          },
+          "author": "nedmsmith",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "LGTM",
+          "createdAt": "2025-10-02T18:15:28Z",
+          "updatedAt": "2025-10-02T18:15:28Z",
+          "comments": []
+        }
+      ]
     }
   ]
 }

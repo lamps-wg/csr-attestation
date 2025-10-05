@@ -1984,6 +1984,8 @@ A.4.  Confidential Compute Architecture (CCA) Platform Token in CSR
 
 Appendix B.  ASN.1 Module
 
+   =============== NOTE: '\' line wrapping per RFC 8792 ================
+
    CSR-ATTESTATION-2025
      { iso(1) identified-organization(3) dod(6) internet(1) security(5)
      mechanisms(5) pkix(7) id-mod(0) id-mod-pkix-attest-01(TBDMOD) }
@@ -2072,12 +2074,12 @@ Appendix B.  ASN.1 Module
      IDENTIFIED BY id-aa-ar
    }
 
+   LimitedCertChoices ::= CertificateChoices (WITH COMPONENTS {\
+                                                    certificate, other})
+
    EvidenceBundle ::= SEQUENCE {
       evidences SEQUENCE SIZE (1..MAX) OF EvidenceStatement,
-      certs SEQUENCE SIZE (1..MAX) OF CertificateChoices OPTIONAL,
-         -- CertificateChoices MUST NOT contain the depreciated
-         -- certificate structures or attribute certificates,
-         -- see Section 10.2.2 of [RFC5652]
+      certs SEQUENCE SIZE (1..MAX) OF LimitedCertChoices OPTIONAL
    }
 
    AttestationResultBundle ::= SEQUENCE SIZE (1..MAX)

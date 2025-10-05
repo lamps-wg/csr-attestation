@@ -765,7 +765,7 @@ a link to their specification document.
 This registry should follow the rules for
 "Specification Required" as laid out in {{RFC5226}}.
 
-Each row corresponds to an OID and ASN.1 type that could appear in a `EvidenceStatement` or `AttestationResult`.
+Each row corresponds to an OID and ASN.1 type that could appear in a `EvidenceStatement` or `AttestationResult`, with references for where to find the full specification.
 
 Registration requests should be formatted as per
 the registration template below, and receive a three-week review period on
@@ -816,11 +816,12 @@ discretion is left to the Designated Expert.
 The initial registry contents is shown in the table below.
 It lists entries for several evidence encoding OIDs including an entry for the Conceptual Message Wrapper (CMW) {{I-D.ietf-rats-msg-wrap}}.
 
-| OID                | Type       | Description                  | Reference(s)               | Change     |
-|                    |            |                              |                            | Controller |
-|------------------  |----------  |----------------------------  |-------------------------   |----------  |
-| 1 3 6 1 5 5 7 1 35 | CMW        | id-pe-cmw                    | {{I-D.ietf-rats-msg-wrap}} | IETF       |
-{: #tab-ae-reg title="Initial Contents of the Attestation Evidence OID Registry"}
+* CMW
+  * OID: 1 3 6 1 5 5 7 1 35
+  * Type: CMW
+  * Description: id-pe-cmw
+  * Reference(s): {{I-D.ietf-rats-msg-wrap}}
+  * Change Controller: IETF
 
 The current registry values can be retrieved from the IANA online website.
 

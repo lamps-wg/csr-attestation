@@ -989,7 +989,7 @@ In addition to the security considerations listed here, implementers should be f
 
 # Examples
 
-This section provides an example that3 conveys an Arm Platform Security Architecture token,
+This section provides an example that conveys an Arm Platform Security Architecture token,
 which provides claims about the used hardware and software platform,
 into the CSR.
 

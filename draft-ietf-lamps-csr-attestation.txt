@@ -5,14 +5,14 @@
 Network Working Group                                       M. Ounsworth
 Internet-Draft                                                   Entrust
 Intended status: Standards Track                           H. Tschofenig
-Expires: 7 April 2026                                            Siemens
+Expires: 8 April 2026                                            Siemens
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                               M. Wiseman
                                                                         
                                                                 N. Smith
                                                        Intel Corporation
-                                                          4 October 2025
+                                                          5 October 2025
 
 
      Use of Remote Attestation with Certification Signing Requests
@@ -66,7 +66,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 7 April 2026.
+   This Internet-Draft will expire on 8 April 2026.
 
 Copyright Notice
 
@@ -279,17 +279,28 @@ Table of Contents
    this document, the terms "CSR" and Certificate Request message are
    used interchangeably.
 
-   The term Hardware Security Modules (HSM) is used generically to refer
-   to the combination of hardware and software designed to protect keys
-   from unauthorized access.  Other commonly used terms include Secure
-   Element and Trusted Execution Environment.
+   The term "hardware security module (HSM)" is used generically to
+   refer to the combination of hardware and software designed to protect
+   keys from unauthorized access.  Other commonly used terms include
+   Secure Element and Trusted Execution Environment.
+
+   Since this document combines terminology from two domains - Remote
+   Attestation (RATS) and X.509 PKI - it follows a naming convention to
+   avoid ambiguity.  RATS terminology is written in uppercase (e.g.,
+   Verifier), while X.509/PKI terminology is written in lowercase (e.g.,
+   certification authority (CA)).  This distinction clarifies terms that
+   exist in both domains; for instance, a Verifier refers to the RATS
+   entity that processes Evidence, whereas a verifier refers to the PKI
+   entity that validates certificates.  This convention is distinct from
+   camel-case identifiers like "EvidenceStatement", which denote ASN.1
+   types.
 
 3.  Architecture
 
    Figure 1 shows the high-level communication pattern of the RATS
    background check model where the Attester transmits the Evidence in
-   the CSR to the Registration Authority (RA) and the Certification
-   Authority (CA), which is subsequently forwarded to the Verifier.  The
+   the CSR to the registration authority (RA) and the certification
+   authority (CA), which is subsequently forwarded to the Verifier.  The
    Verifier appraises the received Evidence and computes an Attestation
    Result, which is then processed by the RA/CA prior to the certificate
    issuance.  The RA and CA are depicted as separate entities with the
@@ -312,8 +323,8 @@ Table of Contents
                                      |      v
      .------------.               .--|--------------.       .-----.
      |            +-------------->|----'            |------>|     |
-     | End        | Evidence /    | Registration    |       | CA  |
-     | Entity     | Endorsements  | Authority RA    |       |     |
+     | end        | Evidence /    | registration    |       | CA  |
+     | entity     | Endorsements  | authority (RA)  |       |     |
      |            | in CSR        |                 |       |     |
      | (Attester) |               | (Relying Party) |       |     |
      '------------'               '-----------------'       '-----'
@@ -638,14 +649,15 @@ Table of Contents
 
    The certs field contains a set of certificates that is intended to
    validate the contents of an Evidence statement contained in
-   evidences, if required.  For each Evidnece statement the set of
-   certificates should contain the certificate that contains the public
-   key needed to directly validate the Evidence statement.  Additional
-   certificates may be provided, for example, to chain the Evidence
-   signer key back to an agreed upon trust anchor.  No specific order of
-   the certificates in certs SHOULD be expected because certificates
-   contained in certs may be needed to validate different Evidence
-   statements.
+   evidences, if required.  For each Evidence statement, the set of
+   certificates SHOULD contain the certificate that contains the public
+   key needed to directly validate the Evidence statement, unless the
+   signing key is expected to be known to the Verifier or is embedded
+   within the statement.  Additional certificates MAY be provided, for
+   example, to chain the Evidence signer key back to an agreed upon
+   trust anchor.  No specific order of the certificates in certs SHOULD
+   be expected because certificates contained in certs may be needed to
+   validate different Evidence statements.
 
    This specification places no restriction on mixing certificate types
    within the certs field.  For example a non-X.509 Evidence signer
@@ -775,11 +787,11 @@ Table of Contents
    particularly applicable to the background check model.
 
    Cases where the CSR is generated internally to the Attesting
-   Environment are straightforward: the Hardware Security Model (HSM)
+   Environment are straightforward: the hardware security module (HSM)
    generates and embeds the Evidence and the corresponding certification
    paths when constructing the CSR.
 
-   Cases where the CSR is generated externally may require extra
+   Cases where the CSR is generated externally might require extra
    communication between the CSR generator and the Attesting
    Environment, first to obtain the necessary Evidence about the subject
    key, and then to use the subject key to sign the CSR; for example, a
@@ -815,8 +827,8 @@ Table of Contents
 7.2.  Separation of RA and CA roles with respect to Attestation Results
 
    As described in Section 3, CSRs MAY contain either Evidence or
-   Attestation Results (AR), and also the Registration Authority (RA)
-   and Certification Authority (CA) MAY be conceptualized as a single
+   Attestation Results (AR), and also the registration authority (RA)
+   and certification authority (CA) MAY be conceptualized as a single
    Relying Party entity, or as separate entities.  There are some
    implications here worth discussion.
 
@@ -974,28 +986,24 @@ Table of Contents
    an RP could be used to track devices.  This observation is noted in
    Section 11 of [RFC9334].
 
-   Typically, the RPs considered in the RATS architecture are
-   application services that use remote attestation, rather than RAs or
-   CAs.  Devices inherently place significant trust in RA/CA
-   infrastructure elements, and therefore any additional information
-   revealed through remote attestation to such entities is generally
-   less concerning than disclosure to application services.  The problem
-   of copying Evidence by CAs into an X.509 certificate is discussed in
-   Section 9.3.
+   In the RATS architecture, RPs are typically application services that
+   consume remote attestation, rather than PKI-style RAs or CAs.
+   Devices already place substantial trust in RA/CA infrastructure, so
+   additional information disclosed through remote attestation to these
+   entities is generally less sensitive than disclosure to application
+   services.  The issue of CAs embedding Evidence into X.509
+   certificates is discussed in Section 9.3.
 
    These privacy risks can be mitigated using several approaches,
    including:
 
-   *  Shared Attestation Keys: A manufacturer of devices may provision
-      all devices with the same attestation key(s), or share a common
-      attestation key across devices of the same product family.  This
-      approach anonymizes individual devices by making them
-      indistinguishable from others using the same key(s).  However, it
-      also means losing the ability to revoke a single attestation key
-      if a specific device is compromised.  Care must be taken to avoid
-      embedding uniquely identifying information in the Evidence, as
-      that would reduce the privacy benefits of using remote
-      attestation.
+   *  Shared Attestation Keys: A manufacturer may provision all devices
+      in a product family with the same attestation key.  This enables
+      anonymity by making devices indistinguishable from one another,
+      but it also prevents revocation of a single device's key if
+      compromised.  To preserve privacy in such cases, Evidence must
+      avoid embedding uniquely identifying information, as this would
+      negate the benefits of shared keys.
 
    *  Per-Use Attestation Keys: Devices may be designed to dynamically
       generate distinct attestation keys (and request the corresponding
@@ -1007,25 +1015,25 @@ Table of Contents
       potential for tracking while maintaining strong security
       assurances.  This is the model described in this document.
 
-   *  Anonymous Attestation Mechanisms: Direct anonymous attestation
-      (DAA) or similar cryptographic methods can be employed to generate
-      blinded attestation signatures.  In these schemes, the verifier
-      can validate the attestation using a root key but does not gain a
-      global correlation handle.  Thus, repeated use of the same
-      attestation key cannot be exploited to track devices.
-      [I-D.ietf-rats-daa] extends the RATS architecture with such a DAA
-      scheme, significantly enhancing privacy.
+   *  Anonymous Attestation Mechanisms: Direct Anonymous Attestation
+      (DAA) and related cryptographic schemes enable devices to produce
+      attestation signatures that are verifiable against a root key, but
+      unlinkable across different uses.  This prevents a verifier from
+      using repeated attestations with the same key as a global
+      correlation handle to track devices.  [I-D.ietf-rats-daa] extends
+      the RATS architecture with such a DAA scheme, thereby enhancing
+      privacy.
 
 9.1.  Background Check Model Security Considerations
 
-   A PKCS#10 or CRMF Certification Request message typically consists of
-   a distinguished name, a public key, and optionally a set of
-   attributes, collectively signed by the entity requesting
-   certification.  In general usage, the private key used to sign the
-   CSR MUST be different from the Attesting Key utilized to sign
-   Evidence about the Target Environment, though exceptions MAY be made
-   where CSRs and Evidence are involved in bootstrapping the Attesting
-   Key.
+   A PKCS#10 or CRMF certification request typically consists of a
+   distinguished name, a public key, and optionally a set of attributes,
+   collectively signed by the entity requesting certification.  In
+   general, because an Attestation Key is intended solely for signing
+   Evidence, the private key used to sign a CSR SHOULD be distinct from
+   the Attestation Key used to sign Evidence about the Target
+   Environment.  Exceptions MAY be allowed when CSRs and Evidence are
+   both part of the process of bootstrapping the Attestation Key.
 
    To demonstrate that the private key applied to sign the CSR is
    generated, and stored in a secure environment that has controls to
@@ -1090,7 +1098,7 @@ Table of Contents
 
    Evidence communicated in the attributes and structures defined in
    this document are meant to be used in a CSR.  It is up to the
-   Verifier and to the Relying Party (RA/CA) to place as much or as
+   Verifier and to the Relying Party (PKI RA/CA) to place as much or as
    little trust in this information as dictated by policies.
 
    This document defines the transport of Evidence of different formats
@@ -1119,25 +1127,25 @@ Table of Contents
 
 9.2.  Freshness for the Background Check Model
 
-   Evidence generated by an Attester generally needs to be fresh to
-   provide value to the Verifier since the configuration on the device
-   may change over time.  Section 10 of [RFC9334] discusses different
-   approaches for providing freshness, including a nonce-based approach,
-   the use of timestamps and an epoch-based technique.  The use of
-   nonces requires that nonce to be provided by the Relying Party in
-   some protocol step prior to Evidence and CSR generation, and the use
-   of timestamps requires synchronized clocks which cannot be guaranteed
-   in all operating environments.  Epochs also require an out-of-band
-   communication channel.  This document leaves the exchange of nonces
-   and other freshness data to certificate management protocols, see
-   [I-D.ietf-lamps-attestation-freshness].  Developers, operators, and
-   designers of protocols, which embed Evidence-carrying-CSRs, MUST
-   consider what notion of freshness is appropriate and available in-
-   context; thus the issue of freshness is left up to the discretion of
-   protocol designers and implementers.
+   Evidence generated by an Attester generally needs to be fresh in
+   order to provide value to the Verifier since the configuration on the
+   device may change over time.  Section 10 of [RFC9334] discusses
+   different approaches for providing freshness, including a nonce-based
+   approach, the use of timestamps and an epoch-based technique.  The
+   use of nonces requires that nonce to be provided by the Relying Party
+   in some protocol step prior to Evidence and CSR generation, and the
+   use of timestamps requires synchronized clocks which cannot be
+   guaranteed in all operating environments.  Epochs also require an
+   out-of-band communication channel.  This document leaves the exchange
+   of nonces and other freshness data to certificate management
+   protocols, see [I-D.ietf-lamps-attestation-freshness].  Developers,
+   operators, and designers of protocols, which embed Evidence-carrying-
+   CSRs, MUST consider what notion of freshness is appropriate and
+   available in-context; thus the issue of freshness is left up to the
+   discretion of protocol designers and implementers.
 
-   In the case of Hardware Security Modules (HSM), the definition of
-   "fresh" is somewhat ambiguous in the context of CSRs, especially
+   In the case of hardware security modules (HSM), the semantics of
+   "freshness" are somewhat ambiguous in the context of CSRs, especially
    considering that non-automated certificate enrollments are often
    asynchronous, and considering the common practice of re-using the
    same CSR for multiple certificate renewals across the lifetime of a
@@ -1158,7 +1166,7 @@ Table of Contents
 9.3.  Publishing Evidence in an X.509 Extension
 
    This document specifies an Extension for carrying Evidence in a
-   PKCS#10 or CRMF Certificate Signing Request (CSR), but it is
+   PKCS#10 or CRMF certificate signing request (CSR), but it is
    intentionally NOT RECOMMENDED for a CA to copy the attr-evidence for
    PKCS#10 or ext-evidence extension for CRMF into the published
    certificate.  The reason for this is that certificates are considered

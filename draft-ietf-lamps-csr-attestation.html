@@ -1060,7 +1060,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Ounsworth, et al.</td>
-<td class="center">Expires 7 April 2026</td>
+<td class="center">Expires 8 April 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1073,12 +1073,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-lamps-csr-attestation-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2025-10-04" class="published">4 October 2025</time>
+<time datetime="2025-10-05" class="published">5 October 2025</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-04-07">7 April 2026</time></dd>
+<dd class="expires"><time datetime="2026-04-08">8 April 2026</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1141,7 +1141,7 @@ Attestation Results, in Certificate Signing Requests (CSRs), such as PKCS#10 or 
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 7 April 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 8 April 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1414,10 +1414,12 @@ even a different encoding, in particular this document also
 considers messages in the Certificate Request Message Format (CRMF) <span>[<a href="#RFC4211" class="cite xref">RFC4211</a>]</span>
 to be "CSRs". In this document, the terms "CSR" and Certificate Request
 message are used interchangeably.<a href="#section-2-3" class="pilcrow">¶</a></p>
-<p id="section-2-4">The term Hardware Security Modules (HSM) is used generically to refer to the
+<p id="section-2-4">The term "hardware security module (HSM)" is used generically to refer to the
 combination of hardware and software designed to protect keys from unauthorized
 access. Other commonly used terms include Secure Element and Trusted Execution
 Environment.<a href="#section-2-4" class="pilcrow">¶</a></p>
+<p id="section-2-5">Since this document combines terminology from two domains - Remote Attestation (RATS) and X.509 PKI - it follows a naming convention to avoid ambiguity. RATS terminology is written in uppercase (e.g., Verifier), while X.509/PKI terminology is written in lowercase (e.g., certification authority (CA)). This distinction clarifies terms that exist in both domains; for instance, a Verifier refers to the RATS entity that processes Evidence, whereas a verifier refers to the PKI entity that validates certificates.
+This convention is distinct from camel-case identifiers like "EvidenceStatement", which denote ASN.1 types.<a href="#section-2-5" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="architecture">
@@ -1427,7 +1429,7 @@ Environment.<a href="#section-2-4" class="pilcrow">¶</a></p>
       </h2>
 <p id="section-3-1"><a href="#fig-arch-background" class="auto internal xref">Figure 1</a> shows the high-level communication pattern of the RATS
 background check model where the Attester transmits the Evidence in the
-CSR to the Registration Authority (RA) and the Certification Authority (CA),
+CSR to the registration authority (RA) and the certification authority (CA),
 which is subsequently forwarded to the Verifier.
 The Verifier appraises the received Evidence and computes an Attestation
 Result, which is then processed by the RA/CA prior to the certificate
@@ -1484,15 +1486,15 @@ This diagram overlays PKI entities with RATS roles in parentheses.<a href="#sect
                 <text x="376" y="132">Attestation</text>
                 <text x="196" y="148">Endorsements</text>
                 <text x="356" y="148">Result</text>
-                <text x="32" y="212">End</text>
+                <text x="32" y="212">end</text>
                 <text x="156" y="212">Evidence</text>
                 <text x="200" y="212">/</text>
-                <text x="300" y="212">Registration</text>
+                <text x="300" y="212">registration</text>
                 <text x="468" y="212">CA</text>
-                <text x="44" y="228">Entity</text>
+                <text x="44" y="228">entity</text>
                 <text x="172" y="228">Endorsements</text>
-                <text x="288" y="228">Authority</text>
-                <text x="340" y="228">RA</text>
+                <text x="288" y="228">authority</text>
+                <text x="348" y="228">(RA)</text>
                 <text x="132" y="244">in</text>
                 <text x="160" y="244">CSR</text>
                 <text x="60" y="260">(Attester)</text>
@@ -1997,9 +1999,9 @@ EvidenceBundle ::= SEQUENCE {
 <p id="section-5.2-15">The CertificateChoices structure defined in <span>[<a href="#RFC6268" class="cite xref">RFC6268</a>]</span> allows for carrying certificates in the default X.509 <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span> format, or in other non-X.509 certificate formats. CertificateChoices <span class="bcp14">MUST</span> only contain certificate or other. CertificateChoices <span class="bcp14">MUST NOT</span> contain extendedCertificate, v1AttrCert, or v2AttrCert. Note that for non-ASN.1 certificate formats, the CertificateChoices <span class="bcp14">MUST</span> use <code>other [3]</code> with an <code>OtherCertificateFormat.Type</code> of <code>OCTET STRING</code>, and then can carry any binary data.<a href="#section-5.2-15" class="pilcrow">¶</a></p>
 <p id="section-5.2-16">The <code>certs</code> field contains a set of certificates that
 is intended to validate the contents of an Evidence statement
-contained in <code>evidences</code>, if required. For each Evidnece statement the set of certificates should contain
+contained in <code>evidences</code>, if required. For each Evidence statement, the set of certificates <span class="bcp14">SHOULD</span> contain
 the certificate that contains the public key needed to directly validate the
-Evidence statement. Additional certificates may be provided, for example, to chain the
+Evidence statement, unless the signing key is expected to be known to the Verifier or is embedded within the statement. Additional certificates <span class="bcp14">MAY</span> be provided, for example, to chain the
 Evidence signer key back to an agreed upon trust anchor. No specific order of the certificates in <code>certs</code> <span class="bcp14">SHOULD</span> be expected because certificates contained in <code>certs</code> may be needed to validate different Evidence statements.<a href="#section-5.2-16" class="pilcrow">¶</a></p>
 <p id="section-5.2-17">This specification places no restriction on mixing certificate types within the <code>certs</code> field. For example a non-X.509 Evidence signer certificate <span class="bcp14">MAY</span> chain to a trust anchor via a chain of X.509 certificates. It is up to the Attester and its Verifier to agree on supported certificate formats.<a href="#section-5.2-17" class="pilcrow">¶</a></p>
 <span id="name-definitions-of-csr-attribut"></span><div id="code-extensions">
@@ -2156,9 +2158,9 @@ is constructed internally or externally to the Attesting Environment, from the
 point of view of the calling application. This section is particularly
 applicable to the background check model.<a href="#section-7.1-1" class="pilcrow">¶</a></p>
 <p id="section-7.1-2">Cases where the CSR is generated internally to the Attesting Environment
-are straightforward: the Hardware Security Model (HSM) generates and embeds
+are straightforward: the hardware security module (HSM) generates and embeds
 the Evidence and the corresponding certification paths when constructing the CSR.<a href="#section-7.1-2" class="pilcrow">¶</a></p>
-<p id="section-7.1-3">Cases where the CSR is generated externally may require extra communication
+<p id="section-7.1-3">Cases where the CSR is generated externally might require extra communication
 between the CSR generator and the Attesting Environment, first to obtain
 the necessary Evidence about the subject key, and then to use
 the subject key to sign the CSR; for example, a CSR generated by
@@ -2219,7 +2221,7 @@ network protocol, then the interaction would conceptually be:<a href="#section-7
 <a href="#section-7.2" class="section-number selfRef">7.2. </a><a href="#name-separation-of-ra-and-ca-rol" class="section-name selfRef">Separation of RA and CA roles with respect to Attestation Results</a>
         </h3>
 <p id="section-7.2-1">As described in <a href="#architecture" class="auto internal xref">Section 3</a>, CSRs <span class="bcp14">MAY</span> contain either Evidence or Attestation Results (AR),
-and also the Registration Authority (RA) and Certification Authority (CA) <span class="bcp14">MAY</span> be conceptualized as
+and also the registration authority (RA) and certification authority (CA) <span class="bcp14">MAY</span> be conceptualized as
 a single Relying Party entity, or as separate entities. There are some implications here worth discussion.<a href="#section-7.2-1" class="pilcrow">¶</a></p>
 <p id="section-7.2-2">In many cases, the Evidence contained within a CSR is intended to be consumed by the RA and not
 to be placed into the issued certificate.
@@ -2422,17 +2424,17 @@ It lists entries for several evidence encoding OIDs including an entry for the C
 <a href="#section-9" class="section-number selfRef">9. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
       </h2>
 <p id="section-9-1">In the RATS architecture, when Evidence or an Attestation Result is presented to a Relying Party (RP), the RP may learn detailed information about the Attester unless that information has been redacted or encrypted. Consequently, a certain amount of trust must be placed in the RP, which raises potential privacy concerns because an RP could be used to track devices. This observation is noted in Section 11 of <span>[<a href="#RFC9334" class="cite xref">RFC9334</a>]</span>.<a href="#section-9-1" class="pilcrow">¶</a></p>
-<p id="section-9-2">Typically, the RPs considered in the RATS architecture are application services that use remote attestation, rather than RAs or CAs. Devices inherently place significant trust in RA/CA infrastructure elements, and therefore any additional information revealed through remote attestation to such entities is generally less concerning than disclosure to application services. The problem of copying Evidence by CAs into an X.509 certificate is discussed in <a href="#sec-con-publishing-x509" class="auto internal xref">Section 9.3</a>.<a href="#section-9-2" class="pilcrow">¶</a></p>
+<p id="section-9-2">In the RATS architecture, RPs are typically application services that consume remote attestation, rather than PKI-style RAs or CAs. Devices already place substantial trust in RA/CA infrastructure, so additional information disclosed through remote attestation to these entities is generally less sensitive than disclosure to application services. The issue of CAs embedding Evidence into X.509 certificates is discussed in <a href="#sec-con-publishing-x509" class="auto internal xref">Section 9.3</a>.<a href="#section-9-2" class="pilcrow">¶</a></p>
 <p id="section-9-3">These privacy risks can be mitigated using several approaches, including:<a href="#section-9-3" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-9-4.1">
-          <p id="section-9-4.1.1">Shared Attestation Keys: A manufacturer of devices may provision all devices with the same attestation key(s), or share a common attestation key across devices of the same product family. This approach anonymizes individual devices by making them indistinguishable from others using the same key(s). However, it also means losing the ability to revoke a single attestation key if a specific device is compromised. Care must be taken to avoid embedding uniquely identifying information in the Evidence, as that would reduce the privacy benefits of using remote attestation.<a href="#section-9-4.1.1" class="pilcrow">¶</a></p>
+          <p id="section-9-4.1.1">Shared Attestation Keys: A manufacturer may provision all devices in a product family with the same attestation key. This enables anonymity by making devices indistinguishable from one another, but it also prevents revocation of a single device's key if compromised. To preserve privacy in such cases, Evidence must avoid embedding uniquely identifying information, as this would negate the benefits of shared keys.<a href="#section-9-4.1.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="section-9-4.2">
           <p id="section-9-4.2.1">Per-Use Attestation Keys: Devices may be designed to dynamically generate distinct attestation keys (and request the corresponding certificates) for each use case, device, or session. This is analogous to the Privacy CA model, in which a device is initially provisioned with an attestation key and certificate; then, in conjunction with a privacy-preserving CA, it can obtain unique keys and certificates as needed. This strategy reduces the potential for tracking while maintaining strong security assurances. This is the model described in this document.<a href="#section-9-4.2.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="section-9-4.3">
-          <p id="section-9-4.3.1">Anonymous Attestation Mechanisms: Direct anonymous attestation (DAA) or similar cryptographic methods can be employed to generate blinded attestation signatures. In these schemes, the verifier can validate the attestation using a root key but does not gain a global correlation handle. Thus, repeated use of the same attestation key cannot be exploited to track devices. <span>[<a href="#I-D.ietf-rats-daa" class="cite xref">I-D.ietf-rats-daa</a>]</span> extends the RATS architecture with such a DAA scheme, significantly enhancing privacy.<a href="#section-9-4.3.1" class="pilcrow">¶</a></p>
+          <p id="section-9-4.3.1">Anonymous Attestation Mechanisms: Direct Anonymous Attestation (DAA) and related cryptographic schemes enable devices to produce attestation signatures that are verifiable against a root key, but unlinkable across different uses. This prevents a verifier from using repeated attestations with the same key as a global correlation handle to track devices. <span>[<a href="#I-D.ietf-rats-daa" class="cite xref">I-D.ietf-rats-daa</a>]</span> extends the RATS architecture with such a DAA scheme, thereby enhancing privacy.<a href="#section-9-4.3.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 <div id="background-check-model-security-considerations">
@@ -2440,13 +2442,14 @@ It lists entries for several evidence encoding OIDs including an entry for the C
         <h3 id="name-background-check-model-secu">
 <a href="#section-9.1" class="section-number selfRef">9.1. </a><a href="#name-background-check-model-secu" class="section-name selfRef">Background Check Model Security Considerations</a>
         </h3>
-<p id="section-9.1-1">A PKCS#10 or CRMF Certification Request message typically consists of a
+<p id="section-9.1-1">A PKCS#10 or CRMF certification request typically consists of a
 distinguished name, a public key, and optionally a set of attributes,
 collectively signed by the entity requesting certification.
-In general usage, the private key used to sign the CSR <span class="bcp14">MUST</span> be different from the
-Attesting Key utilized to sign Evidence about the Target
-Environment, though exceptions <span class="bcp14">MAY</span> be made where CSRs and Evidence are involved in
-bootstrapping the Attesting Key.<a href="#section-9.1-1" class="pilcrow">¶</a></p>
+In general, because an Attestation Key is intended solely for signing Evidence,
+ the private key used to sign a CSR <span class="bcp14">SHOULD</span> be distinct from the
+Attestation Key used to sign Evidence about the Target
+ Environment. Exceptions <span class="bcp14">MAY</span> be allowed when CSRs and Evidence are both part of the process
+of bootstrapping the Attestation Key.<a href="#section-9.1-1" class="pilcrow">¶</a></p>
 <p id="section-9.1-2">To demonstrate that the private
 key applied to sign the CSR is generated, and stored in a secure
 environment that has controls to prevent theft or misuse (including
@@ -2554,7 +2557,7 @@ an assessment to be made whether the key used to sign the CSR
 is stored in a secure location and cannot be exported.<a href="#section-9.1-5" class="pilcrow">¶</a></p>
 <p id="section-9.1-6">Evidence communicated in the attributes and structures defined
 in this document are meant to be used in a CSR. It is up to
-the Verifier and to the Relying Party (RA/CA) to place as much or
+the Verifier and to the Relying Party (PKI RA/CA) to place as much or
 as little trust in this information as dictated by policies.<a href="#section-9.1-6" class="pilcrow">¶</a></p>
 <p id="section-9.1-7">This document defines the transport of Evidence of different formats
 in a CSR. Some of these encoding formats are based on standards
@@ -2584,7 +2587,7 @@ require the use of Evidence in a CSR is out-of-scope for this document.<a href="
         <h3 id="name-freshness-for-the-backgroun">
 <a href="#section-9.2" class="section-number selfRef">9.2. </a><a href="#name-freshness-for-the-backgroun" class="section-name selfRef">Freshness for the Background Check Model</a>
         </h3>
-<p id="section-9.2-1">Evidence generated by an Attester generally needs to be fresh to provide
+<p id="section-9.2-1">Evidence generated by an Attester generally needs to be fresh in order to provide
 value to the Verifier since the configuration on the device may change
 over time. <span><a href="https://rfc-editor.org/rfc/rfc9334#section-10" class="relref">Section 10</a> of [<a href="#RFC9334" class="cite xref">RFC9334</a>]</span> discusses different approaches for
 providing freshness, including a nonce-based approach, the use of timestamps
@@ -2599,7 +2602,8 @@ Developers, operators, and designers of protocols, which embed
 Evidence-carrying-CSRs, <span class="bcp14">MUST</span> consider what notion of freshness is
 appropriate and available in-context; thus the issue of freshness is
 left up to the discretion of protocol designers and implementers.<a href="#section-9.2-1" class="pilcrow">¶</a></p>
-<p id="section-9.2-2">In the case of Hardware Security Modules (HSM), the definition of "fresh" is somewhat ambiguous in the context
+<p id="section-9.2-2">In the case of hardware security modules (HSM), the
+semantics of "freshness" are somewhat ambiguous in the context
 of CSRs, especially considering that non-automated certificate enrollments
 are often asynchronous, and considering the common practice of re-using the
 same CSR for multiple certificate renewals across the lifetime of a key.
@@ -2619,7 +2623,7 @@ will continue to hold into the future.<a href="#section-9.2-2" class="pilcrow">�
         <h3 id="name-publishing-evidence-in-an-x">
 <a href="#section-9.3" class="section-number selfRef">9.3. </a><a href="#name-publishing-evidence-in-an-x" class="section-name selfRef">Publishing Evidence in an X.509 Extension</a>
         </h3>
-<p id="section-9.3-1">This document specifies an Extension for carrying Evidence in a PKCS#10 or CRMF Certificate Signing Request (CSR), but it is intentionally <span class="bcp14">NOT RECOMMENDED</span> for a CA to copy the attr-evidence for PKCS#10 or ext-evidence extension for CRMF into the published certificate.
+<p id="section-9.3-1">This document specifies an Extension for carrying Evidence in a PKCS#10 or CRMF certificate signing request (CSR), but it is intentionally <span class="bcp14">NOT RECOMMENDED</span> for a CA to copy the attr-evidence for PKCS#10 or ext-evidence extension for CRMF into the published certificate.
 The reason for this is that certificates are considered public information and the Evidence might contain detailed information about hardware and patch levels of the device on which the private key resides.
 The certificate requester has consented to sharing this detailed device information with the CA but might not consent to having these details published.
 These privacy considerations are beyond the scope of this document and may require additional signaling mechanisms in the CSR to prevent unintended publication of sensitive information, so we leave it as "<span class="bcp14">NOT RECOMMENDED</span>". Often, the correct layer at which to address this is either in certificate profiles, a Certificate Practice Statement (CPS), or in the protocol or application that carries the CSR to the RA/CA where a flag can be added indicating whether the RA/CA should consider the evidence to be public or private.<a href="#section-9.3-1" class="pilcrow">¶</a></p>

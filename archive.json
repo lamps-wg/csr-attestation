@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-10-05T01:11:20.975820+00:00",
+  "timestamp": "2025-10-07T01:05:03.988738+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -2664,7 +2664,7 @@
       "id": "I_kwDOJ3IIN87NXY7W",
       "title": "Monty to adjust the TPM appdx to MSJ's satisfaction",
       "url": "https://github.com/lamps-wg/csr-attestation/issues/206",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "ounsworth",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [
@@ -2673,7 +2673,55 @@
       "labels": [],
       "body": "I have not been party to the discussions between Monty and MSJ, but my understanding is that the core issue is that while the TPM appendix is great, and reperesents good work and hackathon running code effort, it defines a bunch of ASN.1 required for carrying TPM data in a CSR, but it does so in a non-normative example. Which means that there remains no normative way to carry this data, which is causing confusion.",
       "createdAt": "2025-09-23T14:09:09Z",
-      "updatedAt": "2025-09-23T14:09:09Z",
+      "updatedAt": "2025-10-05T20:12:02Z",
+      "closedAt": "2025-10-05T20:12:02Z",
+      "comments": []
+    },
+    {
+      "number": 211,
+      "id": "I_kwDOJ3IIN87Pri9E",
+      "title": "Text for LAMPS WGLC email",
+      "url": "https://github.com/lamps-wg/csr-attestation/issues/211",
+      "state": "CLOSED",
+      "author": "ounsworth",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "> Hi LAMPS,\n> \n> The authors believe this document is finally ready for a WGLC.\n>\n> We made one major change in -21, which is to remove the TPM appendix. Essentially, all the discussion with MSJ has shown us that the TPM provides data in multiple pieces and does not provide a serialization to assemble the various bits that comprise \"attestation evidence\" into a single byte string. We now believe that, while this is indeed an obstacle to implementation, this should not be specified in this draft, but perhaps left for the TCG to publish. To this effect, we have removed the TPM appendix (I have moved the text, which Monty and I spent a lot of time and effort on) to a separate file in github so that it can be reused in another document in the future.\n>\n> We also have a few outstanding discussion points:\n> 1. MSJ is discussing whether or not it is ok to carry AttestationResults in the same generic manor in which we carry Evidence (the authors believe it is on the grounds that this draft is merely a container and the payload is out-of-scope). I would be happy to take these as WGLC Comments.\n> 2. This draft registers a new IANA registry \"Attestation Evidence OID Registry\" which collects together known OID : ASN.1 Type pairs that may appear in attested CSRs as a handy reference for implementers. Currently, we have removed all the TCG entries because the authors can find published OIDs, but cannot find any published spec for the corresponding ASN.1 Types (perhaps if TCGDICE1.2 provides a binary encoding, then we should just list them as OCTET STRING?). This is sitting with Ned if he wants to put in another Pull Request, or wait until the registry is created and submit them directly to IANA? Either way, I don't think this need block WGLC.",
+      "createdAt": "2025-10-05T01:59:37Z",
+      "updatedAt": "2025-10-05T21:24:33Z",
+      "closedAt": "2025-10-05T21:24:33Z",
+      "comments": []
+    },
+    {
+      "number": 212,
+      "id": "I_kwDOJ3IIN87Pvmfv",
+      "title": "WGLC Comments",
+      "url": "https://github.com/lamps-wg/csr-attestation/issues/212",
+      "state": "OPEN",
+      "author": "ounsworth",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "> There is no need for line wrapping per RFC 8792 in ASN.1 modules.  Please remove it.\n\nThis is not in the markdown source. Possibly the kramdown tooling is doing this? We can investigate.",
+      "createdAt": "2025-10-06T00:54:26Z",
+      "updatedAt": "2025-10-06T00:54:26Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 213,
+      "id": "I_kwDOJ3IIN87PvnRN",
+      "title": "Change Monty's email address to mwiseman@computer.org",
+      "url": "https://github.com/lamps-wg/csr-attestation/issues/213",
+      "state": "OPEN",
+      "author": "ounsworth",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-10-06T00:57:53Z",
+      "updatedAt": "2025-10-06T00:57:53Z",
       "closedAt": null,
       "comments": []
     }
@@ -11011,25 +11059,35 @@
       "id": "PR_kwDOJ3IIN86q-w3J",
       "title": "Update CSR-ATTESTATION-2025.asn - Update the use of CertificateChoices to a properly constrained ASN1 2002 definition.",
       "url": "https://github.com/lamps-wg/csr-attestation/pull/207",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "mstjohns",
-      "authorAssociation": "NONE",
+      "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "This updates the ASN1 module to use the proper ASN1 2002 constraints language to limit CertificateChoices to \"certificate\" and \"other\".  LimitedCertChoices maps exactly to the requirements in the removed comment text.",
       "createdAt": "2025-09-28T23:48:17Z",
-      "updatedAt": "2025-09-28T23:48:17Z",
+      "updatedAt": "2025-10-05T01:41:27Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "2eb1841ff39849ae7f1bb1b8fecf8fd57f18dc9a",
       "headRepository": "mstjohns/csr-attestation",
       "headRefName": "patch-1",
       "headRefOid": "db2e873820f3b344953a08c448e451478d47442e",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
-      "comments": [],
+      "closedAt": "2025-10-05T01:41:27Z",
+      "mergedAt": "2025-10-05T01:41:27Z",
+      "mergedBy": "ounsworth",
+      "mergeCommit": {
+        "oid": "e717d36ab00255dd0f288f499f9fd0bde2ef28d7"
+      },
+      "comments": [
+        {
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Thanks @mstjohns . This is quite helpful!",
+          "createdAt": "2025-10-05T01:41:24Z",
+          "updatedAt": "2025-10-05T01:41:24Z"
+        }
+      ],
       "reviews": []
     },
     {
@@ -11037,21 +11095,21 @@
       "id": "PR_kwDOJ3IIN86rzYlP",
       "title": "Updated IANA Table",
       "url": "https://github.com/lamps-wg/csr-attestation/pull/208",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "hannestschofenig",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "I split the table into two since a single table does not fit on the page width limit.",
       "createdAt": "2025-10-02T16:41:09Z",
-      "updatedAt": "2025-10-05T01:01:35Z",
+      "updatedAt": "2025-10-05T01:31:49Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "82217a90326b738d7b86360143ea6230c0ac6f50",
       "headRepository": "lamps-wg/csr-attestation",
       "headRefName": "hannestschofenig-patch-2",
       "headRefOid": "c6407dc236da43a50609156ef6202c0de7285c3e",
-      "closedAt": null,
+      "closedAt": "2025-10-05T01:31:49Z",
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
@@ -11129,6 +11187,131 @@
           "body": "LGTM",
           "createdAt": "2025-10-02T18:15:28Z",
           "updatedAt": "2025-10-02T18:15:28Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 209,
+      "id": "PR_kwDOJ3IIN86sHmem",
+      "title": "Changed the initial contents of the new IANA registry from a table to\u2026",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/209",
+      "state": "MERGED",
+      "author": "ounsworth",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "\u2026 a bullet list.\r\n\r\nReplaces #208 ",
+      "createdAt": "2025-10-05T01:39:30Z",
+      "updatedAt": "2025-10-05T18:45:35Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "56fde18c63d0f2df9b7db12e989c0b3203036fbb",
+      "headRepository": "lamps-wg/csr-attestation",
+      "headRefName": "mikeo_iana_table_too_big",
+      "headRefOid": "c758f08dfb47b941651d25fd505f2eb447e60b13",
+      "closedAt": "2025-10-05T16:27:14Z",
+      "mergedAt": "2025-10-05T16:27:14Z",
+      "mergedBy": "ounsworth",
+      "mergeCommit": {
+        "oid": "992bd988dfec146b15213ebd2c23c4222c22e63e"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJ3IIN87E1btt",
+          "commit": {
+            "abbreviatedOid": "c758f08"
+          },
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Works for me. Removing the TPM-related entries made the table simpler.",
+          "createdAt": "2025-10-05T11:08:47Z",
+          "updatedAt": "2025-10-05T11:08:47Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 210,
+      "id": "PR_kwDOJ3IIN86sHndk",
+      "title": "Removed the TPM appendix",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/210",
+      "state": "MERGED",
+      "author": "ounsworth",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Closes #206 ",
+      "createdAt": "2025-10-05T01:49:57Z",
+      "updatedAt": "2025-10-05T20:12:04Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "e717d36ab00255dd0f288f499f9fd0bde2ef28d7",
+      "headRepository": "lamps-wg/csr-attestation",
+      "headRefName": "mikeo_remove_tpm",
+      "headRefOid": "fb754744101fb9a0cbc84f5ca74b8d28e5efe0bd",
+      "closedAt": "2025-10-05T20:12:01Z",
+      "mergedAt": "2025-10-05T20:12:01Z",
+      "mergedBy": "ounsworth",
+      "mergeCommit": {
+        "oid": "f0db69977f55959d7c2b742d60e2451e1b532731"
+      },
+      "comments": [
+        {
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "> It\u2019s unfortunate that we have to remove the appendix, but if this remains a highly contentious issue, we have no other choice. It\u2019s disappointing given the significant time and effort we invested in it.\r\n\r\nI think the content is good and useful and I hope it gets published somewhere, but that, fundamentally, IETF is not the right venue for defining serializations for TPM data.",
+          "createdAt": "2025-10-05T16:26:32Z",
+          "updatedAt": "2025-10-05T16:26:51Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJ3IIN87E1b2B",
+          "commit": {
+            "abbreviatedOid": "6d0ff09"
+          },
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-10-05T11:09:55Z",
+          "updatedAt": "2025-10-05T11:09:56Z",
+          "comments": [
+            {
+              "originalPosition": 31,
+              "body": "```suggestion\r\nThis section provides an example that conveys an Arm Platform Security Architecture token,\r\n```",
+              "createdAt": "2025-10-05T11:09:55Z",
+              "updatedAt": "2025-10-05T11:09:56Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN87E1cSI",
+          "commit": {
+            "abbreviatedOid": "6d0ff09"
+          },
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "It\u2019s unfortunate that we have to remove the appendix, but if this remains a highly contentious issue, we have no other choice. It\u2019s disappointing given the significant time and effort we invested in it.",
+          "createdAt": "2025-10-05T11:12:20Z",
+          "updatedAt": "2025-10-05T11:12:20Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJ3IIN87E2C9H",
+          "commit": {
+            "abbreviatedOid": "fb75474"
+          },
+          "author": "mwiseman32",
+          "authorAssociation": "NONE",
+          "state": "APPROVED",
+          "body": "I approve removing the appendix and moving it to an external (from IETF) document.",
+          "createdAt": "2025-10-05T18:57:11Z",
+          "updatedAt": "2025-10-05T18:57:11Z",
           "comments": []
         }
       ]

@@ -115,12 +115,12 @@ informative:
 
 --- abstract
 
-A PKI end entity requesting a certificate from a Certification Authority (CA) may wish to offer trustworthy claims about the platform generating the certification request and the environment associated with the corresponding private key, such as whether the private key resides on a hardware security module.
+A Public Key Infrastructure (PKI) end entity requesting a certificate from a Certification Authority (CA) may wish to offer trustworthy claims about the platform generating the certification request and the environment associated with the corresponding private key, such as whether the private key resides on a hardware security module.
 
-This specification defines an attribute and an extension that allow for conveyance of RATS conceptual messages (see {{Section 8 of RFC9334}}, such as Evidence, Endorsements and
-Attestation Results, in Certificate Signing Requests (CSRs), such as PKCS#10 or Certificate Request Message Format (CRMF) payloads. This provides an elegant and automatable mechanism for transporting attestation data to a Certification Authority.
+This specification defines an attribute and an extension that allow for conveyance of Remote ATtestation ProcedureS (RATS) conceptual messages (see {{Section 8 of RFC9334}}, such as Evidence, Endorsements and
+Attestation Results, in Certificate Signing Requests (CSRs), such as PKCS#10 or Certificate Request Message Format (CRMF) payloads. This provides an elegant and automatable mechanism for transporting attestation data to a CA.
 
-Including Evidence, Endorsements and Attestation Results along with a CSR can help to improve the assessment of the security posture for the private key, and can help the Certification Authority to assess whether it satisfies the requested certificate profile.
+Including Evidence, Endorsements and Attestation Results along with a CSR can help to improve the assessment of the security posture for the private key, and can help the CA to assess whether it satisfies the requested certificate profile.
 
 --- middle
 

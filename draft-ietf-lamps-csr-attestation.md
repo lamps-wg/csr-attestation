@@ -260,9 +260,9 @@ to the Relying Party.
    |     | Result
    |     v
 .--------|---.             .-----------------.              .------.
-|        +-->+------------>| Registration    |------------->|      |
-| End        | Attestation | Authority RA    |              |  CA  |
-| Entity     | Result in   |                 |              |      |
+|        +-->+------------>| registration    |------------->|      |
+| end        | Attestation | authority (RA)  |              |  CA  |
+| entity     | Result in   |                 |              |      |
 | (Attester) | CSR         | (Relying Party) |              |      |
 '------------'             '-----------------'              '------'
 ~~~
@@ -296,7 +296,7 @@ originated from outside the device. This aspect is described in {{Section 12 of 
 Most of these aspects are, however, outside the scope of this specification but relevant
 for use with a given attestation technology.
 
-The focus of this specification is on the transport of Evidence, Endorsements, and Attesation Results
+The focus of this specification is on the transport of Evidence, Endorsements, and Attestation Results
 from the Attester to the Relying Party via existing CSR messages.
 
 # Information Model
@@ -1101,7 +1101,7 @@ EvidenceBundle
    +---->  EvidenceStatement
         +
         |
-        +-> type: OID for CCA Platform Attestation Toekn
+        +-> type: OID for CCA Platform Attestation Token
         |         1 3 6 1 5 5 7 1 TBD
         |
         +-> stmt: CCA Platform Token

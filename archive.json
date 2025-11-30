@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-10-07T01:05:03.988738+00:00",
+  "timestamp": "2025-11-30T01:19:12.198692+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -11313,6 +11313,153 @@
           "createdAt": "2025-10-05T18:57:11Z",
           "updatedAt": "2025-10-05T18:57:11Z",
           "comments": []
+        }
+      ]
+    },
+    {
+      "number": 214,
+      "id": "PR_kwDOJ3IIN862JaW3",
+      "title": "Fix typos in draft-ietf-lamps-csr-attestation.md",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/214",
+      "state": "OPEN",
+      "author": "RufusJWB",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "This PR addresses minore typos and inconsistencies.",
+      "createdAt": "2025-11-29T22:16:22Z",
+      "updatedAt": "2025-11-29T22:37:33Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "f0db69977f55959d7c2b742d60e2451e1b532731",
+      "headRepository": "RufusJWB/csr-attestation",
+      "headRefName": "typos",
+      "headRefOid": "4518f164431a94c19f508220e19d9d5036a0b467",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJ3IIN87R3Ag5",
+          "commit": {
+            "abbreviatedOid": "4518f16"
+          },
+          "author": "RufusJWB",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-11-29T22:33:09Z",
+          "updatedAt": "2025-11-29T22:33:10Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "All other abbreviations were introduced before using them. So I think it would be reasonable to do the same with the term PKI.",
+              "createdAt": "2025-11-29T22:33:09Z",
+              "updatedAt": "2025-11-29T22:33:10Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN87R3Ai5",
+          "commit": {
+            "abbreviatedOid": "4518f16"
+          },
+          "author": "RufusJWB",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-11-29T22:33:56Z",
+          "updatedAt": "2025-11-29T22:33:56Z",
+          "comments": [
+            {
+              "originalPosition": 9,
+              "body": "Also here an abbreviation is being used without being introduced before.",
+              "createdAt": "2025-11-29T22:33:56Z",
+              "updatedAt": "2025-11-29T22:33:56Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN87R3AlK",
+          "commit": {
+            "abbreviatedOid": "4518f16"
+          },
+          "author": "RufusJWB",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-11-29T22:34:45Z",
+          "updatedAt": "2025-11-29T22:34:46Z",
+          "comments": [
+            {
+              "originalPosition": 10,
+              "body": "For the term \"Certification Authority\" an abbreviation was introduced just before, so let's use it.",
+              "createdAt": "2025-11-29T22:34:46Z",
+              "updatedAt": "2025-11-29T22:34:46Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN87R3ApS",
+          "commit": {
+            "abbreviatedOid": "4518f16"
+          },
+          "author": "RufusJWB",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-11-29T22:36:05Z",
+          "updatedAt": "2025-11-29T22:36:05Z",
+          "comments": [
+            {
+              "originalPosition": 22,
+              "body": "In the ASN.1 definition at the end, the type is written without an \"s\" between \"Result\" and \"Bundle\"",
+              "createdAt": "2025-11-29T22:36:05Z",
+              "updatedAt": "2025-11-29T22:36:05Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN87R3Aqw",
+          "commit": {
+            "abbreviatedOid": "4518f16"
+          },
+          "author": "RufusJWB",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-11-29T22:36:36Z",
+          "updatedAt": "2025-11-29T22:36:36Z",
+          "comments": [
+            {
+              "originalPosition": 33,
+              "body": "it was stated, that PKI entities are written in lower characters.",
+              "createdAt": "2025-11-29T22:36:36Z",
+              "updatedAt": "2025-11-29T22:36:36Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN87R3Arx",
+          "commit": {
+            "abbreviatedOid": "4518f16"
+          },
+          "author": "RufusJWB",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-11-29T22:37:01Z",
+          "updatedAt": "2025-11-29T22:37:01Z",
+          "comments": [
+            {
+              "originalPosition": 53,
+              "body": "rephrased to avoid duplicate \"this\"",
+              "createdAt": "2025-11-29T22:37:01Z",
+              "updatedAt": "2025-11-29T22:37:01Z"
+            }
+          ]
         }
       ]
     }

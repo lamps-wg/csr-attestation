@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-11-30T01:19:12.198692+00:00",
+  "timestamp": "2025-12-02T01:12:09.870686+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -2722,6 +2722,22 @@
       "body": "",
       "createdAt": "2025-10-06T00:57:53Z",
       "updatedAt": "2025-10-06T00:57:53Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 215,
+      "id": "I_kwDOJ3IIN87bW-_I",
+      "title": "Reconsider semantics and format of EvidenceStatement.hint to avoid unsafe network usage and implementation pitfalls",
+      "url": "https://github.com/lamps-wg/csr-attestation/issues/215",
+      "state": "OPEN",
+      "author": "RufusJWB",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "# Summary\n\nThe current draft specifies an optional `hint` (IA5String) in `EvidenceStatement` intended to help a Relying Party select an appropriate Verifier when multiple are configured. It is defined as a \u201cserver name\u201d in the authority form of a URI (host[:port]) while simultaneously stating that Relying Parties SHOULD NOT connect to it and should only use it as a lookup key. This duality (looking like a network endpoint but to be ignored as such) is prone to implementation mistakes and creates unnecessary security and interoperability risk. This issue proposes tightening, redesigning, or replacing the `hint` mechanism.\n\n# Background (Excerpt Context)\n\nThe draft (see the section after the `EvidenceStatement ::= SEQUENCE {...}` definition) states:\n\n- `hint` is OPTIONAL; MAY be provided and MAY be processed.\n- Format: ASCII hostname with optional port (authority component per RFC3986 \u00a73.2; userinfo forbidden; default port 443 if absent).\n- Relying Parties SHOULD NOT \u201cconnect\u201d to the host; SHOULD only use it as a lookup string among pre\u2011configured Verifiers.\n- Purpose: help routing when the `type` OID alone is insufficient (e.g., multiple Verifiers handle same Evidence format).\n\n# Problem Statement\n\nThe design embeds a network-looking identifier (host[:port]) whose appearance strongly invites na\u00efve implementers to treat it as a real endpoint. This creates:\n\n1. Security risk (accidental outbound connection / Server-Side Request Forgery (SSRF) / data exfiltration).\n2. Policy ambiguity (is port meaningful if we must not connect?).\n3. Semantic confusion (is this an identifier, a capability label, or a transport endpoint?).\n4. Interoperability variance (some deployments may rely on port for disambiguation; others may strip it).\n5. Validation uncertainty (what are allowed characters? case sensitivity? punycode? IP literals?).\n\n# Threat / Risk Scenarios\n\n- SSRF: Malicious CSR includes `hint = attacker.example.com:443`; RA code (contrary to SHOULD NOT) fetches \u201cVerifier metadata\u201d over HTTPS, leaking internal info.\n- Downgrade / Misrouting: Attacker chooses a hint that maps to a less strict or deprecated Verifier in RP\u2019s table, bypassing stronger appraisal.\n- Enumeration / Tracking: Unique per-device hostnames used as hints become correlation handles across requests (privacy concern).\n- Confusion with trust anchors: Operator mistakenly equates DNS domain trust with Verifier appraisal trust.\n- Silent acceptance: Implementation ignores mismatch between `type` OID and hint mapping but still proceeds, creating ambiguous audit trail.\n\n# Ambiguities / Inconsistencies in Current Text\n\n- \u201cServer name\u201d vs \u201clookup string\u201d duality is not crisply resolved.\n- Default port 443 suggestion implicitly blesses HTTPS semantics while discouraging actual connections.\n- No explicit ABNF clarifying case, length, allowed characters, IP literals, or IDNA handling.\n- No normative rule about when a RP MUST ignore or MUST reject a hint (e.g., unknown hint vs mismatch).\n- No guidance on privacy handling (e.g., forbidding per-device uniqueness).\n- No requirement that hint be covered by the Evidence\u2019s own signature (it currently relies only on CSR signature prior to Evidence parsing).\n\n# Implementation Pitfalls Already Likely\n\n- Developers copy/paste host routing code from other CSR extensions, treat hint as endpoint.\n- Logging / telemetry pipes hint into network scanners or external \u201cVerifier discovery\u201d SaaS.\n- Fuzzier matching (prefix/substring) leading to unintended Verifier selection.\n- Port treated as priority or weight (invented semantics) generating divergence.\n\n# Prior Art / Comparable Mechanisms\n\n- TLS ALPN: Uses registered opaque protocol identifiers (non-network-looking strings).\n- X.509 Policy OIDs: Encodes selection metadata via structured, globally unique OIDs rather than hostnames.\n- ACME identifiers and challenge tokens: Use random non-semantic tokens to avoid semantic guessing.\n- JWT / EAT \u201ciss\u201d claim: Domain-like but explicitly identity of issuer; network use is carefully scoped.\n\nIf you share my concerns, I'd be happy to work on a rewrite of the current text.",
+      "createdAt": "2025-12-01T10:05:10Z",
+      "updatedAt": "2025-12-01T10:05:10Z",
       "closedAt": null,
       "comments": []
     }

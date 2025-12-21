@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-12-02T01:12:09.870686+00:00",
+  "timestamp": "2025-12-21T01:19:32.797067+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -11478,6 +11478,32 @@
           ]
         }
       ]
+    },
+    {
+      "number": 216,
+      "id": "PR_kwDOJ3IIN865qtP1",
+      "title": "with design team edits. ",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/216",
+      "state": "OPEN",
+      "author": "carl-wallace",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "see https://mailarchive.ietf.org/arch/msg/spasm/HH3XBz0lDhreqwZnnmJ-G_KnmEE/",
+      "createdAt": "2025-12-18T19:22:27Z",
+      "updatedAt": "2025-12-18T19:22:27Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "f0db69977f55959d7c2b742d60e2451e1b532731",
+      "headRepository": "carl-wallace/csr-attestation",
+      "headRefName": "dt",
+      "headRefOid": "05d3e67dd27c06f404f1afe371a05bf07221b1dd",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }

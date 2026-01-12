@@ -70,7 +70,7 @@ normative:
   RFC4211:
   RFC2986:
   RFC5280:
-  
+
 informative:
   RFC8126:
   RFC5226:
@@ -99,7 +99,7 @@ informative:
 
 Certification Authorities (CAs) issuing certificates to Public Key Infrastructure (PKI) end entities may require a certificate signing request (CSR) to include additional verifiable information to confirm policy compliance. For example, a CA may require an end entity to demonstrate that the private key corresponding to a CSR's public key is secured by a hardware security module (HSM), is not exportable, etc. The process of generating, transmitting, and verifying  additional information required by the CA is called remote attestation. While work is currently underway to standardize various aspects of  remote attestation, a variety of proprietary mechanisms have been in use for years, particularly regarding protection of private keys.
 
-This specification defines an ASN.1 structure for 
+This specification defines an ASN.1 structure for
 remote attestation that can accommodate proprietary and standardized
 attestation mechanisms, as well as an attribute and an extension to carry the structure in PKCS#10 and Certificate
 Request Message Format (CRMF) messages, respectively.
@@ -110,13 +110,13 @@ Request Message Format (CRMF) messages, respectively.
 
 Certification Authorities (CAs) issuing certificates to PKI end entities may require a certificate signing request (CSR) to include verifiable attestations that contain claims regarding the platform used by the end entity to generate the key pair for which a certificate is sought. At the time of writing, the most pressing example of the need for remote attestation in certificate enrollment is the Code-Signing Baseline Requirements (CSBR) document maintained by the CA/Browser Forum [CSBR]. The [CSBR] requires compliant CAs to "ensure that a Subscriber's Private Key is generated, stored, and used in a secure environment that has controls to prevent theft or misuse". This requirement is a natural fit to enforce via remote attestation.
 
-This specification defines an attribute and an extension that allow for conveyance of verifiable attestations in several Certificate Signing Request (CSR) formats, including PKCS#10 [RFC2986] or Certificate Request Message Format (CRMF) [RFC4211] messages. Given several standard and proprietary remote attestation technologies are in use, this specification is intended to be as technology-agnostic as is feasible with respect to implemented and future remote attestation technologies. This aligns with the fact that a CA may wish to provide support for a variety of types of devices but cannot dictate what format a device uses to represent attestations. 
+This specification defines an attribute and an extension that allow for conveyance of verifiable attestations in several Certificate Signing Request (CSR) formats, including PKCS#10 [RFC2986] or Certificate Request Message Format (CRMF) [RFC4211] messages. Given several standard and proprietary remote attestation technologies are in use, this specification is intended to be as technology-agnostic as is feasible with respect to implemented and future remote attestation technologies. This aligns with the fact that a CA may wish to provide support for a variety of types of devices but cannot dictate what format a device uses to represent attestations.
 
 While CSRs are defined using Abstract Syntax Notation One (ASN.1), attestations may be defined using any data description language, i.e., ASN.1 or Concise Data Description Language (CDDL), or represented using any type of encoding, including Distinguished Encoding Rules (DER), Concise Binary Object Representation (CBOR), JavaScript Object Notation (JSON). This specification RECOMMENDS that attestations that are not encoded using the Basic Encoding Rules (BER) or Distinguished Encoding Rules (DER) be wrapped in an ASN.1 OCTET STRING.
 
 ## Relationship to the IETF RATS Working Group
 
-As noted, attestation-related technologies have existed for many years, albeit with no standard format and no standard means of conveying attestation information to a CA. This draft addresses the latter, and is equally applicable to standard and proprietary attestation formats. The IETF Remote Attestation Procedures (RATS) working group is addressing the former. In {{RFC9334}}, RATS defined vocabulary, architecture, and usage patterns related to the practice of generating and verifying attestations. 
+As noted, attestation-related technologies have existed for many years, albeit with no standard format and no standard means of conveying attestation information to a CA. This draft addresses the latter, and is equally applicable to standard and proprietary attestation formats. The IETF Remote Attestation Procedures (RATS) working group is addressing the former. In {{RFC9334}}, RATS defined vocabulary, architecture, and usage patterns related to the practice of generating and verifying attestations.
 
 In its simplest topological model, attestations are generated by the certificate requester and verified by the CA/RA. Section 5 of {{RFC9334}} defines topological patterns that are more complex,
 including the background check model and the passport model.  This
@@ -125,7 +125,7 @@ models for CSR processing, provided the required security
 requirements specific to the context of certificate issuance are
 satisfied.
 
-The trust model defined in {{Section 7 of RFC9334}} identifies several roles that originate or forward attestations: the Attester; Endorser; and Verifier. Attestations, or Evidence per {{RFC9334}}, may be directed to an entity fulfilling one of these roles, including to an RA/CA acting as a Verifier. An RA/CA may also forward attestations to a Verifier for evaluation. Each attestation may contain one or more claims, including claims that may be required by an RA or CA. Attestations transmitted by these parties are defined in {{Section 8 of RFC9334}} as the "conceptual messages" Evidence, Endorsement, and Attestation Results. The structure defined in this specification may be used by any of the roles that originate attestations, and is equally applicable to these three conceptual messages. 
+The trust model defined in {{Section 7 of RFC9334}} identifies several roles that originate or forward attestations: the Attester; Endorser; and Verifier. Attestations, or Evidence per {{RFC9334}}, may be directed to an entity fulfilling one of these roles, including to an RA/CA acting as a Verifier. An RA/CA may also forward attestations to a Verifier for evaluation. Each attestation may contain one or more claims, including claims that may be required by an RA or CA. Attestations transmitted by these parties are defined in {{Section 8 of RFC9334}} as the "conceptual messages" Evidence, Endorsement, and Attestation Results. The structure defined in this specification may be used by any of the roles that originate attestations, and is equally applicable to these three conceptual messages.
 
 # Conventions and Definitions
 
@@ -134,8 +134,8 @@ The trust model defined in {{Section 7 of RFC9334}} identifies several roles tha
 This document re-uses the terms defined in {{RFC9334}} related to remote
 attestation. Readers of this document are assumed to be familiar with
 the following terms defined in {{RFC9334}}: Evidence, Endorsement, Claim, Attestation Result (AR), Attester, Relying Party, and Verifier.
-Per {{RFC9334}}, the RA/CA is the Relying Party with respect to remote attestation. This use of the term "relying party" differs from the traditional PKIX use of the term. 
-This specification uses RA/CA to refer to an {{RFC9334}} Relying Party, which may or may not include an integrated Verifier. 
+Per {{RFC9334}}, the RA/CA is the Relying Party with respect to remote attestation. This use of the term "relying party" differs from the traditional PKIX use of the term.
+This specification uses RA/CA to refer to an {{RFC9334}} Relying Party, which may or may not include an integrated Verifier.
 
 The term "Certification Request" message is defined in {{RFC2986}}.
 Specifications, such as {{RFC7030}}, later introduced the term
@@ -154,14 +154,14 @@ combination of hardware and software designed to protect keys from unauthorized
 access. Other commonly used terms include Secure Element, Trusted Platform Module, and Trusted Execution
 Environment.
 
-Since this document combines terminology from two domains, Remote Attestation (RATS) and X.509 PKI, it follows a naming convention to avoid ambiguity. 
-RATS terminology is written in uppercase (e.g., Verifier), while X.509/PKI terminology is written in lowercase (e.g., certification authority (CA)). 
+Since this document combines terminology from two domains, Remote Attestation (RATS) and X.509 PKI, it follows a naming convention to avoid ambiguity.
+RATS terminology is written in uppercase (e.g., Verifier), while X.509/PKI terminology is written in lowercase (e.g., certification authority (CA)).
 This distinction clarifies terms that exist in both domains; for instance, a Verifier refers to the RATS entity that processes Evidence, whereas a verifier refers to the PKI entity that validates certificates.
 This convention is distinct from camel-case identifiers like "AttestationStatement", which denote ASN.1 types.
 
 # Conveying attestations in CSRs {#sec-attestationAttr}
 
-The focus of this specification is the conveyance of attestations to a CA/RA as part of a CSR. 
+The focus of this specification is the conveyance of attestations to a CA/RA as part of a CSR.
 The following sub-sections define formats to support this conveyance, an optional mechanism to limit support to specific attestation types at the ASN.1 level, and bindings to the attribute and extension mechanisms used in certificate managment protocols.
 
 ## AttestationStatement and AttestationBundle
@@ -219,7 +219,7 @@ The `CertificateChoices` structure defined in {{RFC6268}}, and reproduced below 
      otherCertFormat OTHER-CERT-FMT.
              &id({SupportedCertFormats}),
      otherCert       OTHER-CERT-FMT.
-             &Type({SupportedCertFormats}{@otherCertFormat})}     
+             &Type({SupportedCertFormats}{@otherCertFormat})}
 
 LimitedCertChoices ::= CertificateChoices (WITH COMPONENTS {\
                                                  certificate, other})
@@ -273,7 +273,7 @@ ext-attestations EXTENSION ::= {
 ~~~
 {: #code-extensions title="Definitions of CSR attribute and extension"}
 
-The Extension variant illustrated in {{code-extensions}} is intended only for use within CRMF CSRs and is NOT RECOMMENDED to be used within X.509 certificates due to the privacy implications of publishing information about the end entity's hardware environment. 
+The Extension variant illustrated in {{code-extensions}} is intended only for use within CRMF CSRs and is NOT RECOMMENDED to be used within X.509 certificates due to the privacy implications of publishing information about the end entity's hardware environment.
 
 Due to the nature of the PKIX ASN.1 classes {{RFC5912}}, there are multiple ways to convey multiple attestation statements: by including multiple copies of `attr-attestations` or `ext-attestations`, multiple values within the attribute or extension, and finally, by including multiple `AttestationStatement` structures within an `AttestationBundle`. The latter is the preferred way to carry multiple Attestations statements. Implementations MUST NOT place multiple copies of `attr-attestations` into a PKCS#10 CSR due to the `COUNTS MAX 1` declaration. In a CRMF CSR, implementers SHOULD NOT place multiple `AttestationBundle` instances in `ext-attestations`.
 
@@ -378,14 +378,14 @@ The current registry values can be retrieved from the IANA online website.
 This document defines a structure to convey
 attestations as additional information in CSRs, as well as an extension to convey that structure in the
 Certification Request Message defined in {[RFC2986]} and an attribute to convey that structure in the
-Certificate Request Message Format defined in {[RFC4211]}. 
+Certificate Request Message Format defined in {[RFC4211]}.
 The CA/RA that receives the CSR may choose to verify the attestation(s) to determine if an issuance policy is met, or which of a suite of policies is satisfied. The CA/RA is also free to discard the additional information without processing.
 
 The remainder of this section identifies security considerations that apply when the CA/RA chooses to verify the attestation as part of the evaluation of a CSR.
 
 ## Binding attestations to the CSR’s public key
 
-Regardless of the topological model, the CA/RA is ultimately responsible for validating the binding between the public key and the attestation(s) in the CSR. For CAs issuing in conformance with the CA/Browser Forum’s Code Signing Baseline Requirements, this means verifying the attestation of HSM generation pertains to the public key in the CSR. 
+Regardless of the topological model, the CA/RA is ultimately responsible for validating the binding between the public key and the attestation(s) in the CSR. For CAs issuing in conformance with the CA/Browser Forum’s Code Signing Baseline Requirements, this means verifying the attestation of HSM generation pertains to the public key in the CSR.
 
 Multiple attestations from multiple sources, as envisioned in {{RFC9334}}, can introduce additional complications as shown in the following example.
 
@@ -396,7 +396,7 @@ The CSR might contain three AttestationStatements originated by three different 
 
 1. an Evidence that a key pair was generated in an HSM;
 2. an Endorsement that states a particular platform is company-owned; and
-3. an Attestation Result stating a particular platform was in a known good state (e.g, up to date on patches, etc.). 
+3. an Attestation Result stating a particular platform was in a known good state (e.g, up to date on patches, etc.).
 
 While each of these attestations may be independently correct, the CA/RA is responsible for confirming the attestations apply in concert to the public key in the CSR. That is, the CA/RA must analyze the attestations to ensure that:
 

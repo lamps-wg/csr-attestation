@@ -2,7 +2,7 @@ CSR-ATTESTATION-2025
   { iso(1) identified-organization(3) dod(6) internet(1) security(5)
   mechanisms(5) pkix(7) id-mod(0) id-mod-pkix-attest-01(TBDMOD) }
 
-CsrAttestation DEFINITIONS IMPLICIT TAGS ::= BEGIN
+DEFINITIONS IMPLICIT TAGS ::= BEGIN
 
 EXPORTS ALL;
 
@@ -14,7 +14,7 @@ FROM PKIX1Explicit-2009 -- from [RFC5912]
 security(5) mechanisms(5) pkix(7) id-mod(0)
 id-mod-pkix1-explicit-02(51) }
 
-CertificateChoices
+CertificateChoices, Attributes
   FROM CryptographicMessageSyntax-2010
     { iso(1) member-body(2) us(840) rsadsi(113549)
     pkcs(1) pkcs-9(9) smime(16) modules(0) id-mod-cms-2009(58) }
@@ -26,74 +26,46 @@ security(5) mechanisms(5) pkix(7) id-mod(0)
 id-mod-pkixCommon-02(57) }
 
 id-aa
-  FROM SecureMimeMessageV3dot1
+  FROM SecureMimeMessageV3dot1-2009
     { iso(1) member-body(2) us(840) rsadsi(113549)
-    pkcs(1) pkcs-9(9) smime(16) modules(0) msg-v3dot1(21) }
+    pkcs(1) pkcs-9(9) smime(16) modules(0) msg-v3dot1-02(39) }
   ;
 
-EVIDENCE-STATEMENT ::= TYPE-IDENTIFIER
+ATTESTATION-STATEMENT ::= TYPE-IDENTIFIER
 
-EvidenceStatementSet EVIDENCE-STATEMENT ::= {
+AttestationStatementSet ATTESTATION-STATEMENT ::= {
    ... -- None defined in this document --
 }
 
-ATTESTATION-RESULT ::= TYPE-IDENTIFIER
-
-AttestationResultSet ATTESTATION-RESULT ::= {
-   ... -- None defined in this document --
+AttestationStatement ::= SEQUENCE {
+   type   ATTESTATION-STATEMENT.&id({AttestationStatementSet}),
+   bindsPublicKey BOOLEAN DEFAULT TRUE,
+   stmt   ATTESTATION-STATEMENT.&Type(
+              {AttestationStatementSet}{@type}),
+   attrs  Attributes OPTIONAL
 }
 
-EvidenceStatement ::= SEQUENCE {
-   type   EVIDENCE-STATEMENT.&id({EvidenceStatementSet}),
-   stmt   EVIDENCE-STATEMENT.&Type({EvidenceStatementSet}{@type}),
-   hint   IA5String OPTIONAL
-}
+-- Arc for Attestation types
+id-aa-attestation OBJECT IDENTIFIER ::= { id-aa 59 }
 
-AttestationResult ::= SEQUENCE {
-   type   ATTESTATION-RESULT.&id({AttestationResultSet}),
-   stmt   ATTESTATION-RESULT.&Type({AttestationResultSet}{@type}),
-}
-
--- Arc for Evidence types
-id-aa-evidence OBJECT IDENTIFIER ::= { id-aa 59 }
-
--- Arc for Attestation Result types
-id-aa-ar OBJECT IDENTIFIER ::= { id-aa (TBD2) }
-
--- For PKCS#10 (Evidence)
-attr-evidence ATTRIBUTE ::= {
-  TYPE EvidenceBundle
+-- For PKCS#10 (Attestation)
+attr-attestation ATTRIBUTE ::= {
+  TYPE AttestationBundle
   COUNTS MAX 1
-  IDENTIFIED BY id-aa-evidence
+  IDENTIFIED BY id-aa-attestation
 }
 
--- For CRMF (Evidence)
-ext-evidence EXTENSION ::= {
-  SYNTAX EvidenceBundle
-  IDENTIFIED BY id-aa-evidence
-}
-
--- For PKCS#10 (Attestation Result)
-attr-ar ATTRIBUTE ::= {
-  TYPE AttestationResultBundle
-  COUNTS MAX 1
-  IDENTIFIED BY id-aa-ar
-}
-
--- For CRMF (Attestation Result)
-ext-ar EXTENSION ::= {
-  SYNTAX AttestationResultBundle
-  IDENTIFIED BY id-aa-ar
+-- For CRMF (Attestation)
+ext-attestation EXTENSION ::= {
+  SYNTAX AttestationBundle
+  IDENTIFIED BY id-aa-attestation
 }
 
 LimitedCertChoices ::= CertificateChoices (WITH COMPONENTS {certificate, other})
 
-EvidenceBundle ::= SEQUENCE {
-   evidences SEQUENCE SIZE (1..MAX) OF EvidenceStatement,
+AttestationBundle ::= SEQUENCE {
+   attestations SEQUENCE SIZE (1..MAX) OF AttestationStatement,
    certs SEQUENCE SIZE (1..MAX) OF LimitedCertChoices OPTIONAL
 }
-
-AttestationResultBundle ::= SEQUENCE SIZE (1..MAX) 
-                            OF AttestationResult
 
 END

@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-12-30T01:15:10.572829+00:00",
+  "timestamp": "2026-01-13T01:13:49.338255+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -11484,24 +11484,26 @@
       "id": "PR_kwDOJ3IIN865qtP1",
       "title": "with design team edits. ",
       "url": "https://github.com/lamps-wg/csr-attestation/pull/216",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "carl-wallace",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "see https://mailarchive.ietf.org/arch/msg/spasm/HH3XBz0lDhreqwZnnmJ-G_KnmEE/",
       "createdAt": "2025-12-18T19:22:27Z",
-      "updatedAt": "2025-12-28T23:01:48Z",
+      "updatedAt": "2026-01-12T18:48:55Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "f0db69977f55959d7c2b742d60e2451e1b532731",
       "headRepository": "carl-wallace/csr-attestation",
       "headRefName": "dt",
       "headRefOid": "05d3e67dd27c06f404f1afe371a05bf07221b1dd",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2026-01-12T18:48:55Z",
+      "mergedAt": "2026-01-12T18:48:55Z",
+      "mergedBy": "ounsworth",
+      "mergeCommit": {
+        "oid": "8c81039b755d9e289385b1dfb130f1bea08b9247"
+      },
       "comments": [
         {
           "author": "mstjohns",
@@ -11509,6 +11511,34 @@
           "body": "I think you probably wanted to reply to my comment rather than create a \nnew comment?\n\nOn 12/28/2025 17:46, Carl Wallace wrote:\n>\n> ***@***.**** commented on this pull request.\n>\n> ------------------------------------------------------------------------\n>\n> In draft-ietf-lamps-csr-attestation.md \n> <https://github.com/lamps-wg/csr-attestation/pull/216#discussion_r2649973491>:\n>\n> >  \n> -By definition, attributes within a PKCS#10 CSR are\n> -typed as ATTRIBUTE and within a CRMF CSR are typed as EXTENSION.\n> -This attribute definition contains one\n> -Evidence bundle of type `EvidenceBundle` containing\n> -one or more Evidence statements of a type `EvidenceStatement` along with\n> -optional certificates for certification path building.\n> -This structure enables different Evidence statements to share a\n> -certification path without duplicating it in the attribute.\n> +* The `type` field is an OBJECT IDENTIFIER that identifies the format of the `stmt` field.\n> +* The `bindsPublicKey` field indicates whether the attestation in the `stmt` field is cryptographically bound to the public key included in the CSR.\n> +* The `stmt` field contains the attestation for processing, constrained by the `type` field. Formats that are not defined using ASN.1 MUST define an ASN.1 wrapper for use with the `AttestationStatement` structure.\n> +For example, a CBOR-encoded format may be defined as an OCTET STRING for `AttestationStatement` purposes, where the contents of the OCTET STRING are the CBOR-encoded data.\n> +* The `attrs` field enables the inclusion of `Attribute` values that may inform the verification of the `stmt`. This specification does not define any `Attribute` instances.\n> +* The `attrs` field is not bound to the `type` of attestation to facilitate reuse of attribute types across attestation statement types and to allow for parsing of an `AttestationStatement` with no knowledge of the details of a specific `type`.\n>\n> This is not a new comment. If you want attributes that are bound to \n> the type put them in the structure contained in the stmt field. This \n> field is not that. I leave further replies to the authors for now.\n>\nGiven that we (or I) spent a few months earlier discussing why \nAttributes was a less useful field definition than other approaches, I'm \nsure its not a new comment.\n\nBut in this case, I'm referring to a specific set of text referring to \nthe \"attrs\" field that doesn't actually make a lot of sense.\u00a0 \nSpecifically, that last line above.\u00a0 It does not facilitate reuse of \nattribute types.\u00a0 It doesn't really help with parsing either.\n\nDo you disagree with this statement: \"The OID for the EvidenceStatement \nshould provide enough information for a receiver to know exactly what \nshould be included or excluded in the rest of the data in the \nstructure.\" ?\u00a0 If you do disagree, could you explain how this affects \ninteroperability or is a don't care?\n\nProviding an optional Attributes slop bucket means only that different \nimplementers for a given OID ATTEST-STATEMENT definition will end up \nputting different things in that bucket.\u00a0 That seems counter to a \ngeneral desire of interoperability.\n\nLater, Mike\n",
           "createdAt": "2025-12-28T23:01:48Z",
           "updatedAt": "2025-12-28T23:01:48Z"
+        },
+        {
+          "author": "mstjohns",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "On 1/12/2026 12:19, Mike Ounsworth wrote:\n>\n> ***@***.**** commented on this pull request.\n>\n> ------------------------------------------------------------------------\n>\n> In draft-ietf-lamps-csr-attestation.md \n> <https://github.com/lamps-wg/csr-attestation/pull/216#discussion_r2683185712>:\n>\n> >    SampleData:\n>       title: \"CSR Attestation Sample Data\"\n>       target:https://github.com/lamps-wg/csr-attestation-examples\n>   \n>   --- abstract\n>   \n> -A PKI end entity requesting a certificate from a Certification Authority (CA) may wish to offer trustworthy claims about the platform generating the certification request and the environment associated with the corresponding private key, such as whether the private key resides on a hardware security module.\n> +Certification Authorities (CAs) issuing certificates to Public Key Infrastructure (PKI) end entities may require a certificate signing request (CSR) to include additional verifiable information to confirm policy compliance. For example, a CA may require an end entity to demonstrate that the private key corresponding to a CSR's public key is secured by a hardware security module (HSM), is not exportable, etc. The process of generating, transmitting, and verifying  additional information required by the CA is called remote attestation. While work is currently underway to standardize various aspects of  remote attestation, a variety of proprietary mechanisms have been in use for years, particularly regarding protection of private keys.\n>\n> \"a CA may require\" -> \"a CA could require\", just to avoid collision \n> with RFC2119 terms?\n>\n> \u2014\n> Reply to this email directly, view it on GitHub \n> <https://github.com/lamps-wg/csr-attestation/pull/216#pullrequestreview-3651853171>, \n> or unsubscribe \n> <https://github.com/notifications/unsubscribe-auth/AB5TYEP3D6SF5TQZ7GDSXST4GPJQVAVCNFSM6AAAAACPO3Q32WVHI2DSMVQWIX3LMV43YUDVNRWFEZLROVSXG5CSMV3GSZLXHMZTMNJRHA2TGMJXGE>.\n> You are receiving this because you commented.Message ID: \n> ***@***.***>\n>\nMAY require.\u00a0 This is a permissive requirement.\n",
+          "createdAt": "2026-01-12T17:31:26Z",
+          "updatedAt": "2026-01-12T17:31:26Z"
+        },
+        {
+          "author": "mstjohns",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "On 1/12/2026 12:21, Mike Ounsworth wrote:\n>\n> ***@***.**** commented on this pull request.\n>\n> ------------------------------------------------------------------------\n>\n> In draft-ietf-lamps-csr-attestation.md \n> <https://github.com/lamps-wg/csr-attestation/pull/216#discussion_r2683194658>:\n>\n> >  \n>   --- middle\n>   \n>   # Introduction\n>   \n> -When requesting a certificate from a Certification Authority (CA), a PKI end entity may wish to include RATS conceptual messages (see {{Section 8 of RFC9334}}, such as Evidence, Endorsements {{I-D.ietf-rats-endorsements}} and\n> -Attestation Results {{I-D.ietf-rats-ar4si}}, of the security properties of its environments in which the private keys are stored in that request.\n> -\n> -Evidence and Endorsements are appraised by Verifiers, which typically produces Attestation Results that serve as input for validating incoming certificate requests against specified certificate policies.\n> -Verifiers are associated with Registration Authorities (RAs) or CAs and function as logical entities responsible for processing Evidence and Endorsements in order to produce Attestation Results.\n> -As remote attestation technology matures, it is natural for a Certification Authority to rely on remote attestation data for proof that the requesting entity is in a state that matches the certificate profile. This is referred to as the RATS Background Check Model, and is illustrated in {{fig-arch-background}}.\n> -\n> -Alternatively, the Attester might have a direct connection to a Verifier to which it presents its Evidence and Endorsements, and receives back an Attestation Result signed by the Verifier which it can include directly in the CSR and save the RA / CA from needing a local Verifier. This is referred to as the RATS Passport Model, and is illustrated in {{fig-arch-passport}}.\n> -\n> -At the time of writing, the most pressing example of the need for remote attestation in certificate enrollment is the Code-Signing Baseline Requirements (CSBR) document maintained by the CA/Browser Forum {{CSBR}}, which requires compliant CAs to \"ensure that a Subscriber\u2019s Private Key is generated, stored,\n> -and used in a secure environment that has controls to prevent theft or misuse\", which is a natural fit to enforce via remote attestation.\n> +Certification Authorities (CAs) issuing certificates to PKI end entities may require a certificate signing request (CSR) to include verifiable attestations that contain claims regarding the platform used by the end entity to generate the key pair for which a certificate is sought. At the time of writing, the most pressing example of the need for remote attestation in certificate enrollment is the Code-Signing Baseline Requirements (CSBR) document maintained by the CA/Browser Forum [CSBR]. The [CSBR] requires compliant CAs to \"ensure that a Subscriber's Private Key is generated, stored, and used in a secure environment that has controls to prevent theft or misuse\". This requirement is a natural fit to enforce via remote attestation.\n>\n> Also,\n> \"Certification Authorities (CAs) issuing certificates to PKI end \n> entities may require\"\n> ->\n> \"Certification Authorities (CAs) issuing certificates to PKI end \n> entities might require\"\n> (\"may\" -> \"might\" to avoid collision with RFC2119 terms)\n>\n> \u2014\n> Reply to this email directly, view it on GitHub \n> <https://github.com/lamps-wg/csr-attestation/pull/216#discussion_r2683194658>, \n> or unsubscribe \n> <https://github.com/notifications/unsubscribe-auth/AB5TYEIUYNBGD2GKJC3MLCD4GPJ3FAVCNFSM6AAAAACPO3Q32WVHI2DSMVQWIX3LMV43YUDVNRWFEZLROVSXG5CSMV3GSZLXHMZTMNJRHA3DGNJUGA>.\n> You are receiving this because you commented.Message ID: \n> ***@***.***>\n>\nMAY require - also a permissive requirement\n",
+          "createdAt": "2026-01-12T17:31:51Z",
+          "updatedAt": "2026-01-12T17:31:51Z"
+        },
+        {
+          "author": "mstjohns",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "On 1/12/2026 12:25, Mike Ounsworth wrote:\n>\n> ***@***.**** commented on this pull request.\n>\n> ------------------------------------------------------------------------\n>\n> In draft-ietf-lamps-csr-attestation.md \n> <https://github.com/lamps-wg/csr-attestation/pull/216#discussion_r2683206825>:\n>\n> >  \n> -This specification defines an attribute and an extension that allow for conveyance of Evidence, Endorsements, and Attestation Results in Certificate Signing Requests (CSRs), such as PKCS#10 {{RFC2986}} or Certificate Request Message Format (CRMF) {{RFC4211}} payloads.\n> -This CSR extension satisfies CA/B Forum's CSBR {{CSBR}} requirements for key protection assurance, provided that the CSR carries attestation data that the RA / CA can parse to obtain the assurance that it needs to satisfy its certificate issuance policies.\n> +This specification defines an attribute and an extension that allow for conveyance of verifiable attestations in several Certificate Signing Request (CSR) formats, including PKCS#10 [RFC2986] or Certificate Request Message Format (CRMF) [RFC4211] messages. Given several standard and proprietary remote attestation technologies are in use, this specification is intended to be as technology-agnostic as is feasible with respect to implemented and future remote attestation technologies.\n>   This aligns with the fact that a CA may wish to provide support for a variety of types of devices but cannot dictate what format a device uses to represent attestations.\n>\n> another non-normative \"may\"\n>\n> \u2014\n> Reply to this email directly, view it on GitHub \n> <https://github.com/lamps-wg/csr-attestation/pull/216#pullrequestreview-3651880316>, \n> or unsubscribe \n> <https://github.com/notifications/unsubscribe-auth/AB5TYEPVIUQQI6K5CNIHE6L4GPKH3AVCNFSM6AAAAACPO3Q32WVHI2DSMVQWIX3LMV43YUDVNRWFEZLROVSXG5CSMV3GSZLXHMZTMNJRHA4DAMZRGY>.\n> You are receiving this because you commented.Message ID: \n> ***@***.***>\n>\n\"may wish to\" - leave it - not a permissive requirement, only \naspirational without any real teeth.\n\nIn any event, this last sentence is\u00a0 incorrect.\u00a0 A CA SHOULD specify \nexactly what types of attestations it will accept.\u00a0 If a device or \nentity does not support those types of attestation, the CA can't/won't \nbe able to issue a certificate that its policy says requires an \nattestation.\u00a0 That's just a fact of how the technology and policy interact.\n\n",
+          "createdAt": "2026-01-12T17:36:32Z",
+          "updatedAt": "2026-01-12T17:36:32Z"
+        },
+        {
+          "author": "mstjohns",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "On 1/12/2026 12:38, Mike Ounsworth wrote:\n>\n> ***@***.**** commented on this pull request.\n>\n> ------------------------------------------------------------------------\n>\n> In draft-ietf-lamps-csr-attestation.md \n> <https://github.com/lamps-wg/csr-attestation/pull/216#discussion_r2683250581>:\n>\n> >  \n> -The `certs` field of the `EvidenceBundle` typically contain one or more certification paths rooted in a device manufacturer trust anchor and the end entity certificate being on the device in question. The end entity certificate is associated with key material that takes on the role of an Attestation Key and is used to sign Evidence originating from the Attester. In some interpretations of the RATS Architecture {{RFC9334}}, the Attestation Key Certificate and its corresponding certificate chain are considered to be Endorsements of the Attestation Key. The `certs` field of the `AttestationResultsBundle` behaves similarly but the end entity certificate will correspond to a Verifier.\n> -For the purposes of this specification, a certificate chain provided for the purposes of validating another signed object is not considered to be an Endorsement in and of itself. Here, the term \"Endorsement\" means a signed object containing data about the target environment which may or may not be accompanied by a certificate chain.\n> +In its simplest topological model, attestations are generated by the certificate requester and verified by the CA/RA. Section 5 of {{RFC9334}} defines topological patterns that are more complex,\n> +including the background check model and the passport model.  This\n> +document may be applied to instantiating any of these topological\n> +models for CSR processing, provided the required security\n> +requirements specific to the context of certificate issuance are\n> +satisfied.\n>\n> I am generally ok with this simplification and deference to 9334, but \n> I think there's an important security consideration that got lost.\n>\n> I suggest adding:\n>\n> \"Some examples of how the security requirements could change under a \n> different topological model include how the CA/RA selects a Verifier \n> from among a set of configured Verifiers to process the attestation \n> data extracted from the CSR, or whether the data is considered to be \n> security-sensitive or legally-protected as is often the case with \n> Evidence but rarely the case with Attestation Results.\n> Such considerations are left to the implementer and are out-of-scope \n> of this document.\"\n>\n> \u2014\n> Reply to this email directly, view it on GitHub \n> <https://github.com/lamps-wg/csr-attestation/pull/216#pullrequestreview-3651934322>, \n> or unsubscribe \n> <https://github.com/notifications/unsubscribe-auth/AB5TYELXSCKVHGVBOEPKPU34GPL3HAVCNFSM6AAAAACPO3Q32WVHI2DSMVQWIX3LMV43YUDVNRWFEZLROVSXG5CSMV3GSZLXHMZTMNJRHEZTIMZSGI>.\n> You are receiving this because you commented.Message ID: \n> ***@***.***>\n>\nI strongly disagree.\u00a0 If and when you have a document that describes an \nattestation that requires both a Verifier and a new security policy, \nthat's where this text should reside - not in this document.\u00a0 In any \nevent, the security requirements for that model would be set by the \nissuing CA for a given attestation type.\n\n\n\n",
+          "createdAt": "2026-01-12T17:45:57Z",
+          "updatedAt": "2026-01-12T17:45:57Z"
         }
       ],
       "reviews": [
@@ -11764,8 +11794,216 @@
               "updatedAt": "2025-12-28T22:46:07Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN87Zqttz",
+          "commit": {
+            "abbreviatedOid": "05d3e67"
+          },
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-12T17:18:44Z",
+          "updatedAt": "2026-01-12T17:18:44Z",
+          "comments": [
+            {
+              "originalPosition": 58,
+              "body": "\"a CA may require\" -> \"a CA could require\", just to avoid collision with RFC2119 terms?",
+              "createdAt": "2026-01-12T17:18:44Z",
+              "updatedAt": "2026-01-12T17:18:44Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN87ZqwP0",
+          "commit": {
+            "abbreviatedOid": "05d3e67"
+          },
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-12T17:21:32Z",
+          "updatedAt": "2026-01-12T17:21:32Z",
+          "comments": [
+            {
+              "originalPosition": 84,
+              "body": "Also, \n\"Certification Authorities (CAs) issuing certificates to PKI end entities may require\"\n->\n\"Certification Authorities (CAs) issuing certificates to PKI end entities might require\"\n(\"may\" -> \"might\" to avoid collision with RFC2119 terms)",
+              "createdAt": "2026-01-12T17:21:32Z",
+              "updatedAt": "2026-01-12T17:21:32Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN87Zq0V8",
+          "commit": {
+            "abbreviatedOid": "05d3e67"
+          },
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-12T17:24:55Z",
+          "updatedAt": "2026-01-12T17:24:55Z",
+          "comments": [
+            {
+              "originalPosition": 88,
+              "body": "another non-normative \"may\"",
+              "createdAt": "2026-01-12T17:24:55Z",
+              "updatedAt": "2026-01-12T17:24:55Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN87Zq3TS",
+          "commit": {
+            "abbreviatedOid": "05d3e67"
+          },
+          "author": "carl-wallace",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-12T17:27:50Z",
+          "updatedAt": "2026-01-12T17:27:50Z",
+          "comments": [
+            {
+              "originalPosition": 88,
+              "body": "> another\r\n\r\nI am OK with any changes like this. It's really just a style thing. Lowercase instances of RFC2119 words are used all the time without confusion.",
+              "createdAt": "2026-01-12T17:27:50Z",
+              "updatedAt": "2026-01-12T17:27:51Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN87Zq6sd",
+          "commit": {
+            "abbreviatedOid": "05d3e67"
+          },
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-12T17:31:05Z",
+          "updatedAt": "2026-01-12T17:31:06Z",
+          "comments": [
+            {
+              "originalPosition": 88,
+              "body": "... these continue throughout. I will stop pointing them out, but we should do a CTRL+F for lower-case \"may\" and see if a different word would be more appropriate in each case.",
+              "createdAt": "2026-01-12T17:31:06Z",
+              "updatedAt": "2026-01-12T17:31:16Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN87ZrBhy",
+          "commit": {
+            "abbreviatedOid": "05d3e67"
+          },
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-12T17:38:36Z",
+          "updatedAt": "2026-01-12T17:38:36Z",
+          "comments": [
+            {
+              "originalPosition": 108,
+              "body": "I am generally ok with this simplification and deference to 9334, but I think there's an important security consideration that got lost.\n\nI suggest adding:\n\n\"Some examples of how the security requirements could change under a different topological model include how the CA/RA selects a Verifier from among a set of configured Verifiers to process the attestation data extracted from the CSR, or whether the data is considered to be security-sensitive or legally-protected as is often the case with Evidence but rarely the case with Attestation Results.\nSuch considerations are left to the implementer and are out-of-scope of this document.\"",
+              "createdAt": "2026-01-12T17:38:36Z",
+              "updatedAt": "2026-01-12T17:38:36Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN87ZrI-H",
+          "commit": {
+            "abbreviatedOid": "05d3e67"
+          },
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-12T17:46:48Z",
+          "updatedAt": "2026-01-12T17:46:48Z",
+          "comments": [
+            {
+              "originalPosition": 141,
+              "body": "Check whether we are consistently using \"RA/CA\" or \"CA/RA\". I think we had been consistent on \"RA/CA\", but this PR introduces a number of \"CA/RA\"s.",
+              "createdAt": "2026-01-12T17:46:48Z",
+              "updatedAt": "2026-01-12T17:46:48Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN87ZrJ9E",
+          "commit": {
+            "abbreviatedOid": "05d3e67"
+          },
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-12T17:48:06Z",
+          "updatedAt": "2026-01-12T17:48:06Z",
+          "comments": [
+            {
+              "originalPosition": 151,
+              "body": "add:\n\", which, while representing distinct technologies, can be considered to be sub-types of HSM for the purposes of this document.\"",
+              "createdAt": "2026-01-12T17:48:06Z",
+              "updatedAt": "2026-01-12T17:48:06Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN87ZrPc8",
+          "commit": {
+            "abbreviatedOid": "05d3e67"
+          },
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-12T17:55:00Z",
+          "updatedAt": "2026-01-12T17:55:00Z",
+          "comments": [
+            {
+              "originalPosition": 423,
+              "body": "@carl-wallace 's comment seems right to me. If you have content that is semantically part of the attestation payload, then you need to encode that as part of the `stmt`. Attrs should not be a place for you to pack in more payload because then you need a spec telling the CA/RA how to unmarshal that back into a format that the Verifier expects. I agree with Carl; that belongs in the definition of your `stmt`.\n\nI sympathize that there exist proprietary attestation formats out there that do not (currently) define a nice serialization into a single byte string (TPM2 attest_certify being one of them), but I don't believe that's a problem for this document to solve. Monty and I demonstrated as far back as the Brisbane hackathon that you can solve this by defining an ASN.1 wrapper object to hold all the pieces. The suggested approach of instead spreading the pieces over Attrs is not, in my opinion, simpler; it is the same mess in a different costume, and one that's in fact harder to normalize because it's now weirdly integrated with the CSR transport envelope.",
+              "createdAt": "2026-01-12T17:55:00Z",
+              "updatedAt": "2026-01-12T18:00:45Z"
+            }
+          ]
         }
       ]
+    },
+    {
+      "number": 217,
+      "id": "PR_kwDOJ3IIN868xAXL",
+      "title": "Fix formating",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/217",
+      "state": "MERGED",
+      "author": "hannestschofenig",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2026-01-12T18:55:52Z",
+      "updatedAt": "2026-01-12T18:56:18Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "8c81039b755d9e289385b1dfb130f1bea08b9247",
+      "headRepository": "lamps-wg/csr-attestation",
+      "headRefName": "hannestschofenig-patch-3",
+      "headRefOid": "2f22886d8382392a23e620403d19fae802302a36",
+      "closedAt": "2026-01-12T18:56:16Z",
+      "mergedAt": "2026-01-12T18:56:15Z",
+      "mergedBy": "hannestschofenig",
+      "mergeCommit": {
+        "oid": "0e0030315d052fedf7581b7bc775a10aea034c48"
+      },
+      "comments": [],
+      "reviews": []
     }
   ]
 }

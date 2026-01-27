@@ -262,13 +262,13 @@ id-aa-attestations OBJECT IDENTIFIER ::= { id-aa 59 }
 attr-attestations ATTRIBUTE ::= {
   TYPE AttestationBundle
   COUNTS MAX 1
-  IDENTIFIED BY id-aa-attestation
+  IDENTIFIED BY id-aa-attestations
 }
 
 -- For CRMF
 ext-attestations EXTENSION ::= {
   SYNTAX AttestationBundle
-  IDENTIFIED BY id-aa-attestation
+  IDENTIFIED BY id-aa-attestations
 }
 ~~~
 {: #code-extensions title="Definitions of CSR attribute and extension"}

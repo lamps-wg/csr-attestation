@@ -389,8 +389,6 @@ Regardless of the topological model, the CA/RA is ultimately responsible for val
 
 Multiple attestations from multiple sources, as envisioned in {{RFC9334}}, can introduce additional complications as shown in the following example.
 
-### Binding Multiple Claims to a CSR
-
 For example, a CA may have an issuance policy that requires key generation in an HSM on a company-owned platform in a known good state.
 The CSR might contain three AttestationStatements originated by three different attesters:
 

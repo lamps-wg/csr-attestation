@@ -59,9 +59,9 @@ author:
   -
     ins: N. Smith
     name: Ned Smith
-    org: Intel Corporation
+    org:
     country: United States
-    email: ned.smith@intel.com
+    email: ned.smith.ietf@gmail.com
 
 normative:
   RFC9334:

@@ -170,10 +170,10 @@ Table of Contents
    satisfied.
 
    The trust model defined in Section 7 of [RFC9334] identifies several
-   roles that originate or forward attestations: the Attester; Relying
-   Party; and Verifier.  Attestations, such as Evidence or Attestation
-   Results per [RFC9334], may be directed to an entity fulfilling one of
-   these roles, including to an RA/CA acting as a Verifier.  An RA/CA
+   roles that originate, forward or process attestations: the Attester;
+   Endorser; Relying Party; and Verifier.  Attestations, such as
+   Evidence per [RFC9334], may be directed to an entity fulfilling one
+   of these roles, including to an RA/CA acting as a Verifier.  An RA/CA
    may also forward attestations to a Verifier for evaluation.  Each
    attestation may contain one or more claims, including claims that may
    be required by an RA or CA.  Attestations transmitted by these

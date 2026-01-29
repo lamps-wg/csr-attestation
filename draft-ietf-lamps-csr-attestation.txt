@@ -5,14 +5,13 @@
 Network Working Group                                       M. Ounsworth
 Internet-Draft                                                   Entrust
 Intended status: Standards Track                           H. Tschofenig
-Expires: 16 July 2026                                            Siemens
+Expires: 2 August 2026                                           Siemens
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                               M. Wiseman
                                                                         
                                                                 N. Smith
-                                                       Intel Corporation
-                                                         12 January 2026
+                                                         29 January 2026
 
 
      Use of Remote Attestation with Certification Signing Requests
@@ -66,7 +65,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 16 July 2026.
+   This Internet-Draft will expire on 2 August 2026.
 
 Copyright Notice
 
@@ -854,6 +853,5 @@ Authors' Addresses
 
 
    Ned Smith
-   Intel Corporation
    United States
-   Email: ned.smith@intel.com
+   Email: ned.smith.ietf@gmail.com

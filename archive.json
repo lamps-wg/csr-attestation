@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-01-13T01:13:49.338255+00:00",
+  "timestamp": "2026-01-29T01:28:30.827225+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -11344,7 +11344,7 @@
       "labels": [],
       "body": "This PR addresses minore typos and inconsistencies.",
       "createdAt": "2025-11-29T22:16:22Z",
-      "updatedAt": "2025-11-29T22:37:33Z",
+      "updatedAt": "2026-01-27T18:44:14Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "f0db69977f55959d7c2b742d60e2451e1b532731",
@@ -11476,6 +11476,19 @@
               "updatedAt": "2025-11-29T22:37:01Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN87dTgQC",
+          "commit": {
+            "abbreviatedOid": "4518f16"
+          },
+          "author": "nedmsmith",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "LGTM",
+          "createdAt": "2026-01-27T18:44:14Z",
+          "updatedAt": "2026-01-27T18:44:14Z",
+          "comments": []
         }
       ]
     },
@@ -12002,6 +12015,512 @@
       "mergeCommit": {
         "oid": "0e0030315d052fedf7581b7bc775a10aea034c48"
       },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 218,
+      "id": "PR_kwDOJ3IIN86_ly4K",
+      "title": "Typo in CSR-ATTESTATION IANA registration",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/218",
+      "state": "OPEN",
+      "author": "hannestschofenig",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2026-01-27T12:18:50Z",
+      "updatedAt": "2026-01-27T18:42:19Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "0e0030315d052fedf7581b7bc775a10aea034c48",
+      "headRepository": "lamps-wg/csr-attestation",
+      "headRefName": "hannestschofenig-patch-3",
+      "headRefOid": "c19ce3c6b8b95c485a72051712804bcb5841cd45",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJ3IIN87dTeh1",
+          "commit": {
+            "abbreviatedOid": "c19ce3c"
+          },
+          "author": "nedmsmith",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "LGTM",
+          "createdAt": "2026-01-27T18:42:19Z",
+          "updatedAt": "2026-01-27T18:42:19Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 219,
+      "id": "PR_kwDOJ3IIN86_l04I",
+      "title": "Corrected text in IANA Considerations section",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/219",
+      "state": "OPEN",
+      "author": "hannestschofenig",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2026-01-27T12:21:24Z",
+      "updatedAt": "2026-01-27T18:41:54Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "0e0030315d052fedf7581b7bc775a10aea034c48",
+      "headRepository": "lamps-wg/csr-attestation",
+      "headRefName": "hannestschofenig-patch-7",
+      "headRefOid": "77e3f73d9e064ec58d1349eb6d99da18d9e1958b",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJ3IIN87dTeDI",
+          "commit": {
+            "abbreviatedOid": "77e3f73"
+          },
+          "author": "nedmsmith",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "LGTM",
+          "createdAt": "2026-01-27T18:41:54Z",
+          "updatedAt": "2026-01-27T18:41:54Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 220,
+      "id": "PR_kwDOJ3IIN86_l3F4",
+      "title": "Removed reference to RFC 5226",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/220",
+      "state": "OPEN",
+      "author": "hannestschofenig",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2026-01-27T12:24:12Z",
+      "updatedAt": "2026-01-27T18:41:27Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "0e0030315d052fedf7581b7bc775a10aea034c48",
+      "headRepository": "lamps-wg/csr-attestation",
+      "headRefName": "hannestschofenig-patch-8",
+      "headRefOid": "bf777ad60d3bdd4fe744f8a833c65818803c056d",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJ3IIN87dTdqW",
+          "commit": {
+            "abbreviatedOid": "bf777ad"
+          },
+          "author": "nedmsmith",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "LTGM",
+          "createdAt": "2026-01-27T18:41:27Z",
+          "updatedAt": "2026-01-27T18:41:27Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 221,
+      "id": "PR_kwDOJ3IIN86_l6G-",
+      "title": "Removed unused references",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/221",
+      "state": "OPEN",
+      "author": "hannestschofenig",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2026-01-27T12:27:39Z",
+      "updatedAt": "2026-01-27T18:41:02Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "0e0030315d052fedf7581b7bc775a10aea034c48",
+      "headRepository": "lamps-wg/csr-attestation",
+      "headRefName": "hannestschofenig-patch-9",
+      "headRefOid": "133356a1abd6f5e4fe7747911da0945b808514cd",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJ3IIN87dTdON",
+          "commit": {
+            "abbreviatedOid": "133356a"
+          },
+          "author": "nedmsmith",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "LGTM",
+          "createdAt": "2026-01-27T18:41:02Z",
+          "updatedAt": "2026-01-27T18:41:02Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 222,
+      "id": "PR_kwDOJ3IIN86_mD2F",
+      "title": "Revise acknowledgments",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/222",
+      "state": "OPEN",
+      "author": "hannestschofenig",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2026-01-27T12:39:46Z",
+      "updatedAt": "2026-01-27T18:40:34Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "0e0030315d052fedf7581b7bc775a10aea034c48",
+      "headRepository": "lamps-wg/csr-attestation",
+      "headRefName": "hannestschofenig-patch-10",
+      "headRefOid": "eab278b0cb28a3b5f14724bb5eff61bf8a16e558",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJ3IIN87dTcwk",
+          "commit": {
+            "abbreviatedOid": "eab278b"
+          },
+          "author": "nedmsmith",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "LGTM",
+          "createdAt": "2026-01-27T18:40:34Z",
+          "updatedAt": "2026-01-27T18:40:34Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 223,
+      "id": "PR_kwDOJ3IIN86_mQE3",
+      "title": "Minor update to \"RATS Relationship\" section",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/223",
+      "state": "OPEN",
+      "author": "hannestschofenig",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2026-01-27T12:53:08Z",
+      "updatedAt": "2026-01-27T18:40:12Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "0e0030315d052fedf7581b7bc775a10aea034c48",
+      "headRepository": "lamps-wg/csr-attestation",
+      "headRefName": "hannestschofenig-patch-11",
+      "headRefOid": "353d5194d46f4cc43866672b86cb43219edfe970",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJ3IIN87dTcVj",
+          "commit": {
+            "abbreviatedOid": "353d519"
+          },
+          "author": "nedmsmith",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "LGTM",
+          "createdAt": "2026-01-27T18:40:12Z",
+          "updatedAt": "2026-01-27T18:40:12Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 224,
+      "id": "PR_kwDOJ3IIN86_mSMf",
+      "title": "Moving Section about RATS Relationship to the Top Level",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/224",
+      "state": "OPEN",
+      "author": "hannestschofenig",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Reason: Having a section, like the introduction, with only a single sub-section looks unbalanced.\r\n\r\nJust a cosmetic change",
+      "createdAt": "2026-01-27T12:55:37Z",
+      "updatedAt": "2026-01-27T18:39:32Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "0e0030315d052fedf7581b7bc775a10aea034c48",
+      "headRepository": "lamps-wg/csr-attestation",
+      "headRefName": "hannestschofenig-patch-12",
+      "headRefOid": "f93d11f9b1ff8cfbbda941625e7614a6216a58f8",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJ3IIN87dTbq9",
+          "commit": {
+            "abbreviatedOid": "f93d11f"
+          },
+          "author": "nedmsmith",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "LGTM",
+          "createdAt": "2026-01-27T18:39:32Z",
+          "updatedAt": "2026-01-27T18:39:32Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 225,
+      "id": "PR_kwDOJ3IIN86_mXAL",
+      "title": "Fix section headers",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/225",
+      "state": "OPEN",
+      "author": "hannestschofenig",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Using capitalized section headers is common.",
+      "createdAt": "2026-01-27T13:00:58Z",
+      "updatedAt": "2026-01-27T18:39:10Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "0e0030315d052fedf7581b7bc775a10aea034c48",
+      "headRepository": "lamps-wg/csr-attestation",
+      "headRefName": "hannestschofenig-patch-13",
+      "headRefOid": "5fe530901a17504d20c301049a40eeb373fe0802",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJ3IIN87dTbVC",
+          "commit": {
+            "abbreviatedOid": "5fe5309"
+          },
+          "author": "nedmsmith",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "LGTM",
+          "createdAt": "2026-01-27T18:39:10Z",
+          "updatedAt": "2026-01-27T18:39:10Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 226,
+      "id": "PR_kwDOJ3IIN86_mdBt",
+      "title": "Fix typo in Verifier",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/226",
+      "state": "OPEN",
+      "author": "hannestschofenig",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2026-01-27T13:08:14Z",
+      "updatedAt": "2026-01-27T18:38:40Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "0e0030315d052fedf7581b7bc775a10aea034c48",
+      "headRepository": "lamps-wg/csr-attestation",
+      "headRefName": "hannestschofenig-patch-14",
+      "headRefOid": "d4f62940181099aec0c7773a2d5d528c06bb4552",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJ3IIN87dTawT",
+          "commit": {
+            "abbreviatedOid": "d4f6294"
+          },
+          "author": "nedmsmith",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "LGTM",
+          "createdAt": "2026-01-27T18:38:40Z",
+          "updatedAt": "2026-01-27T18:38:40Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 227,
+      "id": "PR_kwDOJ3IIN86_miDV",
+      "title": "s/attestation signer key/attestation key",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/227",
+      "state": "OPEN",
+      "author": "hannestschofenig",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2026-01-27T13:13:39Z",
+      "updatedAt": "2026-01-27T18:38:17Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "0e0030315d052fedf7581b7bc775a10aea034c48",
+      "headRepository": "lamps-wg/csr-attestation",
+      "headRefName": "hannestschofenig-patch-15",
+      "headRefOid": "26c03826fd745d9f5c8d62a249cd5830ef3b57b8",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJ3IIN87dTaR4",
+          "commit": {
+            "abbreviatedOid": "26c0382"
+          },
+          "author": "nedmsmith",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "LGTM",
+          "createdAt": "2026-01-27T18:38:17Z",
+          "updatedAt": "2026-01-27T18:38:17Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 228,
+      "id": "PR_kwDOJ3IIN86_mkh-",
+      "title": "Fix identifier for attestations in PKCS#10 and CRMF",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/228",
+      "state": "OPEN",
+      "author": "hannestschofenig",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "NOTE: I am not sure about this change. Please check!",
+      "createdAt": "2026-01-27T13:16:12Z",
+      "updatedAt": "2026-01-27T18:37:51Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "0e0030315d052fedf7581b7bc775a10aea034c48",
+      "headRepository": "lamps-wg/csr-attestation",
+      "headRefName": "hannestschofenig-patch-16",
+      "headRefOid": "499e6f197334836013eb92d05da526f1dbf5feda",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJ3IIN87dTZq0",
+          "commit": {
+            "abbreviatedOid": "499e6f1"
+          },
+          "author": "nedmsmith",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "LGTM",
+          "createdAt": "2026-01-27T18:37:51Z",
+          "updatedAt": "2026-01-27T18:37:51Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 229,
+      "id": "PR_kwDOJ3IIN86_mmj5",
+      "title": "Making example less prominent",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/229",
+      "state": "OPEN",
+      "author": "hannestschofenig",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Removed section header for the example. Does not appear to be necessary",
+      "createdAt": "2026-01-27T13:18:23Z",
+      "updatedAt": "2026-01-27T18:37:28Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "0e0030315d052fedf7581b7bc775a10aea034c48",
+      "headRepository": "lamps-wg/csr-attestation",
+      "headRefName": "hannestschofenig-patch-17",
+      "headRefOid": "3fa9ad698646f25447eb07837da231cefde8c5b9",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJ3IIN87dTZGY",
+          "commit": {
+            "abbreviatedOid": "3fa9ad6"
+          },
+          "author": "nedmsmith",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "LGTM",
+          "createdAt": "2026-01-27T18:37:28Z",
+          "updatedAt": "2026-01-27T18:37:28Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 230,
+      "id": "PR_kwDOJ3IIN86_rGj-",
+      "title": "Fix author info for Ned",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/230",
+      "state": "OPEN",
+      "author": "nedmsmith",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Changed ned's email and org",
+      "createdAt": "2026-01-27T18:36:52Z",
+      "updatedAt": "2026-01-27T18:36:52Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "0e0030315d052fedf7581b7bc775a10aea034c48",
+      "headRepository": "lamps-wg/csr-attestation",
+      "headRefName": "fix-author-info",
+      "headRefOid": "8a683d99a444f2e12c44cd0fcfafd9a413f2d039",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
       "comments": [],
       "reviews": []
     }

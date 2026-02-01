@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-01-29T01:28:30.827225+00:00",
+  "timestamp": "2026-02-01T01:52:36.492739+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -11337,25 +11337,54 @@
       "id": "PR_kwDOJ3IIN862JaW3",
       "title": "Fix typos in draft-ietf-lamps-csr-attestation.md",
       "url": "https://github.com/lamps-wg/csr-attestation/pull/214",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "RufusJWB",
       "authorAssociation": "NONE",
       "assignees": [],
       "labels": [],
       "body": "This PR addresses minore typos and inconsistencies.",
       "createdAt": "2025-11-29T22:16:22Z",
-      "updatedAt": "2026-01-27T18:44:14Z",
+      "updatedAt": "2026-01-30T20:53:25Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "f0db69977f55959d7c2b742d60e2451e1b532731",
       "headRepository": "RufusJWB/csr-attestation",
       "headRefName": "typos",
       "headRefOid": "4518f164431a94c19f508220e19d9d5036a0b467",
-      "closedAt": null,
+      "closedAt": "2026-01-30T20:53:25Z",
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
+      "comments": [
+        {
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "body": "This PR has been taken over by events. We cannot not merge it.",
+          "createdAt": "2026-01-29T09:59:51Z",
+          "updatedAt": "2026-01-29T09:59:51Z"
+        },
+        {
+          "author": "RufusJWB",
+          "authorAssociation": "NONE",
+          "body": "> This PR has been taken over by events. We cannot not merge it.\r\n\r\nIf I would resolve the merge conflicts, would you generally be willing to accept it or would it be a waste of time?",
+          "createdAt": "2026-01-29T13:55:34Z",
+          "updatedAt": "2026-01-29T13:55:34Z"
+        },
+        {
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "These changes look great to me. Thanks @RufusJWB .\r\n\r\nIf the merge is too difficult (which it almost certainly will since the appointed design team re-wrote the entire draft), then we can leave this open and manually apply the changes after everything else has been merged.",
+          "createdAt": "2026-01-29T22:42:36Z",
+          "updatedAt": "2026-01-29T22:42:36Z"
+        },
+        {
+          "author": "RufusJWB",
+          "authorAssociation": "NONE",
+          "body": "> These changes look great to me. Thanks @RufusJWB .\r\n> \r\n> If the merge is too difficult (which it almost certainly will since the appointed design team re-wrote the entire draft), then we can leave this open and manually apply the changes after everything else has been merged.\r\n\r\nI checked the latest changes and they are so significant that this PR makes no more sense. I'll close it and read the latest version again.",
+          "createdAt": "2026-01-30T20:53:25Z",
+          "updatedAt": "2026-01-30T20:53:25Z"
+        }
+      ],
       "reviews": [
         {
           "id": "PRR_kwDOJ3IIN87R3Ag5",
@@ -12030,7 +12059,7 @@
       "labels": [],
       "body": "",
       "createdAt": "2026-01-27T12:18:50Z",
-      "updatedAt": "2026-01-27T18:42:19Z",
+      "updatedAt": "2026-01-29T22:43:36Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "0e0030315d052fedf7581b7bc775a10aea034c48",
@@ -12055,6 +12084,26 @@
           "createdAt": "2026-01-27T18:42:19Z",
           "updatedAt": "2026-01-27T18:42:19Z",
           "comments": []
+        },
+        {
+          "id": "PRR_kwDOJ3IIN87eDP1F",
+          "commit": {
+            "abbreviatedOid": "c19ce3c"
+          },
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-01-29T22:43:19Z",
+          "updatedAt": "2026-01-29T22:43:36Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "That shows how long this draft has been idling. Oof.",
+              "createdAt": "2026-01-29T22:43:19Z",
+              "updatedAt": "2026-01-29T22:43:36Z"
+            }
+          ]
         }
       ]
     },
@@ -12070,7 +12119,7 @@
       "labels": [],
       "body": "",
       "createdAt": "2026-01-27T12:21:24Z",
-      "updatedAt": "2026-01-27T18:41:54Z",
+      "updatedAt": "2026-01-29T22:44:25Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "0e0030315d052fedf7581b7bc775a10aea034c48",
@@ -12095,6 +12144,19 @@
           "createdAt": "2026-01-27T18:41:54Z",
           "updatedAt": "2026-01-27T18:41:54Z",
           "comments": []
+        },
+        {
+          "id": "PRR_kwDOJ3IIN87eDQm1",
+          "commit": {
+            "abbreviatedOid": "77e3f73"
+          },
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-01-29T22:44:25Z",
+          "updatedAt": "2026-01-29T22:44:25Z",
+          "comments": []
         }
       ]
     },
@@ -12110,7 +12172,7 @@
       "labels": [],
       "body": "",
       "createdAt": "2026-01-27T12:24:12Z",
-      "updatedAt": "2026-01-27T18:41:27Z",
+      "updatedAt": "2026-01-29T22:44:58Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "0e0030315d052fedf7581b7bc775a10aea034c48",
@@ -12135,6 +12197,19 @@
           "createdAt": "2026-01-27T18:41:27Z",
           "updatedAt": "2026-01-27T18:41:27Z",
           "comments": []
+        },
+        {
+          "id": "PRR_kwDOJ3IIN87eDRCC",
+          "commit": {
+            "abbreviatedOid": "bf777ad"
+          },
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-01-29T22:44:58Z",
+          "updatedAt": "2026-01-29T22:44:58Z",
+          "comments": []
         }
       ]
     },
@@ -12150,7 +12225,7 @@
       "labels": [],
       "body": "",
       "createdAt": "2026-01-27T12:27:39Z",
-      "updatedAt": "2026-01-27T18:41:02Z",
+      "updatedAt": "2026-01-29T22:45:21Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "0e0030315d052fedf7581b7bc775a10aea034c48",
@@ -12175,6 +12250,19 @@
           "createdAt": "2026-01-27T18:41:02Z",
           "updatedAt": "2026-01-27T18:41:02Z",
           "comments": []
+        },
+        {
+          "id": "PRR_kwDOJ3IIN87eDRPS",
+          "commit": {
+            "abbreviatedOid": "133356a"
+          },
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-01-29T22:45:21Z",
+          "updatedAt": "2026-01-29T22:45:21Z",
+          "comments": []
         }
       ]
     },
@@ -12190,7 +12278,7 @@
       "labels": [],
       "body": "",
       "createdAt": "2026-01-27T12:39:46Z",
-      "updatedAt": "2026-01-27T18:40:34Z",
+      "updatedAt": "2026-01-29T22:45:39Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "0e0030315d052fedf7581b7bc775a10aea034c48",
@@ -12215,6 +12303,19 @@
           "createdAt": "2026-01-27T18:40:34Z",
           "updatedAt": "2026-01-27T18:40:34Z",
           "comments": []
+        },
+        {
+          "id": "PRR_kwDOJ3IIN87eDRbS",
+          "commit": {
+            "abbreviatedOid": "eab278b"
+          },
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-01-29T22:45:39Z",
+          "updatedAt": "2026-01-29T22:45:39Z",
+          "comments": []
         }
       ]
     },
@@ -12230,7 +12331,7 @@
       "labels": [],
       "body": "",
       "createdAt": "2026-01-27T12:53:08Z",
-      "updatedAt": "2026-01-27T18:40:12Z",
+      "updatedAt": "2026-01-29T22:45:59Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "0e0030315d052fedf7581b7bc775a10aea034c48",
@@ -12255,6 +12356,19 @@
           "createdAt": "2026-01-27T18:40:12Z",
           "updatedAt": "2026-01-27T18:40:12Z",
           "comments": []
+        },
+        {
+          "id": "PRR_kwDOJ3IIN87eDRmv",
+          "commit": {
+            "abbreviatedOid": "353d519"
+          },
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-01-29T22:45:59Z",
+          "updatedAt": "2026-01-29T22:45:59Z",
+          "comments": []
         }
       ]
     },
@@ -12270,7 +12384,7 @@
       "labels": [],
       "body": "Reason: Having a section, like the introduction, with only a single sub-section looks unbalanced.\r\n\r\nJust a cosmetic change",
       "createdAt": "2026-01-27T12:55:37Z",
-      "updatedAt": "2026-01-27T18:39:32Z",
+      "updatedAt": "2026-01-29T22:46:19Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "0e0030315d052fedf7581b7bc775a10aea034c48",
@@ -12295,6 +12409,19 @@
           "createdAt": "2026-01-27T18:39:32Z",
           "updatedAt": "2026-01-27T18:39:32Z",
           "comments": []
+        },
+        {
+          "id": "PRR_kwDOJ3IIN87eDRyS",
+          "commit": {
+            "abbreviatedOid": "f93d11f"
+          },
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-01-29T22:46:19Z",
+          "updatedAt": "2026-01-29T22:46:19Z",
+          "comments": []
         }
       ]
     },
@@ -12310,7 +12437,7 @@
       "labels": [],
       "body": "Using capitalized section headers is common.",
       "createdAt": "2026-01-27T13:00:58Z",
-      "updatedAt": "2026-01-27T18:39:10Z",
+      "updatedAt": "2026-01-29T22:46:46Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "0e0030315d052fedf7581b7bc775a10aea034c48",
@@ -12335,6 +12462,19 @@
           "createdAt": "2026-01-27T18:39:10Z",
           "updatedAt": "2026-01-27T18:39:10Z",
           "comments": []
+        },
+        {
+          "id": "PRR_kwDOJ3IIN87eDSDB",
+          "commit": {
+            "abbreviatedOid": "5fe5309"
+          },
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-01-29T22:46:46Z",
+          "updatedAt": "2026-01-29T22:46:46Z",
+          "comments": []
         }
       ]
     },
@@ -12350,7 +12490,7 @@
       "labels": [],
       "body": "",
       "createdAt": "2026-01-27T13:08:14Z",
-      "updatedAt": "2026-01-27T18:38:40Z",
+      "updatedAt": "2026-01-29T22:47:03Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "0e0030315d052fedf7581b7bc775a10aea034c48",
@@ -12375,6 +12515,19 @@
           "createdAt": "2026-01-27T18:38:40Z",
           "updatedAt": "2026-01-27T18:38:40Z",
           "comments": []
+        },
+        {
+          "id": "PRR_kwDOJ3IIN87eDSOF",
+          "commit": {
+            "abbreviatedOid": "d4f6294"
+          },
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-01-29T22:47:03Z",
+          "updatedAt": "2026-01-29T22:47:03Z",
+          "comments": []
         }
       ]
     },
@@ -12390,7 +12543,7 @@
       "labels": [],
       "body": "",
       "createdAt": "2026-01-27T13:13:39Z",
-      "updatedAt": "2026-01-27T18:38:17Z",
+      "updatedAt": "2026-01-29T22:47:20Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "0e0030315d052fedf7581b7bc775a10aea034c48",
@@ -12415,6 +12568,19 @@
           "createdAt": "2026-01-27T18:38:17Z",
           "updatedAt": "2026-01-27T18:38:17Z",
           "comments": []
+        },
+        {
+          "id": "PRR_kwDOJ3IIN87eDSal",
+          "commit": {
+            "abbreviatedOid": "26c0382"
+          },
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-01-29T22:47:20Z",
+          "updatedAt": "2026-01-29T22:47:20Z",
+          "comments": []
         }
       ]
     },
@@ -12430,7 +12596,7 @@
       "labels": [],
       "body": "NOTE: I am not sure about this change. Please check!",
       "createdAt": "2026-01-27T13:16:12Z",
-      "updatedAt": "2026-01-27T18:37:51Z",
+      "updatedAt": "2026-01-29T22:48:46Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "0e0030315d052fedf7581b7bc775a10aea034c48",
@@ -12455,6 +12621,19 @@
           "createdAt": "2026-01-27T18:37:51Z",
           "updatedAt": "2026-01-27T18:37:51Z",
           "comments": []
+        },
+        {
+          "id": "PRR_kwDOJ3IIN87eDTPj",
+          "commit": {
+            "abbreviatedOid": "499e6f1"
+          },
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "CHANGES_REQUESTED",
+          "body": "I have no opinion about whether this should be plural, but since this is an OID that this draft is registering, I believe it needs to also be changed in the ASN.1 Module (separate file), and the IANA Considerations section, right?",
+          "createdAt": "2026-01-29T22:48:46Z",
+          "updatedAt": "2026-01-29T22:48:46Z",
+          "comments": []
         }
       ]
     },
@@ -12470,7 +12649,7 @@
       "labels": [],
       "body": "Removed section header for the example. Does not appear to be necessary",
       "createdAt": "2026-01-27T13:18:23Z",
-      "updatedAt": "2026-01-27T18:37:28Z",
+      "updatedAt": "2026-01-29T22:49:13Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "0e0030315d052fedf7581b7bc775a10aea034c48",
@@ -12495,6 +12674,19 @@
           "createdAt": "2026-01-27T18:37:28Z",
           "updatedAt": "2026-01-27T18:37:28Z",
           "comments": []
+        },
+        {
+          "id": "PRR_kwDOJ3IIN87eDTfe",
+          "commit": {
+            "abbreviatedOid": "3fa9ad6"
+          },
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-01-29T22:49:13Z",
+          "updatedAt": "2026-01-29T22:49:13Z",
+          "comments": []
         }
       ]
     },
@@ -12503,24 +12695,26 @@
       "id": "PR_kwDOJ3IIN86_rGj-",
       "title": "Fix author info for Ned",
       "url": "https://github.com/lamps-wg/csr-attestation/pull/230",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "nedmsmith",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Changed ned's email and org",
       "createdAt": "2026-01-27T18:36:52Z",
-      "updatedAt": "2026-01-27T18:36:52Z",
+      "updatedAt": "2026-01-29T10:01:44Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "0e0030315d052fedf7581b7bc775a10aea034c48",
       "headRepository": "lamps-wg/csr-attestation",
       "headRefName": "fix-author-info",
       "headRefOid": "8a683d99a444f2e12c44cd0fcfafd9a413f2d039",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2026-01-29T10:01:40Z",
+      "mergedAt": "2026-01-29T10:01:40Z",
+      "mergedBy": "hannestschofenig",
+      "mergeCommit": {
+        "oid": "6b123560e8026776a1d3f04169749ee2075c73e8"
+      },
       "comments": [],
       "reviews": []
     }

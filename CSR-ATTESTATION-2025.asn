@@ -41,10 +41,10 @@ AttestAttrSet ATTRIBUTE ::= { ... }
 
 AttestationStatement ::= SEQUENCE {
    type   ATTESTATION-STATEMENT.&id({AttestationStatementSet}),
-   bindsPublicKey BOOLEAN DEFAULT TRUE,
+   bindsPublicKey [0] BOOLEAN DEFAULT TRUE,
    stmt   ATTESTATION-STATEMENT.&Type(
               {AttestationStatementSet}{@type}),
-   attrs  Attributes {{AttestAttrSet}} OPTIONAL
+   attrs  [1] Attributes {{AttestAttrSet}} OPTIONAL
 }
 
 -- Arc for Attestation types

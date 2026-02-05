@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-02-01T01:52:36.492739+00:00",
+  "timestamp": "2026-02-05T01:41:11.011876+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -12715,6 +12715,32 @@
       "mergeCommit": {
         "oid": "6b123560e8026776a1d3f04169749ee2075c73e8"
       },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 231,
+      "id": "PR_kwDOJ3IIN87BQ3ND",
+      "title": "Mstjohns patch 1 - ASN1 fixes",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/231",
+      "state": "OPEN",
+      "author": "mstjohns",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "This fixes the current import of Attributes - to be Attributes{} - consistent with the module in RFC6268.  Attributes{} is parameterized and needs to have a defined set passed in at declaration.  Done here.  Also added tagging to the optional elements of AttestationStatement.\r\n\r\nNote that this is not an approval of using Attributes - I'll discuss that elsewhere, but merely fixes the bugs in the code.",
+      "createdAt": "2026-02-03T18:33:45Z",
+      "updatedAt": "2026-02-03T18:33:45Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "6b123560e8026776a1d3f04169749ee2075c73e8",
+      "headRepository": "mstjohns/csr-attestation",
+      "headRefName": "mstjohns-patch-1",
+      "headRefOid": "7bbb63821d302121bf19fd271df6fb23239ae5a0",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
       "comments": [],
       "reviews": []
     }

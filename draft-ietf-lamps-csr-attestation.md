@@ -278,7 +278,7 @@ Per {{RFC5280}} no more than one instance of a given type of Extension may be ca
 
 Per {{RFC2986}} `Attributes{}` is defined as a `SET OF Attribute{}`, so an Attributes structure carried within a PKCS#10 CSR MUST contain no more than one Attribute of type `id-aa-attestation`.
 
-Finally, the `attr-attestation` ATTRIBUTE includes the  "COUNT MAX 1" constraint, so an Attribute of type `id-aa-attesatation` MUST contain exactly one copy of an `AttestationBundle`.
+Finally, the `attr-attestation` ATTRIBUTE includes the  "COUNT MAX 1" constraint, so an Attribute of type `id-aa-attestation` MUST contain exactly one copy of an `AttestationBundle`.
 
 # IANA Considerations
 

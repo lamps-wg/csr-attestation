@@ -445,7 +445,7 @@ AttestationStatement ::= SEQUENCE {
    a link to their specification document and an indication as to
    whether the attestation is cryptographically bound to a public key.
    This registry should follow the rules for "Specification Required" as
-   laid out in [RFC5226].
+   laid out in [RFC8126].
 
    Each row includes an OID and ASN.1 type that could appear in an
    AttestationStatement, and references to find the full specification.
@@ -688,11 +688,6 @@ AttestationStatement ::= SEQUENCE {
               draft-tschofenig-rats-psa-token-24, 23 September 2024,
               <https://datatracker.ietf.org/doc/html/draft-tschofenig-
               rats-psa-token-24>.
-
-   [RFC5226]  Narten, T. and H. Alvestrand, "Guidelines for Writing an
-              IANA Considerations Section in RFCs", RFC 5226,
-              DOI 10.17487/RFC5226, May 2008,
-              <https://www.rfc-editor.org/rfc/rfc5226>.
 
    [RFC7030]  Pritikin, M., Ed., Yee, P., Ed., and D. Harkins, Ed.,
               "Enrollment over Secure Transport", RFC 7030,

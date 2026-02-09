@@ -5,14 +5,14 @@
 Network Working Group                                       M. Ounsworth
 Internet-Draft                                                   Entrust
 Intended status: Standards Track                           H. Tschofenig
-Expires: 31 July 2026                                            Siemens
+Expires: 13 August 2026                                          Siemens
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                               M. Wiseman
                                                                         
                                                                 N. Smith
                                                        Intel Corporation
-                                                         27 January 2026
+                                                         9 February 2026
 
 
      Use of Remote Attestation with Certification Signing Requests
@@ -66,7 +66,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 31 July 2026.
+   This Internet-Draft will expire on 13 August 2026.
 
 Copyright Notice
 
@@ -379,7 +379,7 @@ AttestationStatement ::= SEQUENCE {
    attr-attestations ATTRIBUTE ::= {
      TYPE AttestationBundle
      COUNTS MAX 1
-     IDENTIFIED BY id-aa-attestations
+     IDENTIFIED BY id-aa-attestation
    }
 
    -- For CRMF

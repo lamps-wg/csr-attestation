@@ -223,7 +223,7 @@ may be used to validate an `AttestationStatement`
 contained in `attestations`. For each `AttestationStatement`, the set of certificates SHOULD contain
 the certificate that contains the public key needed to directly validate the
 `AttestationStatement`, unless the signing key is expected to be known to the Verifier or is embedded within the `AttestationStatement`. Additional certificates MAY be provided, for example, to chain the
-attestation signer key back to a trust anchor. No specific order of the certificates in `certs` should be expected because certificates contained in `certs` may be needed to validate different `AttestationStatement` instances.
+attestation key back to a trust anchor. No specific order of the certificates in `certs` should be expected because certificates contained in `certs` may be needed to validate different `AttestationStatement` instances.
 
 This specification places no restriction on mixing certificate types within the `certs` field. For example a non-X.509 attestation signer certificate MAY chain to a trust anchor via a chain of X.509 certificates. It is up to the Attester and its Verifier to agree on supported certificate formats.
 

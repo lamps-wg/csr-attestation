@@ -84,29 +84,29 @@ Copyright Notice
 Table of Contents
 
    1.  Introduction
-     1.1.  Relationship to the IETF RATS Working Group
-   2.  Conventions and Definitions
-   3.  Conveying attestations in CSRs
-     3.1.  AttestationStatement and AttestationBundle
-     3.2.  AttestationStatementSet
-     3.3.  CSR Attribute and Extension
-   4.  IANA Considerations
-     4.1.  Module Registration - SMI Security for PKIX Module
+   2.  Relationship to the IETF RATS Working Group
+   3.  Conventions and Definitions
+   4.  Conveying attestations in CSRs
+     4.1.  AttestationStatement and AttestationBundle
+     4.2.  AttestationStatementSet
+     4.3.  CSR Attribute and Extension
+   5.  IANA Considerations
+     5.1.  Module Registration - SMI Security for PKIX Module
            Identifier
-     4.2.  Object Identifier Registrations - SMI Security for S/MIME
+     5.2.  Object Identifier Registrations - SMI Security for S/MIME
            Attributes
-     4.3.  Attestation OID Registry
-       4.3.1.  Registration Template
-       4.3.2.  Initial Registry Contents
-   5.  Security Considerations
-     5.1.  Binding attestations to the CSR’s public key
-       5.1.1.  Binding Multiple Claims to a CSR
-     5.2.  Freshness
-     5.3.  Relationship of Attestations and Certificate Extensions
-     5.4.  Additional Security Considerations
-   6.  References
-     6.1.  Normative References
-     6.2.  Informative References
+     5.3.  Attestation OID Registry
+       5.3.1.  Registration Template
+       5.3.2.  Initial Registry Contents
+   6.  Security Considerations
+     6.1.  Binding attestations to the CSR’s public key
+       6.1.1.  Binding Multiple Claims to a CSR
+     6.2.  Freshness
+     6.3.  Relationship of Attestations and Certificate Extensions
+     6.4.  Additional Security Considerations
+   7.  References
+     7.1.  Normative References
+     7.2.  Informative References
    Appendix A.  Examples
    Appendix B.  ASN.1 Module
    Appendix C.  Acknowledgments
@@ -148,7 +148,7 @@ Table of Contents
    (BER) or Distinguished Encoding Rules (DER) be wrapped in an ASN.1
    OCTET STRING.
 
-1.1.  Relationship to the IETF RATS Working Group
+2.  Relationship to the IETF RATS Working Group
 
    As noted, attestation-related technologies have existed for many
    years, albeit with no standard format and no standard means of
@@ -181,7 +181,7 @@ Table of Contents
    be used by any of the roles that originate attestations, and is
    equally applicable to these three conceptual messages.
 
-2.  Conventions and Definitions
+3.  Conventions and Definitions
 
    The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
    "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
@@ -228,7 +228,7 @@ Table of Contents
    camel-case identifiers like "AttestationStatement", which denote
    ASN.1 types.
 
-3.  Conveying attestations in CSRs
+4.  Conveying attestations in CSRs
 
    The focus of this specification is the conveyance of attestations to
    a CA/RA as part of a CSR.  The following sub-sections define formats
@@ -237,7 +237,7 @@ Table of Contents
    attribute and extension mechanisms used in certificate managment
    protocols.
 
-3.1.  AttestationStatement and AttestationBundle
+4.1.  AttestationStatement and AttestationBundle
 
    The AttestationStatement structure (as shown in Figure 1) facilitates
    the representation of Evidence, Endorsements, and Attestation Results
@@ -349,7 +349,7 @@ AttestationStatement ::= SEQUENCE {
    certificates.  It is up to the Attester and its Verifier to agree on
    supported certificate formats.
 
-3.2.  AttestationStatementSet
+4.2.  AttestationStatementSet
 
    AttestationStatementSet ATTESTATION-STATEMENT ::= {
       ... -- None defined in this document --
@@ -367,7 +367,7 @@ AttestationStatement ::= SEQUENCE {
    left unconstrained in this document.  However, implementers MAY
    populate it with the formats that they wish to support.
 
-3.3.  CSR Attribute and Extension
+4.3.  CSR Attribute and Extension
 
    By definition, attributes within a PKCS#10 CSR are typed as ATTRIBUTE
    and within a CRMF CSR are typed as EXTENSION.
@@ -405,14 +405,14 @@ AttestationStatement ::= SEQUENCE {
    In a CRMF CSR, implementers SHOULD NOT place multiple
    AttestationBundle instances in ext-attestations.
 
-4.  IANA Considerations
+5.  IANA Considerations
 
    IANA is requested to allocate a value from the "SMI Security for PKIX
    Module Identifier" registry for the included ASN.1 module, allocate a
    value from "SMI Security for S/MIME Attributes" to identify an
    attribute defined within, and open a new registry.
 
-4.1.  Module Registration - SMI Security for PKIX Module Identifier
+5.1.  Module Registration - SMI Security for PKIX Module Identifier
 
    IANA is asked to register the following within the registry id-mod
    SMI Security for PKIX Module Identifier (1.3.6.1.5.5.7.0).
@@ -423,7 +423,7 @@ AttestationStatement ::= SEQUENCE {
 
    *  References: This Document
 
-4.2.  Object Identifier Registrations - SMI Security for S/MIME
+5.2.  Object Identifier Registrations - SMI Security for S/MIME
       Attributes
 
    IANA is asked to register the following within the registry id-aa SMI
@@ -438,7 +438,7 @@ AttestationStatement ::= SEQUENCE {
 
    *  References: This Document
 
-4.3.  Attestation OID Registry
+5.3.  Attestation OID Registry
 
    IANA is asked to create a registry that helps developers to find OID/
    Attestation mappings that may be encountered in the wild, as well as
@@ -466,7 +466,7 @@ AttestationStatement ::= SEQUENCE {
    and should direct all requests for registration to the review mailing
    list.
 
-4.3.1.  Registration Template
+5.3.1.  Registration Template
 
    The registry has the following columns:
 
@@ -496,7 +496,7 @@ AttestationStatement ::= SEQUENCE {
       normative list, a fair amount of discretion is left to the
       Designated Expert.
 
-4.3.2.  Initial Registry Contents
+5.3.2.  Initial Registry Contents
 
    The initial registry contents is shown in the table below.  It lists
    entries for several attestation encoding OIDs including an entry for
@@ -517,7 +517,7 @@ AttestationStatement ::= SEQUENCE {
    The current registry values can be retrieved from the IANA online
    website.
 
-5.  Security Considerations
+6.  Security Considerations
 
    This document defines a structure to convey attestations as
    additional information in CSRs, as well as an extension to convey
@@ -533,7 +533,7 @@ AttestationStatement ::= SEQUENCE {
    apply when the CA/RA chooses to verify the attestation as part of the
    evaluation of a CSR.
 
-5.1.  Binding attestations to the CSR’s public key
+6.1.  Binding attestations to the CSR’s public key
 
    Regardless of the topological model, the CA/RA is ultimately
    responsible for validating the binding between the public key and the
@@ -546,7 +546,7 @@ AttestationStatement ::= SEQUENCE {
    [RFC9334], can introduce additional complications as shown in the
    following example.
 
-5.1.1.  Binding Multiple Claims to a CSR
+6.1.1.  Binding Multiple Claims to a CSR
 
    For example, a CA may have an issuance policy that requires key
    generation in an HSM on a company-owned platform in a known good
@@ -576,7 +576,7 @@ AttestationStatement ::= SEQUENCE {
        AttestationStatement 3 applies to the platform that contains the
        HSM.
 
-5.2.  Freshness
+6.2.  Freshness
 
    To avoid replay attacks, the CA/RA may choose to ignore attestations
    that are stale, or whose freshness cannot be determined.  Mechanisms
@@ -584,7 +584,7 @@ AttestationStatement ::= SEQUENCE {
    models are discussed in [RFC9334].  Other mechanisms for determining
    freshness may be used as the CA/RA deems appropriate.
 
-5.3.  Relationship of Attestations and Certificate Extensions
+6.3.  Relationship of Attestations and Certificate Extensions
 
    Attestations are intended as additional information in the issuance
    process, and may include sensitive information about the platform,
@@ -594,7 +594,7 @@ AttestationStatement ::= SEQUENCE {
    certificates SHOULD review the contents and delete any sensitive
    information.
 
-5.4.  Additional Security Considerations
+6.4.  Additional Security Considerations
 
    In addition to the security considerations listed here, implementers
    should be familiar with the security considerations of the
@@ -607,9 +607,9 @@ AttestationStatement ::= SEQUENCE {
    relating to the specific attestation formats being carried within the
    CSR. 
 
-6.  References
+7.  References
 
-6.1.  Normative References
+7.1.  Normative References
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -652,7 +652,7 @@ AttestationStatement ::= SEQUENCE {
               Architecture", RFC 9334, DOI 10.17487/RFC9334, January
               2023, <https://www.rfc-editor.org/rfc/rfc9334>.
 
-6.2.  Informative References
+7.2.  Informative References
 
    [CSBR]     CA/Browser Forum, "Baseline Requirements for Code-Signing
               Certificates, v.3.7", February 2024,

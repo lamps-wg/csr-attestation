@@ -440,16 +440,11 @@ contributed to the work directly, participated in design team meetings, or provi
 Richard Kettlewell, Chris Trufan, Bruno Couillard,
 Jean-Pierre Fiset, Sander Temme, Jethro Beekman, Zsolt Rózsahegyi, Ferenc
 Pető, Mike Agrenius Kushner, Tomas Gustavsson, Dieter Bong, Christopher Meyer, Carl Wallace, Michael Richardson, Tomofumi Okubo, Olivier
-Couillard, John Gray, Eric Amador, Darren Johnson, Herman Slatman, Tiru Reddy, James Hagborg, A.J. Stein, John Kemp, Daniel Migault and Russ Housley.
+Couillard, John Gray, Eric Amador, Giri Mandyam, Darren Johnson, Herman Slatman, Tiru Reddy, James Hagborg, A.J. Stein, John Kemp, Daniel Migault and Russ Housley.
 
-We would like to specifically thank Mike StJohns for his work on an earlier
-version of this draft.
-
-We would also like to specifically thank Giri Mandyam for providing the
-appendix illustrating the confidential computing scenario, and to Corey
-Bonnell for helping with the hackathon scripts to bundle it into a CSR.
-
-Finally, we would like to thank Andreas Kretschmer, Hendrik Brockhaus,
-David von Oheimb, and Thomas Fossati for their feedback based on implementation
+We would like to specifically thank Mike StJohns for his work on an initial
+version of this draft. Additionally, we would like to thank Andreas Kretschmer, Hendrik Brockhaus,
+David von Oheimb, Corey Bonnell, and Thomas Fossati for their feedback based on implementation
 experience.
 
+Close to the end of the specification development process, the working group chairs, Russ Housley and Tim Hollebeek, reached out to Steve Hanna, Tim Polk, and Carl Wallace to help improve the document and resolve contentious issues. Their contributions substantially impacted the final outcome of the document.

@@ -367,7 +367,7 @@ The template would be:
 
 - OID: 1.2.3.4.5
 - Name: exampleAttest
-- Type ExampleStruct
+- Type: ExampleStruct
 - Description:  This is an example template for registering ATTESTATATION-STATEMENT declarations
 - Reference: Provided by example@example.com, no specification provided.
 

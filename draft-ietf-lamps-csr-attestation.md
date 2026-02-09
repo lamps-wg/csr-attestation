@@ -268,7 +268,7 @@ attr-attestations ATTRIBUTE ::= {
 -- For CRMF
 ext-attestations EXTENSION ::= {
   SYNTAX AttestationBundle
-  IDENTIFIED BY id-aa-attestations
+  IDENTIFIED BY id-aa-attestation
 }
 ~~~
 {: #code-extensions title="Definitions of CSR attribute and extension"}

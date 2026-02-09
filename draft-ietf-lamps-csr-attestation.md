@@ -73,7 +73,6 @@ normative:
 
 informative:
   RFC8126:
-  RFC5226:
   I-D.ietf-rats-msg-wrap:
   I-D.bft-rats-kat:
   RFC7030:
@@ -309,7 +308,7 @@ IANA is asked to create a registry that helps developers to find
 OID/Attestation mappings that may be encountered in the wild, as well as
 a link to their specification document and an indication as to whether the attestation is cryptographically bound to a public key.
 This registry should follow the rules for
-"Specification Required" as laid out in {{RFC5226}}.
+"Specification Required" as laid out in {{RFC8126}}.
 
 Each row includes an OID and ASN.1 type that could appear in an `AttestationStatement`, and references to find the full specification.
 

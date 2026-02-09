@@ -169,11 +169,13 @@ For example, a CBOR-encoded format may be defined as an OCTET STRING for `Attest
 ~~~
 ATTESTATION-STATEMENT ::= TYPE-IDENTIFIER
 
+AttestAttrSet ATTRIBUTE ::= { ... }
+
 AttestationStatement ::= SEQUENCE {
    type   ATTESTATION-STATEMENT.&id({AttestationStatementSet}),
-   bindsPublicKey BOOLEAN DEFAULT TRUE,
+   bindsPublicKey [0] BOOLEAN DEFAULT TRUE,
    stmt   ATTESTATION-STATEMENT.&Type({AttestationStatementSet}{@type}),
-   attrs  Attributes OPTIONAL
+   attrs  [1] Attributes {{AttestAttrSet}} OPTIONAL
 }
 ~~~
 {: #code-AttestationStatement title="Definition of AttestationStatement"}

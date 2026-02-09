@@ -153,7 +153,7 @@ Table of Contents
 
    As noted, attestation-related technologies have existed for many
    years, albeit with no standard format and no standard means of
-   conveying attestation statement to a CA.  This draft addresses the
+   conveying attestation statements to a CA.  This draft addresses the
    latter, and is equally applicable to standard and proprietary
    attestation formats.  The IETF Remote Attestation Procedures (RATS)
    working group is addressing the former.  In [RFC9334], RATS defined

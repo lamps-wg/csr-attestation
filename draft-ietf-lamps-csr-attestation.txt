@@ -86,7 +86,7 @@ Table of Contents
    1.  Introduction
    2.  Relationship to the IETF RATS Working Group
    3.  Conventions and Definitions
-   4.  Conveying attestations in CSRs
+   4.  Conveying Attestations in CSRs
      4.1.  AttestationStatement and AttestationBundle
      4.2.  AttestationStatementSet
      4.3.  CSR Attribute and Extension
@@ -99,7 +99,7 @@ Table of Contents
        5.3.1.  Registration Template
        5.3.2.  Initial Registry Contents
    6.  Security Considerations
-     6.1.  Binding attestations to the CSR’s public key
+     6.1.  Binding Attestations to the CSR's Public Key
        6.1.1.  Binding Multiple Claims to a CSR
      6.2.  Freshness
      6.3.  Relationship of Attestations and Certificate Extensions
@@ -228,7 +228,7 @@ Table of Contents
    camel-case identifiers like "AttestationStatement", which denote
    ASN.1 types.
 
-4.  Conveying attestations in CSRs
+4.  Conveying Attestations in CSRs
 
    The focus of this specification is the conveyance of attestations to
    a CA/RA as part of a CSR.  The following sub-sections define formats
@@ -533,7 +533,7 @@ AttestationStatement ::= SEQUENCE {
    apply when the CA/RA chooses to verify the attestation as part of the
    evaluation of a CSR.
 
-6.1.  Binding attestations to the CSR’s public key
+6.1.  Binding Attestations to the CSR's Public Key
 
    Regardless of the topological model, the CA/RA is ultimately
    responsible for validating the binding between the public key and the

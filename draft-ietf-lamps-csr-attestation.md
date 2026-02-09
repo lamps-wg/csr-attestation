@@ -74,22 +74,13 @@ normative:
 informative:
   RFC8126:
   I-D.ietf-rats-msg-wrap:
-  I-D.bft-rats-kat:
   RFC7030:
-  I-D.tschofenig-rats-psa-token:
-  I-D.ffm-rats-cca-token:
   CSBR:
     author:
       org: CA/Browser Forum
     title: Baseline Requirements for Code-Signing Certificates, v.3.7
     date: February 28, 2024
     target: https://cabforum.org/uploads/Baseline-Requirements-for-the-Issuance-and-Management-of-Code-Signing.v3.7.pdf
-  TCGDICE1.2:
-    author:
-      org: "Trusted Computing Group"
-    title: "DICE Attestation Architecture"
-    target: https://trustedcomputinggroup.org/wp-content/uploads/DICE-Attestation-Architecture-v1.2_pub.pdf
-    date: April, 2025
   SampleData:
     title: "CSR Attestation Sample Data"
     target: https://github.com/lamps-wg/csr-attestation-examples

@@ -659,35 +659,12 @@ AttestationStatement ::= SEQUENCE {
               <https://cabforum.org/uploads/Baseline-Requirements-for-
               the-Issuance-and-Management-of-Code-Signing.v3.7.pdf>.
 
-   [I-D.bft-rats-kat]
-              Brossard, M., Fossati, T., Tschofenig, H., Birkholz, H.,
-              and I. Mihalcea, "An EAT-based Key Attestation Token",
-              Work in Progress, Internet-Draft, draft-bft-rats-kat-06,
-              17 October 2025, <https://datatracker.ietf.org/doc/html/
-              draft-bft-rats-kat-06>.
-
-   [I-D.ffm-rats-cca-token]
-              Frost, S., Fossati, T., and G. Mandyam, "Arm's
-              Confidential Compute Architecture Reference Attestation
-              Token", Work in Progress, Internet-Draft, draft-ffm-rats-
-              cca-token-02, 2 September 2025,
-              <https://datatracker.ietf.org/doc/html/draft-ffm-rats-cca-
-              token-02>.
-
    [I-D.ietf-rats-msg-wrap]
               Birkholz, H., Smith, N., Fossati, T., Tschofenig, H., and
               D. Glaze, "RATS Conceptual Messages Wrapper (CMW)", Work
               in Progress, Internet-Draft, draft-ietf-rats-msg-wrap-23,
               11 December 2025, <https://datatracker.ietf.org/doc/html/
               draft-ietf-rats-msg-wrap-23>.
-
-   [I-D.tschofenig-rats-psa-token]
-              Tschofenig, H., Frost, S., Brossard, M., Shaw, A. L., and
-              T. Fossati, "Arm's Platform Security Architecture (PSA)
-              Attestation Token", Work in Progress, Internet-Draft,
-              draft-tschofenig-rats-psa-token-24, 23 September 2024,
-              <https://datatracker.ietf.org/doc/html/draft-tschofenig-
-              rats-psa-token-24>.
 
    [RFC7030]  Pritikin, M., Ed., Yee, P., Ed., and D. Harkins, Ed.,
               "Enrollment over Secure Transport", RFC 7030,
@@ -702,12 +679,6 @@ AttestationStatement ::= SEQUENCE {
    [SampleData]
               "CSR Attestation Sample Data", n.d.,
               <https://github.com/lamps-wg/csr-attestation-examples>.
-
-   [TCGDICE1.2]
-              Trusted Computing Group, "DICE Attestation Architecture",
-              April 2025, <https://trustedcomputinggroup.org/wp-
-              content/uploads/DICE-Attestation-Architecture-
-              v1.2_pub.pdf>.
 
 Appendix A.  Examples
 

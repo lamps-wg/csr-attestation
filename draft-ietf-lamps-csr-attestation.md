@@ -290,7 +290,7 @@ IANA is asked to register the following within the registry id-mod
 SMI Security for PKIX Module Identifier (1.3.6.1.5.5.7.0).
 
 -  Decimal: IANA Assigned - **Replace TBDMOD**
--  Description: CSR-ATTESTATION-2023 - id-mod-pkix-attest-01
+-  Description: CSR-ATTESTATION-2025 - id-mod-pkix-attest-01
 -  References: This Document
 
 ##  Object Identifier Registrations - SMI Security for S/MIME Attributes

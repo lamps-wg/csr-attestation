@@ -282,7 +282,7 @@ Due to the nature of the PKIX ASN.1 classes {{RFC5912}}, there are multiple ways
 IANA is requested to allocate a value
 from the "SMI Security for PKIX Module Identifier" registry for the
 included ASN.1 module, allocate a value from "SMI Security for
-S/MIME Attributes" to identify two attributes defined within, and open a new registry.
+S/MIME Attributes" to identify an attribute defined within, and open a new registry.
 
 ##  Module Registration - SMI Security for PKIX Module Identifier
 

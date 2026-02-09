@@ -385,7 +385,7 @@ AttestationStatement ::= SEQUENCE {
    -- For CRMF
    ext-attestations EXTENSION ::= {
      SYNTAX AttestationBundle
-     IDENTIFIED BY id-aa-attestations
+     IDENTIFIED BY id-aa-attestation
    }
 
             Figure 4: Definitions of CSR attribute and extension

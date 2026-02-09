@@ -274,7 +274,7 @@ The Extension variant illustrated in {{code-extensions}} is intended only for us
 
 Multiple different types of `AttestationStatement`(s) may be included within a single top-level `AttestationBundle`.  N.B.; there is no requirement in this document that the `AttestationBundle.attestations` field contain only one `AttestationStatement` of a given type.  For example, if a given type is a "wrapper" type containing the `CMW` structure REF NEEDED, multiple copies of a CMW-typed AttestationStatement may be included.
 
-Per {{RFC5280}} no more than one instance of a given type of Extension may be carried within an Extensions structure, so an Extensions structure MUST contain no more than one Extension of type `id-aa-attestation.
+Per {{RFC5280}} no more than one instance of a given type of Extension may be carried within an Extensions structure, so an Extensions structure MUST contain no more than one Extension of type `id-aa-attestation`.
 
 Per {{RFC2986}} `Attributes{}` is defined as a `SET OF Attribute{}`, so an Attributes structure carried within a PKCS#10 CSR MUST contain no more than one Attribute of type `id-aa-attestation`.
 

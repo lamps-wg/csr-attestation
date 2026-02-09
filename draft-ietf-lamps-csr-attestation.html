@@ -1423,7 +1423,7 @@ may be used to validate an <code>AttestationStatement</code>
 contained in <code>attestations</code>. For each <code>AttestationStatement</code>, the set of certificates <span class="bcp14">SHOULD</span> contain
 the certificate that contains the public key needed to directly validate the
 <code>AttestationStatement</code>, unless the signing key is expected to be known to the Verifier or is embedded within the <code>AttestationStatement</code>. Additional certificates <span class="bcp14">MAY</span> be provided, for example, to chain the
-attestation signer key back to a trust anchor. No specific order of the certificates in <code>certs</code> should be expected because certificates contained in <code>certs</code> may be needed to validate different <code>AttestationStatement</code> instances.<a href="#section-4.1-9" class="pilcrow">¶</a></p>
+attestation key back to a trust anchor. No specific order of the certificates in <code>certs</code> should be expected because certificates contained in <code>certs</code> may be needed to validate different <code>AttestationStatement</code> instances.<a href="#section-4.1-9" class="pilcrow">¶</a></p>
 <p id="section-4.1-10">This specification places no restriction on mixing certificate types within the <code>certs</code> field. For example a non-X.509 attestation signer certificate <span class="bcp14">MAY</span> chain to a trust anchor via a chain of X.509 certificates. It is up to the Attester and its Verifier to agree on supported certificate formats.<a href="#section-4.1-10" class="pilcrow">¶</a></p>
 </section>
 </div>

@@ -340,8 +340,8 @@ AttestationStatement ::= SEQUENCE {
    the AttestationStatement, unless the signing key is expected to be
    known to the Verifier or is embedded within the AttestationStatement.
    Additional certificates MAY be provided, for example, to chain the
-   attestation signer key back to a trust anchor.  No specific order of
-   the certificates in certs should be expected because certificates
+   attestation key back to a trust anchor.  No specific order of the
+   certificates in certs should be expected because certificates
    contained in certs may be needed to validate different
    AttestationStatement instances.
 

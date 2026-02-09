@@ -5,13 +5,13 @@
 Network Working Group                                       M. Ounsworth
 Internet-Draft                                                   Entrust
 Intended status: Standards Track                           H. Tschofenig
-Expires: 2 August 2026                                           Siemens
+Expires: 13 August 2026                                          Siemens
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                               M. Wiseman
                                                                         
                                                                 N. Smith
-                                                         29 January 2026
+                                                         9 February 2026
 
 
      Use of Remote Attestation with Certification Signing Requests
@@ -65,7 +65,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 2 August 2026.
+   This Internet-Draft will expire on 13 August 2026.
 
 Copyright Notice
 
@@ -409,8 +409,8 @@ AttestationStatement ::= SEQUENCE {
 
    IANA is requested to allocate a value from the "SMI Security for PKIX
    Module Identifier" registry for the included ASN.1 module, allocate a
-   value from "SMI Security for S/MIME Attributes" to identify two
-   attributes defined within, and open a new registry.
+   value from "SMI Security for S/MIME Attributes" to identify an
+   attribute defined within, and open a new registry.
 
 4.1.  Module Registration - SMI Security for PKIX Module Identifier
 
@@ -419,7 +419,7 @@ AttestationStatement ::= SEQUENCE {
 
    *  Decimal: IANA Assigned - *Replace TBDMOD*
 
-   *  Description: CSR-ATTESTATION-2023 - id-mod-pkix-attest-01
+   *  Description: CSR-ATTESTATION-2025 - id-mod-pkix-attest-01
 
    *  References: This Document
 
@@ -807,21 +807,21 @@ Appendix C.  Acknowledgments
    Sander Temme, Jethro Beekman, Zsolt Rózsahegyi, Ferenc Pető, Mike
    Agrenius Kushner, Tomas Gustavsson, Dieter Bong, Christopher Meyer,
    Carl Wallace, Michael Richardson, Tomofumi Okubo, Olivier Couillard,
-   John Gray, Eric Amador, Darren Johnson, Herman Slatman, Tiru Reddy,
-   James Hagborg, A.J.  Stein, John Kemp, Daniel Migault and Russ
-   Housley.
+   John Gray, Eric Amador, Giri Mandyam, Darren Johnson, Herman Slatman,
+   Tiru Reddy, James Hagborg, A.J.  Stein, John Kemp, Daniel Migault and
+   Russ Housley.
 
    We would like to specifically thank Mike StJohns for his work on an
-   earlier version of this draft.
+   initial version of this draft.  Additionally, we would like to thank
+   Andreas Kretschmer, Hendrik Brockhaus, David von Oheimb, Corey
+   Bonnell, and Thomas Fossati for their feedback based on
+   implementation experience.
 
-   We would also like to specifically thank Giri Mandyam for providing
-   the appendix illustrating the confidential computing scenario, and to
-   Corey Bonnell for helping with the hackathon scripts to bundle it
-   into a CSR.
-
-   Finally, we would like to thank Andreas Kretschmer, Hendrik
-   Brockhaus, David von Oheimb, and Thomas Fossati for their feedback
-   based on implementation experience.
+   Close to the end of the specification development process, the
+   working group chairs, Russ Housley and Tim Hollebeek, reached out to
+   Steve Hanna, Tim Polk, and Carl Wallace to help improve the document
+   and resolve contentious issues.  Their contributions substantially
+   impacted the final outcome of the document.
 
 Authors' Addresses
 

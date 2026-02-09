@@ -1220,11 +1220,6 @@ Request Message Format (CRMF) messages, respectively.<a href="#section-abstract-
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.1">
                 <p id="section-toc.1-1.6.2.1.1"><a href="#section-6.1" class="auto internal xref">6.1</a>.  <a href="#name-binding-attestations-to-the" class="internal xref">Binding Attestations to the CSR's Public Key</a></p>
-<ul class="compact toc ulBare ulEmpty">
-<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.1.2.1">
-                    <p id="section-toc.1-1.6.2.1.2.1.1"><a href="#section-6.1.1" class="auto internal xref">6.1.1</a>.  <a href="#name-binding-multiple-claims-to-" class="internal xref">Binding Multiple Claims to a CSR</a></p>
-</li>
-                </ul>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.2">
                 <p id="section-toc.1-1.6.2.2.1"><a href="#section-6.2" class="auto internal xref">6.2</a>.  <a href="#name-freshness" class="internal xref">Freshness</a></p>
@@ -1660,38 +1655,31 @@ The CA/RA that receives the CSR may choose to verify the attestation(s) to deter
         </h3>
 <p id="section-6.1-1">Regardless of the topological model, the CA/RA is ultimately responsible for validating the binding between the public key and the attestation(s) in the CSR. For CAs issuing in conformance with the CA/Browser Forum’s Code Signing Baseline Requirements, this means verifying the attestation of HSM generation pertains to the public key in the CSR.<a href="#section-6.1-1" class="pilcrow">¶</a></p>
 <p id="section-6.1-2">Multiple attestations from multiple sources, as envisioned in <span>[<a href="#RFC9334" class="cite xref">RFC9334</a>]</span>, can introduce additional complications as shown in the following example.<a href="#section-6.1-2" class="pilcrow">¶</a></p>
-<div id="binding-multiple-claims-to-a-csr">
-<section id="section-6.1.1">
-          <h4 id="name-binding-multiple-claims-to-">
-<a href="#section-6.1.1" class="section-number selfRef">6.1.1. </a><a href="#name-binding-multiple-claims-to-" class="section-name selfRef">Binding Multiple Claims to a CSR</a>
-          </h4>
-<p id="section-6.1.1-1">For example, a CA may have an issuance policy that requires key generation in an HSM on a company-owned platform in a known good state.
-The CSR might contain three AttestationStatements originated by three different attesters:<a href="#section-6.1.1-1" class="pilcrow">¶</a></p>
-<ol start="1" type="1" class="normal type-1" id="section-6.1.1-2">
-<li id="section-6.1.1-2.1">
-              <p id="section-6.1.1-2.1.1">an Evidence that a key pair was generated in an HSM;<a href="#section-6.1.1-2.1.1" class="pilcrow">¶</a></p>
+<p id="section-6.1-3">For example, a CA may have an issuance policy that requires key generation in an HSM on a company-owned platform in a known good state.
+The CSR might contain three AttestationStatements originated by three different attesters:<a href="#section-6.1-3" class="pilcrow">¶</a></p>
+<ol start="1" type="1" class="normal type-1" id="section-6.1-4">
+<li id="section-6.1-4.1">
+            <p id="section-6.1-4.1.1">an Evidence that a key pair was generated in an HSM;<a href="#section-6.1-4.1.1" class="pilcrow">¶</a></p>
 </li>
-            <li id="section-6.1.1-2.2">
-              <p id="section-6.1.1-2.2.1">an Endorsement that states a particular platform is company-owned; and<a href="#section-6.1.1-2.2.1" class="pilcrow">¶</a></p>
+          <li id="section-6.1-4.2">
+            <p id="section-6.1-4.2.1">an Endorsement that states a particular platform is company-owned; and<a href="#section-6.1-4.2.1" class="pilcrow">¶</a></p>
 </li>
-            <li id="section-6.1.1-2.3">
-              <p id="section-6.1.1-2.3.1">an Attestation Result stating a particular platform was in a known good state (e.g, up to date on patches, etc.).<a href="#section-6.1.1-2.3.1" class="pilcrow">¶</a></p>
+          <li id="section-6.1-4.3">
+            <p id="section-6.1-4.3.1">an Attestation Result stating a particular platform was in a known good state (e.g, up to date on patches, etc.).<a href="#section-6.1-4.3.1" class="pilcrow">¶</a></p>
 </li>
-          </ol>
-<p id="section-6.1.1-3">While each of these attestations may be independently correct, the CA/RA is responsible for confirming the attestations apply in concert to the public key in the CSR. That is, the CA/RA must analyze the attestations to ensure that:<a href="#section-6.1.1-3" class="pilcrow">¶</a></p>
-<ol start="1" type="1" class="normal type-1" id="section-6.1.1-4">
-<li id="section-6.1.1-4.1">
-              <p id="section-6.1.1-4.1.1">the attestation of HSM generation in AttestationStatement 1 applies to the public key in the CSR;<a href="#section-6.1.1-4.1.1" class="pilcrow">¶</a></p>
+        </ol>
+<p id="section-6.1-5">While each of these attestations may be independently correct, the CA/RA is responsible for confirming the attestations apply in concert to the public key in the CSR. That is, the CA/RA must analyze the attestations to ensure that:<a href="#section-6.1-5" class="pilcrow">¶</a></p>
+<ol start="1" type="1" class="normal type-1" id="section-6.1-6">
+<li id="section-6.1-6.1">
+            <p id="section-6.1-6.1.1">the attestation of HSM generation in AttestationStatement 1 applies to the public key in the CSR;<a href="#section-6.1-6.1.1" class="pilcrow">¶</a></p>
 </li>
-            <li id="section-6.1.1-4.2">
-              <p id="section-6.1.1-4.2.1">the attestation of company ownership in AttestationStatement 2 applies to the platform that contains the HSM; and<a href="#section-6.1.1-4.2.1" class="pilcrow">¶</a></p>
+          <li id="section-6.1-6.2">
+            <p id="section-6.1-6.2.1">the attestation of company ownership in AttestationStatement 2 applies to the platform that contains the HSM; and<a href="#section-6.1-6.2.1" class="pilcrow">¶</a></p>
 </li>
-            <li id="section-6.1.1-4.3">
-              <p id="section-6.1.1-4.3.1">the attestation that a platform was in a known good state in AttestationStatement 3 applies to the platform that contains the HSM.<a href="#section-6.1.1-4.3.1" class="pilcrow">¶</a></p>
+          <li id="section-6.1-6.3">
+            <p id="section-6.1-6.3.1">the attestation that a platform was in a known good state in AttestationStatement 3 applies to the platform that contains the HSM.<a href="#section-6.1-6.3.1" class="pilcrow">¶</a></p>
 </li>
-          </ol>
-</section>
-</div>
+        </ol>
 </section>
 </div>
 <div id="freshness">

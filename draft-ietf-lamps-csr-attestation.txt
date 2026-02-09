@@ -100,7 +100,6 @@ Table of Contents
        5.3.2.  Initial Registry Contents
    6.  Security Considerations
      6.1.  Binding Attestations to the CSR's Public Key
-       6.1.1.  Binding Multiple Claims to a CSR
      6.2.  Freshness
      6.3.  Relationship of Attestations and Certificate Extensions
      6.4.  Additional Security Considerations
@@ -547,8 +546,6 @@ AttestationStatement ::= SEQUENCE {
    Multiple attestations from multiple sources, as envisioned in
    [RFC9334], can introduce additional complications as shown in the
    following example.
-
-6.1.1.  Binding Multiple Claims to a CSR
 
    For example, a CA may have an issuance policy that requires key
    generation in an HSM on a company-owned platform in a known good

@@ -99,18 +99,15 @@ informative:
 
 Certification Authorities (CAs) issuing certificates to Public Key Infrastructure (PKI) end entities may require a certificate signing request (CSR) to include additional verifiable information to confirm policy compliance. For example, a CA may require an end entity to demonstrate that the private key corresponding to a CSR's public key is secured by a hardware security module (HSM), is not exportable, etc. The process of generating, transmitting, and verifying  additional information required by the CA is called remote attestation. While work is currently underway to standardize various aspects of  remote attestation, a variety of proprietary mechanisms have been in use for years, particularly regarding protection of private keys.
 
-This specification defines an ASN.1 structure for
-remote attestation that can accommodate proprietary and standardized
-attestation mechanisms, as well as an attribute and an extension to carry the structure in PKCS#10 and Certificate
-Request Message Format (CRMF) messages, respectively.
-
+This specification defines ASN.1 structures which may carry attestation data for PKCS#10 and Certificate
+Request Message Format (CRMF) messages. Both standardized and proprietary attestation formats are supported by this specification.
 --- middle
 
 # Introduction
 
-Certification Authorities (CAs) issuing certificates to PKI end entities may require a certificate signing request (CSR) to include verifiable attestations that contain claims regarding the platform used by the end entity to generate the key pair for which a certificate is sought. At the time of writing, the most pressing example of the need for remote attestation in certificate enrollment is the Code-Signing Baseline Requirements (CSBR) document maintained by the CA/Browser Forum [CSBR]. The [CSBR] requires compliant CAs to "ensure that a Subscriber's Private Key is generated, stored, and used in a secure environment that has controls to prevent theft or misuse". This requirement is a natural fit to enforce via remote attestation.
+Certification Authorities (CAs) issuing certificates to PKI end entities MAY require a certificate signing request (CSR) to include verifiable attestations that contain claims regarding the platform used by the end entity to generate the key pair for which a certificate is sought and also contains claims of attributes of the key pair with respect to its protection, use and extractability. At the time of writing, the most pressing example of the need for remote attestation in certificate enrollment is the Code-Signing Baseline Requirements (CSBR) document maintained by the CA/Browser Forum [CSBR]. The [CSBR] requires compliant CAs to "ensure that a Subscriber's Private Key is generated, stored, and used in a secure environment that has controls to prevent theft or misuse". This requirement is a natural fit to enforce via remote attestation.
 
-This specification defines an attribute and an extension that allow for conveyance of verifiable attestations in several Certificate Signing Request (CSR) formats, including PKCS#10 [RFC2986] or Certificate Request Message Format (CRMF) [RFC4211] messages. Given several standard and proprietary remote attestation technologies are in use, this specification is intended to be as technology-agnostic as is feasible with respect to implemented and future remote attestation technologies. This aligns with the fact that a CA may wish to provide support for a variety of types of devices but cannot dictate what format a device uses to represent attestations.
+This specification defines an attribute and an extension that allow for conveyance of verifiable attestations in several Certificate Signing Request (CSR) formats, including PKCS#10 [RFC2986] or Certificate Request Message Format (CRMF) [RFC4211] messages. Given several standard and proprietary remote attestation technologies are in use, this specification is intended to be as technology-agnostic as is feasible with respect to implemented and future remote attestation technologies. This aligns with the fact that a CA may wish to provide support for a variety of types of devices but cannot dictate what format a device uses to represent attestations.  However, if a certificate requester does not include the number and types of attestations required by the CA, it is unlikely the requester will recieve the requested certificate.
 
 While CSRs are defined using Abstract Syntax Notation One (ASN.1), attestations may be defined using any data description language, i.e., ASN.1 or Concise Data Description Language (CDDL), or represented using any type of encoding, including Distinguished Encoding Rules (DER), Concise Binary Object Representation (CBOR), JavaScript Object Notation (JSON). This specification RECOMMENDS that attestations that are not encoded using the Basic Encoding Rules (BER) or Distinguished Encoding Rules (DER) be wrapped in an ASN.1 OCTET STRING.
 
@@ -125,7 +122,7 @@ models for CSR processing, provided the required security
 requirements specific to the context of certificate issuance are
 satisfied.
 
-The trust model defined in {{Section 7 of RFC9334}} identifies several roles that originate or forward attestations: the Attester; Endorser; and Verifier. Attestations, or Evidence per {{RFC9334}}, may be directed to an entity fulfilling one of these roles, including to an RA/CA acting as a Verifier. An RA/CA may also forward attestations to a Verifier for evaluation. Each attestation may contain one or more claims, including claims that may be required by an RA or CA. Attestations transmitted by these parties are defined in {{Section 8 of RFC9334}} as the "conceptual messages" Evidence, Endorsement, and Attestation Results. The structure defined in this specification may be used by any of the roles that originate attestations, and is equally applicable to these three conceptual messages.
+The trust model defined in {{Section 7 of RFC9334}} identifies several roles that originate or forward attestations: the Attester; Endorser; and Verifier. Attestations, or Evidence per {{RFC9334}}, may be directed to an entity fulfilling one of these roles, including to an CA/RA acting as a Verifier. An CA/RA may also forward attestations to a Verifier for evaluation. Each attestation may contain one or more claims, including claims that may be required by an RA or CA. Attestations transmitted by these parties are defined in {{Section 8 of RFC9334}} as the "conceptual messages" Evidence, Endorsement, and Attestation Results. The structure defined in this specification may be used by any of the roles that originate attestations, and is equally applicable to these three conceptual messages.
 
 # Conventions and Definitions
 
@@ -134,8 +131,8 @@ The trust model defined in {{Section 7 of RFC9334}} identifies several roles tha
 This document re-uses the terms defined in {{RFC9334}} related to remote
 attestation. Readers of this document are assumed to be familiar with
 the following terms defined in {{RFC9334}}: Evidence, Endorsement, Claim, Attestation Result (AR), Attester, Relying Party, and Verifier.
-Per {{RFC9334}}, the RA/CA is the Relying Party with respect to remote attestation. This use of the term "relying party" differs from the traditional PKIX use of the term.
-This specification uses RA/CA to refer to an {{RFC9334}} Relying Party, which may or may not include an integrated Verifier.
+Per {{RFC9334}}, the CA/RA is the Relying Party with respect to remote attestation. This use of the term "relying party" differs from the traditional PKIX use of the term.
+This specification uses CA/RA to refer to an {{RFC9334}} Relying Party, which may or may not include an integrated Verifier.
 
 The term "Certification Request" message is defined in {{RFC2986}}.
 Specifications, such as {{RFC7030}}, later introduced the term
@@ -172,8 +169,8 @@ and Attestation Results generated by an Attester, Endorser, or Verifier for proc
 * The `bindsPublicKey` field indicates whether the attestation in the `stmt` field is cryptographically bound to the public key included in the CSR.
 * The `stmt` field contains the attestation for processing, constrained by the `type` field. Formats that are not defined using ASN.1 MUST define an ASN.1 wrapper for use with the `AttestationStatement` structure.
 For example, a CBOR-encoded format may be defined as an OCTET STRING for `AttestationStatement` purposes, where the contents of the OCTET STRING are the CBOR-encoded data.
-* The `attrs` field enables the inclusion of `Attribute` values that may inform the verification of the `stmt`. This specification does not define any `Attribute` instances.
-* The `attrs` field is not bound to the `type` of attestation to facilitate reuse of attribute types across attestation statement types and to allow for parsing of an `AttestationStatement` with no knowledge of the details of a specific `type`.
+* The `attrs` field enables the inclusion of `Attribute` values that may inform the verification of the `stmt`. This specification does not define any `Attribute` instances, but does define an empty set of ATTRIBUTE `AttestAttrSet`.
+* The `attrs` field, while not directly bound to the `type` of attestation, SHOULD generally contain at least the set of Attributes described the the document related to a specific ATTESTATION-STATEMENT declaration.
 
 ~~~
 ATTESTATION-STATEMENT ::= TYPE-IDENTIFIER
@@ -188,7 +185,7 @@ AttestationStatement ::= SEQUENCE {
 {: #code-AttestationStatement title="Definition of AttestationStatement"}
 
 In some cases, a CA may require CSRs to include a variety of claims, which may require the cooperation of more than one Attester.
-Similarly, a RA/CA may outsource verification of claims from different Attesters to a single Verifier.
+Similarly, a CA/RA may outsource verification of claims from different Attesters to a single Verifier.
 The `AttestationBundle` structure, {{code-AttestationBundle}}, facilitates the representation of one or more `AttestationStatement` structures along with an OPTIONAL collection of certificates that may be useful for certification path building and validation to verify each `AttestationStatement`. `AttestationBundle` is the structure included in a CSR attribute or extension.
 
 ~~~
@@ -275,7 +272,13 @@ ext-attestations EXTENSION ::= {
 
 The Extension variant illustrated in {{code-extensions}} is intended only for use within CRMF CSRs and is NOT RECOMMENDED to be used within X.509 certificates due to the privacy implications of publishing information about the end entity's hardware environment.
 
-Due to the nature of the PKIX ASN.1 classes {{RFC5912}}, there are multiple ways to convey multiple attestation statements: by including multiple copies of `attr-attestations` or `ext-attestations`, multiple values within the attribute or extension, and finally, by including multiple `AttestationStatement` structures within an `AttestationBundle`. The latter is the preferred way to carry multiple Attestations statements. Implementations MUST NOT place multiple copies of `attr-attestations` into a PKCS#10 CSR due to the `COUNTS MAX 1` declaration. In a CRMF CSR, implementers SHOULD NOT place multiple `AttestationBundle` instances in `ext-attestations`.
+Multiple different types of `AttestationStatement`(s) may be included within a single top-level `AttestationBundle`.  N.B.; there is no requirement in this document that the `AttestationBundle.attestations` field contain only one `AttestationStatement` of a given type.  For example, if a given type is a "wrapper" type containing the `CMW` structure REF NEEDED, multiple copies of a CMW-typed AttestationStatement may be included.
+
+Per {{RFC5280}} no more than one instance of a given type of Extension may be carried within an Extensions structure, so an Extensions structure MUST contain no more than one Extension of type `id-aa-attestation.
+
+Per {{RFC2986}} `Attributes{}` is defined as a `SET OF Attribute{}`, so an Attributes structure carried within a PKCS#10 CSR MUST contain no more than one Attribute of type `id-aa-attestation`.
+
+Finally, the `attr-attestation` ATTRIBUTE includes the  "COUNT MAX 1" constraint, so an Attribute of type `id-aa-attesatation` MUST contain exactly one copy of an `AttestationBundle`.
 
 # IANA Considerations
 
@@ -309,16 +312,16 @@ IANA is asked to create a registry that helps developers to find
 OID/Attestation mappings that may be encountered in the wild, as well as
 a link to their specification document and an indication as to whether the attestation is cryptographically bound to a public key.
 This registry should follow the rules for
-"Specification Required" as laid out in {{RFC5226}}.
+"Expert Review" as laid out in {{RFC5226}}.
 
-Each row includes an OID and ASN.1 type that could appear in an `AttestationStatement`, and references to find the full specification.
+This is an informational registry only, and may be used to lookup a given OID to find the specifications or contact person for a given ATTESTATION-STATEMENT declaration.  While a full specification is preferred, all that is required is a statement by the registering entity that owns a given OID tree that the registration has occurred.   The Designated Expert should verify the OID ownership, and may reviw any addtional documentation prior to approving the registration.
+
+Each row includes an OID and ASN.1 type that could appear in an `ATTESTATION-STATEMENT` declaration, and references to find the specification or point of contact.
 
 Registration requests should be formatted as per
 the registration template below, and receive a three-week review period on
 the [spasm] mailing list, with the advice of one or more Designated
-Experts {{RFC8126}}.  However, to allow for the allocation of values
-prior to publication, the Designated Experts may approve registration
-once they are satisfied that such a specification will be published.
+Experts {{RFC8126}}.
 
 Registration requests sent to the mailing list for review should use
 an appropriate subject (e.g., "Request to register attestation
@@ -333,41 +336,44 @@ list.
 The registry has the following columns:
 
 - OID: The OID number, which has already been allocated. IANA does
-not allocate OID numbers for use with this registry.
+not necessarily allocate this OID number.  There is no IANA OID allocation for this registry, but OIDs in other IANA registries may be appropriate for use in an ATTESTATION-STATEMENT declaraton.
+
+- Name: The part of the declaration prior to the `ATTESTATION-STATEMENT` keyword.
 
 - Type: The ASN.1 type corresponding to the given OID.
 
 - Description: Brief description of the use of the Attestation and the
 registration of the OID.
 
-- Reference(s): Reference to the document or documents that register
+- Reference(s): Either a reference to the registering entity, or a a reference to the document or documents that register
 the OID and define the ASN.1 type for use with a specific attestation technology, preferably
 including URIs that can be used to retrieve copies of the documents.
 An indication of the relevant sections may also be included but is not
 required.
 
-- Change Controller: The entity that controls the listed data format.
-For data formats specified in Standards Track RFCs, list the "IESG".
-For others, give the name of the responsible party.
-This does not necessarily have to be a standards body, for example
-in the case of proprietary data formats the Reference may be to a company or a
-publicly-available reference implementation.  In most cases the
-third party requesting registration in this registry will also be the
-party that registered the OID. As the intention is for this registry to be a
-helpful reference, rather than a normative list, a fair amount of
-discretion is left to the Designated Expert.
+Example:
+
+Assuming the following ASN.1:
+
+~~~
+id-example-attest OBJECT IDENTIFIER ::= { 1 2 3 4 5 }
+
+ExampleStruct ::= OCTET STRING
+
+exampleAttest ATTESTATION-STATEMENT ::= { ExampleStruct IDENTIFIED BY id-example-attest}
+~~~
+
+The template would be:
+
+- OID: 1.2.3.4.5
+- Name: exampleAttest
+- Type ExampleStruct
+- Description:  This is an example template for registering ATTESTATATION-STATEMENT declarations
+- Reference: Provided by example@example.com, no specification provided.
 
 ### Initial Registry Contents
 
-The initial registry contents is shown in the table below.
-It lists entries for several attestation encoding OIDs including an entry for the Conceptual Message Wrapper (CMW) {{I-D.ietf-rats-msg-wrap}}.
-
-* CMW
-  * OID: 1 3 6 1 5 5 7 1 35
-  * Type: CMW
-  * Description: id-pe-cmw
-  * Reference(s): {{I-D.ietf-rats-msg-wrap}}
-  * Change Controller: IETF
+None.
 
 The current registry values can be retrieved from the IANA online website.
 
@@ -381,11 +387,13 @@ Certification Request Message defined in {[RFC2986]} and an attribute to convey 
 Certificate Request Message Format defined in {[RFC4211]}.
 The CA/RA that receives the CSR may choose to verify the attestation(s) to determine if an issuance policy is met, or which of a suite of policies is satisfied. The CA/RA is also free to discard the additional information without processing.
 
+A CA which accepts or requires attestation(s) SHOULD document its requirements with its Certification Practice Statement(s).
+
 The remainder of this section identifies security considerations that apply when the CA/RA chooses to verify the attestation as part of the evaluation of a CSR.
 
 ## Binding attestations to the CSR’s public key
 
-Regardless of the topological model, the CA/RA is ultimately responsible for validating the binding between the public key and the attestation(s) in the CSR. For CAs issuing in conformance with the CA/Browser Forum’s Code Signing Baseline Requirements, this means verifying the attestation of HSM generation pertains to the public key in the CSR.
+Regardless of the topological model, the CA/RA is ultimately responsible for validating the binding between the public key and the attestation(s) in the CSR. For CAs issuing in conformance with the CA/Browser Forum’s Code Signing Baseline Requirements, this means verifying the attestation of HSM generation and protection is cryptographically bound to the public key in the CSR.
 
 Multiple attestations from multiple sources, as envisioned in {{RFC9334}}, can introduce additional complications as shown in the following example.
 

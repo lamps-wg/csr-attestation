@@ -262,7 +262,7 @@ id-aa-attestations OBJECT IDENTIFIER ::= { id-aa 59 }
 attr-attestations ATTRIBUTE ::= {
   TYPE AttestationBundle
   COUNTS MAX 1
-  IDENTIFIED BY id-aa-attestations
+  IDENTIFIED BY id-aa-attestation
 }
 
 -- For CRMF

@@ -256,7 +256,7 @@ populate it with the formats that they wish to support.
 By definition, attributes within a PKCS#10 CSR are typed as ATTRIBUTE and within a CRMF CSR are typed as EXTENSION.
 
 ~~~
-id-aa-attestations OBJECT IDENTIFIER ::= { id-aa 59 }
+id-aa-attestation OBJECT IDENTIFIER ::= { id-aa 59 }
 
 -- For PKCS#10
 attr-attestations ATTRIBUTE ::= {

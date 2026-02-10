@@ -77,6 +77,7 @@ informative:
   I-D.ietf-rats-msg-wrap:
   I-D.bft-rats-kat:
   RFC7030:
+  RFC9683:
   I-D.tschofenig-rats-psa-token:
   I-D.ffm-rats-cca-token:
   CSBR:

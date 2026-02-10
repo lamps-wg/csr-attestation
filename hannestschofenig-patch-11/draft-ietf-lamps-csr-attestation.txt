@@ -5,14 +5,14 @@
 Network Working Group                                       M. Ounsworth
 Internet-Draft                                                   Entrust
 Intended status: Standards Track                           H. Tschofenig
-Expires: 13 August 2026                                          Siemens
+Expires: 14 August 2026                                          Siemens
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                               M. Wiseman
                                                                         
                                                                 N. Smith
                                                        Intel Corporation
-                                                         9 February 2026
+                                                        10 February 2026
 
 
      Use of Remote Attestation with Certification Signing Requests
@@ -66,7 +66,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 13 August 2026.
+   This Internet-Draft will expire on 14 August 2026.
 
 Copyright Notice
 
@@ -169,18 +169,19 @@ Table of Contents
    requirements specific to the context of certificate issuance are
    satisfied.
 
-   The trust model defined in Section 7 of [RFC9334] identifies several
-   roles that originate, forward or process attestations: the Attester;
-   Endorser; Relying Party; and Verifier.  Attestations, such as
-   Evidence per [RFC9334], may be directed to an entity fulfilling one
-   of these roles, including to an RA/CA acting as a Verifier.  An RA/CA
-   may also forward attestations to a Verifier for evaluation.  Each
-   attestation may contain one or more claims, including claims that may
-   be required by an RA or CA.  Attestations transmitted by these
-   parties are defined in Section 8 of [RFC9334] as the "conceptual
-   messages" Evidence, Endorsement, and Attestation Results.  The
-   structure defined in this specification may be used by any of the
-   roles that originate attestations, and is equally applicable to these
+   Section 4.2 of [RFC9334] defines several roles that originate,
+   forward or process attestation statements (also see Section 1.2 of
+   [RFC9683]): the Attester; Endorser; Relying Party; and Verifier.
+   Attestation statements, such as Evidence, may be directed to an
+   entity taking at least one of these roles, including to an RA/CA
+   acting as a Verifier.  An RA/CA may also forward attestation
+   statements to a Verifier for appraisal.  Each attestation statements
+   may contain one or more claims, including claims that may be required
+   by an RA or CA.  Attestation statements transmitted by these parties
+   are defined in Section 8 of [RFC9334] as the "conceptual messages"
+   Evidence, Endorsement, and Attestation Results.  The structure
+   defined in this specification may be used by any of the roles that
+   originate attestation statements, and is equally applicable to these
    three conceptual messages.
 
 2.  Conventions and Definitions
@@ -705,6 +706,12 @@ AttestationStatement ::= SEQUENCE {
               Writing an IANA Considerations Section in RFCs", BCP 26,
               RFC 8126, DOI 10.17487/RFC8126, June 2017,
               <https://www.rfc-editor.org/rfc/rfc8126>.
+
+   [RFC9683]  Fedorkow, G. C., Ed., Voit, E., and J. Fitzgerald-McKay,
+              "Remote Integrity Verification of Network Devices
+              Containing Trusted Platform Modules", RFC 9683,
+              DOI 10.17487/RFC9683, December 2024,
+              <https://www.rfc-editor.org/rfc/rfc9683>.
 
    [SampleData]
               "CSR Attestation Sample Data", n.d.,

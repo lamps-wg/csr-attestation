@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-02-05T01:41:11.011876+00:00",
+  "timestamp": "2026-02-10T01:58:18.665418+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -12052,24 +12052,26 @@
       "id": "PR_kwDOJ3IIN86_ly4K",
       "title": "Typo in CSR-ATTESTATION IANA registration",
       "url": "https://github.com/lamps-wg/csr-attestation/pull/218",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "hannestschofenig",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2026-01-27T12:18:50Z",
-      "updatedAt": "2026-01-29T22:43:36Z",
+      "updatedAt": "2026-02-09T17:44:01Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "0e0030315d052fedf7581b7bc775a10aea034c48",
       "headRepository": "lamps-wg/csr-attestation",
       "headRefName": "hannestschofenig-patch-3",
       "headRefOid": "c19ce3c6b8b95c485a72051712804bcb5841cd45",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2026-02-09T17:43:57Z",
+      "mergedAt": "2026-02-09T17:43:57Z",
+      "mergedBy": "ounsworth",
+      "mergeCommit": {
+        "oid": "50d40405f11742f0f73daea75daa04caf6bfc72e"
+      },
       "comments": [],
       "reviews": [
         {
@@ -12104,6 +12106,19 @@
               "updatedAt": "2026-01-29T22:43:36Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN87g9wJf",
+          "commit": {
+            "abbreviatedOid": "c19ce3c"
+          },
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-02-09T16:43:16Z",
+          "updatedAt": "2026-02-09T16:43:16Z",
+          "comments": []
         }
       ]
     },
@@ -12112,24 +12127,26 @@
       "id": "PR_kwDOJ3IIN86_l04I",
       "title": "Corrected text in IANA Considerations section",
       "url": "https://github.com/lamps-wg/csr-attestation/pull/219",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "hannestschofenig",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2026-01-27T12:21:24Z",
-      "updatedAt": "2026-01-29T22:44:25Z",
+      "updatedAt": "2026-02-09T17:44:24Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "0e0030315d052fedf7581b7bc775a10aea034c48",
       "headRepository": "lamps-wg/csr-attestation",
       "headRefName": "hannestschofenig-patch-7",
       "headRefOid": "77e3f73d9e064ec58d1349eb6d99da18d9e1958b",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2026-02-09T17:44:20Z",
+      "mergedAt": "2026-02-09T17:44:19Z",
+      "mergedBy": "ounsworth",
+      "mergeCommit": {
+        "oid": "8b3e024a60dba36c1e23dc737516eb52fac43ba9"
+      },
       "comments": [],
       "reviews": [
         {
@@ -12157,6 +12174,19 @@
           "createdAt": "2026-01-29T22:44:25Z",
           "updatedAt": "2026-01-29T22:44:25Z",
           "comments": []
+        },
+        {
+          "id": "PRR_kwDOJ3IIN87g9xEB",
+          "commit": {
+            "abbreviatedOid": "77e3f73"
+          },
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-02-09T16:44:32Z",
+          "updatedAt": "2026-02-09T16:44:32Z",
+          "comments": []
         }
       ]
     },
@@ -12165,24 +12195,26 @@
       "id": "PR_kwDOJ3IIN86_l3F4",
       "title": "Removed reference to RFC 5226",
       "url": "https://github.com/lamps-wg/csr-attestation/pull/220",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "hannestschofenig",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2026-01-27T12:24:12Z",
-      "updatedAt": "2026-01-29T22:44:58Z",
+      "updatedAt": "2026-02-09T17:45:19Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "0e0030315d052fedf7581b7bc775a10aea034c48",
       "headRepository": "lamps-wg/csr-attestation",
       "headRefName": "hannestschofenig-patch-8",
       "headRefOid": "bf777ad60d3bdd4fe744f8a833c65818803c056d",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2026-02-09T17:45:04Z",
+      "mergedAt": "2026-02-09T17:45:04Z",
+      "mergedBy": "ounsworth",
+      "mergeCommit": {
+        "oid": "99db7faa0c08d8a91b0f2bef9459932e16658b64"
+      },
       "comments": [],
       "reviews": [
         {
@@ -12210,6 +12242,19 @@
           "createdAt": "2026-01-29T22:44:58Z",
           "updatedAt": "2026-01-29T22:44:58Z",
           "comments": []
+        },
+        {
+          "id": "PRR_kwDOJ3IIN87g9xjg",
+          "commit": {
+            "abbreviatedOid": "bf777ad"
+          },
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-02-09T16:45:09Z",
+          "updatedAt": "2026-02-09T16:45:09Z",
+          "comments": []
         }
       ]
     },
@@ -12218,24 +12263,26 @@
       "id": "PR_kwDOJ3IIN86_l6G-",
       "title": "Removed unused references",
       "url": "https://github.com/lamps-wg/csr-attestation/pull/221",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "hannestschofenig",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2026-01-27T12:27:39Z",
-      "updatedAt": "2026-01-29T22:45:21Z",
+      "updatedAt": "2026-02-09T17:45:45Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "0e0030315d052fedf7581b7bc775a10aea034c48",
       "headRepository": "lamps-wg/csr-attestation",
       "headRefName": "hannestschofenig-patch-9",
       "headRefOid": "133356a1abd6f5e4fe7747911da0945b808514cd",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2026-02-09T17:45:41Z",
+      "mergedAt": "2026-02-09T17:45:41Z",
+      "mergedBy": "ounsworth",
+      "mergeCommit": {
+        "oid": "f50b05b4212a73d41e865d360b09127f47c637df"
+      },
       "comments": [],
       "reviews": [
         {
@@ -12263,6 +12310,19 @@
           "createdAt": "2026-01-29T22:45:21Z",
           "updatedAt": "2026-01-29T22:45:21Z",
           "comments": []
+        },
+        {
+          "id": "PRR_kwDOJ3IIN87g9yBF",
+          "commit": {
+            "abbreviatedOid": "133356a"
+          },
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-02-09T16:45:45Z",
+          "updatedAt": "2026-02-09T16:45:45Z",
+          "comments": []
         }
       ]
     },
@@ -12271,24 +12331,26 @@
       "id": "PR_kwDOJ3IIN86_mD2F",
       "title": "Revise acknowledgments",
       "url": "https://github.com/lamps-wg/csr-attestation/pull/222",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "hannestschofenig",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2026-01-27T12:39:46Z",
-      "updatedAt": "2026-01-29T22:45:39Z",
+      "updatedAt": "2026-02-09T17:44:46Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "0e0030315d052fedf7581b7bc775a10aea034c48",
       "headRepository": "lamps-wg/csr-attestation",
       "headRefName": "hannestschofenig-patch-10",
       "headRefOid": "eab278b0cb28a3b5f14724bb5eff61bf8a16e558",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2026-02-09T17:44:42Z",
+      "mergedAt": "2026-02-09T17:44:42Z",
+      "mergedBy": "ounsworth",
+      "mergeCommit": {
+        "oid": "e8116ec531348432ce62dd12e876da620c1b5ead"
+      },
       "comments": [],
       "reviews": [
         {
@@ -12316,6 +12378,19 @@
           "createdAt": "2026-01-29T22:45:39Z",
           "updatedAt": "2026-01-29T22:45:39Z",
           "comments": []
+        },
+        {
+          "id": "PRR_kwDOJ3IIN87g9yli",
+          "commit": {
+            "abbreviatedOid": "eab278b"
+          },
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-02-09T16:46:30Z",
+          "updatedAt": "2026-02-09T16:46:30Z",
+          "comments": []
         }
       ]
     },
@@ -12331,13 +12406,13 @@
       "labels": [],
       "body": "",
       "createdAt": "2026-01-27T12:53:08Z",
-      "updatedAt": "2026-01-29T22:45:59Z",
+      "updatedAt": "2026-02-09T18:11:37Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "0e0030315d052fedf7581b7bc775a10aea034c48",
       "headRepository": "lamps-wg/csr-attestation",
       "headRefName": "hannestschofenig-patch-11",
-      "headRefOid": "353d5194d46f4cc43866672b86cb43219edfe970",
+      "headRefOid": "7e7811ce719ec7a55ab65e16a8cd6d155897464d",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -12369,6 +12444,126 @@
           "createdAt": "2026-01-29T22:45:59Z",
           "updatedAt": "2026-01-29T22:45:59Z",
           "comments": []
+        },
+        {
+          "id": "PRR_kwDOJ3IIN87g99OK",
+          "commit": {
+            "abbreviatedOid": "353d519"
+          },
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-09T16:59:52Z",
+          "updatedAt": "2026-02-09T16:59:52Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "```suggestion\nThe trust model defined in {{Section 7 of RFC9334}} identifies several roles that originate, forward or process RATS conceptual messages {{Section 8 of RFC9334}}: the Attester; Endorser; Relying Party; and Verifier. Conceptual messages, such as Evidence {{Section 8.1 of RFC9334}}, Endorsements {{Section 8.2 of RFC9334}}, and Attestation Results {{Section 8.3 of RFC9334}} may be directed to an entity fulfilling one of these roles, including to an RA/CA acting as a Verifier (see Attester and Verifier in {{Section 4.1 of RFC9334}}. An RA/CA may also forward conceptual messages to a Verifier for appraisal. Each conceptual message may contain one or more claims, including claims that may be required by an RA or CA. The structure defined in this specification may be used by any of the roles that process Evidence, Endorsements, or Attestation Results.\n```\n\nIf this text is now too clunky, please do not use \"attestations\" or \"attestation\" but the umbrella conceptual messages or the exact message type, e.g. Evidence or Endorsements. Please also use the term appraisal instead of verification.",
+              "createdAt": "2026-02-09T16:59:52Z",
+              "updatedAt": "2026-02-09T17:10:36Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN87g-sU8",
+          "commit": {
+            "abbreviatedOid": "a34d2e2"
+          },
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-09T17:47:47Z",
+          "updatedAt": "2026-02-09T17:47:47Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "```suggestion\n{{Section 4.2 of RFC9334}} defines several roles that originate, forward or process attestation statements (also see {{Section 1.2 of RFC9683}}): the Attester; Endorser; Relying Party; and Verifier. Attestation statements, such as Evidence, may be directed to an entity taking at least one of these roles, including to an RA/CA acting as a Verifier.\n```",
+              "createdAt": "2026-02-09T17:47:47Z",
+              "updatedAt": "2026-02-09T18:45:23Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN87g-u5c",
+          "commit": {
+            "abbreviatedOid": "a34d2e2"
+          },
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-09T17:50:21Z",
+          "updatedAt": "2026-02-09T17:50:21Z",
+          "comments": [
+            {
+              "originalPosition": 6,
+              "body": "```suggestion\nAn RA/CA may also forward attestation statements to a Verifier for appraisal. Each attestation statements may contain one or more claims, including claims that may be required by an RA or CA. Attestation statements transmitted by these parties are defined in {{Section 8 of RFC9334}} as the \"conceptual messages\" Evidence, Endorsement, and Attestation Results. The structure defined in this specification may be used by any of the roles that originate attestation statements, and is equally applicable to these three conceptual messages.\n```",
+              "createdAt": "2026-02-09T17:50:21Z",
+              "updatedAt": "2026-02-09T18:11:02Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN87g-yXf",
+          "commit": {
+            "abbreviatedOid": "a34d2e2"
+          },
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-09T17:53:29Z",
+          "updatedAt": "2026-02-09T17:53:29Z",
+          "comments": [
+            {
+              "originalPosition": 1,
+              "body": "```suggestion\nAs noted, attestation-related technologies have existed for many years, albeit with no standard format and no standard means of conveying attestation messages to a CA. This draft addresses the latter, and is equally applicable to standard and proprietary attestation formats. The IETF Remote Attestation Procedures (RATS) working group is addressing the former. In {{RFC9334}}, RATS defined vocabulary, architecture, and usage patterns related to the practice of generating and verifying attestations.\n```",
+              "createdAt": "2026-02-09T17:53:29Z",
+              "updatedAt": "2026-02-09T17:53:29Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN87g_FPa",
+          "commit": {
+            "abbreviatedOid": "ce88bf4"
+          },
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-09T18:09:14Z",
+          "updatedAt": "2026-02-09T18:09:15Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "```suggestion\nAs noted, attestation-related technologies have existed for many years, albeit with no standard format and no standard means of conveying attestation statement to a CA. This draft addresses the latter, and is equally applicable to standard and proprietary attestation formats. The IETF Remote Attestation Procedures (RATS) working group is addressing the former. In {{RFC9334}}, RATS defined vocabulary, architecture, and usage patterns related to the practice of generating and verifying attestations.\n```",
+              "createdAt": "2026-02-09T18:09:15Z",
+              "updatedAt": "2026-02-09T18:09:15Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN87g_IUS",
+          "commit": {
+            "abbreviatedOid": "69752df"
+          },
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-09T18:11:26Z",
+          "updatedAt": "2026-02-09T18:11:26Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "```suggestion\nAs noted, attestation-related technologies have existed for many years, albeit with no standard format and no standard means of conveying attestation statements to a CA. This draft addresses the latter, and is equally applicable to standard and proprietary attestation formats. The IETF Remote Attestation Procedures (RATS) working group is addressing the former. In {{RFC9334}}, RATS defined vocabulary, architecture, and usage patterns related to the practice of generating and verifying attestations.\n```",
+              "createdAt": "2026-02-09T18:11:26Z",
+              "updatedAt": "2026-02-09T18:11:26Z"
+            }
+          ]
         }
       ]
     },
@@ -12377,24 +12572,26 @@
       "id": "PR_kwDOJ3IIN86_mSMf",
       "title": "Moving Section about RATS Relationship to the Top Level",
       "url": "https://github.com/lamps-wg/csr-attestation/pull/224",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "hannestschofenig",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Reason: Having a section, like the introduction, with only a single sub-section looks unbalanced.\r\n\r\nJust a cosmetic change",
       "createdAt": "2026-01-27T12:55:37Z",
-      "updatedAt": "2026-01-29T22:46:19Z",
+      "updatedAt": "2026-02-09T17:46:41Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "0e0030315d052fedf7581b7bc775a10aea034c48",
       "headRepository": "lamps-wg/csr-attestation",
       "headRefName": "hannestschofenig-patch-12",
       "headRefOid": "f93d11f9b1ff8cfbbda941625e7614a6216a58f8",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2026-02-09T17:46:35Z",
+      "mergedAt": "2026-02-09T17:46:35Z",
+      "mergedBy": "ounsworth",
+      "mergeCommit": {
+        "oid": "f216760df39738fce1c01712f796f19ef79cb9a0"
+      },
       "comments": [],
       "reviews": [
         {
@@ -12422,6 +12619,19 @@
           "createdAt": "2026-01-29T22:46:19Z",
           "updatedAt": "2026-01-29T22:46:19Z",
           "comments": []
+        },
+        {
+          "id": "PRR_kwDOJ3IIN87g-F0g",
+          "commit": {
+            "abbreviatedOid": "f93d11f"
+          },
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-02-09T17:10:58Z",
+          "updatedAt": "2026-02-09T17:10:58Z",
+          "comments": []
         }
       ]
     },
@@ -12430,24 +12640,26 @@
       "id": "PR_kwDOJ3IIN86_mXAL",
       "title": "Fix section headers",
       "url": "https://github.com/lamps-wg/csr-attestation/pull/225",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "hannestschofenig",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Using capitalized section headers is common.",
       "createdAt": "2026-01-27T13:00:58Z",
-      "updatedAt": "2026-01-29T22:46:46Z",
+      "updatedAt": "2026-02-09T17:48:55Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "0e0030315d052fedf7581b7bc775a10aea034c48",
       "headRepository": "lamps-wg/csr-attestation",
       "headRefName": "hannestschofenig-patch-13",
       "headRefOid": "5fe530901a17504d20c301049a40eeb373fe0802",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2026-02-09T17:48:49Z",
+      "mergedAt": "2026-02-09T17:48:49Z",
+      "mergedBy": "ounsworth",
+      "mergeCommit": {
+        "oid": "f307402c15e26b85e2ec24f05d3dcc0f757865b6"
+      },
       "comments": [],
       "reviews": [
         {
@@ -12483,24 +12695,26 @@
       "id": "PR_kwDOJ3IIN86_mdBt",
       "title": "Fix typo in Verifier",
       "url": "https://github.com/lamps-wg/csr-attestation/pull/226",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "hannestschofenig",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2026-01-27T13:08:14Z",
-      "updatedAt": "2026-01-29T22:47:03Z",
+      "updatedAt": "2026-02-09T17:49:27Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "0e0030315d052fedf7581b7bc775a10aea034c48",
       "headRepository": "lamps-wg/csr-attestation",
       "headRefName": "hannestschofenig-patch-14",
       "headRefOid": "d4f62940181099aec0c7773a2d5d528c06bb4552",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2026-02-09T17:49:23Z",
+      "mergedAt": "2026-02-09T17:49:23Z",
+      "mergedBy": "ounsworth",
+      "mergeCommit": {
+        "oid": "aabf3ab4f164278a1e35339ae7e30ac8c912e623"
+      },
       "comments": [],
       "reviews": [
         {
@@ -12528,6 +12742,19 @@
           "createdAt": "2026-01-29T22:47:03Z",
           "updatedAt": "2026-01-29T22:47:03Z",
           "comments": []
+        },
+        {
+          "id": "PRR_kwDOJ3IIN87g-Hqw",
+          "commit": {
+            "abbreviatedOid": "d4f6294"
+          },
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-02-09T17:13:17Z",
+          "updatedAt": "2026-02-09T17:13:17Z",
+          "comments": []
         }
       ]
     },
@@ -12536,24 +12763,26 @@
       "id": "PR_kwDOJ3IIN86_miDV",
       "title": "s/attestation signer key/attestation key",
       "url": "https://github.com/lamps-wg/csr-attestation/pull/227",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "hannestschofenig",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2026-01-27T13:13:39Z",
-      "updatedAt": "2026-01-29T22:47:20Z",
+      "updatedAt": "2026-02-09T17:50:17Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "0e0030315d052fedf7581b7bc775a10aea034c48",
       "headRepository": "lamps-wg/csr-attestation",
       "headRefName": "hannestschofenig-patch-15",
       "headRefOid": "26c03826fd745d9f5c8d62a249cd5830ef3b57b8",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2026-02-09T17:50:08Z",
+      "mergedAt": "2026-02-09T17:50:08Z",
+      "mergedBy": "ounsworth",
+      "mergeCommit": {
+        "oid": "2b7382dc968fb59aa271093aea66234082f006de"
+      },
       "comments": [],
       "reviews": [
         {
@@ -12581,6 +12810,19 @@
           "createdAt": "2026-01-29T22:47:20Z",
           "updatedAt": "2026-01-29T22:47:20Z",
           "comments": []
+        },
+        {
+          "id": "PRR_kwDOJ3IIN87g-II4",
+          "commit": {
+            "abbreviatedOid": "26c0382"
+          },
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-02-09T17:13:52Z",
+          "updatedAt": "2026-02-09T17:13:52Z",
+          "comments": []
         }
       ]
     },
@@ -12589,25 +12831,35 @@
       "id": "PR_kwDOJ3IIN86_mkh-",
       "title": "Fix identifier for attestations in PKCS#10 and CRMF",
       "url": "https://github.com/lamps-wg/csr-attestation/pull/228",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "hannestschofenig",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "NOTE: I am not sure about this change. Please check!",
       "createdAt": "2026-01-27T13:16:12Z",
-      "updatedAt": "2026-01-29T22:48:46Z",
+      "updatedAt": "2026-02-09T17:44:54Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "0e0030315d052fedf7581b7bc775a10aea034c48",
       "headRepository": "lamps-wg/csr-attestation",
       "headRefName": "hannestschofenig-patch-16",
-      "headRefOid": "499e6f197334836013eb92d05da526f1dbf5feda",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
-      "comments": [],
+      "headRefOid": "dd0c172edbf3503d9c2ce96f1d6ae94895cced4a",
+      "closedAt": "2026-02-09T17:44:50Z",
+      "mergedAt": "2026-02-09T17:44:50Z",
+      "mergedBy": "hannestschofenig",
+      "mergeCommit": {
+        "oid": "3ef764e78080610009bc8b166d1d966aec93bb2e"
+      },
+      "comments": [
+        {
+          "author": "mstjohns",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Wrong fix but a fix is needed.  id-aa-attribute is the correct name other places.   At line 259 s/id-aa-attributes/id-aa-attribute/ and revert the other changes.",
+          "createdAt": "2026-02-09T16:01:49Z",
+          "updatedAt": "2026-02-09T16:07:04Z"
+        }
+      ],
       "reviews": [
         {
           "id": "PRR_kwDOJ3IIN87dTZq0",
@@ -12634,6 +12886,126 @@
           "createdAt": "2026-01-29T22:48:46Z",
           "updatedAt": "2026-01-29T22:48:46Z",
           "comments": []
+        },
+        {
+          "id": "PRR_kwDOJ3IIN87g95Cm",
+          "commit": {
+            "abbreviatedOid": "499e6f1"
+          },
+          "author": "mstjohns",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-09T16:54:39Z",
+          "updatedAt": "2026-02-09T16:54:39Z",
+          "comments": [
+            {
+              "originalPosition": 1,
+              "body": "change this to id-aa-attestation to match ASN.1 module",
+              "createdAt": "2026-02-09T16:54:39Z",
+              "updatedAt": "2026-02-09T16:54:50Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN87g95Xq",
+          "commit": {
+            "abbreviatedOid": "499e6f1"
+          },
+          "author": "mstjohns",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-09T16:55:04Z",
+          "updatedAt": "2026-02-09T16:55:04Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "revert this",
+              "createdAt": "2026-02-09T16:55:04Z",
+              "updatedAt": "2026-02-09T16:55:04Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN87g95gm",
+          "commit": {
+            "abbreviatedOid": "499e6f1"
+          },
+          "author": "mstjohns",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-09T16:55:13Z",
+          "updatedAt": "2026-02-09T16:55:13Z",
+          "comments": [
+            {
+              "originalPosition": 12,
+              "body": "revert this",
+              "createdAt": "2026-02-09T16:55:13Z",
+              "updatedAt": "2026-02-09T16:55:13Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN87g-oBv",
+          "commit": {
+            "abbreviatedOid": "499e6f1"
+          },
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-09T17:43:37Z",
+          "updatedAt": "2026-02-09T17:43:37Z",
+          "comments": [
+            {
+              "originalPosition": 1,
+              "body": "```suggestion\nid-aa-attestation OBJECT IDENTIFIER ::= { id-aa 59 }\n```",
+              "createdAt": "2026-02-09T17:43:37Z",
+              "updatedAt": "2026-02-09T17:43:37Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN87g-oSA",
+          "commit": {
+            "abbreviatedOid": "499e6f1"
+          },
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-09T17:43:50Z",
+          "updatedAt": "2026-02-09T17:43:51Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "```suggestion\n  IDENTIFIED BY id-aa-attestation\n```",
+              "createdAt": "2026-02-09T17:43:50Z",
+              "updatedAt": "2026-02-09T17:43:51Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN87g-oyF",
+          "commit": {
+            "abbreviatedOid": "f0e3636"
+          },
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-09T17:44:21Z",
+          "updatedAt": "2026-02-09T17:44:21Z",
+          "comments": [
+            {
+              "originalPosition": 14,
+              "body": "```suggestion\n  IDENTIFIED BY id-aa-attestation\n```",
+              "createdAt": "2026-02-09T17:44:21Z",
+              "updatedAt": "2026-02-09T17:44:21Z"
+            }
+          ]
         }
       ]
     },
@@ -12642,24 +13014,26 @@
       "id": "PR_kwDOJ3IIN86_mmj5",
       "title": "Making example less prominent",
       "url": "https://github.com/lamps-wg/csr-attestation/pull/229",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "hannestschofenig",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Removed section header for the example. Does not appear to be necessary",
       "createdAt": "2026-01-27T13:18:23Z",
-      "updatedAt": "2026-01-29T22:49:13Z",
+      "updatedAt": "2026-02-09T17:50:37Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "0e0030315d052fedf7581b7bc775a10aea034c48",
       "headRepository": "lamps-wg/csr-attestation",
       "headRefName": "hannestschofenig-patch-17",
       "headRefOid": "3fa9ad698646f25447eb07837da231cefde8c5b9",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2026-02-09T17:50:33Z",
+      "mergedAt": "2026-02-09T17:50:33Z",
+      "mergedBy": "ounsworth",
+      "mergeCommit": {
+        "oid": "f26daa3c662b8cf3e02777162047cb78eebb5359"
+      },
       "comments": [],
       "reviews": [
         {
@@ -12686,6 +13060,19 @@
           "body": "",
           "createdAt": "2026-01-29T22:49:13Z",
           "updatedAt": "2026-01-29T22:49:13Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJ3IIN87g-JqU",
+          "commit": {
+            "abbreviatedOid": "3fa9ad6"
+          },
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-02-09T17:15:34Z",
+          "updatedAt": "2026-02-09T17:15:34Z",
           "comments": []
         }
       ]
@@ -12723,26 +13110,161 @@
       "id": "PR_kwDOJ3IIN87BQ3ND",
       "title": "Mstjohns patch 1 - ASN1 fixes",
       "url": "https://github.com/lamps-wg/csr-attestation/pull/231",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "mstjohns",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "This fixes the current import of Attributes - to be Attributes{} - consistent with the module in RFC6268.  Attributes{} is parameterized and needs to have a defined set passed in at declaration.  Done here.  Also added tagging to the optional elements of AttestationStatement.\r\n\r\nNote that this is not an approval of using Attributes - I'll discuss that elsewhere, but merely fixes the bugs in the code.",
       "createdAt": "2026-02-03T18:33:45Z",
-      "updatedAt": "2026-02-03T18:33:45Z",
+      "updatedAt": "2026-02-09T17:49:49Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "6b123560e8026776a1d3f04169749ee2075c73e8",
       "headRepository": "mstjohns/csr-attestation",
       "headRefName": "mstjohns-patch-1",
       "headRefOid": "7bbb63821d302121bf19fd271df6fb23239ae5a0",
+      "closedAt": "2026-02-09T17:49:49Z",
+      "mergedAt": "2026-02-09T17:49:49Z",
+      "mergedBy": "hannestschofenig",
+      "mergeCommit": {
+        "oid": "687e424788e89f289e996c9ab90b3158c805aee7"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 232,
+      "id": "PR_kwDOJ3IIN87Cg9o5",
+      "title": "Grab MSJ's comments from PR 216",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/232",
+      "state": "OPEN",
+      "author": "mstjohns",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "These are changes related to my comments on PR216 before merge.  Mostly I think these are clean up rather than substantive.  I did twiddle with the ATTESTATATION-STATEMENT registry stuff a bit.  I'll try and get on the call today to go through these.\r\n\r\nSorry for the late notice - I thought I'd created this PR last week.",
+      "createdAt": "2026-02-09T15:40:03Z",
+      "updatedAt": "2026-02-09T22:10:29Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "6b123560e8026776a1d3f04169749ee2075c73e8",
+      "headRepository": "mstjohns/csr-attestation",
+      "headRefName": "mstjohns-patch-2",
+      "headRefOid": "26979c3a5772d6a6f24a3efc583814638e813535",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOJ3IIN87g-v5x",
+          "commit": {
+            "abbreviatedOid": "df2d395"
+          },
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-09T17:51:23Z",
+          "updatedAt": "2026-02-09T17:51:24Z",
+          "comments": [
+            {
+              "originalPosition": 19,
+              "body": "```suggestion\nThis specification defines an attribute and an extension that allow for conveyance of verifiable attestations in several Certificate Signing Request (CSR) formats, including PKCS#10 [RFC2986] or Certificate Request Message Format (CRMF) [RFC4211] messages. Given several standard and proprietary remote attestation technologies are in use, this specification is intended to be as technology-agnostic as is feasible with respect to implemented and future remote attestation technologies. This aligns with the fact that a CA may wish to provide support for a variety of types of devices but cannot dictate what format a device uses to represent attestations.  However, if a certificate requester does not include the number and types of attestations required by the CA, it is unlikely the requester will receive the requested certificate.\n```",
+              "createdAt": "2026-02-09T17:51:24Z",
+              "updatedAt": "2026-02-09T17:51:24Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN87g-xMr",
+          "commit": {
+            "abbreviatedOid": "acade9b"
+          },
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-02-09T17:52:27Z",
+          "updatedAt": "2026-02-09T17:52:27Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJ3IIN87g-yfX",
+          "commit": {
+            "abbreviatedOid": "acade9b"
+          },
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-09T17:53:37Z",
+          "updatedAt": "2026-02-09T17:53:37Z",
+          "comments": [
+            {
+              "originalPosition": 70,
+              "body": "```suggestion\nPer {{RFC5280}} no more than one instance of a given type of Extension may be carried within an Extensions structure, so an Extensions structure MUST contain no more than one Extension of type `id-aa-attestation`.\n```",
+              "createdAt": "2026-02-09T17:53:37Z",
+              "updatedAt": "2026-02-09T17:53:37Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN87g-0tk",
+          "commit": {
+            "abbreviatedOid": "078e328"
+          },
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-09T17:55:44Z",
+          "updatedAt": "2026-02-09T17:55:44Z",
+          "comments": [
+            {
+              "originalPosition": 74,
+              "body": "```suggestion\nFinally, the `attr-attestation` ATTRIBUTE includes the  \"COUNT MAX 1\" constraint, so an Attribute of type `id-aa-attestation` MUST contain exactly one copy of an `AttestationBundle`.\n```",
+              "createdAt": "2026-02-09T17:55:44Z",
+              "updatedAt": "2026-02-09T17:55:44Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN87g_Cje",
+          "commit": {
+            "abbreviatedOid": "7dfe0a8"
+          },
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "CHANGES_REQUESTED",
+          "body": "This is not ready to merge. We need to do another cycle discussing MSJ's proposed changes to the registry (around line 350).",
+          "createdAt": "2026-02-09T18:06:47Z",
+          "updatedAt": "2026-02-09T18:06:47Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJ3IIN87hC-f-",
+          "commit": {
+            "abbreviatedOid": "7dfe0a8"
+          },
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-09T22:10:20Z",
+          "updatedAt": "2026-02-09T22:10:20Z",
+          "comments": [
+            {
+              "originalPosition": 156,
+              "body": "```suggestion\n- Type: ExampleStruct\n```",
+              "createdAt": "2026-02-09T22:10:20Z",
+              "updatedAt": "2026-02-09T22:10:20Z"
+            }
+          ]
+        }
+      ]
     }
   ]
 }

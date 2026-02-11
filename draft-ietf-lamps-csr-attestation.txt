@@ -3,15 +3,15 @@
 
 
 Network Working Group                                       M. Ounsworth
-Internet-Draft                                                   Entrust
+Internet-Draft                                                          
 Intended status: Standards Track                           H. Tschofenig
-Expires: 14 August 2026                                          Siemens
+Expires: 15 August 2026                                          Siemens
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                               M. Wiseman
                                                                         
                                                                 N. Smith
-                                                        10 February 2026
+                                                        11 February 2026
 
 
      Use of Remote Attestation with Certification Signing Requests
@@ -65,7 +65,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 14 August 2026.
+   This Internet-Draft will expire on 15 August 2026.
 
 Copyright Notice
 
@@ -801,11 +801,8 @@ Appendix C.  Acknowledgments
 Authors' Addresses
 
    Mike Ounsworth
-   Entrust Limited
-   2500 Solandt Road – Suite 100
-   Ottawa, Ontario  K2K 3G5
    Canada
-   Email: mike.ounsworth@entrust.com
+   Email: mike@ounsworth.ca
 
 
    Hannes Tschofenig

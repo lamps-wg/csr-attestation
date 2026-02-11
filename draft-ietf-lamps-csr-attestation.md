@@ -29,13 +29,9 @@ author:
   -
     ins: M. Ounsworth
     name: Mike Ounsworth
-    org: Entrust Limited
-    abbrev: Entrust
-    street: 2500 Solandt Road – Suite 100
-    city: Ottawa, Ontario
+    org:
     country: Canada
-    code: K2K 3G5
-    email: mike.ounsworth@entrust.com
+    email: mike@ounsworth.ca
   -
     name: Hannes Tschofenig
     organization: Siemens

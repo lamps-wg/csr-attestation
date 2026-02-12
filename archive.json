@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-02-10T01:58:18.665418+00:00",
+  "timestamp": "2026-02-12T01:47:19.212009+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -12399,25 +12399,35 @@
       "id": "PR_kwDOJ3IIN86_mQE3",
       "title": "Minor update to \"RATS Relationship\" section",
       "url": "https://github.com/lamps-wg/csr-attestation/pull/223",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "hannestschofenig",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2026-01-27T12:53:08Z",
-      "updatedAt": "2026-02-09T18:11:37Z",
+      "updatedAt": "2026-02-10T21:12:02Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
-      "baseRefOid": "0e0030315d052fedf7581b7bc775a10aea034c48",
+      "baseRefOid": "f26daa3c662b8cf3e02777162047cb78eebb5359",
       "headRepository": "lamps-wg/csr-attestation",
       "headRefName": "hannestschofenig-patch-11",
-      "headRefOid": "7e7811ce719ec7a55ab65e16a8cd6d155897464d",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
-      "comments": [],
+      "headRefOid": "b6d0af2563613f350b6f5ff1c2123a46806b6b1f",
+      "closedAt": "2026-02-10T21:11:56Z",
+      "mergedAt": "2026-02-10T21:11:56Z",
+      "mergedBy": "hannestschofenig",
+      "mergeCommit": {
+        "oid": "e78afda76b276f37aed0a86ce904f576a3c4920e"
+      },
+      "comments": [
+        {
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I had a chat with Henk yesterday after our design team call and he explained me the changes. Since his motivation for s/attestations/attestation statements makes sense to me I accepted the changes. The term \"attestation statements\" better aligns with the terminology used in the ASN.1 structures.",
+          "createdAt": "2026-02-10T20:05:35Z",
+          "updatedAt": "2026-02-10T20:05:35Z"
+        }
+      ],
       "reviews": [
         {
           "id": "PRR_kwDOJ3IIN87dTcVj",
@@ -13265,6 +13275,68 @@
           ]
         }
       ]
+    },
+    {
+      "number": 233,
+      "id": "PR_kwDOJ3IIN87DFTAO",
+      "title": "Modify author details for Mike Ounsworth",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/233",
+      "state": "MERGED",
+      "author": "hannestschofenig",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Updated author information for Mike Ounsworth.",
+      "createdAt": "2026-02-11T18:29:49Z",
+      "updatedAt": "2026-02-11T18:37:30Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "e78afda76b276f37aed0a86ce904f576a3c4920e",
+      "headRepository": "lamps-wg/csr-attestation",
+      "headRefName": "hannestschofenig-patch-3",
+      "headRefOid": "091f4cd4256eae2ea5b7e7e0deab4cee50d418e9",
+      "closedAt": "2026-02-11T18:37:21Z",
+      "mergedAt": "2026-02-11T18:37:21Z",
+      "mergedBy": "hannestschofenig",
+      "mergeCommit": {
+        "oid": "cb272fd1c67a90989f987b6a5de539953aadf497"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 234,
+      "id": "PR_kwDOJ3IIN87DFcIC",
+      "title": "Change Mike's affiliation",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/234",
+      "state": "CLOSED",
+      "author": "ounsworth",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2026-02-11T18:39:45Z",
+      "updatedAt": "2026-02-11T18:42:40Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "cb272fd1c67a90989f987b6a5de539953aadf497",
+      "headRepository": "lamps-wg/csr-attestation",
+      "headRefName": "mikeo-affiliation",
+      "headRefOid": "fcb3fa497791b53f16c09e6936d8ef526d8fd035",
+      "closedAt": "2026-02-11T18:42:40Z",
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Merge conflict. I ported this to main manually.",
+          "createdAt": "2026-02-11T18:42:40Z",
+          "updatedAt": "2026-02-11T18:42:40Z"
+        }
+      ],
+      "reviews": []
     }
   ]
 }

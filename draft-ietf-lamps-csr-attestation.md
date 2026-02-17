@@ -272,10 +272,9 @@ Due to the nature of the PKIX ASN.1 classes {{RFC5912}}, there are multiple ways
 
 # IANA Considerations
 
-IANA is requested to allocate a value
-from the "SMI Security for PKIX Module Identifier" registry for the
-included ASN.1 module, allocate a value from "SMI Security for
-S/MIME Attributes" to identify an attribute defined within, and open a new registry.
+IANA is requested to allocate a value from the "SMI Security for PKIX Module Identifier"
+registry for the included ASN.1 module, and to allocate a value from "SMI Security for
+S/MIME Attributes" to identify an attribute defined within.
 
 ##  Module Registration - SMI Security for PKIX Module Identifier
 
@@ -295,76 +294,6 @@ SMI Security for S/MIME Attributes (1.2.840.113549.1.9.16.2).
 - Decimal: IANA Assigned - This was early-allocated as `59` so that we could generate the sample data.
 - Description: id-aa-attestation
 - References: This Document
-
-## Attestation OID Registry
-
-IANA is asked to create a registry that helps developers to find
-OID/Attestation mappings that may be encountered in the wild, as well as
-a link to their specification document and an indication as to whether the attestation is cryptographically bound to a public key.
-This registry should follow the rules for
-"Specification Required" as laid out in {{RFC8126}}.
-
-Each row includes an OID and ASN.1 type that could appear in an `AttestationStatement`, and references to find the full specification.
-
-Registration requests should be formatted as per
-the registration template below, and receive a three-week review period on
-the [spasm] mailing list, with the advice of one or more Designated
-Experts {{RFC8126}}.  However, to allow for the allocation of values
-prior to publication, the Designated Experts may approve registration
-once they are satisfied that such a specification will be published.
-
-Registration requests sent to the mailing list for review should use
-an appropriate subject (e.g., "Request to register attestation
-attestation: example").
-
-IANA must only accept registry updates from the Designated Experts
-and should direct all requests for registration to the review mailing
-list.
-
-### Registration Template
-
-The registry has the following columns:
-
-- OID: The OID number, which has already been allocated. IANA does
-not allocate OID numbers for use with this registry.
-
-- Type: The ASN.1 type corresponding to the given OID.
-
-- Description: Brief description of the use of the Attestation and the
-registration of the OID.
-
-- Reference(s): Reference to the document or documents that register
-the OID and define the ASN.1 type for use with a specific attestation technology, preferably
-including URIs that can be used to retrieve copies of the documents.
-An indication of the relevant sections may also be included but is not
-required.
-
-- Change Controller: The entity that controls the listed data format.
-For data formats specified in Standards Track RFCs, list the "IESG".
-For others, give the name of the responsible party.
-This does not necessarily have to be a standards body, for example
-in the case of proprietary data formats the Reference may be to a company or a
-publicly-available reference implementation.  In most cases the
-third party requesting registration in this registry will also be the
-party that registered the OID. As the intention is for this registry to be a
-helpful reference, rather than a normative list, a fair amount of
-discretion is left to the Designated Expert.
-
-### Initial Registry Contents
-
-The initial registry contents is shown in the table below.
-It lists entries for several attestation encoding OIDs including an entry for the Conceptual Message Wrapper (CMW) {{I-D.ietf-rats-msg-wrap}}.
-
-* CMW
-  * OID: 1 3 6 1 5 5 7 1 35
-  * Type: CMW
-  * Description: id-pe-cmw
-  * Reference(s): {{I-D.ietf-rats-msg-wrap}}
-  * Change Controller: IETF
-
-The current registry values can be retrieved from the IANA online website.
-
-[spasm]: mailto:spasm@ietf.org
 
 # Security Considerations
 

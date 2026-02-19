@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-02-12T01:47:19.212009+00:00",
+  "timestamp": "2026-02-19T01:46:30.934622+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -13334,6 +13334,40 @@
           "body": "Merge conflict. I ported this to main manually.",
           "createdAt": "2026-02-11T18:42:40Z",
           "updatedAt": "2026-02-11T18:42:40Z"
+        }
+      ],
+      "reviews": []
+    },
+    {
+      "number": 235,
+      "id": "PR_kwDOJ3IIN87EZ65T",
+      "title": "Removed the attestation OID registry",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/235",
+      "state": "OPEN",
+      "author": "hannestschofenig",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Attempt to simplify the CSR attestation solution even further by removing the Attestation OID registry",
+      "createdAt": "2026-02-17T16:36:44Z",
+      "updatedAt": "2026-02-17T16:50:37Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "f95676c6f70ef4e9d731e08ebfc4fa8a4c2629c7",
+      "headRepository": "lamps-wg/csr-attestation",
+      "headRefName": "no-attestation-registry",
+      "headRefOid": "f53c9ef0c90278f7b51ba229eb51af76b9c3e5db",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "I am fine with this.",
+          "createdAt": "2026-02-17T16:50:37Z",
+          "updatedAt": "2026-02-17T16:50:37Z"
         }
       ],
       "reviews": []

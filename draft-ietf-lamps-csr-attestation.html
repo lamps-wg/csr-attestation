@@ -177,7 +177,7 @@ Request Message Format (CRMF) messages, respectively.
   font-weight: 400;
   font-display: swap;
   src: local('Oxygen Mono'), local('OxygenMono-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/oxygenmono-regular-latin-ext.woff2') format('woff2');
-  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
 @font-face {
   font-family: 'Oxygen Mono';
@@ -185,7 +185,8 @@ Request Message Format (CRMF) messages, respectively.
   font-weight: 400;
   font-display: swap;
   src: local('Oxygen Mono'), local('OxygenMono-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/oxygenmono-regular-latin.woff2') format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
 }
 
 @font-face {
@@ -1060,7 +1061,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Ounsworth, et al.</td>
-<td class="center">Expires 15 August 2026</td>
+<td class="center">Expires 27 August 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1073,12 +1074,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-lamps-csr-attestation-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-02-11" class="published">11 February 2026</time>
+<time datetime="2026-02-23" class="published">23 February 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-08-15">15 August 2026</time></dd>
+<dd class="expires"><time datetime="2026-08-27">27 August 2026</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1141,7 +1142,7 @@ Request Message Format (CRMF) messages, respectively.<a href="#section-abstract-
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 15 August 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 27 August 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1201,17 +1202,6 @@ Request Message Format (CRMF) messages, respectively.<a href="#section-abstract-
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.2">
                 <p id="section-toc.1-1.5.2.2.1"><a href="#section-5.2" class="auto internal xref">5.2</a>.  <a href="#name-object-identifier-registrat" class="internal xref">Object Identifier Registrations - SMI Security for S/MIME Attributes</a></p>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.3">
-                <p id="section-toc.1-1.5.2.3.1"><a href="#section-5.3" class="auto internal xref">5.3</a>.  <a href="#name-attestation-oid-registry" class="internal xref">Attestation OID Registry</a></p>
-<ul class="compact toc ulBare ulEmpty">
-<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.3.2.1">
-                    <p id="section-toc.1-1.5.2.3.2.1.1"><a href="#section-5.3.1" class="auto internal xref">5.3.1</a>.  <a href="#name-registration-template" class="internal xref">Registration Template</a></p>
-</li>
-                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.3.2.2">
-                    <p id="section-toc.1-1.5.2.3.2.2.1"><a href="#section-5.3.2" class="auto internal xref">5.3.2</a>.  <a href="#name-initial-registry-contents" class="internal xref">Initial Registry Contents</a></p>
-</li>
-                </ul>
 </li>
             </ul>
 </li>
@@ -1492,10 +1482,9 @@ ext-attestations EXTENSION ::= {
       <h2 id="name-iana-considerations">
 <a href="#section-5" class="section-number selfRef">5. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
       </h2>
-<p id="section-5-1">IANA is requested to allocate a value
-from the "SMI Security for PKIX Module Identifier" registry for the
-included ASN.1 module, allocate a value from "SMI Security for
-S/MIME Attributes" to identify an attribute defined within, and open a new registry.<a href="#section-5-1" class="pilcrow">¶</a></p>
+<p id="section-5-1">IANA is requested to allocate a value from the "SMI Security for PKIX Module Identifier"
+registry for the included ASN.1 module, and to allocate a value from "SMI Security for
+S/MIME Attributes" to identify an attribute defined within.<a href="#section-5-1" class="pilcrow">¶</a></p>
 <div id="module-registration-smi-security-for-pkix-module-identifier">
 <section id="section-5.1">
         <h3 id="name-module-registration-smi-sec">
@@ -1537,103 +1526,6 @@ SMI Security for S/MIME Attributes (1.2.840.113549.1.9.16.2).<a href="#section-5
             <p id="section-5.2-2.4.1">References: This Document<a href="#section-5.2-2.4.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-</section>
-</div>
-<div id="attestation-oid-registry">
-<section id="section-5.3">
-        <h3 id="name-attestation-oid-registry">
-<a href="#section-5.3" class="section-number selfRef">5.3. </a><a href="#name-attestation-oid-registry" class="section-name selfRef">Attestation OID Registry</a>
-        </h3>
-<p id="section-5.3-1">IANA is asked to create a registry that helps developers to find
-OID/Attestation mappings that may be encountered in the wild, as well as
-a link to their specification document and an indication as to whether the attestation is cryptographically bound to a public key.
-This registry should follow the rules for
-"Specification Required" as laid out in <span>[<a href="#RFC8126" class="cite xref">RFC8126</a>]</span>.<a href="#section-5.3-1" class="pilcrow">¶</a></p>
-<p id="section-5.3-2">Each row includes an OID and ASN.1 type that could appear in an <code>AttestationStatement</code>, and references to find the full specification.<a href="#section-5.3-2" class="pilcrow">¶</a></p>
-<p id="section-5.3-3">Registration requests should be formatted as per
-the registration template below, and receive a three-week review period on
-the <a href="mailto:spasm@ietf.org">spasm</a> mailing list, with the advice of one or more Designated
-Experts <span>[<a href="#RFC8126" class="cite xref">RFC8126</a>]</span>.  However, to allow for the allocation of values
-prior to publication, the Designated Experts may approve registration
-once they are satisfied that such a specification will be published.<a href="#section-5.3-3" class="pilcrow">¶</a></p>
-<p id="section-5.3-4">Registration requests sent to the mailing list for review should use
-an appropriate subject (e.g., "Request to register attestation
-attestation: example").<a href="#section-5.3-4" class="pilcrow">¶</a></p>
-<p id="section-5.3-5">IANA must only accept registry updates from the Designated Experts
-and should direct all requests for registration to the review mailing
-list.<a href="#section-5.3-5" class="pilcrow">¶</a></p>
-<div id="registration-template">
-<section id="section-5.3.1">
-          <h4 id="name-registration-template">
-<a href="#section-5.3.1" class="section-number selfRef">5.3.1. </a><a href="#name-registration-template" class="section-name selfRef">Registration Template</a>
-          </h4>
-<p id="section-5.3.1-1">The registry has the following columns:<a href="#section-5.3.1-1" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-5.3.1-2.1">
-              <p id="section-5.3.1-2.1.1">OID: The OID number, which has already been allocated. IANA does
-not allocate OID numbers for use with this registry.<a href="#section-5.3.1-2.1.1" class="pilcrow">¶</a></p>
-</li>
-            <li class="normal" id="section-5.3.1-2.2">
-              <p id="section-5.3.1-2.2.1">Type: The ASN.1 type corresponding to the given OID.<a href="#section-5.3.1-2.2.1" class="pilcrow">¶</a></p>
-</li>
-            <li class="normal" id="section-5.3.1-2.3">
-              <p id="section-5.3.1-2.3.1">Description: Brief description of the use of the Attestation and the
-registration of the OID.<a href="#section-5.3.1-2.3.1" class="pilcrow">¶</a></p>
-</li>
-            <li class="normal" id="section-5.3.1-2.4">
-              <p id="section-5.3.1-2.4.1">Reference(s): Reference to the document or documents that register
-the OID and define the ASN.1 type for use with a specific attestation technology, preferably
-including URIs that can be used to retrieve copies of the documents.
-An indication of the relevant sections may also be included but is not
-required.<a href="#section-5.3.1-2.4.1" class="pilcrow">¶</a></p>
-</li>
-            <li class="normal" id="section-5.3.1-2.5">
-              <p id="section-5.3.1-2.5.1">Change Controller: The entity that controls the listed data format.
-For data formats specified in Standards Track RFCs, list the "IESG".
-For others, give the name of the responsible party.
-This does not necessarily have to be a standards body, for example
-in the case of proprietary data formats the Reference may be to a company or a
-publicly-available reference implementation.  In most cases the
-third party requesting registration in this registry will also be the
-party that registered the OID. As the intention is for this registry to be a
-helpful reference, rather than a normative list, a fair amount of
-discretion is left to the Designated Expert.<a href="#section-5.3.1-2.5.1" class="pilcrow">¶</a></p>
-</li>
-          </ul>
-</section>
-</div>
-<div id="initial-registry-contents">
-<section id="section-5.3.2">
-          <h4 id="name-initial-registry-contents">
-<a href="#section-5.3.2" class="section-number selfRef">5.3.2. </a><a href="#name-initial-registry-contents" class="section-name selfRef">Initial Registry Contents</a>
-          </h4>
-<p id="section-5.3.2-1">The initial registry contents is shown in the table below.
-It lists entries for several attestation encoding OIDs including an entry for the Conceptual Message Wrapper (CMW) <span>[<a href="#I-D.ietf-rats-msg-wrap" class="cite xref">I-D.ietf-rats-msg-wrap</a>]</span>.<a href="#section-5.3.2-1" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-5.3.2-2.1">
-              <p id="section-5.3.2-2.1.1">CMW<a href="#section-5.3.2-2.1.1" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-5.3.2-2.1.2.1">
-                  <p id="section-5.3.2-2.1.2.1.1">OID: 1 3 6 1 5 5 7 1 35<a href="#section-5.3.2-2.1.2.1.1" class="pilcrow">¶</a></p>
-</li>
-                <li class="normal" id="section-5.3.2-2.1.2.2">
-                  <p id="section-5.3.2-2.1.2.2.1">Type: CMW<a href="#section-5.3.2-2.1.2.2.1" class="pilcrow">¶</a></p>
-</li>
-                <li class="normal" id="section-5.3.2-2.1.2.3">
-                  <p id="section-5.3.2-2.1.2.3.1">Description: id-pe-cmw<a href="#section-5.3.2-2.1.2.3.1" class="pilcrow">¶</a></p>
-</li>
-                <li class="normal" id="section-5.3.2-2.1.2.4">
-                  <p id="section-5.3.2-2.1.2.4.1">Reference(s): <span>[<a href="#I-D.ietf-rats-msg-wrap" class="cite xref">I-D.ietf-rats-msg-wrap</a>]</span><a href="#section-5.3.2-2.1.2.4.1" class="pilcrow">¶</a></p>
-</li>
-                <li class="normal" id="section-5.3.2-2.1.2.5">
-                  <p id="section-5.3.2-2.1.2.5.1">Change Controller: IETF<a href="#section-5.3.2-2.1.2.5.1" class="pilcrow">¶</a></p>
-</li>
-              </ul>
-</li>
-          </ul>
-<p id="section-5.3.2-3">The current registry values can be retrieved from the IANA online website.<a href="#section-5.3.2-3" class="pilcrow">¶</a></p>
-</section>
-</div>
 </section>
 </div>
 </section>

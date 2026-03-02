@@ -37,14 +37,10 @@ AttestationStatementSet ATTESTATION-STATEMENT ::= {
    ... -- None defined in this document --
 }
 
-AttestAttrSet ATTRIBUTE ::= { ... }
-
 AttestationStatement ::= SEQUENCE {
    type   ATTESTATION-STATEMENT.&id({AttestationStatementSet}),
-   bindsPublicKey [0] BOOLEAN DEFAULT TRUE,
-   stmt   ATTESTATION-STATEMENT.&Type(
-              {AttestationStatementSet}{@type}),
-   attrs  [1] Attributes {{AttestAttrSet}} OPTIONAL
+     stmt   ATTESTATION-STATEMENT.&Type(
+              {AttestationStatementSet}{@type})
 }
 
 -- Arc for Attestation types

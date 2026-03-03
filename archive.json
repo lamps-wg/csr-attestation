@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-02-24T01:43:33.662996+00:00",
+  "timestamp": "2026-03-03T01:45:34.428985+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -13155,18 +13155,26 @@
       "labels": [],
       "body": "These are changes related to my comments on PR216 before merge.  Mostly I think these are clean up rather than substantive.  I did twiddle with the ATTESTATATION-STATEMENT registry stuff a bit.  I'll try and get on the call today to go through these.\r\n\r\nSorry for the late notice - I thought I'd created this PR last week.",
       "createdAt": "2026-02-09T15:40:03Z",
-      "updatedAt": "2026-02-09T22:10:29Z",
+      "updatedAt": "2026-03-02T05:03:29Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
-      "baseRefOid": "6b123560e8026776a1d3f04169749ee2075c73e8",
+      "baseRefOid": "587d5156dc01b34ebcaa047c3f53ae8f0d97f71a",
       "headRepository": "mstjohns/csr-attestation",
       "headRefName": "mstjohns-patch-2",
-      "headRefOid": "26979c3a5772d6a6f24a3efc583814638e813535",
+      "headRefOid": "18e442b19c0161909c4f660f75a5122acf94d0af",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
+      "comments": [
+        {
+          "author": "mstjohns",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "This cleans up the merge against the changes already made to remove the registry.",
+          "createdAt": "2026-03-02T05:03:28Z",
+          "updatedAt": "2026-03-02T05:03:28Z"
+        }
+      ],
       "reviews": [
         {
           "id": "PRR_kwDOJ3IIN87g-v5x",
@@ -13372,6 +13380,32 @@
           "updatedAt": "2026-02-17T16:50:37Z"
         }
       ],
+      "reviews": []
+    },
+    {
+      "number": 236,
+      "id": "PR_kwDOJ3IIN87HOyzy",
+      "title": "Msj patch 3 - remove 'attr' and 'bindsPublicKey' as discussed on the mailing list.",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/236",
+      "state": "OPEN",
+      "author": "mstjohns",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "This should be applied after msj-patch-2 if desired.  ",
+      "createdAt": "2026-03-02T05:02:07Z",
+      "updatedAt": "2026-03-02T21:47:38Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "587d5156dc01b34ebcaa047c3f53ae8f0d97f71a",
+      "headRepository": "mstjohns/csr-attestation",
+      "headRefName": "msj-patch-3",
+      "headRefOid": "001b1106e53a0d868dcc4b8fd9534dd116efee02",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
       "reviews": []
     }
   ]

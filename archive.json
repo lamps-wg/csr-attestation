@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-03-03T01:45:34.428985+00:00",
+  "timestamp": "2026-03-12T01:26:47.124834+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -13155,13 +13155,13 @@
       "labels": [],
       "body": "These are changes related to my comments on PR216 before merge.  Mostly I think these are clean up rather than substantive.  I did twiddle with the ATTESTATATION-STATEMENT registry stuff a bit.  I'll try and get on the call today to go through these.\r\n\r\nSorry for the late notice - I thought I'd created this PR last week.",
       "createdAt": "2026-02-09T15:40:03Z",
-      "updatedAt": "2026-03-02T05:03:29Z",
+      "updatedAt": "2026-03-10T17:08:09Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "587d5156dc01b34ebcaa047c3f53ae8f0d97f71a",
       "headRepository": "mstjohns/csr-attestation",
       "headRefName": "mstjohns-patch-2",
-      "headRefOid": "18e442b19c0161909c4f660f75a5122acf94d0af",
+      "headRefOid": "479e48cf75dc02eea0d31090b6f8ac9aae00d34b",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -13279,6 +13279,206 @@
               "body": "```suggestion\n- Type: ExampleStruct\n```",
               "createdAt": "2026-02-09T22:10:20Z",
               "updatedAt": "2026-02-09T22:10:20Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN87p1dOr",
+          "commit": {
+            "abbreviatedOid": "18e442b"
+          },
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-03-10T14:56:05Z",
+          "updatedAt": "2026-03-10T14:56:05Z",
+          "comments": [
+            {
+              "originalPosition": 16,
+              "body": "I do not believe that this capitalized MAY is useful here since it does not serve any interoperability purpose.",
+              "createdAt": "2026-03-10T14:56:05Z",
+              "updatedAt": "2026-03-10T14:56:05Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN87p1j8E",
+          "commit": {
+            "abbreviatedOid": "18e442b"
+          },
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-03-10T14:59:37Z",
+          "updatedAt": "2026-03-10T14:59:37Z",
+          "comments": [
+            {
+              "originalPosition": 16,
+              "body": "\n```suggestion\nCertification Authorities (CAs) issuing certificates to PKI end entities may require a certificate signing request (CSR) to include verifiable attestations that contain claims regarding the platform used by the end entity to generate the key pair for which a certificate is sought and also contains claims of attributes of the key pair with respect to its protection, use and extractability. At the time of writing, the most pressing example of the need for remote attestation in certificate enrollment is the Code-Signing Baseline Requirements (CSBR) document maintained by the CA/Browser Forum [CSBR]. The [CSBR] requires compliant CAs to \"ensure that a Subscriber's Private Key is generated, stored, and used in a secure environment that has controls to prevent theft or misuse\". This requirement is a natural fit to enforce via remote attestation.\n```",
+              "createdAt": "2026-03-10T14:59:37Z",
+              "updatedAt": "2026-03-10T14:59:37Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN87p1l-O",
+          "commit": {
+            "abbreviatedOid": "18e442b"
+          },
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-03-10T15:00:42Z",
+          "updatedAt": "2026-03-10T15:00:42Z",
+          "comments": [
+            {
+              "originalPosition": 82,
+              "body": "Is the RFC 2119 language here usefuly?",
+              "createdAt": "2026-03-10T15:00:42Z",
+              "updatedAt": "2026-03-10T15:00:42Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN87p1p7d",
+          "commit": {
+            "abbreviatedOid": "18e442b"
+          },
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-03-10T15:02:50Z",
+          "updatedAt": "2026-03-10T15:02:50Z",
+          "comments": [
+            {
+              "originalPosition": 68,
+              "body": "```suggestion\nMultiple different types of `AttestationStatement`(s) may be included within a single top-level `AttestationBundle`.  Note that this document does not require the `AttestationBundle.attestations` field to contain only one `AttestationStatement` of a given type.  For example, if a given type is a \"wrapper\" type containing the conceptual message wrapper (CMW) structure {{?I-D.ietf-rats-msg-wrap}}, multiple copies of a CMW-typed AttestationStatement may be included.\n```",
+              "createdAt": "2026-03-10T15:02:50Z",
+              "updatedAt": "2026-03-10T15:04:34Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN87p1yvr",
+          "commit": {
+            "abbreviatedOid": "18e442b"
+          },
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-03-10T15:08:07Z",
+          "updatedAt": "2026-03-10T15:08:07Z",
+          "comments": [
+            {
+              "originalPosition": 72,
+              "body": "I am not sure about this statement. Does the \"SET OF\" enforce uniqueness of Attribute.type. \n\nI would have thought that ASN.1 allows multiple Attribute objects with the same OID.",
+              "createdAt": "2026-03-10T15:08:07Z",
+              "updatedAt": "2026-03-10T15:08:07Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN87p3lmA",
+          "commit": {
+            "abbreviatedOid": "18e442b"
+          },
+          "author": "mstjohns",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-03-10T16:12:23Z",
+          "updatedAt": "2026-03-10T16:12:24Z",
+          "comments": [
+            {
+              "originalPosition": 82,
+              "body": "I believe so.  Having a CA/RA document its requirements for attestation should be how the requester is put on notice.  CPS is the generally accepted practice, but things like CA/BF notes are another approach, so SHOULD rather than MUST. ",
+              "createdAt": "2026-03-10T16:12:23Z",
+              "updatedAt": "2026-03-10T16:12:24Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN87p3qV6",
+          "commit": {
+            "abbreviatedOid": "18e442b"
+          },
+          "author": "mstjohns",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-03-10T16:15:19Z",
+          "updatedAt": "2026-03-10T16:15:19Z",
+          "comments": [
+            {
+              "originalPosition": 16,
+              "body": "Nope - this is an interop issue.  Consider the converse \"CAs issuing certificates to PKI end entities MUST NOT require....\" would be a valid interop statement.  In this case, we're saying that it's OK for a CA to require an attestation, but they aren't required to do so.",
+              "createdAt": "2026-03-10T16:15:19Z",
+              "updatedAt": "2026-03-10T16:15:19Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN87p3xNl",
+          "commit": {
+            "abbreviatedOid": "18e442b"
+          },
+          "author": "mstjohns",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-03-10T16:19:25Z",
+          "updatedAt": "2026-03-10T16:19:26Z",
+          "comments": [
+            {
+              "originalPosition": 16,
+              "body": "See below.  ",
+              "createdAt": "2026-03-10T16:19:25Z",
+              "updatedAt": "2026-03-10T16:19:26Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN87p3yl9",
+          "commit": {
+            "abbreviatedOid": "18e442b"
+          },
+          "author": "mstjohns",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-03-10T16:20:19Z",
+          "updatedAt": "2026-03-10T16:20:19Z",
+          "comments": [
+            {
+              "originalPosition": 72,
+              "body": "You are correct.  This is actually covered by the MAX COUNT 1 in the ATTRIBUTE definition.  Let me look at the broader text and fix it there.",
+              "createdAt": "2026-03-10T16:20:19Z",
+              "updatedAt": "2026-03-10T16:20:19Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN87p4SLz",
+          "commit": {
+            "abbreviatedOid": "18e442b"
+          },
+          "author": "mstjohns",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-03-10T16:40:41Z",
+          "updatedAt": "2026-03-10T16:40:42Z",
+          "comments": [
+            {
+              "originalPosition": 72,
+              "body": "*sigh* I don't have the permissions to edit here.  Let me update my copy and fix it there.  ",
+              "createdAt": "2026-03-10T16:40:41Z",
+              "updatedAt": "2026-03-10T16:40:42Z"
             }
           ]
         }

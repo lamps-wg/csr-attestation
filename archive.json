@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-03-12T01:26:47.124834+00:00",
+  "timestamp": "2026-03-15T01:55:00.508798+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -2738,6 +2738,22 @@
       "body": "# Summary\n\nThe current draft specifies an optional `hint` (IA5String) in `EvidenceStatement` intended to help a Relying Party select an appropriate Verifier when multiple are configured. It is defined as a \u201cserver name\u201d in the authority form of a URI (host[:port]) while simultaneously stating that Relying Parties SHOULD NOT connect to it and should only use it as a lookup key. This duality (looking like a network endpoint but to be ignored as such) is prone to implementation mistakes and creates unnecessary security and interoperability risk. This issue proposes tightening, redesigning, or replacing the `hint` mechanism.\n\n# Background (Excerpt Context)\n\nThe draft (see the section after the `EvidenceStatement ::= SEQUENCE {...}` definition) states:\n\n- `hint` is OPTIONAL; MAY be provided and MAY be processed.\n- Format: ASCII hostname with optional port (authority component per RFC3986 \u00a73.2; userinfo forbidden; default port 443 if absent).\n- Relying Parties SHOULD NOT \u201cconnect\u201d to the host; SHOULD only use it as a lookup string among pre\u2011configured Verifiers.\n- Purpose: help routing when the `type` OID alone is insufficient (e.g., multiple Verifiers handle same Evidence format).\n\n# Problem Statement\n\nThe design embeds a network-looking identifier (host[:port]) whose appearance strongly invites na\u00efve implementers to treat it as a real endpoint. This creates:\n\n1. Security risk (accidental outbound connection / Server-Side Request Forgery (SSRF) / data exfiltration).\n2. Policy ambiguity (is port meaningful if we must not connect?).\n3. Semantic confusion (is this an identifier, a capability label, or a transport endpoint?).\n4. Interoperability variance (some deployments may rely on port for disambiguation; others may strip it).\n5. Validation uncertainty (what are allowed characters? case sensitivity? punycode? IP literals?).\n\n# Threat / Risk Scenarios\n\n- SSRF: Malicious CSR includes `hint = attacker.example.com:443`; RA code (contrary to SHOULD NOT) fetches \u201cVerifier metadata\u201d over HTTPS, leaking internal info.\n- Downgrade / Misrouting: Attacker chooses a hint that maps to a less strict or deprecated Verifier in RP\u2019s table, bypassing stronger appraisal.\n- Enumeration / Tracking: Unique per-device hostnames used as hints become correlation handles across requests (privacy concern).\n- Confusion with trust anchors: Operator mistakenly equates DNS domain trust with Verifier appraisal trust.\n- Silent acceptance: Implementation ignores mismatch between `type` OID and hint mapping but still proceeds, creating ambiguous audit trail.\n\n# Ambiguities / Inconsistencies in Current Text\n\n- \u201cServer name\u201d vs \u201clookup string\u201d duality is not crisply resolved.\n- Default port 443 suggestion implicitly blesses HTTPS semantics while discouraging actual connections.\n- No explicit ABNF clarifying case, length, allowed characters, IP literals, or IDNA handling.\n- No normative rule about when a RP MUST ignore or MUST reject a hint (e.g., unknown hint vs mismatch).\n- No guidance on privacy handling (e.g., forbidding per-device uniqueness).\n- No requirement that hint be covered by the Evidence\u2019s own signature (it currently relies only on CSR signature prior to Evidence parsing).\n\n# Implementation Pitfalls Already Likely\n\n- Developers copy/paste host routing code from other CSR extensions, treat hint as endpoint.\n- Logging / telemetry pipes hint into network scanners or external \u201cVerifier discovery\u201d SaaS.\n- Fuzzier matching (prefix/substring) leading to unintended Verifier selection.\n- Port treated as priority or weight (invented semantics) generating divergence.\n\n# Prior Art / Comparable Mechanisms\n\n- TLS ALPN: Uses registered opaque protocol identifiers (non-network-looking strings).\n- X.509 Policy OIDs: Encodes selection metadata via structured, globally unique OIDs rather than hostnames.\n- ACME identifiers and challenge tokens: Use random non-semantic tokens to avoid semantic guessing.\n- JWT / EAT \u201ciss\u201d claim: Domain-like but explicitly identity of issuer; network use is carefully scoped.\n\nIf you share my concerns, I'd be happy to work on a rewrite of the current text.",
       "createdAt": "2025-12-01T10:05:10Z",
       "updatedAt": "2025-12-01T10:05:10Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 237,
+      "id": "I_kwDOJ3IIN87y39WG",
+      "title": "IANA Cons: \"id-aa-evidence\" vs \"id-aa-attestation.",
+      "url": "https://github.com/lamps-wg/csr-attestation/issues/237",
+      "state": "OPEN",
+      "author": "ounsworth",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Hey, there's a problem with the ASN.1 module for CSR Attest.\nThe problem is that this has already been allocated as \"id-aa-evidence\", not \"id-aa-attestation.\n\nMaybe the correct thing is to change the IANA Considerations section of the draft to say.\n\n\"Note: 59 has already been early-allocated as \"id-aa-evidence\" referencing this document, so the request is to change the name of this entry to \"id-aa-attestation\".",
+      "createdAt": "2026-03-14T05:33:53Z",
+      "updatedAt": "2026-03-14T05:33:53Z",
       "closedAt": null,
       "comments": []
     }
@@ -13155,7 +13171,7 @@
       "labels": [],
       "body": "These are changes related to my comments on PR216 before merge.  Mostly I think these are clean up rather than substantive.  I did twiddle with the ATTESTATATION-STATEMENT registry stuff a bit.  I'll try and get on the call today to go through these.\r\n\r\nSorry for the late notice - I thought I'd created this PR last week.",
       "createdAt": "2026-02-09T15:40:03Z",
-      "updatedAt": "2026-03-10T17:08:09Z",
+      "updatedAt": "2026-03-14T13:31:19Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "587d5156dc01b34ebcaa047c3f53ae8f0d97f71a",
@@ -13173,6 +13189,34 @@
           "body": "This cleans up the merge against the changes already made to remove the registry.",
           "createdAt": "2026-03-02T05:03:28Z",
           "updatedAt": "2026-03-02T05:03:28Z"
+        },
+        {
+          "author": "mstjohns",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "On 3/12/2026 11:02, Hannes Tschofenig wrote:\n>\n> ***@***.**** commented on this pull request.\n>\n> ------------------------------------------------------------------------\n>\n> In draft-ietf-lamps-csr-attestation.md \n> <https://github.com/lamps-wg/csr-attestation/pull/232#discussion_r2925291665>:\n>\n> > @@ -268,7 +265,13 @@ ext-attestations EXTENSION ::= {\n>   \n>   The Extension variant illustrated in {{code-extensions}} is intended only for use within CRMF CSRs and is NOT RECOMMENDED to be used within X.509 certificates due to the privacy implications of publishing information about the end entity's hardware environment.\n>   \n> -Due to the nature of the PKIX ASN.1 classes {{RFC5912}}, there are multiple ways to convey multiple attestation statements: by including multiple copies of `attr-attestations` or `ext-attestations`, multiple values within the attribute or extension, and finally, by including multiple `AttestationStatement` structures within an `AttestationBundle`. The latter is the preferred way to carry multiple Attestations statements. Implementations MUST NOT place multiple copies of `attr-attestations` into a PKCS#10 CSR due to the `COUNTS MAX 1` declaration. In a CRMF CSR, implementers SHOULD NOT place multiple `AttestationBundle` instances in `ext-attestations`.\n> +Multiple different types of `AttestationStatement`(s) may be included within a single top-level `AttestationBundle`.  N.B.; there is no requirement in this document that the `AttestationBundle.attestations` field contain only one `AttestationStatement` of a given type.  For example, if a given type is a \"wrapper\" type containing the `CMW` structure REF NEEDED, multiple copies of a CMW-typed AttestationStatement may be included.\n> +\n> +Per {{RFC5280}} no more than one instance of a given type of Extension may be carried within an Extensions structure, so an Extensions structure MUST contain no more than one Extension of type `id-aa-attestation`.\n> +\n> +Per {{RFC2986}} `Attributes{}` is defined as a `SET OF Attribute{}`, so an Attributes structure carried within a PKCS#10 CSR MUST contain no more than one Attribute of type `id-aa-attestation`.\n>\n> I think you should be able to edit\n>\n> \u2014\n> Reply to this email directly, view it on GitHub \n> <https://github.com/lamps-wg/csr-attestation/pull/232#discussion_r2925291665>, \n> or unsubscribe \n> <https://github.com/notifications/unsubscribe-auth/AB5TYEKPRGGL5IRNPVW7CD34QLGRDAVCNFSM6AAAAACUP4H37KVHI2DSMVQWIX3LMV43YUDVNRWFEZLROVSXG5CSMV3GSZLXHMZTSMZXGM3TEMBTGA>.\n> You are receiving this because you authored the thread.Message ID: \n> ***@***.***>\n>\nI was able to edit the version in my copy of the repository and commit \nit for update to the PR.\u00a0 I had no luck editing text on the author's \nrepository side.\n\n",
+          "createdAt": "2026-03-12T16:30:14Z",
+          "updatedAt": "2026-03-12T16:30:14Z"
+        },
+        {
+          "author": "mstjohns",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "On 3/12/2026 11:13, Hannes Tschofenig wrote:\n>\n> ***@***.**** commented on this pull request.\n>\n> ------------------------------------------------------------------------\n>\n> In draft-ietf-lamps-csr-attestation.md \n> <https://github.com/lamps-wg/csr-attestation/pull/232#discussion_r2925365579>:\n>\n> >  --- middle\n>   \n>   # Introduction\n>   \n> -Certification Authorities (CAs) issuing certificates to PKI end entities may require a certificate signing request (CSR) to include verifiable attestations that contain claims regarding the platform used by the end entity to generate the key pair for which a certificate is sought. At the time of writing, the most pressing example of the need for remote attestation in certificate enrollment is the Code-Signing Baseline Requirements (CSBR) document maintained by the CA/Browser Forum [CSBR]. The [CSBR] requires compliant CAs to \"ensure that a Subscriber's Private Key is generated, stored, and used in a secure environment that has controls to prevent theft or misuse\". This requirement is a natural fit to enforce via remote attestation.\n> +Certification Authorities (CAs) issuing certificates to PKI end entities MAY require a certificate signing request (CSR) to include verifiable attestations that contain claims regarding the platform used by the end entity to generate the key pair for which a certificate is sought and also contains claims of attributes of the key pair with respect to its protection, use and extractability. At the time of writing, the most pressing example of the need for remote attestation in certificate enrollment is the Code-Signing Baseline Requirements (CSBR) document maintained by the CA/Browser Forum [CSBR]. The [CSBR] requires compliant CAs to \"ensure that a Subscriber's Private Key is generated, stored, and used in a secure environment that has controls to prevent theft or misuse\". This requirement is a natural fit to enforce via remote attestation.\n>\n> How would I interop-test this \"MAY\" statement? Even without this \n> paragraph we are not saying anywhere in the draft that a CA is \n> required to use attestation.\n>\n> \u2014\n> Reply to this email directly, view it on GitHub \n> <https://github.com/lamps-wg/csr-attestation/pull/232#discussion_r2925365579>, \n> or unsubscribe \n> <https://github.com/notifications/unsubscribe-auth/AB5TYEPYEJDGECFC73DCDAL4QLHZFAVCNFSM6AAAAACUP4H37KVHI2DSMVQWIX3LMV43YUDVNRWFEZLROVSXG5CSMV3GSZLXHMZTSMZXGQ2TOMJVGY>.\n> You are receiving this because you authored the thread.Message ID: \n> ***@***.***>\n>\nOk - I think you're missing what \"MAY\" means.\n\nThis paragraph is explicitly saying that a CA MAY require attestation \nfor a specific type of certificate.\u00a0 Or to restate it in a long winded \nway:\u00a0 \"A CA that requires attestation of a given public key for a given \nCSR (and hence for the certificate issued against the CSR) MAY/SHOULD \n(CA configurable) reject the CSR if it is missing the necessary \nattestation, or if the validity of the attestation cannot be verified.\"\u00a0 \n \u00a0That's in keeping with the meaning of \"MAY\" per section 5 of RFC2119.\u00a0 \nOr another way: \"Support for attestation is optional for a CA (and/or \nthe CA code base), but if implemented the CA MAY require attestation(s) \nfor certain types of CSR.\"\n\nThe test is:\u00a0 Send a CSR without an attestation but requesting a code \nsigning certificate to a CA that requires attestation for a code signing \ncertificate and see if the CA rejects the CSR.\u00a0 How the CA decides \nwhether to accept or reject the CSR could be hard-coded, or could be \nsubject to a human in the loop.\n\nYou could use \"... MAY require that specific types of CSRs include \nverifiable ...\"\n\nIn any event, there is an implication here that if a CA requires \nattestation, then it must support attestation processing in some form \nwhich we are not specifying here\".\n\n\n",
+          "createdAt": "2026-03-12T16:46:24Z",
+          "updatedAt": "2026-03-12T16:46:24Z"
+        },
+        {
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "body": "My argument is that statements like this:\r\n\r\n\"if a CA requires attestation, then it must support attestation processing in some form\"\r\n\r\n are meaningless and add no value. Every implementer knows that.",
+          "createdAt": "2026-03-14T09:22:20Z",
+          "updatedAt": "2026-03-14T09:22:20Z"
+        },
+        {
+          "author": "mstjohns",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Actually, it\u2019s more like \u201cA CA MAY require the inclusion of a valid\r\nattestation for the public key in the CSR as a condition for the issuance\r\nof a certificate.\u201d  That is not a meaningless hand wave, but an expanded (\r\nand measurable) requirement on what\u2019s included in the CSR as defined in\r\nPKCS10 and CRMF.  That is substantially different than what you wrote below\r\n(which I agree is a null value tautology). Another way to state what I\r\nwrote is \u201cEven if a CA has full support for attestation, there is no\r\nrequirement that every CSR contain an attestation, but the CA MAY require\r\nCSRs for certain types of certificate contain a valid attestation of the\r\npublic key and/or system state\u201d.\r\n\r\n\r\n\r\n\r\nOn Sat, Mar 14, 2026 at 05:22 Hannes Tschofenig ***@***.***>\r\nwrote:\r\n\r\n> *hannestschofenig* left a comment (lamps-wg/csr-attestation#232)\r\n> <https://github.com/lamps-wg/csr-attestation/pull/232#issuecomment-4060144234>\r\n>\r\n> My argument is that statements like this:\r\n>\r\n> \"if a CA requires attestation, then it must support attestation processing\r\n> in some form\"\r\n>\r\n> are meaningless and add no value. Every implementer knows that.\r\n>\r\n> \u2014\r\n> Reply to this email directly, view it on GitHub\r\n> <https://github.com/lamps-wg/csr-attestation/pull/232#issuecomment-4060144234>,\r\n> or unsubscribe\r\n> <https://github.com/notifications/unsubscribe-auth/AB5TYEPCI2VFXZN5542CUVL4QUQGHAVCNFSM6AAAAACUP4H37KVHI2DSMVQWIX3LMV43OSLTON2WKQ3PNVWWK3TUHM2DANRQGE2DIMRTGQ>\r\n> .\r\n> You are receiving this because you authored the thread.Message ID:\r\n> ***@***.***>\r\n>\r\n",
+          "createdAt": "2026-03-14T13:31:19Z",
+          "updatedAt": "2026-03-14T13:31:19Z"
         }
       ],
       "reviews": [
@@ -13479,6 +13523,46 @@
               "body": "*sigh* I don't have the permissions to edit here.  Let me update my copy and fix it there.  ",
               "createdAt": "2026-03-10T16:40:41Z",
               "updatedAt": "2026-03-10T16:40:42Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN87qr4d-",
+          "commit": {
+            "abbreviatedOid": "18e442b"
+          },
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-03-12T15:02:19Z",
+          "updatedAt": "2026-03-12T15:02:19Z",
+          "comments": [
+            {
+              "originalPosition": 72,
+              "body": "I think you should be able to edit \r\n",
+              "createdAt": "2026-03-12T15:02:19Z",
+              "updatedAt": "2026-03-12T15:02:19Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN87qsNQE",
+          "commit": {
+            "abbreviatedOid": "b268a96"
+          },
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-03-12T15:12:53Z",
+          "updatedAt": "2026-03-12T15:12:53Z",
+          "comments": [
+            {
+              "originalPosition": 16,
+              "body": "How would I interop-test this \"MAY\" statement? Even without this paragraph we are not saying anywhere in the draft that a CA is required to use attestation.\n",
+              "createdAt": "2026-03-12T15:12:53Z",
+              "updatedAt": "2026-03-12T15:12:53Z"
             }
           ]
         }

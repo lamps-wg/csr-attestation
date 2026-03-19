@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-03-15T01:55:00.508798+00:00",
+  "timestamp": "2026-03-19T01:49:28.469516+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -13171,13 +13171,13 @@
       "labels": [],
       "body": "These are changes related to my comments on PR216 before merge.  Mostly I think these are clean up rather than substantive.  I did twiddle with the ATTESTATATION-STATEMENT registry stuff a bit.  I'll try and get on the call today to go through these.\r\n\r\nSorry for the late notice - I thought I'd created this PR last week.",
       "createdAt": "2026-02-09T15:40:03Z",
-      "updatedAt": "2026-03-14T13:31:19Z",
+      "updatedAt": "2026-03-19T00:34:23Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "587d5156dc01b34ebcaa047c3f53ae8f0d97f71a",
       "headRepository": "mstjohns/csr-attestation",
       "headRefName": "mstjohns-patch-2",
-      "headRefOid": "479e48cf75dc02eea0d31090b6f8ac9aae00d34b",
+      "headRefOid": "9d2a9e9047ce5c2f0e656711699e3910c7f21fb1",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -13217,6 +13217,34 @@
           "body": "Actually, it\u2019s more like \u201cA CA MAY require the inclusion of a valid\r\nattestation for the public key in the CSR as a condition for the issuance\r\nof a certificate.\u201d  That is not a meaningless hand wave, but an expanded (\r\nand measurable) requirement on what\u2019s included in the CSR as defined in\r\nPKCS10 and CRMF.  That is substantially different than what you wrote below\r\n(which I agree is a null value tautology). Another way to state what I\r\nwrote is \u201cEven if a CA has full support for attestation, there is no\r\nrequirement that every CSR contain an attestation, but the CA MAY require\r\nCSRs for certain types of certificate contain a valid attestation of the\r\npublic key and/or system state\u201d.\r\n\r\n\r\n\r\n\r\nOn Sat, Mar 14, 2026 at 05:22 Hannes Tschofenig ***@***.***>\r\nwrote:\r\n\r\n> *hannestschofenig* left a comment (lamps-wg/csr-attestation#232)\r\n> <https://github.com/lamps-wg/csr-attestation/pull/232#issuecomment-4060144234>\r\n>\r\n> My argument is that statements like this:\r\n>\r\n> \"if a CA requires attestation, then it must support attestation processing\r\n> in some form\"\r\n>\r\n> are meaningless and add no value. Every implementer knows that.\r\n>\r\n> \u2014\r\n> Reply to this email directly, view it on GitHub\r\n> <https://github.com/lamps-wg/csr-attestation/pull/232#issuecomment-4060144234>,\r\n> or unsubscribe\r\n> <https://github.com/notifications/unsubscribe-auth/AB5TYEPCI2VFXZN5542CUVL4QUQGHAVCNFSM6AAAAACUP4H37KVHI2DSMVQWIX3LMV43OSLTON2WKQ3PNVWWK3TUHM2DANRQGE2DIMRTGQ>\r\n> .\r\n> You are receiving this because you authored the thread.Message ID:\r\n> ***@***.***>\r\n>\r\n",
           "createdAt": "2026-03-14T13:31:19Z",
           "updatedAt": "2026-03-14T13:31:19Z"
+        },
+        {
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "body": "MSJ, if you accept my change to turn the \"MAY\" back to \"may\" then we can at least merge the rest of the PR. We can then create another PR that only makes this normative change.",
+          "createdAt": "2026-03-17T07:03:38Z",
+          "updatedAt": "2026-03-17T07:03:38Z"
+        },
+        {
+          "author": "mstjohns",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "On 3/17/2026 03:04, Hannes Tschofenig wrote:\n> *hannestschofenig* left a comment (lamps-wg/csr-attestation#232) \n> <https://github.com/lamps-wg/csr-attestation/pull/232#issuecomment-4072835102>\n>\n> MSJ, if you accept my change to turn the \"MAY\" back to \"may\" then we \n> can at least merge the rest of the PR. We can then create another PR \n> that only makes this normative change.\n>\n> \u2014\n> Reply to this email directly, view it on GitHub \n> <https://github.com/lamps-wg/csr-attestation/pull/232#issuecomment-4072835102>, \n> or unsubscribe \n> <https://github.com/notifications/unsubscribe-auth/AB5TYEPSHSC75BL4WKOAQCT4RD2GDAVCNFSM6AAAAACUP4H37KVHI2DSMVQWIX3LMV43OSLTON2WKQ3PNVWWK3TUHM2DANZSHAZTKMJQGI>.\n> You are receiving this because you authored the thread.Message ID: \n> ***@***.***>\n>\nSure..\n\n",
+          "createdAt": "2026-03-17T07:25:45Z",
+          "updatedAt": "2026-03-17T07:25:45Z"
+        },
+        {
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Btw, you need to make changes to your PR. I have no access rights on your fork",
+          "createdAt": "2026-03-18T11:38:47Z",
+          "updatedAt": "2026-03-18T11:38:47Z"
+        },
+        {
+          "author": "mstjohns",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "On 3/18/2026 07:39, Hannes Tschofenig wrote:\n> *hannestschofenig* left a comment (lamps-wg/csr-attestation#232) \n> <https://github.com/lamps-wg/csr-attestation/pull/232#issuecomment-4081818189>\n>\n> Btw, you need to make changes to your PR. I have no access rights on \n> your fork\n>\n> \u2014\n> Reply to this email directly, view it on GitHub \n> <https://github.com/lamps-wg/csr-attestation/pull/232#issuecomment-4081818189>, \n> or unsubscribe \n> <https://github.com/notifications/unsubscribe-auth/AB5TYENRM3IAFZ42ISY7CWT4RKDF3AVCNFSM6AAAAACUP4H37KVHI2DSMVQWIX3LMV43OSLTON2WKQ3PNVWWK3TUHM2DAOBRHAYTQMJYHE>.\n> You are receiving this because you authored the thread.Message ID: \n> ***@***.***>\n>\nWeird.\n\nUpdated and committed.\n\n",
+          "createdAt": "2026-03-19T00:34:23Z",
+          "updatedAt": "2026-03-19T00:34:23Z"
         }
       ],
       "reviews": [
@@ -13565,6 +13593,19 @@
               "updatedAt": "2026-03-12T15:12:53Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN87r7T7M",
+          "commit": {
+            "abbreviatedOid": "479e48c"
+          },
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "These changes seem minor and editorial. Good. Merge!",
+          "createdAt": "2026-03-17T05:05:10Z",
+          "updatedAt": "2026-03-17T05:05:10Z",
+          "comments": []
         }
       ]
     },

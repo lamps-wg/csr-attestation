@@ -612,79 +612,80 @@ Appendix A.  Examples
 
 Appendix B.  ASN.1 Module
 
-CSR-ATTESTATION-2025
-  { iso(1) identified-organization(3) dod(6) internet(1) security(5)
-  mechanisms(5) pkix(7) id-mod(0) id-mod-pkix-attest-01(TBDMOD) }
+   CSR-ATTESTATION-2025
+     { iso(1) identified-organization(3) dod(6) internet(1) security(5)
+     mechanisms(5) pkix(7) id-mod(0) id-mod-pkix-attest-01(TBDMOD) }
 
-DEFINITIONS IMPLICIT TAGS ::= BEGIN
+   DEFINITIONS IMPLICIT TAGS ::= BEGIN
 
-EXPORTS ALL;
+   EXPORTS ALL;
 
-IMPORTS
+   IMPORTS
 
-Certificate, id-pkix
-FROM PKIX1Explicit-2009 -- from [RFC5912]
-{ iso(1) identified-organization(3) dod(6) internet(1)
-security(5) mechanisms(5) pkix(7) id-mod(0)
-id-mod-pkix1-explicit-02(51) }
+   Certificate, id-pkix
+   FROM PKIX1Explicit-2009 -- from [RFC5912]
+   { iso(1) identified-organization(3) dod(6) internet(1)
+   security(5) mechanisms(5) pkix(7) id-mod(0)
+   id-mod-pkix1-explicit-02(51) }
 
-CertificateChoices, Attributes{}
-  FROM CryptographicMessageSyntax-2010 -- from [RFC6268]
-    { iso(1) member-body(2) us(840) rsadsi(113549)
-    pkcs(1) pkcs-9(9) smime(16) modules(0) id-mod-cms-2009(58) }
+   CertificateChoices, Attributes{}
+     FROM CryptographicMessageSyntax-2010 -- from [RFC6268]
+       { iso(1) member-body(2) us(840) rsadsi(113549)
+       pkcs(1) pkcs-9(9) smime(16) modules(0) id-mod-cms-2009(58) }
 
-EXTENSION, ATTRIBUTE, AttributeSet{}, SingleAttribute{}
-FROM PKIX-CommonTypes-2009 -- from [RFC5912]
-{ iso(1) identified-organization(3) dod(6) internet(1)
-security(5) mechanisms(5) pkix(7) id-mod(0)
-id-mod-pkixCommon-02(57) }
+   EXTENSION, ATTRIBUTE, AttributeSet{}, SingleAttribute{}
+   FROM PKIX-CommonTypes-2009 -- from [RFC5912]
+   { iso(1) identified-organization(3) dod(6) internet(1)
+   security(5) mechanisms(5) pkix(7) id-mod(0)
+   id-mod-pkixCommon-02(57) }
 
-id-aa
-  FROM SecureMimeMessageV3dot1-2009
-    { iso(1) member-body(2) us(840) rsadsi(113549)
-    pkcs(1) pkcs-9(9) smime(16) modules(0) msg-v3dot1-02(39) }
-  ;
+   id-aa
+     FROM SecureMimeMessageV3dot1-2009
+       { iso(1) member-body(2) us(840) rsadsi(113549)
+       pkcs(1) pkcs-9(9) smime(16) modules(0) msg-v3dot1-02(39) }
+     ;
 
-ATTESTATION-STATEMENT ::= TYPE-IDENTIFIER
+   ATTESTATION-STATEMENT ::= TYPE-IDENTIFIER
 
-AttestationStatementSet ATTESTATION-STATEMENT ::= {
-   ... -- None defined in this document --
-}
+   AttestationStatementSet ATTESTATION-STATEMENT ::= {
+      ... -- None defined in this document --
+   }
 
-AttestAttrSet ATTRIBUTE ::= { ... }
+   AttestAttrSet ATTRIBUTE ::= { ... }
 
-AttestationStatement ::= SEQUENCE {
-   type   ATTESTATION-STATEMENT.&id({AttestationStatementSet}),
-   bindsPublicKey [0] BOOLEAN DEFAULT TRUE,
-   stmt   ATTESTATION-STATEMENT.&Type(
-              {AttestationStatementSet}{@type}),
-   attrs  [1] Attributes {{AttestAttrSet}} OPTIONAL
-}
+   AttestationStatement ::= SEQUENCE {
+      type   ATTESTATION-STATEMENT.&id({AttestationStatementSet}),
+      bindsPublicKey [0] BOOLEAN DEFAULT TRUE,
+      stmt   ATTESTATION-STATEMENT.&Type(
+                 {AttestationStatementSet}{@type}),
+      attrs  [1] Attributes {{AttestAttrSet}} OPTIONAL
+   }
 
--- Arc for Attestation types
-id-aa-attestation OBJECT IDENTIFIER ::= { id-aa 59 }
+   -- Arc for Attestation types
+   id-aa-attestation OBJECT IDENTIFIER ::= { id-aa 59 }
 
--- For PKCS#10 (Attestation)
-attr-attestation ATTRIBUTE ::= {
-  TYPE AttestationBundle
-  COUNTS MAX 1
-  IDENTIFIED BY id-aa-attestation
-}
+   -- For PKCS#10 (Attestation)
+   attr-attestation ATTRIBUTE ::= {
+     TYPE AttestationBundle
+     COUNTS MAX 1
+     IDENTIFIED BY id-aa-attestation
+   }
 
--- For CRMF (Attestation)
-ext-attestation EXTENSION ::= {
-  SYNTAX AttestationBundle
-  IDENTIFIED BY id-aa-attestation
-}
+   -- For CRMF (Attestation)
+   ext-attestation EXTENSION ::= {
+     SYNTAX AttestationBundle
+     IDENTIFIED BY id-aa-attestation
+   }
 
-LimitedCertChoices ::= CertificateChoices (WITH COMPONENTS {certificate, other})
+   LimitedCertChoices ::= CertificateChoices
+       (WITH COMPONENTS {certificate, other})
 
-AttestationBundle ::= SEQUENCE {
-   attestations SEQUENCE SIZE (1..MAX) OF AttestationStatement,
-   certs SEQUENCE SIZE (1..MAX) OF LimitedCertChoices OPTIONAL
-}
+   AttestationBundle ::= SEQUENCE {
+      attestations SEQUENCE SIZE (1..MAX) OF AttestationStatement,
+      certs SEQUENCE SIZE (1..MAX) OF LimitedCertChoices OPTIONAL
+   }
 
-END
+   END
 
 Appendix C.  Acknowledgments
 

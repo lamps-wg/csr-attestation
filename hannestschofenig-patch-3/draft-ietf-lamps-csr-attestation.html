@@ -1762,7 +1762,8 @@ ext-attestation EXTENSION ::= {
   IDENTIFIED BY id-aa-attestation
 }
 
-LimitedCertChoices ::= CertificateChoices (WITH COMPONENTS {certificate, other})
+LimitedCertChoices ::= CertificateChoices
+    (WITH COMPONENTS {certificate, other})
 
 AttestationBundle ::= SEQUENCE {
    attestations SEQUENCE SIZE (1..MAX) OF AttestationStatement,

@@ -353,7 +353,7 @@ Examples and sample data will be collected in the "CSR Attestation Sample Data" 
 # ASN.1 Module
 
 ~~~
-{::include-fold CSR-ATTESTATION-2025.asn}
+{::include CSR-ATTESTATION-2025.asn}
 ~~~
 
 # Acknowledgments

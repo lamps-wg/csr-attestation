@@ -111,7 +111,7 @@ models for CSR processing, provided the required security
 requirements specific to the context of certificate issuance are
 satisfied.
 
-{{Section 4.2 of RFC9334}} defines several roles that originate, forward or process attestation statements (also see {{Section 1.2 of RFC9683}}): the Attester; Endorser; Relying Party; and Verifier. Attestation statements, such as Evidence, may be directed to an entity taking at least one of these roles, including to an RA/CA acting as a Verifier.
+{{Section 4.2 of RFC9334}} defines several roles that originate, forward or process attestation statements (also see {{Section 1.2 of RFC9683}}): the Attester; Endorser; Relying Party; and Verifier. Attestation statements, such as Evidence, may be directed to an entity taking at least one of these roles, including to an CA/RA acting as a Verifier.
 An CA/RA may also forward attestation statements to a Verifier for appraisal. Each attestation statements may contain one or more claims, including claims that may be required by an RA or CA. Attestation statements transmitted by these parties are defined in {{Section 8 of RFC9334}} as the "conceptual messages" Evidence, Endorsement, and Attestation Results. The structure defined in this specification may be used by any of the roles that originate attestation statements, and is equally applicable to these three conceptual messages.
 
 # Conventions and Definitions

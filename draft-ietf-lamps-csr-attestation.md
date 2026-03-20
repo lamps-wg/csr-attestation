@@ -94,7 +94,7 @@ Request Message Format (CRMF) messages. Both standardized and proprietary attest
 
 # Introduction
 
-Certification Authorities (CAs) issuing certificates to PKI end entities MAY require a certificate signing request (CSR) to include verifiable attestations that contain claims regarding the platform used by the end entity to generate the key pair for which a certificate is sought and also contains claims of attributes of the key pair with respect to its protection, use and extractability. At the time of writing, the most pressing example of the need for remote attestation in certificate enrollment is the Code-Signing Baseline Requirements (CSBR) document maintained by the CA/Browser Forum [CSBR]. The [CSBR] requires compliant CAs to "ensure that a Subscriber's Private Key is generated, stored, and used in a secure environment that has controls to prevent theft or misuse". This requirement is a natural fit to enforce via remote attestation.
+Certification Authorities (CAs) issuing certificates to PKI end entities may require a certificate signing request (CSR) include verifiable attestations that contain claims regarding the platform used by the end entity to generate the key pair for which a certificate is sought and also contains claims of attributes of the key pair with respect to its protection, use and extractability. At the time of writing, the most pressing example of the need for remote attestation in certificate enrollment is the Code-Signing Baseline Requirements (CSBR) document maintained by the CA/Browser Forum [CSBR]. The [CSBR] requires compliant CAs to "ensure that a Subscriber's Private Key is generated, stored, and used in a secure environment that has controls to prevent theft or misuse". This requirement is a natural fit to enforce via remote attestation.
 
 This specification defines an attribute and an extension that allow for conveyance of verifiable attestations in several Certificate Signing Request (CSR) formats, including PKCS#10 [RFC2986] or Certificate Request Message Format (CRMF) [RFC4211] messages. Given several standard and proprietary remote attestation technologies are in use, this specification is intended to be as technology-agnostic as is feasible with respect to implemented and future remote attestation technologies. This aligns with the fact that a CA may wish to provide support for a variety of types of devices but cannot dictate what format a device uses to represent attestations.  However, if a certificate requester does not include the number and types of attestations required by the CA, it is unlikely the requester will receive the requested certificate.
 
@@ -261,13 +261,13 @@ ext-attestations EXTENSION ::= {
 
 The Extension variant illustrated in {{code-extensions}} is intended only for use within CRMF CSRs and is NOT RECOMMENDED to be used within X.509 certificates due to the privacy implications of publishing information about the end entity's hardware environment.
 
-Multiple different types of `AttestationStatement`(s) may be included within a single top-level `AttestationBundle`.  N.B.; there is no requirement in this document that the `AttestationBundle.attestations` field contain only one `AttestationStatement` of a given type.  For example, if a given type is a "wrapper" type containing the `CMW` structure REF NEEDED, multiple copies of a CMW-typed AttestationStatement may be included.
+Multiple different types of `AttestationStatement`(s) may be included within a single top-level `AttestationBundle`.  Note that this document does not require the `AttestationBundle.attestations` field to contain only one `AttestationStatement` of a given type.  For example, if a given type is a "wrapper" type containing the conceptual message wrapper (CMW) structure {{?I-D.ietf-rats-msg-wrap}}, multiple copies of a CMW-typed AttestationStatement may be included.
 
 Per {{RFC5280}} no more than one instance of a given type of Extension may be carried within an Extensions structure, so an Extensions structure MUST contain no more than one Extension of type `id-aa-attestation`.
 
-Per {{RFC2986}} `Attributes{}` is defined as a `SET OF Attribute{}`, so an Attributes structure carried within a PKCS#10 CSR MUST contain no more than one Attribute of type `id-aa-attestation`.
-
-Finally, the `attr-attestation` ATTRIBUTE includes the  "COUNT MAX 1" constraint, so an Attribute of type `id-aa-attestation` MUST contain exactly one copy of an `AttestationBundle`.
+PKCS#10 uses the legacy structures `Attributes` and `Attribute` rather than the later defined `SingleAttribute` and `AttributeSet` structures - all of which are defined against the ATTRIBUTE ASN.1 CLASS.  The ATTRIBUTE CLASS has a `COUNTS MAX n` clause which can be used to limit the copies of ATTRIBUTE related structures.  For the purposes of this document the `COUNTS MAX 1` clause in the `attr-attestation` shall be taken to mean the following:
+* An Attributes structure carried within a PKCS#10 CSR MUST contain no more than one Attribute of type `id-aa-attestation`.
+* An Attribute of type `id-aa-attestation` MUST contain exactly one copy of an `AttestationBundle`.
 
 # IANA Considerations
 
@@ -349,7 +349,7 @@ Examples and sample data will be collected in the "CSR Attestation Sample Data" 
 # ASN.1 Module
 
 ~~~
-{::include-fold CSR-ATTESTATION-2025.asn}
+{::include CSR-ATTESTATION-2025.asn}
 ~~~
 
 # Acknowledgments

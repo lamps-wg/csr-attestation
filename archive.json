@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-03-19T01:49:28.469516+00:00",
+  "timestamp": "2026-03-22T01:48:44.116423+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -13164,24 +13164,26 @@
       "id": "PR_kwDOJ3IIN87Cg9o5",
       "title": "Grab MSJ's comments from PR 216",
       "url": "https://github.com/lamps-wg/csr-attestation/pull/232",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "mstjohns",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "These are changes related to my comments on PR216 before merge.  Mostly I think these are clean up rather than substantive.  I did twiddle with the ATTESTATATION-STATEMENT registry stuff a bit.  I'll try and get on the call today to go through these.\r\n\r\nSorry for the late notice - I thought I'd created this PR last week.",
       "createdAt": "2026-02-09T15:40:03Z",
-      "updatedAt": "2026-03-19T00:34:23Z",
+      "updatedAt": "2026-03-19T13:55:09Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "587d5156dc01b34ebcaa047c3f53ae8f0d97f71a",
       "headRepository": "mstjohns/csr-attestation",
       "headRefName": "mstjohns-patch-2",
       "headRefOid": "9d2a9e9047ce5c2f0e656711699e3910c7f21fb1",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2026-03-19T13:55:09Z",
+      "mergedAt": "2026-03-19T13:55:09Z",
+      "mergedBy": "hannestschofenig",
+      "mergeCommit": {
+        "oid": "8765e8729e640725c5be6883f963d446bacfeba4"
+      },
       "comments": [
         {
           "author": "mstjohns",
@@ -13719,17 +13721,60 @@
       "labels": [],
       "body": "This should be applied after msj-patch-2 if desired.  ",
       "createdAt": "2026-03-02T05:02:07Z",
-      "updatedAt": "2026-03-02T21:47:38Z",
+      "updatedAt": "2026-03-20T15:49:34Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
-      "baseRefOid": "587d5156dc01b34ebcaa047c3f53ae8f0d97f71a",
+      "baseRefOid": "b4bd5a8d3c35408bd89e71457a0c880f586a20bc",
       "headRepository": "mstjohns/csr-attestation",
       "headRefName": "msj-patch-3",
-      "headRefOid": "001b1106e53a0d868dcc4b8fd9534dd116efee02",
+      "headRefOid": "77c9143e2dee1b3753fa4dd5c8a99b2b102ecd39",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
+      "comments": [
+        {
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I would recommend not to tackle too many issues in a single PR.\r\n\r\nIn this PR you reverse editorial changes you introduced in PR 232. For example, the RA/CA - CA/RA switch. In general, it seems that the editorial changes seem to be more a \"mood of the day\" issue rather than really something that requires fixing.\r\n\r\nThe substantial change in this PR is that you are undoing the design team work. It feels like you still insist on the changes you have suggested a few years ago.\r\n\r\nI personally would close this PR and use the design team output as a way to go forward even though I am not 100% satisfied with what the design team did but it is better than going all the way back to the drawing board.",
+          "createdAt": "2026-03-20T11:28:17Z",
+          "updatedAt": "2026-03-20T11:28:17Z"
+        },
+        {
+          "author": "mstjohns",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "On 3/20/2026 07:28, Hannes Tschofenig wrote:\n> *hannestschofenig* left a comment (lamps-wg/csr-attestation#236) \n> <https://github.com/lamps-wg/csr-attestation/pull/236#issuecomment-4097376815>\n>\n> I would recommend not to tackle too many issues in a single PR.\n>\n> In this PR you reverse editorial changes you introduced in PR 232. For \n> example, the RA/CA - CA/RA switch. In general, it seems that the \n> editorial changes seem to be more a \"mood of the day\" issue rather \n> than really something that requires fixing.\n>\nNo - I think that I didn't grab the right base.\u00a0 It should have been \nediting against what was left after PR232 was merged.\u00a0 This is a \ngithub/mike error.\u00a0 \u00a0I pulled and merged and resolved the conflicts and \ncommitted.... I think.\u00a0 Try it now.\u00a0 \u00a0It should be consistently CA/RA \nthroughout.\n>\n> The substantial change in this PR is that you are undoing the design \n> team work. It feels like you still insist on the changes you have \n> suggested a few years ago.\n>\nActually, no.\u00a0 This came from the discussion on the list last month. \nhttps://mailarchive.ietf.org/arch/msg/spasm/umLz3Hyl5cf7ESdmf0qD72bQdZ8/ \nand working backwards from that.\u00a0 This is basically what was there \nbefore you added the hint field.\u00a0 So this is a TYPE-IDENTIFIER and a \nstructure that depends on the TYPE-IDENTIFIER with nothing else going \non.\u00a0 E.g., the moral equivalent of ANY IDENTIFIED BY \nattestation-type-oid for old style ASN.1.\n\nCarl seemed fine with it and I can live with it. Rich Salz also put in \nhis $.02 worth.\n\n> I personally would close this PR and use the design team output as a \n> way to go forward even though I am not 100% satisfied with what the \n> design team did but it is better than going all the way back to the \n> drawing board.\n>\nGo back to the mailing list and have that discussion.\u00a0 If the result is \nto keep the ASN.1 from the design team, I'll work with you to make sure \nit compiles and the text is correct.\u00a0 I *think* I resolved that in the \nfirst PR I sent over.\n\nMike\n\n",
+          "createdAt": "2026-03-20T15:44:12Z",
+          "updatedAt": "2026-03-20T15:44:12Z"
+        }
+      ],
+      "reviews": []
+    },
+    {
+      "number": 238,
+      "id": "PR_kwDOJ3IIN87L2-g2",
+      "title": "Remove include-fold from ASN.1 module",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/238",
+      "state": "MERGED",
+      "author": "hannestschofenig",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "TBD: Validate ASN.1",
+      "createdAt": "2026-03-19T13:52:49Z",
+      "updatedAt": "2026-03-20T11:17:50Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "587d5156dc01b34ebcaa047c3f53ae8f0d97f71a",
+      "headRepository": "lamps-wg/csr-attestation",
+      "headRefName": "hannestschofenig-patch-3",
+      "headRefOid": "a73de0af76206d9a08d6414d81093cf9bbf32700",
+      "closedAt": "2026-03-20T11:17:47Z",
+      "mergedAt": "2026-03-20T11:17:47Z",
+      "mergedBy": "hannestschofenig",
+      "mergeCommit": {
+        "oid": "b4bd5a8d3c35408bd89e71457a0c880f586a20bc"
+      },
       "comments": [],
       "reviews": []
     }

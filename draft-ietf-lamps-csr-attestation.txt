@@ -737,7 +737,7 @@ Authors' Addresses
 
    Monty Wiseman
    United States of America
-   Email: mwiseman32@acm.org
+   Email: mwiseman@computer.org
 
 
    Ned Smith

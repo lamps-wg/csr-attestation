@@ -5,13 +5,13 @@
 Network Working Group                                       M. Ounsworth
 Internet-Draft                                            Cryptic Forest
 Intended status: Standards Track                           H. Tschofenig
-Expires: 21 September 2026                                       Siemens
+Expires: 28 September 2026                                       Siemens
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                               M. Wiseman
                                                                         
                                                                 N. Smith
-                                                           20 March 2026
+                                                           27 March 2026
 
 
      Use of Remote Attestation with Certification Signing Requests
@@ -64,7 +64,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 21 September 2026.
+   This Internet-Draft will expire on 28 September 2026.
 
 Copyright Notice
 
@@ -171,7 +171,7 @@ Table of Contents
    forward or process attestation statements (also see Section 1.2 of
    [RFC9683]): the Attester; Endorser; Relying Party; and Verifier.
    Attestation statements, such as Evidence, may be directed to an
-   entity taking at least one of these roles, including to an RA/CA
+   entity taking at least one of these roles, including to an CA/RA
    acting as a Verifier.  An CA/RA may also forward attestation
    statements to a Verifier for appraisal.  Each attestation statements
    may contain one or more claims, including claims that may be required
@@ -248,10 +248,6 @@ Table of Contents
    *  The type field is an OBJECT IDENTIFIER that identifies the format
       of the stmt field.
 
-   *  The bindsPublicKey field indicates whether the attestation in the
-      stmt field is cryptographically bound to the public key included
-      in the CSR.
-
    *  The stmt field contains the attestation for processing,
       constrained by the type field.  Formats that are not defined using
       ASN.1 MUST define an ASN.1 wrapper for use with the
@@ -260,28 +256,16 @@ Table of Contents
       purposes, where the contents of the OCTET STRING are the CBOR-
       encoded data.
 
-   *  The attrs field enables the inclusion of Attribute values that may
-      inform the verification of the stmt.  This specification does not
-      define any Attribute instances, but does define an empty set of
-      ATTRIBUTE AttestAttrSet.
+ ATTESTATION-STATEMENT ::= TYPE-IDENTIFIER
 
-   *  The attrs field, while not directly bound to the type of
-      attestation, SHOULD generally contain at least the set of
-      Attributes described the the document related to a specific
-      ATTESTATION-STATEMENT declaration.
+ AttestAttrSet ATTRIBUTE ::= { ... }
 
-ATTESTATION-STATEMENT ::= TYPE-IDENTIFIER
+ AttestationStatement ::= SEQUENCE {
+    type   ATTESTATION-STATEMENT.&id({AttestationStatementSet}),
+    stmt   ATTESTATION-STATEMENT.&Type({AttestationStatementSet}{@type})
+ }
 
-AttestAttrSet ATTRIBUTE ::= { ... }
-
-AttestationStatement ::= SEQUENCE {
-   type   ATTESTATION-STATEMENT.&id({AttestationStatementSet}),
-   bindsPublicKey [0] BOOLEAN DEFAULT TRUE,
-   stmt   ATTESTATION-STATEMENT.&Type({AttestationStatementSet}{@type}),
-   attrs  [1] Attributes {{AttestAttrSet}} OPTIONAL
-}
-
-             Figure 1: Definition of AttestationStatement
+              Figure 1: Definition of AttestationStatement
 
    In some cases, a CA may require CSRs to include a variety of claims,
    which may require the cooperation of more than one Attester.
@@ -642,22 +626,16 @@ Appendix B.  ASN.1 Module
 
    IMPORTS
 
-   Certificate, id-pkix
-   FROM PKIX1Explicit-2009 -- from [RFC5912]
-   { iso(1) identified-organization(3) dod(6) internet(1)
-   security(5) mechanisms(5) pkix(7) id-mod(0)
-   id-mod-pkix1-explicit-02(51) }
-
-   CertificateChoices, Attributes{}
+   CertificateChoices
      FROM CryptographicMessageSyntax-2010 -- from [RFC6268]
        { iso(1) member-body(2) us(840) rsadsi(113549)
        pkcs(1) pkcs-9(9) smime(16) modules(0) id-mod-cms-2009(58) }
 
-   EXTENSION, ATTRIBUTE, AttributeSet{}, SingleAttribute{}
-   FROM PKIX-CommonTypes-2009 -- from [RFC5912]
-   { iso(1) identified-organization(3) dod(6) internet(1)
-   security(5) mechanisms(5) pkix(7) id-mod(0)
-   id-mod-pkixCommon-02(57) }
+   EXTENSION, ATTRIBUTE
+     FROM PKIX-CommonTypes-2009 -- from [RFC5912]
+       { iso(1) identified-organization(3) dod(6) internet(1)
+       security(5) mechanisms(5) pkix(7) id-mod(0)
+       id-mod-pkixCommon-02(57) }
 
    id-aa
      FROM SecureMimeMessageV3dot1-2009
@@ -671,14 +649,10 @@ Appendix B.  ASN.1 Module
       ... -- None defined in this document --
    }
 
-   AttestAttrSet ATTRIBUTE ::= { ... }
-
    AttestationStatement ::= SEQUENCE {
       type   ATTESTATION-STATEMENT.&id({AttestationStatementSet}),
-      bindsPublicKey [0] BOOLEAN DEFAULT TRUE,
       stmt   ATTESTATION-STATEMENT.&Type(
-                 {AttestationStatementSet}{@type}),
-      attrs  [1] Attributes {{AttestAttrSet}} OPTIONAL
+                 {AttestationStatementSet}{@type})
    }
 
    -- Arc for Attestation types
@@ -697,8 +671,10 @@ Appendix B.  ASN.1 Module
      IDENTIFIED BY id-aa-attestation
    }
 
-   LimitedCertChoices ::= CertificateChoices
-       (WITH COMPONENTS {certificate, other})
+   -- Allow either X.509 or OTHER-CERT certificates
+   LimitedCertChoices ::=
+       CertificateChoices
+          (WITH COMPONENTS {certificate, other})
 
    AttestationBundle ::= SEQUENCE {
       attestations SEQUENCE SIZE (1..MAX) OF AttestationStatement,

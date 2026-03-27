@@ -290,7 +290,7 @@ IANA is asked to register the following within the registry id-aa
 SMI Security for S/MIME Attributes (1.2.840.113549.1.9.16.2).
 
 - Attestation Statement
-- Decimal: IANA Assigned - This was early-allocated as `59` so that we could generate the sample data.
+- Decimal: IANA Assigned - Note: .59 has already been early-allocated as "id-aa-evidence" referencing this document, so the request is to change the name of this entry to "id-aa-attestation" and leave the allocation of .59 as-is.
 - Description: id-aa-attestation
 - References: This Document
 

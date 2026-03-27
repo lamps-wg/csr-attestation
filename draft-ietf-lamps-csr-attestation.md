@@ -313,9 +313,9 @@ Multiple attestations from multiple sources, as envisioned in {{RFC9334}}, can i
 For example, a CA may have an issuance policy that requires key generation in an HSM on a company-owned platform in a known good state.
 The CSR might contain three AttestationStatements originated by three different attesters:
 
-1. an Evidence that a key pair was generated in an HSM;
-2. an Endorsement that states a particular platform is company-owned; and
-3. an Attestation Result stating a particular platform was in a known good state (e.g, up to date on patches, etc.).
+1. that a key pair was generated in an HSM;
+2. that a particular platform is company-owned; and
+3. that a particular platform was in a known good state (e.g, up to date on patches, etc.).
 
 While each of these attestations may be independently correct, the CA/RA is responsible for confirming the attestations apply in concert to the public key in the CSR. That is, the CA/RA must analyze the attestations to ensure that:
 

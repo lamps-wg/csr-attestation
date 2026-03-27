@@ -51,13 +51,11 @@ author:
   -
     ins: M. Wiseman
     name: Monty Wiseman
-    org:
     country: USA
-    email: mwiseman32@acm.org
+    email: mwiseman@computer.org
   -
     ins: N. Smith
     name: Ned Smith
-    org:
     country: United States
     email: ned.smith.ietf@gmail.com
 

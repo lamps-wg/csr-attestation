@@ -5,13 +5,13 @@
 Network Working Group                                       M. Ounsworth
 Internet-Draft                                            Cryptic Forest
 Intended status: Standards Track                           H. Tschofenig
-Expires: 28 September 2026                                       Siemens
+Expires: 29 September 2026                                       Siemens
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                               M. Wiseman
                                                                         
                                                                 N. Smith
-                                                           27 March 2026
+                                                           28 March 2026
 
 
      Use of Remote Attestation with Certification Signing Requests
@@ -64,7 +64,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 28 September 2026.
+   This Internet-Draft will expire on 29 September 2026.
 
 Copyright Notice
 
@@ -256,16 +256,14 @@ Table of Contents
       purposes, where the contents of the OCTET STRING are the CBOR-
       encoded data.
 
- ATTESTATION-STATEMENT ::= TYPE-IDENTIFIER
+   ATTESTATION-STATEMENT ::= TYPE-IDENTIFIER
 
- AttestAttrSet ATTRIBUTE ::= { ... }
+   AttestationStatement ::= SEQUENCE {
+      type   ATTESTATION-STATEMENT.&id({AttestationStatementSet}),
+      stmt   ATTESTATION-STATEMENT.&Type({AttestationStatementSet}{@type})
+   }
 
- AttestationStatement ::= SEQUENCE {
-    type   ATTESTATION-STATEMENT.&id({AttestationStatementSet}),
-    stmt   ATTESTATION-STATEMENT.&Type({AttestationStatementSet}{@type})
- }
-
-              Figure 1: Definition of AttestationStatement
+                Figure 1: Definition of AttestationStatement
 
    In some cases, a CA may require CSRs to include a variety of claims,
    which may require the cooperation of more than one Attester.
@@ -308,6 +306,7 @@ Table of Contents
              -- Obsolete
         [[4: v2AttrCert [2] IMPLICIT AttributeCertificateV2]],
         [[5: other      [3] IMPLICIT OtherCertificateFormat]] }
+
       OTHER-CERT-FMT ::= TYPE-IDENTIFIER
 
       OtherCertificateFormat ::= SEQUENCE {
@@ -316,8 +315,9 @@ Table of Contents
         otherCert       OTHER-CERT-FMT.
                 &Type({SupportedCertFormats}{@otherCertFormat})}
 
-   LimitedCertChoices ::= CertificateChoices (WITH COMPONENTS {\
-                                                    certificate, other})
+      LimitedCertChoices ::=
+         CertificateChoices
+             (WITH COMPONENTS {certificate, other})
 
    The certs field contains a set of certificates that may be used to
    validate an AttestationStatement contained in attestations.  For each
@@ -401,10 +401,13 @@ Table of Contents
    ATTRIBUTE CLASS has a COUNTS MAX n clause which can be used to limit
    the copies of ATTRIBUTE related structures.  For the purposes of this
    document the COUNTS MAX 1 clause in the attr-attestation shall be
-   taken to mean the following: * An Attributes structure carried within
-   a PKCS#10 CSR MUST contain no more than one Attribute of type id-aa-
-   attestation. * An Attribute of type id-aa-attestation MUST contain
-   exactly one copy of an AttestationBundle.
+   taken to mean the following:
+
+   *  An Attributes structure carried within a PKCS#10 CSR MUST contain
+      no more than one Attribute of type id-aa-attestation.
+
+   *  An Attribute of type id-aa-attestation MUST contain exactly one
+      copy of an AttestationBundle.
 
 5.  IANA Considerations
 
@@ -491,13 +494,13 @@ Table of Contents
    to the public key in the CSR.  That is, the CA/RA must analyze the
    attestations to ensure that:
 
-   1.  the attestation of HSM generation in AttestationStatement 1
+   1.  the attestation of HSM generation by AttestationStatement 1
        applies to the public key in the CSR;
 
-   2.  the attestation of company ownership in AttestationStatement 2
+   2.  the attestation of company ownership by AttestationStatement 2
        applies to the platform that contains the HSM; and
 
-   3.  the attestation that a platform was in a known good state in
+   3.  the attestation that a platform was in a known good state by
        AttestationStatement 3 applies to the platform that contains the
        HSM.
 

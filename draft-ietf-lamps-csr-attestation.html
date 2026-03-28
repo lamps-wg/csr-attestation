@@ -1059,7 +1059,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Ounsworth, et al.</td>
-<td class="center">Expires 28 September 2026</td>
+<td class="center">Expires 29 September 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1072,12 +1072,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-lamps-csr-attestation-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-03-27" class="published">27 March 2026</time>
+<time datetime="2026-03-28" class="published">28 March 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-09-28">28 September 2026</time></dd>
+<dd class="expires"><time datetime="2026-09-29">29 September 2026</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1138,7 +1138,7 @@ Request Message Format (CRMF) messages. Both standardized and proprietary attest
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 28 September 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 29 September 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1331,11 +1331,9 @@ For example, a CBOR-encoded format may be defined as an OCTET STRING for <code>A
         </ul>
 <span id="name-definition-of-attestationst"></span><div id="code-AttestationStatement">
 <figure id="figure-1">
-          <div class="alignLeft art-text artwork" id="section-4.1-3.1">
+          <div class="lang-asn1 sourcecode" id="section-4.1-3.1">
 <pre>
 ATTESTATION-STATEMENT ::= TYPE-IDENTIFIER
-
-AttestAttrSet ATTRIBUTE ::= { ... }
 
 AttestationStatement ::= SEQUENCE {
    type   ATTESTATION-STATEMENT.&amp;id({AttestationStatementSet}),
@@ -1352,7 +1350,7 @@ Similarly, a CA/RA may outsource verification of claims from different Attesters
 The <code>AttestationBundle</code> structure, <a href="#code-AttestationBundle" class="auto internal xref">Figure 2</a>, facilitates the representation of one or more <code>AttestationStatement</code> structures along with an <span class="bcp14">OPTIONAL</span> collection of certificates that may be useful for certification path building and validation to verify each <code>AttestationStatement</code>. <code>AttestationBundle</code> is the structure included in a CSR attribute or extension.<a href="#section-4.1-4" class="pilcrow">¶</a></p>
 <span id="name-definition-of-attestationbu"></span><div id="code-AttestationBundle">
 <figure id="figure-2">
-          <div class="alignLeft art-text artwork" id="section-4.1-5.1">
+          <div class="lang-asn1 sourcecode" id="section-4.1-5.1">
 <pre>
 AttestationBundle ::= SEQUENCE {
    attestations SEQUENCE SIZE (1..MAX) OF AttestationStatement,
@@ -1366,7 +1364,7 @@ AttestationBundle ::= SEQUENCE {
 </div>
 <p id="section-4.1-6">At least one element in the <code>attestations</code> field <span class="bcp14">SHOULD</span> contain an attestation that is cryptographically bound to the public key that is the subject of the CSR containing the <code>AttestationBundle</code>.<a href="#section-4.1-6" class="pilcrow">¶</a></p>
 <p id="section-4.1-7">The <code>CertificateChoices</code> structure defined in <span>[<a href="#RFC6268" class="cite xref">RFC6268</a>]</span>, and reproduced below along with <code>OtherCertificateFormat</code>, allows for carrying certificates in the default X.509 <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span> format, or in other non-X.509 certificate formats. <code>CertificateChoices</code> <span class="bcp14">MUST</span> only contain certificate or other. In this context, <code>CertificateChoices</code> <span class="bcp14">MUST NOT</span> contain <code>extendedCertificate</code>, <code>v1AttrCert</code>, or <code>v2AttrCert</code>. Note that for non-ASN.1 certificate formats, the <code>CertificateChoices</code> <span class="bcp14">MUST</span> contain <code>other</code> with an <code>OTHER-CERT-FMT.Type</code> of <code>OCTET STRING</code> and data consistent with <code>OTHER-CERT-FMT.id</code>. <code>LimitedCertChoices</code> is defined to limit the available options to <code>certificate</code> and <code>other</code>.<a href="#section-4.1-7" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="section-4.1-8">
+<div class="lang-asn1 sourcecode" id="section-4.1-8">
 <pre>
    CertificateChoices ::= CHOICE {
      certificate Certificate,
@@ -1377,6 +1375,7 @@ AttestationBundle ::= SEQUENCE {
           -- Obsolete
      [[4: v2AttrCert [2] IMPLICIT AttributeCertificateV2]],
      [[5: other      [3] IMPLICIT OtherCertificateFormat]] }
+
    OTHER-CERT-FMT ::= TYPE-IDENTIFIER
 
    OtherCertificateFormat ::= SEQUENCE {
@@ -1385,8 +1384,9 @@ AttestationBundle ::= SEQUENCE {
      otherCert       OTHER-CERT-FMT.
              &amp;Type({SupportedCertFormats}{@otherCertFormat})}
 
-LimitedCertChoices ::= CertificateChoices (WITH COMPONENTS {\
-                                                 certificate, other})
+   LimitedCertChoices ::=
+      CertificateChoices
+          (WITH COMPONENTS {certificate, other})
 </pre><a href="#section-4.1-8" class="pilcrow">¶</a>
 </div>
 <p id="section-4.1-9">The <code>certs</code> field contains a set of certificates that
@@ -1405,7 +1405,7 @@ attestation key back to a trust anchor. No specific order of the certificates in
         </h3>
 <span id="name-definition-of-attestationsta"></span><div id="code-AttestationStatementSet">
 <figure id="figure-3">
-          <div class="alignLeft art-text artwork" id="section-4.2-1.1">
+          <div class="lang-asn1 sourcecode" id="section-4.2-1.1">
 <pre>
 AttestationStatementSet ATTESTATION-STATEMENT ::= {
    ... -- None defined in this document --
@@ -1434,7 +1434,7 @@ populate it with the formats that they wish to support.<a href="#section-4.2-2" 
 <p id="section-4.3-1">By definition, attributes within a PKCS#10 CSR are typed as ATTRIBUTE and within a CRMF CSR are typed as EXTENSION.<a href="#section-4.3-1" class="pilcrow">¶</a></p>
 <span id="name-definitions-of-csr-attribut"></span><div id="code-extensions">
 <figure id="figure-4">
-          <div class="alignLeft art-text artwork" id="section-4.3-2.1">
+          <div class="lang-asn1 sourcecode" id="section-4.3-2.1">
 <pre>
 id-aa-attestation OBJECT IDENTIFIER ::= { id-aa 59 }
 
@@ -1459,9 +1459,15 @@ ext-attestations EXTENSION ::= {
 <p id="section-4.3-3">The Extension variant illustrated in <a href="#code-extensions" class="auto internal xref">Figure 4</a> is intended only for use within CRMF CSRs and is <span class="bcp14">NOT RECOMMENDED</span> to be used within X.509 certificates due to the privacy implications of publishing information about the end entity's hardware environment.<a href="#section-4.3-3" class="pilcrow">¶</a></p>
 <p id="section-4.3-4">Multiple different types of <code>AttestationStatement</code>(s) may be included within a single top-level <code>AttestationBundle</code>.  Note that this document does not require the <code>AttestationBundle.attestations</code> field to contain only one <code>AttestationStatement</code> of a given type.  For example, if a given type is a "wrapper" type containing the conceptual message wrapper (CMW) structure <span>[<a href="#I-D.ietf-rats-msg-wrap" class="cite xref">I-D.ietf-rats-msg-wrap</a>]</span>, multiple copies of a CMW-typed AttestationStatement may be included.<a href="#section-4.3-4" class="pilcrow">¶</a></p>
 <p id="section-4.3-5">Per <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span> no more than one instance of a given type of Extension may be carried within an Extensions structure, so an Extensions structure <span class="bcp14">MUST</span> contain no more than one Extension of type <code>id-aa-attestation</code>.<a href="#section-4.3-5" class="pilcrow">¶</a></p>
-<p id="section-4.3-6">PKCS#10 uses the legacy structures <code>Attributes</code> and <code>Attribute</code> rather than the later defined <code>SingleAttribute</code> and <code>AttributeSet</code> structures - all of which are defined against the ATTRIBUTE ASN.1 CLASS.  The ATTRIBUTE CLASS has a <code>COUNTS MAX n</code> clause which can be used to limit the copies of ATTRIBUTE related structures.  For the purposes of this document the <code>COUNTS MAX 1</code> clause in the <code>attr-attestation</code> shall be taken to mean the following:
-* An Attributes structure carried within a PKCS#10 CSR <span class="bcp14">MUST</span> contain no more than one Attribute of type <code>id-aa-attestation</code>.
-* An Attribute of type <code>id-aa-attestation</code> <span class="bcp14">MUST</span> contain exactly one copy of an <code>AttestationBundle</code>.<a href="#section-4.3-6" class="pilcrow">¶</a></p>
+<p id="section-4.3-6">PKCS#10 uses the legacy structures <code>Attributes</code> and <code>Attribute</code> rather than the later defined <code>SingleAttribute</code> and <code>AttributeSet</code> structures - all of which are defined against the ATTRIBUTE ASN.1 CLASS.  The ATTRIBUTE CLASS has a <code>COUNTS MAX n</code> clause which can be used to limit the copies of ATTRIBUTE related structures.  For the purposes of this document the <code>COUNTS MAX 1</code> clause in the <code>attr-attestation</code> shall be taken to mean the following:<a href="#section-4.3-6" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-4.3-7.1">
+            <p id="section-4.3-7.1.1">An Attributes structure carried within a PKCS#10 CSR <span class="bcp14">MUST</span> contain no more than one Attribute of type <code>id-aa-attestation</code>.<a href="#section-4.3-7.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-4.3-7.2">
+            <p id="section-4.3-7.2.1">An Attribute of type <code>id-aa-attestation</code> <span class="bcp14">MUST</span> contain exactly one copy of an <code>AttestationBundle</code>.<a href="#section-4.3-7.2.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
 </section>
 </div>
 </section>
@@ -1554,13 +1560,13 @@ The CSR might contain three AttestationStatements originated by three different 
 <p id="section-6.1-5">While each of these attestations may be independently correct, the CA/RA is responsible for confirming the attestations apply in concert to the public key in the CSR. That is, the CA/RA must analyze the attestations to ensure that:<a href="#section-6.1-5" class="pilcrow">¶</a></p>
 <ol start="1" type="1" class="normal type-1" id="section-6.1-6">
 <li id="section-6.1-6.1">
-            <p id="section-6.1-6.1.1">the attestation of HSM generation in AttestationStatement 1 applies to the public key in the CSR;<a href="#section-6.1-6.1.1" class="pilcrow">¶</a></p>
+            <p id="section-6.1-6.1.1">the attestation of HSM generation by AttestationStatement 1 applies to the public key in the CSR;<a href="#section-6.1-6.1.1" class="pilcrow">¶</a></p>
 </li>
           <li id="section-6.1-6.2">
-            <p id="section-6.1-6.2.1">the attestation of company ownership in AttestationStatement 2 applies to the platform that contains the HSM; and<a href="#section-6.1-6.2.1" class="pilcrow">¶</a></p>
+            <p id="section-6.1-6.2.1">the attestation of company ownership by AttestationStatement 2 applies to the platform that contains the HSM; and<a href="#section-6.1-6.2.1" class="pilcrow">¶</a></p>
 </li>
           <li id="section-6.1-6.3">
-            <p id="section-6.1-6.3.1">the attestation that a platform was in a known good state in AttestationStatement 3 applies to the platform that contains the HSM.<a href="#section-6.1-6.3.1" class="pilcrow">¶</a></p>
+            <p id="section-6.1-6.3.1">the attestation that a platform was in a known good state by AttestationStatement 3 applies to the platform that contains the HSM.<a href="#section-6.1-6.3.1" class="pilcrow">¶</a></p>
 </li>
         </ol>
 </section>
@@ -1685,7 +1691,7 @@ The CSR might contain three AttestationStatements originated by three different 
       <h2 id="name-asn1-module">
 <a href="#appendix-B" class="section-number selfRef">Appendix B. </a><a href="#name-asn1-module" class="section-name selfRef">ASN.1 Module</a>
       </h2>
-<div class="alignLeft art-text artwork" id="appendix-B-1">
+<div class="breakable lang-asn1 sourcecode" id="appendix-B-1">
 <pre>
 CSR-ATTESTATION-2025
   { iso(1) identified-organization(3) dod(6) internet(1) security(5)

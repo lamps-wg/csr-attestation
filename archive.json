@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-03-22T01:48:44.116423+00:00",
+  "timestamp": "2026-03-29T01:57:05.022983+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -2698,31 +2698,39 @@
       "id": "I_kwDOJ3IIN87Pvmfv",
       "title": "WGLC Comments",
       "url": "https://github.com/lamps-wg/csr-attestation/issues/212",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "ounsworth",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "> There is no need for line wrapping per RFC 8792 in ASN.1 modules.  Please remove it.\n\nThis is not in the markdown source. Possibly the kramdown tooling is doing this? We can investigate.",
       "createdAt": "2025-10-06T00:54:26Z",
-      "updatedAt": "2025-10-06T00:54:26Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2026-03-27T20:19:59Z",
+      "closedAt": "2026-03-27T20:19:59Z",
+      "comments": [
+        {
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "We seem to have fixed the over-long lines somewhere along the way. Closing this.",
+          "createdAt": "2026-03-27T20:19:59Z",
+          "updatedAt": "2026-03-27T20:19:59Z"
+        }
+      ]
     },
     {
       "number": 213,
       "id": "I_kwDOJ3IIN87PvnRN",
       "title": "Change Monty's email address to mwiseman@computer.org",
       "url": "https://github.com/lamps-wg/csr-attestation/issues/213",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "ounsworth",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2025-10-06T00:57:53Z",
-      "updatedAt": "2025-10-06T00:57:53Z",
-      "closedAt": null,
+      "updatedAt": "2026-03-27T20:10:20Z",
+      "closedAt": "2026-03-27T20:10:19Z",
       "comments": []
     },
     {
@@ -2730,31 +2738,39 @@
       "id": "I_kwDOJ3IIN87bW-_I",
       "title": "Reconsider semantics and format of EvidenceStatement.hint to avoid unsafe network usage and implementation pitfalls",
       "url": "https://github.com/lamps-wg/csr-attestation/issues/215",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "RufusJWB",
       "authorAssociation": "NONE",
       "assignees": [],
       "labels": [],
       "body": "# Summary\n\nThe current draft specifies an optional `hint` (IA5String) in `EvidenceStatement` intended to help a Relying Party select an appropriate Verifier when multiple are configured. It is defined as a \u201cserver name\u201d in the authority form of a URI (host[:port]) while simultaneously stating that Relying Parties SHOULD NOT connect to it and should only use it as a lookup key. This duality (looking like a network endpoint but to be ignored as such) is prone to implementation mistakes and creates unnecessary security and interoperability risk. This issue proposes tightening, redesigning, or replacing the `hint` mechanism.\n\n# Background (Excerpt Context)\n\nThe draft (see the section after the `EvidenceStatement ::= SEQUENCE {...}` definition) states:\n\n- `hint` is OPTIONAL; MAY be provided and MAY be processed.\n- Format: ASCII hostname with optional port (authority component per RFC3986 \u00a73.2; userinfo forbidden; default port 443 if absent).\n- Relying Parties SHOULD NOT \u201cconnect\u201d to the host; SHOULD only use it as a lookup string among pre\u2011configured Verifiers.\n- Purpose: help routing when the `type` OID alone is insufficient (e.g., multiple Verifiers handle same Evidence format).\n\n# Problem Statement\n\nThe design embeds a network-looking identifier (host[:port]) whose appearance strongly invites na\u00efve implementers to treat it as a real endpoint. This creates:\n\n1. Security risk (accidental outbound connection / Server-Side Request Forgery (SSRF) / data exfiltration).\n2. Policy ambiguity (is port meaningful if we must not connect?).\n3. Semantic confusion (is this an identifier, a capability label, or a transport endpoint?).\n4. Interoperability variance (some deployments may rely on port for disambiguation; others may strip it).\n5. Validation uncertainty (what are allowed characters? case sensitivity? punycode? IP literals?).\n\n# Threat / Risk Scenarios\n\n- SSRF: Malicious CSR includes `hint = attacker.example.com:443`; RA code (contrary to SHOULD NOT) fetches \u201cVerifier metadata\u201d over HTTPS, leaking internal info.\n- Downgrade / Misrouting: Attacker chooses a hint that maps to a less strict or deprecated Verifier in RP\u2019s table, bypassing stronger appraisal.\n- Enumeration / Tracking: Unique per-device hostnames used as hints become correlation handles across requests (privacy concern).\n- Confusion with trust anchors: Operator mistakenly equates DNS domain trust with Verifier appraisal trust.\n- Silent acceptance: Implementation ignores mismatch between `type` OID and hint mapping but still proceeds, creating ambiguous audit trail.\n\n# Ambiguities / Inconsistencies in Current Text\n\n- \u201cServer name\u201d vs \u201clookup string\u201d duality is not crisply resolved.\n- Default port 443 suggestion implicitly blesses HTTPS semantics while discouraging actual connections.\n- No explicit ABNF clarifying case, length, allowed characters, IP literals, or IDNA handling.\n- No normative rule about when a RP MUST ignore or MUST reject a hint (e.g., unknown hint vs mismatch).\n- No guidance on privacy handling (e.g., forbidding per-device uniqueness).\n- No requirement that hint be covered by the Evidence\u2019s own signature (it currently relies only on CSR signature prior to Evidence parsing).\n\n# Implementation Pitfalls Already Likely\n\n- Developers copy/paste host routing code from other CSR extensions, treat hint as endpoint.\n- Logging / telemetry pipes hint into network scanners or external \u201cVerifier discovery\u201d SaaS.\n- Fuzzier matching (prefix/substring) leading to unintended Verifier selection.\n- Port treated as priority or weight (invented semantics) generating divergence.\n\n# Prior Art / Comparable Mechanisms\n\n- TLS ALPN: Uses registered opaque protocol identifiers (non-network-looking strings).\n- X.509 Policy OIDs: Encodes selection metadata via structured, globally unique OIDs rather than hostnames.\n- ACME identifiers and challenge tokens: Use random non-semantic tokens to avoid semantic guessing.\n- JWT / EAT \u201ciss\u201d claim: Domain-like but explicitly identity of issuer; network use is carefully scoped.\n\nIf you share my concerns, I'd be happy to work on a rewrite of the current text.",
       "createdAt": "2025-12-01T10:05:10Z",
-      "updatedAt": "2025-12-01T10:05:10Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2026-03-27T16:48:30Z",
+      "closedAt": "2026-03-27T16:48:10Z",
+      "comments": [
+        {
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Thank you for your report.\nIn the end we have removed the Hint as it lead to way more debate than it was worth.",
+          "createdAt": "2026-03-27T16:48:11Z",
+          "updatedAt": "2026-03-27T16:48:30Z"
+        }
+      ]
     },
     {
       "number": 237,
       "id": "I_kwDOJ3IIN87y39WG",
       "title": "IANA Cons: \"id-aa-evidence\" vs \"id-aa-attestation.",
       "url": "https://github.com/lamps-wg/csr-attestation/issues/237",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "ounsworth",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Hey, there's a problem with the ASN.1 module for CSR Attest.\nThe problem is that this has already been allocated as \"id-aa-evidence\", not \"id-aa-attestation.\n\nMaybe the correct thing is to change the IANA Considerations section of the draft to say.\n\n\"Note: 59 has already been early-allocated as \"id-aa-evidence\" referencing this document, so the request is to change the name of this entry to \"id-aa-attestation\".",
       "createdAt": "2026-03-14T05:33:53Z",
-      "updatedAt": "2026-03-14T05:33:53Z",
-      "closedAt": null,
+      "updatedAt": "2026-03-27T19:17:02Z",
+      "closedAt": "2026-03-27T19:17:02Z",
       "comments": []
     }
   ],
@@ -13714,24 +13730,26 @@
       "id": "PR_kwDOJ3IIN87HOyzy",
       "title": "Msj patch 3 - remove 'attr' and 'bindsPublicKey' as discussed on the mailing list.",
       "url": "https://github.com/lamps-wg/csr-attestation/pull/236",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "mstjohns",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "This should be applied after msj-patch-2 if desired.  ",
       "createdAt": "2026-03-02T05:02:07Z",
-      "updatedAt": "2026-03-20T15:49:34Z",
+      "updatedAt": "2026-03-27T16:47:08Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "b4bd5a8d3c35408bd89e71457a0c880f586a20bc",
       "headRepository": "mstjohns/csr-attestation",
       "headRefName": "msj-patch-3",
       "headRefOid": "77c9143e2dee1b3753fa4dd5c8a99b2b102ecd39",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2026-03-27T16:47:08Z",
+      "mergedAt": "2026-03-27T16:47:07Z",
+      "mergedBy": "ounsworth",
+      "mergeCommit": {
+        "oid": "a6ba82378d5c4917674f227f1249011370f58780"
+      },
       "comments": [
         {
           "author": "hannestschofenig",
@@ -13746,6 +13764,13 @@
           "body": "On 3/20/2026 07:28, Hannes Tschofenig wrote:\n> *hannestschofenig* left a comment (lamps-wg/csr-attestation#236) \n> <https://github.com/lamps-wg/csr-attestation/pull/236#issuecomment-4097376815>\n>\n> I would recommend not to tackle too many issues in a single PR.\n>\n> In this PR you reverse editorial changes you introduced in PR 232. For \n> example, the RA/CA - CA/RA switch. In general, it seems that the \n> editorial changes seem to be more a \"mood of the day\" issue rather \n> than really something that requires fixing.\n>\nNo - I think that I didn't grab the right base.\u00a0 It should have been \nediting against what was left after PR232 was merged.\u00a0 This is a \ngithub/mike error.\u00a0 \u00a0I pulled and merged and resolved the conflicts and \ncommitted.... I think.\u00a0 Try it now.\u00a0 \u00a0It should be consistently CA/RA \nthroughout.\n>\n> The substantial change in this PR is that you are undoing the design \n> team work. It feels like you still insist on the changes you have \n> suggested a few years ago.\n>\nActually, no.\u00a0 This came from the discussion on the list last month. \nhttps://mailarchive.ietf.org/arch/msg/spasm/umLz3Hyl5cf7ESdmf0qD72bQdZ8/ \nand working backwards from that.\u00a0 This is basically what was there \nbefore you added the hint field.\u00a0 So this is a TYPE-IDENTIFIER and a \nstructure that depends on the TYPE-IDENTIFIER with nothing else going \non.\u00a0 E.g., the moral equivalent of ANY IDENTIFIED BY \nattestation-type-oid for old style ASN.1.\n\nCarl seemed fine with it and I can live with it. Rich Salz also put in \nhis $.02 worth.\n\n> I personally would close this PR and use the design team output as a \n> way to go forward even though I am not 100% satisfied with what the \n> design team did but it is better than going all the way back to the \n> drawing board.\n>\nGo back to the mailing list and have that discussion.\u00a0 If the result is \nto keep the ASN.1 from the design team, I'll work with you to make sure \nit compiles and the text is correct.\u00a0 I *think* I resolved that in the \nfirst PR I sent over.\n\nMike\n\n",
           "createdAt": "2026-03-20T15:44:12Z",
           "updatedAt": "2026-03-20T15:44:12Z"
+        },
+        {
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Hannes and I talked today, and we like this change. I will merge it now.\r\n\r\nWe noted that I probably need to take a look at the samples in the appendix, which I will do after merging.",
+          "createdAt": "2026-03-27T16:47:02Z",
+          "updatedAt": "2026-03-27T16:47:02Z"
         }
       ],
       "reviews": []
@@ -13777,6 +13802,144 @@
       },
       "comments": [],
       "reviews": []
+    },
+    {
+      "number": 239,
+      "id": "PR_kwDOJ3IIN87OKUEe",
+      "title": "Remove left-over ASN1, add kramdown code tagging for ASN1",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/239",
+      "state": "MERGED",
+      "author": "mstjohns",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Forgot to remove AttestAttrSet.  Changed the ~~~ to ~~~asn1 so that Kramdown2xml generates a <sourcecode> block.\r\n\r\nTwiddled a \"in\" to \"by\" when referring to attestations in section 6.1 - Binding Attestations to the CSR's public key - kept tripping over the 3rd bullet trying to figure out what part was which.",
+      "createdAt": "2026-03-27T21:05:27Z",
+      "updatedAt": "2026-03-28T21:49:38Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "d9d3d4fbe6c4c518d9aff8183a840492a9b2ad23",
+      "headRepository": "mstjohns/csr-attestation",
+      "headRefName": "patch-4",
+      "headRefOid": "7c5483656f4fe215776c0a7ef24792f5f414b55b",
+      "closedAt": "2026-03-28T21:49:37Z",
+      "mergedAt": "2026-03-28T21:49:37Z",
+      "mergedBy": "ounsworth",
+      "mergeCommit": {
+        "oid": "0b9283e607c5b06d53148bb9ebec219ef2dbce9f"
+      },
+      "comments": [
+        {
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Merging",
+          "createdAt": "2026-03-28T21:49:34Z",
+          "updatedAt": "2026-03-28T21:49:34Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJ3IIN87v2rPw",
+          "commit": {
+            "abbreviatedOid": "7c54836"
+          },
+          "author": "mcr",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-03-27T23:00:55Z",
+          "updatedAt": "2026-03-27T23:00:55Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJ3IIN87v6e9Q",
+          "commit": {
+            "abbreviatedOid": "7c54836"
+          },
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Works for me.",
+          "createdAt": "2026-03-28T06:37:09Z",
+          "updatedAt": "2026-03-28T06:37:09Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJ3IIN87v-Pbs",
+          "commit": {
+            "abbreviatedOid": "7c54836"
+          },
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-03-28T21:49:24Z",
+          "updatedAt": "2026-03-28T21:49:24Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 240,
+      "id": "PR_kwDOJ3IIN87OKXHh",
+      "title": "Clarify attestation statements in CSR example",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/240",
+      "state": "OPEN",
+      "author": "mstjohns",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Reworded the list of attestation statements for clarity.\r\n\r\nFeel free to reject this one.  But none of the capitalized structures appear here anymore, and there's really no reason to try and put them in a specific structure - especially AttesatationResult... \r\n",
+      "createdAt": "2026-03-27T21:09:10Z",
+      "updatedAt": "2026-03-28T21:51:40Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "d9d3d4fbe6c4c518d9aff8183a840492a9b2ad23",
+      "headRepository": "mstjohns/csr-attestation",
+      "headRefName": "patch-5",
+      "headRefOid": "21eb1d6e8833de29525ce1edd3e9bfbe3b919716",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "mstjohns",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Lowercase \"evidence\" might make sense, but then leads to issues with the other two.  As I've written this is best read as \"an AttestationStatement that says that a key pair was generated in an HSM\" and \"a second AttestationStatement that says a particular platform is company owned\" and \"a third Attestation that says a particular platform is in a known good state\". \n\nNo reason to beg the question of what's meant by Evidence, or Endorsement or AttestationResult or questions like \"does a statement about a platform ownership have to be a RATS Endorsement? Why?\"   ",
+          "createdAt": "2026-03-27T23:25:57Z",
+          "updatedAt": "2026-03-27T23:25:57Z"
+        },
+        {
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I am OK with just listing the features instead of listing the RATS technical terms.",
+          "createdAt": "2026-03-28T06:35:45Z",
+          "updatedAt": "2026-03-28T06:35:45Z"
+        },
+        {
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "I could go either way on this; I have no real opinion. I'll let someone else decide whether to merge or close.",
+          "createdAt": "2026-03-28T21:51:40Z",
+          "updatedAt": "2026-03-28T21:51:40Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJ3IIN87v2sya",
+          "commit": {
+            "abbreviatedOid": "21eb1d6"
+          },
+          "author": "mcr",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "I wouldn't make this change.\nI would change \"an Evidence\" to just \"Evidence\"",
+          "createdAt": "2026-03-27T23:03:50Z",
+          "updatedAt": "2026-03-27T23:03:50Z",
+          "comments": []
+        }
+      ]
     }
   ]
 }

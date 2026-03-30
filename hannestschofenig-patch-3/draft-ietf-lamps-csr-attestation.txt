@@ -5,13 +5,13 @@
 Network Working Group                                       M. Ounsworth
 Internet-Draft                                            Cryptic Forest
 Intended status: Standards Track                           H. Tschofenig
-Expires: 20 September 2026                                       Siemens
+Expires: 1 October 2026                                          Siemens
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                               M. Wiseman
                                                                         
                                                                 N. Smith
-                                                           19 March 2026
+                                                           30 March 2026
 
 
      Use of Remote Attestation with Certification Signing Requests
@@ -32,11 +32,10 @@ Abstract
    have been in use for years, particularly regarding protection of
    private keys.
 
-   This specification defines an ASN.1 structure for remote attestation
-   that can accommodate proprietary and standardized attestation
-   mechanisms, as well as an attribute and an extension to carry the
-   structure in PKCS#10 and Certificate Request Message Format (CRMF)
-   messages, respectively.
+   This specification defines ASN.1 structures which may carry
+   attestation data for PKCS#10 and Certificate Request Message Format
+   (CRMF) messages.  Both standardized and proprietary attestation
+   formats are supported by this specification.
 
 About This Document
 
@@ -65,7 +64,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 20 September 2026.
+   This Internet-Draft will expire on 1 October 2026.
 
 Copyright Notice
 
@@ -111,17 +110,18 @@ Table of Contents
 1.  Introduction
 
    Certification Authorities (CAs) issuing certificates to PKI end
-   entities may require a certificate signing request (CSR) to include
+   entities may require a certificate signing request (CSR) include
    verifiable attestations that contain claims regarding the platform
    used by the end entity to generate the key pair for which a
-   certificate is sought.  At the time of writing, the most pressing
-   example of the need for remote attestation in certificate enrollment
-   is the Code-Signing Baseline Requirements (CSBR) document maintained
-   by the CA/Browser Forum [CSBR].  The [CSBR] requires compliant CAs to
-   "ensure that a Subscriber's Private Key is generated, stored, and
-   used in a secure environment that has controls to prevent theft or
-   misuse".  This requirement is a natural fit to enforce via remote
-   attestation.
+   certificate is sought and also contains claims of attributes of the
+   key pair with respect to its protection, use and extractability.  At
+   the time of writing, the most pressing example of the need for remote
+   attestation in certificate enrollment is the Code-Signing Baseline
+   Requirements (CSBR) document maintained by the CA/Browser Forum
+   [CSBR].  The [CSBR] requires compliant CAs to "ensure that a
+   Subscriber's Private Key is generated, stored, and used in a secure
+   environment that has controls to prevent theft or misuse".  This
+   requirement is a natural fit to enforce via remote attestation.
 
    This specification defines an attribute and an extension that allow
    for conveyance of verifiable attestations in several Certificate
@@ -133,6 +133,9 @@ Table of Contents
    attestation technologies.  This aligns with the fact that a CA may
    wish to provide support for a variety of types of devices but cannot
    dictate what format a device uses to represent attestations.
+   However, if a certificate requester does not include the number and
+   types of attestations required by the CA, it is unlikely the
+   requester will receive the requested certificate.
 
    While CSRs are defined using Abstract Syntax Notation One (ASN.1),
    attestations may be defined using any data description language,
@@ -168,8 +171,8 @@ Table of Contents
    forward or process attestation statements (also see Section 1.2 of
    [RFC9683]): the Attester; Endorser; Relying Party; and Verifier.
    Attestation statements, such as Evidence, may be directed to an
-   entity taking at least one of these roles, including to an RA/CA
-   acting as a Verifier.  An RA/CA may also forward attestation
+   entity taking at least one of these roles, including to an CA/RA
+   acting as a Verifier.  An CA/RA may also forward attestation
    statements to a Verifier for appraisal.  Each attestation statements
    may contain one or more claims, including claims that may be required
    by an RA or CA.  Attestation statements transmitted by these parties
@@ -191,10 +194,10 @@ Table of Contents
    remote attestation.  Readers of this document are assumed to be
    familiar with the following terms defined in [RFC9334]: Evidence,
    Endorsement, Claim, Attestation Result (AR), Attester, Relying Party,
-   and Verifier.  Per [RFC9334], the RA/CA is the Relying Party with
+   and Verifier.  Per [RFC9334], the CA/RA is the Relying Party with
    respect to remote attestation.  This use of the term "relying party"
    differs from the traditional PKIX use of the term.  This
-   specification uses RA/CA to refer to an [RFC9334] Relying Party,
+   specification uses CA/RA to refer to an [RFC9334] Relying Party,
    which may or may not include an integrated Verifier.
 
    The term "Certification Request" message is defined in [RFC2986].
@@ -245,10 +248,6 @@ Table of Contents
    *  The type field is an OBJECT IDENTIFIER that identifies the format
       of the stmt field.
 
-   *  The bindsPublicKey field indicates whether the attestation in the
-      stmt field is cryptographically bound to the public key included
-      in the CSR.
-
    *  The stmt field contains the attestation for processing,
       constrained by the type field.  Formats that are not defined using
       ASN.1 MUST define an ASN.1 wrapper for use with the
@@ -257,31 +256,18 @@ Table of Contents
       purposes, where the contents of the OCTET STRING are the CBOR-
       encoded data.
 
-   *  The attrs field enables the inclusion of Attribute values that may
-      inform the verification of the stmt.  This specification does not
-      define any Attribute instances.
+   ATTESTATION-STATEMENT ::= TYPE-IDENTIFIER
 
-   *  The attrs field is not bound to the type of attestation to
-      facilitate reuse of attribute types across attestation statement
-      types and to allow for parsing of an AttestationStatement with no
-      knowledge of the details of a specific type.
+   AttestationStatement ::= SEQUENCE {
+      type   ATTESTATION-STATEMENT.&id({AttestationStatementSet}),
+      stmt   ATTESTATION-STATEMENT.&Type({AttestationStatementSet}{@type})
+   }
 
-ATTESTATION-STATEMENT ::= TYPE-IDENTIFIER
-
-AttestAttrSet ATTRIBUTE ::= { ... }
-
-AttestationStatement ::= SEQUENCE {
-   type   ATTESTATION-STATEMENT.&id({AttestationStatementSet}),
-   bindsPublicKey [0] BOOLEAN DEFAULT TRUE,
-   stmt   ATTESTATION-STATEMENT.&Type({AttestationStatementSet}{@type}),
-   attrs  [1] Attributes {{AttestAttrSet}} OPTIONAL
-}
-
-             Figure 1: Definition of AttestationStatement
+                Figure 1: Definition of AttestationStatement
 
    In some cases, a CA may require CSRs to include a variety of claims,
    which may require the cooperation of more than one Attester.
-   Similarly, a RA/CA may outsource verification of claims from
+   Similarly, a CA/RA may outsource verification of claims from
    different Attesters to a single Verifier.  The AttestationBundle
    structure, Figure 2, facilitates the representation of one or more
    AttestationStatement structures along with an OPTIONAL collection of
@@ -320,6 +306,7 @@ AttestationStatement ::= SEQUENCE {
              -- Obsolete
         [[4: v2AttrCert [2] IMPLICIT AttributeCertificateV2]],
         [[5: other      [3] IMPLICIT OtherCertificateFormat]] }
+
       OTHER-CERT-FMT ::= TYPE-IDENTIFIER
 
       OtherCertificateFormat ::= SEQUENCE {
@@ -328,8 +315,9 @@ AttestationStatement ::= SEQUENCE {
         otherCert       OTHER-CERT-FMT.
                 &Type({SupportedCertFormats}{@otherCertFormat})}
 
-   LimitedCertChoices ::= CertificateChoices (WITH COMPONENTS {\
-                                                    certificate, other})
+      LimitedCertChoices ::=
+         CertificateChoices
+             (WITH COMPONENTS {certificate, other})
 
    The certs field contains a set of certificates that may be used to
    validate an AttestationStatement contained in attestations.  For each
@@ -394,16 +382,32 @@ AttestationStatement ::= SEQUENCE {
    certificates due to the privacy implications of publishing
    information about the end entity's hardware environment.
 
-   Due to the nature of the PKIX ASN.1 classes [RFC5912], there are
-   multiple ways to convey multiple attestation statements: by including
-   multiple copies of attr-attestations or ext-attestations, multiple
-   values within the attribute or extension, and finally, by including
-   multiple AttestationStatement structures within an AttestationBundle.
-   The latter is the preferred way to carry multiple Attestations
-   statements.  Implementations MUST NOT place multiple copies of attr-
-   attestations into a PKCS#10 CSR due to the COUNTS MAX 1 declaration.
-   In a CRMF CSR, implementers SHOULD NOT place multiple
-   AttestationBundle instances in ext-attestations.
+   Multiple different types of AttestationStatement(s) may be included
+   within a single top-level AttestationBundle.  Note that this document
+   does not require the AttestationBundle.attestations field to contain
+   only one AttestationStatement of a given type.  For example, if a
+   given type is a "wrapper" type containing the conceptual message
+   wrapper (CMW) structure [I-D.ietf-rats-msg-wrap], multiple copies of
+   a CMW-typed AttestationStatement may be included.
+
+   Per [RFC5280] no more than one instance of a given type of Extension
+   may be carried within an Extensions structure, so an Extensions
+   structure MUST contain no more than one Extension of type id-aa-
+   attestation.
+
+   PKCS#10 uses the legacy structures Attributes and Attribute rather
+   than the later defined SingleAttribute and AttributeSet structures -
+   all of which are defined against the ATTRIBUTE ASN.1 CLASS.  The
+   ATTRIBUTE CLASS has a COUNTS MAX n clause which can be used to limit
+   the copies of ATTRIBUTE related structures.  For the purposes of this
+   document the COUNTS MAX 1 clause in the attr-attestation shall be
+   taken to mean the following:
+
+   *  An Attributes structure carried within a PKCS#10 CSR MUST contain
+      no more than one Attribute of type id-aa-attestation.
+
+   *  An Attribute of type id-aa-attestation MUST contain exactly one
+      copy of an AttestationBundle.
 
 5.  IANA Considerations
 
@@ -431,8 +435,10 @@ AttestationStatement ::= SEQUENCE {
 
    *  Attestation Statement
 
-   *  Decimal: IANA Assigned - This was early-allocated as 59 so that we
-      could generate the sample data.
+   *  Decimal: IANA Assigned - Note: .59 has already been early-
+      allocated as "id-aa-evidence" referencing this document, so the
+      request is to change the name of this entry to "id-aa-attestation"
+      and leave the allocation of .59 as-is.
 
    *  Description: id-aa-attestation
 
@@ -450,6 +456,9 @@ AttestationStatement ::= SEQUENCE {
    policies is satisfied.  The CA/RA is also free to discard the
    additional information without processing.
 
+   A CA which accepts or requires attestation(s) SHOULD document its
+   requirements with its Certification Practice Statement(s).
+
    The remainder of this section identifies security considerations that
    apply when the CA/RA chooses to verify the attestation as part of the
    evaluation of a CSR.
@@ -460,8 +469,8 @@ AttestationStatement ::= SEQUENCE {
    responsible for validating the binding between the public key and the
    attestation(s) in the CSR.  For CAs issuing in conformance with the
    CA/Browser Forum’s Code Signing Baseline Requirements, this means
-   verifying the attestation of HSM generation pertains to the public
-   key in the CSR.
+   verifying the attestation of HSM generation and protection is
+   cryptographically bound to the public key in the CSR.
 
    Multiple attestations from multiple sources, as envisioned in
    [RFC9334], can introduce additional complications as shown in the
@@ -485,13 +494,13 @@ AttestationStatement ::= SEQUENCE {
    to the public key in the CSR.  That is, the CA/RA must analyze the
    attestations to ensure that:
 
-   1.  the attestation of HSM generation in AttestationStatement 1
+   1.  the attestation of HSM generation by AttestationStatement 1
        applies to the public key in the CSR;
 
-   2.  the attestation of company ownership in AttestationStatement 2
+   2.  the attestation of company ownership by AttestationStatement 2
        applies to the platform that contains the HSM; and
 
-   3.  the attestation that a platform was in a known good state in
+   3.  the attestation that a platform was in a known good state by
        AttestationStatement 3 applies to the platform that contains the
        HSM.
 
@@ -590,11 +599,6 @@ AttestationStatement ::= SEQUENCE {
               DOI 10.17487/RFC7030, October 2013,
               <https://www.rfc-editor.org/rfc/rfc7030>.
 
-   [RFC8126]  Cotton, M., Leiba, B., and T. Narten, "Guidelines for
-              Writing an IANA Considerations Section in RFCs", BCP 26,
-              RFC 8126, DOI 10.17487/RFC8126, June 2017,
-              <https://www.rfc-editor.org/rfc/rfc8126>.
-
    [RFC9683]  Fedorkow, G. C., Ed., Voit, E., and J. Fitzgerald-McKay,
               "Remote Integrity Verification of Network Devices
               Containing Trusted Platform Modules", RFC 9683,
@@ -622,22 +626,16 @@ Appendix B.  ASN.1 Module
 
    IMPORTS
 
-   Certificate, id-pkix
-   FROM PKIX1Explicit-2009 -- from [RFC5912]
-   { iso(1) identified-organization(3) dod(6) internet(1)
-   security(5) mechanisms(5) pkix(7) id-mod(0)
-   id-mod-pkix1-explicit-02(51) }
-
-   CertificateChoices, Attributes{}
+   CertificateChoices
      FROM CryptographicMessageSyntax-2010 -- from [RFC6268]
        { iso(1) member-body(2) us(840) rsadsi(113549)
        pkcs(1) pkcs-9(9) smime(16) modules(0) id-mod-cms-2009(58) }
 
-   EXTENSION, ATTRIBUTE, AttributeSet{}, SingleAttribute{}
-   FROM PKIX-CommonTypes-2009 -- from [RFC5912]
-   { iso(1) identified-organization(3) dod(6) internet(1)
-   security(5) mechanisms(5) pkix(7) id-mod(0)
-   id-mod-pkixCommon-02(57) }
+   EXTENSION, ATTRIBUTE
+     FROM PKIX-CommonTypes-2009 -- from [RFC5912]
+       { iso(1) identified-organization(3) dod(6) internet(1)
+       security(5) mechanisms(5) pkix(7) id-mod(0)
+       id-mod-pkixCommon-02(57) }
 
    id-aa
      FROM SecureMimeMessageV3dot1-2009
@@ -651,14 +649,10 @@ Appendix B.  ASN.1 Module
       ... -- None defined in this document --
    }
 
-   AttestAttrSet ATTRIBUTE ::= { ... }
-
    AttestationStatement ::= SEQUENCE {
       type   ATTESTATION-STATEMENT.&id({AttestationStatementSet}),
-      bindsPublicKey [0] BOOLEAN DEFAULT TRUE,
       stmt   ATTESTATION-STATEMENT.&Type(
-                 {AttestationStatementSet}{@type}),
-      attrs  [1] Attributes {{AttestAttrSet}} OPTIONAL
+                 {AttestationStatementSet}{@type})
    }
 
    -- Arc for Attestation types
@@ -677,8 +671,10 @@ Appendix B.  ASN.1 Module
      IDENTIFIED BY id-aa-attestation
    }
 
-   LimitedCertChoices ::= CertificateChoices
-       (WITH COMPONENTS {certificate, other})
+   -- Allow either X.509 or OTHER-CERT certificates
+   LimitedCertChoices ::=
+       CertificateChoices
+          (WITH COMPONENTS {certificate, other})
 
    AttestationBundle ::= SEQUENCE {
       attestations SEQUENCE SIZE (1..MAX) OF AttestationStatement,
@@ -738,8 +734,8 @@ Authors' Addresses
 
 
    Monty Wiseman
-   United States of America
-   Email: mwiseman32@acm.org
+   United States
+   Email: mwiseman@computer.org
 
 
    Ned Smith

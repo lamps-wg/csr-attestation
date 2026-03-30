@@ -51,7 +51,7 @@ author:
   -
     ins: M. Wiseman
     name: Monty Wiseman
-    country: USA
+    country: United States
     email: mwiseman@computer.org
   -
     ins: N. Smith
@@ -68,7 +68,6 @@ normative:
   RFC5280:
 
 informative:
-  RFC8126:
   I-D.ietf-rats-msg-wrap:
   RFC7030:
   RFC9683:

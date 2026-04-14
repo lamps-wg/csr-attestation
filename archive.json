@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-03-31T01:55:07.261329+00:00",
+  "timestamp": "2026-04-14T02:02:29.479597+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -2802,6 +2802,22 @@
       "body": "Carl:\n\n> How about something like: Attestations attached to a CSR that make claims about the key, i.e., characteristics of key generation, storage, usage, etc., MUST be cryptographically bound to the public key contained in the CSR. CAs MAY reject or ignore attestations containing such claims that are not cryptographically bound to the key. \n\nMikeO:\n\n> I see where you're going. Some sort of note that the CA / RA is responsible for parsing the attestation, verifying it, and extracting the data that it needs according to its cert issuance profile, and should not assume that the precedence\u00a0of attestation data implies anything about how the private key is stored.\n\n\nMSJ:\n\n>  think section 6 - Security Considerations covers this....  mostly because the actual acceptance policy is for the CA to decide.\n> I did provide some fairly comprehensive text on CA responsibilities to your design team's rewrite, but they were mostly not incorporated.  At this point, a separate informational draft on CA behavior in the face of  attestations in a CSR would probably be more productive than twiddling this document more.\n\nhttps://mailarchive.ietf.org/arch/msg/spasm/x1kcRyoOMvTrWU7Enei0nMXGbuo/",
       "createdAt": "2026-03-30T19:45:48Z",
       "updatedAt": "2026-03-30T19:46:26Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 244,
+      "id": "I_kwDOJ3IIN879vY8F",
+      "title": "Hendrik Brockhaus comments 2026-04-10",
+      "url": "https://github.com/lamps-wg/csr-attestation/issues/244",
+      "state": "OPEN",
+      "author": "ounsworth",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Questions:\n\n-   If two verifiers use the same format, i.e., the same OID, how can a CA/RA distinguish which evidence to give to which verifier for verification?\n\nWe have a similar issue in the attestation-freshness draft. If an attester receives different nonces from two verifiers for the same evidence format (OID), how does the attester know which nonce to use for which evidence?\n\nI discussed the points with Hannes last year but wanted to wait and see what would happen to hint.\n\n-   Could you mention the attestation-freshness draft (https://datatracker.ietf.org/doc/draft-ietf-lamps-attestation-freshness/) as work in progress in Section 6.2?\n\nNits:\n\n-   Section 1:\n\n\u2026 technology-agnostic as is feasible \u2026\n\nIs the \u2018is\u2019 too much?\n\n-   Section 4.1:\n\nYou probably wanted to delete \u201cAttestAttrSet ATTRIBUTE ::= { ... }\u201d\n\n-   Section 4.2:\n\nBullet list missing in last paragraph.\n\n-   Section 6:\n\nIf I am not confused PKCS#10 uses attribute types and CRMF uses extension types.\n\nOLD:\n\nThis document defines a structure to convey attestations as additional information in CSRs, as well as an extension to convey that structure in the Certification Request Message defined in RFC2986 and an attribute to convey that structure in the Certificate Request Message Format defined in RFC4211.\n\nNEW:\n\nThis document defines a structure to convey attestations as additional information in CSRs, as well as an attribute to convey that structure in the Certification Request Message defined in RFC2986 and an extension to convey that structure in the Certificate Request Message Format defined in RFC4211.\n\n-   Section 6.1:\n\nThe apostrophe in \u201c\u2026 CA/Browser Forum\u2019s Code Signing \u2026\u201d formats \u201c,\u00c4\u00f6\u201d in my txt file. Maybe it should be \u2018 instead of \u2019.",
+      "createdAt": "2026-04-13T18:32:57Z",
+      "updatedAt": "2026-04-13T18:32:57Z",
       "closedAt": null,
       "comments": []
     }

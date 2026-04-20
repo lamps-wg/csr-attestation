@@ -295,8 +295,8 @@ SMI Security for S/MIME Attributes (1.2.840.113549.1.9.16.2).
 # Security Considerations
 
 This document defines a structure to convey
-attestations as additional information in CSRs, as well as an extension to convey that structure in the
-Certification Request Message defined in {[RFC2986]} and an attribute to convey that structure in the
+attestations as additional information in CSRs, as well as an attribute to convey that structure in the
+Certification Request Message defined in {[RFC2986]} and an extension to convey that structure in the
 Certificate Request Message Format defined in {[RFC4211]}.
 The CA/RA that receives the CSR may choose to verify the attestation(s) to determine if an issuance policy is met, or which of a suite of policies is satisfied. The CA/RA is also free to discard the additional information without processing.
 
@@ -306,7 +306,7 @@ The remainder of this section identifies security considerations that apply when
 
 ## Binding Attestations to the CSR's Public Key
 
-Regardless of the topological model, the CA/RA is ultimately responsible for validating the binding between the public key and the attestation(s) in the CSR. For CAs issuing in conformance with the CA/Browser Forum’s Code Signing Baseline Requirements, this means verifying the attestation of HSM generation and protection is cryptographically bound to the public key in the CSR.
+Regardless of the topological model, the CA/RA is ultimately responsible for validating the binding between the public key and the attestation(s) in the CSR. For CAs issuing in conformance with the CA/Browser Forum's Code Signing Baseline Requirements, this means verifying the attestation of HSM generation and protection is cryptographically bound to the public key in the CSR.
 
 Multiple attestations from multiple sources, as envisioned in {{RFC9334}}, can introduce additional complications as shown in the following example.
 

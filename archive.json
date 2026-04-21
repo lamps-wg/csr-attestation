@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-04-14T02:02:29.479597+00:00",
+  "timestamp": "2026-04-21T02:04:17.957163+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -1463,9 +1463,17 @@
       "labels": [],
       "body": "Functionality that we need to exercise in the examples:\r\n- [ ] Multiple evidence statements in a single bundle.\r\n- [ ] Multiple evidence bundles.",
       "createdAt": "2024-05-06T16:39:22Z",
-      "updatedAt": "2024-05-10T12:09:05Z",
+      "updatedAt": "2026-04-19T22:00:31Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "mstjohns",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Suggest closing this issue - OBE.",
+          "createdAt": "2026-04-19T22:00:30Z",
+          "updatedAt": "2026-04-19T22:00:30Z"
+        }
+      ]
     },
     {
       "number": 121,
@@ -1497,7 +1505,7 @@
       "labels": [],
       "body": "Replace the TBD in:\r\n\r\n> Registration requests are evaluated using the criteria described in\r\nthe registration template below after a three-week review period on\r\nthe [[TBD]] mailing list",
       "createdAt": "2024-05-10T12:29:37Z",
-      "updatedAt": "2025-02-27T17:09:08Z",
+      "updatedAt": "2026-04-19T22:03:32Z",
       "closedAt": null,
       "comments": [
         {
@@ -1506,6 +1514,13 @@
           "body": "We should talk to the chairs about this list (or to IANA).",
           "createdAt": "2025-02-27T17:09:07Z",
           "updatedAt": "2025-02-27T17:09:07Z"
+        },
+        {
+          "author": "mstjohns",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Suggest closing as this is OBE - a separate registry for ATTESTATION-STATEMENT types is no longer being requested.",
+          "createdAt": "2026-04-19T22:03:32Z",
+          "updatedAt": "2026-04-19T22:03:32Z"
         }
       ]
     },
@@ -2785,9 +2800,17 @@
       "labels": [],
       "body": "Russ:\n\n> The ASN.1 Module does not compile because the id-aa-attestation is not specified, and there is no placeholder with a TBD value.\n\nMikeO:\n\n> id-aa-attestation is a renaming of id-aa-evidence, which has already\u00a0been assigned as .59. I touched up the IANA Cons section on this point, but I guess I missed the ASN.1 mod.",
       "createdAt": "2026-03-30T18:40:47Z",
-      "updatedAt": "2026-03-30T18:40:47Z",
+      "updatedAt": "2026-04-19T22:05:06Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "mstjohns",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Suggest marking as resolved or fixed.  Fixed in the current editors copy.",
+          "createdAt": "2026-04-19T22:05:05Z",
+          "updatedAt": "2026-04-19T22:05:05Z"
+        }
+      ]
     },
     {
       "number": 243,
@@ -2801,9 +2824,17 @@
       "labels": [],
       "body": "Carl:\n\n> How about something like: Attestations attached to a CSR that make claims about the key, i.e., characteristics of key generation, storage, usage, etc., MUST be cryptographically bound to the public key contained in the CSR. CAs MAY reject or ignore attestations containing such claims that are not cryptographically bound to the key. \n\nMikeO:\n\n> I see where you're going. Some sort of note that the CA / RA is responsible for parsing the attestation, verifying it, and extracting the data that it needs according to its cert issuance profile, and should not assume that the precedence\u00a0of attestation data implies anything about how the private key is stored.\n\n\nMSJ:\n\n>  think section 6 - Security Considerations covers this....  mostly because the actual acceptance policy is for the CA to decide.\n> I did provide some fairly comprehensive text on CA responsibilities to your design team's rewrite, but they were mostly not incorporated.  At this point, a separate informational draft on CA behavior in the face of  attestations in a CSR would probably be more productive than twiddling this document more.\n\nhttps://mailarchive.ietf.org/arch/msg/spasm/x1kcRyoOMvTrWU7Enei0nMXGbuo/",
       "createdAt": "2026-03-30T19:45:48Z",
-      "updatedAt": "2026-03-30T19:46:26Z",
+      "updatedAt": "2026-04-19T22:06:25Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "mstjohns",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Suggest closing as no action.  Carl didn't respond to my comment or Mike's and this really doesn't add anything useful.",
+          "createdAt": "2026-04-19T22:06:25Z",
+          "updatedAt": "2026-04-19T22:06:25Z"
+        }
+      ]
     },
     {
       "number": 244,
@@ -2817,7 +2848,31 @@
       "labels": [],
       "body": "Questions:\n\n-   If two verifiers use the same format, i.e., the same OID, how can a CA/RA distinguish which evidence to give to which verifier for verification?\n\nWe have a similar issue in the attestation-freshness draft. If an attester receives different nonces from two verifiers for the same evidence format (OID), how does the attester know which nonce to use for which evidence?\n\nI discussed the points with Hannes last year but wanted to wait and see what would happen to hint.\n\n-   Could you mention the attestation-freshness draft (https://datatracker.ietf.org/doc/draft-ietf-lamps-attestation-freshness/) as work in progress in Section 6.2?\n\nNits:\n\n-   Section 1:\n\n\u2026 technology-agnostic as is feasible \u2026\n\nIs the \u2018is\u2019 too much?\n\n-   Section 4.1:\n\nYou probably wanted to delete \u201cAttestAttrSet ATTRIBUTE ::= { ... }\u201d\n\n-   Section 4.2:\n\nBullet list missing in last paragraph.\n\n-   Section 6:\n\nIf I am not confused PKCS#10 uses attribute types and CRMF uses extension types.\n\nOLD:\n\nThis document defines a structure to convey attestations as additional information in CSRs, as well as an extension to convey that structure in the Certification Request Message defined in RFC2986 and an attribute to convey that structure in the Certificate Request Message Format defined in RFC4211.\n\nNEW:\n\nThis document defines a structure to convey attestations as additional information in CSRs, as well as an attribute to convey that structure in the Certification Request Message defined in RFC2986 and an extension to convey that structure in the Certificate Request Message Format defined in RFC4211.\n\n-   Section 6.1:\n\nThe apostrophe in \u201c\u2026 CA/Browser Forum\u2019s Code Signing \u2026\u201d formats \u201c,\u00c4\u00f6\u201d in my txt file. Maybe it should be \u2018 instead of \u2019.",
       "createdAt": "2026-04-13T18:32:57Z",
-      "updatedAt": "2026-04-13T18:32:57Z",
+      "updatedAt": "2026-04-19T22:10:15Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "mstjohns",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "As noted in my email, we're not doing hints in this document - it's a RATS thing related to CMW and can be done over there once this document is done.  I think the section 1 nit is probably good as is.  The section 4.1 and 4.2 issue were fixed in the editors copy so no further action.  The PR fixes the section 6 and 6.1 issues.  Lastly, I did a minor rewrite to remove the reference to the msg-wrapper ID so we're not dependent on that for publication.  ",
+          "createdAt": "2026-04-19T22:10:15Z",
+          "updatedAt": "2026-04-19T22:10:15Z"
+        }
+      ]
+    },
+    {
+      "number": 246,
+      "id": "I_kwDOJ3IIN87_1VZV",
+      "title": "Clarify section on CSR example.",
+      "url": "https://github.com/lamps-wg/csr-attestation/issues/246",
+      "state": "OPEN",
+      "author": "mstjohns",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "The use of the terms \"Evidence, Endorsement and Attestation Result\" beg the question of whether or not RATS-specific structures need to be used for these types of attestations.  Most of these terms were already removed in the design team update.\n\nSuggest re-writing to fix some of the grammar and to remove RATS specific terms here to avoid implementer confusion.\n\n(Note - post-hoc issue to track the existing PR).",
+      "createdAt": "2026-04-19T22:16:46Z",
+      "updatedAt": "2026-04-19T22:16:46Z",
       "closedAt": null,
       "comments": []
     }
@@ -13937,9 +13992,9 @@
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
-      "body": "Reworded the list of attestation statements for clarity.\r\n\r\nFeel free to reject this one.  But none of the capitalized structures appear here anymore, and there's really no reason to try and put them in a specific structure - especially AttesatationResult... \r\n",
+      "body": "Resolve #246 \r\n\r\nReworded the list of attestation statements for clarity.\r\n\r\nFeel free to reject this one.  But none of the capitalized structures appear here anymore, and there's really no reason to try and put them in a specific structure - especially AttesatationResult... \r\n",
       "createdAt": "2026-03-27T21:09:10Z",
-      "updatedAt": "2026-03-28T21:51:40Z",
+      "updatedAt": "2026-04-19T22:17:18Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "d9d3d4fbe6c4c518d9aff8183a840492a9b2ad23",
@@ -13994,20 +14049,101 @@
       "id": "PR_kwDOJ3IIN87OhZsh",
       "title": "Remove unused reference",
       "url": "https://github.com/lamps-wg/csr-attestation/pull/241",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "hannestschofenig",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2026-03-30T07:44:20Z",
-      "updatedAt": "2026-03-30T07:44:20Z",
+      "updatedAt": "2026-04-20T16:10:29Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "0b9283e607c5b06d53148bb9ebec219ef2dbce9f",
       "headRepository": "lamps-wg/csr-attestation",
       "headRefName": "hannestschofenig-patch-3",
       "headRefOid": "91208be387b8243b2036504b9548847c489e45b2",
+      "closedAt": "2026-04-20T16:10:24Z",
+      "mergedAt": "2026-04-20T16:10:24Z",
+      "mergedBy": "ounsworth",
+      "mergeCommit": {
+        "oid": "48e5dcdf97d71a10a9e36fa9974ab6ee708e5b37"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJ3IIN87225pV",
+          "commit": {
+            "abbreviatedOid": "91208be"
+          },
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-04-20T16:07:51Z",
+          "updatedAt": "2026-04-20T16:07:51Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJ3IIN87229Zl",
+          "commit": {
+            "abbreviatedOid": "91208be"
+          },
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-04-20T16:10:18Z",
+          "updatedAt": "2026-04-20T16:10:18Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 245,
+      "id": "PR_kwDOJ3IIN87Tw4gT",
+      "title": "Resolve Hendrik's comments",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/245",
+      "state": "CLOSED",
+      "author": "mstjohns",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Resolves #244 \r\n\r\nFixed the Extension/Attribute reversal.  Rewrote the section that mentioned CMW as a wrapper type to remove a link to the as yet published ID.  Fixed the apostrophe issue.",
+      "createdAt": "2026-04-19T20:49:55Z",
+      "updatedAt": "2026-04-20T16:26:30Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "48e5dcdf97d71a10a9e36fa9974ab6ee708e5b37",
+      "headRepository": "mstjohns/csr-attestation",
+      "headRefName": "patch-6",
+      "headRefOid": "48e5dcdf97d71a10a9e36fa9974ab6ee708e5b37",
+      "closedAt": "2026-04-20T16:26:30Z",
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 247,
+      "id": "PR_kwDOJ3IIN87UBlzp",
+      "title": "Address Hendrik's comments",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/247",
+      "state": "OPEN",
+      "author": "mstjohns",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Resolve #244 Resolve #245\r\n\r\nFixed the attribute/extension associations with PKCS10 and CRMF.  Fixed the apostrophe issue.  Not adding the attestation freshness reference.",
+      "createdAt": "2026-04-20T16:32:46Z",
+      "updatedAt": "2026-04-20T16:32:46Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "48e5dcdf97d71a10a9e36fa9974ab6ee708e5b37",
+      "headRepository": "mstjohns/csr-attestation",
+      "headRefName": "patch-6",
+      "headRefOid": "61fd4367d37e14520d33bf90edd09b6295f7d637",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,

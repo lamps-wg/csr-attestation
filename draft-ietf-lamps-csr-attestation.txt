@@ -685,9 +685,11 @@ Appendix B.  ASN.1 Module
 Appendix C.  Acknowledgments
 
    This specification is the work of a design team created by the chairs
-   of the LAMPS working group.  The following persons, in no specific
-   order, contributed to the work directly, participated in design team
-   meetings, or provided review of the document.
+   of the LAMPS working group.  We would like to specifically thank Mike
+   StJohns for writing initial version of this draft and for his
+   substantial work on the final version.  The following persons, in no
+   specific order, contributed to the work directly, participated in
+   design team meetings, or provided review of the document.
 
    Richard Kettlewell, Chris Trufan, Bruno Couillard, Jean-Pierre Fiset,
    Sander Temme, Jethro Beekman, Zsolt Rózsahegyi, Ferenc Pető, Mike
@@ -697,11 +699,9 @@ Appendix C.  Acknowledgments
    Tiru Reddy, James Hagborg, A.J.  Stein, John Kemp, Daniel Migault and
    Russ Housley.
 
-   We would like to specifically thank Mike StJohns for his work on an
-   initial version of this draft.  Additionally, we would like to thank
-   Andreas Kretschmer, Hendrik Brockhaus, David von Oheimb, Corey
-   Bonnell, and Thomas Fossati for their feedback based on
-   implementation experience.
+   Additionally, we would like to thank Andreas Kretschmer, Hendrik
+   Brockhaus, David von Oheimb, Corey Bonnell, and Thomas Fossati for
+   their feedback based on implementation experience.
 
    Close to the end of the specification development process, the
    working group chairs, Russ Housley and Tim Hollebeek, reached out to

@@ -5,13 +5,13 @@
 Network Working Group                                       M. Ounsworth
 Internet-Draft                                            Cryptic Forest
 Intended status: Standards Track                           H. Tschofenig
-Expires: 22 October 2026                                         Siemens
+Expires: 6 November 2026                                         Siemens
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                               M. Wiseman
                                                                         
                                                                 N. Smith
-                                                           20 April 2026
+                                                              5 May 2026
 
 
      Use of Remote Attestation with Certification Signing Requests
@@ -64,7 +64,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 22 October 2026.
+   This Internet-Draft will expire on 6 November 2026.
 
 Copyright Notice
 
@@ -481,13 +481,12 @@ Table of Contents
    state.  The CSR might contain three AttestationStatements originated
    by three different attesters:
 
-   1.  an Evidence that a key pair was generated in an HSM;
+   1.  that a key pair was generated in an HSM;
 
-   2.  an Endorsement that states a particular platform is company-
-       owned; and
+   2.  that a particular platform is company-owned; and
 
-   3.  an Attestation Result stating a particular platform was in a
-       known good state (e.g, up to date on patches, etc.).
+   3.  that a particular platform was in a known good state (e.g, up to
+       date on patches, etc.).
 
    While each of these attestations may be independently correct, the
    CA/RA is responsible for confirming the attestations apply in concert

@@ -33,8 +33,8 @@ Request Message Format (CRMF) messages. Both standardized and proprietary attest
     platformdirs 4.9.6
     pycountry 24.6.1
     PyYAML 6.0.3
-    requests 2.32.5
-    wcwidth 0.6.0
+    requests 2.33.1
+    wcwidth 0.7.0
 -->
 <link href="draft-ietf-lamps-csr-attestation.xml" rel="alternate" type="application/rfc+xml">
 <link href="#copyright" rel="license">
@@ -1055,11 +1055,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">Remote Attestation with CSRs</td>
-<td class="right">April 2026</td>
+<td class="right">May 2026</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Ounsworth, et al.</td>
-<td class="center">Expires 22 October 2026</td>
+<td class="center">Expires 6 November 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1072,12 +1072,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-lamps-csr-attestation-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-04-20" class="published">20 April 2026</time>
+<time datetime="2026-05-05" class="published">5 May 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-10-22">22 October 2026</time></dd>
+<dd class="expires"><time datetime="2026-11-06">6 November 2026</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1138,7 +1138,7 @@ Request Message Format (CRMF) messages. Both standardized and proprietary attest
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 22 October 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 6 November 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1548,13 +1548,13 @@ The CA/RA that receives the CSR may choose to verify the attestation(s) to deter
 The CSR might contain three AttestationStatements originated by three different attesters:<a href="#section-6.1-3" class="pilcrow">¶</a></p>
 <ol start="1" type="1" class="normal type-1" id="section-6.1-4">
 <li id="section-6.1-4.1">
-            <p id="section-6.1-4.1.1">an Evidence that a key pair was generated in an HSM;<a href="#section-6.1-4.1.1" class="pilcrow">¶</a></p>
+            <p id="section-6.1-4.1.1">that a key pair was generated in an HSM;<a href="#section-6.1-4.1.1" class="pilcrow">¶</a></p>
 </li>
           <li id="section-6.1-4.2">
-            <p id="section-6.1-4.2.1">an Endorsement that states a particular platform is company-owned; and<a href="#section-6.1-4.2.1" class="pilcrow">¶</a></p>
+            <p id="section-6.1-4.2.1">that a particular platform is company-owned; and<a href="#section-6.1-4.2.1" class="pilcrow">¶</a></p>
 </li>
           <li id="section-6.1-4.3">
-            <p id="section-6.1-4.3.1">an Attestation Result stating a particular platform was in a known good state (e.g, up to date on patches, etc.).<a href="#section-6.1-4.3.1" class="pilcrow">¶</a></p>
+            <p id="section-6.1-4.3.1">that a particular platform was in a known good state (e.g, up to date on patches, etc.).<a href="#section-6.1-4.3.1" class="pilcrow">¶</a></p>
 </li>
         </ol>
 <p id="section-6.1-5">While each of these attestations may be independently correct, the CA/RA is responsible for confirming the attestations apply in concert to the public key in the CSR. That is, the CA/RA must analyze the attestations to ensure that:<a href="#section-6.1-5" class="pilcrow">¶</a></p>

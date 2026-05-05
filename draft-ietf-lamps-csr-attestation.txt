@@ -447,9 +447,9 @@ Table of Contents
 6.  Security Considerations
 
    This document defines a structure to convey attestations as
-   additional information in CSRs, as well as an extension to convey
+   additional information in CSRs, as well as an attribute to convey
    that structure in the Certification Request Message defined in
-   {[RFC2986]} and an attribute to convey that structure in the
+   {[RFC2986]} and an extension to convey that structure in the
    Certificate Request Message Format defined in {[RFC4211]}. The CA/RA
    that receives the CSR may choose to verify the attestation(s) to
    determine if an issuance policy is met, or which of a suite of
@@ -468,7 +468,7 @@ Table of Contents
    Regardless of the topological model, the CA/RA is ultimately
    responsible for validating the binding between the public key and the
    attestation(s) in the CSR.  For CAs issuing in conformance with the
-   CA/Browser Forum’s Code Signing Baseline Requirements, this means
+   CA/Browser Forum's Code Signing Baseline Requirements, this means
    verifying the attestation of HSM generation and protection is
    cryptographically bound to the public key in the CSR.
 

@@ -353,7 +353,10 @@ Examples and sample data will be collected in the "CSR Attestation Sample Data" 
 # Acknowledgments
 
 This specification is the work of a design team created by the chairs of the
-LAMPS working group. The following persons, in no specific order,
+LAMPS working group.
+We would like to specifically thank Mike StJohns for writing initial
+version of this draft and for his substantial work on the final version.
+The following persons, in no specific order,
 contributed to the work directly, participated in design team meetings, or provided review of the document.
 
 Richard Kettlewell, Chris Trufan, Bruno Couillard,
@@ -361,8 +364,7 @@ Jean-Pierre Fiset, Sander Temme, Jethro Beekman, Zsolt Rózsahegyi, Ferenc
 Pető, Mike Agrenius Kushner, Tomas Gustavsson, Dieter Bong, Christopher Meyer, Carl Wallace, Michael Richardson, Tomofumi Okubo, Olivier
 Couillard, John Gray, Eric Amador, Giri Mandyam, Darren Johnson, Herman Slatman, Tiru Reddy, James Hagborg, A.J. Stein, John Kemp, Daniel Migault and Russ Housley.
 
-We would like to specifically thank Mike StJohns for his work on an initial
-version of this draft. Additionally, we would like to thank Andreas Kretschmer, Hendrik Brockhaus,
+Additionally, we would like to thank Andreas Kretschmer, Hendrik Brockhaus,
 David von Oheimb, Corey Bonnell, and Thomas Fossati for their feedback based on implementation
 experience.
 

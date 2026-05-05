@@ -532,7 +532,7 @@ Table of Contents
    [RFC9334], Section 11 of [RFC9334], and Section 12 of [RFC9334].
    Implementers should also be aware of any security considerations
    relating to the specific attestation formats being carried within the
-   CSR. 
+   CSR.
 
 7.  References
 

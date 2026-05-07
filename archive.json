@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-04-21T02:04:17.957163+00:00",
+  "timestamp": "2026-05-07T02:26:30.521428+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -2793,15 +2793,15 @@
       "id": "I_kwDOJ3IIN874vZrK",
       "title": "Touch up the ASN.1 Mod for id-aa-attestation",
       "url": "https://github.com/lamps-wg/csr-attestation/issues/242",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "ounsworth",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Russ:\n\n> The ASN.1 Module does not compile because the id-aa-attestation is not specified, and there is no placeholder with a TBD value.\n\nMikeO:\n\n> id-aa-attestation is a renaming of id-aa-evidence, which has already\u00a0been assigned as .59. I touched up the IANA Cons section on this point, but I guess I missed the ASN.1 mod.",
       "createdAt": "2026-03-30T18:40:47Z",
-      "updatedAt": "2026-04-19T22:05:06Z",
-      "closedAt": null,
+      "updatedAt": "2026-05-05T20:41:13Z",
+      "closedAt": "2026-05-05T20:41:13Z",
       "comments": [
         {
           "author": "mstjohns",
@@ -2817,15 +2817,15 @@
       "id": "I_kwDOJ3IIN874xDXU",
       "title": "Add some wording about Key Attestation vs other types",
       "url": "https://github.com/lamps-wg/csr-attestation/issues/243",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "ounsworth",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Carl:\n\n> How about something like: Attestations attached to a CSR that make claims about the key, i.e., characteristics of key generation, storage, usage, etc., MUST be cryptographically bound to the public key contained in the CSR. CAs MAY reject or ignore attestations containing such claims that are not cryptographically bound to the key. \n\nMikeO:\n\n> I see where you're going. Some sort of note that the CA / RA is responsible for parsing the attestation, verifying it, and extracting the data that it needs according to its cert issuance profile, and should not assume that the precedence\u00a0of attestation data implies anything about how the private key is stored.\n\n\nMSJ:\n\n>  think section 6 - Security Considerations covers this....  mostly because the actual acceptance policy is for the CA to decide.\n> I did provide some fairly comprehensive text on CA responsibilities to your design team's rewrite, but they were mostly not incorporated.  At this point, a separate informational draft on CA behavior in the face of  attestations in a CSR would probably be more productive than twiddling this document more.\n\nhttps://mailarchive.ietf.org/arch/msg/spasm/x1kcRyoOMvTrWU7Enei0nMXGbuo/",
       "createdAt": "2026-03-30T19:45:48Z",
-      "updatedAt": "2026-04-19T22:06:25Z",
-      "closedAt": null,
+      "updatedAt": "2026-05-05T22:44:03Z",
+      "closedAt": "2026-05-05T22:44:03Z",
       "comments": [
         {
           "author": "mstjohns",
@@ -2841,15 +2841,15 @@
       "id": "I_kwDOJ3IIN879vY8F",
       "title": "Hendrik Brockhaus comments 2026-04-10",
       "url": "https://github.com/lamps-wg/csr-attestation/issues/244",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "ounsworth",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Questions:\n\n-   If two verifiers use the same format, i.e., the same OID, how can a CA/RA distinguish which evidence to give to which verifier for verification?\n\nWe have a similar issue in the attestation-freshness draft. If an attester receives different nonces from two verifiers for the same evidence format (OID), how does the attester know which nonce to use for which evidence?\n\nI discussed the points with Hannes last year but wanted to wait and see what would happen to hint.\n\n-   Could you mention the attestation-freshness draft (https://datatracker.ietf.org/doc/draft-ietf-lamps-attestation-freshness/) as work in progress in Section 6.2?\n\nNits:\n\n-   Section 1:\n\n\u2026 technology-agnostic as is feasible \u2026\n\nIs the \u2018is\u2019 too much?\n\n-   Section 4.1:\n\nYou probably wanted to delete \u201cAttestAttrSet ATTRIBUTE ::= { ... }\u201d\n\n-   Section 4.2:\n\nBullet list missing in last paragraph.\n\n-   Section 6:\n\nIf I am not confused PKCS#10 uses attribute types and CRMF uses extension types.\n\nOLD:\n\nThis document defines a structure to convey attestations as additional information in CSRs, as well as an extension to convey that structure in the Certification Request Message defined in RFC2986 and an attribute to convey that structure in the Certificate Request Message Format defined in RFC4211.\n\nNEW:\n\nThis document defines a structure to convey attestations as additional information in CSRs, as well as an attribute to convey that structure in the Certification Request Message defined in RFC2986 and an extension to convey that structure in the Certificate Request Message Format defined in RFC4211.\n\n-   Section 6.1:\n\nThe apostrophe in \u201c\u2026 CA/Browser Forum\u2019s Code Signing \u2026\u201d formats \u201c,\u00c4\u00f6\u201d in my txt file. Maybe it should be \u2018 instead of \u2019.",
       "createdAt": "2026-04-13T18:32:57Z",
-      "updatedAt": "2026-04-19T22:10:15Z",
-      "closedAt": null,
+      "updatedAt": "2026-05-05T19:42:37Z",
+      "closedAt": "2026-05-05T19:42:37Z",
       "comments": [
         {
           "author": "mstjohns",
@@ -2857,6 +2857,20 @@
           "body": "As noted in my email, we're not doing hints in this document - it's a RATS thing related to CMW and can be done over there once this document is done.  I think the section 1 nit is probably good as is.  The section 4.1 and 4.2 issue were fixed in the editors copy so no further action.  The PR fixes the section 6 and 6.1 issues.  Lastly, I did a minor rewrite to remove the reference to the msg-wrapper ID so we're not dependent on that for publication.  ",
           "createdAt": "2026-04-19T22:10:15Z",
           "updatedAt": "2026-04-19T22:10:15Z"
+        },
+        {
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "@mstjohns \n> we're not doing hints in this document - it's a RATS thing related to CMW\n\nThat statement is at least 90% untrue. For example, WebAuthn has the same problem that a payload labelled with the webauthn OID tells you nothing about whether it's from a yubico or a Android, or whatever. And WebAuthn has exactly nothing to do with the RATS WG. While I recognize that you have a disdain for the RATS WG, please stop bringing it into this conversation.\n\nBut thank you for the other edits.",
+          "createdAt": "2026-05-05T16:25:45Z",
+          "updatedAt": "2026-05-05T16:25:45Z"
+        },
+        {
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "My answer to Hendrik:\n\n>>  If two verifiers use the same format, i.e., the same OID, how can a CA/RA distinguish which evidence to give to which verifier for verification?\n\n> We have a similar issue in the attestation-freshness draft. If an attester receives different nonces from two verifiers for the same evidence format (OID), how does the attester know which nonce to use for which evidence?\n\nThis is the \"ambiguous routing problem\". We were unable to find an elegant technical solution -- see the \"hint\" debate that took like a full year. So the answer then is that if a CA/RA has to handle similar-but-different formats that it cannot disambiguate by OID, then it is going to need a full-stack parser.\n\nI took a quick look at draft-ietf-lamps-attestation-freshness-06, and I'm not sure that I can offer anything helpful -- we couldn't find an elegant solution and you have added complexity that this is all wrapped up in CMC controls. Sorry.\n\nI have merged PR #247 -- thank you for pointing those out, and to MSJ for submitting the PR.",
+          "createdAt": "2026-05-05T19:41:24Z",
+          "updatedAt": "2026-05-05T19:42:24Z"
         }
       ]
     },
@@ -2865,16 +2879,24 @@
       "id": "I_kwDOJ3IIN87_1VZV",
       "title": "Clarify section on CSR example.",
       "url": "https://github.com/lamps-wg/csr-attestation/issues/246",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "mstjohns",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "The use of the terms \"Evidence, Endorsement and Attestation Result\" beg the question of whether or not RATS-specific structures need to be used for these types of attestations.  Most of these terms were already removed in the design team update.\n\nSuggest re-writing to fix some of the grammar and to remove RATS specific terms here to avoid implementer confusion.\n\n(Note - post-hoc issue to track the existing PR).",
       "createdAt": "2026-04-19T22:16:46Z",
-      "updatedAt": "2026-04-19T22:16:46Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2026-05-05T18:44:22Z",
+      "closedAt": "2026-05-05T16:45:53Z",
+      "comments": [
+        {
+          "author": "mstjohns",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Hi Mike - if you merge 247, that should resolve all of the last call\r\ncomments.\r\n\r\nMike\r\nOn Tue, May 5, 2026 at 12:46 Mike Ounsworth ***@***.***>\r\nwrote:\r\n\r\n> Closed #246 <https://github.com/lamps-wg/csr-attestation/issues/246> as\r\n> completed via #240 <https://github.com/lamps-wg/csr-attestation/pull/240>.\r\n>\r\n> \u2014\r\n> Reply to this email directly, view it on GitHub\r\n> <https://github.com/lamps-wg/csr-attestation/issues/246#event-25185798259>,\r\n> or unsubscribe\r\n> <https://github.com/notifications/unsubscribe-auth/AB5TYEO2DWYZHGHAMMX77634ZILFNAVCNFSM6AAAAACX63IBOSVHI2DSMVQWIX3LMV45UABCJFZXG5LFIV3GK3TUJZXXI2LGNFRWC5DJN5XDWMRVGE4DKNZZHAZDKOI>\r\n> .\r\n> You are receiving this because you authored the thread.Message ID:\r\n> ***@***.***>\r\n>\r\n",
+          "createdAt": "2026-05-05T18:44:22Z",
+          "updatedAt": "2026-05-05T18:44:22Z"
+        }
+      ]
     }
   ],
   "pulls": [
@@ -13987,24 +14009,26 @@
       "id": "PR_kwDOJ3IIN87OKXHh",
       "title": "Clarify attestation statements in CSR example",
       "url": "https://github.com/lamps-wg/csr-attestation/pull/240",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "mstjohns",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Resolve #246 \r\n\r\nReworded the list of attestation statements for clarity.\r\n\r\nFeel free to reject this one.  But none of the capitalized structures appear here anymore, and there's really no reason to try and put them in a specific structure - especially AttesatationResult... \r\n",
       "createdAt": "2026-03-27T21:09:10Z",
-      "updatedAt": "2026-04-19T22:17:18Z",
+      "updatedAt": "2026-05-05T16:45:52Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "d9d3d4fbe6c4c518d9aff8183a840492a9b2ad23",
       "headRepository": "mstjohns/csr-attestation",
       "headRefName": "patch-5",
       "headRefOid": "21eb1d6e8833de29525ce1edd3e9bfbe3b919716",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2026-05-05T16:45:52Z",
+      "mergedAt": "2026-05-05T16:45:52Z",
+      "mergedBy": "ounsworth",
+      "mergeCommit": {
+        "oid": "cddb1bd576f1c8ed0c51d1df27bd73e395397e37"
+      },
       "comments": [
         {
           "author": "mstjohns",
@@ -14026,6 +14050,13 @@
           "body": "I could go either way on this; I have no real opinion. I'll let someone else decide whether to merge or close.",
           "createdAt": "2026-03-28T21:51:40Z",
           "updatedAt": "2026-03-28T21:51:40Z"
+        },
+        {
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "For the record, I disagree with MSJ: RATS is the IETF's remote attestation WG, and therefore if another WG is doing attestation work; they should base the terminology and architecture on 9334. But I will merge this anyway just so that we stop arguing.",
+          "createdAt": "2026-05-05T16:45:47Z",
+          "updatedAt": "2026-05-05T16:45:47Z"
         }
       ],
       "reviews": [
@@ -14130,26 +14161,42 @@
       "id": "PR_kwDOJ3IIN87UBlzp",
       "title": "Address Hendrik's comments",
       "url": "https://github.com/lamps-wg/csr-attestation/pull/247",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "mstjohns",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Resolve #244 Resolve #245\r\n\r\nFixed the attribute/extension associations with PKCS10 and CRMF.  Fixed the apostrophe issue.  Not adding the attestation freshness reference.",
       "createdAt": "2026-04-20T16:32:46Z",
-      "updatedAt": "2026-04-20T16:32:46Z",
+      "updatedAt": "2026-05-05T19:42:36Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "48e5dcdf97d71a10a9e36fa9974ab6ee708e5b37",
       "headRepository": "mstjohns/csr-attestation",
       "headRefName": "patch-6",
       "headRefOid": "61fd4367d37e14520d33bf90edd09b6295f7d637",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2026-05-05T19:42:36Z",
+      "mergedAt": "2026-05-05T19:42:36Z",
+      "mergedBy": "ounsworth",
+      "mergeCommit": {
+        "oid": "ef144543d7c422596b9e3331433fff1d2815a4c5"
+      },
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOJ3IIN878Mask",
+          "commit": {
+            "abbreviatedOid": "61fd436"
+          },
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-05-05T19:42:28Z",
+          "updatedAt": "2026-05-05T19:42:28Z",
+          "comments": []
+        }
+      ]
     }
   ]
 }

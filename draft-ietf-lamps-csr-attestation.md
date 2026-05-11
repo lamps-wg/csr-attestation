@@ -87,6 +87,7 @@ Certification Authorities (CAs) issuing certificates to Public Key Infrastructur
 
 This specification defines ASN.1 structures which may carry attestation data for PKCS#10 and Certificate
 Request Message Format (CRMF) messages. Both standardized and proprietary attestation formats are supported by this specification.
+
 --- middle
 
 # Introduction
@@ -218,6 +219,7 @@ attestation key back to a trust anchor. No specific order of the certificates in
 This specification places no restriction on mixing certificate types within the `certs` field. For example a non-X.509 attestation signer certificate MAY chain to a trust anchor via a chain of X.509 certificates. It is up to the Attester and its Verifier to agree on supported certificate formats.
 
 ## AttestationStatementSet
+
 ~~~asn1
 AttestationStatementSet ATTESTATION-STATEMENT ::= {
    ... -- None defined in this document --
@@ -335,14 +337,11 @@ Attestations are intended as additional information in the issuance process, and
 
 In addition to the security considerations listed here, implementers should be familiar with the security considerations of the specifications on which this specification depends: PKCS#10 {{RFC2986}}, CRMF {{RFC4211}}, as well as general security concepts relating to remote attestation; many of these concepts are discussed in {{Section 6 of RFC9334}}, {{Section 7 of RFC9334}}, {{Section 9 of RFC9334}}, {{Section 11 of RFC9334}}, and {{Section 12 of RFC9334}}. Implementers should also be aware of any security considerations relating to the specific attestation formats being carried within the CSR.
 
-
 --- back
-
 
 # Examples
 
 Examples and sample data will be collected in the "CSR Attestation Sample Data" GitHub repository {{SampleData}}.
-
 
 # ASN.1 Module
 

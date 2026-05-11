@@ -5,13 +5,13 @@
 Network Working Group                                       M. Ounsworth
 Internet-Draft                                            Cryptic Forest
 Intended status: Standards Track                           H. Tschofenig
-Expires: 1 October 2026                                          Siemens
+Expires: 12 November 2026                                        Siemens
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                               M. Wiseman
                                                                         
                                                                 N. Smith
-                                                           30 March 2026
+                                                             11 May 2026
 
 
      Use of Remote Attestation with Certification Signing Requests
@@ -64,7 +64,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 1 October 2026.
+   This Internet-Draft will expire on 12 November 2026.
 
 Copyright Notice
 
@@ -447,9 +447,9 @@ Table of Contents
 6.  Security Considerations
 
    This document defines a structure to convey attestations as
-   additional information in CSRs, as well as an extension to convey
+   additional information in CSRs, as well as an attribute to convey
    that structure in the Certification Request Message defined in
-   {[RFC2986]} and an attribute to convey that structure in the
+   {[RFC2986]} and an extension to convey that structure in the
    Certificate Request Message Format defined in {[RFC4211]}. The CA/RA
    that receives the CSR may choose to verify the attestation(s) to
    determine if an issuance policy is met, or which of a suite of
@@ -468,7 +468,7 @@ Table of Contents
    Regardless of the topological model, the CA/RA is ultimately
    responsible for validating the binding between the public key and the
    attestation(s) in the CSR.  For CAs issuing in conformance with the
-   CA/Browser Forum’s Code Signing Baseline Requirements, this means
+   CA/Browser Forum's Code Signing Baseline Requirements, this means
    verifying the attestation of HSM generation and protection is
    cryptographically bound to the public key in the CSR.
 
@@ -481,13 +481,12 @@ Table of Contents
    state.  The CSR might contain three AttestationStatements originated
    by three different attesters:
 
-   1.  an Evidence that a key pair was generated in an HSM;
+   1.  that a key pair was generated in an HSM;
 
-   2.  an Endorsement that states a particular platform is company-
-       owned; and
+   2.  that a particular platform is company-owned; and
 
-   3.  an Attestation Result stating a particular platform was in a
-       known good state (e.g, up to date on patches, etc.).
+   3.  that a particular platform was in a known good state (e.g, up to
+       date on patches, etc.).
 
    While each of these attestations may be independently correct, the
    CA/RA is responsible for confirming the attestations apply in concert
@@ -510,7 +509,10 @@ Table of Contents
    that are stale, or whose freshness cannot be determined.  Mechanisms
    to address freshness and their application to the RATS topological
    models are discussed in [RFC9334].  Other mechanisms for determining
-   freshness may be used as the CA/RA deems appropriate.
+   freshness may be used as the CA/RA deems appropriate.  When CSRs are
+   embedded within certificate management protocols such as EST or CMP,
+   these protocols can supply the attester with a nonce.  Further
+   details are specified in [I-D.ietf-lamps-attestation-freshness].
 
 6.3.  Relationship of Attestations and Certificate Extensions
 
@@ -533,7 +535,7 @@ Table of Contents
    [RFC9334], Section 11 of [RFC9334], and Section 12 of [RFC9334].
    Implementers should also be aware of any security considerations
    relating to the specific attestation formats being carried within the
-   CSR. 
+   CSR.
 
 7.  References
 
@@ -586,6 +588,17 @@ Table of Contents
               Certificates, v.3.7", February 2024,
               <https://cabforum.org/uploads/Baseline-Requirements-for-
               the-Issuance-and-Management-of-Code-Signing.v3.7.pdf>.
+
+   [I-D.ietf-lamps-attestation-freshness]
+              Tschofenig, H., Brockhaus, H., Mandel, J., and S. Turner,
+              "Nonce-based Freshness for Remote Attestation in
+              Certificate Signing Requests (CSRs) for the Certification
+              Management Protocol (CMP), for Enrollment over Secure
+              Transport (EST), and for Certificate Management over CMS
+              (CMC)", Work in Progress, Internet-Draft, draft-ietf-
+              lamps-attestation-freshness-06, 20 April 2026,
+              <https://datatracker.ietf.org/doc/html/draft-ietf-lamps-
+              attestation-freshness-06>.
 
    [I-D.ietf-rats-msg-wrap]
               Birkholz, H., Smith, N., Fossati, T., Tschofenig, H., and
@@ -686,9 +699,11 @@ Appendix B.  ASN.1 Module
 Appendix C.  Acknowledgments
 
    This specification is the work of a design team created by the chairs
-   of the LAMPS working group.  The following persons, in no specific
-   order, contributed to the work directly, participated in design team
-   meetings, or provided review of the document.
+   of the LAMPS working group.  We would like to specifically thank Mike
+   StJohns for writing initial version of this draft and for his
+   substantial work on the final version.  The following persons, in no
+   specific order, contributed to the work directly, participated in
+   design team meetings, or provided review of the document.
 
    Richard Kettlewell, Chris Trufan, Bruno Couillard, Jean-Pierre Fiset,
    Sander Temme, Jethro Beekman, Zsolt Rózsahegyi, Ferenc Pető, Mike
@@ -698,11 +713,9 @@ Appendix C.  Acknowledgments
    Tiru Reddy, James Hagborg, A.J.  Stein, John Kemp, Daniel Migault and
    Russ Housley.
 
-   We would like to specifically thank Mike StJohns for his work on an
-   initial version of this draft.  Additionally, we would like to thank
-   Andreas Kretschmer, Hendrik Brockhaus, David von Oheimb, Corey
-   Bonnell, and Thomas Fossati for their feedback based on
-   implementation experience.
+   Additionally, we would like to thank Andreas Kretschmer, Hendrik
+   Brockhaus, David von Oheimb, Corey Bonnell, and Thomas Fossati for
+   their feedback based on implementation experience.
 
    Close to the end of the specification development process, the
    working group chairs, Russ Housley and Tim Hollebeek, reached out to

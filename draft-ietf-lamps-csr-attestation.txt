@@ -522,7 +522,10 @@ Table of Contents
    that are stale, or whose freshness cannot be determined.  Mechanisms
    to address freshness and their application to the RATS topological
    models are discussed in [RFC9334].  Other mechanisms for determining
-   freshness may be used as the CA/RA deems appropriate.
+   freshness may be used as the CA/RA deems appropriate.  When CSRs are
+   embedded within certificate management protocols such as EST or CMP,
+   these protocols can supply the Attester with a nonce.  Further
+   details are specified in [I-D.ietf-lamps-attestation-freshness].
 
 6.3.  Relationship of Attestations and Certificate Extensions
 
@@ -598,6 +601,17 @@ Table of Contents
               Certificates, v.3.7", February 2024,
               <https://cabforum.org/uploads/Baseline-Requirements-for-
               the-Issuance-and-Management-of-Code-Signing.v3.7.pdf>.
+
+   [I-D.ietf-lamps-attestation-freshness]
+              Tschofenig, H., Brockhaus, H., Mandel, J., and S. Turner,
+              "Nonce-based Freshness for Remote Attestation in
+              Certificate Signing Requests (CSRs) for the Certification
+              Management Protocol (CMP), for Enrollment over Secure
+              Transport (EST), and for Certificate Management over CMS
+              (CMC)", Work in Progress, Internet-Draft, draft-ietf-
+              lamps-attestation-freshness-06, 20 April 2026,
+              <https://datatracker.ietf.org/doc/html/draft-ietf-lamps-
+              attestation-freshness-06>.
 
    [I-D.ietf-rats-msg-wrap]
               Birkholz, H., Smith, N., Fossati, T., Tschofenig, H., and

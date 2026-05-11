@@ -269,6 +269,8 @@ PKCS#10 uses the legacy structures `Attributes` and `Attribute` rather than the 
 * An Attributes structure carried within a PKCS#10 CSR MUST contain no more than one Attribute of type `id-aa-attestation`.
 * An Attribute of type `id-aa-attestation` MUST contain exactly one copy of an `AttestationBundle`.
 
+When multiple Verifiers support the same attestation‑format OID, ambiguity can arise in routing attestations to the appropriate Verifier.  Resolving that ambiguity is outside the scope of this document and must be defined by the attestation‑format specification, particularly for opaque (wrapper) formats.  Two pragmatic approaches are recommended: (1) assign distinct OIDs for different verifier or verification types even when the underlying format structure is identical, or (2) encapsulate the opaque attestation object in a wrapper that carries an explicit hint.  Implementations should adopt one of these approaches and attestation‑format specifications should mandate the precise mechanism for nonce selection and routing of attestations.
+
 # IANA Considerations
 
 IANA is requested to allocate a value from the "SMI Security for PKIX Module Identifier"

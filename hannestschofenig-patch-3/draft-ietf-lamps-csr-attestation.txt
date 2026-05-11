@@ -511,7 +511,7 @@ Table of Contents
    models are discussed in [RFC9334].  Other mechanisms for determining
    freshness may be used as the CA/RA deems appropriate.  When CSRs are
    embedded within certificate management protocols such as EST or CMP,
-   these protocols can supply the attester with a nonce.  Further
+   these protocols can supply the Attester with a nonce.  Further
    details are specified in [I-D.ietf-lamps-attestation-freshness].
 
 6.3.  Relationship of Attestations and Certificate Extensions

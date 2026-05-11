@@ -69,6 +69,7 @@ normative:
 
 informative:
   I-D.ietf-rats-msg-wrap:
+  I-D.ietf-lamps-attestation-freshness:
   RFC7030:
   RFC9683:
   CSBR:
@@ -325,7 +326,7 @@ While each of these attestations may be independently correct, the CA/RA is resp
 
 ## Freshness
 
-To avoid replay attacks, the CA/RA may choose to ignore attestations that are stale, or whose freshness cannot be determined. Mechanisms to address freshness and their application to the RATS topological models are discussed in {{RFC9334}}. Other mechanisms for determining freshness may be used as the CA/RA deems appropriate.
+To avoid replay attacks, the CA/RA may choose to ignore attestations that are stale, or whose freshness cannot be determined. Mechanisms to address freshness and their application to the RATS topological models are discussed in {{RFC9334}}. Other mechanisms for determining freshness may be used as the CA/RA deems appropriate. When CSRs are embedded within certificate management protocols such as EST or CMP, these protocols can supply the attester with a nonce. Further details are specified in {{I-D.ietf-lamps-attestation-freshness}}.
 
 ## Relationship of Attestations and Certificate Extensions
 

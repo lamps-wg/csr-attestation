@@ -1468,6 +1468,7 @@ ext-attestations EXTENSION ::= {
             <p id="section-4.3-7.2.1">An Attribute of type <code>id-aa-attestation</code> <span class="bcp14">MUST</span> contain exactly one copy of an <code>AttestationBundle</code>.<a href="#section-4.3-7.2.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
+<p id="section-4.3-8">When multiple Verifiers support the same attestation‑format OID, ambiguity can arise in routing attestations to the appropriate Verifier.  Resolving that ambiguity is outside the scope of this document and must be defined by the attestation‑format specification, particularly for opaque (wrapper) formats.  Two pragmatic approaches are recommended: (1) assign distinct OIDs for different verifier or verification types even when the underlying format structure is identical, or (2) encapsulate the opaque attestation object in a wrapper that carries an explicit hint.  Implementations should adopt one of these approaches and attestation‑format specifications should mandate the precise mechanism for nonce selection and routing of attestations.<a href="#section-4.3-8" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>

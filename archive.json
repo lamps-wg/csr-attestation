@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-05-07T02:26:30.521428+00:00",
+  "timestamp": "2026-05-12T02:32:01.406276+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -14197,6 +14197,62 @@
           "comments": []
         }
       ]
+    },
+    {
+      "number": 248,
+      "id": "PR_kwDOJ3IIN87aKFFA",
+      "title": "Adding a forward reference to the LAMPS Freshness Draft",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/248",
+      "state": "MERGED",
+      "author": "hannestschofenig",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Based on the review from Hendrik",
+      "createdAt": "2026-05-11T07:56:51Z",
+      "updatedAt": "2026-05-11T09:10:30Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "568179825c1a22f5e7e21594d2747d1598ba6302",
+      "headRepository": "lamps-wg/csr-attestation",
+      "headRefName": "hannestschofenig-patch-3",
+      "headRefOid": "0b69042162d2dbf995aef8fe6c6b2c1d58e86be5",
+      "closedAt": "2026-05-11T09:10:30Z",
+      "mergedAt": "2026-05-11T09:10:30Z",
+      "mergedBy": "HBrock",
+      "mergeCommit": {
+        "oid": "2c3fcc2df168ce72b4caed13db5aa3db71c942cc"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 249,
+      "id": "PR_kwDOJ3IIN87aKY9T",
+      "title": "Multi-Verifier Scope",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/249",
+      "state": "MERGED",
+      "author": "hannestschofenig",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Based on feedback from Hendrik",
+      "createdAt": "2026-05-11T08:12:25Z",
+      "updatedAt": "2026-05-11T09:06:52Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "ecd8894bf97bc262785904ecf315b72686930e46",
+      "headRepository": "lamps-wg/csr-attestation",
+      "headRefName": "hannestschofenig-patch-7",
+      "headRefOid": "d666cf738e5b8e12b3add98333c76a2e65c43789",
+      "closedAt": "2026-05-11T09:06:51Z",
+      "mergedAt": "2026-05-11T09:06:51Z",
+      "mergedBy": "HBrock",
+      "mergeCommit": {
+        "oid": "9e49206d7068253e7b1ac90960f859c30b4c6dc2"
+      },
+      "comments": [],
+      "reviews": []
     }
   ]
 }

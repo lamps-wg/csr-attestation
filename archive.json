@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-05-12T02:32:01.406276+00:00",
+  "timestamp": "2026-05-17T02:36:49.625506+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -14210,7 +14210,7 @@
       "labels": [],
       "body": "Based on the review from Hendrik",
       "createdAt": "2026-05-11T07:56:51Z",
-      "updatedAt": "2026-05-11T09:10:30Z",
+      "updatedAt": "2026-05-15T01:30:18Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "568179825c1a22f5e7e21594d2747d1598ba6302",
@@ -14223,7 +14223,15 @@
       "mergeCommit": {
         "oid": "2c3fcc2df168ce72b4caed13db5aa3db71c942cc"
       },
-      "comments": [],
+      "comments": [
+        {
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Looks good to me.",
+          "createdAt": "2026-05-15T01:30:18Z",
+          "updatedAt": "2026-05-15T01:30:18Z"
+        }
+      ],
       "reviews": []
     },
     {
@@ -14238,7 +14246,7 @@
       "labels": [],
       "body": "Based on feedback from Hendrik",
       "createdAt": "2026-05-11T08:12:25Z",
-      "updatedAt": "2026-05-11T09:06:52Z",
+      "updatedAt": "2026-05-15T01:31:31Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "ecd8894bf97bc262785904ecf315b72686930e46",
@@ -14251,7 +14259,15 @@
       "mergeCommit": {
         "oid": "9e49206d7068253e7b1ac90960f859c30b4c6dc2"
       },
-      "comments": [],
+      "comments": [
+        {
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Sure. this is getting back into the controversial territory, but I have no objection to the added text.",
+          "createdAt": "2026-05-15T01:31:31Z",
+          "updatedAt": "2026-05-15T01:31:31Z"
+        }
+      ],
       "reviews": []
     }
   ]

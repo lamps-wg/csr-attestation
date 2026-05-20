@@ -5,13 +5,13 @@
 Network Working Group                                       M. Ounsworth
 Internet-Draft                                            Cryptic Forest
 Intended status: Standards Track                           H. Tschofenig
-Expires: 12 November 2026                                        Siemens
+Expires: 21 November 2026                                        Siemens
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                               M. Wiseman
                                                                         
                                                                 N. Smith
-                                                             11 May 2026
+                                                             20 May 2026
 
 
      Use of Remote Attestation with Certification Signing Requests
@@ -64,7 +64,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 12 November 2026.
+   This Internet-Draft will expire on 21 November 2026.
 
 Copyright Notice
 
@@ -523,9 +523,10 @@ Table of Contents
    to address freshness and their application to the RATS topological
    models are discussed in [RFC9334].  Other mechanisms for determining
    freshness may be used as the CA/RA deems appropriate.  When CSRs are
-   embedded within certificate management protocols such as EST or CMP,
-   these protocols can supply the Attester with a nonce.  Further
-   details are specified in [I-D.ietf-lamps-attestation-freshness].
+   embedded within certificate management protocols such as EST
+   [RFC7030] or CMP [RFC4210], these protocols can supply the Attester
+   with a nonce.  Further details are specified in
+   [I-D.ietf-lamps-attestation-freshness].
 
 6.3.  Relationship of Attestations and Certificate Extensions
 
@@ -619,6 +620,12 @@ Table of Contents
               in Progress, Internet-Draft, draft-ietf-rats-msg-wrap-23,
               11 December 2025, <https://datatracker.ietf.org/doc/html/
               draft-ietf-rats-msg-wrap-23>.
+
+   [RFC4210]  Adams, C., Farrell, S., Kause, T., and T. Mononen,
+              "Internet X.509 Public Key Infrastructure Certificate
+              Management Protocol (CMP)", RFC 4210,
+              DOI 10.17487/RFC4210, September 2005,
+              <https://www.rfc-editor.org/rfc/rfc4210>.
 
    [RFC7030]  Pritikin, M., Ed., Yee, P., Ed., and D. Harkins, Ed.,
               "Enrollment over Secure Transport", RFC 7030,

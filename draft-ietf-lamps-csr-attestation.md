@@ -51,8 +51,9 @@ author:
   -
     ins: M. Wiseman
     name: Monty Wiseman
+    org: Independent
     country: United States
-    email: mwiseman@computer.org
+    email: montywiseman32@gmail.com
   -
     ins: N. Smith
     name: Ned Smith

@@ -22,3 +22,4 @@ package-lock.json
 report.xml
 !requirements.txt
 .includes.mk
+my_env/

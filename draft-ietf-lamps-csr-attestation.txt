@@ -5,13 +5,13 @@
 Network Working Group                                       M. Ounsworth
 Internet-Draft                                            Cryptic Forest
 Intended status: Standards Track                           H. Tschofenig
-Expires: 21 November 2026                                        Siemens
+Expires: 18 December 2026                                        Siemens
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                               M. Wiseman
-                                                                        
+                                                             Independent
                                                                 N. Smith
-                                                             20 May 2026
+                                                            16 June 2026
 
 
      Use of Remote Attestation with Certification Signing Requests
@@ -64,7 +64,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 21 November 2026.
+   This Internet-Draft will expire on 18 December 2026.
 
 Copyright Notice
 
@@ -767,8 +767,9 @@ Authors' Addresses
 
 
    Monty Wiseman
+   Independent
    United States
-   Email: mwiseman@computer.org
+   Email: montywiseman32@gmail.com
 
 
    Ned Smith

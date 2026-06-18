@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-06-16T03:32:38.341477+00:00",
+  "timestamp": "2026-06-18T03:23:39.229095+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -14275,24 +14275,26 @@
       "id": "PR_kwDOJ3IIN87ms3yu",
       "title": "Changed Monty's org and email",
       "url": "https://github.com/lamps-wg/csr-attestation/pull/250",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "mwiseman32",
-      "authorAssociation": "NONE",
+      "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2026-06-15T19:36:18Z",
-      "updatedAt": "2026-06-15T19:36:18Z",
+      "updatedAt": "2026-06-16T17:19:04Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "dc046d371b6300edd5cc83eb18de293ac45fe6de",
       "headRepository": "mwiseman32/csr-attestation",
       "headRefName": "main",
       "headRefOid": "9e494ad3759e97757abcb57d1256f6201f6eb819",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2026-06-16T17:19:04Z",
+      "mergedAt": "2026-06-16T17:19:04Z",
+      "mergedBy": "ounsworth",
+      "mergeCommit": {
+        "oid": "33a0640e580c03e1253c9035d12494124a49fc14"
+      },
       "comments": [],
       "reviews": []
     }

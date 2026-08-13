@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-06-18T03:23:39.229095+00:00",
+  "timestamp": "2026-08-13T01:23:50.894721+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -2897,6 +2897,22 @@
           "updatedAt": "2026-05-05T18:44:22Z"
         }
       ]
+    },
+    {
+      "number": 251,
+      "id": "I_kwDOJ3IIN88AAAABMVNoAQ",
+      "title": "Editorial comments from Tomas Gustavsson",
+      "url": "https://github.com/lamps-wg/csr-attestation/issues/251",
+      "state": "OPEN",
+      "author": "ounsworth",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "2.\u00a0\nCMP is referenced as RFC4210 (section 6.2 Freshness). Is it not time to update the reference to be RFC9810?\n",
+      "createdAt": "2026-08-11T16:49:02Z",
+      "updatedAt": "2026-08-11T16:49:21Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [

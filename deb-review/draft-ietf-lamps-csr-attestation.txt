@@ -367,9 +367,9 @@ Table of Contents
    populate it with the formats that they wish to support.  This
    document does not define, allocate, or register an OID for any
    attestation-statement format, nor does it establish an IANA registry
-   for such formats.  A specification or vendor that defines an
-   attestation-statement format is responsible for assigning its OID
-   from an arc under its control.
+   for such formats.  Specification authors who define an attestation-
+   statement format are responsible for assigning its OID from an arc
+   under their control.
 
 4.3.  CSR Attribute and Extension
 

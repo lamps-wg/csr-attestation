@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-08-13T01:23:50.894721+00:00",
+  "timestamp": "2026-08-30T03:06:45.935711+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -14313,6 +14313,66 @@
       },
       "comments": [],
       "reviews": []
+    },
+    {
+      "number": 252,
+      "id": "PR_kwDOJ3IIN88AAAABBLrg2w",
+      "title": "Review by Deb",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/252",
+      "state": "OPEN",
+      "author": "hannestschofenig",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2026-08-27T09:03:05Z",
+      "updatedAt": "2026-08-29T14:22:56Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "02aed20b445d8236102f05c26e315ce34da7e8f1",
+      "headRepository": "lamps-wg/csr-attestation",
+      "headRefName": "deb-review",
+      "headRefOid": "43775cadbeecdb416cd8ab1903ad0c22a775fc1f",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJ3IIN88AAAABLFofgg",
+          "commit": {
+            "abbreviatedOid": "7964a0d"
+          },
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-08-27T09:06:04Z",
+          "updatedAt": "2026-08-27T09:06:05Z",
+          "comments": [
+            {
+              "originalPosition": 74,
+              "body": "```suggestion\npopulate it with the formats that they wish to support. This document does not define, allocate, or register an OID for any attestation-statement format, nor does it establish an IANA registry for such formats. Specification authors who define an attestation-statement format are responsible for assigning its OID from an arc under their control.\n```",
+              "createdAt": "2026-08-27T09:06:04Z",
+              "updatedAt": "2026-08-27T09:06:05Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN88AAAABLX_oqA",
+          "commit": {
+            "abbreviatedOid": "43775ca"
+          },
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-08-29T14:22:56Z",
+          "updatedAt": "2026-08-29T14:22:56Z",
+          "comments": []
+        }
+      ]
     }
   ]
 }

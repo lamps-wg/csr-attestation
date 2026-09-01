@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-08-30T03:06:45.935711+00:00",
+  "timestamp": "2026-09-01T03:07:41.468341+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -14326,7 +14326,7 @@
       "labels": [],
       "body": "",
       "createdAt": "2026-08-27T09:03:05Z",
-      "updatedAt": "2026-08-29T14:22:56Z",
+      "updatedAt": "2026-08-31T12:26:35Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "02aed20b445d8236102f05c26e315ce34da7e8f1",
@@ -14370,6 +14370,19 @@
           "body": "",
           "createdAt": "2026-08-29T14:22:56Z",
           "updatedAt": "2026-08-29T14:22:56Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJ3IIN88AAAABLfuTgw",
+          "commit": {
+            "abbreviatedOid": "43775ca"
+          },
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-08-31T12:26:35Z",
+          "updatedAt": "2026-08-31T12:26:35Z",
           "comments": []
         }
       ]

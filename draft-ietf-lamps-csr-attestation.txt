@@ -5,13 +5,13 @@
 Network Working Group                                       M. Ounsworth
 Internet-Draft                                            Cryptic Forest
 Intended status: Standards Track                           H. Tschofenig
-Expires: 18 December 2026                                        Siemens
+Expires: 6 March 2027                                            Siemens
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                               M. Wiseman
                                                              Independent
                                                                 N. Smith
-                                                            16 June 2026
+                                                        2 September 2026
 
 
      Use of Remote Attestation with Certification Signing Requests
@@ -64,7 +64,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 18 December 2026.
+   This Internet-Draft will expire on 6 March 2027.
 
 Copyright Notice
 
@@ -110,18 +110,19 @@ Table of Contents
 1.  Introduction
 
    Certification Authorities (CAs) issuing certificates to PKI end
-   entities may require a certificate signing request (CSR) include
-   verifiable attestations that contain claims regarding the platform
-   used by the end entity to generate the key pair for which a
-   certificate is sought and also contains claims of attributes of the
-   key pair with respect to its protection, use and extractability.  At
-   the time of writing, the most pressing example of the need for remote
-   attestation in certificate enrollment is the Code-Signing Baseline
-   Requirements (CSBR) document maintained by the CA/Browser Forum
-   [CSBR].  The [CSBR] requires compliant CAs to "ensure that a
-   Subscriber's Private Key is generated, stored, and used in a secure
-   environment that has controls to prevent theft or misuse".  This
-   requirement is a natural fit to enforce via remote attestation.
+   entities may require that a certificate signing request (CSR) include
+   verifiable attestations.  These attestations can contain claims
+   regarding the platform used by the end entity to generate the key
+   pair for which a certificate is sought.  These claims can also
+   include attributes of the key pair with respect to its protection,
+   use, and extractability.  At the time of writing, the most pressing
+   example of the need for remote attestation in certificate enrollment
+   is the Code-Signing Baseline Requirements (CSBR) document maintained
+   by the CA/Browser Forum [CSBR].  The [CSBR] requires compliant CAs to
+   "ensure that a Subscriber's Private Key is generated, stored, and
+   used in a secure environment that has controls to prevent theft or
+   misuse".  This requirement is a natural fit to enforce via remote
+   attestation.
 
    This specification defines an attribute and an extension that allow
    for conveyance of verifiable attestations in several Certificate
@@ -260,7 +261,8 @@ Table of Contents
 
    AttestationStatement ::= SEQUENCE {
       type   ATTESTATION-STATEMENT.&id({AttestationStatementSet}),
-      stmt   ATTESTATION-STATEMENT.&Type({AttestationStatementSet}{@type})
+      stmt   ATTESTATION-STATEMENT.&Type(
+                 {AttestationStatementSet}{@type})
    }
 
                 Figure 1: Definition of AttestationStatement
@@ -288,14 +290,25 @@ Table of Contents
 
    The CertificateChoices structure defined in [RFC6268], and reproduced
    below along with OtherCertificateFormat, allows for carrying
-   certificates in the default X.509 [RFC5280] format, or in other non-
-   X.509 certificate formats.  CertificateChoices MUST only contain
-   certificate or other.  In this context, CertificateChoices MUST NOT
-   contain extendedCertificate, v1AttrCert, or v2AttrCert.  Note that
-   for non-ASN.1 certificate formats, the CertificateChoices MUST
-   contain other with an OTHER-CERT-FMT.Type of OCTET STRING and data
-   consistent with OTHER-CERT-FMT.id.  LimitedCertChoices is defined to
-   limit the available options to certificate and other.
+   certificates in the default X.509 [RFC5280] format or in other
+   certificate formats.  Within an AttestationBundle, a
+   CertificateChoices value MUST use only the certificate or other
+   alternative; the extendedCertificate, v1AttrCert, and v2AttrCert
+   alternatives MUST NOT be used.  [RFC6268] marks extendedCertificate
+   and v1AttrCert as obsolete.  Although v2AttrCert is not obsolete, it
+   is excluded here because an attribute certificate does not contain a
+   subject public key that can be used to validate an
+   AttestationStatement.
+
+   OTHER-CERT-FMT is an ASN.1 information object class.  The &id field
+   identifies a certificate format by its OBJECT IDENTIFIER, and the
+   corresponding &Type field specifies the ASN.1 type used to carry that
+   format.  For a non-ASN.1 certificate format, an OTHER-CERT-FMT
+   information object MUST specify OCTET STRING as its &Type;
+   otherCertFormat then carries the format's &id, and otherCert carries
+   the encoded certificate in that OCTET STRING.  LimitedCertChoices
+   applies an ASN.1 constraint that limits the available alternatives to
+   certificate and other.
 
       CertificateChoices ::= CHOICE {
         certificate Certificate,
@@ -310,26 +323,24 @@ Table of Contents
       OTHER-CERT-FMT ::= TYPE-IDENTIFIER
 
       OtherCertificateFormat ::= SEQUENCE {
-        otherCertFormat OTHER-CERT-FMT.
-                &id({SupportedCertFormats}),
-        otherCert       OTHER-CERT-FMT.
-                &Type({SupportedCertFormats}{@otherCertFormat})}
+        otherCertFormat OTHER-CERT-FMT.&id({SupportedCertFormats}),
+        otherCert       OTHER-CERT-FMT.&Type(
+                {SupportedCertFormats}{@otherCertFormat})}
 
       LimitedCertChoices ::=
          CertificateChoices
              (WITH COMPONENTS {certificate, other})
 
-   The certs field contains a set of certificates that may be used to
-   validate an AttestationStatement contained in attestations.  For each
-   AttestationStatement, the set of certificates SHOULD contain the
-   certificate that contains the public key needed to directly validate
-   the AttestationStatement, unless the signing key is expected to be
-   known to the Verifier or is embedded within the AttestationStatement.
-   Additional certificates MAY be provided, for example, to chain the
-   attestation key back to a trust anchor.  No specific order of the
-   certificates in certs should be expected because certificates
-   contained in certs may be needed to validate different
-   AttestationStatement instances.
+   The certs field is OPTIONAL.  When validation of an
+   AttestationStatement requires a public key that cannot be obtained
+   otherwise, certs SHOULD contain a certificate containing that public
+   key.  A certificate is not needed when the corresponding public key
+   is already known to the Verifier or is embedded within the
+   AttestationStatement.  Additional certificates MAY be provided, for
+   example, to chain the attestation key back to a trust anchor.  No
+   specific order of the certificates in certs should be expected
+   because certificates contained in certs may be needed to validate
+   different AttestationStatement instances.
 
    This specification places no restriction on mixing certificate types
    within the certs field.  For example a non-X.509 attestation signer
@@ -353,12 +364,18 @@ Table of Contents
    other standards bodies, or as vendor proprietary formats along with
    corresponding OIDs that identify them.  AttestationStatementSet is
    left unconstrained in this document.  However, implementers MAY
-   populate it with the formats that they wish to support.
+   populate it with the formats that they wish to support.  This
+   document does not define, allocate, or register an OID for any
+   attestation-statement format, nor does it establish an IANA registry
+   for such formats.  Specification authors who define an attestation-
+   statement format are responsible for assigning its OID from an arc
+   under their control.
 
 4.3.  CSR Attribute and Extension
 
-   By definition, attributes within a PKCS#10 CSR are typed as ATTRIBUTE
-   and within a CRMF CSR are typed as EXTENSION.
+   The ASN.1 ATTRIBUTE and EXTENSION information object classes are
+   defined in [RFC5912].  Attributes within a PKCS#10 CSR use ATTRIBUTE,
+   and extensions within a CRMF CSR use EXTENSION.
 
    id-aa-attestation OBJECT IDENTIFIER ::= { id-aa 59 }
 
@@ -387,8 +404,8 @@ Table of Contents
    does not require the AttestationBundle.attestations field to contain
    only one AttestationStatement of a given type.  For example, if a
    given type is a "wrapper" type containing the conceptual message
-   wrapper (CMW) structure [I-D.ietf-rats-msg-wrap], multiple copies of
-   a CMW-typed AttestationStatement may be included.
+   wrapper (CMW) structure [RFC9999], multiple copies of a CMW-typed
+   AttestationStatement may be included.
 
    Per [RFC5280] no more than one instance of a given type of Extension
    may be carried within an Extensions structure, so an Extensions
@@ -462,8 +479,8 @@ Table of Contents
    This document defines a structure to convey attestations as
    additional information in CSRs, as well as an attribute to convey
    that structure in the Certification Request Message defined in
-   {[RFC2986]} and an extension to convey that structure in the
-   Certificate Request Message Format defined in {[RFC4211]}. The CA/RA
+   [RFC2986] and an extension to convey that structure in the
+   Certificate Request Message Format defined in [RFC4211].  The CA/RA
    that receives the CSR may choose to verify the attestation(s) to
    determine if an issuance policy is met, or which of a suite of
    policies is satisfied.  The CA/RA is also free to discard the
@@ -524,7 +541,7 @@ Table of Contents
    models are discussed in [RFC9334].  Other mechanisms for determining
    freshness may be used as the CA/RA deems appropriate.  When CSRs are
    embedded within certificate management protocols such as EST
-   [RFC7030] or CMP [RFC4210], these protocols can supply the Attester
+   [RFC7030] or CMP [RFC9810], these protocols can supply the Attester
    with a nonce.  Further details are specified in
    [I-D.ietf-lamps-attestation-freshness].
 
@@ -605,27 +622,11 @@ Table of Contents
 
    [I-D.ietf-lamps-attestation-freshness]
               Tschofenig, H., Brockhaus, H., Mandel, J., and S. Turner,
-              "Nonce-based Freshness for Remote Attestation in
-              Certificate Signing Requests (CSRs) for the Certification
-              Management Protocol (CMP), for Enrollment over Secure
-              Transport (EST), and for Certificate Management over CMS
-              (CMC)", Work in Progress, Internet-Draft, draft-ietf-
-              lamps-attestation-freshness-06, 20 April 2026,
-              <https://datatracker.ietf.org/doc/html/draft-ietf-lamps-
-              attestation-freshness-06>.
-
-   [I-D.ietf-rats-msg-wrap]
-              Birkholz, H., Smith, N., Fossati, T., Tschofenig, H., and
-              D. Glaze, "RATS Conceptual Messages Wrapper (CMW)", Work
-              in Progress, Internet-Draft, draft-ietf-rats-msg-wrap-23,
-              11 December 2025, <https://datatracker.ietf.org/doc/html/
-              draft-ietf-rats-msg-wrap-23>.
-
-   [RFC4210]  Adams, C., Farrell, S., Kause, T., and T. Mononen,
-              "Internet X.509 Public Key Infrastructure Certificate
-              Management Protocol (CMP)", RFC 4210,
-              DOI 10.17487/RFC4210, September 2005,
-              <https://www.rfc-editor.org/rfc/rfc4210>.
+              "Requesting a Freshness Nonce for Attestation Evidence in
+              Certificate Signing Requests", Work in Progress, Internet-
+              Draft, draft-ietf-lamps-attestation-freshness-08, 4 July
+              2026, <https://datatracker.ietf.org/doc/html/draft-ietf-
+              lamps-attestation-freshness-08>.
 
    [RFC7030]  Pritikin, M., Ed., Yee, P., Ed., and D. Harkins, Ed.,
               "Enrollment over Secure Transport", RFC 7030,
@@ -637,6 +638,17 @@ Table of Contents
               Containing Trusted Platform Modules", RFC 9683,
               DOI 10.17487/RFC9683, December 2024,
               <https://www.rfc-editor.org/rfc/rfc9683>.
+
+   [RFC9810]  Brockhaus, H., von Oheimb, D., Ounsworth, M., and J. Gray,
+              "Internet X.509 Public Key Infrastructure -- Certificate
+              Management Protocol (CMP)", RFC 9810,
+              DOI 10.17487/RFC9810, July 2025,
+              <https://www.rfc-editor.org/rfc/rfc9810>.
+
+   [RFC9999]  Birkholz, H., Smith, N., Fossati, T., and H. Tschofenig,
+              "Remote ATtestation procedureS (RATS) Conceptual Message
+              Wrapper (CMW)", RFC 9999, DOI 10.17487/RFC9999, July 2026,
+              <https://www.rfc-editor.org/rfc/rfc9999>.
 
    [SampleData]
               "CSR Attestation Sample Data", n.d.,
@@ -742,6 +754,9 @@ Appendix C.  Acknowledgments
    Steve Hanna, Tim Polk, and Carl Wallace to help improve the document
    and resolve contentious issues.  Their contributions substantially
    impacted the final outcome of the document.
+
+   Finally, we would like to thank Deb Cooley for her review of the
+   document as part of the IESG evaluation process.
 
 Authors' Addresses
 

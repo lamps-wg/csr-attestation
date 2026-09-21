@@ -72,6 +72,8 @@ informative:
   I-D.ietf-lamps-attestation-freshness:
   RFC7030:
   RFC9810:
+  RFC3647:
+  RFC10002:
   RFC9999:
   RFC9683:
   CSBR:
@@ -304,7 +306,7 @@ Certification Request Message defined in {{RFC2986}} and an extension to convey 
 Certificate Request Message Format defined in {{RFC4211}}.
 The CA/RA that receives the CSR may choose to verify the attestation(s) to determine if an issuance policy is met, or which of a suite of policies is satisfied. The CA/RA is also free to discard the additional information without processing.
 
-A CA which accepts or requires attestation(s) SHOULD document its requirements with its Certification Practice Statement(s).
+A CA which accepts or requires attestation(s) SHOULD document its requirements with its Certification Practice Statement(s) {{RFC3647}}.
 
 The remainder of this section identifies security considerations that apply when the CA/RA chooses to verify the attestation as part of the evaluation of a CSR.
 
@@ -329,7 +331,7 @@ While each of these attestations may be independently correct, the CA/RA is resp
 
 ## Freshness
 
-To avoid replay attacks, the CA/RA may choose to ignore attestations that are stale, or whose freshness cannot be determined. Mechanisms to address freshness and their application to the RATS topological models are discussed in {{RFC9334}}. Other mechanisms for determining freshness may be used as the CA/RA deems appropriate. When CSRs are embedded within certificate management protocols such as EST {{RFC7030}} or CMP {{RFC9810}}, these protocols can supply the Attester with a nonce. Further details are specified in {{I-D.ietf-lamps-attestation-freshness}}.
+To avoid replay attacks, the CA/RA may choose to ignore attestations that are stale, or whose freshness cannot be determined. Mechanisms to address freshness and their application to the RATS topological models are discussed in {{RFC9334}}. Other mechanisms for determining freshness may be used as the CA/RA deems appropriate. When CSRs are embedded within certificate management protocols, such as EST {{RFC7030}}, CMP {{RFC9810}} and CMC {{RFC10002}}, these protocols can supply the Attester with a nonce. Further details are specified in {{I-D.ietf-lamps-attestation-freshness}}.
 
 ## Relationship of Attestations and Certificate Extensions
 

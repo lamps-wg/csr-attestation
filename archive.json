@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-09-03T02:33:59.459079+00:00",
+  "timestamp": "2026-09-22T02:54:15.916749+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -14396,6 +14396,58 @@
           "comments": []
         }
       ]
+    },
+    {
+      "number": 253,
+      "id": "PR_kwDOJ3IIN88AAAABEdPNeA",
+      "title": "Address feedback by Sean Turner",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/253",
+      "state": "OPEN",
+      "author": "hannestschofenig",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Here is the feedback:\r\nhttps://mailarchive.ietf.org/arch/msg/spasm/aL9fKB7wE564jNyRlXbZsW030sI/",
+      "createdAt": "2026-09-21T16:59:51Z",
+      "updatedAt": "2026-09-21T16:59:51Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "1a4a5d8525f30c09fbd18e6024293f2ccd1a8bda",
+      "headRepository": "lamps-wg/csr-attestation",
+      "headRefName": "hannestschofenig-patch-3",
+      "headRefOid": "b9fb6df4a25644da43cfb0c618e1d58cdb0d05e1",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 254,
+      "id": "PR_kwDOJ3IIN88AAAABEdRGSg",
+      "title": "Addressing review from Russ",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/254",
+      "state": "OPEN",
+      "author": "hannestschofenig",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Russ suggested to change the module identifier to id-mod-pkix-attest-2025\r\n\r\nhttps://mailarchive.ietf.org/arch/msg/spasm/6pcGk4TON0FTuWvYHOgXyP0Q0ic/\r\n\r\nI am not entirely sure whether I correctly captured his intend.",
+      "createdAt": "2026-09-21T17:03:26Z",
+      "updatedAt": "2026-09-21T17:03:26Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "1a4a5d8525f30c09fbd18e6024293f2ccd1a8bda",
+      "headRepository": "lamps-wg/csr-attestation",
+      "headRefName": "hannestschofenig-patch-7",
+      "headRefOid": "a5f05173b38e820703966a7c30cffd53ff1d19fc",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }

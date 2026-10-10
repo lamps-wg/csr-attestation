@@ -185,8 +185,6 @@ AttestationBundle ::= SEQUENCE {
 ~~~
 {: #code-AttestationBundle title="Definition of AttestationBundle"}
 
-At least one element in the `attestations` field SHOULD contain an attestation that is cryptographically bound to the public key that is the subject of the CSR containing the `AttestationBundle`.
-
 The `CertificateChoices` structure defined in {{RFC6268}}, and reproduced below along with `OtherCertificateFormat`, allows for carrying certificates in the default X.509 {{RFC5280}} format or in other certificate formats. Within an `AttestationBundle`, a `CertificateChoices` value MUST use only the `certificate` or `other` alternative; the `extendedCertificate`, `v1AttrCert`, and `v2AttrCert` alternatives MUST NOT be used. {{RFC6268}} marks `extendedCertificate` and `v1AttrCert` as obsolete. Although `v2AttrCert` is not obsolete, it is excluded here because an attribute certificate does not contain a subject public key that can be used to validate an `AttestationStatement`.
 
 `OTHER-CERT-FMT` is an ASN.1 information object class. The `&id` field identifies a certificate format by its OBJECT IDENTIFIER, and the corresponding `&Type` field specifies the ASN.1 type used to carry that format. For a non-ASN.1 certificate format, an `OTHER-CERT-FMT` information object MUST specify `OCTET STRING` as its `&Type`; `otherCertFormat` then carries the format's `&id`, and `otherCert` carries the encoded certificate in that OCTET STRING. `LimitedCertChoices` applies an ASN.1 constraint that limits the available alternatives to `certificate` and `other`.
@@ -310,7 +308,11 @@ The remainder of this section identifies security considerations that apply when
 
 ## Binding Attestations to the CSR's Public Key
 
-Regardless of the topological model, the CA/RA is ultimately responsible for validating the binding between the public key and the attestation(s) in the CSR. For CAs issuing in conformance with the CA/Browser Forum's Code Signing Baseline Requirements, this means verifying the attestation of HSM generation and protection is cryptographically bound to the public key in the CSR.
+Key attestation is one use case for the structures defined in this document. It enables a CA/RA to obtain assurance about the key pair for which a certificate is requested, including the environment in which it was generated and the protection, permitted use, or extractability of its private key, as asserted by the attestation. To provide this assurance, the attestation must identify the CSR's public key in a cryptographically verifiable manner, and appraisal must establish that the claims describe the actual handling of the corresponding key pair in the attested environment. Merely including a requester-supplied public key or its hash in authenticated platform attestation data does not, by itself, establish that the corresponding private key was generated or is protected in that environment.
+
+Regardless of the topological model, when a CA/RA relies on an attestation to establish a property of the CSR's public key or the corresponding private key, it MUST validate this binding. The CA/RA may rely on a trusted Verifier to perform this validation but the CA/RA remains responsible for ensuring that the binding has been validated. For CAs issuing in conformance with the CA/Browser Forum's Code Signing Baseline Requirements, this means verifying the attestation of HSM generation and protection is cryptographically bound to the public key in the CSR.
+
+If no key attestation with a validated binding is available, the CA/RA MUST NOT treat the attestations as establishing properties of the CSR's public key or the corresponding private key. The CA/RA's issuance policy determines whether to reject the CSR, obtain additional evidence, or issue a certificate based on other acceptable information. The absence of a key attestation with a validated binding does not, by itself, require rejection under this specification; however, an issuance policy that requires attested properties of the requested key cannot be satisfied by unbound attestations alone.
 
 Multiple attestations from multiple sources, as envisioned in {{RFC9334}}, can introduce additional complications as shown in the following example.
 
@@ -331,13 +333,29 @@ While each of these attestations may be independently correct, the CA/RA is resp
 
 To avoid replay attacks, the CA/RA may choose to ignore attestations that are stale, or whose freshness cannot be determined. Mechanisms to address freshness and their application to the RATS topological models are discussed in {{RFC9334}}. Other mechanisms for determining freshness may be used as the CA/RA deems appropriate. When CSRs are embedded within certificate management protocols such as EST {{RFC7030}} or CMP {{RFC9810}}, these protocols can supply the Attester with a nonce. Further details are specified in {{I-D.ietf-lamps-attestation-freshness}}.
 
-## Relationship of Attestations and Certificate Extensions
+## Resource Exhaustion
 
-Attestations are intended as additional information in the issuance process, and may include sensitive information about the platform, such as hardware details or patch levels, or device ownership. It is NOT RECOMMENDED for a CA to copy attestations into the published certificate. CAs that choose to republish attestations in certificates SHOULD review the contents and delete any sensitive information.
+CSRs and their attestation bundles are untrusted input. Processing a bundle may consume substantial resources through parsing, cryptographic verification, certification path building and validation, and requests to external Verifiers or other services. An attacker can exploit these costs to cause resource exhaustion, even with a syntactically valid bundle.
+
+Implementations SHOULD impose limits appropriate to their deployment on the total bundle size, the number and size of attestations and certificates, parsing depth, and the computational effort spent processing a request. These limits SHOULD also bound certification path building, as well as the number, duration, and concurrency of external requests. Implementations SHOULD enforce limits as early as practicable and stop processing when a limit is exceeded. Exceeding a resource limit MUST NOT cause an unverified attestation to be treated as successfully verified.
 
 ## Additional Security Considerations
 
 In addition to the security considerations listed here, implementers should be familiar with the security considerations of the specifications on which this specification depends: PKCS#10 {{RFC2986}}, CRMF {{RFC4211}}, as well as general security concepts relating to remote attestation; many of these concepts are discussed in {{Section 6 of RFC9334}}, {{Section 7 of RFC9334}}, {{Section 9 of RFC9334}}, {{Section 11 of RFC9334}}, and {{Section 12 of RFC9334}}. Implementers should also be aware of any security considerations relating to the specific attestation formats being carried within the CSR.
+
+# Privacy Considerations {#sec-privacy}
+
+Attestations and the certificates accompanying them can disclose information about a device, its software and hardware environment, and its owner or users. Examples include hardware identifiers, software versions, patch levels, and device ownership. These disclosures occur during enrollment, even if no attestation data is copied into the issued certificate.
+
+Attestation formats may use stable device-identifying public keys, certificates, or other identifiers. These values can enable a CA/RA or Verifier to link multiple CSRs to the same device even when the CSR public key, subject name, or enrollment account changes. Such linkability can affect privacy even when the individual attested claims are not otherwise sensitive.
+
+A CA/RA that forwards attestations or accompanying certificates to an external Verifier discloses this information to another party. That party may also be able to correlate requests across enrollments or across CAs. The privacy assessment of a deployment therefore needs to cover the entire enrollment and attestation verification path, including third-party processing, retention, and logging.
+
+Certificate requesters, CAs/RAs, and Verifiers SHOULD minimize the attestation claims and accompanying certificates they disclose, process, and retain to those needed for the applicable issuance policy. Where supported by the attestation technology and compatible with that policy, deployments SHOULD use mechanisms that reduce device linkability, such as privacy-preserving attestation. Such mechanisms do not eliminate correlation through other disclosed information. Enrollment protocols and communication with external Verifiers SHOULD provide confidentiality protection and authenticate recipients. Transport confidentiality protects against observers but does not prevent correlation by the recipients themselves. Access to stored attestation data, including logs, SHOULD be restricted, and retention SHOULD be limited to the period needed for issuance and applicable audit requirements.
+
+Attestations are intended as additional information in the issuance process. It is NOT RECOMMENDED for a CA to copy attestations into the published certificate. CAs that choose to republish attestations in certificates SHOULD review the contents and omit sensitive or identifying information.
+
+Further discussion of remote attestation privacy risks and mitigations is provided in {{Section 11 of RFC9334}}. Deployments should also consider the privacy considerations of the specific attestation formats they use.
 
 --- back
 

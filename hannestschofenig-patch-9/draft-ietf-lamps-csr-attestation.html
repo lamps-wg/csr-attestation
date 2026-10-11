@@ -1055,7 +1055,7 @@ svg {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Ounsworth, et al.</td>
-<td class="center">Expires 13 April 2027</td>
+<td class="center">Expires 14 April 2027</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1068,12 +1068,12 @@ svg {
 <dd class="internet-draft">draft-ietf-lamps-csr-attestation-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-10-10" class="published">10 October 2026</time>
+<time datetime="2026-10-11" class="published">11 October 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2027-04-13">13 April 2027</time></dd>
+<dd class="expires"><time datetime="2027-04-14">14 April 2027</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1135,7 +1135,7 @@ Request Message Format (CRMF) messages. Both standardized and proprietary attest
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 13 April 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 14 April 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1363,9 +1363,10 @@ AttestationBundle ::= SEQUENCE {
 <a href="#name-definition-of-attestationbu" class="selfRef">Definition of AttestationBundle</a>
           </figcaption></figure>
 </div>
-<p id="section-4.1-6">The <code>CertificateChoices</code> structure defined in <span>[<a href="#RFC6268" class="cite xref">RFC6268</a>]</span>, and reproduced below along with <code>OtherCertificateFormat</code>, allows for carrying certificates in the default X.509 <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span> format or in other certificate formats. Within an <code>AttestationBundle</code>, a <code>CertificateChoices</code> value <span class="bcp14">MUST</span> use only the <code>certificate</code> or <code>other</code> alternative; the <code>extendedCertificate</code>, <code>v1AttrCert</code>, and <code>v2AttrCert</code> alternatives <span class="bcp14">MUST NOT</span> be used. <span>[<a href="#RFC6268" class="cite xref">RFC6268</a>]</span> marks <code>extendedCertificate</code> and <code>v1AttrCert</code> as obsolete. Although <code>v2AttrCert</code> is not obsolete, it is excluded here because an attribute certificate does not contain a subject public key that can be used to validate an <code>AttestationStatement</code>.<a href="#section-4.1-6" class="pilcrow">¶</a></p>
-<p id="section-4.1-7"><code>OTHER-CERT-FMT</code> is an ASN.1 information object class. The <code>&amp;id</code> field identifies a certificate format by its OBJECT IDENTIFIER, and the corresponding <code>&amp;Type</code> field specifies the ASN.1 type used to carry that format. For a non-ASN.1 certificate format, an <code>OTHER-CERT-FMT</code> information object <span class="bcp14">MUST</span> specify <code>OCTET STRING</code> as its <code>&amp;Type</code>; <code>otherCertFormat</code> then carries the format's <code>&amp;id</code>, and <code>otherCert</code> carries the encoded certificate in that OCTET STRING. <code>LimitedCertChoices</code> applies an ASN.1 constraint that limits the available alternatives to <code>certificate</code> and <code>other</code>.<a href="#section-4.1-7" class="pilcrow">¶</a></p>
-<div class="lang-asn1 sourcecode" id="section-4.1-8">
+<p id="section-4.1-6">At the discretion of its own policy, a CA could place additional requirements on the contents of the attestation field, such as that it contains the same subject public key that the CSR is requesting a certificate for. See <a href="#sec-considerations" class="auto internal xref">Section 6</a> for more discussion.<a href="#section-4.1-6" class="pilcrow">¶</a></p>
+<p id="section-4.1-7">The <code>CertificateChoices</code> structure defined in <span>[<a href="#RFC6268" class="cite xref">RFC6268</a>]</span>, and reproduced below along with <code>OtherCertificateFormat</code>, allows for carrying certificates in the default X.509 <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span> format or in other certificate formats. Within an <code>AttestationBundle</code>, a <code>CertificateChoices</code> value <span class="bcp14">MUST</span> use only the <code>certificate</code> or <code>other</code> alternative; the <code>extendedCertificate</code>, <code>v1AttrCert</code>, and <code>v2AttrCert</code> alternatives <span class="bcp14">MUST NOT</span> be used. <span>[<a href="#RFC6268" class="cite xref">RFC6268</a>]</span> marks <code>extendedCertificate</code> and <code>v1AttrCert</code> as obsolete. Although <code>v2AttrCert</code> is not obsolete, it is excluded here because an attribute certificate does not contain a subject public key that can be used to validate an <code>AttestationStatement</code>.<a href="#section-4.1-7" class="pilcrow">¶</a></p>
+<p id="section-4.1-8"><code>OTHER-CERT-FMT</code> is an ASN.1 information object class. The <code>&amp;id</code> field identifies a certificate format by its OBJECT IDENTIFIER, and the corresponding <code>&amp;Type</code> field specifies the ASN.1 type used to carry that format. For a non-ASN.1 certificate format, an <code>OTHER-CERT-FMT</code> information object <span class="bcp14">MUST</span> specify <code>OCTET STRING</code> as its <code>&amp;Type</code>; <code>otherCertFormat</code> then carries the format's <code>&amp;id</code>, and <code>otherCert</code> carries the encoded certificate in that OCTET STRING. <code>LimitedCertChoices</code> applies an ASN.1 constraint that limits the available alternatives to <code>certificate</code> and <code>other</code>.<a href="#section-4.1-8" class="pilcrow">¶</a></p>
+<div class="lang-asn1 sourcecode" id="section-4.1-9">
 <pre>
    CertificateChoices ::= CHOICE {
      certificate Certificate,
@@ -1387,10 +1388,10 @@ AttestationBundle ::= SEQUENCE {
    LimitedCertChoices ::=
       CertificateChoices
           (WITH COMPONENTS {certificate, other})
-</pre><a href="#section-4.1-8" class="pilcrow">¶</a>
+</pre><a href="#section-4.1-9" class="pilcrow">¶</a>
 </div>
-<p id="section-4.1-9">The <code>certs</code> field is <span class="bcp14">OPTIONAL</span>. When validation of an <code>AttestationStatement</code> requires a public key that cannot be obtained otherwise, <code>certs</code> <span class="bcp14">SHOULD</span> contain a certificate containing that public key. A certificate is not needed when the corresponding public key is already known to the Verifier or is embedded within the <code>AttestationStatement</code>. Additional certificates <span class="bcp14">MAY</span> be provided, for example, to chain the attestation key back to a trust anchor. No specific order of the certificates in <code>certs</code> should be expected because certificates contained in <code>certs</code> may be needed to validate different <code>AttestationStatement</code> instances.<a href="#section-4.1-9" class="pilcrow">¶</a></p>
-<p id="section-4.1-10">This specification places no restriction on mixing certificate types within the <code>certs</code> field. For example a non-X.509 attestation signer certificate <span class="bcp14">MAY</span> chain to a trust anchor via a chain of X.509 certificates. It is up to the Attester and its Verifier to agree on supported certificate formats.<a href="#section-4.1-10" class="pilcrow">¶</a></p>
+<p id="section-4.1-10">The <code>certs</code> field is <span class="bcp14">OPTIONAL</span>. When validation of an <code>AttestationStatement</code> requires a public key that cannot be obtained otherwise, <code>certs</code> <span class="bcp14">SHOULD</span> contain a certificate containing that public key. A certificate is not needed when the corresponding public key is already known to the Verifier or is embedded within the <code>AttestationStatement</code>. Additional certificates <span class="bcp14">MAY</span> be provided, for example, to chain the attestation key back to a trust anchor. No specific order of the certificates in <code>certs</code> should be expected because certificates contained in <code>certs</code> may be needed to validate different <code>AttestationStatement</code> instances.<a href="#section-4.1-10" class="pilcrow">¶</a></p>
+<p id="section-4.1-11">This specification places no restriction on mixing certificate types within the <code>certs</code> field. For example a non-X.509 attestation signer certificate <span class="bcp14">MAY</span> chain to a trust anchor via a chain of X.509 certificates. It is up to the Attester and its Verifier to agree on supported certificate formats.<a href="#section-4.1-11" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="attestationstatementset">
@@ -1521,7 +1522,7 @@ SMI Security for S/MIME Attributes (1.2.840.113549.1.9.16.2).<a href="#section-5
 </div>
 </section>
 </div>
-<div id="security-considerations">
+<div id="sec-considerations">
 <section id="section-6">
       <h2 id="name-security-considerations">
 <a href="#section-6" class="section-number selfRef">6. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
@@ -1582,8 +1583,8 @@ The CSR might contain three AttestationStatements originated by three different 
         <h3 id="name-resource-exhaustion">
 <a href="#section-6.3" class="section-number selfRef">6.3. </a><a href="#name-resource-exhaustion" class="section-name selfRef">Resource Exhaustion</a>
         </h3>
-<p id="section-6.3-1">CSRs and their attestation bundles are untrusted input. Processing a bundle may consume substantial resources through parsing, cryptographic verification, certification path building and validation, and requests to external Verifiers or other services. An attacker can exploit these costs to cause resource exhaustion, even with a syntactically valid bundle.<a href="#section-6.3-1" class="pilcrow">¶</a></p>
-<p id="section-6.3-2">Implementations <span class="bcp14">SHOULD</span> impose limits appropriate to their deployment on the total bundle size, the number and size of attestations and certificates, parsing depth, and the computational effort spent processing a request. These limits <span class="bcp14">SHOULD</span> also bound certification path building, as well as the number, duration, and concurrency of external requests. Implementations <span class="bcp14">SHOULD</span> enforce limits as early as practicable and stop processing when a limit is exceeded. Exceeding a resource limit <span class="bcp14">MUST NOT</span> cause an unverified attestation to be treated as successfully verified.<a href="#section-6.3-2" class="pilcrow">¶</a></p>
+<p id="section-6.3-1">CSRs are untrusted input to a CA/RA, and processing attestation bundles may consume substantial resources through parsing, cryptographic verification, certification path building and validation, and requests to external Verifiers or other services. An attacker can exploit these costs to cause resource exhaustion, even with a syntactically valid bundle.<a href="#section-6.3-1" class="pilcrow">¶</a></p>
+<p id="section-6.3-2">Implementations <span class="bcp14">SHOULD</span> impose limits appropriate to their deployment on the total bundle size, the number, type and size of attestations and certificates, parsing depth, and the computational effort spent processing a request. These limits <span class="bcp14">SHOULD</span> also bound certification path building, as well as the number, duration, and concurrency of external requests. Implementations <span class="bcp14">SHOULD</span> enforce limits as early as practicable and stop processing when a limit is exceeded. Exceeding a resource limit <span class="bcp14">MUST NOT</span> cause an unverified attestation to be treated as successfully verified or lead to overall denial-of-service of the CA/RA.<a href="#section-6.3-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="additional-security-considerations">
@@ -1601,8 +1602,8 @@ The CSR might contain three AttestationStatements originated by three different 
       <h2 id="name-privacy-considerations">
 <a href="#section-7" class="section-number selfRef">7. </a><a href="#name-privacy-considerations" class="section-name selfRef">Privacy Considerations</a>
       </h2>
-<p id="section-7-1">Attestations and the certificates accompanying them can disclose information about a device, its software and hardware environment, and its owner or users. Examples include hardware identifiers, software versions, patch levels, and device ownership. These disclosures occur during enrollment, even if no attestation data is copied into the issued certificate.<a href="#section-7-1" class="pilcrow">¶</a></p>
-<p id="section-7-2">Attestation formats may use stable device-identifying public keys, certificates, or other identifiers. These values can enable a CA/RA or Verifier to link multiple CSRs to the same device even when the CSR public key, subject name, or enrollment account changes. Such linkability can affect privacy even when the individual attested claims are not otherwise sensitive.<a href="#section-7-2" class="pilcrow">¶</a></p>
+<p id="section-7-1">Attestations and the certificates accompanying them can disclose information about a device, its software and hardware environment, and its owner or users. Attesters <span class="bcp14">SHOULD</span> consider how much information is appropriate to disclose to a given CA. Examples include hardware identifiers, software versions, patch levels, and device ownership. These disclosures occur during enrollment, even if no attestation data is copied into the issued certificate.<a href="#section-7-1" class="pilcrow">¶</a></p>
+<p id="section-7-2">Attestation formats may use stable device-identifying public keys, certificates, device IDs, or other identifiers. These values can enable a CA/RA or Verifier to link multiple CSRs to the same device even when the CSR public key, subject name, or enrollment account changes. Such linkability can affect privacy even when the individual attested claims are not otherwise sensitive.<a href="#section-7-2" class="pilcrow">¶</a></p>
 <p id="section-7-3">A CA/RA that forwards attestations or accompanying certificates to an external Verifier discloses this information to another party. That party may also be able to correlate requests across enrollments or across CAs. The privacy assessment of a deployment therefore needs to cover the entire enrollment and attestation verification path, including third-party processing, retention, and logging.<a href="#section-7-3" class="pilcrow">¶</a></p>
 <p id="section-7-4">Certificate requesters, CAs/RAs, and Verifiers <span class="bcp14">SHOULD</span> minimize the attestation claims and accompanying certificates they disclose, process, and retain to those needed for the applicable issuance policy. Where supported by the attestation technology and compatible with that policy, deployments <span class="bcp14">SHOULD</span> use mechanisms that reduce device linkability, such as privacy-preserving attestation. Such mechanisms do not eliminate correlation through other disclosed information. Enrollment protocols and communication with external Verifiers <span class="bcp14">SHOULD</span> provide confidentiality protection and authenticate recipients. Transport confidentiality protects against observers but does not prevent correlation by the recipients themselves. Access to stored attestation data, including logs, <span class="bcp14">SHOULD</span> be restricted, and retention <span class="bcp14">SHOULD</span> be limited to the period needed for issuance and applicable audit requirements.<a href="#section-7-4" class="pilcrow">¶</a></p>
 <p id="section-7-5">Attestations are intended as additional information in the issuance process. It is <span class="bcp14">NOT RECOMMENDED</span> for a CA to copy attestations into the published certificate. CAs that choose to republish attestations in certificates <span class="bcp14">SHOULD</span> review the contents and omit sensitive or identifying information.<a href="#section-7-5" class="pilcrow">¶</a></p>

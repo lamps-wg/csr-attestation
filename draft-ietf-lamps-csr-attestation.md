@@ -185,7 +185,7 @@ AttestationBundle ::= SEQUENCE {
 ~~~
 {: #code-AttestationBundle title="Definition of AttestationBundle"}
 
-At the discretion of its own policy, a CA could place additional requirements on the contents of the attestation field, such as that it contains the same subject public key that the CSR is requesting a certificate for. See {{sec-considerations}} for more discussion. 
+At the discretion of its own policy, a CA could place additional requirements on the contents of the attestation field, such as that it contains the same subject public key that the CSR is requesting a certificate for. See {{sec-considerations}} for more discussion.
 
 The `CertificateChoices` structure defined in {{RFC6268}}, and reproduced below along with `OtherCertificateFormat`, allows for carrying certificates in the default X.509 {{RFC5280}} format or in other certificate formats. Within an `AttestationBundle`, a `CertificateChoices` value MUST use only the `certificate` or `other` alternative; the `extendedCertificate`, `v1AttrCert`, and `v2AttrCert` alternatives MUST NOT be used. {{RFC6268}} marks `extendedCertificate` and `v1AttrCert` as obsolete. Although `v2AttrCert` is not obsolete, it is excluded here because an attribute certificate does not contain a subject public key that can be used to validate an `AttestationStatement`.
 

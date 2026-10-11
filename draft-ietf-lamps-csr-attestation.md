@@ -349,7 +349,7 @@ In addition to the security considerations listed here, implementers should be f
 
 Attestations and the certificates accompanying them can disclose information about a device, its software and hardware environment, and its owner or users. Examples include hardware identifiers, software versions, patch levels, and device ownership. These disclosures occur during enrollment, even if no attestation data is copied into the issued certificate.
 
-Attestation formats may use stable device-identifying public keys, certificates, or other identifiers. These values can enable a CA/RA or Verifier to link multiple CSRs to the same device even when the CSR public key, subject name, or enrollment account changes. Such linkability can affect privacy even when the individual attested claims are not otherwise sensitive.
+Attestation formats may use stable device-identifying public keys, certificates, device IDs, or other identifiers. These values can enable a CA/RA or Verifier to link multiple CSRs to the same device even when the CSR public key, subject name, or enrollment account changes. Such linkability can affect privacy even when the individual attested claims are not otherwise sensitive.
 
 A CA/RA that forwards attestations or accompanying certificates to an external Verifier discloses this information to another party. That party may also be able to correlate requests across enrollments or across CAs. The privacy assessment of a deployment therefore needs to cover the entire enrollment and attestation verification path, including third-party processing, retention, and logging.
 

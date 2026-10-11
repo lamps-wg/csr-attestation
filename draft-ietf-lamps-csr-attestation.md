@@ -339,7 +339,7 @@ To avoid replay attacks, the CA/RA may choose to ignore attestations that are st
 
 CSRs are untrusted input to a CA/RA, and processing attestation bundles may consume substantial resources through parsing, cryptographic verification, certification path building and validation, and requests to external Verifiers or other services. An attacker can exploit these costs to cause resource exhaustion, even with a syntactically valid bundle.
 
-Implementations SHOULD impose limits appropriate to their deployment on the total bundle size, the number and size of attestations and certificates, parsing depth, and the computational effort spent processing a request. These limits SHOULD also bound certification path building, as well as the number, duration, and concurrency of external requests. Implementations SHOULD enforce limits as early as practicable and stop processing when a limit is exceeded. Exceeding a resource limit MUST NOT cause an unverified attestation to be treated as successfully verified.
+Implementations SHOULD impose limits appropriate to their deployment on the total bundle size, the number and size of attestations and certificates, parsing depth, and the computational effort spent processing a request. These limits SHOULD also bound certification path building, as well as the number, duration, and concurrency of external requests. Implementations SHOULD enforce limits as early as practicable and stop processing when a limit is exceeded. Exceeding a resource limit MUST NOT cause an unverified attestation to be treated as successfully verified or lead to overall denial-of-service of the CA/RA.
 
 ## Additional Security Considerations
 

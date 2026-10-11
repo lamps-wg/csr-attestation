@@ -185,6 +185,8 @@ AttestationBundle ::= SEQUENCE {
 ~~~
 {: #code-AttestationBundle title="Definition of AttestationBundle"}
 
+At the discretion of its own policy, a CA could place additional requirements on the contents of the attestation field, such as that it contains the same subject public key that the CSR is requesting a certificate for. See {{sec-considerations}} for more discussion. 
+
 The `CertificateChoices` structure defined in {{RFC6268}}, and reproduced below along with `OtherCertificateFormat`, allows for carrying certificates in the default X.509 {{RFC5280}} format or in other certificate formats. Within an `AttestationBundle`, a `CertificateChoices` value MUST use only the `certificate` or `other` alternative; the `extendedCertificate`, `v1AttrCert`, and `v2AttrCert` alternatives MUST NOT be used. {{RFC6268}} marks `extendedCertificate` and `v1AttrCert` as obsolete. Although `v2AttrCert` is not obsolete, it is excluded here because an attribute certificate does not contain a subject public key that can be used to validate an `AttestationStatement`.
 
 `OTHER-CERT-FMT` is an ASN.1 information object class. The `&id` field identifies a certificate format by its OBJECT IDENTIFIER, and the corresponding `&Type` field specifies the ASN.1 type used to carry that format. For a non-ASN.1 certificate format, an `OTHER-CERT-FMT` information object MUST specify `OCTET STRING` as its `&Type`; `otherCertFormat` then carries the format's `&id`, and `otherCert` carries the encoded certificate in that OCTET STRING. `LimitedCertChoices` applies an ASN.1 constraint that limits the available alternatives to `certificate` and `other`.
@@ -294,7 +296,7 @@ SMI Security for S/MIME Attributes (1.2.840.113549.1.9.16.2).
 - Description: id-aa-attestation
 - References: This Document
 
-# Security Considerations
+# Security Considerations {#sec-considerations}
 
 This document defines a structure to convey
 attestations as additional information in CSRs, as well as an attribute to convey that structure in the

@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-09-22T02:54:15.916749+00:00",
+  "timestamp": "2026-10-11T03:28:46.968507+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -14409,7 +14409,7 @@
       "labels": [],
       "body": "Here is the feedback:\r\nhttps://mailarchive.ietf.org/arch/msg/spasm/aL9fKB7wE564jNyRlXbZsW030sI/",
       "createdAt": "2026-09-21T16:59:51Z",
-      "updatedAt": "2026-09-21T16:59:51Z",
+      "updatedAt": "2026-10-10T21:51:01Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "1a4a5d8525f30c09fbd18e6024293f2ccd1a8bda",
@@ -14421,7 +14421,21 @@
       "mergedBy": null,
       "mergeCommit": null,
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOJ3IIN88AAAABRrBQfQ",
+          "commit": {
+            "abbreviatedOid": "b9fb6df"
+          },
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-10-10T21:51:01Z",
+          "updatedAt": "2026-10-10T21:51:01Z",
+          "comments": []
+        }
+      ]
     },
     {
       "number": 254,
@@ -14435,7 +14449,7 @@
       "labels": [],
       "body": "Russ suggested to change the module identifier to id-mod-pkix-attest-2025\r\n\r\nhttps://mailarchive.ietf.org/arch/msg/spasm/6pcGk4TON0FTuWvYHOgXyP0Q0ic/\r\n\r\nI am not entirely sure whether I correctly captured his intend.",
       "createdAt": "2026-09-21T17:03:26Z",
-      "updatedAt": "2026-09-21T17:03:26Z",
+      "updatedAt": "2026-10-10T21:51:20Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "1a4a5d8525f30c09fbd18e6024293f2ccd1a8bda",
@@ -14447,7 +14461,228 @@
       "mergedBy": null,
       "mergeCommit": null,
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOJ3IIN88AAAABRrBUwg",
+          "commit": {
+            "abbreviatedOid": "a5f0517"
+          },
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-10-10T21:51:20Z",
+          "updatedAt": "2026-10-10T21:51:20Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 255,
+      "id": "PR_kwDOJ3IIN88AAAABHuqheg",
+      "title": "Review by Shivan Kaul Sahib",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/255",
+      "state": "OPEN",
+      "author": "hannestschofenig",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Addressing the review in https://datatracker.ietf.org/doc/review-ietf-lamps-csr-attestation-29-secdir-lc-sahib-2026-09-19/",
+      "createdAt": "2026-10-10T18:56:34Z",
+      "updatedAt": "2026-10-10T22:10:46Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "1a4a5d8525f30c09fbd18e6024293f2ccd1a8bda",
+      "headRepository": "lamps-wg/csr-attestation",
+      "headRefName": "hannestschofenig-patch-9",
+      "headRefOid": "7787497ce777bd20f32af229c1a5d984db89a8b2",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJ3IIN88AAAABRrC0Lg",
+          "commit": {
+            "abbreviatedOid": "7787497"
+          },
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-10-10T21:59:37Z",
+          "updatedAt": "2026-10-10T21:59:37Z",
+          "comments": [
+            {
+              "originalPosition": 4,
+              "body": "I still think this concept is useful. I wonder if we could simply demote it to a non-normative statement.\n\nSomething like:\n\n\"At the discretion of its own policy, a CA could place additional requirements on the contents of the `attestation` field, such as that it contains the same subject public key that the CSR is requesting a certificate for. See the security consideration \"\n{{Binding Attestations to the CSR's Public Key}} below for further discussion.\"",
+              "createdAt": "2026-10-10T21:59:37Z",
+              "updatedAt": "2026-10-10T22:01:56Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN88AAAABRrDaTg",
+          "commit": {
+            "abbreviatedOid": "7787497"
+          },
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-10-10T22:03:24Z",
+          "updatedAt": "2026-10-10T22:03:24Z",
+          "comments": [
+            {
+              "originalPosition": 30,
+              "body": "```suggestion\nCSRs are untrusted input to a CA/RA, and processing attestation bundles may consume substantial resources through parsing, cryptographic verification, certification path building and validation, and requests to external Verifiers or other services. An attacker can exploit these costs to cause resource exhaustion, even with a syntactically valid bundle.\n```",
+              "createdAt": "2026-10-10T22:03:24Z",
+              "updatedAt": "2026-10-10T22:03:24Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN88AAAABRrDcKA",
+          "commit": {
+            "abbreviatedOid": "7787497"
+          },
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-10-10T22:03:35Z",
+          "updatedAt": "2026-10-10T22:03:35Z",
+          "comments": [
+            {
+              "originalPosition": 30,
+              "body": "This is a really really good point!",
+              "createdAt": "2026-10-10T22:03:35Z",
+              "updatedAt": "2026-10-10T22:03:35Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN88AAAABRrDiCA",
+          "commit": {
+            "abbreviatedOid": "7787497"
+          },
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-10-10T22:04:08Z",
+          "updatedAt": "2026-10-10T22:04:09Z",
+          "comments": [
+            {
+              "originalPosition": 32,
+              "body": "also the type of attestation? Any additional parsing limits recommended by the specification of a given attestation data format should also be adhered to.",
+              "createdAt": "2026-10-10T22:04:08Z",
+              "updatedAt": "2026-10-10T22:05:31Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN88AAAABRrD6MA",
+          "commit": {
+            "abbreviatedOid": "7787497"
+          },
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-10-10T22:06:24Z",
+          "updatedAt": "2026-10-10T22:06:24Z",
+          "comments": [
+            {
+              "originalPosition": 32,
+              "body": "\"Exceeding a resource limit MUST NOT cause an unverified attestation to be treated as successfully verified.\"\n\n... or lead to overall denial-of-service of the CA/RA.",
+              "createdAt": "2026-10-10T22:06:24Z",
+              "updatedAt": "2026-10-10T22:06:24Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN88AAAABRrEH9g",
+          "commit": {
+            "abbreviatedOid": "7787497"
+          },
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-10-10T22:07:34Z",
+          "updatedAt": "2026-10-10T22:07:35Z",
+          "comments": [
+            {
+              "originalPosition": 40,
+              "body": "... attesters SHOULD consider how much information is appropriate to disclose to a given CA.",
+              "createdAt": "2026-10-10T22:07:35Z",
+              "updatedAt": "2026-10-10T22:07:35Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN88AAAABRrEPXQ",
+          "commit": {
+            "abbreviatedOid": "7787497"
+          },
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-10-10T22:08:17Z",
+          "updatedAt": "2026-10-10T22:08:17Z",
+          "comments": [
+            {
+              "originalPosition": 42,
+              "body": "```suggestion\nAttestation formats may use stable device-identifying public keys, certificates, device IDs, or other identifiers. These values can enable a CA/RA or Verifier to link multiple CSRs to the same device even when the CSR public key, subject name, or enrollment account changes. Such linkability can affect privacy even when the individual attested claims are not otherwise sensitive.\n```",
+              "createdAt": "2026-10-10T22:08:17Z",
+              "updatedAt": "2026-10-10T22:08:17Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN88AAAABRrEjMw",
+          "commit": {
+            "abbreviatedOid": "7787497"
+          },
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-10-10T22:09:48Z",
+          "updatedAt": "2026-10-10T22:09:48Z",
+          "comments": [
+            {
+              "originalPosition": 44,
+              "body": "I wonder if this document is an appropriate place for a statement like:\n\n\"CAs SHOULD disclose to their users any 3rd party Verifier services that it uses during appraisal\"\n?",
+              "createdAt": "2026-10-10T22:09:48Z",
+              "updatedAt": "2026-10-10T22:09:48Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN88AAAABRrExdQ",
+          "commit": {
+            "abbreviatedOid": "7787497"
+          },
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-10-10T22:10:46Z",
+          "updatedAt": "2026-10-10T22:10:46Z",
+          "comments": [
+            {
+              "originalPosition": 38,
+              "body": "\ud83d\udc4d \nThis new section is an excellent addition.",
+              "createdAt": "2026-10-10T22:10:46Z",
+              "updatedAt": "2026-10-10T22:10:46Z"
+            }
+          ]
+        }
+      ]
     }
   ]
 }

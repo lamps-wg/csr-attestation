@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-10-11T03:28:46.968507+00:00",
+  "timestamp": "2026-10-13T05:02:50.874292+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -14409,7 +14409,7 @@
       "labels": [],
       "body": "Here is the feedback:\r\nhttps://mailarchive.ietf.org/arch/msg/spasm/aL9fKB7wE564jNyRlXbZsW030sI/",
       "createdAt": "2026-09-21T16:59:51Z",
-      "updatedAt": "2026-10-10T21:51:01Z",
+      "updatedAt": "2026-10-11T13:32:40Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "1a4a5d8525f30c09fbd18e6024293f2ccd1a8bda",
@@ -14433,6 +14433,19 @@
           "body": "",
           "createdAt": "2026-10-10T21:51:01Z",
           "updatedAt": "2026-10-10T21:51:01Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJ3IIN88AAAABRtd2Gw",
+          "commit": {
+            "abbreviatedOid": "b9fb6df"
+          },
+          "author": "seanturner",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-10-11T13:32:40Z",
+          "updatedAt": "2026-10-11T13:32:40Z",
           "comments": []
         }
       ]
@@ -14489,13 +14502,13 @@
       "labels": [],
       "body": "Addressing the review in https://datatracker.ietf.org/doc/review-ietf-lamps-csr-attestation-29-secdir-lc-sahib-2026-09-19/",
       "createdAt": "2026-10-10T18:56:34Z",
-      "updatedAt": "2026-10-10T22:10:46Z",
+      "updatedAt": "2026-10-11T13:14:39Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "1a4a5d8525f30c09fbd18e6024293f2ccd1a8bda",
       "headRepository": "lamps-wg/csr-attestation",
       "headRefName": "hannestschofenig-patch-9",
-      "headRefOid": "7787497ce777bd20f32af229c1a5d984db89a8b2",
+      "headRefOid": "f2f37402a1cd41367bbd1fe4361e61f6efb96697",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -14679,6 +14692,66 @@
               "body": "\ud83d\udc4d \nThis new section is an excellent addition.",
               "createdAt": "2026-10-10T22:10:46Z",
               "updatedAt": "2026-10-10T22:10:46Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN88AAAABRtXtew",
+          "commit": {
+            "abbreviatedOid": "53dc0b0"
+          },
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-10-11T13:01:00Z",
+          "updatedAt": "2026-10-11T13:01:00Z",
+          "comments": [
+            {
+              "originalPosition": 41,
+              "body": "```suggestion\nImplementations SHOULD impose limits appropriate to their deployment on the total bundle size, the number and size of attestations and certificates, parsing depth, and the computational effort spent processing a request. These limits SHOULD also bound certification path building, as well as the number, duration, and concurrency of external requests. Implementations SHOULD enforce limits as early as practicable and stop processing when a limit is exceeded. Exceeding a resource limit MUST NOT cause an unverified attestation to be treated as successfully verified or lead to overall denial-of-service of the CA/RA.\n```",
+              "createdAt": "2026-10-11T13:01:00Z",
+              "updatedAt": "2026-10-11T13:01:00Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN88AAAABRtYSGw",
+          "commit": {
+            "abbreviatedOid": "3b3681b"
+          },
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-10-11T13:04:26Z",
+          "updatedAt": "2026-10-11T13:04:26Z",
+          "comments": [
+            {
+              "originalPosition": 41,
+              "body": "```suggestion\nImplementations SHOULD impose limits appropriate to their deployment on the total bundle size, the number, type and size of attestations and certificates, parsing depth, and the computational effort spent processing a request. These limits SHOULD also bound certification path building, as well as the number, duration, and concurrency of external requests. Implementations SHOULD enforce limits as early as practicable and stop processing when a limit is exceeded. Exceeding a resource limit MUST NOT cause an unverified attestation to be treated as successfully verified or lead to overall denial-of-service of the CA/RA.\n```",
+              "createdAt": "2026-10-11T13:04:26Z",
+              "updatedAt": "2026-10-11T13:04:26Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN88AAAABRtYtXA",
+          "commit": {
+            "abbreviatedOid": "5cf6d23"
+          },
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-10-11T13:06:42Z",
+          "updatedAt": "2026-10-11T13:06:42Z",
+          "comments": [
+            {
+              "originalPosition": 49,
+              "body": "```suggestion\nAttestations and the certificates accompanying them can disclose information about a device, its software and hardware environment, and its owner or users. Attesters SHOULD consider how much information is appropriate to disclose to a given CA. Examples include hardware identifiers, software versions, patch levels, and device ownership. These disclosures occur during enrollment, even if no attestation data is copied into the issued certificate.\n```",
+              "createdAt": "2026-10-11T13:06:42Z",
+              "updatedAt": "2026-10-11T13:06:42Z"
             }
           ]
         }

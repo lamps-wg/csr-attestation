@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-10-13T05:02:50.874292+00:00",
+  "timestamp": "2026-10-15T02:48:36.419277+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -14502,7 +14502,7 @@
       "labels": [],
       "body": "Addressing the review in https://datatracker.ietf.org/doc/review-ietf-lamps-csr-attestation-29-secdir-lc-sahib-2026-09-19/",
       "createdAt": "2026-10-10T18:56:34Z",
-      "updatedAt": "2026-10-11T13:14:39Z",
+      "updatedAt": "2026-10-14T16:00:46Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "1a4a5d8525f30c09fbd18e6024293f2ccd1a8bda",
@@ -14752,6 +14752,425 @@
               "body": "```suggestion\nAttestations and the certificates accompanying them can disclose information about a device, its software and hardware environment, and its owner or users. Attesters SHOULD consider how much information is appropriate to disclose to a given CA. Examples include hardware identifiers, software versions, patch levels, and device ownership. These disclosures occur during enrollment, even if no attestation data is copied into the issued certificate.\n```",
               "createdAt": "2026-10-11T13:06:42Z",
               "updatedAt": "2026-10-11T13:06:42Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN88AAAABSCcOaA",
+          "commit": {
+            "abbreviatedOid": "f2f3740"
+          },
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-10-13T14:52:49Z",
+          "updatedAt": "2026-10-13T14:52:50Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "Maybe:\n\n```suggestion\nAt the discretion of its own policy, a CA could place additional requirements on the contents of the 'attestations' sequence, such as that on of the 'AttestationStatement' fields contains the same subject public key that the CSR is requesting a certificate for. See {{sec-considerations}} for more discussion.\n```",
+              "createdAt": "2026-10-13T14:52:50Z",
+              "updatedAt": "2026-10-13T14:52:50Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN88AAAABSCgrnQ",
+          "commit": {
+            "abbreviatedOid": "f2f3740"
+          },
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-10-13T14:57:20Z",
+          "updatedAt": "2026-10-13T14:57:21Z",
+          "comments": [
+            {
+              "originalPosition": 23,
+              "body": "```suggestion\nKey attestation is one use case for the structures defined in this document. Key attestation enables a CA/RA to obtain assurance about the key pair for which a certificate is requested, including the environment in which it was generated, the protection and isolation of that environment, its permitted use, or the extractability of its private key, as asserted by the attestation statement. To provide such assurance, an attestation statement MUST identify the CSR's public key in a cryptographically verifiable manner, and an appraisal of an attestation statement the constitutes Evidence must establish that the claims describe the actual handling of the corresponding key pair in the target environment. Merely including a requester-supplied public key or its hash in authenticated platform attestation data does not, by itself, establish that the corresponding private key was generated or is protected in that environment.\n```",
+              "createdAt": "2026-10-13T14:57:20Z",
+              "updatedAt": "2026-10-13T14:57:21Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN88AAAABSChfIA",
+          "commit": {
+            "abbreviatedOid": "f2f3740"
+          },
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-10-13T14:58:09Z",
+          "updatedAt": "2026-10-13T14:58:09Z",
+          "comments": [
+            {
+              "originalPosition": 23,
+              "body": "> a requester-supplied public key or its hash in authenticated platform attestation data\n\nI do not understand what that means, tbh.\n\n",
+              "createdAt": "2026-10-13T14:58:09Z",
+              "updatedAt": "2026-10-13T14:58:10Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN88AAAABSCjSMg",
+          "commit": {
+            "abbreviatedOid": "f2f3740"
+          },
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-10-13T14:59:56Z",
+          "updatedAt": "2026-10-13T14:59:57Z",
+          "comments": [
+            {
+              "originalPosition": 25,
+              "body": "```suggestion\nRegardless of the topological model, when a CA/RA relies on an attestation statement to establish a property of the CSR's public key or the corresponding private key, it MUST validate this binding. The CA/RA may rely on a trusted Verifier to perform this validation but the CA/RA remains responsible for ensuring that the binding has been validated. For CAs issuing in conformance with the CA/Browser Forum's Code Signing Baseline Requirements, this means that an attestation statement about HSM generation and protection is cryptographically bound to the public key in the CSR.\n```\n\nI hope I did not make it worse, but I really did not understand what\n> his means verifying the attestation of HSM generation and protection is cryptographically bound to the public key in the CSR\n\nmeans.",
+              "createdAt": "2026-10-13T14:59:56Z",
+              "updatedAt": "2026-10-13T15:01:21Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN88AAAABSCm0YA",
+          "commit": {
+            "abbreviatedOid": "f2f3740"
+          },
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-10-13T15:03:29Z",
+          "updatedAt": "2026-10-13T15:03:30Z",
+          "comments": [
+            {
+              "originalPosition": 27,
+              "body": "```suggestion\nIf no key attestation with a validated binding is available, the CA/RA MUST NOT treat attestations as establishing properties of the CSR's public key or the corresponding private key. The CA/RA's issuance policy determines whether to reject the CSR, obtain additional evidence (in the form of attestation statements), or issue a certificate based on other acceptable information. The absence of a key attestation with a validated binding does not, by itself, require rejection under this specification; however, an issuance policy that requires properties supported by believable evidence about the requested key cannot be satisfied by some unbound attestation statements alone.\n```",
+              "createdAt": "2026-10-13T15:03:30Z",
+              "updatedAt": "2026-10-13T15:03:30Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN88AAAABSCnSIg",
+          "commit": {
+            "abbreviatedOid": "f2f3740"
+          },
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-10-13T15:03:58Z",
+          "updatedAt": "2026-10-13T15:03:58Z",
+          "comments": [
+            {
+              "originalPosition": 29,
+              "body": "```suggestion\nMultiple attestation statements from multiple sources, as envisioned in {{RFC9334}}, can introduce additional complications as shown in the following example.\n```",
+              "createdAt": "2026-10-13T15:03:58Z",
+              "updatedAt": "2026-10-13T15:04:05Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN88AAAABSCoXXA",
+          "commit": {
+            "abbreviatedOid": "f2f3740"
+          },
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-10-13T15:05:04Z",
+          "updatedAt": "2026-10-13T15:05:05Z",
+          "comments": [
+            {
+              "originalPosition": 33,
+              "body": "```suggestion\nTo avoid replay attacks, the CA/RA may choose to ignore attestation statements that are stale, or whose freshness cannot be determined. Mechanisms to address freshness and their application to the RATS topological models are discussed in {{RFC9334}}. Other mechanisms for determining freshness may be used as the CA/RA deems appropriate. When CSRs are embedded within certificate management protocols such as EST {{RFC7030}} or CMP {{RFC9810}}, these protocols can supply an Attester with a nonce, for example. Further details are specified in {{I-D.ietf-lamps-attestation-freshness}}.\n```",
+              "createdAt": "2026-10-13T15:05:04Z",
+              "updatedAt": "2026-10-13T15:05:05Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN88AAAABSCpQfg",
+          "commit": {
+            "abbreviatedOid": "f2f3740"
+          },
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-10-13T15:06:00Z",
+          "updatedAt": "2026-10-13T15:06:00Z",
+          "comments": [
+            {
+              "originalPosition": 41,
+              "body": "```suggestion\nImplementations SHOULD impose limits appropriate to their deployment on the total bundle size, the number, type and size of attestation statements and certificates, parsing depth, and the computational effort spent processing a request. These limits SHOULD also bound certification path building, as well as the number, duration, and concurrency of external requests. Implementations SHOULD enforce limits as early as practicable and stop processing when a limit is exceeded. Exceeding a resource limit MUST NOT cause an unverified attestation statement to be treated as successfully verified or lead to overall denial-of-service of the CA/RA.\n```",
+              "createdAt": "2026-10-13T15:06:00Z",
+              "updatedAt": "2026-10-13T15:06:00Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN88AAAABSCqrsg",
+          "commit": {
+            "abbreviatedOid": "f2f3740"
+          },
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-10-13T15:07:25Z",
+          "updatedAt": "2026-10-13T15:07:26Z",
+          "comments": [
+            {
+              "originalPosition": 49,
+              "body": "```suggestion\nAttestation statements, such as Evidence, and the certificates accompanying them can disclose information about a device, its software and hardware environment, and its owner or users. Attesters SHOULD consider how much information is appropriate to disclose to a given CA. Examples include hardware identifiers, software versions, patch levels, and device ownership. These disclosures occur during enrollment, even if no Evidence claims are copied into the issued certificate.\n```",
+              "createdAt": "2026-10-13T15:07:25Z",
+              "updatedAt": "2026-10-13T15:07:26Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN88AAAABSCriGw",
+          "commit": {
+            "abbreviatedOid": "f2f3740"
+          },
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-10-13T15:08:16Z",
+          "updatedAt": "2026-10-13T15:08:17Z",
+          "comments": [
+            {
+              "originalPosition": 51,
+              "body": "```suggestion\nRemote attestation formats may use stable device-identifying public keys, certificates, device IDs, or other identifiers. These claims can enable a CA/RA or Verifier to link multiple CSRs to the same device even when the CSR public key, subject name, or enrollment account changes. Such linkability can affect privacy even when the individual Evidence claims are not otherwise sensitive.\n```",
+              "createdAt": "2026-10-13T15:08:17Z",
+              "updatedAt": "2026-10-13T15:08:17Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN88AAAABSCs5cQ",
+          "commit": {
+            "abbreviatedOid": "f2f3740"
+          },
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-10-13T15:09:46Z",
+          "updatedAt": "2026-10-13T15:09:47Z",
+          "comments": [
+            {
+              "originalPosition": 53,
+              "body": "```suggestion\nA CA/RA that forwards attestation statements, such as Evidence or accompanying certificates, to an external Verifier discloses included claims to another party. That party may also be able to correlate requests across enrollments or across CAs. The privacy assessment of a deployment therefore needs to cover the entire enrollment and Evidence appraisal path, including third-party processing, retention, and logging.\n```",
+              "createdAt": "2026-10-13T15:09:46Z",
+              "updatedAt": "2026-10-13T15:09:47Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN88AAAABSCum7w",
+          "commit": {
+            "abbreviatedOid": "f2f3740"
+          },
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-10-13T15:11:52Z",
+          "updatedAt": "2026-10-13T15:11:53Z",
+          "comments": [
+            {
+              "originalPosition": 55,
+              "body": "```suggestion\nCertificate requesters, CAs/RAs, and Verifiers SHOULD minimize Evidence claims and accompanying certificates they disclose, process, and retain to those needed for the applicable issuance policy. Where supported by the attestation technology and compatible with that policy, deployments SHOULD use mechanisms that reduce device linkability, such as privacy-preserving attestation procedures. Such mechanisms do not eliminate correlation through other disclosed information. Enrollment protocols and communication with external Verifiers SHOULD provide confidentiality protection and authenticate recipients. Transport confidentiality protects against observers but does not prevent correlation by the recipients themselves. Access to stored attestation statements, including logs, SHOULD be restricted, and retention SHOULD be limited to the period needed for issuance and applicable audit requirements.\n```",
+              "createdAt": "2026-10-13T15:11:52Z",
+              "updatedAt": "2026-10-13T15:11:53Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN88AAAABSCxHLw",
+          "commit": {
+            "abbreviatedOid": "f2f3740"
+          },
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-10-13T15:14:48Z",
+          "updatedAt": "2026-10-13T15:14:48Z",
+          "comments": [
+            {
+              "originalPosition": 57,
+              "body": "```suggestion\nAttestations statements (especially Evidence) are intended as additional information in certificate issuance processes. It is NOT RECOMMENDED for a CA to copy any Evidence claims into the published certificate. CAs that choose to republish Evidence claims in certificates SHOULD review the contents of those claims and omit sensitive or identifying information.\n```",
+              "createdAt": "2026-10-13T15:14:48Z",
+              "updatedAt": "2026-10-13T15:14:48Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN88AAAABSPVxdQ",
+          "commit": {
+            "abbreviatedOid": "f2f3740"
+          },
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-10-14T13:51:50Z",
+          "updatedAt": "2026-10-14T13:51:50Z",
+          "comments": [
+            {
+              "originalPosition": 23,
+              "body": "Yeah, I'm also not exactly sure what I was going for there -- I think I was going for: you need to know the protection properties of the key, not only \"it is here\". But I totally agree that this is very confusing. Just delete the last sentence.",
+              "createdAt": "2026-10-14T13:51:50Z",
+              "updatedAt": "2026-10-14T13:51:50Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN88AAAABSPYEHg",
+          "commit": {
+            "abbreviatedOid": "f2f3740"
+          },
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-10-14T13:54:25Z",
+          "updatedAt": "2026-10-14T13:54:26Z",
+          "comments": [
+            {
+              "originalPosition": 25,
+              "body": "I agree it's confusingly worded.\r\n\r\nI think the intent was that if the public key of the CSR does not appear in the signed attestation (ie it is only a platform attestation and not a key attestation) then you really have no proof that this attestation actually has anything to do with the public key you are requesting a certificate for.",
+              "createdAt": "2026-10-14T13:54:25Z",
+              "updatedAt": "2026-10-14T13:54:26Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN88AAAABSQqJHQ",
+          "commit": {
+            "abbreviatedOid": "f2f3740"
+          },
+          "author": "nedmsmith",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-10-14T15:27:30Z",
+          "updatedAt": "2026-10-14T15:27:30Z",
+          "comments": [
+            {
+              "originalPosition": 23,
+              "body": "The new text has a typo s/\"statement the\"/\"statement that\"\r\nIt is helpful if edits are line-by-line instead of paragraph-by-paragraph",
+              "createdAt": "2026-10-14T15:27:30Z",
+              "updatedAt": "2026-10-14T15:27:30Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN88AAAABSQxsUg",
+          "commit": {
+            "abbreviatedOid": "f2f3740"
+          },
+          "author": "nedmsmith",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-10-14T15:36:28Z",
+          "updatedAt": "2026-10-14T15:36:28Z",
+          "comments": [
+            {
+              "originalPosition": 23,
+              "body": "The idea that \"key attestation\" is inclusive of \"environment attestation\" (or \"platform attestation\") doesn't resonate with me. Much of what is described by RATS RFCs focuses on environment attestation. Key attestation focus is on properties of keys. It is a nuanced definition that asserts environmental properties are key properties. Keys are stored / used in the context of some environment which can be identified and attested using current RATS approaches to environment attestation, so I'd prefer to remove the wording that says \"including the environment in which it was generated, the protection and isolation of that environment,\" and add wording that explains that keys are stored and used in an environment and that environment attestation mechanisms may augment key attestation mechanisms to paint a more complete attestation picture. ",
+              "createdAt": "2026-10-14T15:36:28Z",
+              "updatedAt": "2026-10-14T15:50:48Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN88AAAABSQ0Law",
+          "commit": {
+            "abbreviatedOid": "f2f3740"
+          },
+          "author": "nedmsmith",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "See my comments in line",
+          "createdAt": "2026-10-14T15:39:27Z",
+          "updatedAt": "2026-10-14T15:39:27Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJ3IIN88AAAABSQ8pyg",
+          "commit": {
+            "abbreviatedOid": "f2f3740"
+          },
+          "author": "nedmsmith",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-10-14T15:49:15Z",
+          "updatedAt": "2026-10-14T15:49:16Z",
+          "comments": [
+            {
+              "originalPosition": 25,
+              "body": "Corim schema can bind a key to an environment. That schema used in Evidence means the AE asserts the binding. In key attestation semantics it seems weird if a key tries to assert something about the binding to its environment. DICE resolves the key-environment binding semantic by incorporating a digest of the environment (hash of key controller firmware) into the key gen operation. TPM uses PCRs of environment with policy that enables use of keys only if the environment is what the policy expects. Another approach hashes the key with additional context and uses the digest as an identity called [said](https://datatracker.ietf.org/doc/html/draft-ssmith-said). My observation is that the key-environment binding property is a hard problem that the industry has been noodling on for a while. This RFC shouldn't try to solve it in a vacuum. I don't know if HSM designers have done something special to address it.",
+              "createdAt": "2026-10-14T15:49:16Z",
+              "updatedAt": "2026-10-14T16:18:31Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN88AAAABSQ_OmA",
+          "commit": {
+            "abbreviatedOid": "f2f3740"
+          },
+          "author": "nedmsmith",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-10-14T15:52:27Z",
+          "updatedAt": "2026-10-14T15:52:28Z",
+          "comments": [
+            {
+              "originalPosition": 27,
+              "body": "\"believable evidence\" is the same as \"Evidence\" IMHO.",
+              "createdAt": "2026-10-14T15:52:27Z",
+              "updatedAt": "2026-10-14T15:52:28Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN88AAAABSRBoGw",
+          "commit": {
+            "abbreviatedOid": "f2f3740"
+          },
+          "author": "nedmsmith",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "See comments inline.",
+          "createdAt": "2026-10-14T15:55:28Z",
+          "updatedAt": "2026-10-14T16:00:46Z",
+          "comments": [
+            {
+              "originalPosition": 1,
+              "body": "\"HSM generation\" is potentially ambiguous - could refer to the way the HSM is manufactured or the way a key was generated.",
+              "createdAt": "2026-10-14T15:55:28Z",
+              "updatedAt": "2026-10-14T16:00:46Z"
+            },
+            {
+              "originalPosition": 29,
+              "body": "after reading this section it is unclear to me what the goal is. The reader is supposed to appreciate the potential for complexity? To improve this section there should be guidance for how to resolve the apparent undecidable state. Otherwise, it should be removed and left as an implementation exercise.",
+              "createdAt": "2026-10-14T15:59:58Z",
+              "updatedAt": "2026-10-14T16:00:46Z"
             }
           ]
         }

@@ -72,6 +72,8 @@ informative:
   I-D.ietf-lamps-attestation-freshness:
   RFC7030:
   RFC9810:
+  RFC3647:
+  RFC10002:
   RFC9999:
   RFC9683:
   CSBR:
@@ -304,7 +306,7 @@ Certification Request Message defined in {{RFC2986}} and an extension to convey 
 Certificate Request Message Format defined in {{RFC4211}}.
 The CA/RA that receives the CSR may choose to verify the attestation(s) to determine if an issuance policy is met, or which of a suite of policies is satisfied. The CA/RA is also free to discard the additional information without processing.
 
-A CA which accepts or requires attestation(s) SHOULD document its requirements with its Certification Practice Statement(s).
+A CA which accepts or requires attestation(s) SHOULD document its requirements with its Certification Practice Statement(s) {{RFC3647}}.
 
 The remainder of this section identifies security considerations that apply when the CA/RA chooses to verify the attestation as part of the evaluation of a CSR.
 

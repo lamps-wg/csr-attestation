@@ -5,13 +5,13 @@
 Network Working Group                                       M. Ounsworth
 Internet-Draft                                            Cryptic Forest
 Intended status: Standards Track                           H. Tschofenig
-Expires: 6 March 2027                                            Siemens
+Expires: 20 April 2027                                           Siemens
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                               M. Wiseman
                                                              Independent
                                                                 N. Smith
-                                                        2 September 2026
+                                                         17 October 2026
 
 
      Use of Remote Attestation with Certification Signing Requests
@@ -64,7 +64,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 6 March 2027.
+   This Internet-Draft will expire on 20 April 2027.
 
 Copyright Notice
 
@@ -487,7 +487,7 @@ Table of Contents
    additional information without processing.
 
    A CA which accepts or requires attestation(s) SHOULD document its
-   requirements with its Certification Practice Statement(s).
+   requirements with its Certification Practice Statement(s) [RFC3647].
 
    The remainder of this section identifies security considerations that
    apply when the CA/RA chooses to verify the attestation as part of the
@@ -540,9 +540,9 @@ Table of Contents
    to address freshness and their application to the RATS topological
    models are discussed in [RFC9334].  Other mechanisms for determining
    freshness may be used as the CA/RA deems appropriate.  When CSRs are
-   embedded within certificate management protocols such as EST
-   [RFC7030] or CMP [RFC9810], these protocols can supply the Attester
-   with a nonce.  Further details are specified in
+   embedded within certificate management protocols, such as EST
+   [RFC7030], CMP [RFC9810] and CMC [RFC10002], these protocols can
+   supply the Attester with a nonce.  Further details are specified in
    [I-D.ietf-lamps-attestation-freshness].
 
 6.3.  Relationship of Attestations and Certificate Extensions
@@ -624,9 +624,15 @@ Table of Contents
               Tschofenig, H., Brockhaus, H., Mandel, J., and S. Turner,
               "Requesting a Freshness Nonce for Attestation Evidence in
               Certificate Signing Requests", Work in Progress, Internet-
-              Draft, draft-ietf-lamps-attestation-freshness-08, 4 July
-              2026, <https://datatracker.ietf.org/doc/html/draft-ietf-
-              lamps-attestation-freshness-08>.
+              Draft, draft-ietf-lamps-attestation-freshness-09, 17
+              October 2026, <https://datatracker.ietf.org/doc/html/
+              draft-ietf-lamps-attestation-freshness-09>.
+
+   [RFC3647]  Chokhani, S., Ford, W., Sabett, R., Merrill, C., and S.
+              Wu, "Internet X.509 Public Key Infrastructure Certificate
+              Policy and Certification Practices Framework", RFC 3647,
+              DOI 10.17487/RFC3647, November 2003,
+              <https://www.rfc-editor.org/rfc/rfc3647>.
 
    [RFC7030]  Pritikin, M., Ed., Yee, P., Ed., and D. Harkins, Ed.,
               "Enrollment over Secure Transport", RFC 7030,
@@ -649,6 +655,11 @@ Table of Contents
               "Remote ATtestation procedureS (RATS) Conceptual Message
               Wrapper (CMW)", RFC 9999, DOI 10.17487/RFC9999, July 2026,
               <https://www.rfc-editor.org/rfc/rfc9999>.
+
+   [RFC10002] Mandel, J., Ed. and S. Turner, Ed., "Certificate
+              Management over CMS (CMC)", RFC 10002,
+              DOI 10.17487/RFC10002, July 2026,
+              <https://www.rfc-editor.org/rfc/rfc10002>.
 
    [SampleData]
               "CSR Attestation Sample Data", n.d.,

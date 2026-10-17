@@ -491,7 +491,7 @@ Table of Contents
    additional information without processing.
 
    A CA which accepts or requires attestation(s) SHOULD document its
-   requirements with its Certification Practice Statement(s).
+   requirements with its Certification Practice Statement(s) [RFC3647].
 
    The remainder of this section identifies security considerations that
    apply when the CA/RA chooses to verify the attestation as part of the
@@ -737,6 +737,12 @@ Table of Contents
               October 2026, <https://datatracker.ietf.org/doc/html/
               draft-ietf-lamps-attestation-freshness-09>.
 
+   [RFC3647]  Chokhani, S., Ford, W., Sabett, R., Merrill, C., and S.
+              Wu, "Internet X.509 Public Key Infrastructure Certificate
+              Policy and Certification Practices Framework", RFC 3647,
+              DOI 10.17487/RFC3647, November 2003,
+              <https://www.rfc-editor.org/rfc/rfc3647>.
+
    [RFC7030]  Pritikin, M., Ed., Yee, P., Ed., and D. Harkins, Ed.,
               "Enrollment over Secure Transport", RFC 7030,
               DOI 10.17487/RFC7030, October 2013,
@@ -759,6 +765,11 @@ Table of Contents
               Wrapper (CMW)", RFC 9999, DOI 10.17487/RFC9999, July 2026,
               <https://www.rfc-editor.org/rfc/rfc9999>.
 
+   [RFC10002] Mandel, J., Ed. and S. Turner, Ed., "Certificate
+              Management over CMS (CMC)", RFC 10002,
+              DOI 10.17487/RFC10002, July 2026,
+              <https://www.rfc-editor.org/rfc/rfc10002>.
+
    [SampleData]
               "CSR Attestation Sample Data", n.d.,
               <https://github.com/lamps-wg/csr-attestation-examples>.
@@ -772,7 +783,7 @@ Appendix B.  ASN.1 Module
 
    CSR-ATTESTATION-2025
      { iso(1) identified-organization(3) dod(6) internet(1) security(5)
-     mechanisms(5) pkix(7) id-mod(0) id-mod-pkix-attest-01(TBDMOD) }
+     mechanisms(5) pkix(7) id-mod(0) id-mod-pkix-attest-2025(TBDMOD) }
 
    DEFINITIONS IMPLICIT TAGS ::= BEGIN
 

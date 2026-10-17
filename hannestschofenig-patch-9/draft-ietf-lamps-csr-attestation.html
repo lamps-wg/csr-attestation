@@ -1532,7 +1532,7 @@ attestations as additional information in CSRs, as well as an attribute to conve
 Certification Request Message defined in <span>[<a href="#RFC2986" class="cite xref">RFC2986</a>]</span> and an extension to convey that structure in the
 Certificate Request Message Format defined in <span>[<a href="#RFC4211" class="cite xref">RFC4211</a>]</span>.
 The CA/RA that receives the CSR may choose to verify the attestation(s) to determine if an issuance policy is met, or which of a suite of policies is satisfied. The CA/RA is also free to discard the additional information without processing.<a href="#section-6-1" class="pilcrow">¶</a></p>
-<p id="section-6-2">A CA which accepts or requires attestation(s) <span class="bcp14">SHOULD</span> document its requirements with its Certification Practice Statement(s).<a href="#section-6-2" class="pilcrow">¶</a></p>
+<p id="section-6-2">A CA which accepts or requires attestation(s) <span class="bcp14">SHOULD</span> document its requirements with its Certification Practice Statement(s) <span>[<a href="#RFC3647" class="cite xref">RFC3647</a>]</span>.<a href="#section-6-2" class="pilcrow">¶</a></p>
 <p id="section-6-3">The remainder of this section identifies security considerations that apply when the CA/RA chooses to verify the attestation as part of the evaluation of a CSR.<a href="#section-6-3" class="pilcrow">¶</a></p>
 <div id="binding-attestations-to-the-csrs-public-key">
 <section id="section-6.1">
@@ -1671,6 +1671,10 @@ The CSR might contain three AttestationStatements originated by three different 
         <dd>
 <span class="refAuthor">Tschofenig, H.</span>, <span class="refAuthor">Brockhaus, H.</span>, <span class="refAuthor">Mandel, J.</span>, and <span class="refAuthor">S. Turner</span>, <span class="refTitle">"Requesting a Freshness Nonce for Attestation Evidence in Certificate Signing Requests"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-lamps-attestation-freshness-09</span>, <time datetime="2026-10-17" class="refDate">17 October 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-lamps-attestation-freshness-09">https://datatracker.ietf.org/doc/html/draft-ietf-lamps-attestation-freshness-09</a>&gt;</span>. </dd>
 <dd class="break"></dd>
+<dt id="RFC3647">[RFC3647]</dt>
+        <dd>
+<span class="refAuthor">Chokhani, S.</span>, <span class="refAuthor">Ford, W.</span>, <span class="refAuthor">Sabett, R.</span>, <span class="refAuthor">Merrill, C.</span>, and <span class="refAuthor">S. Wu</span>, <span class="refTitle">"Internet X.509 Public Key Infrastructure Certificate Policy and Certification Practices Framework"</span>, <span class="seriesInfo">RFC 3647</span>, <span class="seriesInfo">DOI 10.17487/RFC3647</span>, <time datetime="2003-11" class="refDate">November 2003</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc3647">https://www.rfc-editor.org/rfc/rfc3647</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC7030">[RFC7030]</dt>
         <dd>
 <span class="refAuthor">Pritikin, M., Ed.</span>, <span class="refAuthor">Yee, P., Ed.</span>, and <span class="refAuthor">D. Harkins, Ed.</span>, <span class="refTitle">"Enrollment over Secure Transport"</span>, <span class="seriesInfo">RFC 7030</span>, <span class="seriesInfo">DOI 10.17487/RFC7030</span>, <time datetime="2013-10" class="refDate">October 2013</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc7030">https://www.rfc-editor.org/rfc/rfc7030</a>&gt;</span>. </dd>
@@ -1686,6 +1690,10 @@ The CSR might contain three AttestationStatements originated by three different 
 <dt id="RFC9999">[RFC9999]</dt>
         <dd>
 <span class="refAuthor">Birkholz, H.</span>, <span class="refAuthor">Smith, N.</span>, <span class="refAuthor">Fossati, T.</span>, and <span class="refAuthor">H. Tschofenig</span>, <span class="refTitle">"Remote ATtestation procedureS (RATS) Conceptual Message Wrapper (CMW)"</span>, <span class="seriesInfo">RFC 9999</span>, <span class="seriesInfo">DOI 10.17487/RFC9999</span>, <time datetime="2026-07" class="refDate">July 2026</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9999">https://www.rfc-editor.org/rfc/rfc9999</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC10002">[RFC10002]</dt>
+        <dd>
+<span class="refAuthor">Mandel, J., Ed.</span> and <span class="refAuthor">S. Turner, Ed.</span>, <span class="refTitle">"Certificate Management over CMS (CMC)"</span>, <span class="seriesInfo">RFC 10002</span>, <span class="seriesInfo">DOI 10.17487/RFC10002</span>, <time datetime="2026-07" class="refDate">July 2026</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc10002">https://www.rfc-editor.org/rfc/rfc10002</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="SampleData">[SampleData]</dt>
       <dd>
@@ -1713,7 +1721,7 @@ The CSR might contain three AttestationStatements originated by three different 
 <pre>
 CSR-ATTESTATION-2025
   { iso(1) identified-organization(3) dod(6) internet(1) security(5)
-  mechanisms(5) pkix(7) id-mod(0) id-mod-pkix-attest-01(TBDMOD) }
+  mechanisms(5) pkix(7) id-mod(0) id-mod-pkix-attest-2025(TBDMOD) }
 
 DEFINITIONS IMPLICIT TAGS ::= BEGIN
 

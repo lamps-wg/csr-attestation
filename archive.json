@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-10-15T02:48:36.419277+00:00",
+  "timestamp": "2026-10-18T02:38:37.269053+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -14402,24 +14402,26 @@
       "id": "PR_kwDOJ3IIN88AAAABEdPNeA",
       "title": "Address feedback by Sean Turner",
       "url": "https://github.com/lamps-wg/csr-attestation/pull/253",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "hannestschofenig",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Here is the feedback:\r\nhttps://mailarchive.ietf.org/arch/msg/spasm/aL9fKB7wE564jNyRlXbZsW030sI/",
       "createdAt": "2026-09-21T16:59:51Z",
-      "updatedAt": "2026-10-11T13:32:40Z",
+      "updatedAt": "2026-10-17T16:08:40Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "1a4a5d8525f30c09fbd18e6024293f2ccd1a8bda",
       "headRepository": "lamps-wg/csr-attestation",
       "headRefName": "hannestschofenig-patch-3",
       "headRefOid": "b9fb6df4a25644da43cfb0c618e1d58cdb0d05e1",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2026-10-17T16:08:36Z",
+      "mergedAt": "2026-10-17T16:08:36Z",
+      "mergedBy": "hannestschofenig",
+      "mergeCommit": {
+        "oid": "4cdc238fc6d8d1387af15a0e2b21c32020e688ca"
+      },
       "comments": [],
       "reviews": [
         {
@@ -14455,24 +14457,26 @@
       "id": "PR_kwDOJ3IIN88AAAABEdRGSg",
       "title": "Addressing review from Russ",
       "url": "https://github.com/lamps-wg/csr-attestation/pull/254",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "hannestschofenig",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Russ suggested to change the module identifier to id-mod-pkix-attest-2025\r\n\r\nhttps://mailarchive.ietf.org/arch/msg/spasm/6pcGk4TON0FTuWvYHOgXyP0Q0ic/\r\n\r\nI am not entirely sure whether I correctly captured his intend.",
       "createdAt": "2026-09-21T17:03:26Z",
-      "updatedAt": "2026-10-10T21:51:20Z",
+      "updatedAt": "2026-10-17T16:08:59Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "1a4a5d8525f30c09fbd18e6024293f2ccd1a8bda",
       "headRepository": "lamps-wg/csr-attestation",
       "headRefName": "hannestschofenig-patch-7",
       "headRefOid": "a5f05173b38e820703966a7c30cffd53ff1d19fc",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2026-10-17T16:08:56Z",
+      "mergedAt": "2026-10-17T16:08:56Z",
+      "mergedBy": "hannestschofenig",
+      "mergeCommit": {
+        "oid": "e03378a6c7946a4e9a4990fb4049e6bab64e1804"
+      },
       "comments": [],
       "reviews": [
         {
@@ -14495,25 +14499,35 @@
       "id": "PR_kwDOJ3IIN88AAAABHuqheg",
       "title": "Review by Shivan Kaul Sahib",
       "url": "https://github.com/lamps-wg/csr-attestation/pull/255",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "hannestschofenig",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Addressing the review in https://datatracker.ietf.org/doc/review-ietf-lamps-csr-attestation-29-secdir-lc-sahib-2026-09-19/",
       "createdAt": "2026-10-10T18:56:34Z",
-      "updatedAt": "2026-10-14T16:00:46Z",
+      "updatedAt": "2026-10-17T17:45:11Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
-      "baseRefOid": "1a4a5d8525f30c09fbd18e6024293f2ccd1a8bda",
+      "baseRefOid": "e03378a6c7946a4e9a4990fb4049e6bab64e1804",
       "headRepository": "lamps-wg/csr-attestation",
       "headRefName": "hannestschofenig-patch-9",
-      "headRefOid": "f2f37402a1cd41367bbd1fe4361e61f6efb96697",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
-      "comments": [],
+      "headRefOid": "4aef9fc841036662fb97ca2150be1fac50fc02b7",
+      "closedAt": "2026-10-17T17:45:09Z",
+      "mergedAt": "2026-10-17T17:45:08Z",
+      "mergedBy": "hannestschofenig",
+      "mergeCommit": {
+        "oid": "dd3a1880d8f44161bca4ff77a552a16e80c0f962"
+      },
+      "comments": [
+        {
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "body": "First, thanks to Henk for the detailed review. Second, thanks to Mike and Ned for the follow-up feedback.\r\n\r\nI have reviewed all the comments and made minor edits to address the suggestions. We obviously do not want to go into two much level of details regarding privacy and key attestation since those two topics are subject of ongoing work.\r\n\r\nIn any case, I believe we are good here at this point in time but (a) more review comments will follow and (b) after we have addressed the IESG / directorate round of reviews we will have to carefully re-read the document from top to bottom.",
+          "createdAt": "2026-10-17T17:28:08Z",
+          "updatedAt": "2026-10-17T17:28:08Z"
+        }
+      ],
       "reviews": [
         {
           "id": "PRR_kwDOJ3IIN88AAAABRrC0Lg",

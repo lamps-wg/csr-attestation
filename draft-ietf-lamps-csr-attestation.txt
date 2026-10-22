@@ -5,13 +5,13 @@
 Network Working Group                                       M. Ounsworth
 Internet-Draft                                            Cryptic Forest
 Intended status: Standards Track                           H. Tschofenig
-Expires: 22 April 2027                                           Siemens
+Expires: 25 April 2027                                           Siemens
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                               M. Wiseman
                                                              Independent
                                                                 N. Smith
-                                                         19 October 2026
+                                                         22 October 2026
 
 
      Use of Remote Attestation with Certification Signing Requests
@@ -64,7 +64,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 22 April 2027.
+   This Internet-Draft will expire on 25 April 2027.
 
 Copyright Notice
 
@@ -585,8 +585,10 @@ Table of Contents
    topological models are discussed in [RFC9334].  Other mechanisms for
    determining freshness may be used as the CA/RA deems appropriate.
    When CSRs are embedded within certificate management protocols such
-   as EST [RFC7030] or CMP [RFC9810], these protocols can supply an
-   Attester with a nonce, for example.  Further details are specified in
+   as Certificate Management Protocol (CMP) [RFC9810], Enrollment over
+   Secure Transport (EST) [RFC7030], and Certificate Management over CMS
+   (CMC) [RFC10002], these protocols can supply an Attester with a
+   nonce, for example.  Further details are specified in
    [I-D.ietf-lamps-attestation-freshness].
 
 6.3.  Resource Exhaustion

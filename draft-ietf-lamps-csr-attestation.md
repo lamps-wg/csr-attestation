@@ -63,10 +63,35 @@ author:
 normative:
   RFC9334:
   RFC6268:
+  RFC5911:
   RFC5912:
   RFC4211:
   RFC2986:
   RFC5280:
+  X680:
+    title: "Information technology - Abstract Syntax Notation One (ASN.1): Specification of basic notation"
+    author:
+      org: ITU-T
+    date: 2021-02
+    seriesinfo:
+      ITU-T Recommendation: X.680
+    target: https://www.itu.int/rec/T-REC-X.680-202102-I/en
+  X681:
+    title: "Information technology - Abstract Syntax Notation One (ASN.1): Information object specification"
+    author:
+      org: ITU-T
+    date: 2021-02
+    seriesinfo:
+      ITU-T Recommendation: X.681
+    target: https://www.itu.int/rec/T-REC-X.681-202102-I/en
+  X682:
+    title: "Information technology - Abstract Syntax Notation One (ASN.1): Constraint specification"
+    author:
+      org: ITU-T
+    date: 2021-02
+    seriesinfo:
+      ITU-T Recommendation: X.682
+    target: https://www.itu.int/rec/T-REC-X.682-202102-I/en
 
 informative:
   I-D.ietf-lamps-attestation-freshness:
@@ -101,7 +126,7 @@ Certification Authorities (CAs) issuing certificates to PKI end entities may req
 
 This specification defines an attribute and an extension that allow for conveyance of verifiable attestations in several Certificate Signing Request (CSR) formats, including PKCS#10 [RFC2986] or Certificate Request Message Format (CRMF) [RFC4211] messages. Given several standard and proprietary remote attestation technologies are in use, this specification is intended to be as technology-agnostic as is feasible with respect to implemented and future remote attestation technologies. This aligns with the fact that a CA may wish to provide support for a variety of types of devices but cannot dictate what format a device uses to represent attestations.  However, if a certificate requester does not include the number and types of attestations required by the CA, it is unlikely the requester will receive the requested certificate.
 
-While CSRs are defined using Abstract Syntax Notation One (ASN.1), attestations may be defined using any data description language, i.e., ASN.1 or Concise Data Description Language (CDDL), or represented using any type of encoding, including Distinguished Encoding Rules (DER), Concise Binary Object Representation (CBOR), JavaScript Object Notation (JSON). This specification RECOMMENDS that attestations that are not encoded using the Basic Encoding Rules (BER) or Distinguished Encoding Rules (DER) be wrapped in an ASN.1 OCTET STRING.
+While CSRs are defined using Abstract Syntax Notation One (ASN.1), attestations may be defined using any data description language, i.e., ASN.1 or Concise Data Description Language (CDDL), or represented using any type of encoding, including Distinguished Encoding Rules (DER), Concise Binary Object Representation (CBOR), JavaScript Object Notation (JSON). The requirements for carrying attestation formats not defined using ASN.1 are specified in {{sec-attestation-bundle}}.
 
 # Relationship to the IETF RATS Working Group
 
@@ -114,7 +139,7 @@ models for CSR processing, provided the required security
 requirements specific to the context of certificate issuance are
 satisfied.
 
-{{Section 4.2 of RFC9334}} defines several roles that originate, forward or process attestation statements (also see {{Section 1.2 of RFC9683}}): the Attester, Endorser, Relying Party, and Verifier. Attestation statements, such as Evidence, may be directed to an entity taking at least one of these roles, including to an CA/RA acting as a Verifier.
+{{Section 4.1 of RFC9334}} defines several roles that originate, forward or process attestation statements (also see {{Section 1.2 of RFC9683}}): the Attester, Endorser, Relying Party, and Verifier. Attestation statements, such as Evidence, may be directed to an entity taking at least one of these roles, including to an CA/RA acting as a Verifier.
 An CA/RA may also forward attestation statements to a Verifier for appraisal. Each attestation statements may contain one or more claims, including claims that may be required by an RA or CA. Attestation statements transmitted by these parties are defined in {{Section 8 of RFC9334}} as the "conceptual messages" Evidence, Endorsement, and Attestation Results. The structure defined in this specification may be used by any of the roles that originate attestation statements, and is equally applicable to these three conceptual messages.
 
 # Conventions and Definitions
@@ -154,7 +179,9 @@ This convention is distinct from camel-case identifiers like "AttestationStateme
 The focus of this specification is the conveyance of attestations to a CA/RA as part of a CSR.
 The following sub-sections define formats to support this conveyance, an optional mechanism to limit support to specific attestation types at the ASN.1 level, and bindings to the attribute and extension mechanisms used in certificate managment protocols.
 
-## AttestationStatement and AttestationBundle
+The ASN.1 notation, information object classes, and constraint notation used in this section and in {{sec-asn1-module}} are specified in {{X680}}, {{X681}}, and {{X682}}, respectively.
+
+## AttestationStatement and AttestationBundle {#sec-attestation-bundle}
 
 The `AttestationStatement` structure (as shown in {{code-AttestationStatement}}) facilitates the representation of Evidence, Endorsements,
 and Attestation Results generated by an Attester, Endorser, or Verifier for processing by a Verifier or Relying Party, such as verification by a CA/RA.
@@ -241,19 +268,20 @@ populate it with the formats that they wish to support. This document does not d
 ## CSR Attribute and Extension
 
 The ASN.1 `ATTRIBUTE` and `EXTENSION` information object classes are defined in {{RFC5912}}. Attributes within a PKCS#10 CSR use `ATTRIBUTE`, and extensions within a CRMF CSR use `EXTENSION`.
+The `id-aa` object identifier is defined in the `SecureMimeMessageV3dot1-2009` module in {{Section 5 of RFC5911}}.
 
 ~~~asn1
 id-aa-attestation OBJECT IDENTIFIER ::= { id-aa 59 }
 
 -- For PKCS#10
-attr-attestations ATTRIBUTE ::= {
+attr-attestation ATTRIBUTE ::= {
   TYPE AttestationBundle
   COUNTS MAX 1
   IDENTIFIED BY id-aa-attestation
 }
 
 -- For CRMF
-ext-attestations EXTENSION ::= {
+ext-attestation EXTENSION ::= {
   SYNTAX AttestationBundle
   IDENTIFIED BY id-aa-attestation
 }
@@ -271,13 +299,14 @@ PKCS#10 uses the legacy structures `Attributes` and `Attribute` rather than the 
 * An Attributes structure carried within a PKCS#10 CSR MUST contain no more than one Attribute of type `id-aa-attestation`.
 * An Attribute of type `id-aa-attestation` MUST contain exactly one copy of an `AttestationBundle`.
 
-When multiple Verifiers support the same attestation‑format OID, ambiguity can arise in routing attestations to the appropriate Verifier.  Resolving that ambiguity is outside the scope of this document and must be defined by the attestation‑format specification, particularly for opaque (wrapper) formats.  Two pragmatic approaches are recommended: (1) assign distinct OIDs for different verifier or verification types even when the underlying format structure is identical, or (2) encapsulate the opaque attestation object in a wrapper that carries an explicit hint.  Implementations should adopt one of these approaches and attestation‑format specifications should mandate the precise mechanism for nonce selection and routing of attestations.
+When multiple Verifiers support the same attestation-format OID, ambiguity can arise in routing attestations to the appropriate Verifier. The attestation-format specification is responsible for defining how this ambiguity is resolved, particularly for opaque (wrapper) formats. Possible approaches include defining separate OIDs for different Verifier or verification types, even when they share a format structure, or defining a wrapper with a hint that assists Verifier selection. This document does not specify a Verifier selection mechanism.
 
 # IANA Considerations
 
-IANA is requested to allocate a value from the "SMI Security for PKIX Module Identifier"
-registry for the included ASN.1 module, and to allocate a value from "SMI Security for
-S/MIME Attributes" to identify an attribute defined within.
+IANA is requested to allocate an identifier for the ASN.1 module in the
+"SMI Security for PKIX Module Identifier" registry and to update the existing
+early allocation with decimal value 59 in the "SMI Security for S/MIME Attributes"
+registry.
 
 ##  Module Registration - SMI Security for PKIX Module Identifier
 
@@ -285,16 +314,16 @@ IANA is asked to register the following within the registry id-mod
 SMI Security for PKIX Module Identifier (1.3.6.1.5.5.7.0).
 
 -  Decimal: IANA Assigned - **Replace TBDMOD**
--  Description: CSR-ATTESTATION-2025 - id-mod-pkix-attest-2025
+-  Description: id-mod-pkix-attest-2025
 -  References: This Document
 
-##  Object Identifier Registrations - SMI Security for S/MIME Attributes
+##  Object Identifier Update - SMI Security for S/MIME Attributes
 
-IANA is asked to register the following within the registry id-aa
-SMI Security for S/MIME Attributes (1.2.840.113549.1.9.16.2).
+IANA is requested to update entry 59, early-allocated as "id-aa-evidence", in the
+id-aa SMI Security for S/MIME Attributes registry (1.2.840.113549.1.9.16.2).
+The numeric value is unchanged. The updated entry is:
 
-- Attestation Statement
-- Decimal: IANA Assigned - Note: .59 has already been early-allocated as "id-aa-evidence" referencing this document, so the request is to change the name of this entry to "id-aa-attestation" and leave the allocation of .59 as-is.
+- Decimal: 59
 - Description: id-aa-attestation
 - References: This Document
 
@@ -369,7 +398,7 @@ Further discussion of remote attestation privacy risks and mitigations is provid
 
 Examples and sample data will be collected in the "CSR Attestation Sample Data" GitHub repository {{SampleData}}.
 
-# ASN.1 Module
+# ASN.1 Module {#sec-asn1-module}
 
 ~~~asn1
 {::include CSR-ATTESTATION-2025.asn}
@@ -394,5 +423,7 @@ David von Oheimb, Corey Bonnell, and Thomas Fossati for their feedback based on 
 experience.
 
 Close to the end of the specification development process, the working group chairs, Russ Housley and Tim Hollebeek, reached out to Steve Hanna, Tim Polk, and Carl Wallace to help improve the document and resolve contentious issues. Their contributions substantially impacted the final outcome of the document.
+
+We thank Ketan Talaulikar for his detailed review during IESG evaluation, and Meral Shirazipour, Shivan Kaul Sahib, and Sean Turner for their Last Call reviews on behalf of Gen-ART, SECDIR, and ARTART, respectively.
 
 Finally, we would like to thank Deb Cooley for her review of the document as part of the IESG evaluation process.

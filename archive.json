@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-10-29T03:57:03.413122+00:00",
+  "timestamp": "2026-11-01T03:51:43.178339+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -15202,7 +15202,7 @@
       "labels": [],
       "body": "Based on this follow-up review from Ketan:\nhttps://mailarchive.ietf.org/arch/msg/spasm/PY6NQ1-iGUGtqK_79Pym_QSYJUM/\n",
       "createdAt": "2026-10-28T14:54:19Z",
-      "updatedAt": "2026-10-28T14:54:19Z",
+      "updatedAt": "2026-10-31T12:58:15Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "f6bfae2d67074e7919d4464a3ff39112a169db71",

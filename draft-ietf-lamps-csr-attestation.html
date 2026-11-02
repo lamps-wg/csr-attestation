@@ -1051,11 +1051,11 @@ svg {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">Remote Attestation with CSRs</td>
-<td class="right">October 2026</td>
+<td class="right">November 2026</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Ounsworth, et al.</td>
-<td class="center">Expires 25 April 2027</td>
+<td class="center">Expires 6 May 2027</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1068,12 +1068,12 @@ svg {
 <dd class="internet-draft">draft-ietf-lamps-csr-attestation-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-10-22" class="published">22 October 2026</time>
+<time datetime="2026-11-02" class="published">2 November 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2027-04-25">25 April 2027</time></dd>
+<dd class="expires"><time datetime="2027-05-06">6 May 2027</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1135,7 +1135,7 @@ Request Message Format (CRMF) messages. Both standardized and proprietary attest
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 25 April 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 6 May 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1194,7 +1194,7 @@ Request Message Format (CRMF) messages. Both standardized and proprietary attest
                 <p id="section-toc.1-1.5.2.1.1"><a href="#section-5.1" class="auto internal xref">5.1</a>.  <a href="#name-module-registration-smi-sec" class="internal xref">Module Registration - SMI Security for PKIX Module Identifier</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.2">
-                <p id="section-toc.1-1.5.2.2.1"><a href="#section-5.2" class="auto internal xref">5.2</a>.  <a href="#name-object-identifier-registrat" class="internal xref">Object Identifier Registrations - SMI Security for S/MIME Attributes</a></p>
+                <p id="section-toc.1-1.5.2.2.1"><a href="#section-5.2" class="auto internal xref">5.2</a>.  <a href="#name-object-identifier-update-sm" class="internal xref">Object Identifier Update - SMI Security for S/MIME Attributes</a></p>
 </li>
             </ul>
 </li>
@@ -1252,7 +1252,7 @@ Request Message Format (CRMF) messages. Both standardized and proprietary attest
       </h2>
 <p id="section-1-1">Certification Authorities (CAs) issuing certificates to PKI end entities may require that a certificate signing request (CSR) include verifiable attestations. These attestations can contain claims regarding the platform used by the end entity to generate the key pair for which a certificate is sought. These claims can also include attributes of the key pair with respect to its protection, use, and extractability. At the time of writing, the most pressing example of the need for remote attestation in certificate enrollment is the Code-Signing Baseline Requirements (CSBR) document maintained by the CA/Browser Forum <span>[<a href="#CSBR" class="cite xref">CSBR</a>]</span>. The <span>[<a href="#CSBR" class="cite xref">CSBR</a>]</span> requires compliant CAs to "ensure that a Subscriber's Private Key is generated, stored, and used in a secure environment that has controls to prevent theft or misuse". This requirement is a natural fit to enforce via remote attestation.<a href="#section-1-1" class="pilcrow">¶</a></p>
 <p id="section-1-2">This specification defines an attribute and an extension that allow for conveyance of verifiable attestations in several Certificate Signing Request (CSR) formats, including PKCS#10 <span>[<a href="#RFC2986" class="cite xref">RFC2986</a>]</span> or Certificate Request Message Format (CRMF) <span>[<a href="#RFC4211" class="cite xref">RFC4211</a>]</span> messages. Given several standard and proprietary remote attestation technologies are in use, this specification is intended to be as technology-agnostic as is feasible with respect to implemented and future remote attestation technologies. This aligns with the fact that a CA may wish to provide support for a variety of types of devices but cannot dictate what format a device uses to represent attestations.  However, if a certificate requester does not include the number and types of attestations required by the CA, it is unlikely the requester will receive the requested certificate.<a href="#section-1-2" class="pilcrow">¶</a></p>
-<p id="section-1-3">While CSRs are defined using Abstract Syntax Notation One (ASN.1), attestations may be defined using any data description language, i.e., ASN.1 or Concise Data Description Language (CDDL), or represented using any type of encoding, including Distinguished Encoding Rules (DER), Concise Binary Object Representation (CBOR), JavaScript Object Notation (JSON). This specification RECOMMENDS that attestations that are not encoded using the Basic Encoding Rules (BER) or Distinguished Encoding Rules (DER) be wrapped in an ASN.1 OCTET STRING.<a href="#section-1-3" class="pilcrow">¶</a></p>
+<p id="section-1-3">While CSRs are defined using Abstract Syntax Notation One (ASN.1), attestations may be defined using any data description language, i.e., ASN.1 or Concise Data Description Language (CDDL), or represented using any type of encoding, including Distinguished Encoding Rules (DER), Concise Binary Object Representation (CBOR), JavaScript Object Notation (JSON). The requirements for carrying attestation formats not defined using ASN.1 are specified in <a href="#sec-attestation-bundle" class="auto internal xref">Section 4.1</a>.<a href="#section-1-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="relationship-to-the-ietf-rats-working-group">
@@ -1267,7 +1267,7 @@ document may be applied to instantiating any of these topological
 models for CSR processing, provided the required security
 requirements specific to the context of certificate issuance are
 satisfied.<a href="#section-2-2" class="pilcrow">¶</a></p>
-<p id="section-2-3"><span><a href="https://rfc-editor.org/rfc/rfc9334#section-4.2" class="relref">Section 4.2</a> of [<a href="#RFC9334" class="cite xref">RFC9334</a>]</span> defines several roles that originate, forward or process attestation statements (also see <span><a href="https://rfc-editor.org/rfc/rfc9683#section-1.2" class="relref">Section 1.2</a> of [<a href="#RFC9683" class="cite xref">RFC9683</a>]</span>): the Attester, Endorser, Relying Party, and Verifier. Attestation statements, such as Evidence, may be directed to an entity taking at least one of these roles, including to an CA/RA acting as a Verifier.
+<p id="section-2-3"><span><a href="https://rfc-editor.org/rfc/rfc9334#section-4.1" class="relref">Section 4.1</a> of [<a href="#RFC9334" class="cite xref">RFC9334</a>]</span> defines several roles that originate, forward or process attestation statements (also see <span><a href="https://rfc-editor.org/rfc/rfc9683#section-1.2" class="relref">Section 1.2</a> of [<a href="#RFC9683" class="cite xref">RFC9683</a>]</span>): the Attester, Endorser, Relying Party, and Verifier. Attestation statements, such as Evidence, may be directed to an entity taking at least one of these roles, including to an CA/RA acting as a Verifier.
 An CA/RA may also forward attestation statements to a Verifier for appraisal. Each attestation statements may contain one or more claims, including claims that may be required by an RA or CA. Attestation statements transmitted by these parties are defined in <span><a href="https://rfc-editor.org/rfc/rfc9334#section-8" class="relref">Section 8</a> of [<a href="#RFC9334" class="cite xref">RFC9334</a>]</span> as the "conceptual messages" Evidence, Endorsement, and Attestation Results. The structure defined in this specification may be used by any of the roles that originate attestation statements, and is equally applicable to these three conceptual messages.<a href="#section-2-3" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -1313,7 +1313,9 @@ This convention is distinct from camel-case identifiers like "AttestationStateme
       </h2>
 <p id="section-4-1">The focus of this specification is the conveyance of attestations to a CA/RA as part of a CSR.
 The following sub-sections define formats to support this conveyance, an optional mechanism to limit support to specific attestation types at the ASN.1 level, and bindings to the attribute and extension mechanisms used in certificate managment protocols.<a href="#section-4-1" class="pilcrow">¶</a></p>
-<div id="attestationstatement-and-attestationbundle">
+<p id="section-4-2">The ASN.1 notation, information object classes, and constraint notation used in this section and in <a href="#sec-asn1-module" class="auto internal xref">Appendix B</a> are specified in <span>[<a href="#X680" class="cite xref">X680</a>]</span>, <span>[<a href="#X681" class="cite xref">X681</a>]</span>, and <span>[<a href="#X682" class="cite xref">X682</a>]</span>, respectively.
+For additional background on information object classes and constraints used in ASN.1 modules, see Sections 2.1.3 and 2.2 of <span>[<a href="#RFC6025" class="cite xref">RFC6025</a>]</span>.<a href="#section-4-2" class="pilcrow">¶</a></p>
+<div id="sec-attestation-bundle">
 <section id="section-4.1">
         <h3 id="name-attestationstatement-and-at">
 <a href="#section-4.1" class="section-number selfRef">4.1. </a><a href="#name-attestationstatement-and-at" class="section-name selfRef">AttestationStatement and AttestationBundle</a>
@@ -1427,7 +1429,8 @@ populate it with the formats that they wish to support. This document does not d
         <h3 id="name-csr-attribute-and-extension">
 <a href="#section-4.3" class="section-number selfRef">4.3. </a><a href="#name-csr-attribute-and-extension" class="section-name selfRef">CSR Attribute and Extension</a>
         </h3>
-<p id="section-4.3-1">The ASN.1 <code>ATTRIBUTE</code> and <code>EXTENSION</code> information object classes are defined in <span>[<a href="#RFC5912" class="cite xref">RFC5912</a>]</span>. Attributes within a PKCS#10 CSR use <code>ATTRIBUTE</code>, and extensions within a CRMF CSR use <code>EXTENSION</code>.<a href="#section-4.3-1" class="pilcrow">¶</a></p>
+<p id="section-4.3-1">The ASN.1 <code>ATTRIBUTE</code> and <code>EXTENSION</code> information object classes are defined in <span>[<a href="#RFC5912" class="cite xref">RFC5912</a>]</span>. Attributes within a PKCS#10 CSR use <code>ATTRIBUTE</code>, and extensions within a CRMF CSR use <code>EXTENSION</code>.
+The <code>id-aa</code> object identifier is defined in the <code>SecureMimeMessageV3dot1-2009</code> module in <span><a href="https://rfc-editor.org/rfc/rfc5911#section-5" class="relref">Section 5</a> of [<a href="#RFC5911" class="cite xref">RFC5911</a>]</span>.<a href="#section-4.3-1" class="pilcrow">¶</a></p>
 <span id="name-definitions-of-csr-attribut"></span><div id="code-extensions">
 <figure id="figure-4">
           <div class="lang-asn1 sourcecode" id="section-4.3-2.1">
@@ -1435,14 +1438,14 @@ populate it with the formats that they wish to support. This document does not d
 id-aa-attestation OBJECT IDENTIFIER ::= { id-aa 59 }
 
 -- For PKCS#10
-attr-attestations ATTRIBUTE ::= {
+attr-attestation ATTRIBUTE ::= {
   TYPE AttestationBundle
   COUNTS MAX 1
   IDENTIFIED BY id-aa-attestation
 }
 
 -- For CRMF
-ext-attestations EXTENSION ::= {
+ext-attestation EXTENSION ::= {
   SYNTAX AttestationBundle
   IDENTIFIED BY id-aa-attestation
 }
@@ -1464,7 +1467,7 @@ ext-attestations EXTENSION ::= {
             <p id="section-4.3-7.2.1">An Attribute of type <code>id-aa-attestation</code> <span class="bcp14">MUST</span> contain exactly one copy of an <code>AttestationBundle</code>.<a href="#section-4.3-7.2.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-4.3-8">When multiple Verifiers support the same attestation‑format OID, ambiguity can arise in routing attestations to the appropriate Verifier.  Resolving that ambiguity is outside the scope of this document and must be defined by the attestation‑format specification, particularly for opaque (wrapper) formats.  Two pragmatic approaches are recommended: (1) assign distinct OIDs for different verifier or verification types even when the underlying format structure is identical, or (2) encapsulate the opaque attestation object in a wrapper that carries an explicit hint.  Implementations should adopt one of these approaches and attestation‑format specifications should mandate the precise mechanism for nonce selection and routing of attestations.<a href="#section-4.3-8" class="pilcrow">¶</a></p>
+<p id="section-4.3-8">When multiple Verifiers support the same attestation-format OID, ambiguity can arise in routing attestations to the appropriate Verifier. The attestation-format specification is responsible for defining how this ambiguity is resolved, particularly for opaque (wrapper) formats. Possible approaches include defining separate OIDs for different Verifier or verification types, even when they share a format structure, or defining a wrapper with a hint that assists Verifier selection. This document does not specify a Verifier selection mechanism.<a href="#section-4.3-8" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -1474,9 +1477,10 @@ ext-attestations EXTENSION ::= {
       <h2 id="name-iana-considerations">
 <a href="#section-5" class="section-number selfRef">5. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
       </h2>
-<p id="section-5-1">IANA is requested to allocate a value from the "SMI Security for PKIX Module Identifier"
-registry for the included ASN.1 module, and to allocate a value from "SMI Security for
-S/MIME Attributes" to identify an attribute defined within.<a href="#section-5-1" class="pilcrow">¶</a></p>
+<p id="section-5-1">IANA is requested to allocate an identifier for the ASN.1 module in the
+"SMI Security for PKIX Module Identifier" registry and to update the existing
+early allocation with decimal value 59 in the "SMI Security for S/MIME Attributes"
+registry.<a href="#section-5-1" class="pilcrow">¶</a></p>
 <div id="module-registration-smi-security-for-pkix-module-identifier">
 <section id="section-5.1">
         <h3 id="name-module-registration-smi-sec">
@@ -1489,7 +1493,7 @@ SMI Security for PKIX Module Identifier (1.3.6.1.5.5.7.0).<a href="#section-5.1-
             <p id="section-5.1-2.1.1">Decimal: IANA Assigned - <strong>Replace TBDMOD</strong><a href="#section-5.1-2.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.1-2.2">
-            <p id="section-5.1-2.2.1">Description: CSR-ATTESTATION-2025 - id-mod-pkix-attest-2025<a href="#section-5.1-2.2.1" class="pilcrow">¶</a></p>
+            <p id="section-5.1-2.2.1">Description: id-mod-pkix-attest-2025<a href="#section-5.1-2.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.1-2.3">
             <p id="section-5.1-2.3.1">References: This Document<a href="#section-5.1-2.3.1" class="pilcrow">¶</a></p>
@@ -1497,25 +1501,23 @@ SMI Security for PKIX Module Identifier (1.3.6.1.5.5.7.0).<a href="#section-5.1-
         </ul>
 </section>
 </div>
-<div id="object-identifier-registrations-smi-security-for-smime-attributes">
+<div id="object-identifier-update-smi-security-for-smime-attributes">
 <section id="section-5.2">
-        <h3 id="name-object-identifier-registrat">
-<a href="#section-5.2" class="section-number selfRef">5.2. </a><a href="#name-object-identifier-registrat" class="section-name selfRef">Object Identifier Registrations - SMI Security for S/MIME Attributes</a>
+        <h3 id="name-object-identifier-update-sm">
+<a href="#section-5.2" class="section-number selfRef">5.2. </a><a href="#name-object-identifier-update-sm" class="section-name selfRef">Object Identifier Update - SMI Security for S/MIME Attributes</a>
         </h3>
-<p id="section-5.2-1">IANA is asked to register the following within the registry id-aa
-SMI Security for S/MIME Attributes (1.2.840.113549.1.9.16.2).<a href="#section-5.2-1" class="pilcrow">¶</a></p>
+<p id="section-5.2-1">IANA is requested to update entry 59, early-allocated as "id-aa-evidence", in the
+id-aa SMI Security for S/MIME Attributes registry (1.2.840.113549.1.9.16.2).
+The numeric value is unchanged. The updated entry is:<a href="#section-5.2-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-5.2-2.1">
-            <p id="section-5.2-2.1.1">Attestation Statement<a href="#section-5.2-2.1.1" class="pilcrow">¶</a></p>
+            <p id="section-5.2-2.1.1">Decimal: 59<a href="#section-5.2-2.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.2-2.2">
-            <p id="section-5.2-2.2.1">Decimal: IANA Assigned - Note: .59 has already been early-allocated as "id-aa-evidence" referencing this document, so the request is to change the name of this entry to "id-aa-attestation" and leave the allocation of .59 as-is.<a href="#section-5.2-2.2.1" class="pilcrow">¶</a></p>
+            <p id="section-5.2-2.2.1">Description: id-aa-attestation<a href="#section-5.2-2.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.2-2.3">
-            <p id="section-5.2-2.3.1">Description: id-aa-attestation<a href="#section-5.2-2.3.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-5.2-2.4">
-            <p id="section-5.2-2.4.1">References: This Document<a href="#section-5.2-2.4.1" class="pilcrow">¶</a></p>
+            <p id="section-5.2-2.3.1">References: This Document<a href="#section-5.2-2.3.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
@@ -1638,6 +1640,10 @@ The CSR might contain three AttestationStatements originated by three different 
         <dd>
 <span class="refAuthor">Cooper, D.</span>, <span class="refAuthor">Santesson, S.</span>, <span class="refAuthor">Farrell, S.</span>, <span class="refAuthor">Boeyen, S.</span>, <span class="refAuthor">Housley, R.</span>, and <span class="refAuthor">W. Polk</span>, <span class="refTitle">"Internet X.509 Public Key Infrastructure Certificate and Certificate Revocation List (CRL) Profile"</span>, <span class="seriesInfo">RFC 5280</span>, <span class="seriesInfo">DOI 10.17487/RFC5280</span>, <time datetime="2008-05" class="refDate">May 2008</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc5280">https://www.rfc-editor.org/rfc/rfc5280</a>&gt;</span>. </dd>
 <dd class="break"></dd>
+<dt id="RFC5911">[RFC5911]</dt>
+        <dd>
+<span class="refAuthor">Hoffman, P.</span> and <span class="refAuthor">J. Schaad</span>, <span class="refTitle">"New ASN.1 Modules for Cryptographic Message Syntax (CMS) and S/MIME"</span>, <span class="seriesInfo">RFC 5911</span>, <span class="seriesInfo">DOI 10.17487/RFC5911</span>, <time datetime="2010-06" class="refDate">June 2010</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc5911">https://www.rfc-editor.org/rfc/rfc5911</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC5912">[RFC5912]</dt>
         <dd>
 <span class="refAuthor">Hoffman, P.</span> and <span class="refAuthor">J. Schaad</span>, <span class="refTitle">"New ASN.1 Modules for the Public Key Infrastructure Using X.509 (PKIX)"</span>, <span class="seriesInfo">RFC 5912</span>, <span class="seriesInfo">DOI 10.17487/RFC5912</span>, <time datetime="2010-06" class="refDate">June 2010</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc5912">https://www.rfc-editor.org/rfc/rfc5912</a>&gt;</span>. </dd>
@@ -1651,8 +1657,20 @@ The CSR might contain three AttestationStatements originated by three different 
 <span class="refAuthor">Leiba, B.</span>, <span class="refTitle">"Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 8174</span>, <span class="seriesInfo">DOI 10.17487/RFC8174</span>, <time datetime="2017-05" class="refDate">May 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8174">https://www.rfc-editor.org/rfc/rfc8174</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC9334">[RFC9334]</dt>
-      <dd>
+        <dd>
 <span class="refAuthor">Birkholz, H.</span>, <span class="refAuthor">Thaler, D.</span>, <span class="refAuthor">Richardson, M.</span>, <span class="refAuthor">Smith, N.</span>, and <span class="refAuthor">W. Pan</span>, <span class="refTitle">"Remote ATtestation procedureS (RATS) Architecture"</span>, <span class="seriesInfo">RFC 9334</span>, <span class="seriesInfo">DOI 10.17487/RFC9334</span>, <time datetime="2023-01" class="refDate">January 2023</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9334">https://www.rfc-editor.org/rfc/rfc9334</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="X680">[X680]</dt>
+        <dd>
+<span class="refAuthor">ITU-T</span>, <span class="refTitle">"Information technology - Abstract Syntax Notation One (ASN.1): Specification of basic notation"</span>, <span class="seriesInfo">ITU-T Recommendation X.680</span>, <time datetime="2021-02" class="refDate">February 2021</time>, <span>&lt;<a href="https://www.itu.int/rec/T-REC-X.680-202102-I/en">https://www.itu.int/rec/T-REC-X.680-202102-I/en</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="X681">[X681]</dt>
+        <dd>
+<span class="refAuthor">ITU-T</span>, <span class="refTitle">"Information technology - Abstract Syntax Notation One (ASN.1): Information object specification"</span>, <span class="seriesInfo">ITU-T Recommendation X.681</span>, <time datetime="2021-02" class="refDate">February 2021</time>, <span>&lt;<a href="https://www.itu.int/rec/T-REC-X.681-202102-I/en">https://www.itu.int/rec/T-REC-X.681-202102-I/en</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="X682">[X682]</dt>
+      <dd>
+<span class="refAuthor">ITU-T</span>, <span class="refTitle">"Information technology - Abstract Syntax Notation One (ASN.1): Constraint specification"</span>, <span class="seriesInfo">ITU-T Recommendation X.682</span>, <time datetime="2021-02" class="refDate">February 2021</time>, <span>&lt;<a href="https://www.itu.int/rec/T-REC-X.682-202102-I/en">https://www.itu.int/rec/T-REC-X.682-202102-I/en</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 </dl>
 </section>
@@ -1674,6 +1692,10 @@ The CSR might contain three AttestationStatements originated by three different 
 <dt id="RFC3647">[RFC3647]</dt>
         <dd>
 <span class="refAuthor">Chokhani, S.</span>, <span class="refAuthor">Ford, W.</span>, <span class="refAuthor">Sabett, R.</span>, <span class="refAuthor">Merrill, C.</span>, and <span class="refAuthor">S. Wu</span>, <span class="refTitle">"Internet X.509 Public Key Infrastructure Certificate Policy and Certification Practices Framework"</span>, <span class="seriesInfo">RFC 3647</span>, <span class="seriesInfo">DOI 10.17487/RFC3647</span>, <time datetime="2003-11" class="refDate">November 2003</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc3647">https://www.rfc-editor.org/rfc/rfc3647</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC6025">[RFC6025]</dt>
+        <dd>
+<span class="refAuthor">Wallace, C.</span> and <span class="refAuthor">C. Gardiner</span>, <span class="refTitle">"ASN.1 Translation"</span>, <span class="seriesInfo">RFC 6025</span>, <span class="seriesInfo">DOI 10.17487/RFC6025</span>, <time datetime="2010-10" class="refDate">October 2010</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc6025">https://www.rfc-editor.org/rfc/rfc6025</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC7030">[RFC7030]</dt>
         <dd>
@@ -1712,7 +1734,7 @@ The CSR might contain three AttestationStatements originated by three different 
 <p id="appendix-A-1">Examples and sample data will be collected in the "CSR Attestation Sample Data" GitHub repository <span>[<a href="#SampleData" class="cite xref">SampleData</a>]</span>.<a href="#appendix-A-1" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="asn1-module">
+<div id="sec-asn1-module">
 <section id="appendix-B">
       <h2 id="name-asn1-module">
 <a href="#appendix-B" class="section-number selfRef">Appendix B. </a><a href="#name-asn1-module" class="section-name selfRef">ASN.1 Module</a>
@@ -1741,7 +1763,7 @@ EXTENSION, ATTRIBUTE
     id-mod-pkixCommon-02(57) }
 
 id-aa
-  FROM SecureMimeMessageV3dot1-2009
+  FROM SecureMimeMessageV3dot1-2009 -- from [RFC5911]
     { iso(1) member-body(2) us(840) rsadsi(113549)
     pkcs(1) pkcs-9(9) smime(16) modules(0) msg-v3dot1-02(39) }
   ;
@@ -1808,7 +1830,8 @@ Couillard, John Gray, Eric Amador, Giri Mandyam, Darren Johnson, Herman Slatman,
 David von Oheimb, Corey Bonnell, and Thomas Fossati for their feedback based on implementation
 experience.<a href="#appendix-C-3" class="pilcrow">¶</a></p>
 <p id="appendix-C-4">Close to the end of the specification development process, the working group chairs, Russ Housley and Tim Hollebeek, reached out to Steve Hanna, Tim Polk, and Carl Wallace to help improve the document and resolve contentious issues. Their contributions substantially impacted the final outcome of the document.<a href="#appendix-C-4" class="pilcrow">¶</a></p>
-<p id="appendix-C-5">Finally, we would like to thank Deb Cooley for her review of the document as part of the IESG evaluation process.<a href="#appendix-C-5" class="pilcrow">¶</a></p>
+<p id="appendix-C-5">We thank Ketan Talaulikar for his detailed review during IESG evaluation, and Meral Shirazipour, Shivan Kaul Sahib, and Sean Turner for their Last Call reviews on behalf of Gen-ART, SECDIR, and ARTART, respectively.<a href="#appendix-C-5" class="pilcrow">¶</a></p>
+<p id="appendix-C-6">Finally, we would like to thank Deb Cooley for her review of the document as part of the IESG evaluation process.<a href="#appendix-C-6" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="authors-addresses">

@@ -95,6 +95,7 @@ normative:
 
 informative:
   I-D.ietf-lamps-attestation-freshness:
+  RFC6025:
   RFC7030:
   RFC9810:
   RFC3647:
@@ -180,6 +181,7 @@ The focus of this specification is the conveyance of attestations to a CA/RA as 
 The following sub-sections define formats to support this conveyance, an optional mechanism to limit support to specific attestation types at the ASN.1 level, and bindings to the attribute and extension mechanisms used in certificate managment protocols.
 
 The ASN.1 notation, information object classes, and constraint notation used in this section and in {{sec-asn1-module}} are specified in {{X680}}, {{X681}}, and {{X682}}, respectively.
+For additional background on information object classes and constraints used in ASN.1 modules, see Sections 2.1.3 and 2.2 of {{RFC6025}}.
 
 ## AttestationStatement and AttestationBundle {#sec-attestation-bundle}
 

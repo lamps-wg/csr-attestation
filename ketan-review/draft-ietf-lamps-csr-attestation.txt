@@ -5,13 +5,13 @@
 Network Working Group                                       M. Ounsworth
 Internet-Draft                                            Cryptic Forest
 Intended status: Standards Track                           H. Tschofenig
-Expires: 1 May 2027                                              Siemens
+Expires: 6 May 2027                                              Siemens
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                               M. Wiseman
                                                              Independent
                                                                 N. Smith
-                                                         28 October 2026
+                                                         2 November 2026
 
 
      Use of Remote Attestation with Certification Signing Requests
@@ -64,7 +64,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 1 May 2027.
+   This Internet-Draft will expire on 6 May 2027.
 
 Copyright Notice
 
@@ -241,7 +241,9 @@ Table of Contents
 
    The ASN.1 notation, information object classes, and constraint
    notation used in this section and in Appendix B are specified in
-   [X680], [X681], and [X682], respectively.
+   [X680], [X681], and [X682], respectively.  For additional background
+   on information object classes and constraints used in ASN.1 modules,
+   see Sections 2.1.3 and 2.2 of [RFC6025].
 
 4.1.  AttestationStatement and AttestationBundle
 
@@ -762,6 +764,10 @@ Table of Contents
               Policy and Certification Practices Framework", RFC 3647,
               DOI 10.17487/RFC3647, November 2003,
               <https://www.rfc-editor.org/rfc/rfc3647>.
+
+   [RFC6025]  Wallace, C. and C. Gardiner, "ASN.1 Translation",
+              RFC 6025, DOI 10.17487/RFC6025, October 2010,
+              <https://www.rfc-editor.org/rfc/rfc6025>.
 
    [RFC7030]  Pritikin, M., Ed., Yee, P., Ed., and D. Harkins, Ed.,
               "Enrollment over Secure Transport", RFC 7030,

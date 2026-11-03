@@ -648,22 +648,22 @@ Table of Contents
    attestation verification path, including third-party processing,
    retention, and logging.
 
-   Certificate requesters, CAs/RAs, and Verifiers SHOULD minimize the
+   Certificate requesters, CAs/RAs, and Verifiers should minimize the
    claims contained in attestation statements and the accompanying
    certificates they disclose, process, and constrain to those needed
    for the applicable issuance policy in order to prevent over-
    disclosure to the public.  Where supported by the attestation
-   technology and compatible with that policy, deployments SHOULD use
+   technology and compatible with that policy, deployments should use
    mechanisms that reduce device linkability, such as privacy-preserving
    attestation procedures to prevent multiple requests being linked back
    to the same attester.  Such mechanisms do not eliminate correlation
    through other disclosed information.  Enrollment protocols and
-   communication with external Verifiers SHOULD provide confidentiality
+   communication with external Verifiers should provide confidentiality
    protection and authenticate recipients.  Transport confidentiality
    protects against observers but does not prevent correlation by the
    recipients themselves.  Access to stored attestation statements and
-   accompanying certificates, including copies in logs, SHOULD be
-   restricted, and retention SHOULD be limited to the period needed for
+   accompanying certificates, including copies in logs, should be
+   restricted, and retention should be limited to the period needed for
    issuance and applicable audit requirements.
 
    Attestation statements are intended as additional information in the

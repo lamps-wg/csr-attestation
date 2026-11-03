@@ -627,7 +627,7 @@ Table of Contents
    Attestation statements and accompanying certificates can disclose
    information about a device, its software and hardware environment,
    and its owner or users.  These statements may contain Evidence,
-   Endorsements, or Attestation Results.  Attesters SHOULD consider how
+   Endorsements, or Attestation Results.  Attesters should consider how
    much information is appropriate to disclose to a given CA.  Examples
    include hardware identifiers, software versions, patch levels, and
    device ownership.  These disclosures occur during enrollment, even if
@@ -648,25 +648,27 @@ Table of Contents
    attestation verification path, including third-party processing,
    retention, and logging.
 
-   Certificate requesters, CAs/RAs, and Verifiers SHOULD minimize the
-   claims contained in attestation statements and the accompanying
-   certificates they disclose, process, and retain to those needed for
-   the applicable issuance policy.  Where supported by the attestation
-   technology and compatible with that policy, deployments SHOULD use
-   mechanisms that reduce device linkability, such as privacy-preserving
-   attestation procedures.  Such mechanisms do not eliminate correlation
-   through other disclosed information.  Enrollment protocols and
-   communication with external Verifiers SHOULD provide confidentiality
-   protection and authenticate recipients.  Transport confidentiality
-   protects against observers but does not prevent correlation by the
-   recipients themselves.  Access to stored attestation statements and
-   accompanying certificates, including copies in logs, SHOULD be
-   restricted, and retention SHOULD be limited to the period needed for
-   issuance and applicable audit requirements.
+   Certificate requesters, CAs/RAs, and Verifiers should attempt to
+   minimize the claims contained in attestation statements and the
+   accompanying certificates they disclose, process, and constrain to
+   those needed for the applicable issuance policy.  Where supported by
+   the attestation technology and compatible with that policy,
+   deployments should use mechanisms that reduce device linkability,
+   such as privacy-preserving attestation procedures.  Such mechanisms
+   do not eliminate correlation through other disclosed information.
+   Enrollment protocols and communication with external Verifiers should
+   aim to provide confidentiality protection and authenticate
+   recipients.  Transport confidentiality protects against observers but
+   does not prevent correlation by the recipients themselves.  Access to
+   stored attestation statements and accompanying certificates,
+   including copies in logs, should be restricted, and retention should
+   be limited to the period needed for issuance and applicable audit
+   requirements.
 
    Attestation statements are intended as additional information in the
    issuance process.  It is NOT RECOMMENDED for a CA to copy attestation
-   statements into the published certificate.  CAs that choose to
+   statements into the published certificate as this can over-disclose
+   sensitive details of the attester to the public.  CAs that choose to
    republish attestation statements or claims contained in them in
    certificates SHOULD review the contents and omit sensitive or
    identifying information.

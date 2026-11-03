@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-11-01T03:51:43.178339+00:00",
+  "timestamp": "2026-11-03T04:57:27.398342+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -15195,26 +15195,102 @@
       "id": "PR_kwDOJ3IIN88AAAABLSiGgQ",
       "title": "Review from Ketan Talaulikar",
       "url": "https://github.com/lamps-wg/csr-attestation/pull/256",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "hannestschofenig",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Based on this follow-up review from Ketan:\nhttps://mailarchive.ietf.org/arch/msg/spasm/PY6NQ1-iGUGtqK_79Pym_QSYJUM/\n",
       "createdAt": "2026-10-28T14:54:19Z",
-      "updatedAt": "2026-10-31T12:58:15Z",
+      "updatedAt": "2026-11-02T19:49:57Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "f6bfae2d67074e7919d4464a3ff39112a169db71",
       "headRepository": "lamps-wg/csr-attestation",
       "headRefName": "ketan-review",
-      "headRefOid": "06dbb6c3097e8fdf13a961acd7e058359915df69",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "7a7288ba3e0ad09bd416906bd60dc0ecf9c0f2f8",
+      "closedAt": "2026-11-02T19:49:53Z",
+      "mergedAt": "2026-11-02T19:49:53Z",
+      "mergedBy": "hannestschofenig",
+      "mergeCommit": {
+        "oid": "4711a1d20430c907664cc5addfd59baae7321751"
+      },
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOJ3IIN88AAAABVhXncA",
+          "commit": {
+            "abbreviatedOid": "06dbb6c"
+          },
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-11-02T15:49:01Z",
+          "updatedAt": "2026-11-02T15:49:01Z",
+          "comments": [
+            {
+              "originalPosition": 59,
+              "body": "do we really need x.681 and x.682 here? I am definitely not an expert! ",
+              "createdAt": "2026-11-02T15:49:01Z",
+              "updatedAt": "2026-11-02T15:49:01Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN88AAAABVhZPfA",
+          "commit": {
+            "abbreviatedOid": "06dbb6c"
+          },
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-11-02T15:50:55Z",
+          "updatedAt": "2026-11-02T15:50:55Z",
+          "comments": [
+            {
+              "originalPosition": 143,
+              "body": "\ud83d\udc4d ",
+              "createdAt": "2026-11-02T15:50:55Z",
+              "updatedAt": "2026-11-02T15:50:55Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJ3IIN88AAAABVhZ7mQ",
+          "commit": {
+            "abbreviatedOid": "06dbb6c"
+          },
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "apart from asn.1 references that even bib.ietf.org does not know, this looks fine to me.",
+          "createdAt": "2026-11-02T15:51:38Z",
+          "updatedAt": "2026-11-02T15:51:38Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJ3IIN88AAAABVkZcyQ",
+          "commit": {
+            "abbreviatedOid": "06dbb6c"
+          },
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-11-02T19:49:10Z",
+          "updatedAt": "2026-11-02T19:49:11Z",
+          "comments": [
+            {
+              "originalPosition": 59,
+              "body": "RFC 6025, particularly Sections 2.1.3 and 2.2, describes the information object classes and constraints used in our ASN.1 definitions. RFC 5912 also uses the same constructs.\r\n\r\nHowever, RFC 6025 is primarily explanatory and refers normatively to X.681 and X.682, which formally define these ASN.1 constructs. Since we use TYPE-IDENTIFIER and component relation constraints, I think retaining the references to X.681 and X.682 is appropriate.",
+              "createdAt": "2026-11-02T19:49:10Z",
+              "updatedAt": "2026-11-02T19:49:11Z"
+            }
+          ]
+        }
+      ]
     }
   ]
 }

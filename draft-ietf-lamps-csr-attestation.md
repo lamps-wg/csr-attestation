@@ -98,7 +98,6 @@ informative:
   RFC6025:
   RFC7030:
   RFC9810:
-  RFC3647:
   RFC10002:
   RFC9999:
   RFC9683:
@@ -337,8 +336,6 @@ Certification Request Message defined in {{RFC2986}} and an extension to convey 
 Certificate Request Message Format defined in {{RFC4211}}.
 The CA/RA that receives the CSR may choose to verify the attestation(s) to determine if an issuance policy is met, or which of a suite of policies is satisfied. The CA/RA is also free to discard the additional information without processing.
 
-A CA which accepts or requires attestation(s) SHOULD document its requirements with its Certification Practice Statement(s) {{RFC3647}}.
-
 The remainder of this section identifies security considerations that apply when the CA/RA chooses to verify the attestation as part of the evaluation of a CSR.
 
 ## Binding Attestations to the CSR's Public Key
@@ -374,7 +371,7 @@ To avoid replay attacks, the CA/RA may choose to ignore attestation statements t
 
 CSRs are untrusted input to a CA/RA, and processing attestation bundles may consume substantial resources through parsing, cryptographic verification, certification path building and validation, and requests to external Verifiers or other services. An attacker can exploit these costs to cause resource exhaustion, even with a syntactically valid bundle.
 
-Implementations SHOULD impose limits appropriate to their deployment on the total bundle size, the number, type and size of attestation statements and certificates, parsing depth, and the computational effort spent processing a request. These limits SHOULD also bound certification path building, as well as the number, duration, and concurrency of external requests. Implementations SHOULD enforce limits as early as practicable. When a limit is exceeded, implementations SHOULD stop the affected processing and release resources allocated to it. An attestation statement whose verification has not completed successfully MUST NOT be treated as successfully verified.
+Implementations SHOULD expose configurable limits appropriate on the total bundle size, the number, type and size of attestation statements and certificates, parsing depth, and the computational effort spent processing a request. These limits SHOULD also bound certification path building, as well as the number, duration, and concurrency of external requests. Implementations SHOULD enforce limits as early as practicable. When a limit is exceeded, implementations SHOULD stop the affected processing and release resources allocated to it. An attestation statement whose verification has not completed successfully MUST NOT be treated as successfully verified.
 
 ## Additional Security Considerations
 
@@ -392,7 +389,7 @@ Certificate requesters, CAs/RAs, and Verifiers SHOULD minimize the claims contai
 
 Attestation statements are intended as additional information in the issuance process. It is NOT RECOMMENDED for a CA to copy attestation statements into the published certificate. CAs that choose to republish attestation statements or claims contained in them in certificates SHOULD review the contents and omit sensitive or identifying information.
 
-Further discussion of remote attestation privacy risks and mitigations is provided in {{Section 11 of RFC9334}}. Deployments should also consider the privacy considerations of the specific attestation formats they use.
+Further discussion of remote attestation privacy risks and mitigations is provided in {{Section 11 of RFC9334}}. Operators should also consider the privacy considerations of the specific attestation formats they use.
 
 --- back
 

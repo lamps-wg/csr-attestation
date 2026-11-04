@@ -124,7 +124,7 @@ Request Message Format (CRMF) messages. Both standardized and proprietary attest
 
 Certification Authorities (CAs) issuing certificates to PKI end entities may require that a certificate signing request (CSR) include verifiable attestations. These attestations can contain claims regarding the platform used by the end entity to generate the key pair for which a certificate is sought. These claims can also include attributes of the key pair with respect to its protection, use, and extractability. At the time of writing, the most pressing example of the need for remote attestation in certificate enrollment is the Code-Signing Baseline Requirements (CSBR) document maintained by the CA/Browser Forum [CSBR]. The [CSBR] requires compliant CAs to "ensure that a Subscriber's Private Key is generated, stored, and used in a secure environment that has controls to prevent theft or misuse". This requirement is a natural fit to enforce via remote attestation.
 
-This specification defines an attribute and an extension that allow for conveyance of verifiable attestations in several Certificate Signing Request (CSR) formats, including PKCS#10 [RFC2986] or Certificate Request Message Format (CRMF) [RFC4211] messages. Given several standard and proprietary remote attestation technologies are in use, this specification is intended to be as technology-agnostic as is feasible with respect to implemented and future remote attestation technologies. This aligns with the fact that a CA may wish to provide support for a variety of types of devices but cannot dictate what format a device uses to represent attestations.  However, if a certificate requester does not include the number and types of attestations required by the CA, it is unlikely the requester will receive the requested certificate.
+This specification defines a PKCS#10 attribute [RFC2986] and a Certificate Request Message Format (CRMF) control [RFC4211] that allow for conveyance of verifiable attestations in Certificate Signing Requests (CSRs). Given several standard and proprietary remote attestation technologies are in use, this specification is intended to be as technology-agnostic as is feasible with respect to implemented and future remote attestation technologies. This aligns with the fact that a CA may wish to provide support for a variety of types of devices but cannot dictate what format a device uses to represent attestations.  However, if a certificate requester does not include the number and types of attestations required by the CA, it is unlikely the requester will receive the requested certificate.
 
 While CSRs are defined using Abstract Syntax Notation One (ASN.1), attestations may be defined using any data description language, i.e., ASN.1 or Concise Data Description Language (CDDL), or represented using any type of encoding, including Distinguished Encoding Rules (DER), Concise Binary Object Representation (CBOR), JavaScript Object Notation (JSON). The requirements for carrying attestation formats not defined using ASN.1 are specified in {{sec-attestation-bundle}}.
 
@@ -177,7 +177,7 @@ This convention is distinct from camel-case identifiers like "AttestationStateme
 # Conveying Attestations in CSRs {#sec-attestationAttr}
 
 The focus of this specification is the conveyance of attestations to a CA/RA as part of a CSR.
-The following sub-sections define formats to support this conveyance, an optional mechanism to limit support to specific attestation types at the ASN.1 level, and bindings to the attribute and extension mechanisms used in certificate managment protocols.
+The following sub-sections define formats to support this conveyance, an optional mechanism to limit support to specific attestation types at the ASN.1 level, and bindings to the PKCS#10 attribute and CRMF control mechanisms used in certificate managment protocols.
 
 The ASN.1 notation, information object classes, and constraint notation used in this section and in {{sec-asn1-module}} are specified in {{X680}}, {{X681}}, and {{X682}}, respectively.
 For additional background on information object classes and constraints used in ASN.1 modules, see Sections 2.1.3 and 2.2 of {{RFC6025}}.
@@ -205,7 +205,7 @@ AttestationStatement ::= SEQUENCE {
 
 In some cases, a CA may require CSRs to include a variety of claims, which may require the cooperation of more than one Attester.
 Similarly, a CA/RA may outsource verification of claims from different Attesters to a single Verifier.
-The `AttestationBundle` structure, {{code-AttestationBundle}}, facilitates the representation of one or more `AttestationStatement` structures along with an OPTIONAL collection of certificates that may be useful for certification path building and validation to verify each `AttestationStatement`. `AttestationBundle` is the structure included in a CSR attribute or extension.
+The `AttestationBundle` structure, {{code-AttestationBundle}}, facilitates the representation of one or more `AttestationStatement` structures along with an OPTIONAL collection of certificates that may be useful for certification path building and validation to verify each `AttestationStatement`. `AttestationBundle` is the structure included in a PKCS#10 attribute or CRMF control.
 
 ~~~asn1
 AttestationBundle ::= SEQUENCE {
@@ -266,9 +266,9 @@ or as vendor proprietary formats along with corresponding OIDs that identify the
 `AttestationStatementSet` is left unconstrained in this document. However, implementers MAY
 populate it with the formats that they wish to support. This document does not define, allocate, or register an OID for any attestation-statement format, nor does it establish an IANA registry for such formats. Specification authors who define an attestation-statement format are responsible for assigning its OID from an arc under their control.
 
-## CSR Attribute and Extension
+## PKCS#10 Attribute and CRMF Control
 
-The ASN.1 `ATTRIBUTE` and `EXTENSION` information object classes are defined in {{RFC5912}}. Attributes within a PKCS#10 CSR use `ATTRIBUTE`, and extensions within a CRMF CSR use `EXTENSION`.
+The ASN.1 `ATTRIBUTE` information object class is defined in {{RFC5912}}. Both the PKCS#10 attribute and the CRMF control defined here use this class and are identified by `id-aa-attestation`.
 The `id-aa` object identifier is defined in the `SecureMimeMessageV3dot1-2009` module in {{Section 5 of RFC5911}}.
 
 ~~~asn1
@@ -282,18 +282,23 @@ attr-attestation ATTRIBUTE ::= {
 }
 
 -- For CRMF
-ext-attestation EXTENSION ::= {
-  SYNTAX AttestationBundle
+ctrl-attestation ATTRIBUTE ::= {
+  TYPE AttestationBundle
+  COUNTS MAX 1
   IDENTIFIED BY id-aa-attestation
 }
 ~~~
-{: #code-extensions title="Definitions of CSR attribute and extension"}
+{: #code-attribute-control title="Definitions of PKCS#10 attribute and CRMF control"}
 
-The Extension variant illustrated in {{code-extensions}} is intended only for use within CRMF CSRs and is NOT RECOMMENDED to be used within X.509 certificates due to the privacy implications of publishing information about the end entity's hardware environment.
+For PKCS#10, `attr-attestation` is carried in the `attributes` field of `CertificationRequestInfo` as defined in {{RFC2986}}.
+
+For CRMF, `ctrl-attestation` MUST be carried in the `controls` field of `CertRequest`, that is, `CertReqMsg.certReq.controls`, as defined in {{Section 6 of RFC4211}}. Each control is an `AttributeTypeAndValue`: its `type` is `id-aa-attestation` and its `value` is a single `AttestationBundle` encoded directly as an ASN.1 value. In the updated CRMF ASN.1 module in {{Section 10 of RFC5912}}, this corresponds to a `SingleAttribute` with `ctrl-attestation` included in `RegControlSet`.
+
+The control supplies information for processing the certificate request; it does not request inclusion of that information in the issued certificate. This specification does not define an X.509 certificate extension for `id-aa-attestation`. In CRMF, `id-aa-attestation` MUST NOT be carried in `CertTemplate.extensions` or `CertReqMsg.regInfo`. See {{sec-privacy}} for the privacy implications of publishing attestation information in certificates.
 
 Multiple different types of `AttestationStatement`(s) may be included within a single top-level `AttestationBundle`.  Note that this document does not require the `AttestationBundle.attestations` field to contain only one `AttestationStatement` of a given type.  For example, if a given type is a "wrapper" type containing the conceptual message wrapper (CMW) structure {{RFC9999}}, multiple copies of a CMW-typed AttestationStatement may be included.
 
-Per {{RFC5280}} no more than one instance of a given type of Extension may be carried within an Extensions structure, so an Extensions structure MUST contain no more than one Extension of type `id-aa-attestation`.
+A `CertRequest.controls` sequence MUST contain no more than one control of type `id-aa-attestation`. The value of that control MUST contain exactly one `AttestationBundle`. Multiple attestation statements are carried within that bundle.
 
 PKCS#10 uses the legacy structures `Attributes` and `Attribute` rather than the later defined `SingleAttribute` and `AttributeSet` structures - all of which are defined against the ATTRIBUTE ASN.1 CLASS.  The ATTRIBUTE CLASS has a `COUNTS MAX n` clause which can be used to limit the copies of ATTRIBUTE related structures.  For the purposes of this document the `COUNTS MAX 1` clause in the `attr-attestation` shall be taken to mean the following:
 
@@ -308,6 +313,7 @@ IANA is requested to allocate an identifier for the ASN.1 module in the
 "SMI Security for PKIX Module Identifier" registry and to update the existing
 early allocation with decimal value 59 in the "SMI Security for S/MIME Attributes"
 registry.
+The `id-aa-attestation` identifier is used for both the PKCS#10 attribute and the CRMF control defined in this document.
 
 ##  Module Registration - SMI Security for PKIX Module Identifier
 
@@ -332,7 +338,7 @@ The numeric value is unchanged. The updated entry is:
 
 This document defines a structure to convey
 attestations as additional information in CSRs, as well as an attribute to convey that structure in the
-Certification Request Message defined in {{RFC2986}} and an extension to convey that structure in the
+Certification Request Message defined in {{RFC2986}} and a control to convey that structure in the
 Certificate Request Message Format defined in {{RFC4211}}.
 The CA/RA that receives the CSR may choose to verify the attestation(s) to determine if an issuance policy is met, or which of a suite of policies is satisfied. The CA/RA is also free to discard the additional information without processing.
 
@@ -425,4 +431,4 @@ Close to the end of the specification development process, the working group cha
 
 We thank Ketan Talaulikar for his detailed review during IESG evaluation, and Meral Shirazipour, Shivan Kaul Sahib, and Sean Turner for their Last Call reviews on behalf of Gen-ART, SECDIR, and ARTART, respectively.
 
-Finally, we would like to thank Deb Cooley for her review of the document as part of the IESG evaluation process.
+Finally, we would like to thank Deb Cooley and Mike Bishop for their reviews of the document as part of the IESG evaluation process.

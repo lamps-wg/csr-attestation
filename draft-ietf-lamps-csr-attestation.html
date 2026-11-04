@@ -15,7 +15,7 @@
        This specification defines ASN.1 structures which may carry attestation data for PKCS#10 and Certificate
 Request Message Format (CRMF) messages. Both standardized and proprietary attestation formats are supported by this specification. 
     " name="description">
-<meta content="xml2rfc 3.34.1" name="generator">
+<meta content="xml2rfc 3.35.0" name="generator">
 <meta content="PKI" name="keyword">
 <meta content="PKCS#10" name="keyword">
 <meta content="CRMF" name="keyword">
@@ -23,19 +23,19 @@ Request Message Format (CRMF) messages. Both standardized and proprietary attest
 <meta content="Certificate Signing Requests" name="keyword">
 <meta content="draft-ietf-lamps-csr-attestation-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.34.1
-    Python 3.14.8
-    ConfigArgParse 1.8.0
+  xml2rfc 3.35.0
+    Python 3.14.10
+    ConfigArgParse 1.9.0
     google-i18n-address 3.1.1
     intervaltree 3.2.1
     Jinja2 3.1.6
     lxml 6.1.1
     natsort 8.4.0
-    platformdirs 4.13.4
+    platformdirs 4.14.3
     pycountry 24.6.1
     PyYAML 6.0.3
     requests 2.33.1
-    wcwidth 0.9.2
+    wcwidth 0.9.4
 -->
 <link href="draft-ietf-lamps-csr-attestation.xml" rel="alternate" type="application/rfc+xml">
 <link href="#copyright" rel="license">
@@ -1055,7 +1055,7 @@ svg {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Ounsworth, et al.</td>
-<td class="center">Expires 6 May 2027</td>
+<td class="center">Expires 8 May 2027</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1068,12 +1068,12 @@ svg {
 <dd class="internet-draft">draft-ietf-lamps-csr-attestation-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-11-02" class="published">2 November 2026</time>
+<time datetime="2026-11-04" class="published">4 November 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2027-05-06">6 May 2027</time></dd>
+<dd class="expires"><time datetime="2027-05-08">8 May 2027</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1135,7 +1135,7 @@ Request Message Format (CRMF) messages. Both standardized and proprietary attest
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 6 May 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 8 May 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1534,8 +1534,7 @@ attestations as additional information in CSRs, as well as an attribute to conve
 Certification Request Message defined in <span>[<a href="#RFC2986" class="cite xref">RFC2986</a>]</span> and an extension to convey that structure in the
 Certificate Request Message Format defined in <span>[<a href="#RFC4211" class="cite xref">RFC4211</a>]</span>.
 The CA/RA that receives the CSR may choose to verify the attestation(s) to determine if an issuance policy is met, or which of a suite of policies is satisfied. The CA/RA is also free to discard the additional information without processing.<a href="#section-6-1" class="pilcrow">¶</a></p>
-<p id="section-6-2">A CA which accepts or requires attestation(s) <span class="bcp14">SHOULD</span> document its requirements with its Certification Practice Statement(s) <span>[<a href="#RFC3647" class="cite xref">RFC3647</a>]</span>.<a href="#section-6-2" class="pilcrow">¶</a></p>
-<p id="section-6-3">The remainder of this section identifies security considerations that apply when the CA/RA chooses to verify the attestation as part of the evaluation of a CSR.<a href="#section-6-3" class="pilcrow">¶</a></p>
+<p id="section-6-2">The remainder of this section identifies security considerations that apply when the CA/RA chooses to verify the attestation as part of the evaluation of a CSR.<a href="#section-6-2" class="pilcrow">¶</a></p>
 <div id="binding-attestations-to-the-csrs-public-key">
 <section id="section-6.1">
         <h3 id="name-binding-attestations-to-the">
@@ -1587,7 +1586,7 @@ The CSR might contain three AttestationStatements originated by three different 
 <a href="#section-6.3" class="section-number selfRef">6.3. </a><a href="#name-resource-exhaustion" class="section-name selfRef">Resource Exhaustion</a>
         </h3>
 <p id="section-6.3-1">CSRs are untrusted input to a CA/RA, and processing attestation bundles may consume substantial resources through parsing, cryptographic verification, certification path building and validation, and requests to external Verifiers or other services. An attacker can exploit these costs to cause resource exhaustion, even with a syntactically valid bundle.<a href="#section-6.3-1" class="pilcrow">¶</a></p>
-<p id="section-6.3-2">Implementations <span class="bcp14">SHOULD</span> impose limits appropriate to their deployment on the total bundle size, the number, type and size of attestation statements and certificates, parsing depth, and the computational effort spent processing a request. These limits <span class="bcp14">SHOULD</span> also bound certification path building, as well as the number, duration, and concurrency of external requests. Implementations <span class="bcp14">SHOULD</span> enforce limits as early as practicable. When a limit is exceeded, implementations <span class="bcp14">SHOULD</span> stop the affected processing and release resources allocated to it. An attestation statement whose verification has not completed successfully <span class="bcp14">MUST NOT</span> be treated as successfully verified.<a href="#section-6.3-2" class="pilcrow">¶</a></p>
+<p id="section-6.3-2">Implementations <span class="bcp14">SHOULD</span> expose configurable limits appropriate on the total bundle size, the number, type and size of attestation statements and certificates, parsing depth, and the computational effort spent processing a request. These limits <span class="bcp14">SHOULD</span> also bound certification path building, as well as the number, duration, and concurrency of external requests. Implementations <span class="bcp14">SHOULD</span> enforce limits as early as practicable. When a limit is exceeded, implementations <span class="bcp14">SHOULD</span> stop the affected processing and release resources allocated to it. An attestation statement whose verification has not completed successfully <span class="bcp14">MUST NOT</span> be treated as successfully verified.<a href="#section-6.3-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="additional-security-considerations">
@@ -1605,12 +1604,12 @@ The CSR might contain three AttestationStatements originated by three different 
       <h2 id="name-privacy-considerations">
 <a href="#section-7" class="section-number selfRef">7. </a><a href="#name-privacy-considerations" class="section-name selfRef">Privacy Considerations</a>
       </h2>
-<p id="section-7-1">Attestation statements and accompanying certificates can disclose information about a device, its software and hardware environment, and its owner or users. These statements may contain Evidence, Endorsements, or Attestation Results. Attesters <span class="bcp14">SHOULD</span> consider how much information is appropriate to disclose to a given CA. Examples include hardware identifiers, software versions, patch levels, and device ownership. These disclosures occur during enrollment, even if no attestation data is copied into the issued certificate.<a href="#section-7-1" class="pilcrow">¶</a></p>
+<p id="section-7-1">Attestation statements and accompanying certificates can disclose information about a device, its hardware and software environment, and its owner or users. Such statements may contain Evidence, Endorsements, or Attestation Results. Implementers should provide mechanisms that allow Attesters to control the amount of information disclosed to a particular CA, enabling operators and users to make informed decisions about what information to share. Examples of potentially sensitive information include hardware identifiers, software versions, patch levels, and device ownership details. This information may be disclosed during enrollment even if none of the attestation data is included in the issued certificate.<a href="#section-7-1" class="pilcrow">¶</a></p>
 <p id="section-7-2">Attestation formats may use stable device-identifying public keys, certificates, device IDs, or other identifiers. These values can enable a CA/RA or Verifier to link multiple CSRs to the same device even when the CSR public key, subject name, or enrollment account changes. Such linkability can affect privacy even when the individual attested claims are not otherwise sensitive.<a href="#section-7-2" class="pilcrow">¶</a></p>
 <p id="section-7-3">A CA/RA that forwards attestation statements or accompanying certificates to an external Verifier discloses this information to another party. That party may also be able to correlate requests across enrollments or across CAs. The privacy assessment of a deployment therefore needs to cover the entire enrollment and attestation verification path, including third-party processing, retention, and logging.<a href="#section-7-3" class="pilcrow">¶</a></p>
-<p id="section-7-4">Certificate requesters, CAs/RAs, and Verifiers <span class="bcp14">SHOULD</span> minimize the claims contained in attestation statements and the accompanying certificates they disclose, process, and retain to those needed for the applicable issuance policy. Where supported by the attestation technology and compatible with that policy, deployments <span class="bcp14">SHOULD</span> use mechanisms that reduce device linkability, such as privacy-preserving attestation procedures. Such mechanisms do not eliminate correlation through other disclosed information. Enrollment protocols and communication with external Verifiers <span class="bcp14">SHOULD</span> provide confidentiality protection and authenticate recipients. Transport confidentiality protects against observers but does not prevent correlation by the recipients themselves. Access to stored attestation statements and accompanying certificates, including copies in logs, <span class="bcp14">SHOULD</span> be restricted, and retention <span class="bcp14">SHOULD</span> be limited to the period needed for issuance and applicable audit requirements.<a href="#section-7-4" class="pilcrow">¶</a></p>
-<p id="section-7-5">Attestation statements are intended as additional information in the issuance process. It is <span class="bcp14">NOT RECOMMENDED</span> for a CA to copy attestation statements into the published certificate. CAs that choose to republish attestation statements or claims contained in them in certificates <span class="bcp14">SHOULD</span> review the contents and omit sensitive or identifying information.<a href="#section-7-5" class="pilcrow">¶</a></p>
-<p id="section-7-6">Further discussion of remote attestation privacy risks and mitigations is provided in <span><a href="https://rfc-editor.org/rfc/rfc9334#section-11" class="relref">Section 11</a> of [<a href="#RFC9334" class="cite xref">RFC9334</a>]</span>. Deployments should also consider the privacy considerations of the specific attestation formats they use.<a href="#section-7-6" class="pilcrow">¶</a></p>
+<p id="section-7-4">Certificate requesters, CAs/RAs, and Verifiers should minimize the claims contained in attestation statements and the accompanying certificates they disclose, process, and constrain to those needed for the applicable issuance policy in order to prevent over-disclosure to the public. Where supported by the attestation technology and compatible with that policy, deployments should use mechanisms that reduce device linkability, such as privacy-preserving attestation procedures to prevent multiple requests being linked back to the same attester. Such mechanisms do not eliminate correlation through other disclosed information. Enrollment protocols and communication with external Verifiers should provide confidentiality protection and authenticate recipients. Transport confidentiality protects against observers but does not prevent correlation by the recipients themselves. Access to stored attestation statements and accompanying certificates, including copies in logs, should be restricted, and retention should be limited to the period needed for issuance and applicable audit requirements.<a href="#section-7-4" class="pilcrow">¶</a></p>
+<p id="section-7-5">Attestation statements are intended as additional information in the issuance process. It is <span class="bcp14">NOT RECOMMENDED</span> for a CA to copy attestation statements into the published certificate as this can over-disclose sensitive details of the attester to the public. CAs that choose to republish attestation statements or claims contained in them in certificates <span class="bcp14">SHOULD</span> review the contents and omit sensitive or identifying information.<a href="#section-7-5" class="pilcrow">¶</a></p>
+<p id="section-7-6">Further discussion of remote attestation privacy risks and mitigations is provided in <span><a href="https://rfc-editor.org/rfc/rfc9334#section-11" class="relref">Section 11</a> of [<a href="#RFC9334" class="cite xref">RFC9334</a>]</span>. Operators should also take into account the privacy considerations of the specific attestation formats they use.<a href="#section-7-6" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="sec-combined-references">
@@ -1687,11 +1686,7 @@ The CSR might contain three AttestationStatements originated by three different 
 <dd class="break"></dd>
 <dt id="I-D.ietf-lamps-attestation-freshness">[I-D.ietf-lamps-attestation-freshness]</dt>
         <dd>
-<span class="refAuthor">Tschofenig, H.</span>, <span class="refAuthor">Brockhaus, H.</span>, <span class="refAuthor">Mandel, J.</span>, and <span class="refAuthor">S. Turner</span>, <span class="refTitle">"Requesting a Freshness Nonce for Attestation Evidence in Certificate Signing Requests"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-lamps-attestation-freshness-09</span>, <time datetime="2026-10-17" class="refDate">17 October 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-lamps-attestation-freshness-09">https://datatracker.ietf.org/doc/html/draft-ietf-lamps-attestation-freshness-09</a>&gt;</span>. </dd>
-<dd class="break"></dd>
-<dt id="RFC3647">[RFC3647]</dt>
-        <dd>
-<span class="refAuthor">Chokhani, S.</span>, <span class="refAuthor">Ford, W.</span>, <span class="refAuthor">Sabett, R.</span>, <span class="refAuthor">Merrill, C.</span>, and <span class="refAuthor">S. Wu</span>, <span class="refTitle">"Internet X.509 Public Key Infrastructure Certificate Policy and Certification Practices Framework"</span>, <span class="seriesInfo">RFC 3647</span>, <span class="seriesInfo">DOI 10.17487/RFC3647</span>, <time datetime="2003-11" class="refDate">November 2003</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc3647">https://www.rfc-editor.org/rfc/rfc3647</a>&gt;</span>. </dd>
+<span class="refAuthor">Tschofenig, H.</span>, <span class="refAuthor">Brockhaus, H.</span>, <span class="refAuthor">Mandel, J.</span>, and <span class="refAuthor">S. Turner</span>, <span class="refTitle">"Requesting a Freshness Nonce for Attestation Evidence in Certificate Signing Requests"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-lamps-attestation-freshness-10</span>, <time datetime="2026-11-02" class="refDate">2 November 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-lamps-attestation-freshness-10">https://datatracker.ietf.org/doc/html/draft-ietf-lamps-attestation-freshness-10</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC6025">[RFC6025]</dt>
         <dd>

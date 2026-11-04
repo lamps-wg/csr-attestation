@@ -5,13 +5,13 @@
 Network Working Group                                       M. Ounsworth
 Internet-Draft                                            Cryptic Forest
 Intended status: Standards Track                           H. Tschofenig
-Expires: 6 May 2027                                              Siemens
+Expires: 8 May 2027                                              Siemens
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                               M. Wiseman
                                                              Independent
                                                                 N. Smith
-                                                         2 November 2026
+                                                         4 November 2026
 
 
      Use of Remote Attestation with Certification Signing Requests
@@ -64,7 +64,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 6 May 2027.
+   This Internet-Draft will expire on 8 May 2027.
 
 Copyright Notice
 
@@ -490,9 +490,6 @@ Table of Contents
    policies is satisfied.  The CA/RA is also free to discard the
    additional information without processing.
 
-   A CA which accepts or requires attestation(s) SHOULD document its
-   requirements with its Certification Practice Statement(s) [RFC3647].
-
    The remainder of this section identifies security considerations that
    apply when the CA/RA chooses to verify the attestation as part of the
    evaluation of a CSR.
@@ -600,8 +597,8 @@ Table of Contents
    attacker can exploit these costs to cause resource exhaustion, even
    with a syntactically valid bundle.
 
-   Implementations SHOULD impose limits appropriate to their deployment
-   on the total bundle size, the number, type and size of attestation
+   Implementations SHOULD expose configurable limits appropriate on the
+   total bundle size, the number, type and size of attestation
    statements and certificates, parsing depth, and the computational
    effort spent processing a request.  These limits SHOULD also bound
    certification path building, as well as the number, duration, and
@@ -628,13 +625,16 @@ Table of Contents
 7.  Privacy Considerations
 
    Attestation statements and accompanying certificates can disclose
-   information about a device, its software and hardware environment,
-   and its owner or users.  These statements may contain Evidence,
-   Endorsements, or Attestation Results.  Attesters SHOULD consider how
-   much information is appropriate to disclose to a given CA.  Examples
-   include hardware identifiers, software versions, patch levels, and
-   device ownership.  These disclosures occur during enrollment, even if
-   no attestation data is copied into the issued certificate.
+   information about a device, its hardware and software environment,
+   and its owner or users.  Such statements may contain Evidence,
+   Endorsements, or Attestation Results.  Implementers should provide
+   mechanisms that allow Attesters to control the amount of information
+   disclosed to a particular CA, enabling operators and users to make
+   informed decisions about what information to share.  Examples of
+   potentially sensitive information include hardware identifiers,
+   software versions, patch levels, and device ownership details.  This
+   information may be disclosed during enrollment even if none of the
+   attestation data is included in the issued certificate.
 
    Attestation formats may use stable device-identifying public keys,
    certificates, device IDs, or other identifiers.  These values can
@@ -651,32 +651,35 @@ Table of Contents
    attestation verification path, including third-party processing,
    retention, and logging.
 
-   Certificate requesters, CAs/RAs, and Verifiers SHOULD minimize the
+   Certificate requesters, CAs/RAs, and Verifiers should minimize the
    claims contained in attestation statements and the accompanying
-   certificates they disclose, process, and retain to those needed for
-   the applicable issuance policy.  Where supported by the attestation
-   technology and compatible with that policy, deployments SHOULD use
+   certificates they disclose, process, and constrain to those needed
+   for the applicable issuance policy in order to prevent over-
+   disclosure to the public.  Where supported by the attestation
+   technology and compatible with that policy, deployments should use
    mechanisms that reduce device linkability, such as privacy-preserving
-   attestation procedures.  Such mechanisms do not eliminate correlation
+   attestation procedures to prevent multiple requests being linked back
+   to the same attester.  Such mechanisms do not eliminate correlation
    through other disclosed information.  Enrollment protocols and
-   communication with external Verifiers SHOULD provide confidentiality
+   communication with external Verifiers should provide confidentiality
    protection and authenticate recipients.  Transport confidentiality
    protects against observers but does not prevent correlation by the
    recipients themselves.  Access to stored attestation statements and
-   accompanying certificates, including copies in logs, SHOULD be
-   restricted, and retention SHOULD be limited to the period needed for
+   accompanying certificates, including copies in logs, should be
+   restricted, and retention should be limited to the period needed for
    issuance and applicable audit requirements.
 
    Attestation statements are intended as additional information in the
    issuance process.  It is NOT RECOMMENDED for a CA to copy attestation
-   statements into the published certificate.  CAs that choose to
+   statements into the published certificate as this can over-disclose
+   sensitive details of the attester to the public.  CAs that choose to
    republish attestation statements or claims contained in them in
    certificates SHOULD review the contents and omit sensitive or
    identifying information.
 
    Further discussion of remote attestation privacy risks and
-   mitigations is provided in Section 11 of [RFC9334].  Deployments
-   should also consider the privacy considerations of the specific
+   mitigations is provided in Section 11 of [RFC9334].  Operators should
+   also take into account the privacy considerations of the specific
    attestation formats they use.
 
 8.  References
@@ -755,15 +758,9 @@ Table of Contents
               Tschofenig, H., Brockhaus, H., Mandel, J., and S. Turner,
               "Requesting a Freshness Nonce for Attestation Evidence in
               Certificate Signing Requests", Work in Progress, Internet-
-              Draft, draft-ietf-lamps-attestation-freshness-09, 17
-              October 2026, <https://datatracker.ietf.org/doc/html/
-              draft-ietf-lamps-attestation-freshness-09>.
-
-   [RFC3647]  Chokhani, S., Ford, W., Sabett, R., Merrill, C., and S.
-              Wu, "Internet X.509 Public Key Infrastructure Certificate
-              Policy and Certification Practices Framework", RFC 3647,
-              DOI 10.17487/RFC3647, November 2003,
-              <https://www.rfc-editor.org/rfc/rfc3647>.
+              Draft, draft-ietf-lamps-attestation-freshness-10, 2
+              November 2026, <https://datatracker.ietf.org/doc/html/
+              draft-ietf-lamps-attestation-freshness-10>.
 
    [RFC6025]  Wallace, C. and C. Gardiner, "ASN.1 Translation",
               RFC 6025, DOI 10.17487/RFC6025, October 2010,

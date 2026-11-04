@@ -5,13 +5,13 @@
 Network Working Group                                       M. Ounsworth
 Internet-Draft                                            Cryptic Forest
 Intended status: Standards Track                           H. Tschofenig
-Expires: 7 May 2027                                              Siemens
+Expires: 8 May 2027                                              Siemens
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                               M. Wiseman
                                                              Independent
                                                                 N. Smith
-                                                         3 November 2026
+                                                         4 November 2026
 
 
      Use of Remote Attestation with Certification Signing Requests
@@ -64,7 +64,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 7 May 2027.
+   This Internet-Draft will expire on 8 May 2027.
 
 Copyright Notice
 
@@ -625,13 +625,16 @@ Table of Contents
 7.  Privacy Considerations
 
    Attestation statements and accompanying certificates can disclose
-   information about a device, its software and hardware environment,
-   and its owner or users.  These statements may contain Evidence,
-   Endorsements, or Attestation Results.  Attesters should consider how
-   much information is appropriate to disclose to a given CA.  Examples
-   include hardware identifiers, software versions, patch levels, and
-   device ownership.  These disclosures occur during enrollment, even if
-   no attestation data is copied into the issued certificate.
+   information about a device, its hardware and software environment,
+   and its owner or users.  Such statements may contain Evidence,
+   Endorsements, or Attestation Results.  Implementers should provide
+   mechanisms that allow Attesters to control the amount of information
+   disclosed to a particular CA, enabling operators and users to make
+   informed decisions about what information to share.  Examples of
+   potentially sensitive information include hardware identifiers,
+   software versions, patch levels, and device ownership details.  This
+   information may be disclosed during enrollment even if none of the
+   attestation data is included in the issued certificate.
 
    Attestation formats may use stable device-identifying public keys,
    certificates, device IDs, or other identifiers.  These values can

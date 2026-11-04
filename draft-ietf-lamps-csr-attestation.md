@@ -379,7 +379,7 @@ In addition to the security considerations listed here, implementers should be f
 
 # Privacy Considerations {#sec-privacy}
 
-Attestation statements and accompanying certificates can disclose information about a device, its software and hardware environment, and its owner or users. These statements may contain Evidence, Endorsements, or Attestation Results. Attesters should consider how much information is appropriate to disclose to a given CA. Examples include hardware identifiers, software versions, patch levels, and device ownership. These disclosures occur during enrollment, even if no attestation data is copied into the issued certificate.
+Attestation statements and accompanying certificates can disclose information about a device, its hardware and software environment, and its owner or users. Such statements may contain Evidence, Endorsements, or Attestation Results. Implementers should provide mechanisms that allow Attesters to control the amount of information disclosed to a particular CA, enabling operators and users to make informed decisions about what information to share. Examples of potentially sensitive information include hardware identifiers, software versions, patch levels, and device ownership details. This information may be disclosed during enrollment even if none of the attestation data is included in the issued certificate.
 
 Attestation formats may use stable device-identifying public keys, certificates, device IDs, or other identifiers. These values can enable a CA/RA or Verifier to link multiple CSRs to the same device even when the CSR public key, subject name, or enrollment account changes. Such linkability can affect privacy even when the individual attested claims are not otherwise sensitive.
 

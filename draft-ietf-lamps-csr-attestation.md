@@ -431,4 +431,4 @@ Close to the end of the specification development process, the working group cha
 
 We thank Ketan Talaulikar for his detailed review during IESG evaluation, and Meral Shirazipour, Shivan Kaul Sahib, and Sean Turner for their Last Call reviews on behalf of Gen-ART, SECDIR, and ARTART, respectively.
 
-Finally, we would like to thank Deb Cooley for her review of the document as part of the IESG evaluation process.
+Finally, we would like to thank Deb Cooley and Mike Bishop for their reviews of the document as part of the IESG evaluation process.

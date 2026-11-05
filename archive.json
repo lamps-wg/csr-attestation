@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-11-03T04:57:27.398342+00:00",
+  "timestamp": "2026-11-05T04:44:27.475723+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -15291,6 +15291,159 @@
           ]
         }
       ]
+    },
+    {
+      "number": 257,
+      "id": "PR_kwDOJ3IIN88AAAABMjSJcQ",
+      "title": "Addressing Med Boucadair's IESG review",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/257",
+      "state": "MERGED",
+      "author": "ounsworth",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "https://mailarchive.ietf.org/arch/msg/spasm/xb95aVu26qCZT7WPqFbdQA-HYsg/",
+      "createdAt": "2026-11-03T12:32:10Z",
+      "updatedAt": "2026-11-04T11:41:43Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "4711a1d20430c907664cc5addfd59baae7321751",
+      "headRepository": "lamps-wg/csr-attestation",
+      "headRefName": "med_iesg",
+      "headRefOid": "6dc9e332fdf1cfa599694d28c6c67a77724b91ad",
+      "closedAt": "2026-11-04T11:41:38Z",
+      "mergedAt": "2026-11-04T11:41:38Z",
+      "mergedBy": "hannestschofenig",
+      "mergeCommit": {
+        "oid": "015f81fb485b81124d3b39c675406b6cc84ab371"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJ3IIN88AAAABVvB1bw",
+          "commit": {
+            "abbreviatedOid": "da54c1b"
+          },
+          "author": "boucadair",
+          "authorAssociation": "NONE",
+          "state": "APPROVED",
+          "body": "Looks great! Thanks @ounsworth ",
+          "createdAt": "2026-11-03T14:08:18Z",
+          "updatedAt": "2026-11-03T14:08:18Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJ3IIN88AAAABVv-Mgg",
+          "commit": {
+            "abbreviatedOid": "da54c1b"
+          },
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Thanks for addressing the review comments, Mike. They look good to me.",
+          "createdAt": "2026-11-03T15:07:03Z",
+          "updatedAt": "2026-11-03T15:07:03Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJ3IIN88AAAABV8YeXQ",
+          "commit": {
+            "abbreviatedOid": "f7a3bc5"
+          },
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-11-04T11:36:28Z",
+          "updatedAt": "2026-11-04T11:36:28Z",
+          "comments": [
+            {
+              "originalPosition": 31,
+              "body": "```suggestion\nAttestation statements and accompanying certificates can disclose information about a device, its hardware and software environment, and its owner or users. Such statements may contain Evidence, Endorsements, or Attestation Results. Implementers should provide mechanisms that allow Attesters to control the amount of information disclosed to a particular CA, enabling operators and users to make informed decisions about what information to share. Examples of potentially sensitive information include hardware identifiers, software versions, patch levels, and device ownership details. This information may be disclosed during enrollment even if none of the attestation data is included in the issued certificate.\n```",
+              "createdAt": "2026-11-04T11:36:28Z",
+              "updatedAt": "2026-11-04T11:36:28Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 258,
+      "id": "PR_kwDOJ3IIN88AAAABM0Nenw",
+      "title": "Addressing Eric Vyncke's IESG review ",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/258",
+      "state": "OPEN",
+      "author": "hannestschofenig",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2026-11-04T13:24:08Z",
+      "updatedAt": "2026-11-04T13:24:24Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "015f81fb485b81124d3b39c675406b6cc84ab371",
+      "headRepository": "lamps-wg/csr-attestation",
+      "headRefName": "eric-iesg",
+      "headRefOid": "c63241a3e3a2c4225520cb1722e46ae8e8c4fe72",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 259,
+      "id": "PR_kwDOJ3IIN88AAAABM0PIaw",
+      "title": "Addressing Mike Bishop's technical review comments",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/259",
+      "state": "OPEN",
+      "author": "hannestschofenig",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "This PR addresses Mike Bishop\u2019s DISCUSS concerning the placement of attestation data in CRMF requests. He expressed the need to be specific about where to place the attestation data in CRMF, which is a valid issue. Definitely good feedback.\r\n\r\nIt replaces the CRMF attestation extension with an ATTRIBUTE-based control carried in CertReqMsg.certReq.controls. This matches the purpose of CRMF controls, namely supplying information used during certificate issuance without requesting its inclusion in the issued certificate.\r\n\r\nThe control retains id-aa-attestation and carries one AttestationBundle. Each CertRequest.controls sequence may contain at most one attestation control and multiple statements are carried within its bundle.\r\n\r\nThe other design option, which is to place the attestation data in CertTemplate.extensions. This extension point is, however, typically used to instruct the CA to place data into the issued certificate. This is clearly not what we want.",
+      "createdAt": "2026-11-04T13:26:01Z",
+      "updatedAt": "2026-11-04T16:52:17Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "015f81fb485b81124d3b39c675406b6cc84ab371",
+      "headRepository": "lamps-wg/csr-attestation",
+      "headRefName": "mike-iesg-part2",
+      "headRefOid": "a3329b2840525a140a692cc358cc2f977cb4c430",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 260,
+      "id": "PR_kwDOJ3IIN88AAAABM0Pakw",
+      "title": "Addressing Mike Bishop's editorial review comments",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/260",
+      "state": "OPEN",
+      "author": "hannestschofenig",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2026-11-04T13:26:19Z",
+      "updatedAt": "2026-11-04T13:29:03Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "015f81fb485b81124d3b39c675406b6cc84ab371",
+      "headRepository": "lamps-wg/csr-attestation",
+      "headRefName": "mike-iesg",
+      "headRefOid": "ecfbb62c24bddabddefebab76b3ee8a3dea7da06",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }

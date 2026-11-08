@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-11-05T04:44:27.475723+00:00",
+  "timestamp": "2026-11-08T03:55:22.987388+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -15379,7 +15379,7 @@
       "labels": [],
       "body": "",
       "createdAt": "2026-11-04T13:24:08Z",
-      "updatedAt": "2026-11-04T13:24:24Z",
+      "updatedAt": "2026-11-05T12:46:32Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "015f81fb485b81124d3b39c675406b6cc84ab371",
@@ -15391,7 +15391,21 @@
       "mergedBy": null,
       "mergeCommit": null,
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOJ3IIN88AAAABWNIx0Q",
+          "commit": {
+            "abbreviatedOid": "c63241a"
+          },
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-11-05T12:46:32Z",
+          "updatedAt": "2026-11-05T12:46:32Z",
+          "comments": []
+        }
+      ]
     },
     {
       "number": 259,
@@ -15403,9 +15417,9 @@
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
-      "body": "This PR addresses Mike Bishop\u2019s DISCUSS concerning the placement of attestation data in CRMF requests. He expressed the need to be specific about where to place the attestation data in CRMF, which is a valid issue. Definitely good feedback.\r\n\r\nIt replaces the CRMF attestation extension with an ATTRIBUTE-based control carried in CertReqMsg.certReq.controls. This matches the purpose of CRMF controls, namely supplying information used during certificate issuance without requesting its inclusion in the issued certificate.\r\n\r\nThe control retains id-aa-attestation and carries one AttestationBundle. Each CertRequest.controls sequence may contain at most one attestation control and multiple statements are carried within its bundle.\r\n\r\nThe other design option, which is to place the attestation data in CertTemplate.extensions. This extension point is, however, typically used to instruct the CA to place data into the issued certificate. This is clearly not what we want.",
+      "body": "This PR addresses Mike Bishop\u2019s DISCUSS, see https://mailarchive.ietf.org/arch/msg/spasm/20-Hrw-VxR-WL0BEz94E7bDaon0/, concerning the placement of attestation data in CRMF requests. He expressed the need to be specific about where to place the attestation data in CRMF, which is a valid issue. Definitely good feedback.\r\n\r\nIt replaces the CRMF attestation extension with an ATTRIBUTE-based control carried in CertReqMsg.certReq.controls. This matches the purpose of CRMF controls, namely supplying information used during certificate issuance without requesting its inclusion in the issued certificate.\r\n\r\nThe control retains id-aa-attestation and carries one AttestationBundle. Each CertRequest.controls sequence may contain at most one attestation control and multiple statements are carried within its bundle.\r\n\r\nThe other design option, which is to place the attestation data in CertTemplate.extensions. This extension point is, however, typically used to instruct the CA to place data into the issued certificate. This is clearly not what we want.",
       "createdAt": "2026-11-04T13:26:01Z",
-      "updatedAt": "2026-11-04T16:52:17Z",
+      "updatedAt": "2026-11-06T11:25:39Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "015f81fb485b81124d3b39c675406b6cc84ab371",
@@ -15416,7 +15430,22 @@
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
+      "comments": [
+        {
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Oops! And we are supposed to be the PKI experts. This is embarrassing. I would feel better about this PR if Hendrik Brockhaus or Sean Turner, or Joe Mandel reviewed it.",
+          "createdAt": "2026-11-05T12:50:34Z",
+          "updatedAt": "2026-11-05T12:50:34Z"
+        },
+        {
+          "author": "HBrock",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "This is a very valid point.\r\n\r\nRFC 2986 (PKCS#10) specifies `attributes` to provide additional information about the subject of the certificate and for information to appear in X.509 certificate extensions of the requested certificate.\r\nRFC 4211 (CRMF) differentiates between content in the `certTemplate` to be placed in the requested certificate and content in the `controls` for the PKI to be used in the certification process.\r\nTherefore, I see the point that the attestation evidence should be provided in CRMF as control and not as extension.\r\n\r\nI am not an ASN.1 expert, but I think the `attr-attestation` defined in Section 4.3 of draft-ietf-lamps-csr-attestation would also work well as `SingleAttribute` in `controls` of `certReq`. Maybe some twisting of the ASN.1 module is needed.",
+          "createdAt": "2026-11-06T11:25:38Z",
+          "updatedAt": "2026-11-06T11:25:38Z"
+        }
+      ],
       "reviews": []
     },
     {
@@ -15431,13 +15460,53 @@
       "labels": [],
       "body": "",
       "createdAt": "2026-11-04T13:26:19Z",
-      "updatedAt": "2026-11-04T13:29:03Z",
+      "updatedAt": "2026-11-05T12:53:14Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "015f81fb485b81124d3b39c675406b6cc84ab371",
       "headRepository": "lamps-wg/csr-attestation",
       "headRefName": "mike-iesg",
       "headRefOid": "ecfbb62c24bddabddefebab76b3ee8a3dea7da06",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJ3IIN88AAAABWNN6dg",
+          "commit": {
+            "abbreviatedOid": "ecfbb62"
+          },
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-11-05T12:53:14Z",
+          "updatedAt": "2026-11-05T12:53:14Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 261,
+      "id": "PR_kwDOJ3IIN88AAAABNMxa3w",
+      "title": "Addressed Charles Eckel's IESG review",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/261",
+      "state": "OPEN",
+      "author": "ounsworth",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2026-11-06T00:20:31Z",
+      "updatedAt": "2026-11-06T00:20:31Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "015f81fb485b81124d3b39c675406b6cc84ab371",
+      "headRepository": "lamps-wg/csr-attestation",
+      "headRefName": "charles-iesg",
+      "headRefOid": "fa5362a4526fffbc24b4a5b0bc574e727334673c",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,

@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-11-08T03:55:22.987388+00:00",
+  "timestamp": "2026-11-10T05:39:30.053736+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -15500,7 +15500,7 @@
       "labels": [],
       "body": "",
       "createdAt": "2026-11-06T00:20:31Z",
-      "updatedAt": "2026-11-06T00:20:31Z",
+      "updatedAt": "2026-11-09T21:35:53Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "015f81fb485b81124d3b39c675406b6cc84ab371",
@@ -15512,7 +15512,21 @@
       "mergedBy": null,
       "mergeCommit": null,
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOJ3IIN88AAAABW66iZg",
+          "commit": {
+            "abbreviatedOid": "fa5362a"
+          },
+          "author": "eckelcu",
+          "authorAssociation": "NONE",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-11-09T21:35:53Z",
+          "updatedAt": "2026-11-09T21:35:53Z",
+          "comments": []
+        }
+      ]
     }
   ]
 }

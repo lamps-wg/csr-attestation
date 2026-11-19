@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-11-10T05:39:30.053736+00:00",
+  "timestamp": "2026-11-19T05:33:03.122896+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -2921,6 +2921,22 @@
           "updatedAt": "2026-09-02T15:38:48Z"
         }
       ]
+    },
+    {
+      "number": 262,
+      "id": "I_kwDOJ3IIN88AAAABgitk4A",
+      "title": "Christopher Inacio's Discuss -- Registry",
+      "url": "https://github.com/lamps-wg/csr-attestation/issues/262",
+      "state": "OPEN",
+      "author": "hannestschofenig",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "https://mailarchive.ietf.org/arch/msg/spasm/0oZC8BYMaJBWt1Zi5IBwQICafWc/",
+      "createdAt": "2026-11-18T23:28:13Z",
+      "updatedAt": "2026-11-18T23:28:13Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [

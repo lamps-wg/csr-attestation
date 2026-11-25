@@ -5,13 +5,13 @@
 Network Working Group                                       M. Ounsworth
 Internet-Draft                                            Cryptic Forest
 Intended status: Standards Track                           H. Tschofenig
-Expires: 8 May 2027                                              Siemens
+Expires: 29 May 2027                                             Siemens
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                               M. Wiseman
                                                              Independent
                                                                 N. Smith
-                                                         4 November 2026
+                                                        25 November 2026
 
 
      Use of Remote Attestation with Certification Signing Requests
@@ -64,7 +64,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 8 May 2027.
+   This Internet-Draft will expire on 29 May 2027.
 
 Copyright Notice
 
@@ -389,15 +389,7 @@ Table of Contents
 
    id-aa-attestation OBJECT IDENTIFIER ::= { id-aa 59 }
 
-   -- For PKCS#10
    attr-attestation ATTRIBUTE ::= {
-     TYPE AttestationBundle
-     COUNTS MAX 1
-     IDENTIFIED BY id-aa-attestation
-   }
-
-   -- For CRMF
-   ctrl-attestation ATTRIBUTE ::= {
      TYPE AttestationBundle
      COUNTS MAX 1
      IDENTIFIED BY id-aa-attestation
@@ -405,16 +397,16 @@ Table of Contents
 
         Figure 4: Definitions of PKCS#10 attribute and CRMF control
 
-   For PKCS#10, attr-attestation is carried in the attributes field of
-   CertificationRequestInfo as defined in [RFC2986].
+   For PKCS#10, attr-attestation MUST be carried in the attributes field
+   of CertificationRequestInfo as defined in [RFC2986].
 
-   For CRMF, ctrl-attestation MUST be carried in the controls field of
+   For CRMF, attr-attestation MUST be carried in the controls field of
    CertRequest, that is, CertReqMsg.certReq.controls, as defined in
    Section 6 of [RFC4211].  Each control is an AttributeTypeAndValue:
    its type is id-aa-attestation and its value is a single
    AttestationBundle encoded directly as an ASN.1 value.  In the updated
    CRMF ASN.1 module in Section 10 of [RFC5912], this corresponds to a
-   SingleAttribute with ctrl-attestation included in RegControlSet.
+   SingleAttribute with attr-attestation included in RegControlSet.
 
    The control supplies information for processing the certificate
    request; it does not request inclusion of that information in the
@@ -862,15 +854,7 @@ Appendix B.  ASN.1 Module
    -- Arc for Attestation types
    id-aa-attestation OBJECT IDENTIFIER ::= { id-aa 59 }
 
-   -- For PKCS#10 (Attestation)
    attr-attestation ATTRIBUTE ::= {
-     TYPE AttestationBundle
-     COUNTS MAX 1
-     IDENTIFIED BY id-aa-attestation
-   }
-
-   -- For CRMF (Attestation)
-   ctrl-attestation ATTRIBUTE ::= {
      TYPE AttestationBundle
      COUNTS MAX 1
      IDENTIFIED BY id-aa-attestation

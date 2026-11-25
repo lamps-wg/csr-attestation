@@ -14,7 +14,7 @@ Expires: 29 May 2027                                             Siemens
                                                         25 November 2026
 
 
-     Use of Remote Attestation with Certification Signing Requests
+      Use of Remote Attestation with Certificate Signing Requests
                 draft-ietf-lamps-csr-attestation-latest
 
 Abstract
@@ -27,10 +27,9 @@ Abstract
    is secured by a hardware security module (HSM), is not exportable,
    etc.  The process of generating, transmitting, and verifying
    additional information required by the CA is called remote
-   attestation.  While work is currently underway to standardize various
-   aspects of remote attestation, a variety of proprietary mechanisms
-   have been in use for years, particularly regarding protection of
-   private keys.
+   attestation.  While various aspects of remote attestation have been
+   standardized, a variety of proprietary mechanisms are in use,
+   particularly regarding protection of private keys.
 
    This specification defines ASN.1 structures which may carry
    attestation data for PKCS#10 and Certificate Request Message Format
@@ -83,7 +82,7 @@ Copyright Notice
 Table of Contents
 
    1.  Introduction
-   2.  Relationship to the IETF RATS Working Group
+   2.  Relationship to the RATS Architecture
    3.  Conventions and Definitions
    4.  Conveying Attestations in CSRs
      4.1.  AttestationStatement and AttestationBundle
@@ -110,20 +109,20 @@ Table of Contents
 
 1.  Introduction
 
-   Certification Authorities (CAs) issuing certificates to PKI end
-   entities may require that a certificate signing request (CSR) include
-   verifiable attestations.  These attestations can contain claims
-   regarding the platform used by the end entity to generate the key
-   pair for which a certificate is sought.  These claims can also
-   include attributes of the key pair with respect to its protection,
-   use, and extractability.  At the time of writing, the most pressing
-   example of the need for remote attestation in certificate enrollment
-   is the Code-Signing Baseline Requirements (CSBR) document maintained
-   by the CA/Browser Forum [CSBR].  The [CSBR] requires compliant CAs to
-   "ensure that a Subscriber's Private Key is generated, stored, and
-   used in a secure environment that has controls to prevent theft or
-   misuse".  This requirement is a natural fit to enforce via remote
-   attestation.
+   Certification Authorities or Registration Authorities (CA/RAs)
+   issuing certificates to PKI end entities may require that a
+   certificate signing request (CSR) include verifiable attestations.
+   These attestations can contain claims regarding the platform used by
+   the end entity to generate the key pair for which a certificate is
+   sought.  These claims can also include attributes of the key pair
+   with respect to its protection, use, and extractability.  At the time
+   of writing, the most pressing example of the need for remote
+   attestation in certificate enrollment is the Code-Signing Baseline
+   Requirements (CSBR) document maintained by the CA/Browser Forum
+   [CSBR].  The [CSBR] requires compliant CAs to "ensure that a
+   Subscriber's Private Key is generated, stored, and used in a secure
+   environment that has controls to prevent theft or misuse".  This
+   requirement is a natural fit to enforce via remote attestation.
 
    This specification defines a PKCS#10 attribute [RFC2986] and a
    Certificate Request Message Format (CRMF) control [RFC4211] that
@@ -140,23 +139,20 @@ Table of Contents
 
    While CSRs are defined using Abstract Syntax Notation One (ASN.1),
    attestations may be defined using any data description language,
-   i.e., ASN.1 or Concise Data Description Language (CDDL), or
+   e.g., ASN.1 or Concise Data Description Language (CDDL), and
    represented using any type of encoding, including Distinguished
    Encoding Rules (DER), Concise Binary Object Representation (CBOR),
    JavaScript Object Notation (JSON).  The requirements for carrying
    attestation formats not defined using ASN.1 are specified in
    Section 4.1.
 
-2.  Relationship to the IETF RATS Working Group
+2.  Relationship to the RATS Architecture
 
-   As noted, attestation-related technologies have existed for many
-   years, albeit with no standard format and no standard means of
-   conveying attestation statements to a CA.  This draft addresses the
-   latter, and is equally applicable to standard and proprietary
-   attestation formats.  The IETF Remote Attestation Procedures (RATS)
-   working group is addressing the former.  In [RFC9334], RATS defined
-   vocabulary, architecture, and usage patterns related to the practice
-   of generating and verifying attestations.
+   This document uses the terminology, architecture, and topological
+   patterns defined in the Remote ATtestation procedureS (RATS)
+   architecture [RFC9334].  It specifies how attestation statements are
+   conveyed in certificate signing requests and supports both
+   standardized and proprietary attestation formats.
 
    In its simplest topological model, attestations are generated by the
    certificate requester and verified by the CA/RA.  Section 5 of
@@ -171,9 +167,9 @@ Table of Contents
    forward or process attestation statements (also see Section 1.2 of
    [RFC9683]): the Attester, Endorser, Relying Party, and Verifier.
    Attestation statements, such as Evidence, may be directed to an
-   entity taking at least one of these roles, including to an CA/RA
-   acting as a Verifier.  An CA/RA may also forward attestation
-   statements to a Verifier for appraisal.  Each attestation statements
+   entity taking at least one of these roles, including to a CA/RA
+   acting as a Verifier.  A CA/RA may also forward attestation
+   statements to a Verifier for appraisal.  Each attestation statement
    may contain one or more claims, including claims that may be required
    by an RA or CA.  Attestation statements transmitted by these parties
    are defined in Section 8 of [RFC9334] as the "conceptual messages"
@@ -200,17 +196,9 @@ Table of Contents
    specification uses CA/RA to refer to an [RFC9334] Relying Party,
    which may or may not include an integrated Verifier.
 
-   The term "Certification Request" message is defined in [RFC2986].
-   Specifications, such as [RFC7030], later introduced the term
-   "Certificate Signing Request (CSR)" to refer to the Certification
-   Request message.  While the term "Certification Request" would have
-   been correct, the mistake was unnoticed.  In the meanwhile CSR is an
-   abbreviation used beyond PKCS#10.  Hence, it is equally applicable to
-   other protocols that use a different syntax and even a different
-   encoding, in particular this document also considers messages in the
-   Certificate Request Message Format (CRMF) [RFC4211] to be "CSRs".  In
-   this document, the terms "CSR" and Certificate Request message are
-   used interchangeably.
+   In this document, "Certificate Signing Request (CSR)" is an umbrella
+   term that refers to either a PKCS#10 Certification Request [RFC2986]
+   or a CRMF certificate request message [RFC4211].
 
    The term "hardware security module (HSM)" is used generically to
    refer to the combination of hardware and software designed to protect
@@ -218,25 +206,20 @@ Table of Contents
    Secure Element, Trusted Platform Module, and Trusted Execution
    Environment.
 
-   Since this document combines terminology from two domains, Remote
-   Attestation (RATS) and X.509 PKI, it follows a naming convention to
-   avoid ambiguity.  RATS terminology is written in uppercase (e.g.,
-   Verifier), while X.509/PKI terminology is written in lowercase (e.g.,
-   certification authority (CA)).  This distinction clarifies terms that
-   exist in both domains; for instance, a Verifier refers to the RATS
-   entity that processes Evidence, whereas a verifier refers to the PKI
-   entity that validates certificates.  This convention is distinct from
-   camel-case identifiers like "AttestationStatement", which denote
-   ASN.1 types.
+   Unless explicitly qualified, "Attester", "Endorser", "Verifier", and
+   "Relying Party" refer to the roles defined in [RFC9334].  Where the
+   PKIX meaning of relying party is intended, this document explicitly
+   uses "PKIX relying party".  ASN.1 identifiers such as
+   AttestationStatement denote the corresponding ASN.1 types.
 
 4.  Conveying Attestations in CSRs
 
    The focus of this specification is the conveyance of attestations to
-   a CA/RA as part of a CSR.  The following sub-sections define formats
+   a CA/RA as part of a CSR.  The following subsections define formats
    to support this conveyance, an optional mechanism to limit support to
    specific attestation types at the ASN.1 level, and bindings to the
    PKCS#10 attribute and CRMF control mechanisms used in certificate
-   managment protocols.
+   management protocols.
 
    The ASN.1 notation, information object classes, and constraint
    notation used in this section and in Appendix B are specified in
@@ -246,10 +229,11 @@ Table of Contents
 
 4.1.  AttestationStatement and AttestationBundle
 
-   The AttestationStatement structure (as shown in Figure 1) facilitates
-   the representation of Evidence, Endorsements, and Attestation Results
-   generated by an Attester, Endorser, or Verifier for processing by a
-   Verifier or Relying Party, such as verification by a CA/RA.
+   The ASN.1 AttestationStatement structure (as shown in Figure 1)
+   facilitates the representation of Evidence, Endorsements, and
+   Attestation Results generated by an Attester, Endorser, or Verifier
+   for processing by a Verifier or Relying Party, such as verification
+   by a CA/RA.
 
    *  The type field is an OBJECT IDENTIFIER that identifies the format
       of the stmt field.
@@ -270,7 +254,7 @@ Table of Contents
                  {AttestationStatementSet}{@type})
    }
 
-                Figure 1: Definition of AttestationStatement
+             Figure 1: ASN.1 Definition of AttestationStatement
 
    In some cases, a CA may require CSRs to include a variety of claims,
    which may require the cooperation of more than one Attester.
@@ -284,10 +268,10 @@ Table of Contents
 
    AttestationBundle ::= SEQUENCE {
       attestations SEQUENCE SIZE (1..MAX) OF AttestationStatement,
-      certs SEQUENCE SIZE (1..MAX) OF LimitedCertChoices OPTIONAL,
+      certs SEQUENCE SIZE (1..MAX) OF LimitedCertChoices OPTIONAL
    }
 
-                 Figure 2: Definition of AttestationBundle
+              Figure 2: ASN.1 Definition of AttestationBundle
 
    A CA/RA's issuance policy may place additional requirements on the
    contents of the attestations sequence, such as requiring claims that
@@ -297,9 +281,9 @@ Table of Contents
    applicable attestation format.  See Section 6 for more discussion.
 
    The CertificateChoices structure defined in [RFC6268], and reproduced
-   below along with OtherCertificateFormat, allows for carrying
-   certificates in the default X.509 [RFC5280] format or in other
-   certificate formats.  Within an AttestationBundle, a
+   in ASN.1 in Figure 3 along with OtherCertificateFormat, allows for
+   carrying certificates in the default X.509 [RFC5280] format or in
+   other certificate formats.  Within an AttestationBundle, a
    CertificateChoices value MUST use only the certificate or other
    alternative; the extendedCertificate, v1AttrCert, and v2AttrCert
    alternatives MUST NOT be used.  [RFC6268] marks extendedCertificate
@@ -339,6 +323,8 @@ Table of Contents
          CertificateChoices
              (WITH COMPONENTS {certificate, other})
 
+             Figure 3: ASN.1 Definitions of Certificate Choices
+
    The certs field is OPTIONAL.  When validation of an
    AttestationStatement requires a public key that cannot be obtained
    otherwise, certs SHOULD contain a certificate containing that public
@@ -362,9 +348,9 @@ Table of Contents
       ... -- None defined in this document --
    }
 
-              Figure 3: Definition of AttestationStatementSet
+              Figure 4: Definition of AttestationStatementSet
 
-   The expression illustrated in Figure 3 maps ASN.1 Types for
+   The expression illustrated in Figure 4 maps ASN.1 Types for
    attestation statements to the OIDs that identify them.  These
    mappings are used to construct or parse AttestationStatement objects
    that appear in an AttestationBundle.  Attestation statements are
@@ -378,6 +364,23 @@ Table of Contents
    for such formats.  Specification authors who define an attestation-
    statement format are responsible for assigning its OID from an arc
    under their control.
+
+   An extensible AttestationStatementSet does not imply that an
+   implementation supports every attestation format.  A CA/RA that
+   cannot parse, interpret, or verify an attestation statement locally
+   MAY forward it to a trusted Verifier that supports the format.  If
+   successful verification is not available, the CA/RA MAY ignore the
+   statement, obtain additional information, or reject the CSR,
+   according to its issuance policy.  Such a statement MUST NOT be
+   treated as successfully verified or as satisfying an issuance policy
+   requirement.  Ignoring a statement does not remove any applicable
+   issuance policy requirement.  An unsupported statement does not, by
+   itself, require rejection of the entire bundle or CSR.
+
+   These options apply to individual statements in an otherwise well-
+   formed AttestationBundle and do not require recovery from malformed
+   ASN.1 input.  Processing, including forwarding to a Verifier, remains
+   subject to the resource limits discussed in Section 6.3.
 
 4.3.  PKCS#10 Attribute and CRMF Control
 
@@ -395,7 +398,7 @@ Table of Contents
      IDENTIFIED BY id-aa-attestation
    }
 
-       Figure 4: Definition of the attestation attribute and control
+       Figure 5: Definition of the attestation attribute and control
 
    For PKCS#10, attr-attestation MUST be carried in the attributes field
    of CertificationRequestInfo as defined in [RFC2986].
@@ -430,7 +433,7 @@ Table of Contents
    carried within that bundle.
 
    PKCS#10 uses the legacy structures Attributes and Attribute rather
-   than the later defined SingleAttribute and AttributeSet structures -
+   than the later-defined SingleAttribute and AttributeSet structures -
    all of which are defined against the ATTRIBUTE ASN.1 CLASS.  The
    ATTRIBUTE CLASS has a COUNTS MAX n clause which can be used to limit
    the copies of ATTRIBUTE related structures.  For the purposes of this
@@ -490,7 +493,7 @@ Table of Contents
 
    This document defines a structure to convey attestations as
    additional information in CSRs, as well as an attribute to convey
-   that structure in the Certification Request Message defined in
+   that structure in the Certification Request message defined in
    [RFC2986] and a control to convey that structure in the Certificate
    Request Message Format defined in [RFC4211].  The CA/RA that receives
    the CSR may choose to verify the attestation(s) to determine if an
@@ -552,7 +555,7 @@ Table of Contents
    attestation statements that lack such validated binding.
 
    Multiple attestation statements from multiple sources, as envisioned
-   in [RFC9334], can introduce additional complications as shown in the
+   in [RFC9334], can introduce additional complications, as shown in the
    following example.
 
    For example, a CA may have an issuance policy that requires key
@@ -605,17 +608,23 @@ Table of Contents
    attacker can exploit these costs to cause resource exhaustion, even
    with a syntactically valid bundle.
 
-   Implementations SHOULD expose configurable limits appropriate on the
-   total bundle size, the number, type and size of attestation
-   statements and certificates, parsing depth, and the computational
-   effort spent processing a request.  These limits SHOULD also bound
-   certification path building, as well as the number, duration, and
-   concurrency of external requests.  Implementations SHOULD enforce
-   limits as early as practicable.  When a limit is exceeded,
-   implementations SHOULD stop the affected processing and release
-   resources allocated to it.  An attestation statement whose
-   verification has not completed successfully MUST NOT be treated as
-   successfully verified.
+   Implementations SHOULD expose configurable limits on the total bundle
+   size, the number, type and size of attestation statements and
+   certificates, parsing depth, and the computational effort spent
+   processing a request.  These limits SHOULD also bound certification
+   path building, as well as the number, duration, and concurrency of
+   external requests.  Implementations SHOULD enforce limits as early as
+   practicable.  When a limit is exceeded, implementations SHOULD stop
+   the affected processing and release resources allocated to it.  An
+   attestation statement whose verification has not completed
+   successfully MUST NOT be treated as successfully verified.
+
+   Omitting these limits can allow a single request to consume resources
+   needed to process other requests.  Separate limits may be unnecessary
+   where equivalent bounds are enforced by another component and cover
+   the same processing costs.  Limits enforced only on incoming message
+   size do not necessarily bound cryptographic processing, certification
+   path building, or requests to external services.
 
 6.4.  Additional Security Considerations
 
@@ -624,11 +633,9 @@ Table of Contents
    specifications on which this specification depends: PKCS#10
    [RFC2986], CRMF [RFC4211], as well as general security concepts
    relating to remote attestation.  Many of these concepts are discussed
-   in Section 6 of [RFC9334], Section 7 of [RFC9334], Section 9 of
-   [RFC9334], Section 11 of [RFC9334], and Section 12 of [RFC9334].
-   Implementers should also be aware of any security considerations
-   relating to the specific attestation formats being carried within the
-   CSR.
+   in Sections 6, 7, 9, 11, and 12 of [RFC9334].  Implementers should
+   also be aware of any security considerations relating to the specific
+   attestation formats being carried within the CSR.
 
 7.  Privacy Considerations
 
@@ -904,8 +911,9 @@ Appendix C.  Acknowledgments
    for their Last Call reviews on behalf of Gen-ART, SECDIR, and ARTART,
    respectively.
 
-   Finally, we would like to thank Deb Cooley and Mike Bishop for their
-   reviews of the document as part of the IESG evaluation process.
+   Finally, we would like to thank Deb Cooley, Mike Bishop and Éric
+   Vyncke for their reviews of the document as part of the IESG
+   evaluation process.
 
 Authors' Addresses
 

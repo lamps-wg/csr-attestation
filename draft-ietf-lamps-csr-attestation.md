@@ -279,9 +279,8 @@ attr-attestation ATTRIBUTE ::= {
   COUNTS MAX 1
   IDENTIFIED BY id-aa-attestation
 }
-
 ~~~
-{: #code-attribute-control title="Definitions of PKCS#10 attribute and CRMF control"}
+{: #code-attribute-control title="Definition of the attestation attribute and control"}
 
 For PKCS#10, `attr-attestation` MUST be carried in the `attributes` field of `CertificationRequestInfo` as defined in {{RFC2986}}.
 

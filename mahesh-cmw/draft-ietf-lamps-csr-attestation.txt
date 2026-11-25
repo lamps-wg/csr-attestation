@@ -116,13 +116,15 @@ Table of Contents
    These attestations can contain claims regarding the platform used by
    the end entity to generate the key pair for which a certificate is
    sought.  These claims can also include attributes of the key pair
-   with respect to its protection, use, and extractability.  At the time
-   of writing, the most pressing example of the need for remote
-   attestation in certificate enrollment is the Code-Signing Baseline
-   Requirements (CSBR) document maintained by the CA/Browser Forum
-   [CSBR].  The [CSBR] requires compliant CAs to "ensure that a
-   Subscriber's Private Key is generated, stored, and used in a secure
-   environment that has controls to prevent theft or misuse".  This
+   with respect to its protection, use, and extractability.  A prominent
+   example of the need for remote attestation in certificate enrollment
+   is the Code-Signing Baseline Requirements (CSBR) document maintained
+   by the CA/Browser Forum [CSBR].  Section 6.2.7.4.2 of [CSBR] requires
+   CAs to "ensure that the Subscriber's Private Key is generated,
+   stored, and used in a suitable Hardware Crypto Module", and lists
+   among the acceptable methods of verification that the Subscriber
+   "counter-signs certificate requests that can be verified by using a
+   manufacturer's certificate, commonly known as key attestation".  This
    requirement is a natural fit to enforce via remote attestation.
 
    This specification defines a PKCS#10 attribute [RFC2986] and a
@@ -437,8 +439,8 @@ Table of Contents
    all of which are defined against the ATTRIBUTE ASN.1 CLASS.  The
    ATTRIBUTE CLASS has a COUNTS MAX n clause which can be used to limit
    the copies of ATTRIBUTE related structures.  For the purposes of this
-   document the COUNTS MAX 1 clause in the attr-attestation shall be
-   taken to mean the following:
+   document the COUNTS MAX 1 clause in the attr-attestation is taken to
+   mean the following:
 
    *  An Attributes structure carried within a PKCS#10 CSR MUST contain
       no more than one Attribute of type id-aa-attestation.
@@ -561,13 +563,13 @@ Table of Contents
    For example, a CA may have an issuance policy that requires key
    generation in an HSM on a company-owned platform in a known good
    state.  The CSR might contain three AttestationStatements originated
-   by three different attesters:
+   by three different Attesters:
 
    1.  that a key pair was generated in an HSM;
 
    2.  that a particular platform is company-owned; and
 
-   3.  that a particular platform was in a known good state (e.g, up to
+   3.  that a particular platform was in a known good state (e.g., up to
        date on patches, etc.).
 
    While each of these attestations may be independently correct, the
@@ -633,7 +635,7 @@ Table of Contents
    specifications on which this specification depends: PKCS#10
    [RFC2986], CRMF [RFC4211], as well as general security concepts
    relating to remote attestation.  Many of these concepts are discussed
-   in Sections 6, 7, 9, 11, and 12 of [RFC9334].  Implementers should
+   in Sections 6, 7, 10, 11, and 12 of [RFC9334].  Implementers should
    also be aware of any security considerations relating to the specific
    attestation formats being carried within the CSR.
 
@@ -765,9 +767,9 @@ Table of Contents
 8.2.  Informative References
 
    [CSBR]     CA/Browser Forum, "Baseline Requirements for Code-Signing
-              Certificates, v.3.7", February 2024,
-              <https://cabforum.org/uploads/Baseline-Requirements-for-
-              the-Issuance-and-Management-of-Code-Signing.v3.7.pdf>.
+              Certificates, v.3.11.0", June 2026,
+              <https://cabforum.org/uploads/CA-Browser-Forum-CSCBR-
+              3.11.0.pdf>.
 
    [I-D.ietf-lamps-attestation-freshness]
               Tschofenig, H., Brockhaus, H., Mandel, J., and S. Turner,
@@ -843,7 +845,7 @@ Appendix B.  ASN.1 Module
    id-aa
      FROM SecureMimeMessageV3dot1-2009 -- from [RFC5911]
        { iso(1) member-body(2) us(840) rsadsi(113549)
-       pkcs(1) pkcs-9(9) smime(16) modules(0) msg-v3dot1-02(39) }
+       pkcs(1) pkcs-9(9) smime(16) modules(0) id-mod-msg-v3dot1-02(39) }
      ;
 
    ATTESTATION-STATEMENT ::= TYPE-IDENTIFIER
@@ -914,7 +916,7 @@ Appendix D.  Acknowledgments
 
    This specification is the work of a design team created by the chairs
    of the LAMPS working group.  We would like to specifically thank Mike
-   StJohns for writing initial version of this draft and for his
+   StJohns for writing initial version of this document and for his
    substantial work on the final version.  The following persons, in no
    specific order, contributed to the work directly, participated in
    design team meetings, or provided review of the document.

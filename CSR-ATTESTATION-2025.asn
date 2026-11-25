@@ -22,7 +22,7 @@ ATTRIBUTE
 id-aa
   FROM SecureMimeMessageV3dot1-2009 -- from [RFC5911]
     { iso(1) member-body(2) us(840) rsadsi(113549)
-    pkcs(1) pkcs-9(9) smime(16) modules(0) msg-v3dot1-02(39) }
+    pkcs(1) pkcs-9(9) smime(16) modules(0) id-mod-msg-v3dot1-02(39) }
   ;
 
 ATTESTATION-STATEMENT ::= TYPE-IDENTIFIER

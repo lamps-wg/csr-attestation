@@ -1431,7 +1431,7 @@ populate it with the formats that they wish to support. This document does not d
         </h3>
 <p id="section-4.3-1">The ASN.1 <code>ATTRIBUTE</code> information object class is defined in <span>[<a href="#RFC5912" class="cite xref">RFC5912</a>]</span>. Both the PKCS#10 attribute and the CRMF control defined here use this class and are identified by <code>id-aa-attestation</code>.
 The <code>id-aa</code> object identifier is defined in the <code>SecureMimeMessageV3dot1-2009</code> module in <span><a href="https://rfc-editor.org/rfc/rfc5911#section-5" class="relref">Section 5</a> of [<a href="#RFC5911" class="cite xref">RFC5911</a>]</span>.<a href="#section-4.3-1" class="pilcrow">¶</a></p>
-<span id="name-definitions-of-pkcs10-attri"></span><div id="code-attribute-control">
+<span id="name-definition-of-the-attestati"></span><div id="code-attribute-control">
 <figure id="figure-4">
           <div class="lang-asn1 sourcecode" id="section-4.3-2.1">
 <pre>
@@ -1442,11 +1442,10 @@ attr-attestation ATTRIBUTE ::= {
   COUNTS MAX 1
   IDENTIFIED BY id-aa-attestation
 }
-
 </pre>
 </div>
 <figcaption><a href="#figure-4" class="selfRef">Figure 4</a>:
-<a href="#name-definitions-of-pkcs10-attri" class="selfRef">Definitions of PKCS#10 attribute and CRMF control</a>
+<a href="#name-definition-of-the-attestati" class="selfRef">Definition of the attestation attribute and control</a>
           </figcaption></figure>
 </div>
 <p id="section-4.3-3">For PKCS#10, <code>attr-attestation</code> <span class="bcp14">MUST</span> be carried in the <code>attributes</code> field of <code>CertificationRequestInfo</code> as defined in <span>[<a href="#RFC2986" class="cite xref">RFC2986</a>]</span>.<a href="#section-4.3-3" class="pilcrow">¶</a></p>
@@ -1772,9 +1771,9 @@ AttestationStatement ::= SEQUENCE {
               {AttestationStatementSet}{@type})
 }
 
--- Arc for Attestation types
 id-aa-attestation OBJECT IDENTIFIER ::= { id-aa 59 }
 
+-- Attestation attribute (PKCS#10) and control (CRMF)
 attr-attestation ATTRIBUTE ::= {
   TYPE AttestationBundle
   COUNTS MAX 1

@@ -395,7 +395,7 @@ Table of Contents
      IDENTIFIED BY id-aa-attestation
    }
 
-        Figure 4: Definitions of PKCS#10 attribute and CRMF control
+       Figure 4: Definition of the attestation attribute and control
 
    For PKCS#10, attr-attestation MUST be carried in the attributes field
    of CertificationRequestInfo as defined in [RFC2986].
@@ -851,9 +851,9 @@ Appendix B.  ASN.1 Module
                  {AttestationStatementSet}{@type})
    }
 
-   -- Arc for Attestation types
    id-aa-attestation OBJECT IDENTIFIER ::= { id-aa 59 }
 
+   -- Attestation attribute (PKCS#10) and control (CRMF)
    attr-attestation ATTRIBUTE ::= {
      TYPE AttestationBundle
      COUNTS MAX 1

@@ -104,9 +104,9 @@ informative:
   CSBR:
     author:
       org: CA/Browser Forum
-    title: Baseline Requirements for Code-Signing Certificates, v.3.7
-    date: February 28, 2024
-    target: https://cabforum.org/uploads/Baseline-Requirements-for-the-Issuance-and-Management-of-Code-Signing.v3.7.pdf
+    title: Baseline Requirements for Code-Signing Certificates, v.3.11.0
+    date: June 16, 2026
+    target: https://cabforum.org/uploads/CA-Browser-Forum-CSCBR-3.11.0.pdf
   SampleData:
     title: "CSR Attestation Sample Data"
     target: https://github.com/lamps-wg/csr-attestation-examples
@@ -124,7 +124,7 @@ Request Message Format (CRMF) messages. Both standardized and proprietary attest
 
 # Introduction {#intro}
 
-Certification Authorities or Registration Authorities (CA/RAs) issuing certificates to PKI end entities may require that a certificate signing request (CSR) include verifiable attestations. These attestations can contain claims regarding the platform used by the end entity to generate the key pair for which a certificate is sought. These claims can also include attributes of the key pair with respect to its protection, use, and extractability. At the time of writing, the most pressing example of the need for remote attestation in certificate enrollment is the Code-Signing Baseline Requirements (CSBR) document maintained by the CA/Browser Forum [CSBR]. The [CSBR] requires compliant CAs to "ensure that a Subscriber's Private Key is generated, stored, and used in a secure environment that has controls to prevent theft or misuse". This requirement is a natural fit to enforce via remote attestation.
+Certification Authorities or Registration Authorities (CA/RAs) issuing certificates to PKI end entities may require that a certificate signing request (CSR) include verifiable attestations. These attestations can contain claims regarding the platform used by the end entity to generate the key pair for which a certificate is sought. These claims can also include attributes of the key pair with respect to its protection, use, and extractability. A prominent example of the need for remote attestation in certificate enrollment is the Code-Signing Baseline Requirements (CSBR) document maintained by the CA/Browser Forum [CSBR]. Section 6.2.7.4.2 of [CSBR] requires CAs to "ensure that the Subscriber's Private Key is generated, stored, and used in a suitable Hardware Crypto Module", and lists among the acceptable methods of verification that the Subscriber "counter-signs certificate requests that can be verified by using a manufacturer's certificate, commonly known as key attestation". This requirement is a natural fit to enforce via remote attestation.
 
 This specification defines a PKCS#10 attribute [RFC2986] and a Certificate Request Message Format (CRMF) control [RFC4211] that allow for conveyance of verifiable attestations in Certificate Signing Requests (CSRs). Given several standard and proprietary remote attestation technologies are in use, this specification is intended to be as technology-agnostic as is feasible with respect to implemented and future remote attestation technologies. This aligns with the fact that a CA may wish to provide support for a variety of types of devices but cannot dictate what format a device uses to represent attestations.  However, if a certificate requester does not include the number and types of attestations required by the CA, it is unlikely the requester will receive the requested certificate.
 
@@ -288,7 +288,7 @@ Multiple different types of `AttestationStatement`(s) may be included within a s
 
 A `CertRequest.controls` sequence MUST contain no more than one control of type `id-aa-attestation`. The value of that control MUST contain exactly one `AttestationBundle`. Multiple attestation statements are carried within that bundle.
 
-PKCS#10 uses the legacy structures `Attributes` and `Attribute` rather than the later-defined `SingleAttribute` and `AttributeSet` structures - all of which are defined against the ATTRIBUTE ASN.1 CLASS.  The ATTRIBUTE CLASS has a `COUNTS MAX n` clause which can be used to limit the copies of ATTRIBUTE related structures.  For the purposes of this document the `COUNTS MAX 1` clause in the `attr-attestation` shall be taken to mean the following:
+PKCS#10 uses the legacy structures `Attributes` and `Attribute` rather than the later-defined `SingleAttribute` and `AttributeSet` structures - all of which are defined against the ATTRIBUTE ASN.1 CLASS.  The ATTRIBUTE CLASS has a `COUNTS MAX n` clause which can be used to limit the copies of ATTRIBUTE related structures.  For the purposes of this document the `COUNTS MAX 1` clause in the `attr-attestation` is taken to mean the following:
 
 * An Attributes structure carried within a PKCS#10 CSR MUST contain no more than one Attribute of type `id-aa-attestation`.
 * An Attribute of type `id-aa-attestation` MUST contain exactly one copy of an `AttestationBundle`.
@@ -345,11 +345,11 @@ If no validated binding is available, the CA/RA MUST NOT treat attestation state
 Multiple attestation statements from multiple sources, as envisioned in {{RFC9334}}, can introduce additional complications, as shown in the following example.
 
 For example, a CA may have an issuance policy that requires key generation in an HSM on a company-owned platform in a known good state.
-The CSR might contain three AttestationStatements originated by three different attesters:
+The CSR might contain three AttestationStatements originated by three different Attesters:
 
 1. that a key pair was generated in an HSM;
 2. that a particular platform is company-owned; and
-3. that a particular platform was in a known good state (e.g, up to date on patches, etc.).
+3. that a particular platform was in a known good state (e.g., up to date on patches, etc.).
 
 While each of these attestations may be independently correct, the CA/RA is responsible for confirming the attestations apply in concert to the public key in the CSR. That is, the CA/RA must analyze the attestations to ensure that:
 
@@ -371,7 +371,7 @@ Omitting these limits can allow a single request to consume resources needed to 
 
 ## Additional Security Considerations
 
-In addition to the security considerations listed here, implementers should be familiar with the security considerations of the specifications on which this specification depends: PKCS#10 {{RFC2986}}, CRMF {{RFC4211}}, as well as general security concepts relating to remote attestation. Many of these concepts are discussed in Sections 6, 7, 9, 11, and 12 of {{RFC9334}}. Implementers should also be aware of any security considerations relating to the specific attestation formats being carried within the CSR.
+In addition to the security considerations listed here, implementers should be familiar with the security considerations of the specifications on which this specification depends: PKCS#10 {{RFC2986}}, CRMF {{RFC4211}}, as well as general security concepts relating to remote attestation. Many of these concepts are discussed in Sections 6, 7, 10, 11, and 12 of {{RFC9334}}. Implementers should also be aware of any security considerations relating to the specific attestation formats being carried within the CSR.
 
 # Privacy Considerations {#sec-privacy}
 
@@ -434,7 +434,7 @@ described above (see {{sec-privacy}}).
 This specification is the work of a design team created by the chairs of the
 LAMPS working group.
 We would like to specifically thank Mike StJohns for writing initial
-version of this draft and for his substantial work on the final version.
+version of this document and for his substantial work on the final version.
 The following persons, in no specific order,
 contributed to the work directly, participated in design team meetings, or provided review of the document.
 

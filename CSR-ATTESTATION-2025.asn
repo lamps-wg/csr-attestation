@@ -40,15 +40,7 @@ AttestationStatement ::= SEQUENCE {
 -- Arc for Attestation types
 id-aa-attestation OBJECT IDENTIFIER ::= { id-aa 59 }
 
--- For PKCS#10 (Attestation)
 attr-attestation ATTRIBUTE ::= {
-  TYPE AttestationBundle
-  COUNTS MAX 1
-  IDENTIFIED BY id-aa-attestation
-}
-
--- For CRMF (Attestation)
-ctrl-attestation ATTRIBUTE ::= {
   TYPE AttestationBundle
   COUNTS MAX 1
   IDENTIFIED BY id-aa-attestation

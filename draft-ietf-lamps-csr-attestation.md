@@ -274,25 +274,18 @@ The `id-aa` object identifier is defined in the `SecureMimeMessageV3dot1-2009` m
 ~~~asn1
 id-aa-attestation OBJECT IDENTIFIER ::= { id-aa 59 }
 
--- For PKCS#10
 attr-attestation ATTRIBUTE ::= {
   TYPE AttestationBundle
   COUNTS MAX 1
   IDENTIFIED BY id-aa-attestation
 }
 
--- For CRMF
-ctrl-attestation ATTRIBUTE ::= {
-  TYPE AttestationBundle
-  COUNTS MAX 1
-  IDENTIFIED BY id-aa-attestation
-}
 ~~~
 {: #code-attribute-control title="Definitions of PKCS#10 attribute and CRMF control"}
 
-For PKCS#10, `attr-attestation` is carried in the `attributes` field of `CertificationRequestInfo` as defined in {{RFC2986}}.
+For PKCS#10, `attr-attestation` MUST be carried in the `attributes` field of `CertificationRequestInfo` as defined in {{RFC2986}}.
 
-For CRMF, `ctrl-attestation` MUST be carried in the `controls` field of `CertRequest`, that is, `CertReqMsg.certReq.controls`, as defined in {{Section 6 of RFC4211}}. Each control is an `AttributeTypeAndValue`: its `type` is `id-aa-attestation` and its `value` is a single `AttestationBundle` encoded directly as an ASN.1 value. In the updated CRMF ASN.1 module in {{Section 10 of RFC5912}}, this corresponds to a `SingleAttribute` with `ctrl-attestation` included in `RegControlSet`.
+For CRMF, `attr-attestation` MUST be carried in the `controls` field of `CertRequest`, that is, `CertReqMsg.certReq.controls`, as defined in {{Section 6 of RFC4211}}. Each control is an `AttributeTypeAndValue`: its `type` is `id-aa-attestation` and its `value` is a single `AttestationBundle` encoded directly as an ASN.1 value. In the updated CRMF ASN.1 module in {{Section 10 of RFC5912}}, this corresponds to a `SingleAttribute` with `attr-attestation` included in `RegControlSet`.
 
 The control supplies information for processing the certificate request; it does not request inclusion of that information in the issued certificate. This specification does not define an X.509 certificate extension for `id-aa-attestation`. In CRMF, `id-aa-attestation` MUST NOT be carried in `CertTemplate.extensions` or `CertReqMsg.regInfo`. See {{sec-privacy}} for the privacy implications of publishing attestation information in certificates.
 

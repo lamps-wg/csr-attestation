@@ -284,7 +284,7 @@ For CRMF, `attr-attestation` MUST be carried in the `controls` field of `CertReq
 
 The control supplies information for processing the certificate request; it does not request inclusion of that information in the issued certificate. This specification does not define an X.509 certificate extension for `id-aa-attestation`. In CRMF, `id-aa-attestation` MUST NOT be carried in `CertTemplate.extensions` or `CertReqMsg.regInfo`. See {{sec-privacy}} for the privacy implications of publishing attestation information in certificates.
 
-Multiple different types of `AttestationStatement`(s) may be included within a single top-level `AttestationBundle`.  Note that this document does not require the `AttestationBundle.attestations` field to contain only one `AttestationStatement` of a given type.  For example, if a given type is a "wrapper" type containing the conceptual message wrapper (CMW) structure {{RFC9999}}, multiple copies of a CMW-typed AttestationStatement may be included.
+Multiple different types of `AttestationStatement`(s) may be included within a single top-level `AttestationBundle`.  Note that this document does not require the `AttestationBundle.attestations` field to contain only one `AttestationStatement` of a given type.  For example, multiple `AttestationStatement`s carrying a Conceptual Message Wrapper (CMW) as defined in {{sec-cmw}} may be included.
 
 A `CertRequest.controls` sequence MUST contain no more than one control of type `id-aa-attestation`. The value of that control MUST contain exactly one `AttestationBundle`. Multiple attestation statements are carried within that bundle.
 
@@ -398,6 +398,36 @@ Examples and sample data will be collected in the "CSR Attestation Sample Data" 
 ~~~asn1
 {::include CSR-ATTESTATION-2025.asn}
 ~~~
+
+# Conveying a Conceptual Message Wrapper {#sec-cmw}
+
+This appendix is informative. It illustrates how a Conceptual Message
+Wrapper (CMW) {{RFC9999}} can be conveyed using the structures defined in
+this document.
+
+{{Section 4.4 of RFC9999}} defines the `id-pe-cmw` object identifier and the
+`CMW` ASN.1 type for carrying a CMW in PKIX structures, and refers to this
+document for its use in CSRs. A CMW can be conveyed in an `AttestationBundle`
+as an `AttestationStatement` whose `type` is `id-pe-cmw` and whose `stmt` is a
+`CMW` value. An implementation that supports this can include the following
+information object in its `AttestationStatementSet`:
+
+~~~asn1
+-- id-pe-cmw and CMW are imported from CMWExtn [RFC9999]
+attest-cmw ATTESTATION-STATEMENT ::= { CMW IDENTIFIED BY id-pe-cmw }
+~~~
+{: #code-cmw-statement title="Example ASN.1 Definition of a CMW Attestation Statement"}
+
+A single CMW can carry several conceptual messages by using the collection
+form defined in {{Section 3.3 of RFC9999}}. Alternatively, an
+`AttestationBundle` can contain several `AttestationStatement`s of this type carrying multiple CMWs.
+
+{{RFC9999}} also permits the `id-pe-cmw` extension to appear in CSRs. However,
+a CMW placed in the extensions of the requested certificate (for example,
+`CertTemplate.extensions` in CRMF) is a request to include it in the issued
+certificate. A requester that wants a CMW appraised during issuance, rather
+than published, would instead carry it in an `AttestationBundle` as
+described above (see {{sec-privacy}}).
 
 # Acknowledgments
 

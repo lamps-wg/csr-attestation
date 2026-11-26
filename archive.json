@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-11-19T05:33:03.122896+00:00",
+  "timestamp": "2026-11-26T06:26:27.287560+00:00",
   "repo": "lamps-wg/csr-attestation",
   "labels": [
     {
@@ -15388,24 +15388,26 @@
       "id": "PR_kwDOJ3IIN88AAAABM0Nenw",
       "title": "Addressing Eric Vyncke's IESG review ",
       "url": "https://github.com/lamps-wg/csr-attestation/pull/258",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "hannestschofenig",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2026-11-04T13:24:08Z",
-      "updatedAt": "2026-11-05T12:46:32Z",
+      "updatedAt": "2026-11-25T02:30:22Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
       "baseRefOid": "015f81fb485b81124d3b39c675406b6cc84ab371",
       "headRepository": "lamps-wg/csr-attestation",
       "headRefName": "eric-iesg",
       "headRefOid": "c63241a3e3a2c4225520cb1722e46ae8e8c4fe72",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2026-11-25T02:30:11Z",
+      "mergedAt": "2026-11-25T02:30:11Z",
+      "mergedBy": "ounsworth",
+      "mergeCommit": {
+        "oid": "dd6d34b823a4bb96fb2d8747f0827049c0f124c3"
+      },
       "comments": [],
       "reviews": [
         {
@@ -15428,24 +15430,26 @@
       "id": "PR_kwDOJ3IIN88AAAABM0PIaw",
       "title": "Addressing Mike Bishop's technical review comments",
       "url": "https://github.com/lamps-wg/csr-attestation/pull/259",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "hannestschofenig",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "This PR addresses Mike Bishop\u2019s DISCUSS, see https://mailarchive.ietf.org/arch/msg/spasm/20-Hrw-VxR-WL0BEz94E7bDaon0/, concerning the placement of attestation data in CRMF requests. He expressed the need to be specific about where to place the attestation data in CRMF, which is a valid issue. Definitely good feedback.\r\n\r\nIt replaces the CRMF attestation extension with an ATTRIBUTE-based control carried in CertReqMsg.certReq.controls. This matches the purpose of CRMF controls, namely supplying information used during certificate issuance without requesting its inclusion in the issued certificate.\r\n\r\nThe control retains id-aa-attestation and carries one AttestationBundle. Each CertRequest.controls sequence may contain at most one attestation control and multiple statements are carried within its bundle.\r\n\r\nThe other design option, which is to place the attestation data in CertTemplate.extensions. This extension point is, however, typically used to instruct the CA to place data into the issued certificate. This is clearly not what we want.",
       "createdAt": "2026-11-04T13:26:01Z",
-      "updatedAt": "2026-11-06T11:25:39Z",
+      "updatedAt": "2026-11-25T20:48:17Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
-      "baseRefOid": "015f81fb485b81124d3b39c675406b6cc84ab371",
+      "baseRefOid": "e442892e67a8464fe90c8a91f0bb529dacdc2fe3",
       "headRepository": "lamps-wg/csr-attestation",
       "headRefName": "mike-iesg-part2",
-      "headRefOid": "a3329b2840525a140a692cc358cc2f977cb4c430",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "d8f886ced0cf3a3eaa7662e51d448023afab83e0",
+      "closedAt": "2026-11-25T20:41:28Z",
+      "mergedAt": "2026-11-25T20:41:28Z",
+      "mergedBy": "ounsworth",
+      "mergeCommit": {
+        "oid": "351a138daebd9416e4ef494ba94749dc67db3140"
+      },
       "comments": [
         {
           "author": "ounsworth",
@@ -15469,24 +15473,26 @@
       "id": "PR_kwDOJ3IIN88AAAABM0Pakw",
       "title": "Addressing Mike Bishop's editorial review comments",
       "url": "https://github.com/lamps-wg/csr-attestation/pull/260",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "hannestschofenig",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2026-11-04T13:26:19Z",
-      "updatedAt": "2026-11-05T12:53:14Z",
+      "updatedAt": "2026-11-25T03:24:51Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
-      "baseRefOid": "015f81fb485b81124d3b39c675406b6cc84ab371",
+      "baseRefOid": "dd6d34b823a4bb96fb2d8747f0827049c0f124c3",
       "headRepository": "lamps-wg/csr-attestation",
       "headRefName": "mike-iesg",
-      "headRefOid": "ecfbb62c24bddabddefebab76b3ee8a3dea7da06",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "2c11a60f8efd3ce1501b29f1f40821b6fb2cd8d2",
+      "closedAt": "2026-11-25T03:24:46Z",
+      "mergedAt": "2026-11-25T03:24:46Z",
+      "mergedBy": "ounsworth",
+      "mergeCommit": {
+        "oid": "dad7f474dc22bb5c14927eb2d212f67f8196a36a"
+      },
       "comments": [],
       "reviews": [
         {
@@ -15509,24 +15515,26 @@
       "id": "PR_kwDOJ3IIN88AAAABNMxa3w",
       "title": "Addressed Charles Eckel's IESG review",
       "url": "https://github.com/lamps-wg/csr-attestation/pull/261",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "ounsworth",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2026-11-06T00:20:31Z",
-      "updatedAt": "2026-11-09T21:35:53Z",
+      "updatedAt": "2026-11-25T03:40:38Z",
       "baseRepository": "lamps-wg/csr-attestation",
       "baseRefName": "main",
-      "baseRefOid": "015f81fb485b81124d3b39c675406b6cc84ab371",
+      "baseRefOid": "dad7f474dc22bb5c14927eb2d212f67f8196a36a",
       "headRepository": "lamps-wg/csr-attestation",
       "headRefName": "charles-iesg",
-      "headRefOid": "fa5362a4526fffbc24b4a5b0bc574e727334673c",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "6c1c788110f3ca5f9c4bde3ff4ac58ac8d6646f2",
+      "closedAt": "2026-11-25T03:40:34Z",
+      "mergedAt": "2026-11-25T03:40:34Z",
+      "mergedBy": "ounsworth",
+      "mergeCommit": {
+        "oid": "e442892e67a8464fe90c8a91f0bb529dacdc2fe3"
+      },
       "comments": [],
       "reviews": [
         {
@@ -15543,6 +15551,70 @@
           "comments": []
         }
       ]
+    },
+    {
+      "number": 263,
+      "id": "PR_kwDOJ3IIN88AAAABR900FQ",
+      "title": "Mahesh IESG review",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/263",
+      "state": "MERGED",
+      "author": "ounsworth",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2026-11-25T23:00:23Z",
+      "updatedAt": "2026-11-25T23:20:56Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "351a138daebd9416e4ef494ba94749dc67db3140",
+      "headRepository": "lamps-wg/csr-attestation",
+      "headRefName": "mahesh-cmw",
+      "headRefOid": "37e63b649591a496e2fb266d08230c7e14870356",
+      "closedAt": "2026-11-25T23:03:25Z",
+      "mergedAt": "2026-11-25T23:03:25Z",
+      "mergedBy": "ounsworth",
+      "mergeCommit": {
+        "oid": "4b2a48199ed7fca92e2c36d40f510908f3705add"
+      },
+      "comments": [
+        {
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Note that part of Mahesh's review overlaps with Med's (and followup on-list discussion) and is addressed in #264 .",
+          "createdAt": "2026-11-25T23:20:56Z",
+          "updatedAt": "2026-11-25T23:20:56Z"
+        }
+      ],
+      "reviews": []
+    },
+    {
+      "number": 264,
+      "id": "PR_kwDOJ3IIN88AAAABR-DKNA",
+      "title": "Restore the CPS sentence",
+      "url": "https://github.com/lamps-wg/csr-attestation/pull/264",
+      "state": "MERGED",
+      "author": "ounsworth",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "As per mail list discussion with Mahesh, Carl, MSJ, Monty.\n\nRelated to #263 ",
+      "createdAt": "2026-11-25T23:20:06Z",
+      "updatedAt": "2026-11-25T23:22:44Z",
+      "baseRepository": "lamps-wg/csr-attestation",
+      "baseRefName": "main",
+      "baseRefOid": "4b2a48199ed7fca92e2c36d40f510908f3705add",
+      "headRepository": "lamps-wg/csr-attestation",
+      "headRefName": "restore-cps",
+      "headRefOid": "5c0f35b92ec88c8b41e9e0860a103bbc76eb684b",
+      "closedAt": "2026-11-25T23:22:39Z",
+      "mergedAt": "2026-11-25T23:22:39Z",
+      "mergedBy": "ounsworth",
+      "mergeCommit": {
+        "oid": "aaa5d3a66e1ee718bc42ef7d7df25ffbd501f136"
+      },
+      "comments": [],
+      "reviews": []
     }
   ]
 }
